@@ -1,0 +1,48 @@
+VDR Plugin 'nOpacity' Revision History
+---------------------------------------
+
+2012-11-17: Version 0.0.1
+
+- Initial revision.
+
+2012-11-18: Version 0.0.2
+
+- Fixed a bug trying to delete uninitialized Fonts in cMenuDetailViewText
+- Fixed a typo in README
+- Added dsyslog messages for image loading (only shown with VDR Loglevel 3)
+- Added themes "SoftBlue" and "GoldBlue"
+- Added templates in directory iconTemplates/ in Gimp and PNG Format as 
+  basis for creating new icons  
+  
+2012-11-24: Version 0.0.3
+
+- Fixed a bug that fade in time for channels switching was not stored
+- Fixed a bug that signal strength and screen resolution are not shown if
+  fade in time was set to zero.
+- Fixed a bug that Title was not shown when displaying a EPG Search Result
+- Fixed a bug that VDR crashes if empty channels where shown in "What's next"
+- Fixed a bug that VDR crashes if channels named "." where shown in 
+  Channels menu
+- Fixed a bug that display for jumping in recordings was not shown
+- Changed default path for channel logos, icons and epg images. FHS standard
+  introduced in VDR 1.7.30 is used.
+  channel logos: {ResourceDirectory}/logos/
+  icons:		 {ResourceDirectory}/icons/
+  epg images:	 {CacheDirectory}/epgimages/
+- If directories for channel logos, icons or epg images are set via startup 
+  parameters, images are searched first in these directories. If the image
+  is not available, an additional search in the according default directory
+  will be performed.
+  With this it is possible to use user images and images provided by a
+  package maintainer or distributor in parallel.
+- rewrote column width handling so that for calculating the width of a column
+  the actually used font size is used.
+- if the width of the text in a column in a default menu is lager than the
+  width of the column itself, the text is cutted to an appropriate width.
+- implemented cSkin::GetTextAreaWidth() and cSkin::GetTextAreaFont()
+- added patch that scales video display into the visible frame
+  if a narrow menu is displayed. Thanks @Zoolook for providing this patch.
+- added a setup option which allows to enable / disable this video scaling
+- Avoided some compiler warnings
+- Clear Message Box in Menu also if Caller not clears it himself
+- Fixed bug when calculating height of schedules menu item

@@ -1,0 +1,211 @@
+# VDR plugin language source file.
+# Copyright (C) 2012
+# This file is distributed under the same license as the PACKAGE package.
+# louis, 2012.
+#
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: skinnopacity 0.0.1\n"
+"Report-Msgid-Bugs-To: <see README>\n"
+"POT-Creation-Date: 2012-11-24 10:42+0100\n"
+"PO-Revision-Date: 2012-11-11 17:49+0200\n"
+"Last-Translator: louis\n"
+"Language-Team: \n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Font"
+msgstr "Schriftart"
+
+msgid "VDR Menu"
+msgstr "VDR Menü"
+
+msgid "Channel Switching"
+msgstr "Kanalwechsel"
+
+msgid "Replay"
+msgstr "Wiedergabe von Aufzeichnungen"
+
+msgid "Audio Tracks"
+msgstr "Audio Spuren"
+
+msgid "Messages"
+msgstr "Nachrichten"
+
+msgid "Volume"
+msgstr "Lautstärke"
+
+msgid "Fade-In Time in ms (Zero for switching off fading)"
+msgstr "Fade-In Zeit in ms (Null zum Abschalten)"
+
+msgid "Scale Video size to fit into menu window"
+msgstr "TV-Bildgröße in Menüfenster einpassen"
+
+msgid "Width of narrow Menu Bar (Percent of OSD Width)"
+msgstr "Breite der schmalen Menüleiste (Proz. der OSD Breite)"
+
+msgid "Width of Disc Usage and Timers Display (Percent of OSD Width)"
+msgstr "Breite der Anzeige der Timer (Proz. der OSD Breite)"
+
+msgid "Header Height (Percent of OSD Height)"
+msgstr "Header Höhe (in Prozent der OSD Höhe"
+
+msgid "Footer Height (Percent of OSD Height)"
+msgstr "Footer Höhe (in Prozent der OSD Höhe"
+
+msgid "Number of Default Menu Entries per Page"
+msgstr "Anzahl der Default-Menüelemente pro Seite"
+
+#, fuzzy
+msgid "Icon Size (Square Main Menu Icons)"
+msgstr "Größe der quadratischen Hauptmenü Icons)"
+
+#, fuzzy
+msgid "Header Icon Size (Square Header Menu Icons)"
+msgstr "Größe der quadratischen Headericons"
+
+msgid "Channel Logo Width (on the Menu Buttons)"
+msgstr "Breite der Kanallogos auf den Menübuttons"
+
+msgid "Channel Logo Height (on the Menu Buttons)"
+msgstr "Höhe der Kanallogos auf den Menübuttons"
+
+msgid "Main Menu Header Logo Width"
+msgstr "Höhe des Logos im Hauptmenü"
+
+msgid "Main Menu Header Logo Height"
+msgstr "Breite des Logos im Hauptmenü"
+
+msgid "Detail EPG View Logo Width"
+msgstr "Breite der Kanallogos in der EPG Detailanzeige"
+
+msgid "Detail EPG View Logo Height"
+msgstr "Höhe der Kanallogos in der EPG Detailanzeige"
+
+msgid "Detail EPG View EPG Image Width"
+msgstr "Breite der EPG Bilder in der EPG Detailanzeige"
+
+msgid "Detail EPG View EPG Image Height"
+msgstr "Höhe der EPG Bilder in der EPG Detailanzeige"
+
+msgid "Adjust Font Size - Header"
+msgstr "Schriftgröße anpassen - Header"
+
+msgid "Adjust Font Size - Date"
+msgstr "Schriftgröße anpassen - Datum und Uhrzeit"
+
+msgid "Adjust Font Size - Large Menu Item"
+msgstr "Schriftgröße anpassen - Große Menübuttons"
+
+msgid "Adjust Font Size - Schedule Menu Item"
+msgstr "Schriftgröße anpassen - Programmübersicht Menübuttons"
+
+msgid "Adjust Font Size - Default Menu Item"
+msgstr "Schriftgröße anpassen - Default Menübuttons"
+
+msgid "Adjust Font Size - Disc Usage"
+msgstr "Schriftgröße anpassen - Festplattenstatus"
+
+msgid "Adjust Font Size - Timers Header"
+msgstr "Schriftgröße anpassen - Timer Header"
+
+msgid "Adjust Font Size - Timers Title"
+msgstr "Schriftgröße anpassen - Timer Name"
+
+msgid "Adjust Font Size - Color Buttons"
+msgstr "Schriftgröße anpassen - Farbbuttons"
+
+msgid "Adjust Font Size - Messages"
+msgstr "Schriftgröße anpassen - Nachrichten"
+
+msgid "Adjust Font Size - Detail View Text"
+msgstr "Schriftgröße anpassen - Text EPG Detailanzeige"
+
+msgid "Adjust Font Size - Detail View Header"
+msgstr "Schriftgröße anpassen - Header EPG Detailanzeige"
+
+msgid "Adjust Font Size - Detail View Header Large"
+msgstr "Schriftgröße anpassen - Header Groß EPG Detailanzeige"
+
+msgid "Hight of Channel Display (Percent of OSD Height)"
+msgstr "Höhe der Kanalwechsel Anzeige (Proz. der OSD Höhe)"
+
+msgid "Left & Right Border Width"
+msgstr "Breite des linken und rechten Rands"
+
+msgid "Bottom Border Height"
+msgstr "Höhe des unteren Rands"
+
+msgid "Channel Logo Width"
+msgstr "Breite der Kanallogos"
+
+msgid "Channel Logo Height"
+msgstr "Höhe der Kanallogos"
+
+msgid "Channel Logo Border"
+msgstr "Rand um die Kanallogos"
+
+msgid "Display Signal Strength & Quality"
+msgstr "Signalstärke- und Qualität anzeigen"
+
+msgid "Screen Resolution Icon Size"
+msgstr "Größe des Icons zur Anzeige der Bildschirmauflösung"
+
+msgid "Adjust Font Size - EPG Text"
+msgstr "Schriftgröße anpassen - EPG Text"
+
+msgid "Adjust Font Size - EPG Infotext"
+msgstr "Schriftgröße anpassen - EPG Infotext"
+
+msgid "Hight of Replay Display (Percent of OSD Height)"
+msgstr "Höhe der Wiedergabe Anzeige (Proz. der OSD Höhe)"
+
+msgid "Adjust Font Size - Text"
+msgstr "Schriftgröße anpassen - Anzeigetext"
+
+msgid "Width of Tracks Display (Percent of OSD Width)"
+msgstr "Breite der Audio Tracks Anzeige (Proz. der OSD Breite)"
+
+#, fuzzy
+msgid "Hight of Tracks Display (Percent of OSD Height)"
+msgstr "Höhe der Wiedergabe Anzeige (Proz. der OSD Höhe)"
+
+msgid "Position (0: bot. center, 1: bot. left, ... , 7: bot. right)"
+msgstr "Position (0: unten mitte, 1: unten links, ... , 7: unten rechts)"
+
+msgid "Border Top / Bottom"
+msgstr "Rand oben und unten"
+
+msgid "Border Left / Right"
+msgstr "Rand links und rechts"
+
+msgid "Adjust Font Size - Buttons"
+msgstr "Schriftgröße anpassen - Buttons"
+
+msgid "Width of Message Display (Percent of OSD Height)"
+msgstr "Breite der Nachrichten Anzeige (Proz. der OSD Breite)"
+
+msgid "Hight of Message Display (Percent of OSD Height)"
+msgstr "Höhe der Nachrichten Anzeige (Proz. der OSD Höhe)"
+
+msgid "Adjust Font Size"
+msgstr "Schriftgröße anpassen"
+
+msgid "Volume Display"
+msgstr "Lautstärke Anzeige"
+
+msgid "Width of Volume Display (Percent of OSD Height)"
+msgstr "Breite der Lautstärken Anzeige (Proz. der OSD Breite)"
+
+#, fuzzy
+msgid "Hight of Volume Display (Percent of OSD Height)"
+msgstr "Breite der Lautstärken Anzeige (Proz. der OSD Breite)"
+
+msgid "Disc"
+msgstr "Festplatte"
+
+msgid "free"
+msgstr "frei"
