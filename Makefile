@@ -50,6 +50,9 @@ INCLUDES += -I/usr/include/ImageMagick
 
 DEFINES += -D_GNU_SOURCE -DPLUGIN_NAME_I18N='"$(PLUGIN)"'
 
+ifdef YAEPG
+DEFINES += -DUSE_YAEPG
+endif
 ### The object files (add further files here):
 
 OBJS = $(PLUGIN).o

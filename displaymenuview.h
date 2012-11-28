@@ -43,8 +43,8 @@ class cNopacityDisplayMenuView {
 		cFont *fontMessage;
 		int osdWidth, osdHeight;
 		int osdLeft, osdTop;
-		int screenWidth, screenHeight;
-		double aspect;
+		int vidWidth, vidHeight;
+		double vidAspect;
 		int widthScrollbar;
 		int dateWidth;
 		int headerHeight, footerHeight, contentHeight;
