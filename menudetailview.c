@@ -1,8 +1,12 @@
 #include "menudetailview.h"
+#include "services/epgsearch.h"
+#include <sstream>
 
 cNopacityMenuDetailView::cNopacityMenuDetailView(cOsd *osd) {
 	this->osd = osd;
 	hasScrollbar = false;
+	additionalContent = NULL;
+	additionalContentSet = false;
 }
 
 cNopacityMenuDetailView::~cNopacityMenuDetailView(void) {
@@ -23,9 +27,18 @@ void cNopacityMenuDetailView::SetGeometry(int width, int height, int top, int co
 }
 
 void cNopacityMenuDetailView::SetContent(const char *textContent) {
-	if (textContent)
-		content.Set(textContent, font, width - 4 * border);
-	else
+	if (textContent) {
+		cString sContent = textContent;
+		if (additionalContentSet) {
+			std::stringstream sstrContent;
+			sstrContent << textContent;
+			sstrContent << std::endl;
+			sstrContent << std::endl;
+			sstrContent << *additionalContent;
+			sContent = sstrContent.str().c_str();
+		}
+		content.Set(*sContent, font, width - 4 * border);
+	} else
 		content.Set("", font, width - 4 * border);
 		
 	int textHeight = font->Height();
@@ -46,6 +59,54 @@ void cNopacityMenuDetailView::DrawContent(void) {
 		pixmapContent->DrawText(cPoint(2*border, (i+1)*textHeight), content.GetLine(i), Theme.Color(clrMenuFontDetailViewText), clrTransparent, font);
 	}
 }
+
+void cNopacityMenuDetailView::LoadReruns(const cEvent *event) {
+	cPlugin *epgSearchPlugin = cPluginManager::GetPlugin("epgsearch");
+	if (epgSearchPlugin && !isempty(event->Title())) {
+		std::stringstream sstrReruns;
+		Epgsearch_searchresults_v1_0 data;
+		std::string strQuery = event->Title();
+		if (config.useSubtitleRerun > 0) {
+			if (config.useSubtitleRerun == 2 || !isempty(event->ShortText()))
+				strQuery += "~";
+			if (!isempty(event->ShortText()))
+				strQuery += event->ShortText();
+				data.useSubTitle = true;
+		} else {
+			data.useSubTitle = false;
+		}
+		data.query = (char *)strQuery.c_str();
+		data.mode = 0;
+		data.channelNr = 0;
+		data.useTitle = true;
+		data.useDescription = false;
+		
+	    if (epgSearchPlugin->Service("Epgsearch-searchresults-v1.0", &data)) {
+			cList<Epgsearch_searchresults_v1_0::cServiceSearchResult>* list = data.pResultList;
+			if (list && (list->Count() > 1)) {
+				//TODO: current event is shown as rerun 
+				sstrReruns << tr("RERUNS OF THIS SHOW") << ':' << std::endl;
+				int i = 0;
+				for (Epgsearch_searchresults_v1_0::cServiceSearchResult *r = list->First(); r && i < config.numReruns; r = list->Next(r)) {
+					i++;
+					sstrReruns 	<< "- "
+								<< *DayDateTime(r->event->StartTime());
+					cChannel *channel = Channels.GetByChannelID(r->event->ChannelID(), true, true);
+					if (channel)
+						sstrReruns << " " << channel->ShortName(true);
+					sstrReruns << ":  " << r->event->Title();
+					if (!isempty(r->event->ShortText()))
+						sstrReruns << "~" << r->event->ShortText();
+					sstrReruns << std::endl;
+				}
+				delete list;
+			}
+		}
+		additionalContent = sstrReruns.str().c_str();
+		additionalContentSet = true;
+	}
+}
+
 double cNopacityMenuDetailView::ScrollbarSize(void) {
 	double barSize = (double)contentHeight / (double)contentDrawPortHeight;
 	return barSize;

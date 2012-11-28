@@ -377,6 +377,8 @@ void cNopacityDisplayMenu::SetEvent(const cEvent *Event) {
 	detailView = new cNopacityMenuDetailEventView(osd, Event, channelName);
 	menuView->SetDetailViewSize(dvEvent, detailView);
 	detailView->SetFonts();
+	if (config.displayRerunsDetailEPGView)
+		detailView->LoadReruns(Event);
 	detailView->SetContent(Event->Description());
 	detailView->CreatePixmaps();
 	detailView->Render();

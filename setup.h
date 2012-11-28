@@ -28,6 +28,7 @@ class cMenuSetupSubMenu : public cOsdMenu {
 
 class cNopacitySetupMenuDisplay : public cMenuSetupSubMenu {
 	protected:
+		const char *useSubtitleRerunTexts[3];
 		void Set(void);
 	public:
 		cNopacitySetupMenuDisplay(cNopacityConfig *data);

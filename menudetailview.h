@@ -11,6 +11,8 @@ protected:
 	int contentDrawPortHeight;
 	int border;
 	cTextWrapper content;
+	cString additionalContent;
+	bool additionalContentSet;
 	cFont *font, *fontHeader, *fontHeaderLarge;
 	cPixmap *pixmapHeader;
 	cPixmap *pixmapLogo;
@@ -22,6 +24,7 @@ public:
 	void SetGeometry(int width, int height, int top, int contentBorder, int headerHeight);
 	virtual void SetFonts(void) = 0;
 	void SetContent(const char *textContent);
+	void LoadReruns(const cEvent *event);
 	bool Scrollable(void) {return hasScrollbar;}
 	double ScrollbarSize(void);
 	double Offset(void);

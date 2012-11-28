@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2012-11-24 10:42+0100\n"
+"POT-Creation-Date: 2012-11-28 20:39+0100\n"
 "PO-Revision-Date: 2012-11-11 17:49+0200\n"
 "Last-Translator: louis\n"
 "Language-Team: \n"
@@ -38,11 +38,29 @@ msgstr "Nachrichten"
 msgid "Volume"
 msgstr "Lautstärke"
 
+msgid "never"
+msgstr "nie"
+
+msgid "if exists"
+msgstr "falls vorhanden"
+
+msgid "always"
+msgstr "immer"
+
 msgid "Fade-In Time in ms (Zero for switching off fading)"
 msgstr "Fade-In Zeit in ms (Null zum Abschalten)"
 
 msgid "Scale Video size to fit into menu window"
 msgstr "TV-Bildgröße in Menüfenster einpassen"
+
+msgid "Display Reruns in detailed EPG View"
+msgstr "Wiederholungen in der detailierten EPG Ansicht anzeigen"
+
+msgid "Number of reruns to display"
+msgstr "Anzahl der dargestellten Wiederholungen"
+
+msgid "Use Subtitle for reruns"
+msgstr "Untertitel für Wiederholungssuche nutzen"
 
 msgid "Width of narrow Menu Bar (Percent of OSD Width)"
 msgstr "Breite der schmalen Menüleiste (Proz. der OSD Breite)"
@@ -203,6 +221,9 @@ msgstr "Breite der Lautstärken Anzeige (Proz. der OSD Breite)"
 #, fuzzy
 msgid "Hight of Volume Display (Percent of OSD Height)"
 msgstr "Breite der Lautstärken Anzeige (Proz. der OSD Breite)"
+
+msgid "RERUNS OF THIS SHOW"
+msgstr "Wiederholungen"
 
 msgid "Disc"
 msgstr "Festplatte"

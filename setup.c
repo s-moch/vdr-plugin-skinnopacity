@@ -92,6 +92,9 @@ void cNopacitySetup::Store(void) {
 	SetupStore("volumeBorderBottom", config.volumeBorderBottom);
 	SetupStore("fontVolume", config.fontVolume);
 	SetupStore("scalePicture", config.scalePicture);
+	SetupStore("displayRerunsDetailEPGView", config.displayRerunsDetailEPGView);
+	SetupStore("numReruns", config.numReruns);
+	SetupStore("useSubtitleRerun", config.useSubtitleRerun);
 	SetupStore("menuFadeTime", config.menuFadeTime);
 	SetupStore("menuWidthNarrow", config.menuWidthNarrow);
 	SetupStore("menuWidthRightItems", config.menuWidthRightItems);
@@ -152,6 +155,9 @@ eOSState cMenuSetupSubMenu::ProcessKey(eKeys Key) {
 //-----MenuDisplay-------------------------------------------------------------------------------------------------------------
 
 cNopacitySetupMenuDisplay::cNopacitySetupMenuDisplay(cNopacityConfig* data)  : cMenuSetupSubMenu(tr("VDR Menu"), data) {
+	useSubtitleRerunTexts[0] = tr("never");
+	useSubtitleRerunTexts[1] = tr("if exists");
+	useSubtitleRerunTexts[2] = tr("always");
 	Set();
 }
 
@@ -160,6 +166,9 @@ void cNopacitySetupMenuDisplay::Set(void) {
 	Clear();
 	Add(new cMenuEditIntItem(tr("Fade-In Time in ms (Zero for switching off fading)"), &tmpNopacityConfig->menuFadeTime, 0, 1000));
 	Add(new cMenuEditBoolItem(tr("Scale Video size to fit into menu window"), &tmpNopacityConfig->scalePicture));
+	Add(new cMenuEditBoolItem(tr("Display Reruns in detailed EPG View"), &tmpNopacityConfig->displayRerunsDetailEPGView));
+	Add(new cMenuEditIntItem(tr("Number of reruns to display"), &tmpNopacityConfig->numReruns, 1, 10));
+	Add(new cMenuEditStraItem(tr("Use Subtitle for reruns"), &tmpNopacityConfig->useSubtitleRerun, 3, useSubtitleRerunTexts));
 	Add(new cMenuEditIntItem(tr("Width of narrow Menu Bar (Percent of OSD Width)"), &tmpNopacityConfig->menuWidthNarrow, 10, 100));
 	Add(new cMenuEditIntItem(tr("Width of Disc Usage and Timers Display (Percent of OSD Width)"), &tmpNopacityConfig->menuWidthRightItems, 10, 100));
 	Add(new cMenuEditIntItem(tr("Header Height (Percent of OSD Height)"), &tmpNopacityConfig->headerHeight, 0, 30));

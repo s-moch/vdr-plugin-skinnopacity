@@ -51,3 +51,4 @@ VDR Plugin 'nOpacity' Revision History
 - Fixes a bug that individually set up color buttons were not assumed
   (thanks @maverick-me)
 - optical redesign of displayVolume (thanks @maverick-me)
+- Display of reruns of shows in detailed EPG view using epgseach.

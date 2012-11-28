@@ -53,6 +53,9 @@ cNopacityConfig::cNopacityConfig() {
 	fontVolume = 0;
 	//DisplayMenu
 	scalePicture = 1;
+	displayRerunsDetailEPGView = 1;
+	numReruns = 3;
+	useSubtitleRerun = 1;
 	menuFadeTime = 300;
 	menuWidthNarrow = 30;
 	menuWidthRightItems = 12;
@@ -170,6 +173,9 @@ bool cNopacityConfig::SetupParse(const char *Name, const char *Value) {
 	else if (strcmp(Name, "fontVolume") == 0)              fontVolume = atoi(Value);
 	else if (strcmp(Name, "menuFadeTime") == 0)            menuFadeTime = atoi(Value);
 	else if (strcmp(Name, "scalePicture") == 0)            scalePicture = atoi(Value);
+	else if (strcmp(Name, "displayRerunsDetailEPGView") == 0) displayRerunsDetailEPGView = atoi(Value);
+	else if (strcmp(Name, "numReruns") == 0)			   numReruns = atoi(Value);
+	else if (strcmp(Name, "useSubtitleRerun") == 0)		   useSubtitleRerun = atoi(Value);
 	else if (strcmp(Name, "menuWidthNarrow") == 0)         menuWidthNarrow = atoi(Value);
 	else if (strcmp(Name, "menuWidthRightItems") == 0)     menuWidthRightItems = atoi(Value);
 	else if (strcmp(Name, "headerHeight") == 0)     	   headerHeight = atoi(Value);
