@@ -71,6 +71,7 @@ class cNopacityConfig {
 		int volumeFrameTime;
 		int volumeWidth;
 		int volumeHeight;
+		int volumeBorderBottom;
 		int fontVolume;
 		//DisplayMenu
 		int scalePicture;

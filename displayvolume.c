@@ -7,20 +7,26 @@ cNopacityDisplayVolume::cNopacityDisplayVolume(void) {
 	muted = false;
 	FrameTime = config.volumeFrameTime; 
 	FadeTime = config.volumeFadeTime;
-	
-	width = cOsd::OsdHeight() * config.volumeWidth / 100;
+
+	width = cOsd::OsdWidth() * config.volumeWidth / 100;
 	height = cOsd::OsdHeight() * config.volumeHeight / 100;
 
-	int top = (cOsd::OsdHeight() - height) / 2;
+	int top = (cOsd::OsdHeight() - height) - config.volumeBorderBottom;
 	int left = (cOsd::OsdWidth() - width) / 2;
 	
 	osd = CreateOsd(left, top, width, height);
-	pixmapContent = osd->CreatePixmap(1, cRect(0, 0, width, height));
-	pixmapContent->Fill(Theme.Color(clrMenuBorder));
-	cImageLoader imgLoader;
-	imgLoader.DrawBackground(Theme.Color(clrMenuItem), Theme.Color(clrMenuItemBlend), width-2, height-2);
-	pixmapContent->DrawImage(cPoint(1,1), imgLoader.GetImage());
-	
+
+	pixmapBackgroundTop = osd->CreatePixmap(1, cRect(0, 0, width, height/2));
+	pixmapBackgroundBottom = osd->CreatePixmap(1, cRect(0, height/2, width, height/2));
+
+	DrawBlendedBackground(pixmapBackgroundTop, Theme.Color(clrChannelBackground), Theme.Color(clrChannelBackBlend), true);
+	DrawBlendedBackground(pixmapBackgroundBottom, Theme.Color(clrChannelBackground), Theme.Color(clrChannelBackBlend), false);
+
+	pixmapBackgroundTop->DrawEllipse(cRect(0, 0, height/4, height/4), clrTransparent, -2);
+	pixmapBackgroundTop->DrawEllipse(cRect(width - height/4, 0, height/4, height/4), clrTransparent, -1);
+	pixmapBackgroundBottom->DrawEllipse(cRect(0, height/4, height/4, height/4), clrTransparent, -3);
+	pixmapBackgroundBottom->DrawEllipse(cRect(width - height/4, height/4, height/4, height/4), clrTransparent, -4);
+
 	labelHeight = height/3;
 	pixmapLabel = osd->CreatePixmap(2, cRect(0, 5, width, labelHeight));
 	progressBarWidth = 0.9 * width;
@@ -30,7 +36,8 @@ cNopacityDisplayVolume::cNopacityDisplayVolume(void) {
 	pixmapProgressBar = osd->CreatePixmap(2, cRect((width - progressBarWidth) / 2, (height - progressBarHeight)*2/3, progressBarWidth, progressBarHeight));
 
 	if (config.volumeFadeTime) {
-		pixmapContent->SetAlpha(0);
+		pixmapBackgroundTop->SetAlpha(0);
+		pixmapBackgroundBottom->SetAlpha(0);
 		pixmapProgressBar->SetAlpha(0);
 		pixmapLabel->SetAlpha(0);
 	}
@@ -38,7 +45,8 @@ cNopacityDisplayVolume::cNopacityDisplayVolume(void) {
 }
 
 cNopacityDisplayVolume::~cNopacityDisplayVolume() {
-	osd->DestroyPixmap(pixmapContent);
+	osd->DestroyPixmap(pixmapBackgroundTop);
+	osd->DestroyPixmap(pixmapBackgroundBottom);
 	osd->DestroyPixmap(pixmapLabel);
 	osd->DestroyPixmap(pixmapProgressBar);
 	delete font;
@@ -53,17 +61,55 @@ void cNopacityDisplayVolume::SetVolume(int Current, int Total, bool Mute) {
 		cBitmap bmMute(mute_xpm);
 		pixmapLabel->DrawBitmap(cPoint(width - 2*bmMute.Width(), (labelHeight - bmMute.Height()) / 2), bmMute, Theme.Color(clrDiskAlert), clrTransparent);
 	}
+        DrawProgressBar(Current, Total);
+}
+
+void cNopacityDisplayVolume::DrawProgressBar(int Current, int Total) {
 	pixmapProgressBar->Fill(clrTransparent);
 	double percent = ((double)Current) / (double)Total;
 	int barWidth = progressBarWidth - progressBarHeight;
-	pixmapProgressBar->DrawEllipse(cRect(0, 0, progressBarHeight, progressBarHeight), Theme.Color(clrProgressBarBack));
-	pixmapProgressBar->DrawEllipse(cRect(progressBarWidth - progressBarHeight, 0, progressBarHeight, progressBarHeight), Theme.Color(clrProgressBarBack));
-	pixmapProgressBar->DrawRectangle(cRect(progressBarHeight/2, 0, progressBarWidth - progressBarHeight, progressBarHeight), Theme.Color(clrProgressBarBack));
-	if (Current > 0) {
-		pixmapProgressBar->DrawEllipse(cRect(1, 1, progressBarHeight-2, progressBarHeight-2), Theme.Color(clrProgressBar));
-		pixmapProgressBar->DrawEllipse(cRect(barWidth * percent - 1, 1, progressBarHeight-2, progressBarHeight-2), Theme.Color(clrProgressBar));
-		pixmapProgressBar->DrawRectangle(cRect(progressBarHeight / 2 - 1, 1, barWidth * percent - 2, progressBarHeight - 2), Theme.Color(clrProgressBar));
+	if ((Current > 0) || (Total > 0)) {
+		pixmapProgressBar->DrawEllipse(cRect(0, 0, progressBarHeight, progressBarHeight), Theme.Color(clrProgressBarBack));
+		pixmapProgressBar->DrawEllipse(cRect(progressBarWidth - progressBarHeight, 0, progressBarHeight, progressBarHeight), Theme.Color(clrProgressBarBack));
+		pixmapProgressBar->DrawRectangle(cRect(progressBarHeight/2, 0, progressBarWidth - progressBarHeight, progressBarHeight), Theme.Color(clrProgressBarBack));
+
+		pixmapProgressBar->DrawEllipse(cRect(1, 1, progressBarHeight-2, progressBarHeight-2), Theme.Color(clrProgressBarBlend));
+		if (Current > 0) {
+			tColor colAct = DrawProgressbarBackground(progressBarHeight / 2 - 1, 1, barWidth * percent - 2, progressBarHeight - 2);
+			pixmapProgressBar->DrawEllipse(cRect(barWidth * percent, 1, progressBarHeight-2, progressBarHeight-2), colAct);
+		}
 	}
+}
+
+tColor cNopacityDisplayVolume::DrawProgressbarBackground(int left, int top, int width, int height) {
+
+	tColor clr1 = Theme.Color(clrProgressBar);
+	tColor clr2 = Theme.Color(clrProgressBarBlend);
+	tColor clr = 0x00000000;
+	int step = width / 256;
+	int alpha = 0x0;
+	int alphaStep;
+	int maximum = 0;
+	if (step == 0) {    //width < 256
+		step = 1;
+        alphaStep = 256 / width;
+		maximum = width;
+    } else { 			//width > 256
+        alphaStep = 0x1;
+		maximum = 256;
+    }
+	int x = 0;
+	for (int i = 0; i < maximum; i++) {
+		x = left + i*step;
+		clr = AlphaBlend(clr1, clr2, alpha);
+		pixmapProgressBar->DrawRectangle(cRect(x,top,step,height), clr);
+        alpha += alphaStep;
+	}
+	if (step > 0) {
+		int rest = width - step*256;
+        pixmapProgressBar->DrawRectangle(cRect(left+step*256, top, rest, height), clr);
+	}
+	return clr;
 }
 
 void cNopacityDisplayVolume::Flush(void) {
@@ -81,7 +127,8 @@ void cNopacityDisplayVolume::Action(void) {
 		cPixmap::Lock();
 		double t = min(double(Now - Start) / FadeTime, 1.0);
 	    int Alpha = t * ALPHA_OPAQUE;
-		pixmapContent->SetAlpha(Alpha);
+		pixmapBackgroundTop->SetAlpha(Alpha);
+		pixmapBackgroundBottom->SetAlpha(Alpha);
 		pixmapProgressBar->SetAlpha(Alpha);
 		pixmapLabel->SetAlpha(Alpha);
 		osd->Flush();

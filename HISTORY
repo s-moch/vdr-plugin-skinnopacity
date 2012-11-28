@@ -46,3 +46,8 @@ VDR Plugin 'nOpacity' Revision History
 - Avoided some compiler warnings
 - Clear Message Box in Menu also if Caller not clears it himself
 - Fixed bug when calculating height of schedules menu item
+
+- Fixed a bug displaying wrong colors in replay progressbar (thanks @maverick-me)
+- Fixes a bug that individually set up color buttons were not assumed
+  (thanks @maverick-me)
+- optical redesign of displayVolume (thanks @maverick-me)

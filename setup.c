@@ -89,6 +89,7 @@ void cNopacitySetup::Store(void) {
 	SetupStore("volumeFadeTime", config.volumeFadeTime);
 	SetupStore("volumeWidth", config.volumeWidth);
 	SetupStore("volumeHeight", config.volumeHeight);
+	SetupStore("volumeBorderBottom", config.volumeBorderBottom);
 	SetupStore("fontVolume", config.fontVolume);
 	SetupStore("scalePicture", config.scalePicture);
 	SetupStore("menuFadeTime", config.menuFadeTime);
@@ -295,6 +296,7 @@ void cNopacitySetupVolumeDisplay::Set(void) {
 	Add(new cMenuEditIntItem(tr("Fade-In Time in ms (Zero for switching off fading)"), &tmpNopacityConfig->volumeFadeTime, 0, 1000));
 	Add(new cMenuEditIntItem(tr("Width of Volume Display (Percent of OSD Height)"), &tmpNopacityConfig->volumeWidth, 10, 100));
 	Add(new cMenuEditIntItem(tr("Hight of Volume Display (Percent of OSD Height)"), &tmpNopacityConfig->volumeHeight, 5, 100));
+	Add(new cMenuEditIntItem(tr("Bottom Border Height"), &tmpNopacityConfig->volumeBorderBottom, 0, 1000));
 	Add(new cMenuEditIntItem(tr("Adjust Font Size"), &tmpNopacityConfig->fontVolume, -30, 30));
 
 	SetCurrent(Get(currentItem));
