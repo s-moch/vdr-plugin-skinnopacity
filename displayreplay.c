@@ -244,9 +244,9 @@ void cNopacityDisplayReplay::SetProgress(int Current, int Total) {
 	int barWidth = width - 2*progressBarHeight;
 	cProgressBar pb(barWidth, progressBarHeight-2, Current, Total, marks, Theme.Color(clrReplayProgressSeen), Theme.Color(clrReplayProgressRest), Theme.Color(clrReplayProgressSelected), Theme.Color(clrReplayProgressMark), Theme.Color(clrReplayProgressCurrent));
 	pixmapProgressBar->DrawEllipse(cRect(progressBarHeight/2, 0, progressBarHeight, progressBarHeight), Theme.Color(clrProgressBarBack));
-	pixmapProgressBar->DrawEllipse(cRect(barWidth + progressBarHeight/2, 0, progressBarHeight, progressBarHeight), Theme.Color(clrProgressBarBack));
+	pixmapProgressBar->DrawEllipse(cRect(barWidth + progressBarHeight/2, 0, progressBarHeight, progressBarHeight), Theme.Color(clrReplayProgressRest));
 	pixmapProgressBar->DrawRectangle(cRect(	progressBarHeight, 0, barWidth, progressBarHeight), Theme.Color(clrProgressBarBack));
-	pixmapProgressBar->DrawEllipse(cRect(progressBarHeight/2+1, 1, progressBarHeight-1, progressBarHeight-2), Theme.Color(clrProgressBar));
+	pixmapProgressBar->DrawEllipse(cRect(progressBarHeight/2+1, 1, progressBarHeight-1, progressBarHeight-2), Theme.Color(clrReplayProgressSeen));
 	pixmapProgressBar->DrawBitmap(cPoint(progressBarHeight, 1), pb);
 }
 

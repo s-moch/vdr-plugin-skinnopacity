@@ -49,6 +49,7 @@ cNopacityConfig::cNopacityConfig() {
 	volumeFadeTime = 300;
 	volumeWidth = 40;
 	volumeHeight = 10;
+	volumeBorderBottom = 10;
 	fontVolume = 0;
 	//DisplayMenu
 	scalePicture = 1;
@@ -165,6 +166,7 @@ bool cNopacityConfig::SetupParse(const char *Name, const char *Value) {
 	else if (strcmp(Name, "volumeFadeTime") == 0)          volumeFadeTime = atoi(Value);
 	else if (strcmp(Name, "volumeWidth") == 0)             volumeWidth = atoi(Value);
 	else if (strcmp(Name, "volumeHeight") == 0)            volumeHeight = atoi(Value);
+	else if (strcmp(Name, "volumeBorderBottom") == 0)      volumeBorderBottom = atoi(Value);
 	else if (strcmp(Name, "fontVolume") == 0)              fontVolume = atoi(Value);
 	else if (strcmp(Name, "menuFadeTime") == 0)            menuFadeTime = atoi(Value);
 	else if (strcmp(Name, "scalePicture") == 0)            scalePicture = atoi(Value);
