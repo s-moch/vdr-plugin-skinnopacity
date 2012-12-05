@@ -52,3 +52,6 @@ VDR Plugin 'nOpacity' Revision History
   (thanks @maverick-me)
 - optical redesign of displayVolume (thanks @maverick-me)
 - Display of reruns of shows in detailed EPG view using epgseach.
+- completely rewrote epgsearch handling in schedules views (see README for
+  more information about epgsearch integration)
+- Fixed "fade in" bug, cancelling threads correctly

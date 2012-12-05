@@ -15,6 +15,9 @@ cNopacityDisplayReplay::cNopacityDisplayReplay(bool ModeOnly) {
 }
 
 cNopacityDisplayReplay::~cNopacityDisplayReplay() {
+	Cancel(-1);
+	while (Active())
+		cCondWait::SleepMs(10);
 	if (!modeOnly) {
 		osd->DestroyPixmap(pixmapHeader);
 		osd->DestroyPixmap(pixmapBackground);
@@ -41,7 +44,6 @@ cNopacityDisplayReplay::~cNopacityDisplayReplay() {
 	delete fontReplayHeader;
 	delete fontReplay;
 	delete osd;
-
 }
 
 void cNopacityDisplayReplay::SetGeometry(void) {
@@ -284,11 +286,11 @@ void cNopacityDisplayReplay::Flush(void) {
 
 void cNopacityDisplayReplay::Action(void) {
 	uint64_t Start = cTimeMs::Now();
-	while (true) {
+	while (Running()) {
 		uint64_t Now = cTimeMs::Now();
 		cPixmap::Lock();
 		double t = min(double(Now - Start) / FadeTime, 1.0);
-	    int Alpha = t * ALPHA_OPAQUE;
+		int Alpha = t * ALPHA_OPAQUE;
 		if (!modeOnly) {
 			pixmapHeader->SetAlpha(Alpha);
 			pixmapBackground->SetAlpha(Alpha);
@@ -312,12 +314,13 @@ void cNopacityDisplayReplay::Action(void) {
 		pixmapFwdBackground->SetAlpha(Alpha);	
 		pixmapFwd->SetAlpha(Alpha);
 		pixmapFwdSpeed->SetAlpha(Alpha);
-		osd->Flush();
+		if (Running())
+			osd->Flush();
 		cPixmap::Unlock();
-        int Delta = cTimeMs::Now() - Now;
-        if (Delta < FrameTime)
-           cCondWait::SleepMs(FrameTime - Delta);
+		int Delta = cTimeMs::Now() - Now;
+		if (Running() && (Delta < FrameTime))
+			cCondWait::SleepMs(FrameTime - Delta);
 		if ((int)(Now - Start) > FadeTime)
 			break;
-    }
+	}
 }

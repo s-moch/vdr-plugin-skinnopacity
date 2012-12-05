@@ -31,6 +31,9 @@ cNopacityDisplayChannel::cNopacityDisplayChannel(bool WithInfo) {
 }
 
 cNopacityDisplayChannel::~cNopacityDisplayChannel() {
+	Cancel(-1);
+	while (Active())
+		cCondWait::SleepMs(10);
 	osd->DestroyPixmap(pixmapBackgroundTop);
 	osd->DestroyPixmap(pixmapBackgroundBottom);
 	osd->DestroyPixmap(pixmapLogo);
@@ -293,8 +296,7 @@ void cNopacityDisplayChannel::DrawSignal(void) {
 		lastSignalStrength = SignalStrength;
 		lastSignalQuality = SignalQuality;
 		lastSignalDisplay = Now;
-    }
-
+	}
 }
 
 void cNopacityDisplayChannel::SetChannel(const cChannel *Channel, int Number) {
@@ -319,12 +321,12 @@ void cNopacityDisplayChannel::SetChannel(const cChannel *Channel, int Number) {
 			ChannelNumber = cString::sprintf("%d%s", Channel->Number(), Number ? "-" : "");
 		} else
 			groupSep = true;
-    } else if (Number) {
+		} else if (Number) {
 		ChannelNumber = cString::sprintf("%d-", Number);
 	} else {
 		ChannelName = ChannelString(NULL, 0);
 	}
-	
+
 	cString channelString = cString::sprintf("%s %s", *ChannelNumber, *ChannelName);
 
 	if (!groupSep) {
@@ -493,11 +495,11 @@ void cNopacityDisplayChannel::Flush(void) {
 
 void cNopacityDisplayChannel::Action(void) {
 	uint64_t Start = cTimeMs::Now();
-	while (true) {
+	while (Running()) {
 		uint64_t Now = cTimeMs::Now();
 		cPixmap::Lock();
 		double t = min(double(Now - Start) / FadeTime, 1.0);
-	    int Alpha = t * ALPHA_OPAQUE;
+		int Alpha = t * ALPHA_OPAQUE;
 		pixmapBackgroundTop->SetAlpha(Alpha);
 		pixmapBackgroundBottom->SetAlpha(Alpha);
 		pixmapLogo->SetAlpha(Alpha);
@@ -517,13 +519,14 @@ void cNopacityDisplayChannel::Action(void) {
 			pixmapSignalMeter->SetAlpha(Alpha);
 			pixmapSignalLabel->SetAlpha(Alpha);
 		}
-		osd->Flush();
+		if (Running())
+			osd->Flush();
 		cPixmap::Unlock();
-        int Delta = cTimeMs::Now() - Now;
-        if (Delta < FrameTime)
-           cCondWait::SleepMs(FrameTime - Delta);
+		int Delta = cTimeMs::Now() - Now;
+		if (Running() && (Delta < FrameTime))
+			cCondWait::SleepMs(FrameTime - Delta);
 		if ((int)(Now - Start) > FadeTime) {
 			break;
 		}
-    }
+	}
 }

@@ -16,6 +16,9 @@ cNopacityDisplayMessage::cNopacityDisplayMessage(void) {
 }
 
 cNopacityDisplayMessage::~cNopacityDisplayMessage() {
+	Cancel(-1);
+	while (Active())
+		cCondWait::SleepMs(10);
 	osd->DestroyPixmap(pixmap);
 	delete font;
 	delete osd;
@@ -53,18 +56,19 @@ void cNopacityDisplayMessage::Flush(void) {
 
 void cNopacityDisplayMessage::Action(void) {
 	uint64_t Start = cTimeMs::Now();
-	while (true) {
+	while (Running()) {
 		uint64_t Now = cTimeMs::Now();
 		cPixmap::Lock();
 		double t = min(double(Now - Start) / FadeTime, 1.0);
-	    int Alpha = t * ALPHA_OPAQUE;
+		int Alpha = t * ALPHA_OPAQUE;
 		pixmap->SetAlpha(Alpha);
-		osd->Flush();
+		if (Running())
+			osd->Flush();
 		cPixmap::Unlock();
-        int Delta = cTimeMs::Now() - Now;
-        if (Delta < FrameTime)
-           cCondWait::SleepMs(FrameTime - Delta);
+		int Delta = cTimeMs::Now() - Now;
+		if (Running() && (Delta < FrameTime))
+			cCondWait::SleepMs(FrameTime - Delta);
 		if ((int)(Now - Start) > FadeTime)
 			break;
-    }
+	}
 }

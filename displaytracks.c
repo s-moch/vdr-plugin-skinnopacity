@@ -18,6 +18,9 @@ cNopacityDisplayTracks::cNopacityDisplayTracks(const char *Title, int NumTracks,
 }
 
 cNopacityDisplayTracks::~cNopacityDisplayTracks() {
+	Cancel(-1);
+	while (Active())
+		cCondWait::SleepMs(10);
 	osd->DestroyPixmap(pixmapContainer);
 	osd->DestroyPixmap(pixmapHeader);
 	menuItems.Clear();
@@ -163,22 +166,23 @@ void cNopacityDisplayTracks::Flush(void) {
 
 void cNopacityDisplayTracks::Action(void) {
 	uint64_t Start = cTimeMs::Now();
-	while (true) {
+	while (Running()) {
 		uint64_t Now = cTimeMs::Now();
 		cPixmap::Lock();
 		double t = min(double(Now - Start) / FadeTime, 1.0);
-	    int Alpha = t * ALPHA_OPAQUE;
+		int Alpha = t * ALPHA_OPAQUE;
 		pixmapContainer->SetAlpha(Alpha);
 		pixmapHeader->SetAlpha(Alpha);
-		for (cNopacityMenuItem *item = menuItems.First(); item; item = menuItems.Next(item)) {
+		for (cNopacityMenuItem *item = menuItems.First(); Running() && item; item = menuItems.Next(item)) {
 			item->SetAlpha(Alpha);
 		}
-		osd->Flush();
+		if (Running())
+			osd->Flush();
 		cPixmap::Unlock();
-        int Delta = cTimeMs::Now() - Now;
-        if (Delta < FrameTime)
-           cCondWait::SleepMs(FrameTime - Delta);
+		int Delta = cTimeMs::Now() - Now;
+		if (Running() && (Delta < FrameTime))
+			cCondWait::SleepMs(FrameTime - Delta);
 		if ((int)(Now - Start) > FadeTime)
 			break;
-    }
+	}
 }

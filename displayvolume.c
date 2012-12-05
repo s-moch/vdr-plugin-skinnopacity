@@ -45,6 +45,9 @@ cNopacityDisplayVolume::cNopacityDisplayVolume(void) {
 }
 
 cNopacityDisplayVolume::~cNopacityDisplayVolume() {
+	Cancel(-1);
+	while (Active())
+		cCondWait::SleepMs(10);
 	osd->DestroyPixmap(pixmapBackgroundTop);
 	osd->DestroyPixmap(pixmapBackgroundBottom);
 	osd->DestroyPixmap(pixmapLabel);
@@ -114,7 +117,7 @@ tColor cNopacityDisplayVolume::DrawProgressbarBackground(int left, int top, int 
 
 void cNopacityDisplayVolume::Flush(void) {
 	if (initial)
-		if (FadeTime)
+		if (config.volumeFadeTime)
 			Start();
 	initial = false;
 	osd->Flush();
@@ -122,21 +125,22 @@ void cNopacityDisplayVolume::Flush(void) {
 
 void cNopacityDisplayVolume::Action(void) {
 	uint64_t Start = cTimeMs::Now();
-	while (true) {
+	while (Running()) {
 		uint64_t Now = cTimeMs::Now();
 		cPixmap::Lock();
 		double t = min(double(Now - Start) / FadeTime, 1.0);
-	    int Alpha = t * ALPHA_OPAQUE;
+		int Alpha = t * ALPHA_OPAQUE;
 		pixmapBackgroundTop->SetAlpha(Alpha);
 		pixmapBackgroundBottom->SetAlpha(Alpha);
 		pixmapProgressBar->SetAlpha(Alpha);
 		pixmapLabel->SetAlpha(Alpha);
-		osd->Flush();
+		if (Running())
+			osd->Flush();
 		cPixmap::Unlock();
-        int Delta = cTimeMs::Now() - Now;
-        if (Delta < FrameTime)
-           cCondWait::SleepMs(FrameTime - Delta);
+		int Delta = cTimeMs::Now() - Now;
+		if (Running() && (Delta < FrameTime))
+			cCondWait::SleepMs(FrameTime - Delta);
 		if ((int)(Now - Start) > FadeTime)
 			break;
-    }
+	}
 }
