@@ -47,6 +47,8 @@ VDR Plugin 'nOpacity' Revision History
 - Clear Message Box in Menu also if Caller not clears it himself
 - Fixed bug when calculating height of schedules menu item
 
+2012-12-05: Version 0.0.4
+
 - Fixed a bug displaying wrong colors in replay progressbar (thanks @maverick-me)
 - Fixes a bug that individually set up color buttons were not assumed
   (thanks @maverick-me)
@@ -54,4 +56,5 @@ VDR Plugin 'nOpacity' Revision History
 - Display of reruns of shows in detailed EPG view using epgseach.
 - completely rewrote epgsearch handling in schedules views (see README for
   more information about epgsearch integration)
-- Fixed "fade in" bug, cancelling threads correctly
+- Fixed "fade in" bug, cancelling threads correctly (Thanks to everybody who 
+  was involved)
