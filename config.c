@@ -54,7 +54,7 @@ cNopacityConfig::cNopacityConfig() {
 	//DisplayMenu
 	scalePicture = 1;
 	displayRerunsDetailEPGView = 1;
-	numReruns = 3;
+	numReruns = 5;
 	useSubtitleRerun = 1;
 	menuFadeTime = 300;
 	menuWidthNarrow = 30;
@@ -76,6 +76,7 @@ cNopacityConfig::cNopacityConfig() {
 	fontDate = 0;
 	fontMenuitemLarge = 0;
 	fontMenuitemSchedule = 0;
+	fontMenuitemScheduleSmall = 0;
 	fontMenuitemDefault = 0;
 	fontDiskUsage = 0;
 	fontTimersHead = 0;
@@ -88,6 +89,7 @@ cNopacityConfig::cNopacityConfig() {
 }
 
 cNopacityConfig::~cNopacityConfig() {
+	delete epgSearchConf;
 }
 
 void cNopacityConfig::setDynamicValues() {
@@ -115,6 +117,27 @@ void cNopacityConfig::setDynamicValues() {
 	dsyslog("nopacity: using Logo Directory %s", (logoPathSet)?(*logoPath):(*logoPathDefault)); 
 	dsyslog("nopacity: using Icon Directory %s", (iconPathSet)?(*iconPath):(*iconPathDefault)); 
 	dsyslog("nopacity: using EPG Images Directory %s", (epgImagePathSet)?(*epgImagePath):(*epgImagePathDefault)); 
+}
+
+void cNopacityConfig::loadEPGSearchSettings(void) {
+	epgSearchConf = new cNopacityEPGSearchConfig();
+	if (epgSearchConf->CheckEPGSearchAvailable()) {
+		dsyslog("nopacity: epgsearch plugin available");
+		epgSearchConf->LoadEpgSearchConf();
+		if (epgSearchConf->ReplaceScheduleActive()) {
+			if (!epgSearchConf->LoadEpgSearchMenuConf()) {
+				epgSearchConf->SetDefaultEPGSearchConf();
+			}
+		} else {
+			dsyslog("nopacity: epgsearch plugin available, but not used for replacing schedules menu");
+			dsyslog("nopacity: please enable \"replacing schedules menu\" in epgsearch settings");
+			epgSearchConf->SetDefaultVDRConf();
+		}
+	} else {
+		dsyslog("nopacity: no epgsearch plugin available");
+		epgSearchConf->SetDefaultVDRConf();
+	}
+	epgSearchConf->SetTimerConfilictCont();
 }
 
 void cNopacityConfig::SetLogoPath(cString path) {
@@ -195,6 +218,7 @@ bool cNopacityConfig::SetupParse(const char *Name, const char *Value) {
 	else if (strcmp(Name, "fontDate") == 0)                fontDate = atoi(Value);
 	else if (strcmp(Name, "fontMenuitemLarge") == 0)       fontMenuitemLarge = atoi(Value);
 	else if (strcmp(Name, "fontMenuitemSchedule") == 0)    fontMenuitemSchedule = atoi(Value);
+	else if (strcmp(Name, "fontMenuitemScheduleSmall") == 0) fontMenuitemScheduleSmall = atoi(Value);
 	else if (strcmp(Name, "fontMenuitemDefault") == 0)     fontMenuitemDefault = atoi(Value);
 	else if (strcmp(Name, "fontDiskUsage") == 0)           fontDiskUsage = atoi(Value);
 	else if (strcmp(Name, "fontTimersHead") == 0)          fontTimersHead = atoi(Value);

@@ -101,6 +101,52 @@ In this example, as a dirty hack just create a folder in your channel logo direc
 With softhddevice as output plugin, use a Version newer than Revision f640ebde 
 (0.5.1, 10.10.2012) to achieve a correct display of the screen resolution during channel switching.
 
+EPG Search Integration
+------------------------- 
+nOpacity fully supports the alternative "schedules" menus provided by the EPG search plugin 
+(schedules, what's on now, what's on next, search results, favorites and "user defined times"
+menu). If using the EPG search menus, please set "replace original schedule" to "true", 
+parallel usage of the vanilla VDR schedules menu and the schedules menu provided by EPG 
+search (with a dedicated main menu entry) is not supported. Please keep also in mind that
+changing the schedules display behaviour needs to restart vdr, because nOpacity reads the
+EPGSearch config only once at startup.
+
+If you use the default settings to display the EPG search schedule menus (if the file 
+epgsearchmenu.conf is not available in the epgserarch plugin config directory), everything
+should work rather well out of the box. Just set "show progress in now" to "true" to achieve a
+correct display of the progress bar in the "what's on now" view.
+
+Beside using the default settings you can also set up your own epgsearchmenu.conf file to
+control the information which is diplayed in the various menus. All tokens described in the
+epgsearchmenu.conf file in the epgsearch plugin sources (subdirectory ./conf/) are supported. 
+For me these entries for the different menus showed the best result:
+
+MenuWhatsOnNow=%chlng%:4|%progrT2S%:5|%time%:8|%status%:3|%title%:15|%subtitle%:25
+MenuWhatsOnNext=%chlng%:4|%time%:8|%status%:8|%title%:15|%subtitle%:25
+MenuWhatsOnElse=%chlng%:4|%time%:8|%status%:8|%title%:15|%subtitle%:25
+MenuSchedule=%time%:8|%status%:8|%title%:15|%subtitle%:25
+MenuSearchResults=%chlng%:12|%time_w% %datesh%:6|%time%:6|%status%:2|%title%:15|%subtitle%:25
+MenuFavorites=%chlng%:4|%time%:8|%status%:8|%title%:15|%subtitle%:25
+WarEagleIcons=1
+
+Per default EPG search provides the short channel name (%chsh%), which is different to the "regular"
+channel name for some channels. If %chsh% is used, for those channels no channel logos are displayed
+if they are not appropriately renamed.
+
+The order of the tokens in the different sections of the epgsearchmenu.conf is not relevant how the 
+information in displayed in the skin. In fact the skin displays the various tokens in the way that 
+each menu item is displayed in three lines:
+line 1: date and time information, status information
+line 2: title 
+line 3: subtitle (if available)
+
+The first line is created out of the following tokens (if set) in this order:
+%time_d% %time_w% %date% %datesh% %time% %timespan% %status% %t_status% %v_status% %r_status%
+
+Display of reruns of a show in detailed EPG View: if activated in the setup menu, nOpacity displays
+the reruns of a show via the EPG Search service interface in the detailed EPG view.
+
+
 Setup Options
 -------------
 
@@ -111,6 +157,10 @@ Setup Options
 * VDR menu:
 
 - Fade-In Time in ms (Zero for switching off fading): Default 300ms
+- Scale Video size to fit into menu window: yaepg Patch needed
+- Display Reruns in detailed EPG View: via epgsearch service
+- Number of reruns to display: Default 5
+- Use Subtitle for reruns
 - Width of narrow Menu Bar (% of OSD Width): Width of menu bar for the main menu,
   schedules menu and channels menu. Default: 30%.
 - Width of Disc Usage and Timers Display (% of OSD Width): Default: 12%

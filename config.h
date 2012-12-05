@@ -17,6 +17,7 @@ class cNopacityConfig {
 		cString iconPathDefault;
 		cString epgImagePathDefault;
 		void setDynamicValues();
+		void loadEPGSearchSettings(void);
 		//Common
 		int fontIndex;
 		const char *fontDefaultName;
@@ -74,6 +75,7 @@ class cNopacityConfig {
 		int volumeBorderBottom;
 		int fontVolume;
 		//DisplayMenu
+		cNopacityEPGSearchConfig *epgSearchConf;
 		int scalePicture;
 		int displayRerunsDetailEPGView;
 		int numReruns;
@@ -99,6 +101,7 @@ class cNopacityConfig {
 		int fontDate;
 		int fontMenuitemLarge;
 		int fontMenuitemSchedule;
+		int fontMenuitemScheduleSmall;
 		int fontMenuitemDefault;
 		int fontDiskUsage;
 		int fontTimersHead;

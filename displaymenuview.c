@@ -32,6 +32,7 @@ cNopacityDisplayMenuView::~cNopacityDisplayMenuView(void) {
 	delete fontDate;
 	delete fontMenuitemLarge;
 	delete fontMenuitemSchedule;
+	delete fontMenuitemScheduleSmall;
 	delete fontMenuitemDefault;
 	delete fontDiskUsage;
 	delete fontTimers;
@@ -131,7 +132,8 @@ void cNopacityDisplayMenuView::CreateFonts(void) {
 	fontHeader = cFont::CreateFont(config.fontName, headerHeight / 2 + config.fontHeader);
 	fontDate = cFont::CreateFont(config.fontName, headerHeight / 2 + config.fontDate);
 	fontMenuitemLarge = cFont::CreateFont(config.fontName, menuItemHeightMain/3 + 4 + config.fontMenuitemLarge);
-	fontMenuitemSchedule = cFont::CreateFont(config.fontName, menuItemHeightSchedule / 4 + config.fontMenuitemSchedule);
+	fontMenuitemSchedule = cFont::CreateFont(config.fontName, menuItemHeightSchedule / 4 + 5 + config.fontMenuitemSchedule);
+	fontMenuitemScheduleSmall = cFont::CreateFont(config.fontName, menuItemHeightSchedule / 4 - 5 + config.fontMenuitemScheduleSmall);
 	fontMenuitemDefault = cFont::CreateFont(config.fontName, menuItemHeightDefault * 2 / 3 + config.fontMenuitemDefault);
 	fontDiskUsage = cFont::CreateFont(config.fontName, (diskUsageHeight/4)/2 - 2 + config.fontDiskUsage);
 	fontTimersHead = cFont::CreateFont(config.fontName, (contentHeight - 3*spaceMenu - diskUsageHeight) / 25 + config.fontTimersHead);
@@ -154,6 +156,10 @@ cFont *cNopacityDisplayMenuView::GetMenuItemFont(eMenuCategory menuCat) {
 			return fontMenuitemDefault;		
 	}
 	return fontMenuitemDefault;
+}
+
+cFont *cNopacityDisplayMenuView::GetMenuItemFontSmall() {
+	return fontMenuitemScheduleSmall;
 }
 
 void cNopacityDisplayMenuView::GetMenuItemSize(eMenuCategory menuCat, cPoint *itemSize) {

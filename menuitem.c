@@ -1,5 +1,6 @@
 #include "menuitem.h"
 #include <string>
+#include <sstream>
 #include <algorithm>
 
 
@@ -162,89 +163,143 @@ cNopacityScheduleMenuItem::~cNopacityScheduleMenuItem(void) {
 }
 
 void cNopacityScheduleMenuItem::Render() {
-	
-	/* Data in Array:
-	Schedule: 		0: Date, 
-					1: Time
-					2: Running, VPS
-					3: Title
-	What's on Now:	0: Channel Number
-					1: Channel Name
-					2: Time
-					Vanilla:
-					3: Running, VPS
-					4: Title
-					EPGSearch:
-					3: Remaining (EPGSearch)
-					4: Running, VPS
-					5: Title
-	EPG Search Res:	0: Channel Number
-					1: Channel Name
-					2: Date
-					3: Time
-					4: "   "
-					5: Title
-	What's on Next:	0: Channel Number
-					1: Channel Name
-					2: Time
-					3: Running, VPS
-					4: Title
-	EPGSearch Hide Channelnumbers: Each entry -1
-	*/
-	cString channelNumber, channelName, startTime, running, remaining, title;
-	bool hasRemaining = false;
+	int logoWidth = config.menuItemLogoWidth;
+	int logoHeight = config.menuItemLogoHeight;
+	std::stringstream sstrDateTime;
+	std::string strTitle;
+	std::string strSubtitle;
+	std::string strChannelName;
+	std::string strProgressbar;
+	eEPGModes mode;
+	bool hasLogo = false;
+	int left = 5;
+	std::string delimiterType = "daydelimiter";
+	bool hasProgressBar = false;
 	int handleBgrd = (current)?handleBackgrounds[5]:handleBackgrounds[4];
-	tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
-	if (subCategory == mcSubScheduleWhatsOn) {
-		if (selectable) {						//Event
-			pixmap->Fill(Theme.Color(clrMenuBorder));
-			if (isnumber(*itemTabs[0])) {
-				channelNumber = itemTabs[0];
-				channelName = itemTabs[1];
-				startTime = itemTabs[2];
-				if ((std::string(skipspace(itemTabs[3])).length() > 0) && (startswith(*itemTabs[3], "["))) {	// EPGSearch Progress Bar
-					hasRemaining = true;
-					remaining = itemTabs[3];
-					running = itemTabs[4];
-					title = itemTabs[5];
-				} else if (std::string(skipspace(itemTabs[4])).length() == 0){  //EPG Search Result
-					running = itemTabs[3];
-					title = itemTabs[5];					
-				} else {
-					running = itemTabs[3];
-					title = itemTabs[4];
-				}
+	
+	pixmap->Fill(Theme.Color(clrMenuBorder));
+	pixmap->DrawImage(cPoint(1, 1), handleBgrd);
+	
+	switch (subCategory) {
+		case mcSubSchedule:
+			mode = eMenuSchedule;
+			break;
+		case mcSubScheduleWhatsOnNow:
+			mode = eMenuWhatsOnNow;
+			hasLogo = true;
+			delimiterType = "Channelseparator";
+			break;
+		case mcSubScheduleWhatsOnNext:
+			mode = eMenuWhatsOnNext;
+			hasLogo = true;
+			delimiterType = "Channelseparator";
+			break;
+		case mcSubScheduleSearchResults:
+			mode = eMenuSearchResults;
+			hasLogo = true;
+			delimiterType = "Channelseparator";
+			break;
+		case mcSubScheduleWhatsOnElse:
+			mode = eMenuWhatsOnElse;
+			hasLogo = true;
+			break;
+		case mcSubScheduleFavorites:
+			mode = eMenuFavorites;
+			hasLogo = true;
+			break;
+		case mcSubScheduleTimerconflict:
+			mode = eMenuTimerconflict;
+			hasLogo = true;
+			break;
+		default:
+			mode = eMenuSchedule;
+			break;
+	}
+	
+	if (hasLogo)
+		left = logoWidth + 10;
+        	
+	if (selectable) {
+		//Build Date & Time & Status
+		if (config.epgSearchConf->epgSearchConfig[mode][eEPGtime_d] > -1)
+			sstrDateTime << *itemTabs[config.epgSearchConf->epgSearchConfig[mode][eEPGtime_d]] << " ";
+		if (config.epgSearchConf->epgSearchConfig[mode][eEPGtime_w] > -1) 
+			sstrDateTime << *itemTabs[config.epgSearchConf->epgSearchConfig[mode][eEPGtime_w]] << " ";
+		if (config.epgSearchConf->epgSearchConfig[mode][eEPGdate] > -1)
+			sstrDateTime << *itemTabs[config.epgSearchConf->epgSearchConfig[mode][eEPGdate]] << " ";
+		if (config.epgSearchConf->epgSearchConfig[mode][eEPGdatesh] > -1)
+			sstrDateTime << *itemTabs[config.epgSearchConf->epgSearchConfig[mode][eEPGdatesh]] << " ";
+		if (config.epgSearchConf->epgSearchConfig[mode][eEPGtime] > -1)
+			sstrDateTime <<  *itemTabs[config.epgSearchConf->epgSearchConfig[mode][eEPGtime]] << " ";
+		if (config.epgSearchConf->epgSearchConfig[mode][eEPGtimespan] > -1)
+			sstrDateTime << *itemTabs[config.epgSearchConf->epgSearchConfig[mode][eEPGtimespan]] << " ";
+		if (config.epgSearchConf->epgSearchConfig[mode][eEPGstatus] > -1)
+			sstrDateTime <<  *itemTabs[config.epgSearchConf->epgSearchConfig[mode][eEPGstatus]] << " ";
+		if (config.epgSearchConf->epgSearchConfig[mode][eEPGt_status] > -1)
+			sstrDateTime <<  *itemTabs[config.epgSearchConf->epgSearchConfig[mode][eEPGt_status]] << " ";
+		if (config.epgSearchConf->epgSearchConfig[mode][eEPGv_status] > -1)
+			sstrDateTime <<  *itemTabs[config.epgSearchConf->epgSearchConfig[mode][eEPGv_status]] << " ";
+		if (config.epgSearchConf->epgSearchConfig[mode][eEPGr_status] > -1)
+			sstrDateTime <<  *itemTabs[config.epgSearchConf->epgSearchConfig[mode][eEPGr_status]] << " ";
+		//Build title and subtitle
+		if (config.epgSearchConf->epgSearchConfig[mode][eEPGtitle] > -1) {
+			strTitle = *itemTabs[config.epgSearchConf->epgSearchConfig[mode][eEPGtitle]];
+			if (config.epgSearchConf->epgSearchConfig[mode][eEPGsubtitle] > -1) {
+				strSubtitle = *itemTabs[config.epgSearchConf->epgSearchConfig[mode][eEPGsubtitle]];
 			} else {
-				channelName = itemTabs[0];
-				startTime = itemTabs[1];
-				if ((std::string(skipspace(itemTabs[2])).length() > 0) && (startswith(*itemTabs[2], "["))) {   // EPGSearch Progress Bar
-					hasRemaining = true;
-					remaining = itemTabs[2];
-					running = itemTabs[3];
-					title = itemTabs[4];
-				} else if (std::string(skipspace(itemTabs[3])).length() == 0){  //EPG Search Result
-					running = itemTabs[2];
-					title = itemTabs[4];					
+				size_t delimiter = strTitle.find("~");
+				if (delimiter != std::string::npos) {
+					strSubtitle = strTitle.substr(delimiter+2);
+					strTitle = strTitle.substr(0, delimiter);
 				} else {
-					running = itemTabs[2];
-					title = itemTabs[3];
+					strSubtitle = "";
 				}
 			}
-			int logoWidth = config.menuItemLogoWidth;
-			int logoHeight = config.menuItemLogoHeight;
-			int xText = logoWidth + 10;
-			cTextWrapper titleLines;
-			titleLines.Set(*title, font, width - xText);
-			int lineHeight = font->Height() - 2;
-			pixmap->DrawImage(cPoint(1, 1), handleBgrd);
+		}
+		if (font->Width(strTitle.c_str()) > (width - left)) {
+			cTextWrapper twTitle;
+			std::stringstream sstrTitle;
+			twTitle.Set(strTitle.c_str(), font, width - left);
+			sstrTitle << twTitle.GetLine(0) << "...";
+			strTitle = sstrTitle.str();
+		}
+		if (fontSmall->Width(strSubtitle.c_str()) > (width - left)) {
+			cTextWrapper twSubtitle;
+			std::stringstream sstrSubtitle;
+			twSubtitle.Set(strSubtitle.c_str(), fontSmall, width - left);
+			sstrSubtitle << twSubtitle.GetLine(0) << "...";
+			strSubtitle = sstrSubtitle.str();
+		}
+		//Build Channel Name
+		if (config.epgSearchConf->epgSearchConfig[mode][eEPGchlng] > -1)
+			strChannelName = *itemTabs[config.epgSearchConf->epgSearchConfig[mode][eEPGchlng]];
+		else if (config.epgSearchConf->epgSearchConfig[mode][eEPGchsh] > -1)
+			strChannelName = *itemTabs[config.epgSearchConf->epgSearchConfig[mode][eEPGchsh]];
+		else
+			strChannelName = "";
+		//Build Progressbar
+		if (config.epgSearchConf->epgSearchConfig[mode][eEPGprogrT2S] > -1) {
+			strProgressbar = *itemTabs[config.epgSearchConf->epgSearchConfig[mode][eEPGprogrT2S]];
+			hasProgressBar = true;
+		}
+
+		//DISPLAY
+		int titleY = (height - font->Height())/2 - 2;
+		if (strSubtitle.length() == 0)
+			titleY = font->Height() + (height - 2*font->Height())/2;
+		pixmap->DrawText(cPoint(left, 3), sstrDateTime.str().c_str(), Theme.Color(clrMenuFontMenuItem), clrTransparent, font);
+		pixmap->DrawText(cPoint(left, titleY), strTitle.c_str(), Theme.Color(clrMenuFontMenuItemTitle), clrTransparent, font);
+		pixmap->DrawText(cPoint(left, titleY + font->Height() - 2), strSubtitle.c_str(), Theme.Color(clrMenuFontMenuItem), clrTransparent, fontSmall);
+		if (hasIcon) {
 			if (!iconDrawn) {
 				cImageLoader imgLoader;
-				if (imgLoader.LoadLogo(*channelName, logoWidth, logoHeight)) {
+				if (imgLoader.LoadLogo(strChannelName.c_str(), logoWidth, logoHeight)) {
 					pixmapIcon->DrawImage(cPoint(1, 1), imgLoader.GetImage());
 				} else {
 					cTextWrapper channel;
-					channel.Set(*channelName, font, logoWidth);
+					channel.Set(strChannelName.c_str(), font, logoWidth);
 					int lines = channel.Lines();
+					int lineHeight = height / 3;
 					int heightChannel = lines * lineHeight;
 					int y = (heightChannel>height)?0:(height-heightChannel)/2;
 					for (int line = 0; line < lines; line++) {
@@ -253,36 +308,13 @@ void cNopacityScheduleMenuItem::Render() {
 				}
 				iconDrawn = true;
 			}
-			
-			
-			pixmap->DrawText(cPoint(xText, 0), startTime, Theme.Color(clrMenuFontMenuItemTitle), clrTransparent, font);
-			pixmap->DrawText(cPoint(xText + font->Width(*startTime) + 5, 0), *running, Theme.Color(clrMenuFontMenuItemTitle), clrTransparent, font);
-			for (int line = 0; line < titleLines.Lines(); line++) {
-				if (line == 2) break;
-				pixmap->DrawText(cPoint(xText , lineHeight * (line+1)), titleLines.GetLine(line), clrFont, clrTransparent, font);
-			}
-			if (hasRemaining)
-				DrawRemaining(remaining, xText, height*7/8, width - xText - 10);
-		} else {									//Channelseparators
-			DrawDelimiter(*itemTabs[1], "Channelseparator", handleBgrd);
 		}
+		if (hasProgressBar) {
+			DrawRemaining(strProgressbar.c_str(), left, height*7/8, width - left - 10);
+		}
+		
 	} else {
-		if (selectable) {						//Event
-			pixmap->Fill(Theme.Color(clrMenuBorder));
-			pixmap->DrawImage(cPoint(1, 1), handleBgrd);
-			cString dateTime = cString::sprintf("%s %s %s", *itemTabs[0], *itemTabs[1], *itemTabs[2]);
-			pixmap->DrawText(cPoint(5, 3), *dateTime, Theme.Color(clrMenuFontMenuItemTitle), clrTransparent, font);
-			title = itemTabs[3];
-			cTextWrapper titleLines;
-			int lineHeight = font->Height();
-			titleLines.Set(*title, font, width-8);
-			for (int line = 0; line < titleLines.Lines(); line++) {
-				pixmap->DrawText(cPoint(5 , 3 + lineHeight * (line+1)), titleLines.GetLine(line), clrFont, clrTransparent, font);
-				if (line == 3) break;
-			}		
-		} else {								//Day Delimiter
-			DrawDelimiter(*itemTabs[1], "daydelimiter", handleBgrd);
-		}
+		DrawDelimiter(*itemTabs[1], delimiterType.c_str(), handleBgrd);
 	}
 }
 

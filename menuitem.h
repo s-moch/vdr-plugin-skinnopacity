@@ -13,6 +13,7 @@ protected:
 	bool selectable;
 	bool current;
 	cFont *font;
+	cFont *fontSmall;
 	int width, height;
 	cString *itemTabs;
 	int *tabWidth;
@@ -24,6 +25,7 @@ public:
 	void CreatePixmap(int top, int space, int index, int width, int height);
 	void CreatePixmapIcon(int top, int space, int index, int itemHeight, int iconWidth, int iconHeight);
 	void SetFont(cFont *font) {this->font = font;}
+	void SetFontSmall(cFont *fontSmall) {this->fontSmall = fontSmall;}
 	void SetCurrent(bool cur) {current = cur;}
 	void SetAlpha(int alpha) {this->pixmap->SetAlpha(alpha);}
 	void SetAlphaIcon(int alpha) {if (hasIcon) this->pixmapIcon->SetAlpha(alpha);}
@@ -45,7 +47,18 @@ public:
 	void Render();
 };
 
-enum eMenuSubCategory { mcSubUndefined = -1, mcSubSchedule = 0, mcSubScheduleWhatsOn, mcSubScheduleTimer, mcSubChannels, mcSubChannelEdit};
+enum eMenuSubCategory { mcSubUndefined = -1, 
+						mcSubSchedule = 0, 
+						mcSubScheduleWhatsOn, 
+						mcSubScheduleWhatsOnNow, 
+						mcSubScheduleWhatsOnNext,
+						mcSubScheduleWhatsOnElse,
+						mcSubScheduleSearchResults,
+						mcSubScheduleFavorites,
+						mcSubScheduleTimerconflict,
+						mcSubScheduleTimer,
+						mcSubChannels, 
+						mcSubChannelEdit};
 
 class cNopacityScheduleMenuItem : public cNopacityMenuItem {
 private:

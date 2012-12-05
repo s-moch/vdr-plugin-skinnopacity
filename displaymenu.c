@@ -17,6 +17,7 @@ cNopacityDisplayMenu::cNopacityDisplayMenu(void) {
 	lastTimersState = -1;
 	menuItemIndexLast = -1;
 	currentNumItems = 0;
+	channelName = NULL;
 	menuHasIcons = true;
 	detailView = NULL;
 	contentNarrow = true;
@@ -169,21 +170,60 @@ void cNopacityDisplayMenu::SetTitle(const char *Title) {
 			contentNarrow = true;
 			menuHasIcons = true;
 		} else {
+			std::string strTitle = Title;
 			menuView->ShowHeaderLogo(false);
 			if (MenuCategory() == mcSchedule) {
+				//Main Schedule
 				if (startswith(Title, trVDR("Schedule"))) {
 					menuSubCategory = mcSubSchedule;
 					left += menuView->ShowHeaderIconChannelLogo(Title);
 					menuHasIcons = true;
 					contentNarrow = true;
+				//What's on now
+				} else if (	   (strTitle.find(trVDR("Button$Now")) != std::string::npos) 
+							|| (strTitle.find(trVDR("What's on now?")) != std::string::npos) ) {
+					menuSubCategory = mcSubScheduleWhatsOnNow;
+					left += menuView->DrawHeaderIcon(mcSchedule);
+					menuHasIcons = true;
+					contentNarrow = true;
+				//What's on next
+				} else if (    (strTitle.find(trVDR("Button$Next")) != std::string::npos) 
+							|| (strTitle.find(trVDR("What's on next?")) != std::string::npos) ) {
+					menuSubCategory = mcSubScheduleWhatsOnNext;
+					left += menuView->DrawHeaderIcon(mcSchedule);
+					menuHasIcons = true;
+					contentNarrow = true;
+				//EPGSearch search results
+				} else if (isdigit(strTitle.at(0))) {
+					menuSubCategory = mcSubScheduleSearchResults;
+					left += menuView->DrawHeaderIcon(mcSchedule);
+					menuHasIcons = true;
+					contentNarrow = true;
+				//What's on else
+				} else if (   ((config.epgSearchConf->UserSet[0]) && (strTitle.find(config.epgSearchConf->User[0]) != std::string::npos))
+							||((config.epgSearchConf->UserSet[1]) && (strTitle.find(config.epgSearchConf->User[1]) != std::string::npos))
+							||((config.epgSearchConf->UserSet[2]) && (strTitle.find(config.epgSearchConf->User[2]) != std::string::npos))
+							||((config.epgSearchConf->UserSet[3]) && (strTitle.find(config.epgSearchConf->User[3]) != std::string::npos)))
+				{
+					menuSubCategory = mcSubScheduleWhatsOnElse;
+					left += menuView->DrawHeaderIcon(mcSchedule);
+					menuHasIcons = true;
+					contentNarrow = true;
+				//hack for epgsearch timer conflict view
 				} else if (endswith(Title, "%")) {	
-				  //hack for epgsearch timer conflict view
 					menuSubCategory = mcSubScheduleTimer;
 					menuHasIcons = false;
 					contentNarrow = false;
 					currentNumItems = config.numDefaultMenuItems;
+				//EPGSearch Favorites
+				} else if (strTitle.find(":") != std::string::npos) {
+					menuSubCategory = mcSubScheduleFavorites;
+					left += menuView->DrawHeaderIcon(mcSchedule);
+					menuHasIcons = true;
+					contentNarrow = true;
+					
 				} else {
-					menuSubCategory = mcSubScheduleWhatsOn;
+					menuSubCategory = mcSubScheduleTimerconflict;
 					left += menuView->DrawHeaderIcon(mcSchedule);
 					menuHasIcons = true;
 					contentNarrow = true;
@@ -273,6 +313,7 @@ void cNopacityDisplayMenu::SetItem(const char *Text, int Index, bool Current, bo
 					item = new cNopacityScheduleMenuItem(osd, Text, Current, Selectable, menuSubCategory);
 					menuView->GetMenuItemSize(mcSchedule, &itemSize);
 					item->SetFont(menuView->GetMenuItemFont(mcSchedule));
+					item->SetFontSmall(menuView->GetMenuItemFontSmall());
 					menuIconWidth = config.menuItemLogoWidth;
 					menuIconHeight = config.menuItemLogoHeight;
 				}
@@ -321,6 +362,7 @@ void cNopacityDisplayMenu::SetItem(const char *Text, int Index, bool Current, bo
 		item->SetCurrent(Current);
 		item->Render();
 	}
+
 	SetEditableWidth(menuView->GetEditableWidth());
 }
 
@@ -374,7 +416,7 @@ void cNopacityDisplayMenu::SetEvent(const cEvent *Event) {
 	if (!Event)
 		return;
 	menuView->AdjustContentBackground(false, contentNarrowLast);
-	detailView = new cNopacityMenuDetailEventView(osd, Event, channelName);
+	detailView = new cNopacityMenuDetailEventView(osd, Event, *channelName);
 	menuView->SetDetailViewSize(dvEvent, detailView);
 	detailView->SetFonts();
 	if (config.displayRerunsDetailEPGView)

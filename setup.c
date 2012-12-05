@@ -115,6 +115,7 @@ void cNopacitySetup::Store(void) {
 	SetupStore("fontDate", config.fontDate);
 	SetupStore("fontMenuitemLarge", config.fontMenuitemLarge);
 	SetupStore("fontMenuitemSchedule", config.fontMenuitemSchedule);
+	SetupStore("fontMenuitemScheduleSmall", config.fontMenuitemScheduleSmall);
 	SetupStore("fontMenuitemDefault", config.fontMenuitemDefault);
 	SetupStore("fontDiskUsage", config.fontDiskUsage);
 	SetupStore("fontTimersHead", config.fontTimersHead);
@@ -188,6 +189,7 @@ void cNopacitySetupMenuDisplay::Set(void) {
 	Add(new cMenuEditIntItem(tr("Adjust Font Size - Date"), &tmpNopacityConfig->fontDate, -20, 20));
 	Add(new cMenuEditIntItem(tr("Adjust Font Size - Large Menu Item"), &tmpNopacityConfig->fontMenuitemLarge, -20, 20));
 	Add(new cMenuEditIntItem(tr("Adjust Font Size - Schedule Menu Item"), &tmpNopacityConfig->fontMenuitemSchedule, -20, 20));
+	Add(new cMenuEditIntItem(tr("Adjust Font Size - Schedule Menu Item Small"), &tmpNopacityConfig->fontMenuitemScheduleSmall, -20, 20));
 	Add(new cMenuEditIntItem(tr("Adjust Font Size - Default Menu Item"), &tmpNopacityConfig->fontMenuitemDefault, -20, 20));
 	Add(new cMenuEditIntItem(tr("Adjust Font Size - Disc Usage"), &tmpNopacityConfig->fontDiskUsage, -20, 20));
 	Add(new cMenuEditIntItem(tr("Adjust Font Size - Timers Header"), &tmpNopacityConfig->fontTimersHead, -20, 20));

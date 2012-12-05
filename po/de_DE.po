@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2012-11-28 20:39+0100\n"
+"POT-Creation-Date: 2012-12-05 19:48+0100\n"
 "PO-Revision-Date: 2012-11-11 17:49+0200\n"
 "Last-Translator: louis\n"
 "Language-Team: \n"
@@ -120,6 +120,9 @@ msgstr "Schriftgröße anpassen - Große Menübuttons"
 
 msgid "Adjust Font Size - Schedule Menu Item"
 msgstr "Schriftgröße anpassen - Programmübersicht Menübuttons"
+
+msgid "Adjust Font Size - Schedule Menu Item Small"
+msgstr "Schriftgröße anpassen - Programmübersicht Menübuttons klein"
 
 msgid "Adjust Font Size - Default Menu Item"
 msgstr "Schriftgröße anpassen - Default Menübuttons"

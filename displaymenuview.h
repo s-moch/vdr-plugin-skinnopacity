@@ -35,6 +35,7 @@ class cNopacityDisplayMenuView {
 		cFont *fontDate;
 		cFont *fontMenuitemLarge;
 		cFont *fontMenuitemSchedule;
+		cFont *fontMenuitemScheduleSmall;
 		cFont *fontMenuitemDefault;
 		cFont *fontDiskUsage;
 		cFont *fontTimers;
@@ -66,6 +67,7 @@ class cNopacityDisplayMenuView {
 		void SetPixmapAlpha(int Alpha);
 		void CreateFonts(void);
 		cFont *GetMenuItemFont(eMenuCategory menuCat);
+		cFont *GetMenuItemFontSmall(void);
 		void GetMenuItemSize(eMenuCategory menuCat, cPoint *itemSize);
 		int GetMaxItems(eMenuCategory menuCat);
 		int GetMenuTop(int numItems, int itemHeight);

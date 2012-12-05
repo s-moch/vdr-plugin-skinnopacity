@@ -36,10 +36,10 @@ public:
 class cNopacityMenuDetailEventView : public cNopacityMenuDetailView {
 private:
 	void DrawHeader(void);
-	const char *channelName;
+	cString channelName;
 	const cEvent *event;
 public:
-	cNopacityMenuDetailEventView(cOsd *osd, const cEvent *Event, const char *channel);
+	cNopacityMenuDetailEventView(cOsd *osd, const cEvent *Event, cString channelName);
 	virtual ~cNopacityMenuDetailEventView(void);
 	void CreatePixmaps(void);
 	void SetFonts(void);
