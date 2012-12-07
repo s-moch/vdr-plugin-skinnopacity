@@ -160,9 +160,8 @@ bool cNopacityMenuDetailView::Scroll(bool Up, bool Page) {
 
 //---------------cNopacityMenuDetailEventView---------------------
 
-cNopacityMenuDetailEventView::cNopacityMenuDetailEventView(cOsd *osd, const cEvent *Event, cString channelName) : cNopacityMenuDetailView(osd) {
+cNopacityMenuDetailEventView::cNopacityMenuDetailEventView(cOsd *osd, const cEvent *Event) : cNopacityMenuDetailView(osd) {
 	event = Event;
-	this->channelName = channelName;
 }
 
 cNopacityMenuDetailEventView::~cNopacityMenuDetailEventView(void) {
@@ -199,7 +198,8 @@ void cNopacityMenuDetailEventView::Render(void) {
 void cNopacityMenuDetailEventView::DrawHeader(void) {
 	cImageLoader imgLoader;
 	int logoWidth = config.detailViewLogoWidth;
-	if (imgLoader.LoadLogo(*channelName, logoWidth, config.detailViewLogoHeight)) {
+	cChannel *channel = Channels.GetByChannelID(event->ChannelID(), true);
+	if (channel && channel->Name() && imgLoader.LoadLogo(channel->Name(), logoWidth, config.detailViewLogoHeight)) {		
 		pixmapLogo->DrawImage(cPoint(0, max((headerHeight - config.detailViewLogoHeight - border)/2, 0)), imgLoader.GetImage());
 	}
 	int widthTextHeader = width - 4 * border - logoWidth;

@@ -221,30 +221,42 @@ void cNopacityScheduleMenuItem::Render() {
         	
 	if (selectable) {
 		//Build Date & Time & Status
-		if (config.epgSearchConf->epgSearchConfig[mode][eEPGtime_d] > -1)
+		if ((config.epgSearchConf->epgSearchConfig[mode][eEPGtime_d] > -1)
+			&&(config.epgSearchConf->epgSearchConfig[mode][eEPGtime_d] < MAXITEMTABS))
 			sstrDateTime << *itemTabs[config.epgSearchConf->epgSearchConfig[mode][eEPGtime_d]] << " ";
-		if (config.epgSearchConf->epgSearchConfig[mode][eEPGtime_w] > -1) 
+		if ((config.epgSearchConf->epgSearchConfig[mode][eEPGtime_w] > -1) 
+			&&(config.epgSearchConf->epgSearchConfig[mode][eEPGtime_w] < MAXITEMTABS))
 			sstrDateTime << *itemTabs[config.epgSearchConf->epgSearchConfig[mode][eEPGtime_w]] << " ";
-		if (config.epgSearchConf->epgSearchConfig[mode][eEPGdate] > -1)
+		if ((config.epgSearchConf->epgSearchConfig[mode][eEPGdate] > -1)
+			&&(config.epgSearchConf->epgSearchConfig[mode][eEPGdate] < MAXITEMTABS))
 			sstrDateTime << *itemTabs[config.epgSearchConf->epgSearchConfig[mode][eEPGdate]] << " ";
-		if (config.epgSearchConf->epgSearchConfig[mode][eEPGdatesh] > -1)
+		if ((config.epgSearchConf->epgSearchConfig[mode][eEPGdatesh] > -1)
+			&&(config.epgSearchConf->epgSearchConfig[mode][eEPGdatesh] < MAXITEMTABS))
 			sstrDateTime << *itemTabs[config.epgSearchConf->epgSearchConfig[mode][eEPGdatesh]] << " ";
-		if (config.epgSearchConf->epgSearchConfig[mode][eEPGtime] > -1)
+		if ((config.epgSearchConf->epgSearchConfig[mode][eEPGtime] > -1)
+			&&(config.epgSearchConf->epgSearchConfig[mode][eEPGtime] < MAXITEMTABS))
 			sstrDateTime <<  *itemTabs[config.epgSearchConf->epgSearchConfig[mode][eEPGtime]] << " ";
-		if (config.epgSearchConf->epgSearchConfig[mode][eEPGtimespan] > -1)
+		if ((config.epgSearchConf->epgSearchConfig[mode][eEPGtimespan] > -1)
+			&&(config.epgSearchConf->epgSearchConfig[mode][eEPGtimespan] < MAXITEMTABS))
 			sstrDateTime << *itemTabs[config.epgSearchConf->epgSearchConfig[mode][eEPGtimespan]] << " ";
-		if (config.epgSearchConf->epgSearchConfig[mode][eEPGstatus] > -1)
+		if ((config.epgSearchConf->epgSearchConfig[mode][eEPGstatus] > -1)
+			&&(config.epgSearchConf->epgSearchConfig[mode][eEPGstatus] < MAXITEMTABS))
 			sstrDateTime <<  *itemTabs[config.epgSearchConf->epgSearchConfig[mode][eEPGstatus]] << " ";
-		if (config.epgSearchConf->epgSearchConfig[mode][eEPGt_status] > -1)
+		if ((config.epgSearchConf->epgSearchConfig[mode][eEPGt_status] > -1)
+			&&(config.epgSearchConf->epgSearchConfig[mode][eEPGt_status] < MAXITEMTABS))
 			sstrDateTime <<  *itemTabs[config.epgSearchConf->epgSearchConfig[mode][eEPGt_status]] << " ";
-		if (config.epgSearchConf->epgSearchConfig[mode][eEPGv_status] > -1)
+		if ((config.epgSearchConf->epgSearchConfig[mode][eEPGv_status] > -1)
+			&&(config.epgSearchConf->epgSearchConfig[mode][eEPGv_status] < MAXITEMTABS))
 			sstrDateTime <<  *itemTabs[config.epgSearchConf->epgSearchConfig[mode][eEPGv_status]] << " ";
-		if (config.epgSearchConf->epgSearchConfig[mode][eEPGr_status] > -1)
+		if ((config.epgSearchConf->epgSearchConfig[mode][eEPGr_status] > -1)
+			&&(config.epgSearchConf->epgSearchConfig[mode][eEPGr_status] < MAXITEMTABS))
 			sstrDateTime <<  *itemTabs[config.epgSearchConf->epgSearchConfig[mode][eEPGr_status]] << " ";
 		//Build title and subtitle
-		if (config.epgSearchConf->epgSearchConfig[mode][eEPGtitle] > -1) {
+		if ((config.epgSearchConf->epgSearchConfig[mode][eEPGtitle] > -1)
+			&&(config.epgSearchConf->epgSearchConfig[mode][eEPGtitle] < MAXITEMTABS)) {
 			strTitle = *itemTabs[config.epgSearchConf->epgSearchConfig[mode][eEPGtitle]];
-			if (config.epgSearchConf->epgSearchConfig[mode][eEPGsubtitle] > -1) {
+			if ((config.epgSearchConf->epgSearchConfig[mode][eEPGsubtitle] > -1) 
+				&&(config.epgSearchConf->epgSearchConfig[mode][eEPGsubtitle] < MAXITEMTABS)) {
 				strSubtitle = *itemTabs[config.epgSearchConf->epgSearchConfig[mode][eEPGsubtitle]];
 			} else {
 				size_t delimiter = strTitle.find("~");
@@ -271,14 +283,17 @@ void cNopacityScheduleMenuItem::Render() {
 			strSubtitle = sstrSubtitle.str();
 		}
 		//Build Channel Name
-		if (config.epgSearchConf->epgSearchConfig[mode][eEPGchlng] > -1)
+		if ((config.epgSearchConf->epgSearchConfig[mode][eEPGchlng] > -1)
+			&&(config.epgSearchConf->epgSearchConfig[mode][eEPGchlng] < MAXITEMTABS))
 			strChannelName = *itemTabs[config.epgSearchConf->epgSearchConfig[mode][eEPGchlng]];
-		else if (config.epgSearchConf->epgSearchConfig[mode][eEPGchsh] > -1)
+		else if ((config.epgSearchConf->epgSearchConfig[mode][eEPGchsh] > -1)
+				&&(config.epgSearchConf->epgSearchConfig[mode][eEPGchsh] < MAXITEMTABS))
 			strChannelName = *itemTabs[config.epgSearchConf->epgSearchConfig[mode][eEPGchsh]];
 		else
 			strChannelName = "";
 		//Build Progressbar
-		if (config.epgSearchConf->epgSearchConfig[mode][eEPGprogrT2S] > -1) {
+		if ((config.epgSearchConf->epgSearchConfig[mode][eEPGprogrT2S] > -1)
+			&&(config.epgSearchConf->epgSearchConfig[mode][eEPGprogrT2S] < MAXITEMTABS)) {
 			strProgressbar = *itemTabs[config.epgSearchConf->epgSearchConfig[mode][eEPGprogrT2S]];
 			hasProgressBar = true;
 		}

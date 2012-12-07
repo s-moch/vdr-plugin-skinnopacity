@@ -58,3 +58,9 @@ VDR Plugin 'nOpacity' Revision History
   more information about epgsearch integration)
 - Fixed "fade in" bug, cancelling threads correctly (Thanks to everybody who 
   was involved)
+
+- Fixed a crash when trying to access channel name in epg detail view
+- Fixed a crash when changing values in setup menu
+- Fixed a crash when opening and closing epg menus
+- Fixed a bug to only use epgsearchmenu.conf if lines for all possible 
+  menus are set

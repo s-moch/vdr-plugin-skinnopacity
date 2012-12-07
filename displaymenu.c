@@ -17,7 +17,6 @@ cNopacityDisplayMenu::cNopacityDisplayMenu(void) {
 	lastTimersState = -1;
 	menuItemIndexLast = -1;
 	currentNumItems = 0;
-	channelName = NULL;
 	menuHasIcons = true;
 	detailView = NULL;
 	contentNarrow = true;
@@ -193,7 +192,7 @@ void cNopacityDisplayMenu::SetTitle(const char *Title) {
 					menuHasIcons = true;
 					contentNarrow = true;
 				//EPGSearch search results
-				} else if (isdigit(strTitle.at(0))) {
+				} else if ((strTitle.length() > 0) && isdigit(strTitle.at(0))) {	
 					menuSubCategory = mcSubScheduleSearchResults;
 					left += menuView->DrawHeaderIcon(mcSchedule);
 					menuHasIcons = true;
@@ -246,9 +245,6 @@ void cNopacityDisplayMenu::SetTitle(const char *Title) {
 		}
 		menuView->AdjustContentBackground(contentNarrow, contentNarrowLast);		
 		menuView->DrawHeaderLabel(left, title);
-		if (MenuCategory() == mcEvent) {
-			channelName = Title;
-		}
 	}
 }
 
@@ -415,7 +411,7 @@ void cNopacityDisplayMenu::SetEvent(const cEvent *Event) {
 	if (!Event)
 		return;
 	menuView->AdjustContentBackground(false, contentNarrowLast);
-	detailView = new cNopacityMenuDetailEventView(osd, Event, *channelName);
+	detailView = new cNopacityMenuDetailEventView(osd, Event);
 	menuView->SetDetailViewSize(dvEvent, detailView);
 	detailView->SetFonts();
 	if (config.displayRerunsDetailEPGView)

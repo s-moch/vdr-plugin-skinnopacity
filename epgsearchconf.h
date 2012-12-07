@@ -3,13 +3,13 @@
 
 #define EPGSEARCHCATS 7
 #define EPGSEARCHTOKENS 17
+#define MAXITEMTABS 6
 
 class cNopacityEPGSearchConfig {
 	private:
 		bool ReplaceSchedule;
 		bool ShowChannelNr;
 		bool ShowProgress;
-		int MaxTabs;
 		std::string *SplitEpgSearchMenuLine(std::string line);
 		void SetTokens(std::string *values, eEPGModes mode);
 		void toLowerCase(std::string &str);

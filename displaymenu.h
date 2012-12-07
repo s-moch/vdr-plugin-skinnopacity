@@ -28,7 +28,6 @@ private:
 	void DrawDisk(void);
 	void DrawTimers(void);
 	void SplitItem(const char *Text, cString *strItems, int *tabItems);
-	cString channelName;
 	virtual void Action(void);
 protected:
 	int Tab(int n);

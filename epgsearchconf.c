@@ -11,7 +11,6 @@ cNopacityEPGSearchConfig::cNopacityEPGSearchConfig(void) {
 	ReplaceSchedule = false;
 	ShowChannelNr = false;
 	ShowProgress = false;
-	MaxTabs = 6;
 	for (int i=0; i<4; i++) {
 		UserSet[i] = false;
 		User[i] = "";
@@ -84,6 +83,12 @@ bool cNopacityEPGSearchConfig::LoadEpgSearchMenuConf(void) {
 	cString ConfigDir = cPlugin::ConfigDirectory("epgsearch");
 	cString epgsearchConf = "epgsearchmenu.conf";
 	cString fileName = AddDirectory(*ConfigDir,  *epgsearchConf);
+	bool foundMenuWhatsOnNow = false;
+	bool foundMenuWhatsOnNext = false;
+	bool foundMenuWhatsOnElse = false;
+	bool foundMenuSchedule = false;
+	bool foundMenuSearchResults = false;
+	bool foundMenuFavorites = false;
 	if (access(fileName, F_OK) == 0) {
 		dsyslog("nopacity: config file %s found", *fileName);
 		FILE *f = fopen(fileName, "r");
@@ -98,35 +103,52 @@ bool cNopacityEPGSearchConfig::LoadEpgSearchMenuConf(void) {
 				try {
 					if (!isempty(s)) {
 						std::string line = s;
-						std::string *values = new std::string[MaxTabs];
+						std::string *values = new std::string[MAXITEMTABS];
 						if (line.find("MenuWhatsOnNow") == 0) {
 							values = SplitEpgSearchMenuLine(line.substr(line.find_first_of("=") + 1));
 							SetTokens(values, eMenuWhatsOnNow);
+							foundMenuWhatsOnNow = true;
 						} else if (line.find("MenuWhatsOnNext") == 0) {
 							values = SplitEpgSearchMenuLine(line.substr(line.find_first_of("=") + 1));
 							SetTokens(values, eMenuWhatsOnNext);
+							foundMenuWhatsOnNext = true;
 						} else if (line.find("MenuWhatsOnElse") == 0) {
 							values = SplitEpgSearchMenuLine(line.substr(line.find_first_of("=") + 1));
 							SetTokens(values, eMenuWhatsOnElse);
+							foundMenuWhatsOnElse = true;
 						} else if (line.find("MenuSchedule") == 0) {
 							values = SplitEpgSearchMenuLine(line.substr(line.find_first_of("=") + 1));
 							SetTokens(values, eMenuSchedule);
+							foundMenuSchedule = true;
 						} else if (line.find("MenuSearchResults") == 0) {
 							values = SplitEpgSearchMenuLine(line.substr(line.find_first_of("=") + 1));
 							SetTokens(values, eMenuSearchResults);
+							foundMenuSearchResults = true;
 						} else if (line.find("MenuFavorites") == 0) {
 							values = SplitEpgSearchMenuLine(line.substr(line.find_first_of("=") + 1));
 							SetTokens(values, eMenuFavorites);
+							foundMenuFavorites = true;
 						}
 						delete[] values;
 					}
 				} catch (...){}
 			}
 		}
+		if (!foundMenuWhatsOnNow || 
+			!foundMenuWhatsOnNext || 
+			!foundMenuWhatsOnElse || 
+			!foundMenuSchedule || 
+			!foundMenuSearchResults || 
+			!foundMenuFavorites) 
+		{
+			dsyslog("nopacity: config file not complete, using default");
+			return false;
+		}
 	} else {
 		dsyslog("nopacity: %s not available, using epgsearch default settings", *fileName);
 		return false;
 	}
+	dsyslog("nopacity: config file complete");
 	return true;
 }
 
@@ -134,8 +156,8 @@ std::string *cNopacityEPGSearchConfig::SplitEpgSearchMenuLine(std::string line) 
 	size_t posSeparator = -1;
 	bool found = false;
 	posSeparator = line.find_first_of("|") + 1;
-	std::string *values = new std::string[MaxTabs];
-	for (int i=0; i < MaxTabs; i++)
+	std::string *values = new std::string[MAXITEMTABS];
+	for (int i=0; i < MAXITEMTABS; i++)
 		values[i] = "";
 	std::string value;
 	int i=0;
@@ -164,7 +186,7 @@ std::string *cNopacityEPGSearchConfig::SplitEpgSearchMenuLine(std::string line) 
 }
 
 void cNopacityEPGSearchConfig::SetTokens(std::string *values, eEPGModes mode) {	
-	for (int i=0; i<MaxTabs; i++) {
+	for (int i=0; i<MAXITEMTABS; i++) {
 		toLowerCase(values[i]);
 		if (values[i].find("%time%") == 0)
 			epgSearchConfig[mode][eEPGtime] = i;

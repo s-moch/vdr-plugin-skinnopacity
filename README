@@ -119,6 +119,8 @@ correct display of the progress bar in the "what's on now" view.
 Beside using the default settings you can also set up your own epgsearchmenu.conf file to
 control the information which is diplayed in the various menus. All tokens described in the
 epgsearchmenu.conf file in the epgsearch plugin sources (subdirectory ./conf/) are supported. 
+If epgsearchmenu is used, lines for all possible entries have to be set (see list below).
+Otherwise the default epgsearch settings are used.
 For me these entries for the different menus showed the best result:
 
 MenuWhatsOnNow=%chlng%:4|%progrT2S%:5|%time%:8|%status%:3|%title%:15|%subtitle%:25

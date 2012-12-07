@@ -1,6 +1,7 @@
 #include "config.h"
 
 cNopacityConfig::cNopacityConfig() {
+	epgSearchConf = NULL;
 	logoPathSet = false;
 	epgImagePathSet = false;
 	iconPathSet = false;
@@ -89,7 +90,6 @@ cNopacityConfig::cNopacityConfig() {
 }
 
 cNopacityConfig::~cNopacityConfig() {
-	delete epgSearchConf;
 }
 
 void cNopacityConfig::setDynamicValues() {
