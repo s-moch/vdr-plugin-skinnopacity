@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2012-12-05 19:48+0100\n"
+"POT-Creation-Date: 2012-12-15 12:57+0100\n"
 "PO-Revision-Date: 2012-11-11 17:49+0200\n"
 "Last-Translator: louis\n"
 "Language-Team: \n"
@@ -47,8 +47,26 @@ msgstr "falls vorhanden"
 msgid "always"
 msgstr "immer"
 
+msgid "off"
+msgstr "aus"
+
+msgid "slow"
+msgstr "langsam"
+
+msgid "medium"
+msgstr "mittel"
+
+msgid "fast"
+msgstr "schnell"
+
 msgid "Fade-In Time in ms (Zero for switching off fading)"
 msgstr "Fade-In Zeit in ms (Null zum Abschalten)"
+
+msgid "Scrolling Speed"
+msgstr "Scroll Geschwindigkeit"
+
+msgid "Scrolling Delay in ms"
+msgstr "Scroll Verzögerung in ms"
 
 msgid "Scale Video size to fit into menu window"
 msgstr "TV-Bildgröße in Menüfenster einpassen"

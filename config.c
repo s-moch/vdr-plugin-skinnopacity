@@ -59,6 +59,8 @@ cNopacityConfig::cNopacityConfig() {
 	useSubtitleRerun = 1;
 	menuFadeTime = 300;
 	menuWidthNarrow = 30;
+	menuScrollDelay = 1000;
+	menuScrollSpeed = 2;
 	menuWidthRightItems = 12;
 	headerHeight = 7;
 	footerHeight = 7;
@@ -110,7 +112,15 @@ void cNopacityConfig::setDynamicValues() {
 	volumeFrameTime = volumeFadeTime / 10;
 	menuFrameTime = menuFadeTime / 10;
 	
-	logoPathDefault = cString::sprintf("%s/logos/", cPlugin::ResourceDirectory(PLUGIN_NAME_I18N));
+	menuScrollFrameTime = 0;
+	if (menuScrollSpeed == 1)
+		menuScrollFrameTime = 50;
+	else if (menuScrollSpeed == 2)
+		menuScrollFrameTime = 30;
+	else if (menuScrollSpeed == 3)
+		menuScrollFrameTime = 15;
+
+		logoPathDefault = cString::sprintf("%s/logos/", cPlugin::ResourceDirectory(PLUGIN_NAME_I18N));
 	iconPathDefault = cString::sprintf("%s/icons/", cPlugin::ResourceDirectory(PLUGIN_NAME_I18N));
 	epgImagePathDefault = cString::sprintf("%s/epgimages/", cPlugin::CacheDirectory(PLUGIN_NAME_I18N));
 	
@@ -195,6 +205,8 @@ bool cNopacityConfig::SetupParse(const char *Name, const char *Value) {
 	else if (strcmp(Name, "volumeBorderBottom") == 0)      volumeBorderBottom = atoi(Value);
 	else if (strcmp(Name, "fontVolume") == 0)              fontVolume = atoi(Value);
 	else if (strcmp(Name, "menuFadeTime") == 0)            menuFadeTime = atoi(Value);
+	else if (strcmp(Name, "menuScrollDelay") == 0)         menuScrollDelay = atoi(Value);
+	else if (strcmp(Name, "menuScrollSpeed") == 0)         menuScrollSpeed = atoi(Value);
 	else if (strcmp(Name, "scalePicture") == 0)            scalePicture = atoi(Value);
 	else if (strcmp(Name, "displayRerunsDetailEPGView") == 0) displayRerunsDetailEPGView = atoi(Value);
 	else if (strcmp(Name, "numReruns") == 0)			   numReruns = atoi(Value);
@@ -224,7 +236,7 @@ bool cNopacityConfig::SetupParse(const char *Name, const char *Value) {
 	else if (strcmp(Name, "fontTimersHead") == 0)          fontTimersHead = atoi(Value);
 	else if (strcmp(Name, "fontTimers") == 0)              fontTimers = atoi(Value);
 	else if (strcmp(Name, "fontButtons") == 0)             fontButtons = atoi(Value);
-	else if (strcmp(Name, "fontMessageMenu") == 0)         fontMessage = atoi(Value);
+	else if (strcmp(Name, "fontMessageMenu") == 0)         fontMessageMenu = atoi(Value);
 	else if (strcmp(Name, "fontDetailView") == 0)          fontDetailView = atoi(Value);
 	else if (strcmp(Name, "fontDetailViewHeader") == 0)    fontDetailViewHeader = atoi(Value);
 	else if (strcmp(Name, "fontDetailViewHeaderLarge") == 0) fontDetailViewHeaderLarge = atoi(Value);

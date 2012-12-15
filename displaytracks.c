@@ -124,9 +124,11 @@ void cNopacityDisplayTracks::DrawHeader(const char *Title) {
 
 void cNopacityDisplayTracks::SetItem(const char *Text, int Index, bool Current) {
 	cNopacityMenuItem *item;
-	item = new cNopacityTrackMenuItem(osd, Text, Current);
+	item = new cNopacityTrackMenuItem(osd, Text);
+	item->SetCurrent(Current);
 	item->SetFont(font);
-	item->CreatePixmap(menuItemHeight+5, 2, Index, menuItemWidth, menuItemHeight);
+	item->SetGeometry(Index, menuItemHeight+5, 2, menuItemWidth, menuItemHeight);
+	item->CreatePixmap();
 	item->SetBackgrounds(handleBackgrounds);
 	menuItems.Add(item);
 	item->Render();

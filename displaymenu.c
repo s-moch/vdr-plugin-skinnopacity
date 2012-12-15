@@ -175,7 +175,7 @@ void cNopacityDisplayMenu::SetTitle(const char *Title) {
 				if (startswith(Title, trVDR("Schedule"))) {
 					menuSubCategory = mcSubSchedule;
 					left += menuView->ShowHeaderIconChannelLogo(Title);
-					menuHasIcons = true;
+					menuHasIcons = false;
 					contentNarrow = true;
 				//What's on now
 				} else if (	   (strTitle.find(trVDR("Button$Now")) != std::string::npos) 
@@ -280,6 +280,8 @@ void cNopacityDisplayMenu::SetMessage(eMessageType Type, const char *Text) {
 }
 
 void cNopacityDisplayMenu::SetItem(const char *Text, int Index, bool Current, bool Selectable) {
+	int menuIconWidth = 0;
+	int menuIconHeight = 0;
 	cString *strItems = new cString[MaxTabs];
 	int *tabItems = new int[2*MaxTabs];
 	for (int i=0; i<MaxTabs; i++) {
@@ -288,54 +290,58 @@ void cNopacityDisplayMenu::SetItem(const char *Text, int Index, bool Current, bo
 		tabItems[i+MaxTabs] = 0;
 	}
 	SplitItem(Text, strItems, tabItems);
-	int menuIconWidth = 0;
-	int menuIconHeight = 0;
 	if (initMenu) {
 		if (Index > menuItemIndexLast) {
 			cNopacityMenuItem *item;
 			cPoint itemSize;
 			if (MenuCategory() == mcMain) {
-				item = new cNopacityMainMenuItem(osd, Text, Current, Selectable);
+				item = new cNopacityMainMenuItem(osd, Text, Selectable);
 				menuView->GetMenuItemSize(mcMain, &itemSize);
 				item->SetFont(menuView->GetMenuItemFont(mcMain));
 				menuIconWidth = menuIconHeight = config.iconHeight;
 			} else if (MenuCategory() == mcSchedule) {
 				if (menuSubCategory == mcSubScheduleTimer) {
-					item = new cNopacityDefaultMenuItem(osd, Text, Current, Selectable);
+					item = new cNopacityDefaultMenuItem(osd, Text, Selectable);
 					menuView->GetMenuItemSize(mcUnknown, &itemSize);
 					item->SetFont(menuView->GetMenuItemFont(mcUnknown));
 				} else {
-					item = new cNopacityScheduleMenuItem(osd, Text, Current, Selectable, menuSubCategory);
+					item = new cNopacityScheduleMenuItem(osd, Text, Selectable, menuSubCategory);
 					menuView->GetMenuItemSize(mcSchedule, &itemSize);
 					item->SetFont(menuView->GetMenuItemFont(mcSchedule));
 					item->SetFontSmall(menuView->GetMenuItemFontSmall());
+					item->SetDisplayMode();
 					menuIconWidth = config.menuItemLogoWidth;
 					menuIconHeight = config.menuItemLogoHeight;
 				}
 			} else if (MenuCategory() == mcChannel) {
 				if (menuSubCategory == mcSubChannels) {
-					item = new cNopacityChannelMenuItem(osd, Text, Current, Selectable);
+					item = new cNopacityChannelMenuItem(osd, Text, Selectable);
 					menuView->GetMenuItemSize(mcChannel, &itemSize);
 					item->SetFont(menuView->GetMenuItemFont(mcChannel));
 					menuIconWidth = config.menuItemLogoWidth;
 					menuIconHeight = config.menuItemLogoHeight;
 				} else {
-					item = new cNopacityDefaultMenuItem(osd, Text, Current, Selectable);
+					item = new cNopacityDefaultMenuItem(osd, Text, Selectable);
 					menuView->GetMenuItemSize(mcUnknown, &itemSize);
 					item->SetFont(menuView->GetMenuItemFont(mcUnknown));
 				}
 			} else {
-				item = new cNopacityDefaultMenuItem(osd, Text, Current, Selectable);
+				item = new cNopacityDefaultMenuItem(osd, Text, Selectable);
 				menuView->GetMenuItemSize(mcUnknown, &itemSize);
 				item->SetFont(menuView->GetMenuItemFont(mcUnknown));
 			}
+			int spaceTop = menuView->GetMenuTop(currentNumItems, itemSize.Y());
+			item->SetGeometry(Index, spaceTop, menuView->spaceMenu, itemSize.X(), itemSize.Y());
+			item->SetCurrent(Current);
 			item->SetBackgrounds(handleBackgrounds);
 			item->SetTabs(strItems, tabItems, MaxTabs);
-			int spaceTop = menuView->GetMenuTop(currentNumItems, itemSize.Y());
-			if (menuHasIcons) {
-				item->CreatePixmapIcon(spaceTop, menuView->spaceMenu, Index, itemSize.Y(), menuIconWidth, menuIconHeight);
-			}
-			item->CreatePixmap(spaceTop, menuView->spaceMenu, Index, itemSize.X(), itemSize.Y());
+			item->CreateText();
+			int textWidth = item->CheckScrollable(menuHasIcons);
+			item->CreatePixmap();
+			if (menuHasIcons)
+				item->CreatePixmapIcon(menuIconWidth, menuIconHeight);
+			if (textWidth > 0)
+				item->CreatePixmapTextScroller(textWidth);
 			menuItems.Add(item);
 			item->Render();
 			menuItemIndexLast = Index;
@@ -343,6 +349,7 @@ void cNopacityDisplayMenu::SetItem(const char *Text, int Index, bool Current, bo
 				if (FadeTime) {
 					item->SetAlpha(0);
 					item->SetAlphaIcon(0);
+					item->SetAlphaText(0);
 				}
 			}
 		} else {
@@ -352,12 +359,12 @@ void cNopacityDisplayMenu::SetItem(const char *Text, int Index, bool Current, bo
 			item->Render();
 		}
 	} else {
+		//redraw item when switching through menu
 		cNopacityMenuItem *item = menuItems.Get(Index);
 		item->SetTabs(strItems, tabItems, MaxTabs);
 		item->SetCurrent(Current);
 		item->Render();
 	}
-
 	SetEditableWidth(menuView->GetEditableWidth());
 }
 
@@ -367,14 +374,20 @@ void cNopacityDisplayMenu::SplitItem(const char *Text, cString *strItems, int *t
 		const char *s = GetTabbedText(Text, i);
 		if (s) {
 			strItems[i] = s;
-			tabItems[i] = Tab(i);
-			if (i>0) {
-				tabItems[(i-1) + MaxTabs] = Tab(i) - x;
-			}
-			x += Tab(i) - x;
         }
+		tabItems[i] = Tab(i);
+		if (i>0) {
+			tabItems[(i-1) + MaxTabs] = Tab(i) - x;
+			x += Tab(i) - x;
+		}
 		if (!Tab(i + 1)) {
-			tabItems[i + MaxTabs] = menuView->GetWidthDefaultMenu() - x;
+			if (s)
+				tabItems[i + MaxTabs] = menuView->GetWidthDefaultMenu() - x;
+			else if (i==1) {
+				tabItems[MaxTabs] = menuView->GetWidthDefaultMenu() - 1;
+				tabItems[1] = 0;
+				tabItems[MaxTabs+1] = 0;
+			}
 			break;
 		}
 	}
@@ -486,6 +499,7 @@ void cNopacityDisplayMenu::Action(void) {
 		for (cNopacityMenuItem *item = menuItems.First(); Running() && item; item = menuItems.Next(item)) {
 			item->SetAlpha(Alpha);
 			item->SetAlphaIcon(Alpha);
+			item->SetAlphaText(Alpha);
 		}
 		for (cNopacityTimer *t = timers.First(); Running() && t; t = timers.Next(t))
 			t->SetAlpha(Alpha);

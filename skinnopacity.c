@@ -11,7 +11,7 @@
 #include "nopacity.c"
 
 #if defined(APIVERSNUM) && APIVERSNUM < 10730
-#error "VDR-1.7. API version or greater is required!"
+#error "VDR-1.7.30 API version or greater is required!"
 #endif
 
 

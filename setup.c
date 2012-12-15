@@ -96,6 +96,8 @@ void cNopacitySetup::Store(void) {
 	SetupStore("numReruns", config.numReruns);
 	SetupStore("useSubtitleRerun", config.useSubtitleRerun);
 	SetupStore("menuFadeTime", config.menuFadeTime);
+	SetupStore("menuScrollDelay", config.menuScrollDelay);
+	SetupStore("menuScrollSpeed", config.menuScrollSpeed);
 	SetupStore("menuWidthNarrow", config.menuWidthNarrow);
 	SetupStore("menuWidthRightItems", config.menuWidthRightItems);
 	SetupStore("headerHeight", config.headerHeight);
@@ -159,6 +161,10 @@ cNopacitySetupMenuDisplay::cNopacitySetupMenuDisplay(cNopacityConfig* data)  : c
 	useSubtitleRerunTexts[0] = tr("never");
 	useSubtitleRerunTexts[1] = tr("if exists");
 	useSubtitleRerunTexts[2] = tr("always");
+	scrollSpeed[0] = tr("off");
+	scrollSpeed[1] = tr("slow");
+	scrollSpeed[2] = tr("medium");
+	scrollSpeed[3] = tr("fast");
 	Set();
 }
 
@@ -166,6 +172,8 @@ void cNopacitySetupMenuDisplay::Set(void) {
 	int currentItem = Current();
 	Clear();
 	Add(new cMenuEditIntItem(tr("Fade-In Time in ms (Zero for switching off fading)"), &tmpNopacityConfig->menuFadeTime, 0, 1000));
+	Add(new cMenuEditStraItem(tr("Scrolling Speed"), &tmpNopacityConfig->menuScrollSpeed, 4, scrollSpeed));
+	Add(new cMenuEditIntItem(tr("Scrolling Delay in ms"), &tmpNopacityConfig->menuScrollDelay, 0, 2000));
 	Add(new cMenuEditBoolItem(tr("Scale Video size to fit into menu window"), &tmpNopacityConfig->scalePicture));
 	Add(new cMenuEditBoolItem(tr("Display Reruns in detailed EPG View"), &tmpNopacityConfig->displayRerunsDetailEPGView));
 	Add(new cMenuEditIntItem(tr("Number of reruns to display"), &tmpNopacityConfig->numReruns, 1, 10));

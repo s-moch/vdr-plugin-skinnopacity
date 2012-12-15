@@ -82,6 +82,9 @@ class cNopacityConfig {
 		int useSubtitleRerun;
 		int menuFadeTime;
 		int menuFrameTime;
+		int menuScrollDelay;
+		int menuScrollSpeed;
+		int menuScrollFrameTime;
 		int menuWidthNarrow;
 		int menuWidthRightItems;
 		int headerHeight;

@@ -10,7 +10,7 @@ cNopacityDisplayMessage::cNopacityDisplayMessage(void) {
 	pixmap = osd->CreatePixmap(1, cRect(0, 0, width, height));
 	if (config.messageFadeTime)
 		pixmap->SetAlpha(0);
-	font = cFont::CreateFont(config.fontName, height / 4 + config.fontMessage);
+	font = cFont::CreateFont(config.fontName, height / 4 + 15 + config.fontMessage);
 	FrameTime = config.messageFrameTime;
 	FadeTime = config.messageFadeTime;
 }
