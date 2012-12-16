@@ -73,24 +73,24 @@ bool cPluginNopacity::ProcessArgs(int argc, char *argv[])
   int c;
   cString *path = NULL;
   while ((c = getopt_long(argc, argv, "e:l:i:", long_options, NULL)) != -1) {
-	switch (c) {
+    switch (c) {
       case 'l':
-		path = new cString(optarg);
+        path = new cString(optarg);
         config.SetLogoPath(*path);
         break;
       case 'e':
-		path = new cString(optarg);
+        path = new cString(optarg);
         config.SetEpgImagePath(*path);
         break;
       case 'i':
-		path = new cString(optarg);
+        path = new cString(optarg);
         config.SetIconPath(*path);
         break;
       default:
         return false;
     }
-	if (path) 
-		delete path;
+    if (path) 
+        delete path;
   }
   return true;
 }
@@ -102,11 +102,11 @@ bool cPluginNopacity::Initialize(void)
 
 bool cPluginNopacity::Start(void)
 {
-	if (!cOsdProvider::SupportsTrueColor()) {
-		esyslog("nopacity: No TrueColor OSD found! Aborting!");
-		return false;
-	} else
-		dsyslog("nopacity: TrueColor OSD found");
+    if (!cOsdProvider::SupportsTrueColor()) {
+        esyslog("nopacity: No TrueColor OSD found! Aborting!");
+        return false;
+    } else
+        dsyslog("nopacity: TrueColor OSD found");
   return new cNopacity;
 }
 

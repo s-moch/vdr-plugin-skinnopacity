@@ -3,22 +3,22 @@
 
 class cNopacityDisplayVolume : public cSkinDisplayVolume, cThread {
 private:
-	int FrameTime;
-	int FadeTime;
-	bool initial;
-	bool muted;
-	int width, height;
-	int labelHeight;
-	int progressBarWidth, progressBarHeight;
-	cOsd *osd;
-	cPixmap *pixmapBackgroundTop;
-	cPixmap *pixmapBackgroundBottom;
-	cPixmap *pixmapProgressBar;
-	cPixmap *pixmapLabel;
-	cFont *font;
-	virtual void Action(void);
-	void DrawProgressBar(int Current, int Total);
-	tColor DrawProgressbarBackground(int left, int top, int width, int height);
+    int FrameTime;
+    int FadeTime;
+    bool initial;
+    bool muted;
+    int width, height;
+    int labelHeight;
+    int progressBarWidth, progressBarHeight;
+    cOsd *osd;
+    cPixmap *pixmapBackgroundTop;
+    cPixmap *pixmapBackgroundBottom;
+    cPixmap *pixmapProgressBar;
+    cPixmap *pixmapLabel;
+    cFont *font;
+    virtual void Action(void);
+    void DrawProgressBar(int Current, int Total);
+    tColor DrawProgressbarBackground(int left, int top, int width, int height);
 public:
   cNopacityDisplayVolume(void);
   virtual ~cNopacityDisplayVolume();

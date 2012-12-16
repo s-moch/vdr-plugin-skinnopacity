@@ -2,14 +2,14 @@
 #define __NOPACITY_DISPLAYMESSAGE_H
 class cNopacityDisplayMessage : public cSkinDisplayMessage , cThread {
 private:
-	cOsd *osd;
-	int width;
-	int height;
-	cPixmap *pixmap;
-	cFont *font;
-	int FrameTime;
-	int FadeTime;
-	virtual void Action(void);
+    cOsd *osd;
+    int width;
+    int height;
+    cPixmap *pixmap;
+    cFont *font;
+    int FrameTime;
+    int FadeTime;
+    virtual void Action(void);
 public:
   cNopacityDisplayMessage(void);
   virtual ~cNopacityDisplayMessage();

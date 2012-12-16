@@ -1,245 +1,245 @@
 #include "config.h"
 
 cNopacityConfig::cNopacityConfig() {
-	epgSearchConf = NULL;
-	logoPathSet = false;
-	epgImagePathSet = false;
-	iconPathSet = false;
-	//Common
-	mainMenuEntry = false;
-	fontIndex = 0;
-	fontDefaultName = "VDRSymbols Sans:Book";
-	//DisplayChannel
-	channelHeight = 25;
-	channelBorderVertical = 15;
-	channelBorderBottom = 15;
-	channelFadeTime = 300; // ms
-	logoWidth = 260;
-	logoHeight = 200;
-	logoExtension = "png";
-	logoBorder = 15;
-	displaySignalStrength = 1;
-	fontChannelHeaderSize = 0;
-	fontChannelDateSize = 0;
-	fontEPGSize = 0;
-	fontEPGSmallSize = 0;
-	resolutionIconSize = 100;
-	//Display Replay 
-	replayHeight = 25;
-	replayBorderVertical = 15;
-	replayBorderBottom = 15;
-	replayFadeTime = 300; // ms
-	fontReplayHeader = 0;
-	fontReplay = 0;
-	//DisplayMessage
-	messageWidth = 90;
-	messageHeight = 10;
-	messageBorderBottom = 10;
-	fontMessage = 0;
-	messageFadeTime = 300;
-	//DisplayTracks
-	tracksFadeTime = 300;
-	tracksWidth = 25;
-	tracksHeight = 25;
-	tracksPosition = 0;
-	tracksBorderHorizontal = 10;
-	tracksBorderVertical = 10;
-	fontTracksHeader = 0;
-	fontTracks = 0;
-	//DisplayVolume
-	volumeFadeTime = 300;
-	volumeWidth = 40;
-	volumeHeight = 10;
-	volumeBorderBottom = 10;
-	fontVolume = 0;
-	//DisplayMenu
-	scalePicture = 1;
-	displayRerunsDetailEPGView = 1;
-	numReruns = 5;
-	useSubtitleRerun = 1;
-	menuFadeTime = 300;
-	menuWidthNarrow = 30;
-	menuScrollDelay = 1000;
-	menuScrollSpeed = 2;
-	menuWidthRightItems = 12;
-	headerHeight = 7;
-	footerHeight = 7;
-	numDefaultMenuItems = 16;
-	iconHeight = 100;
-	headerIconHeight = 80;
-	menuHeaderLogoWidth = 104;
-	menuHeaderLogoHeight = 78;
-	menuItemLogoWidth = 130;
-	menuItemLogoHeight = 100;
-	detailViewLogoWidth = 260;
-	detailViewLogoHeight = 200;
-	epgImageWidth = 210;
-	epgImageHeight = 160;
-	fontHeader = 0;
-	fontDate = 0;
-	fontMenuitemLarge = 0;
-	fontMenuitemSchedule = 0;
-	fontMenuitemScheduleSmall = 0;
-	fontMenuitemDefault = 0;
-	fontDiskUsage = 0;
-	fontTimersHead = 0;
-	fontTimers = 0;
-	fontButtons = 0;
-	fontMessageMenu = 0;
-	fontDetailView = 0;
-	fontDetailViewHeader = 0;
-	fontDetailViewHeaderLarge = 0;
+    epgSearchConf = NULL;
+    logoPathSet = false;
+    epgImagePathSet = false;
+    iconPathSet = false;
+    //Common
+    mainMenuEntry = false;
+    fontIndex = 0;
+    fontDefaultName = "VDRSymbols Sans:Book";
+    //DisplayChannel
+    channelHeight = 25;
+    channelBorderVertical = 15;
+    channelBorderBottom = 15;
+    channelFadeTime = 300; // ms
+    logoWidth = 260;
+    logoHeight = 200;
+    logoExtension = "png";
+    logoBorder = 15;
+    displaySignalStrength = 1;
+    fontChannelHeaderSize = 0;
+    fontChannelDateSize = 0;
+    fontEPGSize = 0;
+    fontEPGSmallSize = 0;
+    resolutionIconSize = 100;
+    //Display Replay 
+    replayHeight = 25;
+    replayBorderVertical = 15;
+    replayBorderBottom = 15;
+    replayFadeTime = 300; // ms
+    fontReplayHeader = 0;
+    fontReplay = 0;
+    //DisplayMessage
+    messageWidth = 90;
+    messageHeight = 10;
+    messageBorderBottom = 10;
+    fontMessage = 0;
+    messageFadeTime = 300;
+    //DisplayTracks
+    tracksFadeTime = 300;
+    tracksWidth = 25;
+    tracksHeight = 25;
+    tracksPosition = 0;
+    tracksBorderHorizontal = 10;
+    tracksBorderVertical = 10;
+    fontTracksHeader = 0;
+    fontTracks = 0;
+    //DisplayVolume
+    volumeFadeTime = 300;
+    volumeWidth = 40;
+    volumeHeight = 10;
+    volumeBorderBottom = 10;
+    fontVolume = 0;
+    //DisplayMenu
+    scalePicture = 1;
+    displayRerunsDetailEPGView = 1;
+    numReruns = 5;
+    useSubtitleRerun = 1;
+    menuFadeTime = 300;
+    menuWidthNarrow = 30;
+    menuScrollDelay = 1000;
+    menuScrollSpeed = 2;
+    menuWidthRightItems = 12;
+    headerHeight = 7;
+    footerHeight = 7;
+    numDefaultMenuItems = 16;
+    iconHeight = 100;
+    headerIconHeight = 80;
+    menuHeaderLogoWidth = 104;
+    menuHeaderLogoHeight = 78;
+    menuItemLogoWidth = 130;
+    menuItemLogoHeight = 100;
+    detailViewLogoWidth = 260;
+    detailViewLogoHeight = 200;
+    epgImageWidth = 210;
+    epgImageHeight = 160;
+    fontHeader = 0;
+    fontDate = 0;
+    fontMenuitemLarge = 0;
+    fontMenuitemSchedule = 0;
+    fontMenuitemScheduleSmall = 0;
+    fontMenuitemDefault = 0;
+    fontDiskUsage = 0;
+    fontTimersHead = 0;
+    fontTimers = 0;
+    fontButtons = 0;
+    fontMessageMenu = 0;
+    fontDetailView = 0;
+    fontDetailViewHeader = 0;
+    fontDetailViewHeaderLarge = 0;
 }
 
 cNopacityConfig::~cNopacityConfig() {
 }
 
 void cNopacityConfig::setDynamicValues() {
-	if (fontIndex == 0) {
-		fontName = strdup(fontDefaultName);
-	} else {
-		cStringList availableFonts;
-		cFont::GetAvailableFontNames(&availableFonts);
-		if (availableFonts[fontIndex-1]) {
-			fontName = strdup(availableFonts[fontIndex-1]);
-		} else 
-			fontName = strdup(fontDefaultName);
-	}
-	channelFrameTime = channelFadeTime / 10;
-	replayFrameTime = replayFadeTime / 10;
-	messageFrameTime = messageFadeTime / 10;
-	tracksFrameTime = tracksFadeTime / 10;
-	volumeFrameTime = volumeFadeTime / 10;
-	menuFrameTime = menuFadeTime / 10;
-	
-	menuScrollFrameTime = 0;
-	if (menuScrollSpeed == 1)
-		menuScrollFrameTime = 50;
-	else if (menuScrollSpeed == 2)
-		menuScrollFrameTime = 30;
-	else if (menuScrollSpeed == 3)
-		menuScrollFrameTime = 15;
+    if (fontIndex == 0) {
+        fontName = strdup(fontDefaultName);
+    } else {
+        cStringList availableFonts;
+        cFont::GetAvailableFontNames(&availableFonts);
+        if (availableFonts[fontIndex-1]) {
+            fontName = strdup(availableFonts[fontIndex-1]);
+        } else 
+            fontName = strdup(fontDefaultName);
+    }
+    channelFrameTime = channelFadeTime / 10;
+    replayFrameTime = replayFadeTime / 10;
+    messageFrameTime = messageFadeTime / 10;
+    tracksFrameTime = tracksFadeTime / 10;
+    volumeFrameTime = volumeFadeTime / 10;
+    menuFrameTime = menuFadeTime / 10;
+    
+    menuScrollFrameTime = 0;
+    if (menuScrollSpeed == 1)
+        menuScrollFrameTime = 50;
+    else if (menuScrollSpeed == 2)
+        menuScrollFrameTime = 30;
+    else if (menuScrollSpeed == 3)
+        menuScrollFrameTime = 15;
 
-		logoPathDefault = cString::sprintf("%s/logos/", cPlugin::ResourceDirectory(PLUGIN_NAME_I18N));
-	iconPathDefault = cString::sprintf("%s/icons/", cPlugin::ResourceDirectory(PLUGIN_NAME_I18N));
-	epgImagePathDefault = cString::sprintf("%s/epgimages/", cPlugin::CacheDirectory(PLUGIN_NAME_I18N));
-	
-	dsyslog("nopacity: using Logo Directory %s", (logoPathSet)?(*logoPath):(*logoPathDefault)); 
-	dsyslog("nopacity: using Icon Directory %s", (iconPathSet)?(*iconPath):(*iconPathDefault)); 
-	dsyslog("nopacity: using EPG Images Directory %s", (epgImagePathSet)?(*epgImagePath):(*epgImagePathDefault)); 
+        logoPathDefault = cString::sprintf("%s/logos/", cPlugin::ResourceDirectory(PLUGIN_NAME_I18N));
+    iconPathDefault = cString::sprintf("%s/icons/", cPlugin::ResourceDirectory(PLUGIN_NAME_I18N));
+    epgImagePathDefault = cString::sprintf("%s/epgimages/", cPlugin::CacheDirectory(PLUGIN_NAME_I18N));
+    
+    dsyslog("nopacity: using Logo Directory %s", (logoPathSet)?(*logoPath):(*logoPathDefault)); 
+    dsyslog("nopacity: using Icon Directory %s", (iconPathSet)?(*iconPath):(*iconPathDefault)); 
+    dsyslog("nopacity: using EPG Images Directory %s", (epgImagePathSet)?(*epgImagePath):(*epgImagePathDefault)); 
 }
 
 void cNopacityConfig::loadEPGSearchSettings(void) {
-	epgSearchConf = new cNopacityEPGSearchConfig();
-	if (epgSearchConf->CheckEPGSearchAvailable()) {
-		dsyslog("nopacity: epgsearch plugin available");
-		epgSearchConf->LoadEpgSearchConf();
-		if (epgSearchConf->ReplaceScheduleActive()) {
-			if (!epgSearchConf->LoadEpgSearchMenuConf()) {
-				epgSearchConf->SetDefaultEPGSearchConf();
-			}
-		} else {
-			dsyslog("nopacity: epgsearch plugin available, but not used for replacing schedules menu");
-			dsyslog("nopacity: please enable \"replacing schedules menu\" in epgsearch settings");
-			epgSearchConf->SetDefaultVDRConf();
-		}
-	} else {
-		dsyslog("nopacity: no epgsearch plugin available");
-		epgSearchConf->SetDefaultVDRConf();
-	}
-	epgSearchConf->SetTimerConfilictCont();
+    epgSearchConf = new cNopacityEPGSearchConfig();
+    if (epgSearchConf->CheckEPGSearchAvailable()) {
+        dsyslog("nopacity: epgsearch plugin available");
+        epgSearchConf->LoadEpgSearchConf();
+        if (epgSearchConf->ReplaceScheduleActive()) {
+            if (!epgSearchConf->LoadEpgSearchMenuConf()) {
+                epgSearchConf->SetDefaultEPGSearchConf();
+            }
+        } else {
+            dsyslog("nopacity: epgsearch plugin available, but not used for replacing schedules menu");
+            dsyslog("nopacity: please enable \"replacing schedules menu\" in epgsearch settings");
+            epgSearchConf->SetDefaultVDRConf();
+        }
+    } else {
+        dsyslog("nopacity: no epgsearch plugin available");
+        epgSearchConf->SetDefaultVDRConf();
+    }
+    epgSearchConf->SetTimerConfilictCont();
 }
 
 void cNopacityConfig::SetLogoPath(cString path) {
-	logoPath = path;
-	logoPathSet = true;
+    logoPath = path;
+    logoPathSet = true;
 }
 
 void cNopacityConfig::SetIconPath(cString path) {
-	iconPath = path;
-	iconPathSet = true;
+    iconPath = path;
+    iconPathSet = true;
 }
 
 void cNopacityConfig::SetEpgImagePath(cString path) {
-	epgImagePath = path;
-	epgImagePathSet = true;
+    epgImagePath = path;
+    epgImagePathSet = true;
 }
 
 bool cNopacityConfig::SetupParse(const char *Name, const char *Value) {
-	if      (strcmp(Name, "fontIndex") == 0)               fontIndex = atoi(Value);
-	else if (strcmp(Name, "channelFadeTime") == 0)         channelFadeTime = atoi(Value);
-	else if (strcmp(Name, "channelHeight") == 0)           channelHeight = atoi(Value);
-	else if (strcmp(Name, "channelBorderVertical") == 0)   channelBorderVertical = atoi(Value);
-	else if (strcmp(Name, "channelBorderBottom") == 0)     channelBorderBottom = atoi(Value);
-	else if (strcmp(Name, "logoWidth") == 0)               logoWidth = atoi(Value);
-	else if (strcmp(Name, "logoHeight") == 0)              logoHeight = atoi(Value);
-	else if (strcmp(Name, "logoBorder") == 0)              logoBorder = atoi(Value);
-	else if (strcmp(Name, "displaySignalStrength") == 0)   displaySignalStrength = atoi(Value);
-	else if (strcmp(Name, "fontChannelHeaderSize") == 0)   fontChannelHeaderSize = atoi(Value);
-	else if (strcmp(Name, "fontChannelDateSize") == 0)     fontChannelDateSize = atoi(Value);
-	else if (strcmp(Name, "fontEPGSize") == 0)             fontEPGSize = atoi(Value);
-	else if (strcmp(Name, "fontEPGSmallSize") == 0)        fontEPGSmallSize = atoi(Value);
-	else if (strcmp(Name, "resolutionIconSize") == 0)      resolutionIconSize = atoi(Value);
-	else if (strcmp(Name, "replayHeight") == 0)            replayHeight = atoi(Value);
-	else if (strcmp(Name, "replayBorderVertical") == 0)    replayBorderVertical = atoi(Value);
-	else if (strcmp(Name, "replayBorderBottom") == 0)      replayBorderBottom = atoi(Value);
-	else if (strcmp(Name, "replayFadeTime") == 0)          replayFadeTime = atoi(Value);
-	else if (strcmp(Name, "fontReplayHeader") == 0)        fontReplayHeader = atoi(Value);
-	else if (strcmp(Name, "fontReplay") == 0)              fontReplay = atoi(Value);
-	else if (strcmp(Name, "messageWidth") == 0)            messageWidth = atoi(Value);
-	else if (strcmp(Name, "messageHeight") == 0)           messageHeight = atoi(Value);
-	else if (strcmp(Name, "messageBorderBottom") == 0)     messageBorderBottom = atoi(Value);
-	else if (strcmp(Name, "fontMessage") == 0)             fontMessage = atoi(Value);
-	else if (strcmp(Name, "messageFadeTime") == 0)         messageFadeTime = atoi(Value);
-	else if (strcmp(Name, "tracksFadeTime") == 0)          tracksFadeTime = atoi(Value);
-	else if (strcmp(Name, "tracksWidth") == 0)             tracksWidth = atoi(Value);
-	else if (strcmp(Name, "tracksHeight") == 0)            tracksHeight = atoi(Value);
-	else if (strcmp(Name, "tracksPosition") == 0)          tracksPosition = atoi(Value);
-	else if (strcmp(Name, "tracksBorderHorizontal") == 0)  tracksBorderHorizontal = atoi(Value);
-	else if (strcmp(Name, "tracksBorderVertical") == 0)    tracksBorderVertical = atoi(Value);
-	else if (strcmp(Name, "fontTracksHeader") == 0)        fontTracksHeader = atoi(Value);
-	else if (strcmp(Name, "fontTracks") == 0)              fontTracks = atoi(Value);
-	else if (strcmp(Name, "volumeFadeTime") == 0)          volumeFadeTime = atoi(Value);
-	else if (strcmp(Name, "volumeWidth") == 0)             volumeWidth = atoi(Value);
-	else if (strcmp(Name, "volumeHeight") == 0)            volumeHeight = atoi(Value);
-	else if (strcmp(Name, "volumeBorderBottom") == 0)      volumeBorderBottom = atoi(Value);
-	else if (strcmp(Name, "fontVolume") == 0)              fontVolume = atoi(Value);
-	else if (strcmp(Name, "menuFadeTime") == 0)            menuFadeTime = atoi(Value);
-	else if (strcmp(Name, "menuScrollDelay") == 0)         menuScrollDelay = atoi(Value);
-	else if (strcmp(Name, "menuScrollSpeed") == 0)         menuScrollSpeed = atoi(Value);
-	else if (strcmp(Name, "scalePicture") == 0)            scalePicture = atoi(Value);
-	else if (strcmp(Name, "displayRerunsDetailEPGView") == 0) displayRerunsDetailEPGView = atoi(Value);
-	else if (strcmp(Name, "numReruns") == 0)			   numReruns = atoi(Value);
-	else if (strcmp(Name, "useSubtitleRerun") == 0)		   useSubtitleRerun = atoi(Value);
-	else if (strcmp(Name, "menuWidthNarrow") == 0)         menuWidthNarrow = atoi(Value);
-	else if (strcmp(Name, "menuWidthRightItems") == 0)     menuWidthRightItems = atoi(Value);
-	else if (strcmp(Name, "headerHeight") == 0)     	   headerHeight = atoi(Value);
-	else if (strcmp(Name, "footerHeight") == 0)            footerHeight = atoi(Value);
-	else if (strcmp(Name, "numDefaultMenuItems") == 0)     numDefaultMenuItems = atoi(Value);
-	else if (strcmp(Name, "iconHeight") == 0)              iconHeight = atoi(Value);
-	else if (strcmp(Name, "headerIconHeight") == 0)        headerIconHeight = atoi(Value);
-	else if (strcmp(Name, "menuItemLogoWidth") == 0)       menuItemLogoWidth = atoi(Value);
-	else if (strcmp(Name, "menuItemLogoHeight") == 0)      menuItemLogoHeight = atoi(Value);
-	else if (strcmp(Name, "menuHeaderLogoWidth") == 0)     menuHeaderLogoWidth = atoi(Value);
-	else if (strcmp(Name, "menuHeaderLogoHeight") == 0)    menuHeaderLogoHeight = atoi(Value);
-	else if (strcmp(Name, "detailViewLogoWidth") == 0)     detailViewLogoWidth = atoi(Value);
-	else if (strcmp(Name, "detailViewLogoHeight") == 0)    detailViewLogoHeight = atoi(Value);
-	else if (strcmp(Name, "epgImageWidth") == 0)           epgImageWidth = atoi(Value);
-	else if (strcmp(Name, "epgImageHeight") == 0)          epgImageHeight = atoi(Value);
-	else if (strcmp(Name, "fontHeader") == 0)              fontHeader = atoi(Value);
-	else if (strcmp(Name, "fontDate") == 0)                fontDate = atoi(Value);
-	else if (strcmp(Name, "fontMenuitemLarge") == 0)       fontMenuitemLarge = atoi(Value);
-	else if (strcmp(Name, "fontMenuitemSchedule") == 0)    fontMenuitemSchedule = atoi(Value);
-	else if (strcmp(Name, "fontMenuitemScheduleSmall") == 0) fontMenuitemScheduleSmall = atoi(Value);
-	else if (strcmp(Name, "fontMenuitemDefault") == 0)     fontMenuitemDefault = atoi(Value);
-	else if (strcmp(Name, "fontDiskUsage") == 0)           fontDiskUsage = atoi(Value);
-	else if (strcmp(Name, "fontTimersHead") == 0)          fontTimersHead = atoi(Value);
-	else if (strcmp(Name, "fontTimers") == 0)              fontTimers = atoi(Value);
-	else if (strcmp(Name, "fontButtons") == 0)             fontButtons = atoi(Value);
-	else if (strcmp(Name, "fontMessageMenu") == 0)         fontMessageMenu = atoi(Value);
-	else if (strcmp(Name, "fontDetailView") == 0)          fontDetailView = atoi(Value);
-	else if (strcmp(Name, "fontDetailViewHeader") == 0)    fontDetailViewHeader = atoi(Value);
-	else if (strcmp(Name, "fontDetailViewHeaderLarge") == 0) fontDetailViewHeaderLarge = atoi(Value);
-	else return false;
-	return true;
+    if      (strcmp(Name, "fontIndex") == 0)               fontIndex = atoi(Value);
+    else if (strcmp(Name, "channelFadeTime") == 0)         channelFadeTime = atoi(Value);
+    else if (strcmp(Name, "channelHeight") == 0)           channelHeight = atoi(Value);
+    else if (strcmp(Name, "channelBorderVertical") == 0)   channelBorderVertical = atoi(Value);
+    else if (strcmp(Name, "channelBorderBottom") == 0)     channelBorderBottom = atoi(Value);
+    else if (strcmp(Name, "logoWidth") == 0)               logoWidth = atoi(Value);
+    else if (strcmp(Name, "logoHeight") == 0)              logoHeight = atoi(Value);
+    else if (strcmp(Name, "logoBorder") == 0)              logoBorder = atoi(Value);
+    else if (strcmp(Name, "displaySignalStrength") == 0)   displaySignalStrength = atoi(Value);
+    else if (strcmp(Name, "fontChannelHeaderSize") == 0)   fontChannelHeaderSize = atoi(Value);
+    else if (strcmp(Name, "fontChannelDateSize") == 0)     fontChannelDateSize = atoi(Value);
+    else if (strcmp(Name, "fontEPGSize") == 0)             fontEPGSize = atoi(Value);
+    else if (strcmp(Name, "fontEPGSmallSize") == 0)        fontEPGSmallSize = atoi(Value);
+    else if (strcmp(Name, "resolutionIconSize") == 0)      resolutionIconSize = atoi(Value);
+    else if (strcmp(Name, "replayHeight") == 0)            replayHeight = atoi(Value);
+    else if (strcmp(Name, "replayBorderVertical") == 0)    replayBorderVertical = atoi(Value);
+    else if (strcmp(Name, "replayBorderBottom") == 0)      replayBorderBottom = atoi(Value);
+    else if (strcmp(Name, "replayFadeTime") == 0)          replayFadeTime = atoi(Value);
+    else if (strcmp(Name, "fontReplayHeader") == 0)        fontReplayHeader = atoi(Value);
+    else if (strcmp(Name, "fontReplay") == 0)              fontReplay = atoi(Value);
+    else if (strcmp(Name, "messageWidth") == 0)            messageWidth = atoi(Value);
+    else if (strcmp(Name, "messageHeight") == 0)           messageHeight = atoi(Value);
+    else if (strcmp(Name, "messageBorderBottom") == 0)     messageBorderBottom = atoi(Value);
+    else if (strcmp(Name, "fontMessage") == 0)             fontMessage = atoi(Value);
+    else if (strcmp(Name, "messageFadeTime") == 0)         messageFadeTime = atoi(Value);
+    else if (strcmp(Name, "tracksFadeTime") == 0)          tracksFadeTime = atoi(Value);
+    else if (strcmp(Name, "tracksWidth") == 0)             tracksWidth = atoi(Value);
+    else if (strcmp(Name, "tracksHeight") == 0)            tracksHeight = atoi(Value);
+    else if (strcmp(Name, "tracksPosition") == 0)          tracksPosition = atoi(Value);
+    else if (strcmp(Name, "tracksBorderHorizontal") == 0)  tracksBorderHorizontal = atoi(Value);
+    else if (strcmp(Name, "tracksBorderVertical") == 0)    tracksBorderVertical = atoi(Value);
+    else if (strcmp(Name, "fontTracksHeader") == 0)        fontTracksHeader = atoi(Value);
+    else if (strcmp(Name, "fontTracks") == 0)              fontTracks = atoi(Value);
+    else if (strcmp(Name, "volumeFadeTime") == 0)          volumeFadeTime = atoi(Value);
+    else if (strcmp(Name, "volumeWidth") == 0)             volumeWidth = atoi(Value);
+    else if (strcmp(Name, "volumeHeight") == 0)            volumeHeight = atoi(Value);
+    else if (strcmp(Name, "volumeBorderBottom") == 0)      volumeBorderBottom = atoi(Value);
+    else if (strcmp(Name, "fontVolume") == 0)              fontVolume = atoi(Value);
+    else if (strcmp(Name, "menuFadeTime") == 0)            menuFadeTime = atoi(Value);
+    else if (strcmp(Name, "menuScrollDelay") == 0)         menuScrollDelay = atoi(Value);
+    else if (strcmp(Name, "menuScrollSpeed") == 0)         menuScrollSpeed = atoi(Value);
+    else if (strcmp(Name, "scalePicture") == 0)            scalePicture = atoi(Value);
+    else if (strcmp(Name, "displayRerunsDetailEPGView") == 0) displayRerunsDetailEPGView = atoi(Value);
+    else if (strcmp(Name, "numReruns") == 0)               numReruns = atoi(Value);
+    else if (strcmp(Name, "useSubtitleRerun") == 0)        useSubtitleRerun = atoi(Value);
+    else if (strcmp(Name, "menuWidthNarrow") == 0)         menuWidthNarrow = atoi(Value);
+    else if (strcmp(Name, "menuWidthRightItems") == 0)     menuWidthRightItems = atoi(Value);
+    else if (strcmp(Name, "headerHeight") == 0)            headerHeight = atoi(Value);
+    else if (strcmp(Name, "footerHeight") == 0)            footerHeight = atoi(Value);
+    else if (strcmp(Name, "numDefaultMenuItems") == 0)     numDefaultMenuItems = atoi(Value);
+    else if (strcmp(Name, "iconHeight") == 0)              iconHeight = atoi(Value);
+    else if (strcmp(Name, "headerIconHeight") == 0)        headerIconHeight = atoi(Value);
+    else if (strcmp(Name, "menuItemLogoWidth") == 0)       menuItemLogoWidth = atoi(Value);
+    else if (strcmp(Name, "menuItemLogoHeight") == 0)      menuItemLogoHeight = atoi(Value);
+    else if (strcmp(Name, "menuHeaderLogoWidth") == 0)     menuHeaderLogoWidth = atoi(Value);
+    else if (strcmp(Name, "menuHeaderLogoHeight") == 0)    menuHeaderLogoHeight = atoi(Value);
+    else if (strcmp(Name, "detailViewLogoWidth") == 0)     detailViewLogoWidth = atoi(Value);
+    else if (strcmp(Name, "detailViewLogoHeight") == 0)    detailViewLogoHeight = atoi(Value);
+    else if (strcmp(Name, "epgImageWidth") == 0)           epgImageWidth = atoi(Value);
+    else if (strcmp(Name, "epgImageHeight") == 0)          epgImageHeight = atoi(Value);
+    else if (strcmp(Name, "fontHeader") == 0)              fontHeader = atoi(Value);
+    else if (strcmp(Name, "fontDate") == 0)                fontDate = atoi(Value);
+    else if (strcmp(Name, "fontMenuitemLarge") == 0)       fontMenuitemLarge = atoi(Value);
+    else if (strcmp(Name, "fontMenuitemSchedule") == 0)    fontMenuitemSchedule = atoi(Value);
+    else if (strcmp(Name, "fontMenuitemScheduleSmall") == 0) fontMenuitemScheduleSmall = atoi(Value);
+    else if (strcmp(Name, "fontMenuitemDefault") == 0)     fontMenuitemDefault = atoi(Value);
+    else if (strcmp(Name, "fontDiskUsage") == 0)           fontDiskUsage = atoi(Value);
+    else if (strcmp(Name, "fontTimersHead") == 0)          fontTimersHead = atoi(Value);
+    else if (strcmp(Name, "fontTimers") == 0)              fontTimers = atoi(Value);
+    else if (strcmp(Name, "fontButtons") == 0)             fontButtons = atoi(Value);
+    else if (strcmp(Name, "fontMessageMenu") == 0)         fontMessageMenu = atoi(Value);
+    else if (strcmp(Name, "fontDetailView") == 0)          fontDetailView = atoi(Value);
+    else if (strcmp(Name, "fontDetailViewHeader") == 0)    fontDetailViewHeader = atoi(Value);
+    else if (strcmp(Name, "fontDetailViewHeaderLarge") == 0) fontDetailViewHeaderLarge = atoi(Value);
+    else return false;
+    return true;
 }
