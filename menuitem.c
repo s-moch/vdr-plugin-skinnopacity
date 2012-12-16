@@ -244,10 +244,10 @@ void cNopacityMainMenuItem::Render() {
 			drawn = true;
 		}
 		SetTextShort();
-		if (current && scrollable && config.menuScrollSpeed) {
+		if (current && scrollable && !Running() && config.menuScrollSpeed) {
 			Start();
 		}
-		if (wasCurrent && scrollable && Running()) {
+		if (wasCurrent && !current && scrollable && Running()) {
 			pixmapTextScroller->SetDrawPortPoint(cPoint(0, 0));
 			SetTextShort();
 			Cancel(-1);
@@ -476,10 +476,10 @@ void cNopacityScheduleMenuItem::Render() {
 			SetTextShort();
 			drawn = true;
 		}
-		if (current && scrollable && config.menuScrollSpeed) {
+		if (current && scrollable && !Running() && config.menuScrollSpeed) {
 			Start();
 		}
-		if (wasCurrent && scrollable && Running()) {
+		if (wasCurrent && !current && scrollable && Running()) {
 			pixmapTextScroller->SetDrawPortPoint(cPoint(0, 0));
 			SetTextShort();
 			Cancel(-1);
@@ -592,10 +592,10 @@ void cNopacityChannelMenuItem::Render() {
 			drawn = true;
 		}
 		SetTextShort();
-		if (current && scrollable && config.menuScrollSpeed) {
+		if (current && scrollable && !Running() && config.menuScrollSpeed) {
 			Start();
 		}
-		if (wasCurrent && scrollable && Running()) {
+		if (wasCurrent && !current && scrollable && Running()) {
 			pixmapTextScroller->SetDrawPortPoint(cPoint(0, 0));
 			SetTextShort();
 			Cancel(-1);
@@ -680,10 +680,10 @@ void cNopacityDefaultMenuItem::Render() {
 		} else
 			break;
 	}
-	if (current && scrollable && !Running()  && config.menuScrollSpeed) {
+	if (current && scrollable && !Running() && config.menuScrollSpeed) {
 		Start();
 	}
-	if (wasCurrent && (current != wasCurrent) && scrollable && Running()) {
+	if (wasCurrent && !current && scrollable && Running()) {
 		pixmapTextScroller->SetDrawPortPoint(cPoint(0, 0));
 		SetTextShort();
 		Cancel(-1);
