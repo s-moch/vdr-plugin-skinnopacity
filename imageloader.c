@@ -1,6 +1,8 @@
 #include "imageloader.h"
 #include <math.h>
 #include <string>
+#include <dirent.h>
+#include <iostream>
 
 using namespace Magick;
 
@@ -87,6 +89,22 @@ bool cImageLoader::LoadEPGImage(int eventID) {
     return true;
 }
 
+bool cImageLoader::LoadRecordingImage(cString Path) {
+    int width = config.epgImageWidth;
+    int height = config.epgImageHeight;
+    if ((width == 0)||(height==0))
+        return false;
+	cString recImage("");
+	if (FirstImageInFolder(Path, "jpg", &recImage)) {
+		recImage = cString::sprintf("/%s", *recImage);
+        if (!LoadImage(*recImage, Path, "jpg"))
+            return false;
+		buffer.sample( Geometry(width, height));
+        return true;
+	}
+	return false;
+}
+
 void cImageLoader::DrawBackground(tColor back, tColor blend, int width, int height) {
     Color Back = Argb2Color(back);
     Color Blend = Argb2Color(blend);
@@ -154,4 +172,22 @@ bool cImageLoader::LoadImage(cString FileName, cString Path, cString Extension) 
         return false;
     }
     return true;
+}
+
+bool cImageLoader::FirstImageInFolder(cString Path, cString Extension, cString *recImage) {
+    DIR *folder;
+    struct dirent *file;
+    folder = opendir(Path);
+    while (file = readdir(folder)) {
+		if (endswith(file->d_name, *Extension)) {
+			std::string fileName = file->d_name;
+			if (fileName.length() > 4)
+				fileName = fileName.substr(0, fileName.length() - 4);
+			else
+				return false;
+			*recImage = fileName.c_str();
+			return true;
+		}
+    }
+	return false;
 }

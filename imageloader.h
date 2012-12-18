@@ -18,6 +18,7 @@ public:
     bool LoadIcon(const char *cIcon, int size);
     bool LoadIcon(const char *cIcon, int width, int height);
     bool LoadEPGImage(int eventID);
+    bool LoadRecordingImage(cString Path);
     void DrawBackground(tColor back, tColor blend, int width, int height);
     void DrawBackground2(tColor back, tColor blend, int width, int height);
 private:
@@ -25,6 +26,7 @@ private:
     Color Argb2Color(tColor col);
     void toLowerCase(std::string &str);
     bool LoadImage(cString FileName, cString Path, cString Extension);
+	bool FirstImageInFolder(cString Path, cString Extension, cString *recImage);
 };
 
 #endif //__NOPACITY_IMAGELOADER_H

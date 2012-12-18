@@ -268,15 +268,37 @@ void cNopacityMenuDetailRecordingView::Render(void) {
 }
 
 void cNopacityMenuDetailRecordingView::DrawHeader(void) {
+    cImageLoader imgLoader;
+	int widthTextHeader = width - 4 * border;
+    if (imgLoader.LoadRecordingImage(recording->FileName())) {
+        pixmapHeader->DrawImage(cPoint(width - config.epgImageWidth - border, (headerHeight-config.epgImageHeight)/2), imgLoader.GetImage());
+        widthTextHeader -= config.epgImageWidth;
+    }
     int lineHeight = fontHeaderLarge->Height();
     cString dateTime = cString::sprintf("%s  %s", *DateString(recording->Start()), *TimeString(recording->Start()));
+	pixmapHeader->DrawText(cPoint(2*border, (lineHeight - fontHeader->Height())/2), *dateTime, Theme.Color(clrMenuFontDetailViewHeader), clrTransparent, fontHeader);
+    
     const char *Title = info->Title();
     if (isempty(Title))
         Title = recording->Name();
-    pixmapHeader->DrawText(cPoint(2*border, (lineHeight - fontHeader->Height())/2), *dateTime, Theme.Color(clrMenuFontDetailViewHeader), clrTransparent, fontHeader);
-    pixmapHeader->DrawText(cPoint(2*border, lineHeight), Title, Theme.Color(clrMenuFontDetailViewHeaderTitle), clrTransparent, fontHeaderLarge);
+	cTextWrapper title;
+	title.Set(Title, fontHeaderLarge, widthTextHeader);
+    int currentLineHeight = lineHeight;
+	for (int i=0; i < title.Lines(); i++) {
+        pixmapHeader->DrawText(cPoint(2*border, currentLineHeight), title.GetLine(i), Theme.Color(clrMenuFontDetailViewHeaderTitle), clrTransparent, fontHeaderLarge);
+        currentLineHeight += lineHeight;
+    }
+	
     if (!isempty(info->ShortText())) {
-        pixmapHeader->DrawText(cPoint(2*border, 2*lineHeight + (lineHeight - fontHeader->Height())/2), info->ShortText(), Theme.Color(clrMenuFontDetailViewHeader), clrTransparent, fontHeader);
+        cTextWrapper shortText;
+        shortText.Set(info->ShortText(), fontHeader, widthTextHeader);
+        for (int i=0; i < shortText.Lines(); i++) {
+            if ((currentLineHeight + fontHeader->Height()) < headerHeight) {
+                pixmapHeader->DrawText(cPoint(2*border, currentLineHeight), shortText.GetLine(i), Theme.Color(clrMenuFontDetailViewHeader), clrTransparent, fontHeader);
+                currentLineHeight += fontHeader->Height();
+        } else
+            break;
+        }
     }
 }
 

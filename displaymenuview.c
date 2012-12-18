@@ -620,7 +620,7 @@ void cNopacityDisplayMenuView::SetDetailViewSize(eDetailViewType detailViewType,
             detailHeaderHeight = max(config.detailViewLogoHeight, config.epgImageHeight)+4;
             break;
         case dvRecording:
-            detailHeaderHeight = contentHeight/5;
+            detailHeaderHeight = config.epgImageHeight + 4;
             break;
         case dvText:
             detailHeaderHeight = 0;         
