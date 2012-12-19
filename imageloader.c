@@ -94,15 +94,15 @@ bool cImageLoader::LoadRecordingImage(cString Path) {
     int height = config.epgImageHeight;
     if ((width == 0)||(height==0))
         return false;
-	cString recImage("");
-	if (FirstImageInFolder(Path, "jpg", &recImage)) {
-		recImage = cString::sprintf("/%s", *recImage);
+    cString recImage("");
+    if (FirstImageInFolder(Path, "jpg", &recImage)) {
+        recImage = cString::sprintf("/%s", *recImage);
         if (!LoadImage(*recImage, Path, "jpg"))
             return false;
-		buffer.sample( Geometry(width, height));
+        buffer.sample( Geometry(width, height));
         return true;
-	}
-	return false;
+    }
+    return false;
 }
 
 void cImageLoader::DrawBackground(tColor back, tColor blend, int width, int height) {
@@ -179,15 +179,15 @@ bool cImageLoader::FirstImageInFolder(cString Path, cString Extension, cString *
     struct dirent *file;
     folder = opendir(Path);
     while (file = readdir(folder)) {
-		if (endswith(file->d_name, *Extension)) {
-			std::string fileName = file->d_name;
-			if (fileName.length() > 4)
-				fileName = fileName.substr(0, fileName.length() - 4);
-			else
-				return false;
-			*recImage = fileName.c_str();
-			return true;
-		}
+        if (endswith(file->d_name, *Extension)) {
+            std::string fileName = file->d_name;
+            if (fileName.length() > 4)
+                fileName = fileName.substr(0, fileName.length() - 4);
+            else
+                return false;
+            *recImage = fileName.c_str();
+            return true;
+        }
     }
-	return false;
+    return false;
 }

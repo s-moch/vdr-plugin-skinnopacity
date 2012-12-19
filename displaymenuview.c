@@ -495,7 +495,10 @@ void cNopacityDisplayMenuView::ClearButton(int num) {
 }
 
 int cNopacityDisplayMenuView::GetTimersInitHeight(void) {
-    return headerHeight + diskUsageHeight + 2*spaceMenu;
+    int initHeight = headerHeight + 2*spaceMenu;
+    if (config.showDiscUsage)
+        initHeight += diskUsageHeight;
+    return initHeight;
 }
 
 int cNopacityDisplayMenuView::GetTimersMaxHeight(void) {

@@ -100,6 +100,8 @@ void cNopacitySetup::Store(void) {
     SetupStore("menuScrollSpeed", config.menuScrollSpeed);
     SetupStore("menuWidthNarrow", config.menuWidthNarrow);
     SetupStore("menuWidthRightItems", config.menuWidthRightItems);
+    SetupStore("showDiscUsage", config.showDiscUsage);
+    SetupStore("showTimers", config.showTimers);
     SetupStore("headerHeight", config.headerHeight);
     SetupStore("footerHeight", config.footerHeight);
     SetupStore("numDefaultMenuItems", config.numDefaultMenuItems);
@@ -179,6 +181,8 @@ void cNopacitySetupMenuDisplay::Set(void) {
     Add(new cMenuEditIntItem(tr("Number of reruns to display"), &tmpNopacityConfig->numReruns, 1, 10));
     Add(new cMenuEditStraItem(tr("Use Subtitle for reruns"), &tmpNopacityConfig->useSubtitleRerun, 3, useSubtitleRerunTexts));
     Add(new cMenuEditIntItem(tr("Width of narrow Menu Bar (Percent of OSD Width)"), &tmpNopacityConfig->menuWidthNarrow, 10, 100));
+    Add(new cMenuEditBoolItem(tr("Display Disk Usage"), &tmpNopacityConfig->showDiscUsage));
+    Add(new cMenuEditBoolItem(tr("Display Timers"), &tmpNopacityConfig->showTimers));
     Add(new cMenuEditIntItem(tr("Width of Disc Usage and Timers Display (Percent of OSD Width)"), &tmpNopacityConfig->menuWidthRightItems, 10, 100));
     Add(new cMenuEditIntItem(tr("Header Height (Percent of OSD Height)"), &tmpNopacityConfig->headerHeight, 0, 30));
     Add(new cMenuEditIntItem(tr("Footer Height (Percent of OSD Height)"), &tmpNopacityConfig->footerHeight, 0, 30));

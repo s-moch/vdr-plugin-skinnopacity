@@ -146,12 +146,16 @@ void cNopacityDisplayMenu::SetMenuCategory(eMenuCategory MenuCategory) {
     menuCategoryLast = this->MenuCategory();
     cSkinDisplayMenu::SetMenuCategory(MenuCategory);
     if ((menuCategoryLast == mcMain) && (MenuCategory != mcMain)) {
-        menuView->ShowDiskUsage(false);
-        for (cNopacityTimer *t = timers.First(); t; t = timers.Next(t)) {
-            t->SetLayer(-1);
-        } 
-        diskUsageDrawn = false;
-        timersDrawn = false;
+        if (config.showDiscUsage) {
+            menuView->ShowDiskUsage(false);
+            diskUsageDrawn = false;
+        }
+        if (config.showTimers) {
+            for (cNopacityTimer *t = timers.First(); t; t = timers.Next(t)) {
+                t->SetLayer(-1);
+            } 
+            timersDrawn = false;
+        }
     }
 }
 
@@ -476,8 +480,10 @@ void cNopacityDisplayMenu::SetText(const char *Text, bool FixedFont) {
 void cNopacityDisplayMenu::Flush(void) {
     menuView->DrawDate(initial);
     if (MenuCategory() == mcMain) {
-        DrawDisk();
-        DrawTimers();
+        if (config.showDiscUsage)
+            DrawDisk();
+        if (config.showTimers)
+            DrawTimers();
     }
     if (initial) {
         if (config.menuFadeTime)

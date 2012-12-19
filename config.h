@@ -87,6 +87,8 @@ class cNopacityConfig {
         int menuScrollFrameTime;
         int menuWidthNarrow;
         int menuWidthRightItems;
+        int showDiscUsage;
+        int showTimers; 
         int headerHeight;
         int footerHeight;
         int numDefaultMenuItems;

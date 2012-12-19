@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2012-12-15 12:57+0100\n"
+"POT-Creation-Date: 2012-12-19 19:25+0100\n"
 "PO-Revision-Date: 2012-11-11 17:49+0200\n"
 "Last-Translator: louis\n"
 "Language-Team: \n"
@@ -83,23 +83,27 @@ msgstr "Untertitel für Wiederholungssuche nutzen"
 msgid "Width of narrow Menu Bar (Percent of OSD Width)"
 msgstr "Breite der schmalen Menüleiste (Proz. der OSD Breite)"
 
+msgid "Display Disk Usage"
+msgstr "Festplattenstatus anzeigen"
+
+msgid "Display Timers"
+msgstr "Timer anzeigen"
+
 msgid "Width of Disc Usage and Timers Display (Percent of OSD Width)"
 msgstr "Breite der Anzeige der Timer (Proz. der OSD Breite)"
 
 msgid "Header Height (Percent of OSD Height)"
-msgstr "Header Höhe (in Prozent der OSD Höhe"
+msgstr "Header Höhe (in Prozent der OSD Höhe)"
 
 msgid "Footer Height (Percent of OSD Height)"
-msgstr "Footer Höhe (in Prozent der OSD Höhe"
+msgstr "Footer Höhe (in Prozent der OSD Höhe)"
 
 msgid "Number of Default Menu Entries per Page"
 msgstr "Anzahl der Default-Menüelemente pro Seite"
 
-#, fuzzy
 msgid "Icon Size (Square Main Menu Icons)"
-msgstr "Größe der quadratischen Hauptmenü Icons)"
+msgstr "Größe der quadratischen Hauptmenü Icons"
 
-#, fuzzy
 msgid "Header Icon Size (Square Header Menu Icons)"
 msgstr "Größe der quadratischen Headericons"
 
@@ -208,7 +212,6 @@ msgstr "Schriftgröße anpassen - Anzeigetext"
 msgid "Width of Tracks Display (Percent of OSD Width)"
 msgstr "Breite der Audio Tracks Anzeige (Proz. der OSD Breite)"
 
-#, fuzzy
 msgid "Hight of Tracks Display (Percent of OSD Height)"
 msgstr "Höhe der Wiedergabe Anzeige (Proz. der OSD Höhe)"
 
@@ -239,7 +242,6 @@ msgstr "Lautstärke Anzeige"
 msgid "Width of Volume Display (Percent of OSD Height)"
 msgstr "Breite der Lautstärken Anzeige (Proz. der OSD Breite)"
 
-#, fuzzy
 msgid "Hight of Volume Display (Percent of OSD Height)"
 msgstr "Breite der Lautstärken Anzeige (Proz. der OSD Breite)"
 
