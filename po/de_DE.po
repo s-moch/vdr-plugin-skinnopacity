@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2012-12-19 19:25+0100\n"
+"POT-Creation-Date: 2012-12-29 13:12+0100\n"
 "PO-Revision-Date: 2012-11-11 17:49+0200\n"
 "Last-Translator: louis\n"
 "Language-Team: \n"
@@ -17,11 +17,29 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+msgid "Disc"
+msgstr "Festplatte"
+
+msgid "free"
+msgstr "frei"
+
+msgid "Volume"
+msgstr "Lautstärke"
+
+msgid "RERUNS OF THIS SHOW"
+msgstr "Wiederholungen"
+
 msgid "Font"
 msgstr "Schriftart"
 
-msgid "VDR Menu"
-msgstr "VDR Menü"
+msgid "VDR Menu: Common Settings"
+msgstr "VDR Menü: Allgemeine Einstellungen"
+
+msgid "VDR Menu: Dimensions Settings"
+msgstr ""
+
+msgid "VDR Menu: Font Sizes"
+msgstr "VDR Menü: Schriftgrößen"
 
 msgid "Channel Switching"
 msgstr "Kanalwechsel"
@@ -34,9 +52,6 @@ msgstr "Audio Spuren"
 
 msgid "Messages"
 msgstr "Nachrichten"
-
-msgid "Volume"
-msgstr "Lautstärke"
 
 msgid "never"
 msgstr "nie"
@@ -59,17 +74,38 @@ msgstr "mittel"
 msgid "fast"
 msgstr "schnell"
 
-msgid "Fade-In Time in ms (Zero for switching off fading)"
-msgstr "Fade-In Zeit in ms (Null zum Abschalten)"
-
-msgid "Scrolling Speed"
-msgstr "Scroll Geschwindigkeit"
-
-msgid "Scrolling Delay in ms"
-msgstr "Scroll Verzögerung in ms"
+msgid "Number of Default Menu Entries per Page"
+msgstr "Anzahl der Default-Menüelemente pro Seite"
 
 msgid "Scale Video size to fit into menu window"
 msgstr "TV-Bildgröße in Menüfenster einpassen"
+
+msgid "Fade-In Time in ms (Zero for switching off fading)"
+msgstr "Fade-In Zeit in ms (Null zum Abschalten)"
+
+msgid "Display Disk Usage"
+msgstr "Festplattenstatus anzeigen"
+
+msgid "Display Timers"
+msgstr "Timer anzeigen"
+
+msgid "Menu Items Scrolling Speed"
+msgstr "Scroll Geschwindigkeit der Menüelemente"
+
+msgid "Menu Items Scrolling Delay in s"
+msgstr "Scroll Verzögerung der Menüelemente in s"
+
+msgid "EPG Window Fade-In Time in ms (Zero for switching off fading)"
+msgstr "Fade-In Zeit des EPG Fensters in ms (Null zum Abschalten)"
+
+msgid "EPG Window Display Delay in s"
+msgstr "Anzeigeverzögerung des EPG Fensters in s"
+
+msgid "EPG Window Scroll Delay in s"
+msgstr "Scroll Verzögerung des EPG Fensters in s"
+
+msgid "EPG Window Text Scrolling Speed"
+msgstr "Text Scroll Geschwindigkeit des EPG Fensters"
 
 msgid "Display Reruns in detailed EPG View"
 msgstr "Wiederholungen in der detailierten EPG Ansicht anzeigen"
@@ -83,23 +119,17 @@ msgstr "Untertitel für Wiederholungssuche nutzen"
 msgid "Width of narrow Menu Bar (Percent of OSD Width)"
 msgstr "Breite der schmalen Menüleiste (Proz. der OSD Breite)"
 
-msgid "Display Disk Usage"
-msgstr "Festplattenstatus anzeigen"
-
-msgid "Display Timers"
-msgstr "Timer anzeigen"
-
 msgid "Width of Disc Usage and Timers Display (Percent of OSD Width)"
 msgstr "Breite der Anzeige der Timer (Proz. der OSD Breite)"
+
+msgid "Height of EPG Info Window (Percent of OSD Height)"
+msgstr "Höhe des EPG Info Fensters (Proz. der OSD Höhe)"
 
 msgid "Header Height (Percent of OSD Height)"
 msgstr "Header Höhe (in Prozent der OSD Höhe)"
 
 msgid "Footer Height (Percent of OSD Height)"
 msgstr "Footer Höhe (in Prozent der OSD Höhe)"
-
-msgid "Number of Default Menu Entries per Page"
-msgstr "Anzahl der Default-Menüelemente pro Seite"
 
 msgid "Icon Size (Square Main Menu Icons)"
 msgstr "Größe der quadratischen Hauptmenü Icons"
@@ -173,6 +203,9 @@ msgstr "Schriftgröße anpassen - Header EPG Detailanzeige"
 msgid "Adjust Font Size - Detail View Header Large"
 msgstr "Schriftgröße anpassen - Header Groß EPG Detailanzeige"
 
+msgid "Adjust Font Size - EPG Info Window"
+msgstr "Schriftgröße anpassen - EPG Infofenster"
+
 msgid "Hight of Channel Display (Percent of OSD Height)"
 msgstr "Höhe der Kanalwechsel Anzeige (Proz. der OSD Höhe)"
 
@@ -245,11 +278,5 @@ msgstr "Breite der Lautstärken Anzeige (Proz. der OSD Breite)"
 msgid "Hight of Volume Display (Percent of OSD Height)"
 msgstr "Breite der Lautstärken Anzeige (Proz. der OSD Breite)"
 
-msgid "RERUNS OF THIS SHOW"
-msgstr "Wiederholungen"
-
-msgid "Disc"
-msgstr "Festplatte"
-
-msgid "free"
-msgstr "frei"
+#~ msgid "VDR Menu: Size Settings"
+#~ msgstr "VDR Menü: Größeneinstellungen"

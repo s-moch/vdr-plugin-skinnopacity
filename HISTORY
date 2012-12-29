@@ -58,9 +58,32 @@ VDR Plugin 'nOpacity' Revision History
   more information about epgsearch integration)
 - Fixed "fade in" bug, cancelling threads correctly (Thanks to everybody who 
   was involved)
-
 - Fixed a crash when trying to access channel name in epg detail view
 - Fixed a crash when changing values in setup menu
 - Fixed a crash when opening and closing epg menus
 - Fixed a bug to only use epgsearchmenu.conf if lines for all possible 
   menus are set
+
+2012-12-29: Version 0.0.5
+
+- VDR version 1.7.34 mandatory
+- Introducing of scrolling in menu elements if text is longer than 
+  available space
+- displaying first found jpeg in recordings folder as epg image for this
+  recording in recording detail view
+- Configurable display of disc usage and timers in main menu
+- yaepg patch no longer needed to scale video window, using native VDR 
+  functionality now (thanks @Zoolook for providing the new code)
+- Complete rewrite of menu category detection by using the eMenuCategory 
+  enumeration integrated in VDR 1.7.31 - 34
+- Usage of new VDR interfaces SetItemsEvent(), SetItemsChannels for dispalying 
+  Schedules menus and Channel menus
+  See README explaining consequences of this changes
+- Displaying of detailed EPG information directly in schedules views in a 
+  separate window if according menu item is selected a specific configurable time
+- Some Improvements in menu element scrolling behaviour (suggeted by Taipan)
+- Using narrow menu items in "Settings" category (thanks @BooStar for providing 
+  the new icons)
+- Split of skins VDR menu configuration section in "Common", "Geometry" and "Fonts" 
+  sections for clearer arrangement
+- different minor changes and fixes

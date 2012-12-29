@@ -42,10 +42,9 @@ class cNopacityDisplayMenuView {
         cFont *fontTimersHead;
         cFont *fontButtons;
         cFont *fontMessage;
+        cFont *fontEPGInfoWindow;
         int osdWidth, osdHeight;
         int osdLeft, osdTop;
-        int vidWidth, vidHeight;
-        double vidAspect;
         int widthScrollbar;
         int dateWidth;
         int headerHeight, footerHeight, contentHeight;
@@ -58,6 +57,8 @@ class cNopacityDisplayMenuView {
         int buttonsBorder, buttonWidth, buttonHeight;
         int messageWidth, messageHeight;
         int avrgFontWidth;
+        cRect textWindowSize;
+        void SetDescriptionTextWindowSize(void);
     public:
         cNopacityDisplayMenuView();
         virtual ~cNopacityDisplayMenuView(void);
@@ -68,6 +69,7 @@ class cNopacityDisplayMenuView {
         void CreateFonts(void);
         cFont *GetMenuItemFont(eMenuCategory menuCat);
         cFont *GetMenuItemFontSmall(void);
+        cFont *GetEPGWindowFont(void);
         void GetMenuItemSize(eMenuCategory menuCat, cPoint *itemSize);
         int GetMaxItems(eMenuCategory menuCat);
         int GetMenuTop(int numItems, int itemHeight);
@@ -78,6 +80,7 @@ class cNopacityDisplayMenuView {
         int GetWidthDefaultMenu(void) {return menuItemWidthDefault;};
         int GetTextAreaWidth(void);
         const cFont *GetTextAreaFont(bool FixedFont);
+        cRect *GetDescriptionTextWindowSize(void) {return &textWindowSize;};
         void CreateBackgroundImages(int *handleBackgrounds, int *handleButtons);
         void AdjustContentBackground(bool contentNarrow, bool contentNarrowLast);
         void DrawBorderDecoration(void);
@@ -100,7 +103,6 @@ class cNopacityDisplayMenuView {
         void DrawMessage(eMessageType Type, const char *Text);
         void ClearMessage(void);
         void SetDetailViewSize(eDetailViewType detailViewType, cNopacityMenuDetailView *detailView);
-        void ScalePreserveAspect(tArea & videoWindowDest, const double & videoAspect, const tArea & availableArea);
         int spaceMenu;
 };
 

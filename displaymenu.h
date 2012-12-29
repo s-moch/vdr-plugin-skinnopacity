@@ -7,8 +7,6 @@ private:
     cNopacityMenuDetailView *detailView;
     cOsd *osd;
     eMenuCategory menuCategoryLast;
-    eMenuSubCategory menuSubCategory;
-    eMenuSubCategory menuSubCategoryLast;
     int FrameTime;
     int FadeTime;
     bool initial;
@@ -19,7 +17,6 @@ private:
     bool timersDrawn;
     int menuItemIndexLast;
     int currentNumItems;
-    bool menuHasIcons;
     bool contentNarrow, contentNarrowLast;
     cList<cNopacityTimer> timers;
     cList<cNopacityMenuItem> menuItems;
@@ -42,6 +39,10 @@ public:
     virtual void SetButtons(const char *Red, const char *Green = NULL, const char *Yellow = NULL, const char *Blue = NULL);
     virtual void SetMessage(eMessageType Type, const char *Text);
     virtual void SetItem(const char *Text, int Index, bool Current, bool Selectable);
+    virtual bool SetItemEvent(const cEvent *Event, int Index, bool Current, bool Selectable, const cChannel *Channel, bool WithDate, eTimerMatch TimerMatch);
+    virtual bool SetItemTimer(const cTimer *Timer, int Index, bool Current, bool Selectable);
+    virtual bool SetItemChannel(const cChannel *Channel, int Index, bool Current, bool Selectable, bool WithProvider);
+    virtual bool SetItemRecording(const cRecording *Recording, int Index, bool Current, bool Selectable, int Level, int Total, int New);
     virtual void SetScrollbar(int Total, int Offset);
     virtual void SetEvent(const cEvent *Event);
     virtual void SetRecording(const cRecording *Recording);

@@ -118,7 +118,6 @@ THEME_CLR(Theme, clrMessageWarning,         CLR_MESSAGEWARNING);
 THEME_CLR(Theme, clrMessageError,           CLR_MESSAGEERROR);
 THEME_CLR(Theme, clrMessageBlend,           CLR_TRANSBLACK);
 
-#include "epgsearchconf.c"
 #include "config.c"
 cNopacityConfig config;
 #include "setup.c"
@@ -126,6 +125,7 @@ cNopacityConfig config;
 #include "nopacity.h"
 #include "helpers.c"
 #include "displaychannel.c"
+#include "textwindow.c"
 #include "menuitem.c"
 #include "menudetailview.c"
 #include "displaymenuview.c"
@@ -137,7 +137,6 @@ cNopacityConfig config;
 
 cNopacity::cNopacity(void) : cSkin("nOpacity", &::Theme) {
     config.setDynamicValues();
-    config.loadEPGSearchSettings();
 }
 
 const char *cNopacity::Description(void) {

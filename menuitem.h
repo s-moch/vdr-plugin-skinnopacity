@@ -7,7 +7,6 @@ protected:
     cPixmap *pixmap;
     cPixmap *pixmapIcon;
     cPixmap *pixmapTextScroller;
-    bool hasIcon;
     int *handleBackgrounds;
     const char *Text;
     bool selectable;
@@ -17,6 +16,7 @@ protected:
     bool drawn;
     cFont *font;
     cFont *fontSmall;
+    cFont *fontEPGWindow;
     int width, height;
     int top, left;
     int textLeft;
@@ -24,27 +24,31 @@ protected:
     cString *itemTabs;
     int *tabWidth;
     int numTabs;
+    cRect *textWindow;
+    cNopacityTextWindow *infoTextWindow;
     void DrawDelimiter(const char *del, const char *icon, int handleBgrd);
     virtual void Action(void);
+    void DoSleep(int duration);
     virtual void SetTextFull(void) {};
     virtual void SetTextShort(void) {};
 public:
     cNopacityMenuItem(cOsd *osd, const char *text, bool sel);
     virtual ~cNopacityMenuItem(void);
     void CreatePixmap();
-    void CreatePixmapIcon(int iconWidth, int iconHeight);
+    void CreatePixmapIcon(void);
     virtual void CreatePixmapTextScroller(int totalWidth);
     void SetGeometry(int index, int top, int left, int width, int height);
     void SetFont(cFont *font) {this->font = font;}
     void SetFontSmall(cFont *fontSmall) {this->fontSmall = fontSmall;}
+    void SetFontEPGWindow(cFont *font) {this->fontEPGWindow = font;}
     void SetCurrent(bool cur); 
     void SetAlpha(int alpha) {this->pixmap->SetAlpha(alpha);}
-    void SetAlphaIcon(int alpha) {if (hasIcon) this->pixmapIcon->SetAlpha(alpha);}
+    void SetAlphaIcon(int alpha) {if (pixmapIcon) this->pixmapIcon->SetAlpha(alpha);}
     void SetAlphaText(int alpha) {if (pixmapTextScroller) this->pixmapTextScroller->SetAlpha(alpha);}
     void SetTabs(cString *tabs, int *tabWidths, int numtabs);
     void SetBackgrounds(int *handleBackgrounds);
+    void SetTextWindow(cRect *window) {textWindow = window;};
     virtual void CreateText(void) {};
-    virtual void SetDisplayMode(void) {};
     virtual int CheckScrollable(bool hasIcon) {return 0;};
     virtual void Render() = 0;
 };
@@ -55,7 +59,7 @@ private:
     cString menuEntry;
     std::string strEntry;
     std::string strEntryFull;
-    static std::string items[6];
+    static std::string items[16];
     cString GetIconName();
     void SetTextFull(void);
     void SetTextShort(void);
@@ -68,42 +72,29 @@ public:
     void Render();
 };
 
-enum eMenuSubCategory { mcSubUndefined = -1, 
-                        mcSubSchedule = 0, 
-                        mcSubScheduleWhatsOn, 
-                        mcSubScheduleWhatsOnNow, 
-                        mcSubScheduleWhatsOnNext,
-                        mcSubScheduleWhatsOnElse,
-                        mcSubScheduleSearchResults,
-                        mcSubScheduleFavorites,
-                        mcSubScheduleTimerconflict,
-                        mcSubScheduleTimer,
-                        mcSubChannels, 
-                        mcSubChannelEdit};
-
 class cNopacityScheduleMenuItem : public cNopacityMenuItem {
 private:
-    eMenuSubCategory subCategory;
+    eMenuCategory category;
+    const cEvent *Event;
+    const cChannel *Channel;
+    eTimerMatch TimerMatch;
     std::string strDateTime;
     std::string strTitle;
     std::string strSubTitle;
     std::string strTitleFull;
     std::string strSubTitleFull;
-    std::string strChannelName;
-    std::string strProgressbar;
-    bool hasProgressBar;
-    eEPGModes mode;
-    bool hasLogo;
+    bool scrollTitle;
+    bool scrollSubTitle;
     int titleY;
-    std::string delimiterType;
-    void DrawRemaining(cString remaining, int x, int y, int width);
+    void DrawBackground(int textLeft);
+    void DrawLogo(int logoWidth, int logoHeight);
+    void DrawRemaining(int x, int y, int width);
     void SetTextFull(void);
     void SetTextShort(void);
 public:
-    cNopacityScheduleMenuItem(cOsd *osd, const char *text, bool sel, eMenuSubCategory subCat);
+    cNopacityScheduleMenuItem(cOsd *osd, const cEvent *Event, const cChannel *Channel, eTimerMatch TimerMatch, bool sel, eMenuCategory category);
     ~cNopacityScheduleMenuItem(void);
     void CreatePixmapTextScroller(int totalWidth);
-    void SetDisplayMode(void);
     void CreateText(void);
     int CheckScrollable(bool hasIcon);
     void Render();
@@ -111,13 +102,13 @@ public:
 
 class cNopacityChannelMenuItem : public cNopacityMenuItem {
 private:
-    std::string strLogo;
+    const cChannel *Channel;
     std::string strEntry;
     std::string strEntryFull;
     void SetTextFull(void);
     void SetTextShort(void);
 public:
-    cNopacityChannelMenuItem(cOsd *osd, const char *text, bool sel);
+    cNopacityChannelMenuItem(cOsd *osd, const cChannel *Channel, bool sel);
     ~cNopacityChannelMenuItem(void);
     void CreatePixmapTextScroller(int totalWidth);
     void CreateText(void);

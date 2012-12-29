@@ -1,7 +1,6 @@
 #include "config.h"
 
 cNopacityConfig::cNopacityConfig() {
-    epgSearchConf = NULL;
     logoPathSet = false;
     epgImagePathSet = false;
     iconPathSet = false;
@@ -58,9 +57,14 @@ cNopacityConfig::cNopacityConfig() {
     numReruns = 5;
     useSubtitleRerun = 1;
     menuFadeTime = 300;
+    menuEPGWindowFadeTime = 300;
     menuWidthNarrow = 30;
-    menuScrollDelay = 1000;
+    menuHeightInfoWindow = 20;
+    menuScrollDelay = 1;
     menuScrollSpeed = 2;
+    menuInfoTextDelay = 2;
+    menuInfoScrollDelay = 5;
+    menuInfoScrollSpeed = 2;
     menuWidthRightItems = 12;
     showDiscUsage = 1;
     showTimers = 1; 
@@ -91,6 +95,7 @@ cNopacityConfig::cNopacityConfig() {
     fontDetailView = 0;
     fontDetailViewHeader = 0;
     fontDetailViewHeaderLarge = 0;
+    fontEPGInfoWindow = 0;
 }
 
 cNopacityConfig::~cNopacityConfig() {
@@ -113,6 +118,7 @@ void cNopacityConfig::setDynamicValues() {
     tracksFrameTime = tracksFadeTime / 10;
     volumeFrameTime = volumeFadeTime / 10;
     menuFrameTime = menuFadeTime / 10;
+    menuEPGWindowFrameTime = menuEPGWindowFadeTime / 10;
     
     menuScrollFrameTime = 0;
     if (menuScrollSpeed == 1)
@@ -121,35 +127,22 @@ void cNopacityConfig::setDynamicValues() {
         menuScrollFrameTime = 30;
     else if (menuScrollSpeed == 3)
         menuScrollFrameTime = 15;
-
-        logoPathDefault = cString::sprintf("%s/logos/", cPlugin::ResourceDirectory(PLUGIN_NAME_I18N));
+        
+    menuInfoScrollFrameTime = 0;
+    if (menuInfoScrollSpeed == 1)
+        menuInfoScrollFrameTime = 50;
+    else if (menuInfoScrollSpeed == 2)
+        menuInfoScrollFrameTime = 30;
+    else if (menuInfoScrollSpeed == 3)
+        menuInfoScrollFrameTime = 15;
+    
+    logoPathDefault = cString::sprintf("%s/logos/", cPlugin::ResourceDirectory(PLUGIN_NAME_I18N));
     iconPathDefault = cString::sprintf("%s/icons/", cPlugin::ResourceDirectory(PLUGIN_NAME_I18N));
     epgImagePathDefault = cString::sprintf("%s/epgimages/", cPlugin::CacheDirectory(PLUGIN_NAME_I18N));
     
     dsyslog("nopacity: using Logo Directory %s", (logoPathSet)?(*logoPath):(*logoPathDefault)); 
     dsyslog("nopacity: using Icon Directory %s", (iconPathSet)?(*iconPath):(*iconPathDefault)); 
     dsyslog("nopacity: using EPG Images Directory %s", (epgImagePathSet)?(*epgImagePath):(*epgImagePathDefault)); 
-}
-
-void cNopacityConfig::loadEPGSearchSettings(void) {
-    epgSearchConf = new cNopacityEPGSearchConfig();
-    if (epgSearchConf->CheckEPGSearchAvailable()) {
-        dsyslog("nopacity: epgsearch plugin available");
-        epgSearchConf->LoadEpgSearchConf();
-        if (epgSearchConf->ReplaceScheduleActive()) {
-            if (!epgSearchConf->LoadEpgSearchMenuConf()) {
-                epgSearchConf->SetDefaultEPGSearchConf();
-            }
-        } else {
-            dsyslog("nopacity: epgsearch plugin available, but not used for replacing schedules menu");
-            dsyslog("nopacity: please enable \"replacing schedules menu\" in epgsearch settings");
-            epgSearchConf->SetDefaultVDRConf();
-        }
-    } else {
-        dsyslog("nopacity: no epgsearch plugin available");
-        epgSearchConf->SetDefaultVDRConf();
-    }
-    epgSearchConf->SetTimerConfilictCont();
 }
 
 void cNopacityConfig::SetLogoPath(cString path) {
@@ -207,14 +200,19 @@ bool cNopacityConfig::SetupParse(const char *Name, const char *Value) {
     else if (strcmp(Name, "volumeBorderBottom") == 0)      volumeBorderBottom = atoi(Value);
     else if (strcmp(Name, "fontVolume") == 0)              fontVolume = atoi(Value);
     else if (strcmp(Name, "menuFadeTime") == 0)            menuFadeTime = atoi(Value);
+    else if (strcmp(Name, "menuEPGWindowFadeTime") == 0)   menuEPGWindowFadeTime = atoi(Value);
     else if (strcmp(Name, "menuScrollDelay") == 0)         menuScrollDelay = atoi(Value);
     else if (strcmp(Name, "menuScrollSpeed") == 0)         menuScrollSpeed = atoi(Value);
+    else if (strcmp(Name, "menuInfoTextDelay") == 0)       menuInfoTextDelay = atoi(Value);
+    else if (strcmp(Name, "menuInfoScrollDelay") == 0)     menuInfoScrollDelay = atoi(Value);
+    else if (strcmp(Name, "menuInfoScrollSpeed") == 0)     menuInfoScrollSpeed = atoi(Value);
     else if (strcmp(Name, "scalePicture") == 0)            scalePicture = atoi(Value);
     else if (strcmp(Name, "displayRerunsDetailEPGView") == 0) displayRerunsDetailEPGView = atoi(Value);
     else if (strcmp(Name, "numReruns") == 0)               numReruns = atoi(Value);
     else if (strcmp(Name, "useSubtitleRerun") == 0)        useSubtitleRerun = atoi(Value);
     else if (strcmp(Name, "menuWidthNarrow") == 0)         menuWidthNarrow = atoi(Value);
     else if (strcmp(Name, "menuWidthRightItems") == 0)     menuWidthRightItems = atoi(Value);
+    else if (strcmp(Name, "menuHeightInfoWindow") == 0)    menuHeightInfoWindow = atoi(Value);
     else if (strcmp(Name, "showDiscUsage") == 0)           showDiscUsage = atoi(Value);
     else if (strcmp(Name, "showTimers") == 0)              showTimers = atoi(Value);
     else if (strcmp(Name, "headerHeight") == 0)            headerHeight = atoi(Value);
@@ -244,6 +242,8 @@ bool cNopacityConfig::SetupParse(const char *Name, const char *Value) {
     else if (strcmp(Name, "fontDetailView") == 0)          fontDetailView = atoi(Value);
     else if (strcmp(Name, "fontDetailViewHeader") == 0)    fontDetailViewHeader = atoi(Value);
     else if (strcmp(Name, "fontDetailViewHeaderLarge") == 0) fontDetailViewHeaderLarge = atoi(Value);
+    else if (strcmp(Name, "fontEPGInfoWindow") == 0)       fontEPGInfoWindow = atoi(Value);
     else return false;
     return true;
+    
 }

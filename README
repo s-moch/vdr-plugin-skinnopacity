@@ -15,11 +15,10 @@ See the file COPYING for more information.
 Requirements
 ------------
 
-- VDR version >= 1.7.30
+- VDR version >= 1.7.34
 
 - Installed ImageMagick for displaying png/jpg Icons, Channel Logos and EPG Images
 
-- VDR Plugin epgsearch for displaying the progress bar in the schedulings "what's now" display.
 
 Description
 -----------
@@ -51,8 +50,8 @@ unzip it and place it accordingly the settings for the channel logos path.
 if no pathes are set for the different types of images, the following default
 paths are used:
 channel logos: {ResourceDirectory}/logos/
-icons:		   {ResourceDirectory}/icons/
-epg images:	   {CacheDirectory}/epgimages/
+icons:         {ResourceDirectory}/icons/
+epg images:    {CacheDirectory}/epgimages/
 
 If directories for channel logos, icons or epg images are set via startup 
 parameters, images are searched first in these directories. If the image
@@ -100,50 +99,22 @@ In this example, as a dirty hack just create a folder in your channel logo direc
 
 With softhddevice as output plugin, use a Version newer than Revision f640ebde 
 (0.5.1, 10.10.2012) to achieve a correct display of the screen resolution during channel switching.
+For scaling the video picture to fit into the VDR menu window, currently you have to patch
+softhddevice with the provided patch provided in ./patches/0003-softhddevice-video-scaling-without-YAEPG-vdr-1.7.33_v4.diff in the plugin sources. This patch should soon be included
+in the softhddevice git.
+
+
 
 EPG Search Integration
 ------------------------- 
-nOpacity fully supports the alternative "schedules" menus provided by the EPG search plugin 
-(schedules, what's on now, what's on next, search results, favorites and "user defined times"
-menu). If using the EPG search menus, please set "replace original schedule" to "true", 
-parallel usage of the vanilla VDR schedules menu and the schedules menu provided by EPG 
-search (with a dedicated main menu entry) is not supported. Please keep also in mind that
-changing the schedules display behaviour needs to restart vdr, because nOpacity reads the
-EPGSearch config only once at startup.
+Since version 0.0.5 no special epg search integration is done anymore. Replacing the 
+original VDR schedules menu with the epg search menus is not possible currently. After the 
+epgsearch plugin has implemented the neccessary new VDR features, this will be possible again. 
+Use the additional main menu entry for accesing epg search.
 
-If you use the default settings to display the EPG search schedule menus (if the file 
-epgsearchmenu.conf is not available in the epgserarch plugin config directory), everything
-should work rather well out of the box. Just set "show progress in now" to "true" to achieve a
-correct display of the progress bar in the "what's on now" view.
-
-Beside using the default settings you can also set up your own epgsearchmenu.conf file to
-control the information which is diplayed in the various menus. All tokens described in the
-epgsearchmenu.conf file in the epgsearch plugin sources (subdirectory ./conf/) are supported. 
-If epgsearchmenu is used, lines for all possible entries have to be set (see list below).
-Otherwise the default epgsearch settings are used.
-For me these entries for the different menus showed the best result:
-
-MenuWhatsOnNow=%chlng%:4|%progrT2S%:5|%time%:8|%status%:3|%title%:15|%subtitle%:25
-MenuWhatsOnNext=%chlng%:4|%time%:8|%status%:8|%title%:15|%subtitle%:25
-MenuWhatsOnElse=%chlng%:4|%time%:8|%status%:8|%title%:15|%subtitle%:25
-MenuSchedule=%time%:8|%status%:8|%title%:15|%subtitle%:25
-MenuSearchResults=%chlng%:12|%time_w% %datesh%:6|%time%:6|%status%:2|%title%:15|%subtitle%:25
-MenuFavorites=%chlng%:4|%time%:8|%status%:8|%title%:15|%subtitle%:25
-WarEagleIcons=1
-
-Per default EPG search provides the short channel name (%chsh%), which is different to the "regular"
-channel name for some channels. If %chsh% is used, for those channels no channel logos are displayed
-if they are not appropriately renamed.
-
-The order of the tokens in the different sections of the epgsearchmenu.conf is not relevant how the 
-information in displayed in the skin. In fact the skin displays the various tokens in the way that 
-each menu item is displayed in three lines:
-line 1: date and time information, status information
-line 2: title 
-line 3: subtitle (if available)
-
-The first line is created out of the following tokens (if set) in this order:
-%time_d% %time_w% %date% %datesh% %time% %timespan% %status% %t_status% %v_status% %r_status%
+Until epg search has not implemented all new VDR features introduced in VDR 1.7.31 - 34, please 
+use the patch "epgsearch_menucats.patch" for epg search provided in the ./patches directory 
+in the source directory of the skin to grant correct functionality of epg search. 
 
 Display of reruns of a show in detailed EPG View: if activated in the setup menu, nOpacity displays
 the reruns of a show via the EPG Search service interface in the detailed EPG view.
@@ -156,19 +127,34 @@ Setup Options
 
 - Font: Used Font, all Fonts installed on your system are shown
 
-* VDR menu:
+* VDR menu: Common Settings:
 
+- Number of Default Menu Entries: Number of menu items for the default menu view.
+- Scale Video size to fit into menu window
 - Fade-In Time in ms (Zero for switching off fading): Default 300ms
-- Scale Video size to fit into menu window: yaepg Patch needed
+- Display Disk Usage: Display Disk Usage in Main Menu
+- Display Timers: Display active Tiers in Main Menu
+- Menu Items Scrolling Speed
+- Menu Items Scrolling Delay in s: period which menu element has to be selected
+  till scrolling starts
+- EPG Window Fade-In Time in ms (Zero for switching off fading)
+- EPG Window Display Delay in s: period which schedules menu element has to be
+  selected till fade in of epg window starts
+- EPG Window Scroll Delay in s: period which epg window has to be opened till 
+  window text starts to scroll
 - Display Reruns in detailed EPG View: via epgsearch service
 - Number of reruns to display: Default 5
 - Use Subtitle for reruns
+
+* VDR menu: Dimensions Settings:
+
 - Width of narrow Menu Bar (% of OSD Width): Width of menu bar for the main menu,
   schedules menu and channels menu. Default: 30%.
 - Width of Disc Usage and Timers Display (% of OSD Width): Default: 12%
+- Height of EPG Info Window (Percent of OSD Height): Height of text window which
+  is shown for schedules menu elements
 - Header Height (% of OSD Height): Default: 7%
 - Footer Height (% of OSD Height): Default: 7%
-- Number of Default Menu Entries: Number of menu items for the default menu view.
 - Icon Size (Square Main Menu Icons): This size determinates the number of main 
   menu entries per page.
 - Header Icon Size (Square Header Menu Icons)
@@ -183,6 +169,9 @@ Setup Options
 - Detail EPG View Logo Height: Default 200px
 - Detail EPG View EPG Image Width: Default 210px
 - Detail EPG View EPG Image Height: Default 160px
+
+* VDR menu: Font Settings:
+
 - Adjust Font Size - Header
 - Adjust Font Size - Date
 - Adjust Font Size - Large Menu Item: Font for Main menu and channels menu items
@@ -196,7 +185,8 @@ Setup Options
 - Adjust Font Size - Detail View Text: Font for detailed EPG & recordings view text
 - Adjust Font Size - Detail View Header: Font for Header date/time and short text 
 - Adjust Font Size - Detail View Header Large: Font for detailed EPG & recordings 
-  view title 
+  view title
+- Adjust Font Size - EPG Info Window
   
 * Channel Switching:
 

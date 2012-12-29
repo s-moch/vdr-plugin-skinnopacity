@@ -39,17 +39,7 @@ cNopacityDisplayMenuView::~cNopacityDisplayMenuView(void) {
     delete fontTimersHead;
     delete fontButtons;
     delete fontMessage;
-#ifdef USE_YAEPG
-    if (config.scalePicture) {
-        tArea availableArea;
-        availableArea.x1 = -osdLeft;
-        availableArea.y1 = -osdTop;
-        availableArea.x2 = osdWidth + osdLeft;
-        availableArea.y2 = osdHeight + osdTop;
-        ScalePreserveAspect(osd->vidWin, vidAspect, availableArea);
-        osd->vidWin.bpp = 12;
-    }
-#endif
+    delete fontEPGInfoWindow;
 }
 
 cOsd *cNopacityDisplayMenuView::createOsd(void) {
@@ -58,7 +48,6 @@ cOsd *cNopacityDisplayMenuView::createOsd(void) {
     osdWidth = cOsd::OsdWidth();
     osdHeight = cOsd::OsdHeight();
     osd = CreateOsd(osdLeft, osdTop, osdWidth, osdHeight);
-    cDevice::PrimaryDevice()->GetVideoSize(vidWidth, vidHeight, vidAspect);
     return osd;
 }
 
@@ -82,6 +71,15 @@ void cNopacityDisplayMenuView::SetGeometry(void) {
     buttonHeight = footerHeight - 3 * buttonsBorder;
     messageWidth = 0.8 * osdWidth;
     messageHeight = 0.1 * osdHeight;
+    SetDescriptionTextWindowSize();
+}
+
+void cNopacityDisplayMenuView::SetDescriptionTextWindowSize(void) {
+    int x = 2 * spaceMenu + contentWidthNarrow + widthScrollbar;
+    int height = config.menuHeightInfoWindow * (contentHeight - 2*spaceMenu) / 100;
+    int y = headerHeight + (contentHeight - height - spaceMenu);
+    int width = osdWidth - x - spaceMenu;
+    textWindowSize = cRect(x,y,width,height);
 }
 
 void cNopacityDisplayMenuView::CreatePixmaps(void) {
@@ -139,7 +137,8 @@ void cNopacityDisplayMenuView::CreateFonts(void) {
     fontTimersHead = cFont::CreateFont(config.fontName, (contentHeight - 3*spaceMenu - diskUsageHeight) / 25 + config.fontTimersHead);
     fontTimers = cFont::CreateFont(config.fontName, (contentHeight - 3*spaceMenu - diskUsageHeight) / 25 - 6 + config.fontTimers);
     fontButtons = cFont::CreateFont(config.fontName, buttonHeight*0.8 + config.fontButtons);
-    fontMessage = cFont::CreateFont(config.fontName, messageHeight / 4 + config.fontMessageMenu);
+    fontMessage = cFont::CreateFont(config.fontName, messageHeight / 3 + config.fontMessageMenu);
+    fontEPGInfoWindow = cFont::CreateFont(config.fontName, (config.menuHeightInfoWindow *  contentHeight / 100)/ 6 + config.fontEPGInfoWindow);
 }
 
 cFont *cNopacityDisplayMenuView::GetMenuItemFont(eMenuCategory menuCat) {
@@ -162,6 +161,10 @@ cFont *cNopacityDisplayMenuView::GetMenuItemFontSmall() {
     return fontMenuitemScheduleSmall;
 }
 
+cFont *cNopacityDisplayMenuView::GetEPGWindowFont(void) {
+    return fontEPGInfoWindow;
+}
+
 void cNopacityDisplayMenuView::GetMenuItemSize(eMenuCategory menuCat, cPoint *itemSize) {
     int itemWidth = 0;
     int itemHeight = 0;
@@ -175,6 +178,8 @@ void cNopacityDisplayMenuView::GetMenuItemSize(eMenuCategory menuCat, cPoint *it
             itemHeight = menuItemHeightMain;
             break;
         case mcSchedule:
+        case mcScheduleNow:
+        case mcScheduleNext:
             itemWidth = menuItemWidthMain;
             itemHeight = menuItemHeightSchedule;
             break;
@@ -193,13 +198,13 @@ void cNopacityDisplayMenuView::GetMenuItemSize(eMenuCategory menuCat, cPoint *it
 int cNopacityDisplayMenuView::GetMaxItems(eMenuCategory menuCat) {
     int maxItems = 0;
     switch (menuCat) {
-        case mcUnknown:
-            maxItems = config.numDefaultMenuItems;
-            break;
         case mcMain:
+        case mcSetup:
             maxItems = contentHeight / (menuItemHeightMain + spaceMenu);
             break;
-        case mcSchedule: 
+        case mcSchedule:
+        case mcScheduleNow:
+        case mcScheduleNext:
         case mcChannel:
             maxItems = contentHeight / (menuItemHeightSchedule + spaceMenu);
             break;
@@ -297,56 +302,26 @@ void cNopacityDisplayMenuView::DrawBorderDecoration() {
 void cNopacityDisplayMenuView::AdjustContentBackground(bool contentNarrow, bool contentNarrowLast) {
     if (contentNarrow) {
         pixmapContent->SetDrawPortPoint(cPoint(contentWidthNarrow - contentWidthFull, 0));
-#ifdef USE_YAEPG
         if (config.scalePicture) {
-            tArea availableArea;
-            availableArea.x1 = osdLeft + contentWidthNarrow;
-            availableArea.y1 = osdTop + headerHeight;
-            availableArea.x2 = contentWidthFull;
-            availableArea.y2 = availableArea.y1 + contentHeight;
-            ScalePreserveAspect(osd->vidWin, vidAspect, availableArea);
-            osd->vidWin.bpp = 12;
+            // ask output device to scale down
+            cRect availableRect(
+                osdLeft + contentWidthNarrow + widthScrollbar + 2 * spaceMenu,
+                osdTop + headerHeight,
+                contentWidthFull - osdLeft - contentWidthNarrow - widthScrollbar - 4 * spaceMenu,
+                contentHeight);// - osdTop - headerHeight);
+            cDevice::PrimaryDevice()->CanScaleVideo(availableRect);
         }
-#endif
     } else {
         pixmapContent->SetDrawPortPoint(cPoint(0, 0));
-#ifdef USE_YAEPG
         if (config.scalePicture) {
-            tArea availableArea;
-            availableArea.x1 = -osdLeft;
-            availableArea.y1 = -osdTop;
-            availableArea.x2 = osdWidth + osdLeft;
-            availableArea.y2 = osdHeight + osdTop;
-            ScalePreserveAspect(osd->vidWin, vidAspect, availableArea);
-            osd->vidWin.bpp = 12;
+            // ask output device to restore full size
+            cDevice::PrimaryDevice()->CanScaleVideo(cRect::Null);
         }
-#endif
     }
     if (contentNarrow != contentNarrowLast) {
         osd->DestroyPixmap(pixmapScrollbar);
         int contentWidth = (contentNarrow)?contentWidthNarrow:contentWidthFull;
         pixmapScrollbar = osd->CreatePixmap(2, cRect(contentWidth , headerHeight + spaceMenu, widthScrollbar, osdHeight - headerHeight - footerHeight - 2*spaceMenu));
-    }
-}
-
-void cNopacityDisplayMenuView::ScalePreserveAspect(tArea & videoWindowDest, const double & videoAspect, const tArea & availableArea) {
-    videoWindowDest.x1 = availableArea.x1;
-    videoWindowDest.x2 = availableArea.x2;
-    videoWindowDest.y1 = availableArea.y1;
-    videoWindowDest.y2 = availableArea.y2;
-    if (availableArea.Height() == 0) {
-        videoWindowDest.bpp = 0; // just for safety
-        return;
-    }
-    double availableAspect = double(availableArea.Width())/double(availableArea.Height());
-    if (videoAspect < availableAspect) {
-        int offset = floor(double(availableArea.Width() - availableArea.Height() * videoAspect)/2);
-        videoWindowDest.x1 += offset;
-        videoWindowDest.x2 -= offset;
-    } else {
-        int offset = floor(double(availableArea.Height() - availableArea.Width() / videoAspect)/2);
-        videoWindowDest.y1 += offset;
-        videoWindowDest.y2 -= offset;
     }
 }
 
@@ -370,7 +345,8 @@ int cNopacityDisplayMenuView::DrawHeaderIcon(eMenuCategory menuCat) {
     cString icon;
     bool drawIcon = true;
     switch (menuCat) {
-        case mcSchedule:
+        case mcScheduleNow:
+        case mcScheduleNext:
             icon = "Schedule";
             break;
         case mcChannel:
@@ -406,14 +382,18 @@ int cNopacityDisplayMenuView::DrawHeaderIcon(eMenuCategory menuCat) {
 }
 
 int cNopacityDisplayMenuView::ShowHeaderIconChannelLogo(const char *Title) {
+    int left = 0;
     pixmapHeaderIcon = osd->CreatePixmap(2, cRect(0, 0, config.menuItemLogoWidth, config.menuItemLogoHeight));
     pixmapHeaderIcon->Fill(clrTransparent);
     std::string channel = Title;
+    if (channel.length() == 0)
+        return left;
     std::string remove = trVDR("Schedule");
-    remove.append(" - ");
-    channel.erase(0, remove.length());
+    try {
+        remove.append(" - ");
+        channel.erase(0, remove.length());
+    } catch (...) {}
     cImageLoader imgLoader;
-    int left = 0;
     if (imgLoader.LoadLogo(channel.c_str(), config.menuItemLogoWidth, config.menuItemLogoHeight)) {
         pixmapHeaderIcon->DrawImage(cPoint(0, 0), imgLoader.GetImage());
         left =  config.menuItemLogoWidth + spaceMenu;

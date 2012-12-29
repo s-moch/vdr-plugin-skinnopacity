@@ -2,11 +2,8 @@
 #include <string>
 
 cNopacityDisplayMenu::cNopacityDisplayMenu(void) {
-    int start = cTimeMs::Now();
     config.setDynamicValues();
     menuCategoryLast = mcUndefined;
-    menuSubCategory = mcSubUndefined;
-    menuSubCategoryLast = mcSubUndefined;
     FrameTime = config.menuFrameTime; 
     FadeTime = config.menuFadeTime;
     initial = true;
@@ -17,7 +14,6 @@ cNopacityDisplayMenu::cNopacityDisplayMenu(void) {
     lastTimersState = -1;
     menuItemIndexLast = -1;
     currentNumItems = 0;
-    menuHasIcons = true;
     detailView = NULL;
     contentNarrow = true;
     contentNarrowLast = true;
@@ -30,7 +26,6 @@ cNopacityDisplayMenu::cNopacityDisplayMenu(void) {
     menuView->CreateBackgroundImages(handleBackgrounds, handleButtons);
     menuView->DrawHeaderLogo();
     menuView->DrawBorderDecoration();
-    dsyslog("nopacity: Construktor needed %d ms", int(cTimeMs::Now()-start));
 }
 
 cNopacityDisplayMenu::~cNopacityDisplayMenu() {
@@ -106,11 +101,17 @@ void cNopacityDisplayMenu::Scroll(bool Up, bool Page) {
 
 int cNopacityDisplayMenu::MaxItems(void) {
     int maxItems = 0;
-    if (((MenuCategory() == mcChannel) && (menuSubCategory == mcSubChannelEdit) && (menuSubCategoryLast != mcSubChannelEdit))
-        || (menuSubCategory == mcSubScheduleTimer)){
-        maxItems = config.numDefaultMenuItems;
-    } else {
-        maxItems = menuView->GetMaxItems(MenuCategory());
+    switch (MenuCategory()) {
+        case mcMain:
+        case mcSetup:
+        case mcSchedule:
+        case mcScheduleNow:
+        case mcScheduleNext:
+        case mcChannel:
+            maxItems = menuView->GetMaxItems(MenuCategory());
+            break;
+        default:
+            maxItems = config.numDefaultMenuItems;      
     }
     currentNumItems = maxItems;
     return maxItems;
@@ -127,24 +128,52 @@ void cNopacityDisplayMenu::Clear(void) {
 }
 
 void cNopacityDisplayMenu::SetMenuCategory(eMenuCategory MenuCategory) {
-    /* Categories:
-        mcUndefined = -1, 
-        mcUnknown = 0, 
-        mcMain = 1, 
-        mcSchedule = 2, 
-        mcChannel = 3, 
-        mcTimer = 4, 
-        mcRecording = 5, 
-        mcPlugin = 6, 
-        mcSetup = 7, 
-        mcCommand = 8, 
-        mcEvent = 9, 
-        mcText = 10, 
-        mcFolder = 11, 
-        mcCam = 12
-    */
+      /* Categories:
+      mcUndefined = -1,
+      mcUnknown = 0,
+      1  mcMain,
+      2  mcSchedule,
+      3  mcScheduleNow,
+      4  mcScheduleNext,
+      5  mcChannel,
+      6  mcChannelEdit,
+      7  mcTimer,
+      8  mcTimerEdit,
+      9  mcRecording,
+      10 mcRecordingInfo,
+      11 mcPlugin,
+      12 mcPluginSetup,
+      13 mcSetup,
+      14 mcSetupOsd,
+      15 mcSetupEpg,
+      16 mcSetupDvb,
+      17 mcSetupLnb,
+      18 mcSetupCam,
+      19 mcSetupRecord,
+      20 mcSetupReplay,
+      21 mcSetupMisc,
+      22 mcSetupPlugins,
+      23 mcCommand,
+      24 mcEvent,
+      25 mcText,
+      26 mcFolder,
+      27 mcCam
+      */
     menuCategoryLast = this->MenuCategory();
+    contentNarrowLast = contentNarrow;
     cSkinDisplayMenu::SetMenuCategory(MenuCategory);
+    switch (MenuCategory) {
+        case mcMain:
+        case mcSchedule:
+        case mcScheduleNow:
+        case mcScheduleNext:
+        case mcChannel:
+        case mcSetup:
+            contentNarrow = true;
+            break;
+        default:
+            contentNarrow = false;
+    }
     if ((menuCategoryLast == mcMain) && (MenuCategory != mcMain)) {
         if (config.showDiscUsage) {
             menuView->ShowDiskUsage(false);
@@ -157,95 +186,26 @@ void cNopacityDisplayMenu::SetMenuCategory(eMenuCategory MenuCategory) {
             timersDrawn = false;
         }
     }
+    esyslog("nopacity: menuCat %d", MenuCategory);
 }
 
 void cNopacityDisplayMenu::SetTitle(const char *Title) {
-    contentNarrowLast = contentNarrow;
-    menuSubCategoryLast = menuSubCategory;
     int left = 5;
     menuView->DestroyHeaderIcon();
     if (Title) {
         cString title = Title;
-        if (MenuCategory() == mcMain) {
-            title = cString::sprintf("%s %s", Title, VDRVERSION);
-            left += menuView->ShowHeaderLogo(true);
-            contentNarrow = true;
-            menuHasIcons = true;
-        } else {
-            std::string strTitle = Title;
-            menuView->ShowHeaderLogo(false);
-            if (MenuCategory() == mcSchedule) {
-                //Main Schedule
-                if (startswith(Title, trVDR("Schedule"))) {
-                    menuSubCategory = mcSubSchedule;
-                    left += menuView->ShowHeaderIconChannelLogo(Title);
-                    menuHasIcons = false;
-                    contentNarrow = true;
-                //What's on now
-                } else if (    (strTitle.find(trVDR("Button$Now")) != std::string::npos) 
-                            || (strTitle.find(trVDR("What's on now?")) != std::string::npos) ) {
-                    menuSubCategory = mcSubScheduleWhatsOnNow;
-                    left += menuView->DrawHeaderIcon(mcSchedule);
-                    menuHasIcons = true;
-                    contentNarrow = true;
-                //What's on next
-                } else if (    (strTitle.find(trVDR("Button$Next")) != std::string::npos) 
-                            || (strTitle.find(trVDR("What's on next?")) != std::string::npos) ) {
-                    menuSubCategory = mcSubScheduleWhatsOnNext;
-                    left += menuView->DrawHeaderIcon(mcSchedule);
-                    menuHasIcons = true;
-                    contentNarrow = true;
-                //EPGSearch search results
-                } else if ((strTitle.length() > 0) && isdigit(strTitle.at(0))) {    
-                    menuSubCategory = mcSubScheduleSearchResults;
-                    left += menuView->DrawHeaderIcon(mcSchedule);
-                    menuHasIcons = true;
-                    contentNarrow = true;
-                //What's on else
-                } else if (   ((config.epgSearchConf->UserSet[0]) && (strTitle.find(config.epgSearchConf->User[0]) != std::string::npos))
-                            ||((config.epgSearchConf->UserSet[1]) && (strTitle.find(config.epgSearchConf->User[1]) != std::string::npos))
-                            ||((config.epgSearchConf->UserSet[2]) && (strTitle.find(config.epgSearchConf->User[2]) != std::string::npos))
-                            ||((config.epgSearchConf->UserSet[3]) && (strTitle.find(config.epgSearchConf->User[3]) != std::string::npos)))
-                {
-                    menuSubCategory = mcSubScheduleWhatsOnElse;
-                    left += menuView->DrawHeaderIcon(mcSchedule);
-                    menuHasIcons = true;
-                    contentNarrow = true;
-                //hack for epgsearch timer conflict view
-                } else if (endswith(Title, "%")) {  
-                    menuSubCategory = mcSubScheduleTimer;
-                    menuHasIcons = false;
-                    contentNarrow = false;
-                    currentNumItems = config.numDefaultMenuItems;
-                //EPGSearch Favorites
-                } else if (strTitle.find(":") != std::string::npos) {
-                    menuSubCategory = mcSubScheduleFavorites;
-                    left += menuView->DrawHeaderIcon(mcSchedule);
-                    menuHasIcons = true;
-                    contentNarrow = true;
-                    
-                } else {
-                    menuSubCategory = mcSubScheduleTimerconflict;
-                    left += menuView->DrawHeaderIcon(mcSchedule);
-                    menuHasIcons = true;
-                    contentNarrow = true;
-                }
-            } else if (MenuCategory() == mcChannel) {
-                left += menuView->DrawHeaderIcon(mcChannel);
-                if (startswith(Title, trVDR("Channels"))) {
-                    contentNarrow = true;
-                    menuSubCategory = mcSubChannels;
-                    menuHasIcons = true;
-                } else {
-                    contentNarrow = false;
-                    menuSubCategory = mcSubChannelEdit;
-                    menuHasIcons = false;
-                }
-            } else {
+        switch (MenuCategory()) {
+            case mcMain:
+                title = cString::sprintf("%s %s", Title, VDRVERSION);
+                left += menuView->ShowHeaderLogo(true);
+                break;
+            case mcSchedule:
+                menuView->ShowHeaderLogo(false);
+                left += menuView->ShowHeaderIconChannelLogo(Title);
+                break;
+            default:
+                menuView->ShowHeaderLogo(false);
                 left += menuView->DrawHeaderIcon(MenuCategory());
-                contentNarrow = false;
-                menuHasIcons = false;
-            }
         }
         menuView->AdjustContentBackground(contentNarrow, contentNarrowLast);        
         menuView->DrawHeaderLabel(left, title);
@@ -283,9 +243,89 @@ void cNopacityDisplayMenu::SetMessage(eMessageType Type, const char *Text) {
     }
 }
 
+bool cNopacityDisplayMenu::SetItemEvent(const cEvent *Event, int Index, bool Current, 
+                                        bool Selectable, const cChannel *Channel, bool WithDate, eTimerMatch TimerMatch) { 
+    if ((initMenu)&&(Index > menuItemIndexLast)) {
+        cNopacityMenuItem *item = new cNopacityScheduleMenuItem(osd, Event, Channel, TimerMatch, Selectable, MenuCategory());
+        cPoint itemSize;
+        menuView->GetMenuItemSize(MenuCategory(), &itemSize);
+        item->SetFont(menuView->GetMenuItemFont(mcSchedule));
+        item->SetFontSmall(menuView->GetMenuItemFontSmall());
+        item->SetFontEPGWindow(menuView->GetEPGWindowFont());
+        int spaceTop = menuView->GetMenuTop(currentNumItems, itemSize.Y());
+        item->SetGeometry(Index, spaceTop, menuView->spaceMenu, itemSize.X(), itemSize.Y());
+        item->SetTextWindow(menuView->GetDescriptionTextWindowSize());
+        item->SetCurrent(Current);
+        item->SetBackgrounds(handleBackgrounds);
+        item->CreateText();
+        int textWidth = item->CheckScrollable((Channel)?true:false);
+        item->CreatePixmap();
+        item->CreatePixmapIcon();
+        item->CreatePixmapTextScroller(textWidth);
+        menuItems.Add(item);
+        item->Render();
+        menuItemIndexLast = Index;
+        if (initial) {
+            if (FadeTime) {
+                item->SetAlpha(0);
+                item->SetAlphaIcon(0);
+                item->SetAlphaText(0);
+            }
+        }
+    } else {
+        cNopacityMenuItem *item = menuItems.Get(Index);
+        item->SetCurrent(Current);
+        item->Render();
+    }
+    return true;
+}
+
+bool cNopacityDisplayMenu::SetItemTimer(const cTimer *Timer, int Index, bool Current, bool Selectable) { 
+    return false; 
+}
+
+bool cNopacityDisplayMenu::SetItemChannel(const cChannel *Channel, int Index, bool Current, bool Selectable, bool WithProvider) { 
+    if ((initMenu)&&(Index > menuItemIndexLast)) {
+        cNopacityMenuItem *item = new cNopacityChannelMenuItem(osd, Channel, Selectable);
+        cPoint itemSize;
+        menuView->GetMenuItemSize(MenuCategory(), &itemSize);
+        item->SetFont(menuView->GetMenuItemFont(mcChannel));
+        item->SetFontSmall(menuView->GetMenuItemFontSmall());
+        int spaceTop = menuView->GetMenuTop(currentNumItems, itemSize.Y());
+        item->SetGeometry(Index, spaceTop, menuView->spaceMenu, itemSize.X(), itemSize.Y());
+        item->SetCurrent(Current);
+        item->SetBackgrounds(handleBackgrounds);
+        item->CreateText();
+        int textWidth = item->CheckScrollable(true);
+        item->CreatePixmap();
+        item->CreatePixmapIcon();
+        item->CreatePixmapTextScroller(textWidth);
+        menuItems.Add(item);
+        item->Render();
+        menuItemIndexLast = Index;
+        if (initial) {
+            if (FadeTime) {
+                item->SetAlpha(0);
+                item->SetAlphaIcon(0);
+                item->SetAlphaText(0);
+            }
+        }
+    } else {
+        cNopacityMenuItem *item = menuItems.Get(Index);
+        item->SetCurrent(Current);
+        item->Render();
+    }
+    return true;
+}
+
+bool cNopacityDisplayMenu::SetItemRecording(const cRecording *Recording, int Index, bool Current, bool Selectable, 
+                                            int Level, int Total, int New) { 
+    return false; 
+}
+
+
 void cNopacityDisplayMenu::SetItem(const char *Text, int Index, bool Current, bool Selectable) {
-    int menuIconWidth = 0;
-    int menuIconHeight = 0;
+    bool hasIcons = false;
     cString *strItems = new cString[MaxTabs];
     int *tabItems = new int[2*MaxTabs];
     for (int i=0; i<MaxTabs; i++) {
@@ -298,41 +338,18 @@ void cNopacityDisplayMenu::SetItem(const char *Text, int Index, bool Current, bo
         if (Index > menuItemIndexLast) {
             cNopacityMenuItem *item;
             cPoint itemSize;
-            if (MenuCategory() == mcMain) {
-                item = new cNopacityMainMenuItem(osd, Text, Selectable);
-                menuView->GetMenuItemSize(mcMain, &itemSize);
-                item->SetFont(menuView->GetMenuItemFont(mcMain));
-                menuIconWidth = menuIconHeight = config.iconHeight;
-            } else if (MenuCategory() == mcSchedule) {
-                if (menuSubCategory == mcSubScheduleTimer) {
+            switch (MenuCategory()) {
+                case mcMain:
+                case mcSetup:
+                    item = new cNopacityMainMenuItem(osd, Text, Selectable);
+                    menuView->GetMenuItemSize(mcMain, &itemSize);
+                    item->SetFont(menuView->GetMenuItemFont(mcMain));
+                    hasIcons = true;
+                    break;
+                default:
                     item = new cNopacityDefaultMenuItem(osd, Text, Selectable);
                     menuView->GetMenuItemSize(mcUnknown, &itemSize);
                     item->SetFont(menuView->GetMenuItemFont(mcUnknown));
-                } else {
-                    item = new cNopacityScheduleMenuItem(osd, Text, Selectable, menuSubCategory);
-                    menuView->GetMenuItemSize(mcSchedule, &itemSize);
-                    item->SetFont(menuView->GetMenuItemFont(mcSchedule));
-                    item->SetFontSmall(menuView->GetMenuItemFontSmall());
-                    item->SetDisplayMode();
-                    menuIconWidth = config.menuItemLogoWidth;
-                    menuIconHeight = config.menuItemLogoHeight;
-                }
-            } else if (MenuCategory() == mcChannel) {
-                if (menuSubCategory == mcSubChannels) {
-                    item = new cNopacityChannelMenuItem(osd, Text, Selectable);
-                    menuView->GetMenuItemSize(mcChannel, &itemSize);
-                    item->SetFont(menuView->GetMenuItemFont(mcChannel));
-                    menuIconWidth = config.menuItemLogoWidth;
-                    menuIconHeight = config.menuItemLogoHeight;
-                } else {
-                    item = new cNopacityDefaultMenuItem(osd, Text, Selectable);
-                    menuView->GetMenuItemSize(mcUnknown, &itemSize);
-                    item->SetFont(menuView->GetMenuItemFont(mcUnknown));
-                }
-            } else {
-                item = new cNopacityDefaultMenuItem(osd, Text, Selectable);
-                menuView->GetMenuItemSize(mcUnknown, &itemSize);
-                item->SetFont(menuView->GetMenuItemFont(mcUnknown));
             }
             int spaceTop = menuView->GetMenuTop(currentNumItems, itemSize.Y());
             item->SetGeometry(Index, spaceTop, menuView->spaceMenu, itemSize.X(), itemSize.Y());
@@ -340,10 +357,11 @@ void cNopacityDisplayMenu::SetItem(const char *Text, int Index, bool Current, bo
             item->SetBackgrounds(handleBackgrounds);
             item->SetTabs(strItems, tabItems, MaxTabs);
             item->CreateText();
-            int textWidth = item->CheckScrollable(menuHasIcons);
+            int textWidth = item->CheckScrollable(hasIcons);
             item->CreatePixmap();
-            if (menuHasIcons)
-                item->CreatePixmapIcon(menuIconWidth, menuIconHeight);
+            if (hasIcons) {
+                item->CreatePixmapIcon();
+            }
             if (textWidth > 0)
                 item->CreatePixmapTextScroller(textWidth);
             menuItems.Add(item);

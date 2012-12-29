@@ -10,12 +10,12 @@
 
 #include "nopacity.c"
 
-#if defined(APIVERSNUM) && APIVERSNUM < 10730
-#error "VDR-1.7.30 API version or greater is required!"
+#if defined(APIVERSNUM) && APIVERSNUM < 10734
+#error "VDR-1.7.34 API version or greater is required!"
 #endif
 
 
-static const char *VERSION        = "0.0.4";
+static const char *VERSION        = "0.0.5";
 static const char *DESCRIPTION    = "'nOpacity' Skin";
 static const char *MAINMENUENTRY  = "nOpacity";
 

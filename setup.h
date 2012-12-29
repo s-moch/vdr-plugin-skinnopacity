@@ -35,6 +35,20 @@ class cNopacitySetupMenuDisplay : public cMenuSetupSubMenu {
         cNopacitySetupMenuDisplay(cNopacityConfig *data);
 };
 
+class cNopacitySetupMenuDisplayGeometry : public cMenuSetupSubMenu {
+    protected:
+        void Set(void);
+    public:
+        cNopacitySetupMenuDisplayGeometry(cNopacityConfig *data);
+};
+
+class cNopacitySetupMenuDisplayFonts : public cMenuSetupSubMenu {
+    protected:
+        void Set(void);
+    public:
+        cNopacitySetupMenuDisplayFonts(cNopacityConfig *data);
+};
+
 class cNopacitySetupChannelDisplay : public cMenuSetupSubMenu {
     protected:
         void Set(void);

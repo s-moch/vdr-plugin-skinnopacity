@@ -15,7 +15,9 @@ void cNopacitySetup::Setup(void) {
     int currentItem = Current();
     Clear();
     Add(new cMenuEditStraItem(tr("Font"), &tmpNopacityConfig.fontIndex, fontNames.Size(), &fontNames[0]));
-    Add(new cOsdItem(tr("VDR Menu")));
+    Add(new cOsdItem(tr("VDR Menu: Common Settings")));
+    Add(new cOsdItem(tr("VDR Menu: Dimensions Settings")));
+    Add(new cOsdItem(tr("VDR Menu: Font Sizes")));
     Add(new cOsdItem(tr("Channel Switching")));
     Add(new cOsdItem(tr("Replay")));
     Add(new cOsdItem(tr("Audio Tracks")));
@@ -34,8 +36,12 @@ eOSState cNopacitySetup::ProcessKey(eKeys Key) {
     if (!hadSubMenu && (state == osUnknown || Key == kOk)) {
         if ((Key == kOk && !hadSubMenu)) {
             const char* ItemText = Get(Current())->Text();
-            if (strcmp(ItemText, tr("VDR Menu")) == 0)
+            if (strcmp(ItemText, tr("VDR Menu: Common Settings")) == 0)
                 state = AddSubMenu(new cNopacitySetupMenuDisplay(&tmpNopacityConfig));
+            if (strcmp(ItemText, tr("VDR Menu: Dimensions Settings")) == 0)
+                state = AddSubMenu(new cNopacitySetupMenuDisplayGeometry(&tmpNopacityConfig));
+            if (strcmp(ItemText, tr("VDR Menu: Font Sizes")) == 0)
+                state = AddSubMenu(new cNopacitySetupMenuDisplayFonts(&tmpNopacityConfig));
             if (strcmp(ItemText, tr("Channel Switching")) == 0)
                 state = AddSubMenu(new cNopacitySetupChannelDisplay(&tmpNopacityConfig));
             if (strcmp(ItemText, tr("Replay")) == 0)
@@ -100,6 +106,11 @@ void cNopacitySetup::Store(void) {
     SetupStore("menuScrollSpeed", config.menuScrollSpeed);
     SetupStore("menuWidthNarrow", config.menuWidthNarrow);
     SetupStore("menuWidthRightItems", config.menuWidthRightItems);
+    SetupStore("menuHeightInfoWindow", config.menuHeightInfoWindow);
+    SetupStore("menuEPGWindowFadeTime", config.menuEPGWindowFadeTime);
+    SetupStore("menuInfoTextDelay", config.menuInfoTextDelay);
+    SetupStore("menuInfoScrollDelay", config.menuInfoScrollDelay);
+    SetupStore("menuInfoScrollSpeed", config.menuInfoScrollSpeed);
     SetupStore("showDiscUsage", config.showDiscUsage);
     SetupStore("showTimers", config.showTimers);
     SetupStore("headerHeight", config.headerHeight);
@@ -129,6 +140,8 @@ void cNopacitySetup::Store(void) {
     SetupStore("fontDetailView", config.fontDetailView);
     SetupStore("fontDetailViewHeader", config.fontDetailViewHeader);
     SetupStore("fontDetailViewHeaderLarge", config.fontDetailViewHeaderLarge);
+    SetupStore("fontEPGInfoWindow", config.fontEPGInfoWindow);
+
 }
 
 //------------------------------------------------------------------------------------------------------------------
@@ -157,9 +170,9 @@ eOSState cMenuSetupSubMenu::ProcessKey(eKeys Key) {
   return state;
 }
 
-//-----MenuDisplay-------------------------------------------------------------------------------------------------------------
+//-----MenuDisplay Common Settings -------------------------------------------------------------------------------------------------------------
 
-cNopacitySetupMenuDisplay::cNopacitySetupMenuDisplay(cNopacityConfig* data)  : cMenuSetupSubMenu(tr("VDR Menu"), data) {
+cNopacitySetupMenuDisplay::cNopacitySetupMenuDisplay(cNopacityConfig* data)  : cMenuSetupSubMenu(tr("VDR Menu: Common Settings"), data) {
     useSubtitleRerunTexts[0] = tr("never");
     useSubtitleRerunTexts[1] = tr("if exists");
     useSubtitleRerunTexts[2] = tr("always");
@@ -173,20 +186,39 @@ cNopacitySetupMenuDisplay::cNopacitySetupMenuDisplay(cNopacityConfig* data)  : c
 void cNopacitySetupMenuDisplay::Set(void) {
     int currentItem = Current();
     Clear();
-    Add(new cMenuEditIntItem(tr("Fade-In Time in ms (Zero for switching off fading)"), &tmpNopacityConfig->menuFadeTime, 0, 1000));
-    Add(new cMenuEditStraItem(tr("Scrolling Speed"), &tmpNopacityConfig->menuScrollSpeed, 4, scrollSpeed));
-    Add(new cMenuEditIntItem(tr("Scrolling Delay in ms"), &tmpNopacityConfig->menuScrollDelay, 0, 2000));
+    Add(new cMenuEditIntItem(tr("Number of Default Menu Entries per Page"), &tmpNopacityConfig->numDefaultMenuItems, 10, 40));
     Add(new cMenuEditBoolItem(tr("Scale Video size to fit into menu window"), &tmpNopacityConfig->scalePicture));
+    Add(new cMenuEditIntItem(tr("Fade-In Time in ms (Zero for switching off fading)"), &tmpNopacityConfig->menuFadeTime, 0, 1000));
+    Add(new cMenuEditBoolItem(tr("Display Disk Usage"), &tmpNopacityConfig->showDiscUsage));
+    Add(new cMenuEditBoolItem(tr("Display Timers"), &tmpNopacityConfig->showTimers));
+    Add(new cMenuEditStraItem(tr("Menu Items Scrolling Speed"), &tmpNopacityConfig->menuScrollSpeed, 4, scrollSpeed));
+    Add(new cMenuEditIntItem(tr("Menu Items Scrolling Delay in s"), &tmpNopacityConfig->menuScrollDelay, 0, 3));
+    Add(new cMenuEditIntItem(tr("EPG Window Fade-In Time in ms (Zero for switching off fading)"), &tmpNopacityConfig->menuEPGWindowFadeTime, 0, 1000));
+    Add(new cMenuEditIntItem(tr("EPG Window Display Delay in s"), &tmpNopacityConfig->menuInfoTextDelay, 0, 10));
+    Add(new cMenuEditIntItem(tr("EPG Window Scroll Delay in s"), &tmpNopacityConfig->menuInfoScrollDelay, 0, 10));
+    Add(new cMenuEditStraItem(tr("EPG Window Text Scrolling Speed"), &tmpNopacityConfig->menuInfoScrollSpeed, 4, scrollSpeed));
     Add(new cMenuEditBoolItem(tr("Display Reruns in detailed EPG View"), &tmpNopacityConfig->displayRerunsDetailEPGView));
     Add(new cMenuEditIntItem(tr("Number of reruns to display"), &tmpNopacityConfig->numReruns, 1, 10));
     Add(new cMenuEditStraItem(tr("Use Subtitle for reruns"), &tmpNopacityConfig->useSubtitleRerun, 3, useSubtitleRerunTexts));
+    
+    SetCurrent(Get(currentItem));
+    Display();
+}
+
+//-----MenuDisplay Size Settings -------------------------------------------------------------------------------------------------------------
+
+cNopacitySetupMenuDisplayGeometry::cNopacitySetupMenuDisplayGeometry(cNopacityConfig* data)  : cMenuSetupSubMenu(tr("VDR Menu: Dimensions Settings"), data) {
+    Set();
+}
+
+void cNopacitySetupMenuDisplayGeometry::Set(void) {
+    int currentItem = Current();
+    Clear();
     Add(new cMenuEditIntItem(tr("Width of narrow Menu Bar (Percent of OSD Width)"), &tmpNopacityConfig->menuWidthNarrow, 10, 100));
-    Add(new cMenuEditBoolItem(tr("Display Disk Usage"), &tmpNopacityConfig->showDiscUsage));
-    Add(new cMenuEditBoolItem(tr("Display Timers"), &tmpNopacityConfig->showTimers));
     Add(new cMenuEditIntItem(tr("Width of Disc Usage and Timers Display (Percent of OSD Width)"), &tmpNopacityConfig->menuWidthRightItems, 10, 100));
+    Add(new cMenuEditIntItem(tr("Height of EPG Info Window (Percent of OSD Height)"), &tmpNopacityConfig->menuHeightInfoWindow, 10, 100));
     Add(new cMenuEditIntItem(tr("Header Height (Percent of OSD Height)"), &tmpNopacityConfig->headerHeight, 0, 30));
     Add(new cMenuEditIntItem(tr("Footer Height (Percent of OSD Height)"), &tmpNopacityConfig->footerHeight, 0, 30));
-    Add(new cMenuEditIntItem(tr("Number of Default Menu Entries per Page"), &tmpNopacityConfig->numDefaultMenuItems, 10, 40));
     Add(new cMenuEditIntItem(tr("Icon Size (Square Main Menu Icons)"), &tmpNopacityConfig->iconHeight, 30, 200));
     Add(new cMenuEditIntItem(tr("Header Icon Size (Square Header Menu Icons)"), &tmpNopacityConfig->headerIconHeight, 30, 200));
     Add(new cMenuEditIntItem(tr("Channel Logo Width (on the Menu Buttons)"), &tmpNopacityConfig->menuItemLogoWidth, 30, 200));
@@ -197,6 +229,19 @@ void cNopacitySetupMenuDisplay::Set(void) {
     Add(new cMenuEditIntItem(tr("Detail EPG View Logo Height"), &tmpNopacityConfig->detailViewLogoHeight, 30, 500));
     Add(new cMenuEditIntItem(tr("Detail EPG View EPG Image Width"), &tmpNopacityConfig->epgImageWidth, 30, 500));
     Add(new cMenuEditIntItem(tr("Detail EPG View EPG Image Height"), &tmpNopacityConfig->epgImageHeight, 30, 500));
+    SetCurrent(Get(currentItem));
+    Display();
+}
+
+//-----MenuDisplay Font Sizes -------------------------------------------------------------------------------------------------------------
+
+cNopacitySetupMenuDisplayFonts::cNopacitySetupMenuDisplayFonts(cNopacityConfig* data)  : cMenuSetupSubMenu(tr("VDR Menu: Font Sizes"), data) {
+    Set();
+}
+
+void cNopacitySetupMenuDisplayFonts::Set(void) {
+    int currentItem = Current();
+    Clear();
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Header"), &tmpNopacityConfig->fontHeader, -20, 20));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Date"), &tmpNopacityConfig->fontDate, -20, 20));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Large Menu Item"), &tmpNopacityConfig->fontMenuitemLarge, -20, 20));
@@ -211,7 +256,7 @@ void cNopacitySetupMenuDisplay::Set(void) {
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Detail View Text"), &tmpNopacityConfig->fontDetailView, -20, 20));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Detail View Header"), &tmpNopacityConfig->fontDetailViewHeader, -20, 20));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Detail View Header Large"), &tmpNopacityConfig->fontDetailViewHeaderLarge, -20, 20));
-
+    Add(new cMenuEditIntItem(tr("Adjust Font Size - EPG Info Window"), &tmpNopacityConfig->fontEPGInfoWindow, -20, 20));
     SetCurrent(Get(currentItem));
     Display();
 }
