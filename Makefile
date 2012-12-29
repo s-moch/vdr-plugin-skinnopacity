@@ -21,6 +21,8 @@ VERSION = $(shell grep 'static const char \*VERSION *=' $(PLUGIN).c | awk '{ pri
 PKGCFG = $(if $(VDRDIR),$(shell pkg-config --variable=$(1) $(VDRDIR)/vdr.pc),$(shell pkg-config --variable=$(1) vdr || pkg-config --variable=$(1) ../../../vdr.pc))
 LIBDIR = $(DESTDIR)$(call PKGCFG,libdir)
 LOCDIR = $(DESTDIR)$(call PKGCFG,locdir)
+VDRCONFDIR = $(DESTDIR)$(call PKGCFG,configdir)
+PLGCONFDIR = $(DESTDIR)$(call PKGCFG,configdir)/plugins/$(PLUGIN)
 TMPDIR ?= /tmp
 
 ### The compiler options:
@@ -41,7 +43,6 @@ SOFILE = libvdr-$(PLUGIN).so
 
 ### Includes and Defines (add further entries here):
 
-INCLUDES +=
 INCLUDES += -I/usr/include/ImageMagick
 
 DEFINES += -DPLUGIN_NAME_I18N='"$(PLUGIN)"'
@@ -102,7 +103,15 @@ $(SOFILE): $(OBJS)
 install-lib: $(SOFILE)
 	install -D $^ $(LIBDIR)/$^.$(APIVERSION)
 
-install: install-lib install-i18n
+install-themes:
+	mkdir -p $(VDRCONFDIR)/themes
+	cp themes/* $(VDRCONFDIR)/themes
+
+install-icons:
+	mkdir -p $(PLGCONFDIR)/icons
+	cp -r icons/* $(PLGCONFDIR)/icons
+
+install: install-lib install-i18n install-themes install-icons
 
 dist: $(I18Npo) clean
 	@-rm -rf $(TMPDIR)/$(ARCHIVE)
