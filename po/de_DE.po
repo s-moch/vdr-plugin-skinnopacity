@@ -36,7 +36,7 @@ msgid "VDR Menu: Common Settings"
 msgstr "VDR Menü: Allgemeine Einstellungen"
 
 msgid "VDR Menu: Dimensions Settings"
-msgstr ""
+msgstr "VDR Menü: Größeneinstellungen"
 
 msgid "VDR Menu: Font Sizes"
 msgstr "VDR Menü: Schriftgrößen"
@@ -278,5 +278,3 @@ msgstr "Breite der Lautstärken Anzeige (Proz. der OSD Breite)"
 msgid "Hight of Volume Display (Percent of OSD Height)"
 msgstr "Breite der Lautstärken Anzeige (Proz. der OSD Breite)"
 
-#~ msgid "VDR Menu: Size Settings"
-#~ msgstr "VDR Menü: Größeneinstellungen"
