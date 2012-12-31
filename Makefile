@@ -22,7 +22,7 @@ PKGCFG = $(if $(VDRDIR),$(shell pkg-config --variable=$(1) $(VDRDIR)/vdr.pc),$(s
 LIBDIR = $(DESTDIR)$(call PKGCFG,libdir)
 LOCDIR = $(DESTDIR)$(call PKGCFG,locdir)
 VDRCONFDIR = $(DESTDIR)$(call PKGCFG,configdir)
-PLGCONFDIR = $(DESTDIR)$(call PKGCFG,configdir)/plugins/$(PLUGIN)
+PLGCONFDIR = $(DESTDIR)$(call PKGCFG,resdir)/plugins/$(PLUGIN)
 TMPDIR ?= /tmp
 
 ### The compiler options:
