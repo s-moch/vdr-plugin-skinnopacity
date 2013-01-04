@@ -73,6 +73,7 @@ void cNopacitySetup::Store(void) {
     SetupStore("fontEPGSize", config.fontEPGSize);
     SetupStore("fontEPGSmallSize", config.fontEPGSmallSize);
     SetupStore("resolutionIconSize", config.resolutionIconSize);
+    SetupStore("statusIconSize", config.statusIconSize);
     SetupStore("replayHeight", config.replayHeight);
     SetupStore("replayBorderVertical", config.replayBorderVertical);
     SetupStore("replayBorderBottom", config.replayBorderBottom);
@@ -126,11 +127,14 @@ void cNopacitySetup::Store(void) {
     SetupStore("detailViewLogoHeight", config.detailViewLogoHeight);
     SetupStore("epgImageWidth", config.epgImageWidth);
     SetupStore("epgImageHeight", config.epgImageHeight);
+    SetupStore("menuRecFolderSize", config.menuRecFolderSize);
     SetupStore("fontHeader", config.fontHeader);
     SetupStore("fontDate", config.fontDate);
     SetupStore("fontMenuitemLarge", config.fontMenuitemLarge);
     SetupStore("fontMenuitemSchedule", config.fontMenuitemSchedule);
     SetupStore("fontMenuitemScheduleSmall", config.fontMenuitemScheduleSmall);
+    SetupStore("fontMenuitemRecordings", config.fontMenuitemRecordings);
+    SetupStore("fontMenuitemRecordingsSmall", config.fontMenuitemRecordingsSmall);
     SetupStore("fontMenuitemDefault", config.fontMenuitemDefault);
     SetupStore("fontDiskUsage", config.fontDiskUsage);
     SetupStore("fontTimersHead", config.fontTimersHead);
@@ -225,6 +229,7 @@ void cNopacitySetupMenuDisplayGeometry::Set(void) {
     Add(new cMenuEditIntItem(tr("Channel Logo Height (on the Menu Buttons)"), &tmpNopacityConfig->menuItemLogoHeight, 30, 200));
     Add(new cMenuEditIntItem(tr("Main Menu Header Logo Width"), &tmpNopacityConfig->menuHeaderLogoWidth, 30, 500));
     Add(new cMenuEditIntItem(tr("Main Menu Header Logo Height"), &tmpNopacityConfig->menuHeaderLogoHeight, 30, 500));
+    Add(new cMenuEditIntItem(tr("Recordings Menu Folder Icon Size"), &tmpNopacityConfig->menuRecFolderSize, 30, 300));
     Add(new cMenuEditIntItem(tr("Detail EPG View Logo Width"), &tmpNopacityConfig->detailViewLogoWidth, 30, 500));
     Add(new cMenuEditIntItem(tr("Detail EPG View Logo Height"), &tmpNopacityConfig->detailViewLogoHeight, 30, 500));
     Add(new cMenuEditIntItem(tr("Detail EPG View EPG Image Width"), &tmpNopacityConfig->epgImageWidth, 30, 500));
@@ -247,6 +252,8 @@ void cNopacitySetupMenuDisplayFonts::Set(void) {
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Large Menu Item"), &tmpNopacityConfig->fontMenuitemLarge, -20, 20));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Schedule Menu Item"), &tmpNopacityConfig->fontMenuitemSchedule, -20, 20));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Schedule Menu Item Small"), &tmpNopacityConfig->fontMenuitemScheduleSmall, -20, 20));
+    Add(new cMenuEditIntItem(tr("Adjust Font Size - Recordings Menu Item"), &tmpNopacityConfig->fontMenuitemRecordings, -20, 20));
+    Add(new cMenuEditIntItem(tr("Adjust Font Size - Recordings Menu Item Small"), &tmpNopacityConfig->fontMenuitemRecordingsSmall, -20, 20));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Default Menu Item"), &tmpNopacityConfig->fontMenuitemDefault, -20, 20));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Disc Usage"), &tmpNopacityConfig->fontDiskUsage, -20, 20));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Timers Header"), &tmpNopacityConfig->fontTimersHead, -20, 20));
@@ -280,6 +287,7 @@ void cNopacitySetupChannelDisplay::Set(void) {
     Add(new cMenuEditIntItem(tr("Channel Logo Border"), &tmpNopacityConfig->logoBorder, 0, 200));
     Add(new cMenuEditBoolItem(tr("Display Signal Strength & Quality"), &tmpNopacityConfig->displaySignalStrength));
     Add(new cMenuEditIntItem(tr("Screen Resolution Icon Size"), &tmpNopacityConfig->resolutionIconSize, 30, 200));
+    Add(new cMenuEditIntItem(tr("Status Icons Size"), &tmpNopacityConfig->statusIconSize, 30, 150));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Header"), &tmpNopacityConfig->fontChannelHeaderSize, -20, 20));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Date"), &tmpNopacityConfig->fontChannelDateSize, -20, 20));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - EPG Text"), &tmpNopacityConfig->fontEPGSize, -20, 20));

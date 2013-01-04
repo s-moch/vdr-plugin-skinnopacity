@@ -116,6 +116,35 @@ public:
     void Render();
 };
 
+class cNopacityRecordingMenuItem : public cNopacityMenuItem {
+private:
+    const cRecording *Recording;
+    bool isFolder;
+    int Total, New;
+    std::string strRecName;
+    std::string strRecNameFull;
+    void SetTextFull(void);
+    void SetTextShort(void);
+    void SetTextFullFolder(void);
+    void SetTextShortFolder(void);
+    void SetTextFullRecording(void);
+    void SetTextShortRecording(void);
+    int DrawRecordingNewIcon(void);
+    int DrawRecordingEditedIcon(int startLeft);
+    void DrawFolderIcon(void);
+    void DrawRecDateTime(void);
+    void DrawFolderNewSeen(void);
+    int CheckScrollableRecording(void);
+    int CheckScrollableFolder(void);
+public:
+    cNopacityRecordingMenuItem(cOsd *osd, const cRecording *Recording, bool sel, bool isFolder, int Total, int New);
+    ~cNopacityRecordingMenuItem(void);
+    void CreatePixmapTextScroller(int totalWidth);
+    void CreateText(void);
+    int CheckScrollable(bool hasIcon);
+    void Render();
+};
+
 class cNopacityDefaultMenuItem : public cNopacityMenuItem {
 private:
     std::string strEntry;

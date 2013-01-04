@@ -33,6 +33,8 @@ cNopacityDisplayMenuView::~cNopacityDisplayMenuView(void) {
     delete fontMenuitemLarge;
     delete fontMenuitemSchedule;
     delete fontMenuitemScheduleSmall;
+    delete fontMenuitemRecordings;
+    delete fontMenuitemRecordingsSmall;
     delete fontMenuitemDefault;
     delete fontDiskUsage;
     delete fontTimers;
@@ -65,6 +67,7 @@ void cNopacityDisplayMenuView::SetGeometry(void) {
     menuItemHeightMain = config.iconHeight + 2;
     menuItemHeightSchedule = config.menuItemLogoHeight + 2;
     menuItemHeightDefault = contentHeight / config.numDefaultMenuItems - spaceMenu;
+    menuItemHeightRecordings = config.menuRecFolderSize + 2;
     diskUsageWidth = diskUsageHeight = timersWidth = osdWidth  * config.menuWidthRightItems / 100;
     buttonsBorder = 10;
     buttonWidth = (osdWidth / 4) - 2 * buttonsBorder;
@@ -132,6 +135,8 @@ void cNopacityDisplayMenuView::CreateFonts(void) {
     fontMenuitemLarge = cFont::CreateFont(config.fontName, menuItemHeightMain/3 + 4 + config.fontMenuitemLarge);
     fontMenuitemSchedule = cFont::CreateFont(config.fontName, menuItemHeightSchedule / 4 + 5 + config.fontMenuitemSchedule);
     fontMenuitemScheduleSmall = cFont::CreateFont(config.fontName, menuItemHeightSchedule / 4 - 5 + config.fontMenuitemScheduleSmall);
+    fontMenuitemRecordings = cFont::CreateFont(config.fontName, menuItemHeightRecordings / 2 - 14 + config.fontMenuitemRecordings);
+    fontMenuitemRecordingsSmall = cFont::CreateFont(config.fontName, menuItemHeightRecordings / 4 - 3 + config.fontMenuitemRecordingsSmall);
     fontMenuitemDefault = cFont::CreateFont(config.fontName, menuItemHeightDefault * 2 / 3 + config.fontMenuitemDefault);
     fontDiskUsage = cFont::CreateFont(config.fontName, (diskUsageHeight/4)/2 - 2 + config.fontDiskUsage);
     fontTimersHead = cFont::CreateFont(config.fontName, (contentHeight - 3*spaceMenu - diskUsageHeight) / 25 + config.fontTimersHead);
@@ -151,13 +156,23 @@ cFont *cNopacityDisplayMenuView::GetMenuItemFont(eMenuCategory menuCat) {
             return fontMenuitemSchedule;
         case mcChannel:
             return fontMenuitemLarge;
+        case mcRecording:
+            return fontMenuitemRecordings;
         default:
             return fontMenuitemDefault;     
     }
     return fontMenuitemDefault;
 }
 
-cFont *cNopacityDisplayMenuView::GetMenuItemFontSmall() {
+cFont *cNopacityDisplayMenuView::GetMenuItemFontSmall(eMenuCategory menuCat) {
+    switch (menuCat) {
+        case mcSchedule:
+            return fontMenuitemScheduleSmall;
+        case mcRecording:
+            return fontMenuitemRecordingsSmall;
+        default:
+            return fontMenuitemScheduleSmall;     
+    }
     return fontMenuitemScheduleSmall;
 }
 
@@ -187,6 +202,10 @@ void cNopacityDisplayMenuView::GetMenuItemSize(eMenuCategory menuCat, cPoint *it
             itemWidth = menuItemWidthMain;
             itemHeight = menuItemHeightSchedule;
             break;
+        case mcRecording:
+            itemWidth = menuItemWidthMain;
+            itemHeight = menuItemHeightRecordings;
+            break;
         default:
             itemWidth = menuItemWidthDefault;
             itemHeight = menuItemHeightDefault;
@@ -207,6 +226,9 @@ int cNopacityDisplayMenuView::GetMaxItems(eMenuCategory menuCat) {
         case mcScheduleNext:
         case mcChannel:
             maxItems = contentHeight / (menuItemHeightSchedule + spaceMenu);
+            break;
+        case mcRecording:
+            maxItems = contentHeight / (menuItemHeightRecordings + spaceMenu);
             break;
         default:
             maxItems = config.numDefaultMenuItems;      
@@ -263,6 +285,10 @@ void cNopacityDisplayMenuView::CreateBackgroundImages(int *handleBackgrounds, in
     handleBackgrounds[4] = cOsdProvider::StoreImage(imgLoader.GetImage());
     imgLoader.DrawBackground(Theme.Color(clrMenuItemHigh), Theme.Color(clrMenuItemHighBlend), menuItemWidthMain-2, menuItemHeightSchedule-2);
     handleBackgrounds[5] = cOsdProvider::StoreImage(imgLoader.GetImage());
+    imgLoader.DrawBackground(Theme.Color(clrMenuItem), Theme.Color(clrMenuItemBlend), menuItemWidthMain-2, menuItemHeightRecordings-2);
+    handleBackgrounds[6] = cOsdProvider::StoreImage(imgLoader.GetImage());
+    imgLoader.DrawBackground(Theme.Color(clrMenuItemHigh), Theme.Color(clrMenuItemHighBlend), menuItemWidthMain-2, menuItemHeightRecordings-2);
+    handleBackgrounds[7] = cOsdProvider::StoreImage(imgLoader.GetImage());
 
     tColor lutBg[] = { Theme.Color(clrButtonRed), Theme.Color(clrButtonGreen), Theme.Color(clrButtonYellow), Theme.Color(clrButtonBlue) };
 

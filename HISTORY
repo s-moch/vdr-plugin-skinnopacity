@@ -87,3 +87,7 @@ VDR Plugin 'nOpacity' Revision History
 - Split of skins VDR menu configuration section in "Common", "Geometry" and "Fonts" 
   sections for clearer arrangement
 - different minor changes and fixes
+
+Version 0.0.6
+
+- Introduced new narrow displayed Recordings menu

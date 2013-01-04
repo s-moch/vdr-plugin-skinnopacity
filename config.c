@@ -23,6 +23,7 @@ cNopacityConfig::cNopacityConfig() {
     fontEPGSize = 0;
     fontEPGSmallSize = 0;
     resolutionIconSize = 100;
+    statusIconSize = 64;
     //Display Replay 
     replayHeight = 25;
     replayBorderVertical = 15;
@@ -81,11 +82,14 @@ cNopacityConfig::cNopacityConfig() {
     detailViewLogoHeight = 200;
     epgImageWidth = 210;
     epgImageHeight = 160;
+    menuRecFolderSize = 128;
     fontHeader = 0;
     fontDate = 0;
     fontMenuitemLarge = 0;
     fontMenuitemSchedule = 0;
     fontMenuitemScheduleSmall = 0;
+    fontMenuitemRecordings = 0;
+    fontMenuitemRecordingsSmall = 0;
     fontMenuitemDefault = 0;
     fontDiskUsage = 0;
     fontTimersHead = 0;
@@ -175,6 +179,7 @@ bool cNopacityConfig::SetupParse(const char *Name, const char *Value) {
     else if (strcmp(Name, "fontEPGSize") == 0)             fontEPGSize = atoi(Value);
     else if (strcmp(Name, "fontEPGSmallSize") == 0)        fontEPGSmallSize = atoi(Value);
     else if (strcmp(Name, "resolutionIconSize") == 0)      resolutionIconSize = atoi(Value);
+    else if (strcmp(Name, "statusIconSize") == 0)          statusIconSize = atoi(Value);
     else if (strcmp(Name, "replayHeight") == 0)            replayHeight = atoi(Value);
     else if (strcmp(Name, "replayBorderVertical") == 0)    replayBorderVertical = atoi(Value);
     else if (strcmp(Name, "replayBorderBottom") == 0)      replayBorderBottom = atoi(Value);
@@ -228,11 +233,14 @@ bool cNopacityConfig::SetupParse(const char *Name, const char *Value) {
     else if (strcmp(Name, "detailViewLogoHeight") == 0)    detailViewLogoHeight = atoi(Value);
     else if (strcmp(Name, "epgImageWidth") == 0)           epgImageWidth = atoi(Value);
     else if (strcmp(Name, "epgImageHeight") == 0)          epgImageHeight = atoi(Value);
+    else if (strcmp(Name, "menuRecFolderSize") == 0)       menuRecFolderSize = atoi(Value);
     else if (strcmp(Name, "fontHeader") == 0)              fontHeader = atoi(Value);
     else if (strcmp(Name, "fontDate") == 0)                fontDate = atoi(Value);
     else if (strcmp(Name, "fontMenuitemLarge") == 0)       fontMenuitemLarge = atoi(Value);
     else if (strcmp(Name, "fontMenuitemSchedule") == 0)    fontMenuitemSchedule = atoi(Value);
     else if (strcmp(Name, "fontMenuitemScheduleSmall") == 0) fontMenuitemScheduleSmall = atoi(Value);
+    else if (strcmp(Name, "fontMenuitemRecordings") == 0)    fontMenuitemRecordings = atoi(Value);
+    else if (strcmp(Name, "fontMenuitemRecordingsSmall") == 0) fontMenuitemRecordingsSmall = atoi(Value);
     else if (strcmp(Name, "fontMenuitemDefault") == 0)     fontMenuitemDefault = atoi(Value);
     else if (strcmp(Name, "fontDiskUsage") == 0)           fontDiskUsage = atoi(Value);
     else if (strcmp(Name, "fontTimersHead") == 0)          fontTimersHead = atoi(Value);

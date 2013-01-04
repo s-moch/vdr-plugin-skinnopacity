@@ -38,7 +38,7 @@ cNopacityDisplayMenu::~cNopacityDisplayMenu() {
         delete detailView;
     }
     timers.Clear();
-    for (int i=0; i<6; i++)
+    for (int i=0; i<8; i++)
         cOsdProvider::DropImage(handleBackgrounds[i]);
     for (int i=0; i<4; i++)
         cOsdProvider::DropImage(handleButtons[i]);
@@ -108,6 +108,7 @@ int cNopacityDisplayMenu::MaxItems(void) {
         case mcScheduleNow:
         case mcScheduleNext:
         case mcChannel:
+        case mcRecording:
             maxItems = menuView->GetMaxItems(MenuCategory());
             break;
         default:
@@ -169,6 +170,7 @@ void cNopacityDisplayMenu::SetMenuCategory(eMenuCategory MenuCategory) {
         case mcScheduleNext:
         case mcChannel:
         case mcSetup:
+        case mcRecording:
             contentNarrow = true;
             break;
         default:
@@ -250,7 +252,7 @@ bool cNopacityDisplayMenu::SetItemEvent(const cEvent *Event, int Index, bool Cur
         cPoint itemSize;
         menuView->GetMenuItemSize(MenuCategory(), &itemSize);
         item->SetFont(menuView->GetMenuItemFont(mcSchedule));
-        item->SetFontSmall(menuView->GetMenuItemFontSmall());
+        item->SetFontSmall(menuView->GetMenuItemFontSmall(mcSchedule));
         item->SetFontEPGWindow(menuView->GetEPGWindowFont());
         int spaceTop = menuView->GetMenuTop(currentNumItems, itemSize.Y());
         item->SetGeometry(Index, spaceTop, menuView->spaceMenu, itemSize.X(), itemSize.Y());
@@ -290,7 +292,7 @@ bool cNopacityDisplayMenu::SetItemChannel(const cChannel *Channel, int Index, bo
         cPoint itemSize;
         menuView->GetMenuItemSize(MenuCategory(), &itemSize);
         item->SetFont(menuView->GetMenuItemFont(mcChannel));
-        item->SetFontSmall(menuView->GetMenuItemFontSmall());
+        item->SetFontSmall(menuView->GetMenuItemFontSmall(mcChannel));
         int spaceTop = menuView->GetMenuTop(currentNumItems, itemSize.Y());
         item->SetGeometry(Index, spaceTop, menuView->spaceMenu, itemSize.X(), itemSize.Y());
         item->SetCurrent(Current);
@@ -319,8 +321,43 @@ bool cNopacityDisplayMenu::SetItemChannel(const cChannel *Channel, int Index, bo
 }
 
 bool cNopacityDisplayMenu::SetItemRecording(const cRecording *Recording, int Index, bool Current, bool Selectable, 
-                                            int Level, int Total, int New) { 
-    return false; 
+                                            int Level, int Total, int New) {
+    if ((initMenu)&&(Index > menuItemIndexLast)) {
+        bool isFolder = false;
+        if (Total > 0)
+            isFolder = true;
+        cNopacityMenuItem *item = new cNopacityRecordingMenuItem(osd, Recording, Selectable, isFolder, Total, New);
+        cPoint itemSize;
+        menuView->GetMenuItemSize(MenuCategory(), &itemSize);
+        item->SetFont(menuView->GetMenuItemFont(mcRecording));
+        item->SetFontSmall(menuView->GetMenuItemFontSmall(mcRecording));
+        item->SetFontEPGWindow(menuView->GetEPGWindowFont());
+        int spaceTop = menuView->GetMenuTop(currentNumItems, itemSize.Y());
+        item->SetGeometry(Index, spaceTop, menuView->spaceMenu, itemSize.X(), itemSize.Y());
+        item->SetTextWindow(menuView->GetDescriptionTextWindowSize());
+        item->SetCurrent(Current);
+        item->SetBackgrounds(handleBackgrounds);
+        item->CreateText();
+        int textWidth = item->CheckScrollable(false);
+        item->CreatePixmap();
+        item->CreatePixmapIcon();
+        item->CreatePixmapTextScroller(textWidth);
+        menuItems.Add(item);
+        item->Render();
+        menuItemIndexLast = Index;
+        if (initial) {
+            if (FadeTime) {
+                item->SetAlpha(0);
+                item->SetAlphaIcon(0);
+                item->SetAlphaText(0);
+            }
+        }
+    } else {
+        cNopacityMenuItem *item = menuItems.Get(Index);
+        item->SetCurrent(Current);
+        item->Render();
+    }
+    return true;
 }
 
 

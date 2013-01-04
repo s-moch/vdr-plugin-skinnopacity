@@ -61,7 +61,7 @@ bool cImageLoader::LoadIcon(const char *cIcon, int width, int height) {
     }
     if (!success)
         return false;
-    buffer.scale(Geometry(width, height));
+    buffer.sample(Geometry(width, height));
     return true;
   }
   catch (...) {

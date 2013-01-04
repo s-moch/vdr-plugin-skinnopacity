@@ -41,6 +41,7 @@ class cNopacityConfig {
         int fontEPGSize;
         int fontEPGSmallSize;
         int resolutionIconSize;
+        int statusIconSize;
         //DisplayReplay
         int replayHeight;
         int replayBorderVertical;
@@ -107,11 +108,14 @@ class cNopacityConfig {
         int detailViewLogoHeight;
         int epgImageWidth;
         int epgImageHeight;
+        int menuRecFolderSize;
         int fontHeader;
         int fontDate;
         int fontMenuitemLarge;
         int fontMenuitemSchedule;
         int fontMenuitemScheduleSmall;
+        int fontMenuitemRecordings;
+        int fontMenuitemRecordingsSmall;
         int fontMenuitemDefault;
         int fontDiskUsage;
         int fontTimersHead;

@@ -20,7 +20,7 @@ private:
     bool contentNarrow, contentNarrowLast;
     cList<cNopacityTimer> timers;
     cList<cNopacityMenuItem> menuItems;
-    int handleBackgrounds[6];
+    int handleBackgrounds[8];
     int handleButtons[4];
     void DrawDisk(void);
     void DrawTimers(void);
