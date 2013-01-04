@@ -215,26 +215,25 @@ void cNopacityDisplayMenu::SetTitle(const char *Title) {
 }
 
 void cNopacityDisplayMenu::SetButtons(const char *Red, const char *Green, const char *Yellow, const char *Blue) {
-    tColor lutBg[] = { Theme.Color(clrButtonRedBorder), Theme.Color(clrButtonGreenBorder), Theme.Color(clrButtonYellowBorder), Theme.Color(clrButtonBlueBorder) };
     if (Red) {
-        menuView->DrawButton(Red, handleButtons[0], lutBg[Setup.ColorKey0], 0);
-    } else 
-        menuView->ClearButton(0);
-    
+        menuView->DrawButton(Red, handleButtons[0], Theme.Color(clrButtonRedBorder), Setup.ColorKey0);
+    } else
+        menuView->ClearButton(Setup.ColorKey0);
+
     if (Green) {
-        menuView->DrawButton(Green, handleButtons[1], lutBg[Setup.ColorKey1], 1);
-    } else 
-        menuView->ClearButton(1);
-    
+        menuView->DrawButton(Green, handleButtons[1], Theme.Color(clrButtonGreenBorder), Setup.ColorKey1);
+    } else
+        menuView->ClearButton(Setup.ColorKey1);
+
     if (Yellow) {
-        menuView->DrawButton(Yellow, handleButtons[2], lutBg[Setup.ColorKey2], 2);
-    } else 
-        menuView->ClearButton(2);
-    
+        menuView->DrawButton(Yellow, handleButtons[2], Theme.Color(clrButtonYellowBorder), Setup.ColorKey2);
+    } else
+        menuView->ClearButton(Setup.ColorKey2);
+
     if (Blue) {
-        menuView->DrawButton(Blue, handleButtons[3], lutBg[Setup.ColorKey3], 3);
-    } else 
-        menuView->ClearButton(3);
+        menuView->DrawButton(Blue, handleButtons[3], Theme.Color(clrButtonBlueBorder), Setup.ColorKey3);
+    } else
+        menuView->ClearButton(Setup.ColorKey3);
 }
 
 void cNopacityDisplayMenu::SetMessage(eMessageType Type, const char *Text) {

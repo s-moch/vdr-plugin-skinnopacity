@@ -290,15 +290,13 @@ void cNopacityDisplayMenuView::CreateBackgroundImages(int *handleBackgrounds, in
     imgLoader.DrawBackground(Theme.Color(clrMenuItemHigh), Theme.Color(clrMenuItemHighBlend), menuItemWidthMain-2, menuItemHeightRecordings-2);
     handleBackgrounds[7] = cOsdProvider::StoreImage(imgLoader.GetImage());
 
-    tColor lutBg[] = { Theme.Color(clrButtonRed), Theme.Color(clrButtonGreen), Theme.Color(clrButtonYellow), Theme.Color(clrButtonBlue) };
-
-    imgLoader.DrawBackground(Theme.Color(clrMenuBack), lutBg[Setup.ColorKey0], buttonWidth-4, buttonHeight-4);
+    imgLoader.DrawBackground(Theme.Color(clrMenuBack), Theme.Color(clrButtonRed), buttonWidth-4, buttonHeight-4);
     handleButtons[0] = cOsdProvider::StoreImage(imgLoader.GetImage());
-    imgLoader.DrawBackground(Theme.Color(clrMenuBack), lutBg[Setup.ColorKey1], buttonWidth-4, buttonHeight-4);
+    imgLoader.DrawBackground(Theme.Color(clrMenuBack), Theme.Color(clrButtonGreen), buttonWidth-4, buttonHeight-4);
     handleButtons[1] = cOsdProvider::StoreImage(imgLoader.GetImage());
-    imgLoader.DrawBackground(Theme.Color(clrMenuBack), lutBg[Setup.ColorKey2], buttonWidth-4, buttonHeight-4);
+    imgLoader.DrawBackground(Theme.Color(clrMenuBack), Theme.Color(clrButtonYellow), buttonWidth-4, buttonHeight-4);
     handleButtons[2] = cOsdProvider::StoreImage(imgLoader.GetImage());
-    imgLoader.DrawBackground(Theme.Color(clrMenuBack), lutBg[Setup.ColorKey3], buttonWidth-4, buttonHeight-4);
+    imgLoader.DrawBackground(Theme.Color(clrMenuBack), Theme.Color(clrButtonBlue), buttonWidth-4, buttonHeight-4);
     handleButtons[3] = cOsdProvider::StoreImage(imgLoader.GetImage());
 }
 
