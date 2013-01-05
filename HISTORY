@@ -91,3 +91,7 @@ VDR Plugin 'nOpacity' Revision History
 Version 0.0.6
 
 - Introduced new narrow displayed Recordings menu
+- Fixed displaying configurable color buttons
+- Fixed some nullpointer accesses in Schedules Menus
+- Improved cutting of scrolled text
+- Added Separator Items for Schedule Menus

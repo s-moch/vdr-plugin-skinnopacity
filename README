@@ -19,6 +19,8 @@ Requirements
 
 - Installed ImageMagick for displaying png/jpg Icons, Channel Logos and EPG Images
 
+- epgsearch Git since commit ba7c6277 (2013-01-03) to correctly replace the schedules
+  menu with epgsearch
 
 Description
 -----------
@@ -100,24 +102,9 @@ In this example, as a dirty hack just create a folder in your channel logo direc
 With softhddevice as output plugin, use a Version newer than Revision f640ebde 
 (0.5.1, 10.10.2012) to achieve a correct display of the screen resolution during channel switching.
 For scaling the video picture to fit into the VDR menu window, currently you have to patch
-softhddevice with the provided patch provided in ./patches/0003-softhddevice-video-scaling-without-YAEPG-vdr-1.7.33_v4.diff in the plugin sources. This patch should soon be included
-in the softhddevice git.
-
-
-
-EPG Search Integration
-------------------------- 
-Since version 0.0.5 no special epg search integration is done anymore. Replacing the 
-original VDR schedules menu with the epg search menus is not possible currently. After the 
-epgsearch plugin has implemented the neccessary new VDR features, this will be possible again. 
-Use the additional main menu entry for accesing epg search.
-
-Until epg search has not implemented all new VDR features introduced in VDR 1.7.31 - 34, please 
-use the patch "epgsearch_menucats.patch" for epg search provided in the ./patches directory 
-in the source directory of the skin to grant correct functionality of epg search. 
-
-Display of reruns of a show in detailed EPG View: if activated in the setup menu, nOpacity displays
-the reruns of a show via the EPG Search service interface in the detailed EPG view.
+softhddevice with the provided patch provided in 
+./patches/0003-softhddevice-video-scaling-without-YAEPG-vdr-1.7.33_v4.diff in the plugin sources. 
+This patch should soon be included in the softhddevice git.
 
 
 Setup Options
