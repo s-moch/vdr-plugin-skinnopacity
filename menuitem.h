@@ -26,11 +26,12 @@ protected:
     int numTabs;
     cRect *textWindow;
     cNopacityTextWindow *infoTextWindow;
+    virtual void SetTextFull(void) {};
+    virtual void SetTextShort(void) {};
     void DrawDelimiter(const char *del, const char *icon, int handleBgrd);
     virtual void Action(void);
     void DoSleep(int duration);
-    virtual void SetTextFull(void) {};
-    virtual void SetTextShort(void) {};
+    std::string CutText(std::string *text, int width, const cFont *font);
 public:
     cNopacityMenuItem(cOsd *osd, const char *text, bool sel);
     virtual ~cNopacityMenuItem(void);
