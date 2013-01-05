@@ -311,6 +311,8 @@ void cNopacityScheduleMenuItem::CreatePixmapTextScroller(int totalWidth) {
 }
 
 void cNopacityScheduleMenuItem::CreateText() {
+    if (!Event)
+        return;
     std::stringstream sstrDateTime;
     time_t now = time(NULL);
     std::string dayNow = *WeekDayName(now);
@@ -406,7 +408,7 @@ void cNopacityScheduleMenuItem::Render() {
                 delete infoTextWindow;
                 infoTextWindow = NULL;
             }
-        if (current) {
+        if (current && Event) {
             infoTextWindow = new cNopacityTextWindow(osd, fontEPGWindow);
             infoTextWindow->SetGeometry(textWindow);
             infoTextWindow->SetText(Event->Description());
@@ -461,6 +463,8 @@ void cNopacityScheduleMenuItem::DrawLogo(int logoWidth, int logoHeight) {
 }
 
 void cNopacityScheduleMenuItem::DrawRemaining(int x, int y, int width) {
+    if (!Event)
+        return;
     time_t now = time(NULL);
     if ((now < Event->StartTime()) || (now > Event->EndTime()))
         return;
