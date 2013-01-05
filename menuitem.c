@@ -3,7 +3,6 @@
 #include <sstream>
 #include <algorithm>
 
-
 // cNopacityMenuItem  -------------
 
 cNopacityMenuItem::cNopacityMenuItem(cOsd *osd, const char *text, bool sel) {
@@ -95,7 +94,12 @@ void cNopacityMenuItem::DrawDelimiter(const char *del, const char *icon, int han
         drawn = true;
     }
     std::string delimiter = del;
-    delimiter.erase(delimiter.find_last_not_of("-")+1);
+    try {
+        if (delimiter.find_first_not_of("-") > 0)
+            delimiter.erase(0, delimiter.find_first_not_of("-")+1);
+        if (delimiter.find_last_not_of("-") != std::string::npos)
+            delimiter.erase(delimiter.find_last_not_of("-")+1);
+    } catch (...) {}
     int x = config.iconHeight + 3;
     int y = (height - font->Height()) / 2;
     pixmap->DrawText(cPoint(x, y), delimiter.c_str(), Theme.Color(clrMenuFontMenuItemSep), clrTransparent, font);
@@ -425,9 +429,11 @@ void cNopacityScheduleMenuItem::Render() {
             infoTextWindow->Start();
         }
     } else {
-        int handleBgrd = (current)?handleBackgrounds[5]:handleBackgrounds[4];
-        pixmap->Fill(Theme.Color(clrMenuBorder));
-        pixmap->DrawImage(cPoint(1, 1), handleBgrd);
+        if (Event) {
+            DrawDelimiter(Event->Title(), "daydelimiter", handleBackgrounds[4]);
+        } else if (Channel) {
+            DrawDelimiter(Channel->Name(), "Channelseparator", handleBackgrounds[4]);
+        }
     }
 }
 
