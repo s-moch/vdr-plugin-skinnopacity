@@ -22,9 +22,11 @@ private:
     cList<cNopacityMenuItem> menuItems;
     int handleBackgrounds[8];
     int handleButtons[4];
+    int positionButtons[4];
     void DrawDisk(void);
     void DrawTimers(void);
     void SplitItem(const char *Text, cString *strItems, int *tabItems);
+    void SetButtonPositions(void);
     virtual void Action(void);
 protected:
     int Tab(int n);

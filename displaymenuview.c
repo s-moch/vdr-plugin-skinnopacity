@@ -483,6 +483,8 @@ void cNopacityDisplayMenuView::ShowDiskUsage(bool show) {
 }
 
 void cNopacityDisplayMenuView::DrawButton(const char *text, int handleImage, tColor borderColor, int num) {
+    if (num < 0)
+        return;
     int top = 2*buttonsBorder;
     int left = num * buttonWidth + (2*num + 1) * buttonsBorder;
     pixmapFooter->DrawRectangle(cRect(left, top, buttonWidth, buttonHeight), borderColor);
@@ -493,6 +495,8 @@ void cNopacityDisplayMenuView::DrawButton(const char *text, int handleImage, tCo
 }
 
 void cNopacityDisplayMenuView::ClearButton(int num) {
+    if (num < 0)
+        return;
     int top = 2*buttonsBorder;
     int left = num * buttonWidth + (2*num + 1) * buttonsBorder;
     pixmapFooter->DrawRectangle(cRect(left, top, buttonWidth, buttonHeight), Theme.Color(clrMenuBack));

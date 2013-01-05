@@ -17,6 +17,7 @@ cNopacityDisplayMenu::cNopacityDisplayMenu(void) {
     detailView = NULL;
     contentNarrow = true;
     contentNarrowLast = true;
+    SetButtonPositions();
     menuView = new cNopacityDisplayMenuView();
     osd = menuView->createOsd();
     menuView->SetGeometry();
@@ -188,7 +189,6 @@ void cNopacityDisplayMenu::SetMenuCategory(eMenuCategory MenuCategory) {
             timersDrawn = false;
         }
     }
-    esyslog("nopacity: menuCat %d", MenuCategory);
 }
 
 void cNopacityDisplayMenu::SetTitle(const char *Title) {
@@ -214,26 +214,57 @@ void cNopacityDisplayMenu::SetTitle(const char *Title) {
     }
 }
 
+void cNopacityDisplayMenu::SetButtonPositions(void) {
+    for (int i=0; i < 4; i++) {
+        positionButtons[i] = -1;
+    }
+    /*
+    red button = 0
+    green button = 1
+    yellow button = 2
+    blue button = 3
+    */
+    for (int button=0; button<4; button++) {
+        if (Setup.ColorKey0 == button) {
+            positionButtons[button] = 0;
+            continue;
+        }
+        if (Setup.ColorKey1 == button) {
+            positionButtons[button] = 1;
+            continue;
+        }
+        if (Setup.ColorKey2 == button) {
+            positionButtons[button] = 2;
+            continue;
+        }
+        if (Setup.ColorKey3 == button) {
+            positionButtons[button] = 3;
+            continue;
+        }
+    }
+    
+}
+
 void cNopacityDisplayMenu::SetButtons(const char *Red, const char *Green, const char *Yellow, const char *Blue) {
     if (Red) {
-        menuView->DrawButton(Red, handleButtons[0], Theme.Color(clrButtonRedBorder), Setup.ColorKey0);
+        menuView->DrawButton(Red, handleButtons[0], Theme.Color(clrButtonRedBorder), positionButtons[0]);
     } else
-        menuView->ClearButton(Setup.ColorKey0);
+        menuView->ClearButton(positionButtons[0]);
 
     if (Green) {
-        menuView->DrawButton(Green, handleButtons[1], Theme.Color(clrButtonGreenBorder), Setup.ColorKey1);
+        menuView->DrawButton(Green, handleButtons[1], Theme.Color(clrButtonGreenBorder), positionButtons[1]);
     } else
-        menuView->ClearButton(Setup.ColorKey1);
+        menuView->ClearButton(positionButtons[1]);
 
     if (Yellow) {
-        menuView->DrawButton(Yellow, handleButtons[2], Theme.Color(clrButtonYellowBorder), Setup.ColorKey2);
+        menuView->DrawButton(Yellow, handleButtons[2], Theme.Color(clrButtonYellowBorder), positionButtons[2]);
     } else
-        menuView->ClearButton(Setup.ColorKey2);
+        menuView->ClearButton(positionButtons[2]);
 
     if (Blue) {
-        menuView->DrawButton(Blue, handleButtons[3], Theme.Color(clrButtonBlueBorder), Setup.ColorKey3);
+        menuView->DrawButton(Blue, handleButtons[3], Theme.Color(clrButtonBlueBorder), positionButtons[3]);
     } else
-        menuView->ClearButton(Setup.ColorKey3);
+        menuView->ClearButton(positionButtons[3]);
 }
 
 void cNopacityDisplayMenu::SetMessage(eMessageType Type, const char *Text) {
