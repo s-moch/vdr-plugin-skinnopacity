@@ -2,6 +2,8 @@
 #include <string>
 #include <sstream>
 #include <algorithm>
+#include <iostream>
+#include <vector>
 
 // cNopacityMenuItem  -------------
 
@@ -577,9 +579,10 @@ void cNopacityChannelMenuItem::Render() {
 
 // cNopacityRecordingMenuItem  -------------
 
-cNopacityRecordingMenuItem::cNopacityRecordingMenuItem(cOsd *osd, const cRecording *Recording, bool sel, bool isFolder, int Total, int New) : cNopacityMenuItem (osd, "", sel) {
+cNopacityRecordingMenuItem::cNopacityRecordingMenuItem(cOsd *osd, const cRecording *Recording, bool sel, bool isFolder, int Level, int Total, int New) : cNopacityMenuItem (osd, "", sel) {
     this->Recording = Recording;
     this->isFolder = isFolder;
+    this->Level = Level;
     this->Total = Total;
     this->New = New;
 }
@@ -605,23 +608,19 @@ void cNopacityRecordingMenuItem::CreatePixmapTextScroller(int totalWidth) {
 }
 
 void cNopacityRecordingMenuItem::CreateText() {
-    if (isFolder) {
-        const cRecordingInfo *recInfo = Recording->Info();
-        strRecName = recInfo->Title();
-    } else {
-        std::string recName = Recording->Name();
-        if (Recording->IsEdited()) {
-            try {
-                if (recName.at(0) == '%') {
-                    recName = recName.substr(1);
-                }
-            } catch (...) {}
+    std::string recName = Recording->Name();
+    try {
+        std::vector<std::string> tokens;
+        std::istringstream f(recName.c_str());
+        std::string s;    
+        while (std::getline(f, s, FOLDERDELIMCHAR)) {
+            tokens.push_back(s);
         }
-        try {
-            if (recName.find(FOLDERDELIMCHAR) != std::string::npos) {
-                recName = recName.substr(recName.find(FOLDERDELIMCHAR) + 1);
-            }
-        } catch (...) {}
+        strRecName = tokens.at(Level);
+        if (!isFolder && Recording->IsEdited()) {
+            strRecName = strRecName.substr(1);
+        }
+    } catch (...) {
         strRecName = recName.c_str();
     }
 }

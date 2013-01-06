@@ -121,7 +121,7 @@ class cNopacityRecordingMenuItem : public cNopacityMenuItem {
 private:
     const cRecording *Recording;
     bool isFolder;
-    int Total, New;
+    int Level, Total, New;
     std::string strRecName;
     std::string strRecNameFull;
     void SetTextFull(void);
@@ -138,7 +138,7 @@ private:
     int CheckScrollableRecording(void);
     int CheckScrollableFolder(void);
 public:
-    cNopacityRecordingMenuItem(cOsd *osd, const cRecording *Recording, bool sel, bool isFolder, int Total, int New);
+    cNopacityRecordingMenuItem(cOsd *osd, const cRecording *Recording, bool sel, bool isFolder, int Level, int Total, int New);
     ~cNopacityRecordingMenuItem(void);
     void CreatePixmapTextScroller(int totalWidth);
     void CreateText(void);

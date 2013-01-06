@@ -356,7 +356,7 @@ bool cNopacityDisplayMenu::SetItemRecording(const cRecording *Recording, int Ind
         bool isFolder = false;
         if (Total > 0)
             isFolder = true;
-        cNopacityMenuItem *item = new cNopacityRecordingMenuItem(osd, Recording, Selectable, isFolder, Total, New);
+        cNopacityMenuItem *item = new cNopacityRecordingMenuItem(osd, Recording, Selectable, isFolder, Level, Total, New);
         cPoint itemSize;
         menuView->GetMenuItemSize(MenuCategory(), &itemSize);
         item->SetFont(menuView->GetMenuItemFont(mcRecording));
