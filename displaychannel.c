@@ -19,6 +19,8 @@ cNopacityDisplayChannel::cNopacityDisplayChannel(bool WithInfo) {
     lastScreenWidth = 0;
     currentLast = 0;
     channelChange = false;
+    isRadioChannel = false;
+    radioIconDrawn = false;
     initial = true;
     FrameTime = config.channelFrameTime; 
     FadeTime = config.channelFadeTime;
@@ -172,6 +174,8 @@ void cNopacityDisplayChannel::DrawIcons(const cChannel *Channel) {
     int x = infoWidth - config.resolutionIconSize - 3*spacing;
     int y = 0;
     
+    isRadioChannel = ((!Channel->Vpid())&&(Channel->Apid(0)))?true:false;
+
     bool rec = cRecordControls::Active();
     x -= bmRecording.Width() + spacing;
     y = (streamInfoHeight - bmRecording.Height()) / 2;
@@ -216,29 +220,43 @@ void cNopacityDisplayChannel::DrawScreenResolution(void) {
             pixmapScreenResolution->SetAlpha(0);
     }
     
-    cDevice::PrimaryDevice()->GetVideoSize(screenWidth, screenHeight, aspect);
-    if (screenWidth != lastScreenWidth) {
-        cImageLoader imgLoader;
-        cString iconName("");
-        switch (screenWidth) {
-            case 1920:
-            case 1440:
-                iconName = "hd1080i";
-                break;
-            case 1280:
-                iconName = "hd720p";
-                break;
-            case 720:
-                iconName = "sd576i";
-                break;
-            default:
-                iconName = "sd576i";
-                break;
+    cImageLoader imgLoader;
+    if (isRadioChannel) {
+        if (!radioIconDrawn) {
+            if (imgLoader.LoadIcon("radio", config.resolutionIconSize)) {
+                    pixmapScreenResolution->DrawImage(cPoint(0,0), imgLoader.GetImage());
+            }
+            lastScreenWidth = 0;
+            radioIconDrawn = true;
         }
-        if (imgLoader.LoadIcon(*iconName, config.resolutionIconSize)) {
-            pixmapScreenResolution->DrawImage(cPoint(0,0), imgLoader.GetImage());
+    } else {
+        cDevice::PrimaryDevice()->GetVideoSize(screenWidth, screenHeight, aspect);
+        if (screenWidth != lastScreenWidth) {
+            cString iconName("");
+            switch (screenWidth) {
+                case 1920:
+                case 1440:
+                    iconName = "hd1080i";
+                    break;
+                case 1280:
+                    if (screenHeight == 720)
+                        iconName = "hd720p";
+                    else
+                        iconName = "hd1080i";
+                    break;
+                case 720:
+                    iconName = "sd576i";
+                    break;
+                default:
+                    iconName = "sd576i";
+                    break;
+            }
+            if (imgLoader.LoadIcon(*iconName, config.resolutionIconSize)) {
+                pixmapScreenResolution->DrawImage(cPoint(0,0), imgLoader.GetImage());
+            }
+            lastScreenWidth = screenWidth;
+            radioIconDrawn = false;
         }
-        lastScreenWidth = screenWidth;
     }
 }
 

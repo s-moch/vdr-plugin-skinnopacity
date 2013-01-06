@@ -9,6 +9,8 @@ private:
     bool initial;
     bool groupSep;
     bool channelChange;
+    bool isRadioChannel;
+    bool radioIconDrawn;
     cString lastDate;
     int lastSeen;
     time_t lastSignalDisplay;
