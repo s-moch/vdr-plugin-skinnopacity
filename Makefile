@@ -21,13 +21,18 @@ VERSION = $(shell grep 'static const char \*VERSION *=' $(PLUGIN).c | awk '{ pri
 PKGCFG = $(if $(VDRDIR),$(shell pkg-config --variable=$(1) $(VDRDIR)/vdr.pc),$(shell pkg-config --variable=$(1) vdr || pkg-config --variable=$(1) ../../../vdr.pc))
 LIBDIR = $(DESTDIR)$(call PKGCFG,libdir)
 LOCDIR = $(DESTDIR)$(call PKGCFG,locdir)
+PLGCFG  = $(call PKGCFG,plgcfg)
 VDRCONFDIR = $(DESTDIR)$(call PKGCFG,configdir)
-PLGCONFDIR = $(DESTDIR)$(call PKGCFG,resdir)/plugins/$(PLUGIN)
+PLGRESDIR = $(DESTDIR)$(call PKGCFG,resdir)/plugins/$(PLUGIN)
 TMPDIR ?= /tmp
 
 ### The compiler options:
 export CFLAGS   = $(call PKGCFG,cflags)
 export CXXFLAGS = $(call PKGCFG,cxxflags)
+
+### Allow user defined options to overwrite defaults:
+
+-include $(PLGCFG)
 
 ### The version number of VDR's plugin API:
 APIVERSION = $(call PKGCFG,apiversion)
@@ -108,8 +113,8 @@ install-themes:
 	cp themes/* $(VDRCONFDIR)/themes
 
 install-icons:
-	mkdir -p $(PLGCONFDIR)/icons
-	cp -r icons/* $(PLGCONFDIR)/icons
+	mkdir -p $(PLGRESDIR)/icons
+	cp -r icons/* $(PLGRESDIR)/icons
 
 install: install-lib install-i18n install-themes install-icons
 
