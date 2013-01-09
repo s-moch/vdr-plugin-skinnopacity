@@ -19,6 +19,9 @@ Requirements
 
 - Installed ImageMagick for displaying png/jpg Icons, Channel Logos and EPG Images
 
+- for scaling the video picture to fit into the VDR menu window please use 
+  softhddevice plugin revision 87c1c7be (2013-01-01) or newer.
+
 - epgsearch Git since commit ba7c6277 (2013-01-03) to correctly replace the schedules
   menu with epgsearch
 
@@ -98,14 +101,6 @@ and lower letters as displayed inside VDR.
 Additional hint: some channels have slashes in their name (in germany nick/comedy for instance).
 In this example, as a dirty hack just create a folder in your channel logo directory named 
 "nick" and place an image named "comedy.png" inside this folder.
-
-With softhddevice as output plugin, use a Version newer than Revision f640ebde 
-(0.5.1, 10.10.2012) to achieve a correct display of the screen resolution during channel switching.
-For scaling the video picture to fit into the VDR menu window, currently you have to patch
-softhddevice with the provided patch provided in 
-./patches/0003-softhddevice-video-scaling-without-YAEPG-vdr-1.7.33_v4.diff in the plugin sources. 
-This patch should soon be included in the softhddevice git.
-
 
 Setup Options
 -------------

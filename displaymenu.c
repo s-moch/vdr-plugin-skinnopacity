@@ -45,6 +45,7 @@ cNopacityDisplayMenu::~cNopacityDisplayMenu() {
         cOsdProvider::DropImage(handleButtons[i]);
 
     delete osd;
+    cDevice::PrimaryDevice()->ScaleVideo(cRect::Null);
 }
 
 void cNopacityDisplayMenu::DrawDisk(void) {
@@ -209,7 +210,7 @@ void cNopacityDisplayMenu::SetTitle(const char *Title) {
                 menuView->ShowHeaderLogo(false);
                 left += menuView->DrawHeaderIcon(MenuCategory());
         }
-        menuView->AdjustContentBackground(contentNarrow, contentNarrowLast);        
+        menuView->AdjustContentBackground(contentNarrow, contentNarrowLast, videoWindowRect);
         menuView->DrawHeaderLabel(left, title);
     }
 }
@@ -512,7 +513,7 @@ void cNopacityDisplayMenu::SetScrollbar(int Total, int Offset) {
 void cNopacityDisplayMenu::SetEvent(const cEvent *Event) {
     if (!Event)
         return;
-    menuView->AdjustContentBackground(false, contentNarrowLast);
+    menuView->AdjustContentBackground(false, contentNarrowLast, videoWindowRect);
     detailView = new cNopacityMenuDetailEventView(osd, Event);
     menuView->SetDetailViewSize(dvEvent, detailView);
     detailView->SetFonts();
@@ -531,7 +532,7 @@ void cNopacityDisplayMenu::SetEvent(const cEvent *Event) {
 void cNopacityDisplayMenu::SetRecording(const cRecording *Recording) {
     if (!Recording)
         return;
-    menuView->AdjustContentBackground(false, contentNarrowLast);
+    menuView->AdjustContentBackground(false, contentNarrowLast, videoWindowRect);
     detailView = new cNopacityMenuDetailRecordingView(osd, Recording);
     menuView->SetDetailViewSize(dvRecording, detailView);
     detailView->SetFonts();
@@ -548,7 +549,7 @@ void cNopacityDisplayMenu::SetRecording(const cRecording *Recording) {
 void cNopacityDisplayMenu::SetText(const char *Text, bool FixedFont) {
     if (!Text)
         return;
-    menuView->AdjustContentBackground(false, contentNarrowLast);
+    menuView->AdjustContentBackground(false, contentNarrowLast, videoWindowRect);
     detailView = new cNopacityMenuDetailTextView(osd);
     menuView->SetDetailViewSize(dvText, detailView);
     detailView->SetFonts();
@@ -577,6 +578,7 @@ void cNopacityDisplayMenu::Flush(void) {
     initMenu = false;
     initial = false;
     osd->Flush();
+    cDevice::PrimaryDevice()->ScaleVideo(videoWindowRect);
 }
 
 void cNopacityDisplayMenu::Action(void) {

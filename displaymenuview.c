@@ -323,7 +323,7 @@ void cNopacityDisplayMenuView::DrawBorderDecoration() {
 
 }
 
-void cNopacityDisplayMenuView::AdjustContentBackground(bool contentNarrow, bool contentNarrowLast) {
+void cNopacityDisplayMenuView::AdjustContentBackground(bool contentNarrow, bool contentNarrowLast, cRect & vidWin) {
     if (contentNarrow) {
         pixmapContent->SetDrawPortPoint(cPoint(contentWidthNarrow - contentWidthFull, 0));
         if (config.scalePicture) {
@@ -333,13 +333,13 @@ void cNopacityDisplayMenuView::AdjustContentBackground(bool contentNarrow, bool 
                 osdTop + headerHeight,
                 contentWidthFull - osdLeft - contentWidthNarrow - widthScrollbar - 4 * spaceMenu,
                 contentHeight);// - osdTop - headerHeight);
-            cDevice::PrimaryDevice()->CanScaleVideo(availableRect);
+            vidWin = cDevice::PrimaryDevice()->CanScaleVideo(availableRect);
         }
     } else {
         pixmapContent->SetDrawPortPoint(cPoint(0, 0));
         if (config.scalePicture) {
             // ask output device to restore full size
-            cDevice::PrimaryDevice()->CanScaleVideo(cRect::Null);
+            vidWin = cDevice::PrimaryDevice()->CanScaleVideo(cRect::Null);
         }
     }
     if (contentNarrow != contentNarrowLast) {

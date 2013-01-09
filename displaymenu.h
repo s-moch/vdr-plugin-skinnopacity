@@ -23,6 +23,7 @@ private:
     int handleBackgrounds[8];
     int handleButtons[4];
     int positionButtons[4];
+    cRect videoWindowRect;
     void DrawDisk(void);
     void DrawTimers(void);
     void SplitItem(const char *Text, cString *strItems, int *tabItems);

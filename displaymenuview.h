@@ -85,7 +85,7 @@ class cNopacityDisplayMenuView {
         const cFont *GetTextAreaFont(bool FixedFont);
         cRect *GetDescriptionTextWindowSize(void) {return &textWindowSize;};
         void CreateBackgroundImages(int *handleBackgrounds, int *handleButtons);
-        void AdjustContentBackground(bool contentNarrow, bool contentNarrowLast);
+        void AdjustContentBackground(bool contentNarrow, bool contentNarrowLast, cRect & vidWin);
         void DrawBorderDecoration(void);
         int ShowHeaderLogo(bool show);
         void DrawHeaderLogo(void);
