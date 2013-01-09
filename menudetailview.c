@@ -84,10 +84,11 @@ void cNopacityMenuDetailView::LoadReruns(const cEvent *event) {
         if (epgSearchPlugin->Service("Epgsearch-searchresults-v1.0", &data)) {
             cList<Epgsearch_searchresults_v1_0::cServiceSearchResult>* list = data.pResultList;
             if (list && (list->Count() > 1)) {
-                //TODO: current event is shown as rerun 
                 sstrReruns << tr("RERUNS OF THIS SHOW") << ':' << std::endl;
                 int i = 0;
                 for (Epgsearch_searchresults_v1_0::cServiceSearchResult *r = list->First(); r && i < config.numReruns; r = list->Next(r)) {
+                    if ((event->ChannelID() == r->event->ChannelID()) && (event->StartTime() == r->event->StartTime()))
+                        continue;
                     i++;
                     sstrReruns  << "- "
                                 << *DayDateTime(r->event->StartTime());
