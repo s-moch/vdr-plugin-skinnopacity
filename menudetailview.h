@@ -17,6 +17,7 @@ protected:
     cPixmap *pixmapHeader;
     cPixmap *pixmapLogo;
     cPixmap *pixmapContent;
+    int ReadSizeVdr(const char *strPath);
     void DrawContent(void);
 public:
     cNopacityMenuDetailView(cOsd *osd);
@@ -25,6 +26,7 @@ public:
     virtual void SetFonts(void) = 0;
     void SetContent(const char *textContent);
     void LoadReruns(const cEvent *event);
+    void LoadRecordingInformation(const cRecording *recording);
     bool Scrollable(void) {return hasScrollbar;}
     double ScrollbarSize(void);
     double Offset(void);

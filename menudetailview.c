@@ -108,6 +108,136 @@ void cNopacityMenuDetailView::LoadReruns(const cEvent *event) {
     }
 }
 
+void cNopacityMenuDetailView::LoadRecordingInformation(const cRecording *recording) {
+    const cRecordingInfo *Info = recording->Info();
+    unsigned long long nRecSize = -1;
+    unsigned long long nFileSize[1000];
+    nFileSize[0] = 0;
+    int i = 0;
+    struct stat filebuf;
+    cString filename;
+    int rc = 0;
+    do {
+        if (recording->IsPesRecording())
+            filename = cString::sprintf("%s/%03d.vdr", recording->FileName(), ++i);
+        else
+            filename = cString::sprintf("%s/%05d.ts", recording->FileName(), ++i);
+        rc = stat(filename, &filebuf);
+        if (rc == 0)
+            nFileSize[i] = nFileSize[i-1] + filebuf.st_size;
+        else
+            if (ENOENT != errno) {
+                nRecSize = -1;
+            }
+    } while (i <= 999 && !rc);
+    nRecSize = nFileSize[i-1];
+
+    cMarks marks;
+    bool fHasMarks = marks.Load(recording->FileName(), recording->FramesPerSecond(), recording->IsPesRecording()) && marks.Count();
+    cIndexFile *index = new cIndexFile(recording->FileName(), false, recording->IsPesRecording());
+
+    int nCutLength = 0;
+    long nCutInFrame = 0;
+    unsigned long long nRecSizeCut = nRecSize < 0 ? -1 : 0;
+    unsigned long long nCutInOffset = 0;
+
+    if (fHasMarks && index) {
+        uint16_t FileNumber;
+        off_t FileOffset;
+
+        bool fCutIn = true;
+        cMark *mark = marks.First();
+        while (mark) {
+            int pos = mark->Position();
+            index->Get(pos, &FileNumber, &FileOffset); //TODO: will disc spin up?
+            if (fCutIn) {
+                nCutInFrame = pos;
+                fCutIn = false;
+                if (nRecSize >= 0)
+                    nCutInOffset = nFileSize[FileNumber-1] + FileOffset;
+            } else {
+                nCutLength += pos - nCutInFrame;
+                fCutIn = true;
+                if (nRecSize >= 0)
+                    nRecSizeCut += nFileSize[FileNumber-1] + FileOffset - nCutInOffset;
+            }
+            cMark *nextmark = marks.Next(mark);
+            mark = nextmark;
+        }
+        if (!fCutIn) {
+            nCutLength += index->Last() - nCutInFrame;
+            index->Get(index->Last() - 1, &FileNumber, &FileOffset);
+            if (nRecSize >= 0)
+                nRecSizeCut += nFileSize[FileNumber-1] + FileOffset - nCutInOffset;
+        }
+    }
+
+    std::stringstream sstrInfo;
+
+    cChannel *channel = Channels.GetByChannelID(Info->ChannelID());
+    if (channel)
+        sstrInfo << trVDR("Channel") << ": " << channel->Number() << " - " << channel->Name() << std::endl;
+    if (nRecSize < 0) {
+        if ((nRecSize = ReadSizeVdr(recording->FileName())) < 0) {
+            nRecSize = DirSizeMB(recording->FileName());
+        }
+    }
+    if (nRecSize >= 0) {
+        cString strRecSize = "";
+        if (fHasMarks) {
+            if (nRecSize > MEGABYTE(1023))
+                strRecSize = cString::sprintf("%s: %.2f GB (%s: %.2f GB)", tr("Size"), (float)nRecSize / MEGABYTE(1024), tr("cut"), (float)nRecSizeCut / MEGABYTE(1024));
+            else
+                strRecSize = cString::sprintf("%s: %lld MB (%s: %lld MB)", tr("Size"), nRecSize / MEGABYTE(1), tr("cut"), nRecSizeCut / MEGABYTE(1));
+        } else {
+            if (nRecSize > MEGABYTE(1023))
+                strRecSize = cString::sprintf("%s: %.2f GB", tr("Size"), (float)nRecSize / MEGABYTE(1024));
+            else
+                strRecSize = cString::sprintf("%s: %lld MB", tr("Size"), nRecSize / MEGABYTE(1));
+        }
+        sstrInfo << (const char*)strRecSize << std::endl;
+    }
+    
+    if (index) {
+        int nLastIndex = index->Last();
+        if (nLastIndex) {
+            cString strLength;
+            if (fHasMarks) {
+                strLength = cString::sprintf("%s: %s (%s %s)", tr("Length"), *IndexToHMSF(nLastIndex, false, recording->FramesPerSecond()), tr("cut"), *IndexToHMSF(nCutLength, false, recording->FramesPerSecond()));
+            } else {
+                strLength = cString::sprintf("%s: %s", tr("Length"), *IndexToHMSF(nLastIndex, false, recording->FramesPerSecond()));
+            }
+            sstrInfo << (const char*)strLength << std::endl;
+            cString strBitrate = cString::sprintf("%s: %s\n%s: %.2f MBit/s (Video+Audio)", tr("Format"), recording->IsPesRecording() ? "PES" : "TS", tr("Est. bitrate"), (float)nRecSize / nLastIndex * recording->FramesPerSecond() * 8 / MEGABYTE(1));
+            sstrInfo << (const char*)strBitrate << std::endl;
+        }
+    }
+    delete index;
+    
+    additionalContent = sstrInfo.str().c_str();
+    additionalContentSet = true;
+}
+
+int cNopacityMenuDetailView::ReadSizeVdr(const char *strPath) {
+    int dirSize = -1;
+    char buffer[20];
+    char *strFilename = NULL;
+    if (-1 != asprintf(&strFilename, "%s/size.vdr", strPath)) {
+        struct stat st;
+        if (stat(strFilename, &st) == 0) {
+                int fd = open(strFilename, O_RDONLY);
+            if (fd >= 0) {
+                if (safe_read(fd, &buffer, sizeof(buffer)) >= 0) {
+                    dirSize = atoi(buffer);
+                }
+                close(fd);
+            }
+        }
+        free(strFilename);
+    }
+    return dirSize;
+}
+
 double cNopacityMenuDetailView::ScrollbarSize(void) {
     double barSize = (double)contentHeight / (double)contentDrawPortHeight;
     return barSize;

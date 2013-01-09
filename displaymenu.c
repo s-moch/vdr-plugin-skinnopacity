@@ -530,12 +530,20 @@ void cNopacityDisplayMenu::SetEvent(const cEvent *Event) {
 }
 
 void cNopacityDisplayMenu::SetRecording(const cRecording *Recording) {
+    esyslog("nopacity: aga0");
     if (!Recording)
         return;
+    const cRecordingInfo *Info = Recording->Info();
+    if (!Info) {
+        return;
+    }
     menuView->AdjustContentBackground(false, contentNarrowLast, videoWindowRect);
     detailView = new cNopacityMenuDetailRecordingView(osd, Recording);
     menuView->SetDetailViewSize(dvRecording, detailView);
     detailView->SetFonts();
+    esyslog("nopacity: aga");
+    detailView->LoadRecordingInformation(Recording);
+    esyslog("nopacity: aga2");
     detailView->SetContent(Recording->Info()->Description());
     detailView->CreatePixmaps();
     detailView->Render();

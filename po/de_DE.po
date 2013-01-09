@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-01-02 15:58+0100\n"
+"POT-Creation-Date: 2013-01-09 20:30+0100\n"
 "PO-Revision-Date: 2012-11-11 17:49+0200\n"
 "Last-Translator: louis\n"
 "Language-Team: \n"
@@ -28,6 +28,21 @@ msgstr "Lautstärke"
 
 msgid "RERUNS OF THIS SHOW"
 msgstr "Wiederholungen dieser Sendung"
+
+msgid "Size"
+msgstr "Größe"
+
+msgid "cut"
+msgstr "geschnitten"
+
+msgid "Length"
+msgstr "Länge"
+
+msgid "Format"
+msgstr "Format"
+
+msgid "Est. bitrate"
+msgstr "Geschätzte Bitrate"
 
 msgid "Duration"
 msgstr "Dauer"

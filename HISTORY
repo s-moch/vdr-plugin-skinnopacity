@@ -95,3 +95,7 @@ Version 0.0.6
 - Fixed some nullpointer accesses in Schedules Menus
 - Improved cutting of scrolled text
 - Added Separator Items for Schedule Menus
+- Adapted video scaling to new implementation (thanks @Zoolook for the patch)
+- Fixed showing current show as rerun in epg detail view
+- Added some recording information (channel, size, cutted size, format, 
+  est. bitrate) in detailed recording view
