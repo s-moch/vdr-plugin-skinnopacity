@@ -519,6 +519,12 @@ void cNopacityChannelMenuItem::CreatePixmapTextScroller(int totalWidth) {
 
 void cNopacityChannelMenuItem::CreateText() {
     strEntry = Channel->Name();
+    const cSource *source = Sources.Get(Channel->Source());
+    if (source)
+        strChannelSource = cString::sprintf("%s - %s", *cSource::ToString(source->Code()),  source->Description());
+    else
+        strChannelSource = "";
+    strChannelInfo = cString::sprintf("%s %d, %d MHz", tr("Transp."), Channel->Transponder(), Channel->Frequency());
 }
 
 int cNopacityChannelMenuItem::CheckScrollable(bool hasIcon) {
@@ -538,13 +544,31 @@ int cNopacityChannelMenuItem::CheckScrollable(bool hasIcon) {
 void cNopacityChannelMenuItem::SetTextFull(void) {
     tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
     pixmapTextScroller->Fill(clrTransparent);
-    pixmapTextScroller->DrawText(cPoint(5, (height - font->Height())/2), strEntryFull.c_str(), clrFont, clrTransparent, font);
+    pixmapTextScroller->DrawText(cPoint(5, (height/2 - font->Height())/2), strEntryFull.c_str(), clrFont, clrTransparent, font);
 }
 
 void cNopacityChannelMenuItem::SetTextShort(void) {
     tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
     pixmapTextScroller->Fill(clrTransparent);
-    pixmapTextScroller->DrawText(cPoint(5, (height - font->Height())/2), strEntry.c_str(), clrFont, clrTransparent, font);
+    pixmapTextScroller->DrawText(cPoint(5, (height/2 - font->Height())/2), strEntry.c_str(), clrFont, clrTransparent, font);
+}
+
+void cNopacityChannelMenuItem::DrawBackground(int handleBackground) {
+    pixmap->Fill(Theme.Color(clrMenuBorder));
+    pixmap->DrawImage(cPoint(1, 1), handleBackground);
+    
+    int encryptedSize = height/4-2;
+    int sourceX = config.menuItemLogoWidth + 15;
+
+    pixmap->DrawText(cPoint(sourceX, 3*height/4 + (height/4 - fontSmall->Height())/2), *strChannelInfo, Theme.Color(clrMenuFontMenuItem), clrTransparent, fontSmall);
+    if (Channel->Ca()) {
+        cImageLoader imgLoader;
+        if (imgLoader.LoadIcon("encrypted", encryptedSize)) {
+            pixmapIcon->DrawImage(cPoint(sourceX, height/2+1), imgLoader.GetImage());
+            sourceX += encryptedSize + 10;
+        }
+    }
+    pixmap->DrawText(cPoint(sourceX, height/2 + (height/4 - fontSmall->Height())/2), *strChannelSource, Theme.Color(clrMenuFontMenuItem), clrTransparent, fontSmall);
 }
 
 void cNopacityChannelMenuItem::Render() {
@@ -552,10 +576,9 @@ void cNopacityChannelMenuItem::Render() {
     int handleBgrd = (current)?handleBackgrounds[5]:handleBackgrounds[4];
     
     if (selectable) {                           //Channels
-        pixmap->Fill(Theme.Color(clrMenuBorder));
+        DrawBackground(handleBgrd);
         int logoWidth = config.menuItemLogoWidth;
         int logoHeight = config.menuItemLogoHeight;
-        pixmap->DrawImage(cPoint(1, 1), handleBgrd);
         if (!drawn) {
             cImageLoader imgLoader;
             if (imgLoader.LoadLogo(Channel->Name(), logoWidth, logoHeight)) {

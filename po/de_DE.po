@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-01-09 20:30+0100\n"
+"POT-Creation-Date: 2013-01-12 17:41+0100\n"
 "PO-Revision-Date: 2012-11-11 17:49+0200\n"
 "Last-Translator: louis\n"
 "Language-Team: \n"
@@ -43,6 +43,9 @@ msgstr "Format"
 
 msgid "Est. bitrate"
 msgstr "Geschätzte Bitrate"
+
+msgid "Transp."
+msgstr "Transp."
 
 msgid "Duration"
 msgstr "Dauer"
@@ -208,6 +211,12 @@ msgstr "Schriftgröße anpassen - Programmübersicht Menübuttons"
 
 msgid "Adjust Font Size - Schedule Menu Item Small"
 msgstr "Schriftgröße anpassen - Programmübersicht Menübuttons klein"
+
+msgid "Adjust Font Size - Channels Menu Item"
+msgstr "Schriftgröße anpassen - Kanäle Menübuttons"
+
+msgid "Adjust Font Size - Channels Menu Item Small"
+msgstr "Schriftgröße anpassen - Kanäle Menübuttons klein"
 
 msgid "Adjust Font Size - Recordings Menu Item"
 msgstr "Schriftgröße anpassen - Aufzeichnungen Menübuttons"

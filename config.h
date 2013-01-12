@@ -114,6 +114,8 @@ class cNopacityConfig {
         int fontMenuitemLarge;
         int fontMenuitemSchedule;
         int fontMenuitemScheduleSmall;
+        int fontMenuitemChannel;
+        int fontMenuitemChannelSmall;
         int fontMenuitemRecordings;
         int fontMenuitemRecordingsSmall;
         int fontMenuitemDefault;

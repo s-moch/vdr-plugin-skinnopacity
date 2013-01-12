@@ -88,6 +88,8 @@ cNopacityConfig::cNopacityConfig() {
     fontMenuitemLarge = 0;
     fontMenuitemSchedule = 0;
     fontMenuitemScheduleSmall = 0;
+    fontMenuitemChannel = 0;
+    fontMenuitemChannelSmall = 0;
     fontMenuitemRecordings = 0;
     fontMenuitemRecordingsSmall = 0;
     fontMenuitemDefault = 0;
@@ -239,6 +241,8 @@ bool cNopacityConfig::SetupParse(const char *Name, const char *Value) {
     else if (strcmp(Name, "fontMenuitemLarge") == 0)       fontMenuitemLarge = atoi(Value);
     else if (strcmp(Name, "fontMenuitemSchedule") == 0)    fontMenuitemSchedule = atoi(Value);
     else if (strcmp(Name, "fontMenuitemScheduleSmall") == 0) fontMenuitemScheduleSmall = atoi(Value);
+    else if (strcmp(Name, "fontMenuitemChannel") == 0)     fontMenuitemChannel = atoi(Value);
+    else if (strcmp(Name, "fontMenuitemChannelSmall") == 0) fontMenuitemChannelSmall = atoi(Value);
     else if (strcmp(Name, "fontMenuitemRecordings") == 0)    fontMenuitemRecordings = atoi(Value);
     else if (strcmp(Name, "fontMenuitemRecordingsSmall") == 0) fontMenuitemRecordingsSmall = atoi(Value);
     else if (strcmp(Name, "fontMenuitemDefault") == 0)     fontMenuitemDefault = atoi(Value);

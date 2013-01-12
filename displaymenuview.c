@@ -33,6 +33,8 @@ cNopacityDisplayMenuView::~cNopacityDisplayMenuView(void) {
     delete fontMenuitemLarge;
     delete fontMenuitemSchedule;
     delete fontMenuitemScheduleSmall;
+    delete fontMenuitemChannel;
+    delete fontMenuitemChannelSmall;
     delete fontMenuitemRecordings;
     delete fontMenuitemRecordingsSmall;
     delete fontMenuitemDefault;
@@ -135,6 +137,8 @@ void cNopacityDisplayMenuView::CreateFonts(void) {
     fontMenuitemLarge = cFont::CreateFont(config.fontName, menuItemHeightMain/3 + 4 + config.fontMenuitemLarge);
     fontMenuitemSchedule = cFont::CreateFont(config.fontName, menuItemHeightSchedule / 4 + 5 + config.fontMenuitemSchedule);
     fontMenuitemScheduleSmall = cFont::CreateFont(config.fontName, menuItemHeightSchedule / 4 - 5 + config.fontMenuitemScheduleSmall);
+    fontMenuitemChannel = cFont::CreateFont(config.fontName, menuItemHeightSchedule / 3 + config.fontMenuitemChannel);
+    fontMenuitemChannelSmall = cFont::CreateFont(config.fontName, menuItemHeightSchedule / 5 - 2 + config.fontMenuitemChannelSmall);
     fontMenuitemRecordings = cFont::CreateFont(config.fontName, menuItemHeightRecordings / 2 - 14 + config.fontMenuitemRecordings);
     fontMenuitemRecordingsSmall = cFont::CreateFont(config.fontName, menuItemHeightRecordings / 4 - 3 + config.fontMenuitemRecordingsSmall);
     fontMenuitemDefault = cFont::CreateFont(config.fontName, menuItemHeightDefault * 2 / 3 + config.fontMenuitemDefault);
@@ -155,7 +159,7 @@ cFont *cNopacityDisplayMenuView::GetMenuItemFont(eMenuCategory menuCat) {
         case mcSchedule:
             return fontMenuitemSchedule;
         case mcChannel:
-            return fontMenuitemLarge;
+            return fontMenuitemChannel;
         case mcRecording:
             return fontMenuitemRecordings;
         default:
@@ -168,6 +172,8 @@ cFont *cNopacityDisplayMenuView::GetMenuItemFontSmall(eMenuCategory menuCat) {
     switch (menuCat) {
         case mcSchedule:
             return fontMenuitemScheduleSmall;
+        case mcChannel:
+            return fontMenuitemChannelSmall;
         case mcRecording:
             return fontMenuitemRecordingsSmall;
         default:

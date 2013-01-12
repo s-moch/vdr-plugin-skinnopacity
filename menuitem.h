@@ -106,8 +106,11 @@ private:
     const cChannel *Channel;
     std::string strEntry;
     std::string strEntryFull;
+    cString strChannelSource;
+    cString strChannelInfo;
     void SetTextFull(void);
     void SetTextShort(void);
+    void DrawBackground(int handleBackground);
 public:
     cNopacityChannelMenuItem(cOsd *osd, const cChannel *Channel, bool sel);
     ~cNopacityChannelMenuItem(void);
