@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-01-12 17:41+0100\n"
+"POT-Creation-Date: 2013-01-13 12:10+0100\n"
 "PO-Revision-Date: 2012-11-11 17:49+0200\n"
 "Last-Translator: louis\n"
 "Language-Team: \n"
@@ -175,6 +175,12 @@ msgstr "Breite der Kanallogos auf den Menübuttons"
 
 msgid "Channel Logo Height (on the Menu Buttons)"
 msgstr "Höhe der Kanallogos auf den Menübuttons"
+
+msgid "Channel Logo Width (on timers in main menu)"
+msgstr "Breite der Kanallogos auf den Timern im Hauptmenü"
+
+msgid "Channel Logo Height (on timers in main menu)"
+msgstr "Höhe der Kanallogos auf den Timern im Hauptmenü"
 
 msgid "Main Menu Header Logo Width"
 msgstr "Höhe des Logos im Hauptmenü"

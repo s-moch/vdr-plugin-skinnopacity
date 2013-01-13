@@ -80,6 +80,8 @@ cNopacityConfig::cNopacityConfig() {
     menuItemLogoHeight = 100;
     detailViewLogoWidth = 260;
     detailViewLogoHeight = 200;
+    timersLogoWidth = 90;
+    timersLogoHeight = 70;
     epgImageWidth = 210;
     epgImageHeight = 160;
     menuRecFolderSize = 128;
@@ -233,6 +235,8 @@ bool cNopacityConfig::SetupParse(const char *Name, const char *Value) {
     else if (strcmp(Name, "menuHeaderLogoHeight") == 0)    menuHeaderLogoHeight = atoi(Value);
     else if (strcmp(Name, "detailViewLogoWidth") == 0)     detailViewLogoWidth = atoi(Value);
     else if (strcmp(Name, "detailViewLogoHeight") == 0)    detailViewLogoHeight = atoi(Value);
+    else if (strcmp(Name, "timersLogoWidth") == 0)         timersLogoWidth = atoi(Value);
+    else if (strcmp(Name, "timersLogoHeight") == 0)        timersLogoHeight = atoi(Value);
     else if (strcmp(Name, "epgImageWidth") == 0)           epgImageWidth = atoi(Value);
     else if (strcmp(Name, "epgImageHeight") == 0)          epgImageHeight = atoi(Value);
     else if (strcmp(Name, "menuRecFolderSize") == 0)       menuRecFolderSize = atoi(Value);

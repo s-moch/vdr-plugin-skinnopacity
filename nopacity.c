@@ -126,6 +126,7 @@ cNopacityConfig config;
 #include "helpers.c"
 #include "displaychannel.c"
 #include "textwindow.c"
+#include "timers.c"
 #include "menuitem.c"
 #include "menudetailview.c"
 #include "displaymenuview.c"

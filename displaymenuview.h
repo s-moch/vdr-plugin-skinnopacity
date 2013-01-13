@@ -3,17 +3,6 @@
 
 enum eDetailViewType {dvEvent = 0, dvRecording, dvText};
 
-class cNopacityTimer : public cListObject {
-    private:
-        cOsd *osd;
-    public:
-        cNopacityTimer(cOsd *osd);
-        virtual ~cNopacityTimer(void);
-        void SetAlpha(int alpha) {pixmap->SetAlpha(alpha);}
-        void SetLayer(int layer) {pixmap->SetLayer(layer);}
-        cPixmap *pixmap;
-};
-
 class cNopacityDisplayMenuView {
     private:
         cOsd *osd;

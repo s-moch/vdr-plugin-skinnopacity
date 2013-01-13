@@ -106,6 +106,8 @@ class cNopacityConfig {
         int menuHeaderLogoHeight;
         int detailViewLogoWidth;
         int detailViewLogoHeight;
+        int timersLogoWidth;
+        int timersLogoHeight;
         int epgImageWidth;
         int epgImageHeight;
         int menuRecFolderSize;

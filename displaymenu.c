@@ -73,7 +73,7 @@ void cNopacityDisplayMenu::DrawTimers(void) {
                     if (initial)
                         if (FadeTime)
                             t->SetAlpha(0);
-                    currentHeight += t->pixmap->ViewPort().Height() + menuView->spaceMenu;
+                    currentHeight += t->GetHeight() + menuView->spaceMenu;
                     if (currentHeight < maxTimersHeight) {
                         timers.Add(t);
                     } else {
@@ -84,7 +84,7 @@ void cNopacityDisplayMenu::DrawTimers(void) {
             }
         } else {
             for (cNopacityTimer *t = timers.First(); t; t = timers.Next(t)) {
-                t->SetLayer(2);
+                t->Show();
             } 
         }
         timersDrawn = true;
@@ -185,7 +185,7 @@ void cNopacityDisplayMenu::SetMenuCategory(eMenuCategory MenuCategory) {
         }
         if (config.showTimers) {
             for (cNopacityTimer *t = timers.First(); t; t = timers.Next(t)) {
-                t->SetLayer(-1);
+                t->Hide();
             } 
             timersDrawn = false;
         }

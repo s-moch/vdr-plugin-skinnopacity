@@ -125,6 +125,8 @@ void cNopacitySetup::Store(void) {
     SetupStore("menuHeaderLogoHeight", config.menuHeaderLogoHeight);
     SetupStore("detailViewLogoWidth", config.detailViewLogoWidth);
     SetupStore("detailViewLogoHeight", config.detailViewLogoHeight);
+    SetupStore("timersLogoWidth", config.timersLogoWidth);
+    SetupStore("timersLogoHeight", config.timersLogoHeight);
     SetupStore("epgImageWidth", config.epgImageWidth);
     SetupStore("epgImageHeight", config.epgImageHeight);
     SetupStore("menuRecFolderSize", config.menuRecFolderSize);
@@ -228,6 +230,8 @@ void cNopacitySetupMenuDisplayGeometry::Set(void) {
     Add(new cMenuEditIntItem(tr("Header Icon Size (Square Header Menu Icons)"), &tmpNopacityConfig->headerIconHeight, 30, 200));
     Add(new cMenuEditIntItem(tr("Channel Logo Width (on the Menu Buttons)"), &tmpNopacityConfig->menuItemLogoWidth, 30, 200));
     Add(new cMenuEditIntItem(tr("Channel Logo Height (on the Menu Buttons)"), &tmpNopacityConfig->menuItemLogoHeight, 30, 200));
+    Add(new cMenuEditIntItem(tr("Channel Logo Width (on timers in main menu)"), &tmpNopacityConfig->timersLogoWidth, 30, 300));
+    Add(new cMenuEditIntItem(tr("Channel Logo Height (on timers in main menu)"), &tmpNopacityConfig->timersLogoHeight, 30, 300));
     Add(new cMenuEditIntItem(tr("Main Menu Header Logo Width"), &tmpNopacityConfig->menuHeaderLogoWidth, 30, 500));
     Add(new cMenuEditIntItem(tr("Main Menu Header Logo Height"), &tmpNopacityConfig->menuHeaderLogoHeight, 30, 500));
     Add(new cMenuEditIntItem(tr("Recordings Menu Folder Icon Size"), &tmpNopacityConfig->menuRecFolderSize, 30, 300));

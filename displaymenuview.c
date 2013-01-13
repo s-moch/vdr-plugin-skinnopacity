@@ -1,13 +1,5 @@
 #include "displaymenuview.h"
 
-cNopacityTimer::cNopacityTimer(cOsd *osd) {
-    this->osd = osd;
-}
-
-cNopacityTimer::~cNopacityTimer(void) {
-    osd->DestroyPixmap(pixmap);
-}
-
 cNopacityDisplayMenuView::cNopacityDisplayMenuView() {
     diskUsageAlert = 95;
     pixmapStatus = NULL;
@@ -520,59 +512,13 @@ int cNopacityDisplayMenuView::GetTimersMaxHeight(void) {
 }
 
 cNopacityTimer *cNopacityDisplayMenuView::DrawTimer(const cTimer *Timer, int y) {
-    const cChannel *Channel = Timer->Channel();
-    const cEvent *Event = Timer->Event();
-    cString channelName(""), title("");
-    if (Channel) {
-        channelName = Channel->Name();
-    }
-    if (Event) {
-        title = Event->Title();
-    }
-    cTextWrapper titleLines;
-    titleLines.Set(*title, fontTimers, timersWidth-10);
-    
-    cString Date;
-    if (Timer->Recording()) {
-        Date = cString::sprintf("-%s", *TimeString(Timer->StopTime()));
-    } else {
-        time_t Now = time(NULL);
-        cString Today = WeekDayName(Now);
-        cString Time = TimeString(Timer->StartTime());
-        cString Day = WeekDayName(Timer->StartTime());
-        if (Timer->StartTime() > Now + 6 * SECSINDAY)
-            Date = DayDateTime(Timer->StartTime());
-        else if (strcmp(Day, Today) != 0)
-            Date = cString::sprintf("%s %s", *Day, *Time);
-        else
-            Date = Time;
-        if (Timer->Flags() & tfVps)
-            Date = cString::sprintf("VPS %s", *Date);
-    }
-    
-    int numLines = titleLines.Lines();
-    int lineHeight = fontTimers->Height();
-    int timerHeight = (numLines + 2)*lineHeight + spaceMenu;
-    
-    cNopacityTimer *t = new cNopacityTimer(osd);
-    t->pixmap = osd->CreatePixmap(2, cRect(osdWidth - timersWidth - 10, y, timersWidth, timerHeight));
-    
-    cImageLoader imgLoader;
-    if(Timer->Recording()) {
-        t->pixmap->Fill(Theme.Color(clrDiskAlert));
-        imgLoader.DrawBackground(Theme.Color(clrDiskAlert), Theme.Color(clrMenuItemHigh), timersWidth-2, timerHeight-2);
-        t->pixmap->DrawImage(cPoint(1,1), imgLoader.GetImage());
-    } else {
-        t->pixmap->Fill(Theme.Color(clrMenuBorder));
-        imgLoader.DrawBackground(Theme.Color(clrMenuItemHighBlend), Theme.Color(clrMenuItemHigh), timersWidth-2, timerHeight-2);
-        t->pixmap->DrawImage(cPoint(1,1), imgLoader.GetImage());
-    }
-    t->pixmap->DrawText(cPoint(5, 0), *Date, Theme.Color(clrMenuFontTimersHeader), clrTransparent, fontTimersHead);
-    t->pixmap->DrawText(cPoint(5, lineHeight+2), *channelName, Theme.Color(clrMenuFontTimersHeader), clrTransparent, fontTimers);
-    int yStart = 2*lineHeight + 3;
-    for (int line=0; line<numLines; line++)
-        t->pixmap->DrawText(cPoint(5, yStart+line*(lineHeight-2)), titleLines.GetLine(line), Theme.Color(clrMenuFontTimers), clrTransparent, fontTimers);
-        
+    cNopacityTimer *t = new cNopacityTimer(osd, Timer, fontTimers, fontTimersHead);
+    t->SetGeometry(timersWidth, y);
+    t->CreateDate();
+    t->CreateShowName();
+    t->CalculateHeight(spaceMenu);
+    t->CreatePixmaps(osdWidth - timersWidth - 10);
+    t->Render();
     return t;
 }
 
