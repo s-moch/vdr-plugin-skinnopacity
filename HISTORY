@@ -99,3 +99,5 @@ Version 0.0.6
 - Fixed showing current show as rerun in epg detail view
 - Added some recording information (channel, size, cutted size, format, 
   est. bitrate) in detailed recording view
+- Added channel logos in main menu timers list
+- Changed channel info icons in DisplayChannel

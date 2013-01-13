@@ -1,9 +1,5 @@
 #include "symbols/audio.xpm"
 #include "symbols/dolbydigital.xpm"
-#include "symbols/encrypted.xpm"
-#include "symbols/radio.xpm"
-#include "symbols/recording.xpm"
-#include "symbols/teletext.xpm"
 
 #include "displaychannel.h"
 
@@ -48,7 +44,9 @@ cNopacityDisplayChannel::~cNopacityDisplayChannel() {
     }
     if (pixmapScreenResolution)
         osd->DestroyPixmap(pixmapScreenResolution); 
+    osd->DestroyPixmap(pixmapFooter);
     osd->DestroyPixmap(pixmapStreamInfo);
+    osd->DestroyPixmap(pixmapStreamInfoBack);
     if (config.displaySignalStrength && showSignal) {
         osd->DestroyPixmap(pixmapSignalStrength);
         osd->DestroyPixmap(pixmapSignalQuality);
@@ -64,13 +62,6 @@ cNopacityDisplayChannel::~cNopacityDisplayChannel() {
     delete fontEPGSmall;
     delete osd;
 }
-
-cBitmap cNopacityDisplayChannel::bmTeletext(teletext_xpm);
-cBitmap cNopacityDisplayChannel::bmRadio(radio_xpm);
-cBitmap cNopacityDisplayChannel::bmAudio(audio_xpm);
-cBitmap cNopacityDisplayChannel::bmDolbyDigital(dolbydigital_xpm);
-cBitmap cNopacityDisplayChannel::bmEncrypted(encrypted_xpm);
-cBitmap cNopacityDisplayChannel::bmRecording(recording_xpm);
 
 void cNopacityDisplayChannel::SetGeometry(void) {
     height = cOsd::OsdHeight() * config.channelHeight / 100;
@@ -90,6 +81,9 @@ void cNopacityDisplayChannel::SetGeometry(void) {
     epgInfoHeight = height - channelInfoHeight - streamInfoHeight - progressBarHeight;
     epgInfoLineHeight = epgInfoHeight / 4;
     streamInfoY = channelInfoHeight + progressBarHeight + epgInfoHeight;
+    iconSize = config.statusIconSize;
+    iconsWidth = 5*iconSize;
+
 }
 
 void cNopacityDisplayChannel::CreatePixmaps(void) {
@@ -107,7 +101,9 @@ void cNopacityDisplayChannel::CreatePixmaps(void) {
         
     pixmapChannelInfo = osd->CreatePixmap(2, cRect(infoX, channelInfoY, channelInfoWidth, channelInfoHeight));
     pixmapDate = osd->CreatePixmap(2, cRect(infoX + channelInfoWidth, channelInfoY, dateWidth, channelInfoHeight));
-    pixmapStreamInfo  = osd->CreatePixmap(2, cRect(infoX, streamInfoY, infoWidth, streamInfoHeight));
+    pixmapFooter  = osd->CreatePixmap(2, cRect(infoX, streamInfoY, infoWidth, streamInfoHeight));
+    pixmapStreamInfo =     osd->CreatePixmap(4, cRect(infoX + (infoWidth - iconsWidth - config.resolutionIconSize - 35), height - iconSize - 10, iconsWidth, iconSize));
+    pixmapStreamInfoBack = osd->CreatePixmap(3, cRect(infoX + (infoWidth - iconsWidth - config.resolutionIconSize - 35), height - iconSize - 10, iconsWidth, iconSize));
     pixmapLogo = osd->CreatePixmap(1, cRect(0, 0, config.logoWidth + 2 * config.logoBorder, height));
     
     if (config.channelFadeTime) {
@@ -116,7 +112,9 @@ void cNopacityDisplayChannel::CreatePixmaps(void) {
         pixmapChannelInfo->SetAlpha(0);
         pixmapDate->SetAlpha(0);
         pixmapLogo->SetAlpha(0);
+        pixmapFooter->SetAlpha(0);
         pixmapStreamInfo->SetAlpha(0);
+        pixmapStreamInfoBack->SetAlpha(0);
         if (withInfo) {
             pixmapBackgroundMiddle->SetAlpha(0);
             pixmapProgressBar->SetAlpha(0);
@@ -149,11 +147,16 @@ void cNopacityDisplayChannel::DrawBackground(void){
     pixmapBackgroundBottom->DrawEllipse(cRect(0, streamInfoHeight/2, streamInfoHeight/2, streamInfoHeight/2), clrTransparent, -3);
     pixmapBackgroundBottom->DrawEllipse(cRect(infoWidth - streamInfoHeight/2, streamInfoHeight/2, streamInfoHeight/2, streamInfoHeight/2), clrTransparent, -4);
 
-    
     pixmapChannelInfo->Fill(clrTransparent);
     pixmapDate->Fill(clrTransparent);
     pixmapLogo->Fill(clrTransparent);
+    pixmapFooter->Fill(clrTransparent);
     pixmapStreamInfo->Fill(clrTransparent);
+    cImageLoader imgLoader;
+    if (imgLoader.LoadIcon("channelsymbols", iconsWidth, iconSize)) {
+        pixmapStreamInfo->DrawImage(cPoint(0, 0), imgLoader.GetImage());
+    }
+
 }
 
 void cNopacityDisplayChannel::DrawDate(void) {
@@ -170,39 +173,45 @@ void cNopacityDisplayChannel::DrawDate(void) {
 }
 
 void cNopacityDisplayChannel::DrawIcons(const cChannel *Channel) {
-    int spacing = 10;
-    int x = infoWidth - config.resolutionIconSize - 3*spacing;
-    int y = 0;
-    
     isRadioChannel = ((!Channel->Vpid())&&(Channel->Apid(0)))?true:false;
-
-    bool rec = cRecordControls::Active();
-    x -= bmRecording.Width() + spacing;
-    y = (streamInfoHeight - bmRecording.Height()) / 2;
-    pixmapStreamInfo->DrawBitmap(cPoint(x,y), bmRecording, Theme.Color(rec ? clrChannelRecActive : clrChannelSymbolOff), clrTransparent);
-
-    x -= bmEncrypted.Width() + spacing;
-    y = (streamInfoHeight - bmEncrypted.Height()) / 2;
-    pixmapStreamInfo->DrawBitmap(cPoint(x,y), bmEncrypted, Theme.Color(Channel->Ca() ? clrChannelSymbolOn : clrChannelSymbolOff), clrTransparent);
-
-    x -= bmDolbyDigital.Width() + spacing;
-    y = (streamInfoHeight - bmDolbyDigital.Height()) / 2;
-    pixmapStreamInfo->DrawBitmap(cPoint(x,y), bmDolbyDigital, Theme.Color(Channel->Dpid(0) ? clrChannelSymbolOn : clrChannelSymbolOff), clrTransparent);
+    pixmapStreamInfoBack->Fill(clrTransparent);
     
-    x -= bmAudio.Width() + spacing;
-    y = (streamInfoHeight - bmAudio.Height()) / 2;
-    pixmapStreamInfo->DrawBitmap(cPoint(x,y), bmAudio, Theme.Color(Channel->Apid(1) ? clrChannelSymbolOn : clrChannelSymbolOff), clrTransparent);
+    int backX = 5;
+    int backY = 5;
     
-    if (Channel->Vpid()) {
-        x -= bmTeletext.Width() + spacing;
-        y = (streamInfoHeight - bmTeletext.Height()) / 2;
-        pixmapStreamInfo->DrawBitmap(cPoint(x,y), bmTeletext, Theme.Color(Channel->Tpid() ? clrChannelSymbolOn : clrChannelSymbolOff), clrTransparent);
-    } else if (Channel->Apid(0)) {
-        x -= bmRadio.Width() + spacing;
-        y = (streamInfoHeight - bmTeletext.Height()) / 2;
-        pixmapStreamInfo->DrawBitmap(cPoint(x,y), bmRadio, Theme.Color(clrChannelSymbolOn), clrTransparent);
+    tColor colVT = Theme.Color(clrChannelSymbolOff);
+    if (Channel->Vpid() && Channel->Tpid()) {
+        colVT = Theme.Color(clrChannelSymbolOn);
     }
-    
+    pixmapStreamInfoBack->DrawRectangle(cRect(backX, backY, iconSize-10, iconSize-10), colVT);
+
+    backX += iconSize;
+    tColor colStereo = Theme.Color(clrChannelSymbolOff);
+    if (Channel->Apid(1)) {
+        colStereo = Theme.Color(clrChannelSymbolOn);
+    }
+    pixmapStreamInfoBack->DrawRectangle(cRect(backX, backY, iconSize-10, iconSize-10), colStereo);
+
+    backX += iconSize;
+    tColor colDolby = Theme.Color(clrChannelSymbolOff);
+    if (Channel->Dpid(0)) {
+        colDolby = Theme.Color(clrChannelSymbolOn);
+    }
+    pixmapStreamInfoBack->DrawRectangle(cRect(backX, backY, iconSize-10, iconSize-10), colDolby);
+
+    backX += iconSize;
+    tColor colCrypted = Theme.Color(clrChannelSymbolOff);
+    if (Channel->Ca()) {
+        colCrypted = Theme.Color(clrChannelSymbolOn);
+    }
+    pixmapStreamInfoBack->DrawRectangle(cRect(backX, backY, iconSize-10, iconSize-10), colCrypted);
+
+    backX += iconSize;
+    tColor colRecording = Theme.Color(clrChannelSymbolOff);
+    if (cRecordControls::Active()) {
+        colRecording = Theme.Color(clrChannelRecActive);
+    }
+    pixmapStreamInfoBack->DrawRectangle(cRect(backX, backY, iconSize-10, iconSize-10), colRecording);
 }
 
 void cNopacityDisplayChannel::DrawScreenResolution(void) {
@@ -528,7 +537,9 @@ void cNopacityDisplayChannel::Action(void) {
             pixmapProgressBar->SetAlpha(Alpha);
             pixmapEPGInfo->SetAlpha(Alpha);
         }
+        pixmapFooter->SetAlpha(Alpha);
         pixmapStreamInfo->SetAlpha(Alpha);
+        pixmapStreamInfoBack->SetAlpha(Alpha);
         if (pixmapScreenResolution)
             pixmapScreenResolution->SetAlpha(Alpha);
         if (config.displaySignalStrength && showSignal) {

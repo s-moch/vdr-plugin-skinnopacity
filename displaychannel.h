@@ -29,7 +29,9 @@ private:
     cPixmap *pixmapLogo;
     cPixmap *pixmapProgressBar;
     cPixmap *pixmapEPGInfo;
+    cPixmap *pixmapFooter;
     cPixmap *pixmapStreamInfo;
+    cPixmap *pixmapStreamInfoBack;
     cPixmap *pixmapSignalStrength;
     cPixmap *pixmapSignalQuality;
     cPixmap *pixmapSignalMeter;
@@ -46,6 +48,8 @@ private:
     int epgInfoLineHeight;
     int streamInfoHeight;
     int streamInfoY;
+    int iconSize;
+    int iconsWidth;
     int signalWidth, signalHeight, signalX;
     cFont *fontHeader;
     cFont *fontDate;
@@ -64,7 +68,6 @@ private:
     void DrawScreenResolution(void);
     void DrawSignalMeter(void);
     void DrawSignal(void);
-    static cBitmap bmTeletext, bmRadio, bmAudio, bmDolbyDigital, bmEncrypted, bmRecording;
 public:
     cNopacityDisplayChannel(bool WithInfo);
     virtual ~cNopacityDisplayChannel();
