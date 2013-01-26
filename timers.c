@@ -5,6 +5,15 @@ cNopacityTimer::cNopacityTimer(cOsd *osd, const cTimer *timer, const cFont *font
     this->timer = timer;
     this->font = font;
     this->fontLarge = fontLarge;
+    isTimerConflict = false;
+}
+
+cNopacityTimer::cNopacityTimer(cOsd *osd, int numConflicts, const cFont *font, const cFont *fontLarge) {
+    this->osd = osd;
+    this->numConflicts = numConflicts;
+    this->font = font;
+    this->fontLarge = fontLarge;
+    isTimerConflict = true;
 }
 
 cNopacityTimer::~cNopacityTimer(void) {
@@ -60,10 +69,25 @@ void cNopacityTimer::CreateShowName(void) {
     showName.Set(*title, font, width-10);
 }
 
+void cNopacityTimer::CreateConflictText(void) {
+    cString conflictText;
+    if (numConflicts == 1) {
+        conflictText = cString::sprintf("%d Timer %s", numConflicts, tr("conflict"));
+    } else {
+        conflictText = cString::sprintf("%d Timer %s", numConflicts, tr("conflicts"));
+    }
+    showName.Set(*conflictText, fontLarge, width-10);
+}
+
 void cNopacityTimer::CalculateHeight(int space) {
-    int numLines = showName.Lines() + 1;
-    int lineHeight = font->Height();
-    height = config.timersLogoHeight + numLines * lineHeight + 2*space;    
+    int numLines = showName.Lines();
+    if (isTimerConflict) {
+        int lineHeight = fontLarge->Height();
+        height = numLines * lineHeight + 2*space;    
+    } else {
+        int lineHeight = font->Height();
+        height = config.timersLogoHeight + (numLines +1)* lineHeight + 2*space;    
+    }
 }
 
 void cNopacityTimer::CreatePixmaps(int x) {
@@ -72,26 +96,42 @@ void cNopacityTimer::CreatePixmaps(int x) {
 }
 
 void cNopacityTimer::Render(void) {
-    DrawLogo();
     cImageLoader imgLoader;
-    if (timer->Recording()) {
+    if (isTimerConflict) {
+        pixmapLogo->Fill(clrTransparent);
         pixmap->Fill(Theme.Color(clrDiskAlert));
         imgLoader.DrawBackground(Theme.Color(clrDiskAlert), Theme.Color(clrMenuItemHigh), width-2, height-2);
         pixmap->DrawImage(cPoint(1,1), imgLoader.GetImage());
+        int numLines = showName.Lines();
+        int textWidth = 0;
+        int x = 0;
+        int y = 5;
+        for (int line=0; line<numLines; line++) {
+            textWidth = fontLarge->Width(showName.GetLine(line));
+            x = (width - textWidth)/2;
+            y += line*fontLarge->Height();
+            pixmap->DrawText(cPoint(x, y), showName.GetLine(line), Theme.Color(clrMenuFontTimersHeader), clrTransparent, fontLarge);
+        }
     } else {
-        pixmap->Fill(Theme.Color(clrMenuBorder));
-        imgLoader.DrawBackground(Theme.Color(clrMenuItemHighBlend), Theme.Color(clrMenuItemHigh), width-2, height-2);
-        pixmap->DrawImage(cPoint(1,1), imgLoader.GetImage());
-    }
+        DrawLogo();
+        if (timer->Recording()) {
+            pixmap->Fill(Theme.Color(clrDiskAlert));
+            imgLoader.DrawBackground(Theme.Color(clrDiskAlert), Theme.Color(clrMenuItemHigh), width-2, height-2);
+            pixmap->DrawImage(cPoint(1,1), imgLoader.GetImage());
+        } else {
+            pixmap->Fill(Theme.Color(clrMenuBorder));
+            imgLoader.DrawBackground(Theme.Color(clrMenuItemHighBlend), Theme.Color(clrMenuItemHigh), width-2, height-2);
+            pixmap->DrawImage(cPoint(1,1), imgLoader.GetImage());
+        }
 
-    pixmap->DrawText(cPoint(5, config.timersLogoHeight), *Date, Theme.Color(clrMenuFontTimersHeader), clrTransparent, fontLarge);
-    
-    int lineHeight = font->Height();
-    int yStart = config.timersLogoHeight + lineHeight + 3;
-    int numLines = showName.Lines();
-    for (int line=0; line<numLines; line++)
-        pixmap->DrawText(cPoint(5, yStart+line*(lineHeight-2)), showName.GetLine(line), Theme.Color(clrMenuFontTimers), clrTransparent, font);
-
+        pixmap->DrawText(cPoint(5, config.timersLogoHeight), *Date, Theme.Color(clrMenuFontTimersHeader), clrTransparent, fontLarge);
+        
+        int lineHeight = font->Height();
+        int yStart = config.timersLogoHeight + lineHeight + 3;
+        int numLines = showName.Lines();
+        for (int line=0; line<numLines; line++)
+            pixmap->DrawText(cPoint(5, yStart+line*(lineHeight-2)), showName.GetLine(line), Theme.Color(clrMenuFontTimers), clrTransparent, font);
+    }   
 }
 
 void cNopacityTimer::DrawLogo(void) {

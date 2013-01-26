@@ -59,14 +59,45 @@ void cNopacityDisplayMenu::DrawDisk(void) {
     }
 }
 
-void cNopacityDisplayMenu::DrawTimers(void) {
+int cNopacityDisplayMenu::CheckTimerConflict(bool timersChanged) {
+    int numConflicts = 0;
+    if (initial || ((menuCategoryLast!=mcMain)&&(MenuCategory()==mcMain))) {
+        if (timersChanged) {
+            cPlugin *p = cPluginManager::GetPlugin("epgsearch");
+            if (p) {
+                Epgsearch_lastconflictinfo_v1_0 *serviceData = new Epgsearch_lastconflictinfo_v1_0;
+                if (serviceData) {
+                    serviceData->nextConflict = 0;
+                    serviceData->relevantConflicts = 0;
+                    serviceData->totalConflicts = 0;
+                    p->Service("Epgsearch-lastconflictinfo-v1.0", serviceData);
+                    if (serviceData->relevantConflicts > 0) {
+                        numConflicts = serviceData->relevantConflicts;
+                    }
+                    delete serviceData;
+                }
+            }
+        }
+    }
+    return numConflicts;
+}
+
+void cNopacityDisplayMenu::DrawTimers(bool timersChanged, int numConflicts) {
     int maxTimersHeight = menuView->GetTimersMaxHeight();
     if (initial || ((menuCategoryLast!=mcMain)&&(MenuCategory()==mcMain)&&!timersDrawn)) {
-        if (Timers.Modified(lastTimersState)) {
+        if (timersChanged) {
             timers.Clear();
             cSortedTimers SortedTimers; 
             int numTimers = SortedTimers.Size();
             int currentHeight = menuView->GetTimersInitHeight();
+            if (numConflicts > 0) {
+                cNopacityTimer *t = menuView->DrawTimerConflict(numConflicts, currentHeight);
+                if (initial)
+                    if (FadeTime)
+                        t->SetAlpha(0);
+                currentHeight += t->GetHeight() + menuView->spaceMenu;
+                timers.Add(t);
+            }
             for (int i = 0; i < numTimers; i++) {
                 if (const cTimer *Timer = SortedTimers[i]) {
                     cNopacityTimer *t = menuView->DrawTimer(Timer, currentHeight);
@@ -573,8 +604,12 @@ void cNopacityDisplayMenu::Flush(void) {
     if (MenuCategory() == mcMain) {
         if (config.showDiscUsage)
             DrawDisk();
+        bool timersChanged = Timers.Modified(lastTimersState);
+        int numConflicts = 0;
+        if (config.checkTimerConflict)
+            numConflicts = CheckTimerConflict(timersChanged);
         if (config.showTimers)
-            DrawTimers();
+            DrawTimers(timersChanged, numConflicts);
     }
     if (initial) {
         if (config.menuFadeTime)

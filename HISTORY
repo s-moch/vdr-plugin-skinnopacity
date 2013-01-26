@@ -103,3 +103,4 @@ Version 0.0.6
 - Changed channel info icons in DisplayChannel
 - Fixed a possible division by zero in DisplayChannel
 - Fixed a segfault with newer ImageMagick Versions
+- Added display of Timer Conflicts with epgsearch in Main Menu

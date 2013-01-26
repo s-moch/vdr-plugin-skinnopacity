@@ -511,6 +511,16 @@ int cNopacityDisplayMenuView::GetTimersMaxHeight(void) {
     return headerHeight + contentHeight;
 }
 
+cNopacityTimer *cNopacityDisplayMenuView::DrawTimerConflict(int numConflicts, int y) {
+    cNopacityTimer *t = new cNopacityTimer(osd, numConflicts, fontTimers, fontTimersHead);
+    t->SetGeometry(timersWidth, y);
+    t->CreateConflictText();
+    t->CalculateHeight(spaceMenu);
+    t->CreatePixmaps(osdWidth - timersWidth - 10);
+    t->Render();
+    return t;
+}
+
 cNopacityTimer *cNopacityDisplayMenuView::DrawTimer(const cTimer *Timer, int y) {
     cNopacityTimer *t = new cNopacityTimer(osd, Timer, fontTimers, fontTimersHead);
     t->SetGeometry(timersWidth, y);

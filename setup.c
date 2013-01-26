@@ -114,6 +114,7 @@ void cNopacitySetup::Store(void) {
     SetupStore("menuInfoScrollSpeed", config.menuInfoScrollSpeed);
     SetupStore("showDiscUsage", config.showDiscUsage);
     SetupStore("showTimers", config.showTimers);
+    SetupStore("checkTimerConflict", config.checkTimerConflict);
     SetupStore("headerHeight", config.headerHeight);
     SetupStore("footerHeight", config.footerHeight);
     SetupStore("numDefaultMenuItems", config.numDefaultMenuItems);
@@ -198,6 +199,7 @@ void cNopacitySetupMenuDisplay::Set(void) {
     Add(new cMenuEditIntItem(tr("Fade-In Time in ms (Zero for switching off fading)"), &tmpNopacityConfig->menuFadeTime, 0, 1000));
     Add(new cMenuEditBoolItem(tr("Display Disk Usage"), &tmpNopacityConfig->showDiscUsage));
     Add(new cMenuEditBoolItem(tr("Display Timers"), &tmpNopacityConfig->showTimers));
+    Add(new cMenuEditBoolItem(tr("Show Timer Conflicts"), &tmpNopacityConfig->checkTimerConflict));
     Add(new cMenuEditStraItem(tr("Menu Items Scrolling Speed"), &tmpNopacityConfig->menuScrollSpeed, 4, scrollSpeed));
     Add(new cMenuEditIntItem(tr("Menu Items Scrolling Delay in s"), &tmpNopacityConfig->menuScrollDelay, 0, 3));
     Add(new cMenuEditIntItem(tr("EPG Window Fade-In Time in ms (Zero for switching off fading)"), &tmpNopacityConfig->menuEPGWindowFadeTime, 0, 1000));

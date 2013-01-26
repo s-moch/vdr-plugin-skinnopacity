@@ -94,7 +94,8 @@ class cNopacityConfig {
         int menuHeightInfoWindow;
         int menuWidthRightItems;
         int showDiscUsage;
-        int showTimers; 
+        int showTimers;
+        int checkTimerConflict;
         int headerHeight;
         int footerHeight;
         int numDefaultMenuItems;

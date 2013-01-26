@@ -25,7 +25,8 @@ private:
     int positionButtons[4];
     cRect videoWindowRect;
     void DrawDisk(void);
-    void DrawTimers(void);
+    int CheckTimerConflict(bool timersChanged);
+    void DrawTimers(bool timersChanged, int numConflicts);
     void SplitItem(const char *Text, cString *strItems, int *tabItems);
     void SetButtonPositions(void);
     virtual void Action(void);

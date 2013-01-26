@@ -7,6 +7,8 @@ class cNopacityTimer : public cListObject {
         cPixmap *pixmap;
         cPixmap *pixmapLogo;
         const cTimer *timer;
+        int numConflicts;
+        bool isTimerConflict;
         const cFont *font;
         const cFont *fontLarge;
         int width;
@@ -17,10 +19,12 @@ class cNopacityTimer : public cListObject {
         void DrawLogo(void);
     public:
         cNopacityTimer(cOsd *osd, const cTimer *timer, const cFont *font, const cFont *fontLarge);
+        cNopacityTimer(cOsd *osd, int numConflicts, const cFont *font, const cFont *fontLarge);
         virtual ~cNopacityTimer(void);
         void SetGeometry(int width, int y);
         void CreateDate(void);
         void CreateShowName(void);
+        void CreateConflictText(void);
         void CalculateHeight(int space);
         void CreatePixmaps(int x);
         void SetAlpha(int alpha);

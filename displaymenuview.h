@@ -91,6 +91,7 @@ class cNopacityDisplayMenuView {
         void ClearButton(int num);
         int GetTimersInitHeight(void);
         int GetTimersMaxHeight(void);
+        cNopacityTimer *DrawTimerConflict(int numConflicts, int y);
         cNopacityTimer *DrawTimer(const cTimer *Timer, int y);
         void DrawScrollbar(double Height, double Offset);
         void ClearScrollbar(void);

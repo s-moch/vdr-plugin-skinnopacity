@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-01-13 12:10+0100\n"
+"POT-Creation-Date: 2013-01-26 13:46+0100\n"
 "PO-Revision-Date: 2012-11-11 17:49+0200\n"
 "Last-Translator: louis\n"
 "Language-Team: \n"
@@ -121,6 +121,9 @@ msgstr "Festplattenstatus anzeigen"
 
 msgid "Display Timers"
 msgstr "Timer anzeigen"
+
+msgid "Show Timer Conflicts"
+msgstr "Timer Konflikte anzeigen"
 
 msgid "Menu Items Scrolling Speed"
 msgstr "Scroll Geschwindigkeit der Menüelemente"
@@ -334,3 +337,9 @@ msgstr "Breite der Lautstärken Anzeige (Proz. der OSD Breite)"
 
 msgid "Hight of Volume Display (Percent of OSD Height)"
 msgstr "Breite der Lautstärken Anzeige (Proz. der OSD Breite)"
+
+msgid "conflict"
+msgstr ""
+
+msgid "conflicts"
+msgstr ""
