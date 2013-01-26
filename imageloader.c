@@ -7,6 +7,7 @@
 using namespace Magick;
 
 cImageLoader::cImageLoader() {
+    InitializeMagick(NULL);
 }
 
 cImageLoader::~cImageLoader() {
