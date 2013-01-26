@@ -339,7 +339,7 @@ msgid "Hight of Volume Display (Percent of OSD Height)"
 msgstr "Breite der Lautstärken Anzeige (Proz. der OSD Breite)"
 
 msgid "conflict"
-msgstr ""
+msgstr "Konflikt"
 
 msgid "conflicts"
-msgstr ""
+msgstr "Konflikte"
