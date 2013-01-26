@@ -101,3 +101,4 @@ Version 0.0.6
   est. bitrate) in detailed recording view
 - Added channel logos in main menu timers list
 - Changed channel info icons in DisplayChannel
+- Fixed a possible division by zero in DisplayChannel

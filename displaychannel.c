@@ -464,6 +464,7 @@ tColor cNopacityDisplayChannel::DrawProgressbarBackground(int left, int top, int
     tColor clr1 = Theme.Color(clrProgressBar);
     tColor clr2 = Theme.Color(clrProgressBarBlend);
     tColor clr = 0x00000000;
+    width = (width==0)?1:width;
     int step = width / 256;
     int alpha = 0x0;
     int alphaStep;
