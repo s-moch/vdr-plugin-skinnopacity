@@ -34,7 +34,7 @@ bool cImageLoader::LoadLogo(const char *logo, int width = config.logoWidth, int 
 }
 
 bool cImageLoader::LoadIcon(const char *cIcon, int size) {
-    if (size==0)
+	if (size==0)
         return false;
     bool success = false;
     if (config.iconPathSet) {
