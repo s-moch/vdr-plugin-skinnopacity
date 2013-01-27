@@ -104,3 +104,8 @@ Version 0.0.6
 - Fixed a possible division by zero in DisplayChannel
 - Fixed a segfault with newer ImageMagick Versions
 - Added display of Timer Conflicts with epgsearch in Main Menu
+- Changed makefile to work also with newer ImageMagick versions
+- Introduced Theme specific icons. These icons have to be placed 
+  in a subdirectory in icons directory, this subdirectory has to 
+  be named exactly as the theme (without "nOpacity-").
+- Added Theme "green" and appropriate icons

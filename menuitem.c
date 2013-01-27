@@ -82,7 +82,7 @@ void cNopacityMenuItem::SetBackgrounds(int *handleBackgrounds) {
 }
 
 void cNopacityMenuItem::DrawDelimiter(const char *del, const char *icon, int handleBgrd) {
-    pixmap->Fill(Theme.Color(clrMenuItem));
+    pixmap->Fill(Theme.Color(clrSeparatorBorder));
     pixmap->DrawImage(cPoint(1, 1), handleBgrd);
     cImageLoader imgLoader;
     if (!drawn) {
@@ -380,19 +380,17 @@ int cNopacityScheduleMenuItem::CheckScrollable(bool hasIcon) {
 }
 
 void cNopacityScheduleMenuItem::SetTextFull(void) {
+    tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
     pixmapTextScroller->Fill(clrTransparent);
-    if (scrollTitle)
-        pixmapTextScroller->DrawText(cPoint(5, titleY), strTitleFull.c_str(), Theme.Color(clrMenuFontMenuItemTitle), clrTransparent, font);
-    if (scrollSubTitle)
-        pixmapTextScroller->DrawText(cPoint(5, titleY + font->Height() - 2), strSubTitleFull.c_str(), Theme.Color(clrMenuFontMenuItem), clrTransparent, fontSmall);
+    pixmapTextScroller->DrawText(cPoint(5, titleY), strTitleFull.c_str(), clrFont, clrTransparent, font);
+    pixmapTextScroller->DrawText(cPoint(5, titleY + font->Height() - 2), strSubTitleFull.c_str(), clrFont, clrTransparent, fontSmall);
 }
 
 void cNopacityScheduleMenuItem::SetTextShort(void) {
+    tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
     pixmapTextScroller->Fill(clrTransparent);
-    if (scrollTitle)
-        pixmapTextScroller->DrawText(cPoint(5, titleY), strTitle.c_str(), Theme.Color(clrMenuFontMenuItemTitle), clrTransparent, font);
-    if (scrollSubTitle)
-        pixmapTextScroller->DrawText(cPoint(5, titleY + font->Height() - 2), strSubTitle.c_str(), Theme.Color(clrMenuFontMenuItem), clrTransparent, fontSmall);
+    pixmapTextScroller->DrawText(cPoint(5, titleY), strTitle.c_str(), clrFont, clrTransparent, font);
+    pixmapTextScroller->DrawText(cPoint(5, titleY + font->Height() - 2), strSubTitle.c_str(), clrFont, clrTransparent, fontSmall);
 }
 
 void cNopacityScheduleMenuItem::Render() {
@@ -408,9 +406,9 @@ void cNopacityScheduleMenuItem::Render() {
         DrawRemaining(textLeft, height*7/8, width - textLeft - 10);
         if (!drawn) {
             DrawLogo(logoWidth, logoHeight);
-            SetTextShort();
             drawn = true;
         }
+        SetTextShort();
         if (current && scrollable && !Running() && config.menuScrollSpeed) {
             Start();
         }
@@ -455,10 +453,6 @@ void cNopacityScheduleMenuItem::DrawBackground(int textLeft) {
             pixmapIcon->DrawImage(cPoint(width - 34, 2), imgLoader.GetImage());
         }
     }
-    if (!scrollTitle)
-        pixmap->DrawText(cPoint(textLeft, titleY), strTitle.c_str(), Theme.Color(clrMenuFontMenuItemTitle), clrTransparent, font);
-    if (!scrollSubTitle)
-        pixmap->DrawText(cPoint(textLeft, titleY + font->Height() - 2), strSubTitle.c_str(), Theme.Color(clrMenuFontMenuItem), clrTransparent, fontSmall);
 }
 
 void cNopacityScheduleMenuItem::DrawLogo(int logoWidth, int logoHeight) {

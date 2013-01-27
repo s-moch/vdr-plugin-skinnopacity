@@ -30,6 +30,7 @@ static cTheme Theme;
 #define CLR_MENUITEM            0xEE444444
 #define CLR_MENUITEMBLEND       0x90000000
 #define CLR_MENUITEMHIGHBLEND   0xEE0033FF
+#define CLR_SEPARATORBORDER     0xEE444444
 #define CLR_DISKALERT           0xDDFF0000
 
 //BUTTONS
@@ -86,6 +87,7 @@ THEME_CLR(Theme, clrMenuItem,               CLR_MENUITEM);
 THEME_CLR(Theme, clrMenuItemBlend,          CLR_MENUITEMBLEND);
 THEME_CLR(Theme, clrMenuItemHigh,           CLR_TRANSBLACK);
 THEME_CLR(Theme, clrMenuItemHighBlend,      CLR_MENUITEMHIGHBLEND);
+THEME_CLR(Theme, clrSeparatorBorder,        CLR_SEPARATORBORDER);
 THEME_CLR(Theme, clrDiskAlert,              CLR_DISKALERT);
 THEME_CLR(Theme, clrMenuFontHeader,         CLR_WHITE);
 THEME_CLR(Theme, clrMenuFontDate,           CLR_WHITE);

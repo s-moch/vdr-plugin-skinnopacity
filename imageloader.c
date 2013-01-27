@@ -38,10 +38,18 @@ bool cImageLoader::LoadIcon(const char *cIcon, int size) {
         return false;
     bool success = false;
     if (config.iconPathSet) {
-        success = LoadImage(cString(cIcon), config.iconPath, "png");
+        cString iconThemePath = cString::sprintf("%s%s/", *config.iconPath, Setup.OSDTheme);
+        success = LoadImage(cString(cIcon), iconThemePath, "png");
+        if (!success) {
+            success = LoadImage(cString(cIcon), config.iconPath, "png");
+        }
     }
     if (!success) {
-        success = LoadImage(cString(cIcon), config.iconPathDefault, "png");
+        cString iconThemePath = cString::sprintf("%s%s/", *config.iconPathDefault, Setup.OSDTheme);
+        success = LoadImage(cString(cIcon), iconThemePath, "png");
+        if (!success) {
+            success = LoadImage(cString(cIcon), config.iconPathDefault, "png");
+        }
     }
     if (!success)
         return false;
@@ -55,10 +63,18 @@ bool cImageLoader::LoadIcon(const char *cIcon, int width, int height) {
         return false;
     bool success = false;
     if (config.iconPathSet) {
-        success = LoadImage(cString(cIcon), config.iconPath, "png");
+        cString iconThemePath = cString::sprintf("%s%s/", *config.iconPath, Setup.OSDTheme);
+        success = LoadImage(cString(cIcon), iconThemePath, "png");
+        if (!success) {
+            success = LoadImage(cString(cIcon), config.iconPath, "png");
+        }
     }
     if (!success) {
-        success = LoadImage(cString(cIcon), config.iconPathDefault, "png");
+        cString iconThemePath = cString::sprintf("%s%s/", *config.iconPathDefault, Setup.OSDTheme);
+        success = LoadImage(cString(cIcon), iconThemePath, "png");
+        if (!success) {
+            success = LoadImage(cString(cIcon), config.iconPathDefault, "png");
+        }
     }
     if (!success)
         return false;
