@@ -109,3 +109,7 @@ Version 0.0.6
   in a subdirectory in icons directory, this subdirectory has to 
   be named exactly as the theme (without "nOpacity-").
 - Added Theme "green" and appropriate icons
+- Added displaying of additional EPG images in detailed EPG view. The epg
+  images have to be stored as EventID_number.jpg (as some external epg
+  plugins do). Whether additional images should be displayed in general is
+  configurable, just as the number of images to display.

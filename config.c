@@ -57,6 +57,8 @@ cNopacityConfig::cNopacityConfig() {
     displayRerunsDetailEPGView = 1;
     numReruns = 5;
     useSubtitleRerun = 1;
+    displayAdditionalEPGPictures = 1;
+    numAdditionalEPGPictures = 9;
     menuFadeTime = 300;
     menuEPGWindowFadeTime = 300;
     menuWidthNarrow = 30;
@@ -85,6 +87,8 @@ cNopacityConfig::cNopacityConfig() {
     timersLogoHeight = 70;
     epgImageWidth = 210;
     epgImageHeight = 160;
+    epgImageWidthLarge = 545;
+    epgImageHeightLarge = 400;
     menuRecFolderSize = 128;
     fontHeader = 0;
     fontDate = 0;
@@ -220,6 +224,8 @@ bool cNopacityConfig::SetupParse(const char *Name, const char *Value) {
     else if (strcmp(Name, "displayRerunsDetailEPGView") == 0) displayRerunsDetailEPGView = atoi(Value);
     else if (strcmp(Name, "numReruns") == 0)               numReruns = atoi(Value);
     else if (strcmp(Name, "useSubtitleRerun") == 0)        useSubtitleRerun = atoi(Value);
+    else if (strcmp(Name, "displayAdditionalEPGPictures") == 0) displayAdditionalEPGPictures = atoi(Value);
+    else if (strcmp(Name, "numAdditionalEPGPictures") == 0) numAdditionalEPGPictures = atoi(Value);
     else if (strcmp(Name, "menuWidthNarrow") == 0)         menuWidthNarrow = atoi(Value);
     else if (strcmp(Name, "menuWidthRightItems") == 0)     menuWidthRightItems = atoi(Value);
     else if (strcmp(Name, "menuHeightInfoWindow") == 0)    menuHeightInfoWindow = atoi(Value);
@@ -241,6 +247,8 @@ bool cNopacityConfig::SetupParse(const char *Name, const char *Value) {
     else if (strcmp(Name, "timersLogoHeight") == 0)        timersLogoHeight = atoi(Value);
     else if (strcmp(Name, "epgImageWidth") == 0)           epgImageWidth = atoi(Value);
     else if (strcmp(Name, "epgImageHeight") == 0)          epgImageHeight = atoi(Value);
+    else if (strcmp(Name, "epgImageWidthLarge") == 0)      epgImageWidthLarge = atoi(Value);
+    else if (strcmp(Name, "epgImageHeightLarge") == 0)     epgImageHeightLarge = atoi(Value);
     else if (strcmp(Name, "menuRecFolderSize") == 0)       menuRecFolderSize = atoi(Value);
     else if (strcmp(Name, "fontHeader") == 0)              fontHeader = atoi(Value);
     else if (strcmp(Name, "fontDate") == 0)                fontDate = atoi(Value);

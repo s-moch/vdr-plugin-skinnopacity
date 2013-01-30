@@ -102,6 +102,8 @@ void cNopacitySetup::Store(void) {
     SetupStore("displayRerunsDetailEPGView", config.displayRerunsDetailEPGView);
     SetupStore("numReruns", config.numReruns);
     SetupStore("useSubtitleRerun", config.useSubtitleRerun);
+    SetupStore("displayAdditionalEPGPictures", config.displayAdditionalEPGPictures);
+    SetupStore("numAdditionalEPGPictures", config.numAdditionalEPGPictures);
     SetupStore("menuFadeTime", config.menuFadeTime);
     SetupStore("menuScrollDelay", config.menuScrollDelay);
     SetupStore("menuScrollSpeed", config.menuScrollSpeed);
@@ -130,6 +132,8 @@ void cNopacitySetup::Store(void) {
     SetupStore("timersLogoHeight", config.timersLogoHeight);
     SetupStore("epgImageWidth", config.epgImageWidth);
     SetupStore("epgImageHeight", config.epgImageHeight);
+    SetupStore("epgImageWidthLarge", config.epgImageWidthLarge);
+    SetupStore("epgImageHeightLarge", config.epgImageHeightLarge);
     SetupStore("menuRecFolderSize", config.menuRecFolderSize);
     SetupStore("fontHeader", config.fontHeader);
     SetupStore("fontDate", config.fontDate);
@@ -209,6 +213,8 @@ void cNopacitySetupMenuDisplay::Set(void) {
     Add(new cMenuEditBoolItem(tr("Display Reruns in detailed EPG View"), &tmpNopacityConfig->displayRerunsDetailEPGView));
     Add(new cMenuEditIntItem(tr("Number of reruns to display"), &tmpNopacityConfig->numReruns, 1, 10));
     Add(new cMenuEditStraItem(tr("Use Subtitle for reruns"), &tmpNopacityConfig->useSubtitleRerun, 3, useSubtitleRerunTexts));
+    Add(new cMenuEditBoolItem(tr("Display additional EPG Pictures in detailed EPG View"), &tmpNopacityConfig->displayAdditionalEPGPictures));
+    Add(new cMenuEditIntItem(tr("Number of EPG pictures to display"), &tmpNopacityConfig->numAdditionalEPGPictures, 1, 9));
     
     SetCurrent(Get(currentItem));
     Display();
@@ -241,6 +247,8 @@ void cNopacitySetupMenuDisplayGeometry::Set(void) {
     Add(new cMenuEditIntItem(tr("Detail EPG View Logo Height"), &tmpNopacityConfig->detailViewLogoHeight, 30, 500));
     Add(new cMenuEditIntItem(tr("Detail EPG View EPG Image Width"), &tmpNopacityConfig->epgImageWidth, 30, 500));
     Add(new cMenuEditIntItem(tr("Detail EPG View EPG Image Height"), &tmpNopacityConfig->epgImageHeight, 30, 500));
+    Add(new cMenuEditIntItem(tr("Detail EPG View additional EPG Image Width"), &tmpNopacityConfig->epgImageWidthLarge, 100, 800));
+    Add(new cMenuEditIntItem(tr("Detail EPG View additional EPG Image Height"), &tmpNopacityConfig->epgImageHeightLarge, 100, 800));
     SetCurrent(Get(currentItem));
     Display();
 }

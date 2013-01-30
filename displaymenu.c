@@ -548,9 +548,8 @@ void cNopacityDisplayMenu::SetEvent(const cEvent *Event) {
     detailView = new cNopacityMenuDetailEventView(osd, Event);
     menuView->SetDetailViewSize(dvEvent, detailView);
     detailView->SetFonts();
-    if (config.displayRerunsDetailEPGView)
-        detailView->LoadReruns(Event);
-    detailView->SetContent(Event->Description());
+    detailView->SetContent();
+    detailView->SetContentHeight();
     detailView->CreatePixmaps();
     detailView->Render();
     if (detailView->Scrollable()) {
@@ -571,8 +570,8 @@ void cNopacityDisplayMenu::SetRecording(const cRecording *Recording) {
     detailView = new cNopacityMenuDetailRecordingView(osd, Recording);
     menuView->SetDetailViewSize(dvRecording, detailView);
     detailView->SetFonts();
-    detailView->LoadRecordingInformation(Recording);
-    detailView->SetContent(Recording->Info()->Description());
+    detailView->SetContent();
+    detailView->SetContentHeight();
     detailView->CreatePixmaps();
     detailView->Render();
     if (detailView->Scrollable()) {
@@ -586,10 +585,11 @@ void cNopacityDisplayMenu::SetText(const char *Text, bool FixedFont) {
     if (!Text)
         return;
     menuView->AdjustContentBackground(false, contentNarrowLast, videoWindowRect);
-    detailView = new cNopacityMenuDetailTextView(osd);
+    detailView = new cNopacityMenuDetailTextView(osd, Text);
     menuView->SetDetailViewSize(dvText, detailView);
     detailView->SetFonts();
-    detailView->SetContent(Text);
+    detailView->SetContent();
+    detailView->SetContentHeight();
     detailView->CreatePixmaps();
     detailView->Render();
     if (detailView->Scrollable()) {

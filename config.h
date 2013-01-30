@@ -79,6 +79,8 @@ class cNopacityConfig {
         int displayRerunsDetailEPGView;
         int numReruns;
         int useSubtitleRerun;
+        int displayAdditionalEPGPictures;
+        int numAdditionalEPGPictures;
         int menuFadeTime;
         int menuEPGWindowFadeTime;
         int menuFrameTime;
@@ -111,6 +113,8 @@ class cNopacityConfig {
         int timersLogoHeight;
         int epgImageWidth;
         int epgImageHeight;
+        int epgImageWidthLarge;
+        int epgImageHeightLarge;
         int menuRecFolderSize;
         int fontHeader;
         int fontDate;

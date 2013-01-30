@@ -106,6 +106,26 @@ bool cImageLoader::LoadEPGImage(int eventID) {
     return true;
 }
 
+bool cImageLoader::LoadAdditionalEPGImage(cString name) {
+    int width = config.epgImageWidthLarge;
+    int height = config.epgImageHeightLarge;
+    if ((width == 0)||(height==0))
+        return false;
+    bool success = false;
+    if (config.epgImagePathSet) {
+        success = LoadImage(name, config.epgImagePath, "jpg");
+    }
+    if (!success) {
+        success = LoadImage(name, config.epgImagePathDefault, "jpg");
+    }
+    if (!success)
+        return false;
+    if (height != 0 || width != 0) {
+        buffer.sample( Geometry(width, height));
+    }
+    return true;
+}
+
 bool cImageLoader::LoadRecordingImage(cString Path) {
     int width = config.epgImageWidth;
     int height = config.epgImageHeight;

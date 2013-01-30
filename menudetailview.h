@@ -10,38 +10,41 @@ protected:
     int contentHeight;
     int contentDrawPortHeight;
     int border;
-    cTextWrapper content;
-    cString additionalContent;
-    bool additionalContentSet;
     cFont *font, *fontHeader, *fontHeaderLarge;
     cPixmap *pixmapHeader;
     cPixmap *pixmapLogo;
     cPixmap *pixmapContent;
-    int ReadSizeVdr(const char *strPath);
-    void DrawContent(void);
+    cTextWrapper content;
+    int DrawTextWrapper(cTextWrapper *wrapper, int top);
 public:
     cNopacityMenuDetailView(cOsd *osd);
     virtual ~cNopacityMenuDetailView(void);
     void SetGeometry(int width, int height, int top, int contentBorder, int headerHeight);
     virtual void SetFonts(void) = 0;
-    void SetContent(const char *textContent);
-    void LoadReruns(const cEvent *event);
-    void LoadRecordingInformation(const cRecording *recording);
     bool Scrollable(void) {return hasScrollbar;}
     double ScrollbarSize(void);
     double Offset(void);
     bool Scroll(bool Up, bool Page);
+    virtual void SetContent(void) = 0;
+    virtual void SetContentHeight(void) = 0;
     virtual void CreatePixmaps(void) = 0;
     virtual void Render(void) = 0;
 };
 
 class cNopacityMenuDetailEventView : public cNopacityMenuDetailView {
 private:
-    void DrawHeader(void);
     const cEvent *event;
+    cTextWrapper reruns;
+    int numEPGPics;
+    void DrawHeader(void);
+    void LoadReruns(void);
+    int HeightEPGPics(void);
+    void DrawEPGPictures(int height);
 public:
     cNopacityMenuDetailEventView(cOsd *osd, const cEvent *Event);
     virtual ~cNopacityMenuDetailEventView(void);
+    void SetContent(void);
+    void SetContentHeight(void);
     void CreatePixmaps(void);
     void SetFonts(void);
     void Render(void);
@@ -49,12 +52,17 @@ public:
 
 class cNopacityMenuDetailRecordingView : public cNopacityMenuDetailView {
 private:
-    void DrawHeader(void);
     const cRecording *recording;
     const cRecordingInfo *info;
+    cTextWrapper additionalInfo;
+    void DrawHeader(void);
+    void LoadRecordingInformation(void);
+    int ReadSizeVdr(const char *strPath);
 public:
     cNopacityMenuDetailRecordingView(cOsd *osd, const cRecording *Recording);
     virtual ~cNopacityMenuDetailRecordingView(void);
+    void SetContent(void);
+    void SetContentHeight(void);
     void CreatePixmaps(void);
     void SetFonts(void);
     void Render(void);
@@ -62,9 +70,12 @@ public:
 
 class cNopacityMenuDetailTextView : public cNopacityMenuDetailView {
 private:
+    const char *text;
 public:
-    cNopacityMenuDetailTextView(cOsd *osd);
+    cNopacityMenuDetailTextView(cOsd *osd, const char *text);
     virtual ~cNopacityMenuDetailTextView(void);
+    void SetContent(void);
+    void SetContentHeight(void);
     void CreatePixmaps(void);
     void SetFonts(void);
     void Render(void);

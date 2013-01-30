@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-01-26 13:46+0100\n"
+"POT-Creation-Date: 2013-01-30 19:45+0100\n"
 "PO-Revision-Date: 2012-11-11 17:49+0200\n"
 "Last-Translator: louis\n"
 "Language-Team: \n"
@@ -152,6 +152,12 @@ msgstr "Anzahl der dargestellten Wiederholungen"
 msgid "Use Subtitle for reruns"
 msgstr "Untertitel für Wiederholungssuche nutzen"
 
+msgid "Display additional EPG Pictures in detailed EPG View"
+msgstr "Weitere EPG Bilder in der detaillierten EPG Ansicht anzeigen"
+
+msgid "Number of EPG pictures to display"
+msgstr "Anzahl der zusätzlichen EPG Bilder"
+
 msgid "Width of narrow Menu Bar (Percent of OSD Width)"
 msgstr "Breite der schmalen Menüleiste (Proz. der OSD Breite)"
 
@@ -205,6 +211,12 @@ msgstr "Breite der EPG Bilder in der EPG Detailanzeige"
 
 msgid "Detail EPG View EPG Image Height"
 msgstr "Höhe der EPG Bilder in der EPG Detailanzeige"
+
+msgid "Detail EPG View additional EPG Image Width"
+msgstr "Breite der zusätzlichen EPG Bilder"
+
+msgid "Detail EPG View additional EPG Image Height"
+msgstr "Höhe der zusätzlichen EPG Bilder"
 
 msgid "Adjust Font Size - Header"
 msgstr "Schriftgröße anpassen - Header"
