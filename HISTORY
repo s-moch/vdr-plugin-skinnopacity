@@ -113,3 +113,4 @@ Version 0.0.6
   images have to be stored as EventID_number.jpg (as some external epg
   plugins do). Whether additional images should be displayed in general is
   configurable, just as the number of images to display.
+- Changed Disc Usage Info display, size individually configurable

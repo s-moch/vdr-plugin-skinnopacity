@@ -277,7 +277,7 @@ void cNopacityDisplayChannel::DrawSignalMeter(void) {
         cImageLoader imgLoader;
         cString signalStrength = "STR";
         cString signalQuality = "SNR";
-        if (imgLoader.LoadIcon("signal", signalWidth, signalHeight)) {
+        if (imgLoader.LoadIcon("signal", signalWidth, signalHeight, false)) {
             cImage imgSignal = imgLoader.GetImage();
             signalWidth = imgSignal.Width();
             signalHeight = imgSignal.Height();

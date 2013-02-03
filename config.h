@@ -95,6 +95,7 @@ class cNopacityConfig {
         int menuWidthNarrow;
         int menuHeightInfoWindow;
         int menuWidthRightItems;
+        int menuSizeDiskUsage;
         int showDiscUsage;
         int showTimers;
         int checkTimerConflict;
@@ -127,6 +128,7 @@ class cNopacityConfig {
         int fontMenuitemRecordingsSmall;
         int fontMenuitemDefault;
         int fontDiskUsage;
+        int fontDiskUsagePercent;
         int fontTimersHead;
         int fontTimers;
         int fontButtons;

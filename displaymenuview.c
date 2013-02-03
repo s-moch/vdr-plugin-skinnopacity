@@ -31,6 +31,7 @@ cNopacityDisplayMenuView::~cNopacityDisplayMenuView(void) {
     delete fontMenuitemRecordingsSmall;
     delete fontMenuitemDefault;
     delete fontDiskUsage;
+    delete fontDiskUsagePercent;
     delete fontTimers;
     delete fontTimersHead;
     delete fontButtons;
@@ -62,7 +63,8 @@ void cNopacityDisplayMenuView::SetGeometry(void) {
     menuItemHeightSchedule = config.menuItemLogoHeight + 2;
     menuItemHeightDefault = contentHeight / config.numDefaultMenuItems - spaceMenu;
     menuItemHeightRecordings = config.menuRecFolderSize + 2;
-    diskUsageWidth = diskUsageHeight = timersWidth = osdWidth  * config.menuWidthRightItems / 100;
+    diskUsageWidth = diskUsageHeight = osdWidth  * config.menuSizeDiskUsage / 100;
+    timersWidth = osdWidth  * config.menuWidthRightItems / 100;
     buttonsBorder = 10;
     buttonWidth = (osdWidth / 4) - 2 * buttonsBorder;
     buttonHeight = footerHeight - 3 * buttonsBorder;
@@ -89,8 +91,9 @@ void cNopacityDisplayMenuView::CreatePixmaps(void) {
                                          cRect(0, 0, osdWidth + contentWidthFull - contentWidthNarrow, contentHeight));
     pixmapScrollbar = osd->CreatePixmap(2, cRect(contentWidthNarrow, headerHeight + spaceMenu, widthScrollbar, contentHeight - 2 * spaceMenu));
     pixmapDiskUsage = osd->CreatePixmap(2, cRect(osdWidth - diskUsageWidth - 10, headerHeight + spaceMenu, diskUsageWidth, diskUsageHeight));
-    pixmapDiskUsageIcon = osd->CreatePixmap(3, cRect((osdWidth - diskUsageWidth - 10) + (diskUsageWidth)/8, headerHeight, diskUsageWidth*3/4, diskUsageWidth*3/4));
-    pixmapDiskUsageLabel = osd->CreatePixmap(3, cRect(osdWidth - diskUsageWidth - 10, headerHeight + spaceMenu, diskUsageWidth, diskUsageHeight));
+    pixmapDiskUsageIcon = osd->CreatePixmap(3, cRect(osdWidth - diskUsageWidth - 8, headerHeight + spaceMenu + 2, diskUsageWidth - 4, diskUsageHeight - 4));
+    pixmapDiskUsageLabel = osd->CreatePixmap(4, cRect(osdWidth - diskUsageWidth - 8, headerHeight + spaceMenu + 2, diskUsageWidth - 4, diskUsageHeight - 4));
+    
     pixmapHeaderLogo->Fill(clrTransparent);
     pixmapHeaderLabel->Fill(clrTransparent);
     pixmapDiskUsage->Fill(clrTransparent);
@@ -134,7 +137,8 @@ void cNopacityDisplayMenuView::CreateFonts(void) {
     fontMenuitemRecordings = cFont::CreateFont(config.fontName, menuItemHeightRecordings / 2 - 14 + config.fontMenuitemRecordings);
     fontMenuitemRecordingsSmall = cFont::CreateFont(config.fontName, menuItemHeightRecordings / 4 - 3 + config.fontMenuitemRecordingsSmall);
     fontMenuitemDefault = cFont::CreateFont(config.fontName, menuItemHeightDefault * 2 / 3 + config.fontMenuitemDefault);
-    fontDiskUsage = cFont::CreateFont(config.fontName, (diskUsageHeight/4)/2 - 2 + config.fontDiskUsage);
+    fontDiskUsage = cFont::CreateFont(config.fontName, diskUsageHeight/6 - 2 + config.fontDiskUsage);
+    fontDiskUsagePercent = cFont::CreateFont(config.fontName, diskUsageHeight/5 - 4 + config.fontDiskUsagePercent);
     fontTimersHead = cFont::CreateFont(config.fontName, (contentHeight - 3*spaceMenu - diskUsageHeight) / 25 + config.fontTimersHead);
     fontTimers = cFont::CreateFont(config.fontName, (contentHeight - 3*spaceMenu - diskUsageHeight) / 25 - 6 + config.fontTimers);
     fontButtons = cFont::CreateFont(config.fontName, buttonHeight*0.8 + config.fontButtons);
@@ -456,13 +460,19 @@ void cNopacityDisplayMenuView::DrawDiskUsage(void) {
     cImageLoader imgLoader;
     if (imgLoader.LoadIcon("DiskUsage", iconWidth)) {
         cImage icon = imgLoader.GetImage();
-        pixmapDiskUsageIcon->DrawImage(cPoint(0,0), icon);
+        pixmapDiskUsageIcon->DrawImage(cPoint((diskUsageWidth - iconWidth)/2,0), icon);
+    }
+    if (imgLoader.LoadIcon("discpercent", diskUsageWidth - 4, diskUsageHeight/5, false)) {
+        cImage icon = imgLoader.GetImage();
+        pixmapDiskUsageIcon->DrawImage(cPoint(0,4*diskUsageHeight/5), icon);
     }
     pixmapDiskUsageLabel->Fill(clrTransparent);
-    cString usage = cString::sprintf("%s: %d%%", tr("Disc"), DiskUsage);
+    cString usage = cString::sprintf("%d%%", DiskUsage);
     cString rest = cString::sprintf("%02d:%02dh %s", cVideoDiskUsage::FreeMinutes() / 60, cVideoDiskUsage::FreeMinutes() % 60, tr("free"));
-    pixmapDiskUsageLabel->DrawText(cPoint((diskUsageWidth - fontDiskUsage->Width(*usage))/2, diskUsageHeight - 2*fontDiskUsage->Height() - spaceMenu), *usage, Theme.Color(clrMenuFontDiscUsage), clrTransparent, fontDiskUsage);
-    pixmapDiskUsageLabel->DrawText(cPoint((diskUsageWidth - fontDiskUsage->Width(*rest))/2, diskUsageHeight - fontDiskUsage->Height() - spaceMenu), *rest, Theme.Color(clrMenuFontDiscUsage), clrTransparent, fontDiskUsage);
+    pixmapDiskUsageLabel->DrawRectangle(cRect((diskUsageWidth - 4)*DiskUsage/100,4*diskUsageHeight/5, (diskUsageWidth - 4) - (diskUsageWidth - 4)*DiskUsage/100, diskUsageHeight/5), 0xDD000000);
+    pixmapDiskUsageLabel->DrawText(cPoint((diskUsageWidth - fontDiskUsagePercent->Width(*usage))/2, 4*diskUsageHeight/5), *usage, Theme.Color(clrMenuFontDiscUsage), clrTransparent, fontDiskUsagePercent);
+    pixmapDiskUsageLabel->DrawText(cPoint((diskUsageWidth - fontDiskUsage->Width(*rest))/2, (diskUsageHeight - fontDiskUsage->Height())/2), *rest, Theme.Color(clrMenuFontDiscUsage), clrTransparent, fontDiskUsage);
+
     pixmapDiskUsage->SetLayer(2);
     pixmapDiskUsageIcon->SetLayer(3);
     pixmapDiskUsageLabel->SetLayer(4);

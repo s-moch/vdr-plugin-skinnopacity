@@ -109,6 +109,7 @@ void cNopacitySetup::Store(void) {
     SetupStore("menuScrollSpeed", config.menuScrollSpeed);
     SetupStore("menuWidthNarrow", config.menuWidthNarrow);
     SetupStore("menuWidthRightItems", config.menuWidthRightItems);
+    SetupStore("menuSizeDiskUsage", config.menuSizeDiskUsage);
     SetupStore("menuHeightInfoWindow", config.menuHeightInfoWindow);
     SetupStore("menuEPGWindowFadeTime", config.menuEPGWindowFadeTime);
     SetupStore("menuInfoTextDelay", config.menuInfoTextDelay);
@@ -146,6 +147,7 @@ void cNopacitySetup::Store(void) {
     SetupStore("fontMenuitemRecordingsSmall", config.fontMenuitemRecordingsSmall);
     SetupStore("fontMenuitemDefault", config.fontMenuitemDefault);
     SetupStore("fontDiskUsage", config.fontDiskUsage);
+    SetupStore("fontDiskUsagePercent", config.fontDiskUsagePercent);
     SetupStore("fontTimersHead", config.fontTimersHead);
     SetupStore("fontTimers", config.fontTimers);
     SetupStore("fontButtons", config.fontButtons);
@@ -230,7 +232,8 @@ void cNopacitySetupMenuDisplayGeometry::Set(void) {
     int currentItem = Current();
     Clear();
     Add(new cMenuEditIntItem(tr("Width of narrow Menu Bar (Percent of OSD Width)"), &tmpNopacityConfig->menuWidthNarrow, 10, 100));
-    Add(new cMenuEditIntItem(tr("Width of Disc Usage and Timers Display (Percent of OSD Width)"), &tmpNopacityConfig->menuWidthRightItems, 10, 100));
+    Add(new cMenuEditIntItem(tr("Size of Disc Usage (square, Percent of OSD Width)"), &tmpNopacityConfig->menuSizeDiskUsage, 2, 100));
+    Add(new cMenuEditIntItem(tr("Width of Timers Display (Percent of OSD Width)"), &tmpNopacityConfig->menuWidthRightItems, 5, 100));
     Add(new cMenuEditIntItem(tr("Height of EPG Info Window (Percent of OSD Height)"), &tmpNopacityConfig->menuHeightInfoWindow, 10, 100));
     Add(new cMenuEditIntItem(tr("Header Height (Percent of OSD Height)"), &tmpNopacityConfig->headerHeight, 0, 30));
     Add(new cMenuEditIntItem(tr("Footer Height (Percent of OSD Height)"), &tmpNopacityConfig->footerHeight, 0, 30));
@@ -272,7 +275,8 @@ void cNopacitySetupMenuDisplayFonts::Set(void) {
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Recordings Menu Item"), &tmpNopacityConfig->fontMenuitemRecordings, -20, 20));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Recordings Menu Item Small"), &tmpNopacityConfig->fontMenuitemRecordingsSmall, -20, 20));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Default Menu Item"), &tmpNopacityConfig->fontMenuitemDefault, -20, 20));
-    Add(new cMenuEditIntItem(tr("Adjust Font Size - Disc Usage"), &tmpNopacityConfig->fontDiskUsage, -20, 20));
+    Add(new cMenuEditIntItem(tr("Adjust Font Size - Disc Usage (free)"), &tmpNopacityConfig->fontDiskUsage, -20, 20));
+    Add(new cMenuEditIntItem(tr("Adjust Font Size - Disc Usage (percent)"), &tmpNopacityConfig->fontDiskUsagePercent, -20, 20));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Timers Header"), &tmpNopacityConfig->fontTimersHead, -20, 20));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Timers Title"), &tmpNopacityConfig->fontTimers, -20, 20));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Color Buttons"), &tmpNopacityConfig->fontButtons, -20, 20));

@@ -57,7 +57,7 @@ bool cImageLoader::LoadIcon(const char *cIcon, int size) {
     return true;
 }
 
-bool cImageLoader::LoadIcon(const char *cIcon, int width, int height) {
+bool cImageLoader::LoadIcon(const char *cIcon, int width, int height, bool preserveAspect) {
   try {
     if ((width == 0)||(height==0))
         return false;
@@ -78,7 +78,12 @@ bool cImageLoader::LoadIcon(const char *cIcon, int width, int height) {
     }
     if (!success)
         return false;
-    buffer.sample(Geometry(width, height));
+    if (preserveAspect) {
+        buffer.sample(Geometry(width, height));
+    } else {
+        cString geometry = cString::sprintf("%dx%d!", width, height);
+        buffer.scale(Geometry(*geometry));
+    }
     return true;
   }
   catch (...) {

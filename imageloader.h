@@ -16,7 +16,7 @@ public:
     cImage GetImage();
     bool LoadLogo(const char *logo, int width, int height);
     bool LoadIcon(const char *cIcon, int size);
-    bool LoadIcon(const char *cIcon, int width, int height);
+    bool LoadIcon(const char *cIcon, int width, int height, bool preserveAspect = true);
     bool LoadEPGImage(int eventID);
     bool LoadAdditionalEPGImage(cString name);
     bool LoadRecordingImage(cString Path);

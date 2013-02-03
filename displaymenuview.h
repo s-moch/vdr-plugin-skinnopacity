@@ -31,6 +31,7 @@ class cNopacityDisplayMenuView {
         cFont *fontMenuitemRecordingsSmall;
         cFont *fontMenuitemDefault;
         cFont *fontDiskUsage;
+        cFont *fontDiskUsagePercent;
         cFont *fontTimers;
         cFont *fontTimersHead;
         cFont *fontButtons;
