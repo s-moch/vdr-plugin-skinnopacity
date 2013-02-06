@@ -495,8 +495,12 @@ void cNopacityDisplayMenu::SplitItem(const char *Text, cString *strItems, int *t
         const char *s = GetTabbedText(Text, i);
         if (s) {
             strItems[i] = s;
-        }
-        tabItems[i] = Tab(i);
+            tabItems[i] = Tab(i);
+        } else {
+            if (i>0)
+                tabItems[i - 1 + MaxTabs] = menuView->GetWidthDefaultMenu() - x;
+            break;
+		}
         if (i>0) {
             tabItems[(i-1) + MaxTabs] = Tab(i) - x;
             x += Tab(i) - x;
