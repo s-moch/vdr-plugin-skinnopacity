@@ -304,7 +304,7 @@ void cNopacityDisplayMenuView::CreateBackgroundImages(int *handleBackgrounds, in
 
 void cNopacityDisplayMenuView::DrawBorderDecoration() {
     cImageLoader imgLoader;
-    imgLoader.DrawBackground(Theme.Color(clrMenuItemHighBlend), Theme.Color(clrMenuBack), osdWidth, headerHeight);
+    imgLoader.DrawBackground(Theme.Color(clrMenuHeaderBlend), Theme.Color(clrMenuHeader), osdWidth, headerHeight);
     pixmapHeader->DrawImage(cPoint(0,0), imgLoader.GetImage());
     pixmapFooter->Fill(Theme.Color(clrMenuBack));
     

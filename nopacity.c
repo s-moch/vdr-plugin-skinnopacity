@@ -32,6 +32,8 @@ static cTheme Theme;
 #define CLR_MENUITEMHIGHBLEND   0xEE0033FF
 #define CLR_SEPARATORBORDER     0xEE444444
 #define CLR_DISKALERT           0xDDFF0000
+#define CLR_MENUHEADER		     0xDD000000
+#define CLR_MENUHEADERBLEND     0xEE0033FF
 
 //BUTTONS
 #define CLR_BUTTONRED           0x99BB0000
@@ -103,6 +105,9 @@ THEME_CLR(Theme, clrMenuFontMenuItem,       CLR_WHITE);
 THEME_CLR(Theme, clrMenuFontMenuItemHigh,   CLR_BRIGHTBLUE);
 THEME_CLR(Theme, clrMenuFontMenuItemTitle,  CLR_BRIGHTBLUE);
 THEME_CLR(Theme, clrMenuFontMenuItemSep,    CLR_GRAY);
+THEME_CLR(Theme, clrMenuHeader,             CLR_MENUHEADER);
+THEME_CLR(Theme, clrMenuHeaderBlend,        CLR_MENUHEADERBLEND);
+
 //BUTTONS
 THEME_CLR(Theme, clrButtonRed,              CLR_BUTTONRED);
 THEME_CLR(Theme, clrButtonRedBorder,        CLR_BUTTONREDBORDER);

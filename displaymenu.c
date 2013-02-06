@@ -500,7 +500,7 @@ void cNopacityDisplayMenu::SplitItem(const char *Text, cString *strItems, int *t
             if (i>0)
                 tabItems[i - 1 + MaxTabs] = menuView->GetWidthDefaultMenu() - x;
             break;
-		}
+        }
         if (i>0) {
             tabItems[(i-1) + MaxTabs] = Tab(i) - x;
             x += Tab(i) - x;
