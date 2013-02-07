@@ -114,3 +114,8 @@ Version 0.0.6
   plugins do). Whether additional images should be displayed in general is
   configurable, just as the number of images to display.
 - Changed Disc Usage Info display, size individually configurable
+- Added Theme DarkRed (Thanks @TheChief)
+- Changed buttons in DisplayReplay so that only the active button is 
+  highlighted
+- Added screen resolution icon in DisplayReplay
+- Changed Makefile to avoid warnings with newer ImageMagick versions

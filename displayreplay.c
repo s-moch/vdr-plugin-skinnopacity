@@ -59,11 +59,11 @@ void cNopacityDisplayReplay::SetGeometry(void) {
     currentHeight = progressBarHeight + config.fontReplay;
     controlsHeight = height - headerHeight - info2Height - footerHeight - progressBarHeight;
 
-    infoWidth = 0.75 * width;
+    infoWidth = 0.75 * width - config.resolutionIconSize - 10;
     dateWidth = width - infoWidth;
 
-    resolutionX = width - 20 - config.resolutionIconSize;
-    resolutionY = height - 10 - config.resolutionIconSize;
+    resolutionX = 10;
+    resolutionY = 5;
     
     jumpX = (width - 4 * controlsHeight)/2 + 5*controlsHeight;
     jumpY = headerHeight + info2Height + progressBarHeight;
@@ -76,9 +76,9 @@ void cNopacityDisplayReplay::CreatePixmaps(void) {
         pixmapHeader = osd->CreatePixmap(1, cRect(0, 0, width, headerHeight));
         pixmapBackground = osd->CreatePixmap(1, cRect(0, headerHeight, width, info2Height + progressBarHeight + controlsHeight));
         pixmapFooter = osd->CreatePixmap(1, cRect(0, headerHeight + info2Height + progressBarHeight + controlsHeight, width, footerHeight));
-        pixmapInfo = osd->CreatePixmap(2, cRect(0, 0, infoWidth, headerHeight));
+        pixmapInfo = osd->CreatePixmap(2, cRect(config.resolutionIconSize + 10, 0, infoWidth, headerHeight));
         pixmapDate = osd->CreatePixmap(2, cRect(infoWidth, 0, dateWidth, headerHeight));
-        pixmapInfo2 = osd->CreatePixmap(2, cRect(0, headerHeight, width, info2Height));
+        pixmapInfo2 = osd->CreatePixmap(2, cRect(config.resolutionIconSize + 10, headerHeight, infoWidth, info2Height));
         pixmapProgressBar = osd->CreatePixmap(2, cRect(0, headerHeight + info2Height, width, progressBarHeight));
         pixmapCurrent = osd->CreatePixmap(3, cRect(0, headerHeight + info2Height + progressBarHeight, width/5, currentHeight));
         pixmapTotal = osd->CreatePixmap(3, cRect(4*width/5, headerHeight + info2Height + progressBarHeight, width/5, currentHeight));
