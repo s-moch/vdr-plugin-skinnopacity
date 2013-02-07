@@ -51,12 +51,14 @@ SOFILE = libvdr-$(PLUGIN).so
 INCLUDES += $(shell pkg-config --cflags-only-I Magick++)
 
 DEFINES += -DPLUGIN_NAME_I18N='"$(PLUGIN)"'
+DEFINES += -DMAGICKCORE_HDRI_ENABLE=0
+DEFINES += -DMAGICKCORE_QUANTUM_DEPTH=16
 
 LIBS += $(shell pkg-config --libs Magick++)
 
 ### The object files (add further files here):
 
-OBJS = $(PLUGIN).o
+OBJS = $(PLUGIN).o 
 
 ### The main target:
 

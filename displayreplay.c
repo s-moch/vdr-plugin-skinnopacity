@@ -98,8 +98,6 @@ void cNopacityDisplayReplay::CreatePixmaps(void) {
     pixmapFwd = osd->CreatePixmap(4, cRect((width - 4 * backgroundWidth)/2 + 3*(iconSize + 2*iconBorder) + iconBorder, controlY + iconBorder, iconSize, iconSize)); 
     pixmapFwdSpeed = osd->CreatePixmap(5, cRect((width - 4 * backgroundWidth)/2 + 3*(iconSize + 2*iconBorder) + iconBorder, controlY + iconBorder, iconSize, iconSize));    
 
-    //LoadControlIcons();
-    
     if (config.replayFadeTime) {
         if (!modeOnly) {
             pixmapHeader->SetAlpha(0);
