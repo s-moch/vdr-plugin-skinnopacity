@@ -32,14 +32,10 @@ private:
     cPixmap *pixmapTotal;
     cPixmap *pixmapControls;
     cPixmap *pixmapRew;
-    cPixmap *pixmapRewBackground;
     cPixmap *pixmapRewSpeed;
     cPixmap *pixmapPause;
-    cPixmap *pixmapPauseBackground;
     cPixmap *pixmapPlay;
-    cPixmap *pixmapPlayBackground;
     cPixmap *pixmapFwd;
-    cPixmap *pixmapFwdBackground;
     cPixmap *pixmapFwdSpeed;
     cPixmap *pixmapJump;
     cPixmap *pixmapFooter;

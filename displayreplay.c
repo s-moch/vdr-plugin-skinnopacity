@@ -32,13 +32,9 @@ cNopacityDisplayReplay::~cNopacityDisplayReplay() {
     }
     osd->DestroyPixmap(pixmapControls);
     osd->DestroyPixmap(pixmapRew);
-    osd->DestroyPixmap(pixmapRewBackground);
     osd->DestroyPixmap(pixmapRewSpeed);
-    osd->DestroyPixmap(pixmapPauseBackground);
     osd->DestroyPixmap(pixmapPause);
-    osd->DestroyPixmap(pixmapPlayBackground);
     osd->DestroyPixmap(pixmapPlay);
-    osd->DestroyPixmap(pixmapFwdBackground);
     osd->DestroyPixmap(pixmapFwd);
     osd->DestroyPixmap(pixmapFwdSpeed);
     delete fontReplayHeader;
@@ -95,18 +91,14 @@ void cNopacityDisplayReplay::CreatePixmaps(void) {
     } else {
         pixmapControls = osd->CreatePixmap(2, cRect( (width - (5 * backgroundWidth))/2, controlY - 10, 5 * backgroundWidth, controlsHeight + 20));
     }
-    pixmapRewBackground = osd->CreatePixmap(3, cRect((width - 4 * backgroundWidth)/2, controlY, iconSize + 2*iconBorder, iconSize + 2*iconBorder)); 
     pixmapRew = osd->CreatePixmap(4, cRect((width - 4 * backgroundWidth)/2 + iconBorder, controlY + iconBorder, iconSize, iconSize));   
     pixmapRewSpeed = osd->CreatePixmap(5, cRect((width - 4 * backgroundWidth)/2 + iconBorder, controlY + iconBorder, iconSize, iconSize));  
-    pixmapPauseBackground = osd->CreatePixmap(3, cRect((width - 4 * backgroundWidth)/2 + iconSize + 2*iconBorder, controlY, iconSize + 2*iconBorder, iconSize + 2*iconBorder)); 
     pixmapPause = osd->CreatePixmap(4, cRect((width - 4 * backgroundWidth)/2 + (iconSize + 2*iconBorder) + iconBorder, controlY + iconBorder, iconSize, iconSize)); 
-    pixmapPlayBackground = osd->CreatePixmap(3, cRect((width - 4 * backgroundWidth)/2 + 2*(iconSize + 2*iconBorder), controlY, iconSize + 2*iconBorder, iconSize + 2*iconBorder));  
     pixmapPlay = osd->CreatePixmap(4, cRect((width - 4 * backgroundWidth)/2 + 2*(iconSize + 2*iconBorder) + iconBorder, controlY + iconBorder, iconSize, iconSize));    
-    pixmapFwdBackground = osd->CreatePixmap(3, cRect((width - 4 * backgroundWidth)/2 + 3*(iconSize + 2*iconBorder), controlY, iconSize + 2*iconBorder, iconSize + 2*iconBorder));   
     pixmapFwd = osd->CreatePixmap(4, cRect((width - 4 * backgroundWidth)/2 + 3*(iconSize + 2*iconBorder) + iconBorder, controlY + iconBorder, iconSize, iconSize)); 
     pixmapFwdSpeed = osd->CreatePixmap(5, cRect((width - 4 * backgroundWidth)/2 + 3*(iconSize + 2*iconBorder) + iconBorder, controlY + iconBorder, iconSize, iconSize));    
 
-    LoadControlIcons();
+    //LoadControlIcons();
     
     if (config.replayFadeTime) {
         if (!modeOnly) {
@@ -122,14 +114,10 @@ void cNopacityDisplayReplay::CreatePixmaps(void) {
             pixmapFooter->SetAlpha(0);
         }
         pixmapControls->SetAlpha(0);
-        pixmapRewBackground->SetAlpha(0);   
         pixmapRew->SetAlpha(0); 
         pixmapRewSpeed->SetAlpha(0);    
-        pixmapPauseBackground->SetAlpha(0); 
         pixmapPause->SetAlpha(0);   
-        pixmapPlayBackground->SetAlpha(0);  
         pixmapPlay->SetAlpha(0);    
-        pixmapFwdBackground->SetAlpha(0);   
         pixmapFwd->SetAlpha(0);
         pixmapFwdSpeed->SetAlpha(0);    
     }
@@ -166,16 +154,16 @@ void cNopacityDisplayReplay::LoadControlIcons(void) {
     pixmapFwd->Fill(clrTransparent);
     
     cImageLoader imgLoader;
-    if (imgLoader.LoadIcon("rew", iconSize)) {
+    if (imgLoader.LoadIcon("rewInactive", iconSize)) {
         pixmapRew->DrawImage(cPoint(0,0), imgLoader.GetImage());
     }
-    if (imgLoader.LoadIcon("pause", iconSize)) {
+    if (imgLoader.LoadIcon("pauseInactive", iconSize)) {
         pixmapPause->DrawImage(cPoint(0,0), imgLoader.GetImage());
     }
-    if (imgLoader.LoadIcon("play", iconSize)) {
+    if (imgLoader.LoadIcon("playInactive", iconSize)) {
         pixmapPlay->DrawImage(cPoint(0,0), imgLoader.GetImage());
     }
-    if (imgLoader.LoadIcon("fwd", iconSize)) {
+    if (imgLoader.LoadIcon("fwdInactive", iconSize)) {
         pixmapFwd->DrawImage(cPoint(0,0), imgLoader.GetImage());
     }
 }
@@ -213,26 +201,36 @@ void cNopacityDisplayReplay::SetTitle(const char *Title) {
 }
 
 void cNopacityDisplayReplay::SetMode(bool Play, bool Forward, int Speed) {
-    pixmapRewBackground->Fill(clrTransparent);
+    LoadControlIcons();
     pixmapRewSpeed->Fill(clrTransparent);
-    pixmapPauseBackground->Fill(clrTransparent);
-    pixmapPlayBackground->Fill(clrTransparent);
-    pixmapFwdBackground->Fill(clrTransparent);
     pixmapFwdSpeed->Fill(clrTransparent);
 
+    cImageLoader imgLoader;
     if (!Play) {
-        pixmapPauseBackground->Fill(Theme.Color(clrReplayHighlightIcon));
+        pixmapPause->Fill(clrTransparent);
+        if (imgLoader.LoadIcon("pause", iconSize)) {
+            pixmapPause->DrawImage(cPoint(0,0), imgLoader.GetImage());
+        }
     } else if (Play && (Speed < 0)) {
-        pixmapPlayBackground->Fill(Theme.Color(clrReplayHighlightIcon));
+        pixmapPlay->Fill(clrTransparent);
+        if (imgLoader.LoadIcon("play", iconSize)) {
+            pixmapPlay->DrawImage(cPoint(0,0), imgLoader.GetImage());
+        }
     } else if (Play && Forward) {
-        pixmapFwdBackground->Fill(Theme.Color(clrReplayHighlightIcon));
+        pixmapFwd->Fill(clrTransparent);
+        if (imgLoader.LoadIcon("fwd", iconSize)) {
+            pixmapFwd->DrawImage(cPoint(0,0), imgLoader.GetImage());
+        }
         if (Speed > 0) {
             cString speed = cString::sprintf("x%d", Speed);
             int sWidth = fontReplayHeader->Width(*speed);
             pixmapFwdSpeed->DrawText(cPoint((iconSize - sWidth)/2, (iconSize - fontReplayHeader->Height())/2), *speed, Theme.Color(clrReplayHighlightIcon), clrTransparent, fontReplayHeader); 
         }
     } else if (Play && !Forward) {
-        pixmapRewBackground->Fill(Theme.Color(clrReplayHighlightIcon));
+        pixmapRew->Fill(clrTransparent);
+        if (imgLoader.LoadIcon("rew", iconSize)) {
+            pixmapRew->DrawImage(cPoint(0,0), imgLoader.GetImage());
+        }
         if (Speed > 0) {
             cString speed = cString::sprintf("x%d", Speed);
             int sWidth = fontReplayHeader->Width(*speed);
@@ -304,14 +302,10 @@ void cNopacityDisplayReplay::Action(void) {
             pixmapFooter->SetAlpha(Alpha);
         }
         pixmapControls->SetAlpha(Alpha);
-        pixmapRewBackground->SetAlpha(Alpha);   
         pixmapRew->SetAlpha(Alpha); 
         pixmapRewSpeed->SetAlpha(Alpha);    
-        pixmapPauseBackground->SetAlpha(Alpha); 
         pixmapPause->SetAlpha(Alpha);   
-        pixmapPlayBackground->SetAlpha(Alpha);  
         pixmapPlay->SetAlpha(Alpha);    
-        pixmapFwdBackground->SetAlpha(Alpha);   
         pixmapFwd->SetAlpha(Alpha);
         pixmapFwdSpeed->SetAlpha(Alpha);
         if (Running())
