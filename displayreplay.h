@@ -18,6 +18,7 @@ private:
     int infoWidth;
     int dateWidth;
     int iconSize, iconBorder;
+    int resolutionX, resolutionY; 
     int jumpX, jumpY; 
     int jumpWidth, jumpHeight;
     int FrameTime;
@@ -30,6 +31,7 @@ private:
     cPixmap *pixmapProgressBar;
     cPixmap *pixmapCurrent;
     cPixmap *pixmapTotal;
+    cPixmap *pixmapScreenResolution;
     cPixmap *pixmapControls;
     cPixmap *pixmapRew;
     cPixmap *pixmapRewSpeed;
@@ -48,6 +50,7 @@ private:
     void DrawBackground(void);
     void DrawDate(void);
     void LoadControlIcons(void);
+    void DrawScreenResolution(void);
 public:
   cNopacityDisplayReplay(bool ModeOnly);
   virtual ~cNopacityDisplayReplay();

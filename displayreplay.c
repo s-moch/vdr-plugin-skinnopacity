@@ -27,6 +27,7 @@ cNopacityDisplayReplay::~cNopacityDisplayReplay() {
         osd->DestroyPixmap(pixmapProgressBar);
         osd->DestroyPixmap(pixmapCurrent);
         osd->DestroyPixmap(pixmapTotal);
+        osd->DestroyPixmap(pixmapScreenResolution);
         osd->DestroyPixmap(pixmapJump);
         osd->DestroyPixmap(pixmapFooter);
     }
@@ -60,6 +61,9 @@ void cNopacityDisplayReplay::SetGeometry(void) {
 
     infoWidth = 0.75 * width;
     dateWidth = width - infoWidth;
+
+    resolutionX = width - 20 - config.resolutionIconSize;
+    resolutionY = height - 10 - config.resolutionIconSize;
     
     jumpX = (width - 4 * controlsHeight)/2 + 5*controlsHeight;
     jumpY = headerHeight + info2Height + progressBarHeight;
@@ -78,6 +82,7 @@ void cNopacityDisplayReplay::CreatePixmaps(void) {
         pixmapProgressBar = osd->CreatePixmap(2, cRect(0, headerHeight + info2Height, width, progressBarHeight));
         pixmapCurrent = osd->CreatePixmap(3, cRect(0, headerHeight + info2Height + progressBarHeight, width/5, currentHeight));
         pixmapTotal = osd->CreatePixmap(3, cRect(4*width/5, headerHeight + info2Height + progressBarHeight, width/5, currentHeight));
+        pixmapScreenResolution = osd->CreatePixmap(5, cRect(resolutionX, resolutionY, config.resolutionIconSize, config.resolutionIconSize));
         pixmapJump = osd->CreatePixmap(4, cRect(jumpX, jumpY, jumpWidth, jumpHeight));
     }
     
@@ -108,6 +113,7 @@ void cNopacityDisplayReplay::CreatePixmaps(void) {
             pixmapProgressBar->SetAlpha(0);
             pixmapCurrent->SetAlpha(0);
             pixmapTotal->SetAlpha(0);
+            pixmapScreenResolution->SetAlpha(0);
             pixmapJump->SetAlpha(0);
             pixmapFooter->SetAlpha(0);
         }
@@ -134,6 +140,7 @@ void cNopacityDisplayReplay::DrawBackground(void) {
         pixmapBackground->Fill(Theme.Color(clrReplayBackground));
         pixmapControls->Fill(clrTransparent);
         pixmapProgressBar->Fill(clrTransparent);
+        pixmapScreenResolution->Fill(clrTransparent);
         pixmapJump->Fill(clrTransparent);
         DrawBlendedBackground(pixmapFooter, Theme.Color(clrReplayBackground), Theme.Color(clrReplayBackBlend), false);
         pixmapFooter->DrawEllipse(cRect(0,footerHeight/2,footerHeight/2,footerHeight/2), clrTransparent, -3);
@@ -180,6 +187,36 @@ void cNopacityDisplayReplay::DrawDate(void) {
     }
 }
 
+void cNopacityDisplayReplay::DrawScreenResolution(void) {
+    int screenWidth = 0;
+    int screenHeight = 0;
+    double aspect = 0;
+    cDevice::PrimaryDevice()->GetVideoSize(screenWidth, screenHeight, aspect);
+    cString iconName("");
+    switch (screenWidth) {
+        case 1920:
+        case 1440:
+            iconName = "hd1080i";
+            break;
+        case 1280:
+            if (screenHeight == 720)
+                iconName = "hd720p";
+            else
+                iconName = "hd1080i";
+            break;
+        case 720:
+            iconName = "sd576i";
+            break;
+        default:
+            iconName = "sd576i";
+            break;
+    }
+    cImageLoader imgLoader;
+    if (imgLoader.LoadIcon(*iconName, config.resolutionIconSize)) {
+        pixmapScreenResolution->DrawImage(cPoint(0,0), imgLoader.GetImage());
+    }
+}
+
 void cNopacityDisplayReplay::SetRecording(const cRecording *Recording) {
     const cRecordingInfo *RecordingInfo = Recording->Info();
     SetTitle(RecordingInfo->Title());
@@ -191,6 +228,7 @@ void cNopacityDisplayReplay::SetRecording(const cRecording *Recording) {
     
     pixmapInfo2->Fill(clrTransparent);
     pixmapInfo2->DrawText(cPoint(headerHeight/2, max( (info2Height - fontReplay->Height())/2 - 10,0 )), *info2, Theme.Color(clrReplayDescription), clrTransparent, fontReplay);
+    DrawScreenResolution();
 }
 
 void cNopacityDisplayReplay::SetTitle(const char *Title) {
@@ -296,6 +334,7 @@ void cNopacityDisplayReplay::Action(void) {
             pixmapProgressBar->SetAlpha(Alpha);
             pixmapCurrent->SetAlpha(Alpha);
             pixmapTotal->SetAlpha(Alpha);
+            pixmapScreenResolution->SetAlpha(Alpha);
             pixmapJump->SetAlpha(Alpha);
             pixmapFooter->SetAlpha(Alpha);
         }
