@@ -15,8 +15,6 @@ cNopacityDisplayMenu::cNopacityDisplayMenu(void) {
     menuItemIndexLast = -1;
     currentNumItems = 0;
     detailView = NULL;
-    contentNarrow = true;
-    contentNarrowLast = true;
     SetButtonPositions();
     menuView = new cNopacityDisplayMenuView();
     osd = menuView->createOsd();
@@ -39,7 +37,7 @@ cNopacityDisplayMenu::~cNopacityDisplayMenu() {
         delete detailView;
     }
     timers.Clear();
-    for (int i=0; i<8; i++)
+    for (int i=0; i<10; i++)
         cOsdProvider::DropImage(handleBackgrounds[i]);
     for (int i=0; i<4; i++)
         cOsdProvider::DropImage(handleButtons[i]);
@@ -194,21 +192,7 @@ void cNopacityDisplayMenu::SetMenuCategory(eMenuCategory MenuCategory) {
       27 mcCam
       */
     menuCategoryLast = this->MenuCategory();
-    contentNarrowLast = contentNarrow;
     cSkinDisplayMenu::SetMenuCategory(MenuCategory);
-    switch (MenuCategory) {
-        case mcMain:
-        case mcSchedule:
-        case mcScheduleNow:
-        case mcScheduleNext:
-        case mcChannel:
-        case mcSetup:
-        case mcRecording:
-            contentNarrow = true;
-            break;
-        default:
-            contentNarrow = false;
-    }
     if ((menuCategoryLast == mcMain) && (MenuCategory != mcMain)) {
         if (config.showDiscUsage) {
             menuView->ShowDiskUsage(false);
@@ -241,7 +225,7 @@ void cNopacityDisplayMenu::SetTitle(const char *Title) {
                 menuView->ShowHeaderLogo(false);
                 left += menuView->DrawHeaderIcon(MenuCategory());
         }
-        menuView->AdjustContentBackground(contentNarrow, contentNarrowLast, videoWindowRect);
+        menuView->AdjustContentBackground(this->MenuCategory(), menuCategoryLast, videoWindowRect);
         menuView->DrawHeaderLabel(left, title);
     }
 }
@@ -318,7 +302,7 @@ bool cNopacityDisplayMenu::SetItemEvent(const cEvent *Event, int Index, bool Cur
         item->SetFontEPGWindow(menuView->GetEPGWindowFont());
         int spaceTop = menuView->GetMenuTop(currentNumItems, itemSize.Y());
         item->SetGeometry(Index, spaceTop, menuView->spaceMenu, itemSize.X(), itemSize.Y());
-        item->SetTextWindow(menuView->GetDescriptionTextWindowSize());
+        item->SetTextWindow(menuView->GetDescriptionTextWindowSize(mcSchedule));
         item->SetCurrent(Current);
         item->SetBackgrounds(handleBackgrounds);
         item->CreateText();
@@ -396,7 +380,7 @@ bool cNopacityDisplayMenu::SetItemRecording(const cRecording *Recording, int Ind
         item->SetFontEPGWindow(menuView->GetEPGWindowFont());
         int spaceTop = menuView->GetMenuTop(currentNumItems, itemSize.Y());
         item->SetGeometry(Index, spaceTop, menuView->spaceMenu, itemSize.X(), itemSize.Y());
-        item->SetTextWindow(menuView->GetDescriptionTextWindowSize());
+        item->SetTextWindow(menuView->GetDescriptionTextWindowSize(mcRecording));
         item->SetCurrent(Current);
         item->SetBackgrounds(handleBackgrounds);
         item->CreateText();
@@ -548,7 +532,7 @@ void cNopacityDisplayMenu::SetScrollbar(int Total, int Offset) {
 void cNopacityDisplayMenu::SetEvent(const cEvent *Event) {
     if (!Event)
         return;
-    menuView->AdjustContentBackground(false, contentNarrowLast, videoWindowRect);
+    menuView->AdjustContentBackground(this->MenuCategory(), menuCategoryLast, videoWindowRect);
     detailView = new cNopacityMenuDetailEventView(osd, Event);
     menuView->SetDetailViewSize(dvEvent, detailView);
     detailView->SetFonts();
@@ -570,7 +554,7 @@ void cNopacityDisplayMenu::SetRecording(const cRecording *Recording) {
     if (!Info) {
         return;
     }
-    menuView->AdjustContentBackground(false, contentNarrowLast, videoWindowRect);
+    menuView->AdjustContentBackground(this->MenuCategory(), menuCategoryLast, videoWindowRect);
     detailView = new cNopacityMenuDetailRecordingView(osd, Recording);
     menuView->SetDetailViewSize(dvRecording, detailView);
     detailView->SetFonts();
@@ -588,7 +572,7 @@ void cNopacityDisplayMenu::SetRecording(const cRecording *Recording) {
 void cNopacityDisplayMenu::SetText(const char *Text, bool FixedFont) {
     if (!Text)
         return;
-    menuView->AdjustContentBackground(false, contentNarrowLast, videoWindowRect);
+    menuView->AdjustContentBackground(this->MenuCategory(), menuCategoryLast, videoWindowRect);
     detailView = new cNopacityMenuDetailTextView(osd, Text);
     menuView->SetDetailViewSize(dvText, detailView);
     detailView->SetFonts();

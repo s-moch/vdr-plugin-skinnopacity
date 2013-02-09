@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-02-03 17:28+0100\n"
+"POT-Creation-Date: 2013-02-08 17:20+0100\n"
 "PO-Revision-Date: 2012-11-11 17:49+0200\n"
 "Last-Translator: louis\n"
 "Language-Team: \n"
@@ -155,8 +155,17 @@ msgstr "Weitere EPG Bilder in der detaillierten EPG Ansicht anzeigen"
 msgid "Number of EPG pictures to display"
 msgstr "Anzahl der zusätzlichen EPG Bilder"
 
-msgid "Width of narrow Menu Bar (Percent of OSD Width)"
-msgstr "Breite der schmalen Menüleiste (Proz. der OSD Breite)"
+msgid "Width of Main and Setup Menu (Percent of OSD Width)"
+msgstr "Breite des Haupt und Setup Menüs (Proz. der OSD Breite)"
+
+msgid "Width of Schedules Menu (Percent of OSD Width)"
+msgstr "Breite des Programm Menüs (Proz. der OSD Breite)"
+
+msgid "Width of Channels Menu (Percent of OSD Width)"
+msgstr "Breite des Kanalmenüs (Proz. der OSD Breite)"
+
+msgid "Width of Recordings Menu (Percent of OSD Width)"
+msgstr "Breite des Aufzeichnugsmenüs (Proz. der OSD Breite)"
 
 msgid "Size of Disc Usage (square, Percent of OSD Width)"
 msgstr "Größe des Festplattenstatus (quadratisch, Proz. der OSD Breite)"

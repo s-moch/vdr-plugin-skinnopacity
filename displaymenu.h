@@ -17,10 +17,9 @@ private:
     bool timersDrawn;
     int menuItemIndexLast;
     int currentNumItems;
-    bool contentNarrow, contentNarrowLast;
     cList<cNopacityTimer> timers;
     cList<cNopacityMenuItem> menuItems;
-    int handleBackgrounds[8];
+    int handleBackgrounds[10];
     int handleButtons[4];
     int positionButtons[4];
     cRect videoWindowRect;

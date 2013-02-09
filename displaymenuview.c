@@ -55,10 +55,16 @@ void cNopacityDisplayMenuView::SetGeometry(void) {
     headerHeight = osdHeight * config.headerHeight / 100;
     footerHeight = osdHeight * config.footerHeight / 100;
     contentHeight = osdHeight - headerHeight - footerHeight;
-    contentWidthNarrow = osdWidth * config.menuWidthNarrow / 100;
+    contentWidthMain = osdWidth * config.menuWidthMain / 100;
+    contentWidthSchedules = osdWidth * config.menuWidthSchedules / 100;
+    contentWidthChannels = osdWidth * config.menuWidthChannels / 100;
+    contentWidthRecordings = osdWidth * config.menuWidthRecordings / 100;
     contentWidthFull = osdWidth - widthScrollbar - spaceMenu;
     menuItemWidthDefault = contentWidthFull - 4 * spaceMenu;
-    menuItemWidthMain = contentWidthNarrow - 4*spaceMenu;
+    menuItemWidthMain = contentWidthMain - 4*spaceMenu;
+    menuItemWidthSchedule = contentWidthSchedules - 4*spaceMenu;
+    menuItemWidthChannel = contentWidthChannels - 4*spaceMenu;
+    menuItemWidthRecording = contentWidthRecordings - 4*spaceMenu;
     menuItemHeightMain = config.iconHeight + 2;
     menuItemHeightSchedule = config.menuItemLogoHeight + 2;
     menuItemHeightDefault = contentHeight / config.numDefaultMenuItems - spaceMenu;
@@ -74,12 +80,47 @@ void cNopacityDisplayMenuView::SetGeometry(void) {
 }
 
 void cNopacityDisplayMenuView::SetDescriptionTextWindowSize(void) {
-    int x = 2 * spaceMenu + contentWidthNarrow + widthScrollbar;
+    int xSchedules = 2 * spaceMenu + contentWidthSchedules + widthScrollbar;
+    int xRecordings = 2 * spaceMenu + contentWidthRecordings + widthScrollbar;
     int height = config.menuHeightInfoWindow * (contentHeight - 2*spaceMenu) / 100;
     int y = headerHeight + (contentHeight - height - spaceMenu);
-    int width = osdWidth - x - spaceMenu;
-    textWindowSize = cRect(x,y,width,height);
+    int widthSchedules = osdWidth - xSchedules - spaceMenu;
+    int widthRecordings = osdWidth - xRecordings - spaceMenu;
+    textWindowSizeSchedules = cRect(xSchedules,y,widthSchedules,height);
+    textWindowSizeRecordings = cRect(xRecordings,y,widthRecordings,height);
 }
+
+cRect *cNopacityDisplayMenuView::GetDescriptionTextWindowSize(eMenuCategory menuCat) {
+    switch (menuCat) {
+        case mcSchedule:
+            return &textWindowSizeSchedules;
+        case mcRecording:
+            return &textWindowSizeRecordings;
+        default:
+            return NULL;
+    }
+    return NULL;
+}
+
+int cNopacityDisplayMenuView::GetContentWidth(eMenuCategory menuCat) {
+    switch (menuCat) {
+        case mcMain:
+        case mcSetup:
+            return contentWidthMain;
+        case mcSchedule:
+        case mcScheduleNow:
+        case mcScheduleNext:
+            return contentWidthSchedules;
+        case mcChannel:
+            return contentWidthChannels;
+        case mcRecording:
+            return contentWidthRecordings;
+        default:
+            return contentWidthFull;     
+    }
+    return contentWidthFull;
+}
+
 
 void cNopacityDisplayMenuView::CreatePixmaps(void) {
     pixmapHeader = osd->CreatePixmap(1, cRect(0, 0, osdWidth, headerHeight));
@@ -87,9 +128,14 @@ void cNopacityDisplayMenuView::CreatePixmaps(void) {
     pixmapHeaderLabel = osd->CreatePixmap(2, cRect(0, 0, osdWidth - dateWidth, headerHeight));
     pixmapDate = osd->CreatePixmap(2, cRect(osdWidth - dateWidth, 0, dateWidth, headerHeight));
     pixmapFooter = osd->CreatePixmap(1, cRect(0, osdHeight-footerHeight, osdWidth, footerHeight));
+    int drawPortWidth = osdWidth + contentWidthFull 
+                        - Minimum(contentWidthMain, 
+                                  contentWidthSchedules, 
+                                  contentWidthChannels, 
+                                  contentWidthRecordings);
     pixmapContent = osd->CreatePixmap(1, cRect(0, headerHeight, osdWidth, contentHeight),
-                                         cRect(0, 0, osdWidth + contentWidthFull - contentWidthNarrow, contentHeight));
-    pixmapScrollbar = osd->CreatePixmap(2, cRect(contentWidthNarrow, headerHeight + spaceMenu, widthScrollbar, contentHeight - 2 * spaceMenu));
+                                         cRect(0, 0, drawPortWidth, contentHeight));
+    pixmapScrollbar = osd->CreatePixmap(2, cRect(contentWidthMain, headerHeight + spaceMenu, widthScrollbar, contentHeight - 2 * spaceMenu));
     pixmapDiskUsage = osd->CreatePixmap(2, cRect(osdWidth - diskUsageWidth - 10, headerHeight + spaceMenu, diskUsageWidth, diskUsageHeight));
     pixmapDiskUsageIcon = osd->CreatePixmap(3, cRect(osdWidth - diskUsageWidth - 8, headerHeight + spaceMenu + 2, diskUsageWidth - 4, diskUsageHeight - 4));
     pixmapDiskUsageLabel = osd->CreatePixmap(4, cRect(osdWidth - diskUsageWidth - 8, headerHeight + spaceMenu + 2, diskUsageWidth - 4, diskUsageHeight - 4));
@@ -151,6 +197,7 @@ cFont *cNopacityDisplayMenuView::GetMenuItemFont(eMenuCategory menuCat) {
         case mcUnknown:
             return fontMenuitemDefault;
         case mcMain:
+        case mcSetup:
             return fontMenuitemLarge;
         case mcSchedule:
             return fontMenuitemSchedule;
@@ -191,21 +238,22 @@ void cNopacityDisplayMenuView::GetMenuItemSize(eMenuCategory menuCat, cPoint *it
             itemHeight = menuItemHeightDefault;
             break;
         case mcMain:
+        case mcSetup:
             itemWidth = menuItemWidthMain;
             itemHeight = menuItemHeightMain;
             break;
         case mcSchedule:
         case mcScheduleNow:
         case mcScheduleNext:
-            itemWidth = menuItemWidthMain;
+            itemWidth = menuItemWidthSchedule;
             itemHeight = menuItemHeightSchedule;
             break;
         case mcChannel:
-            itemWidth = menuItemWidthMain;
+            itemWidth = menuItemWidthChannel;
             itemHeight = menuItemHeightSchedule;
             break;
         case mcRecording:
-            itemWidth = menuItemWidthMain;
+            itemWidth = menuItemWidthRecording;
             itemHeight = menuItemHeightRecordings;
             break;
         default:
@@ -275,23 +323,37 @@ const cFont *cNopacityDisplayMenuView::GetTextAreaFont(bool FixedFont) {
 
 void cNopacityDisplayMenuView::CreateBackgroundImages(int *handleBackgrounds, int *handleButtons) {
     cImageLoader imgLoader;
+    //Default Menus
     imgLoader.DrawBackground(Theme.Color(clrMenuItem), Theme.Color(clrMenuItemBlend), menuItemWidthDefault-2, menuItemHeightDefault-2);
     handleBackgrounds[0] = cOsdProvider::StoreImage(imgLoader.GetImage());
     imgLoader.DrawBackground(Theme.Color(clrMenuItemHigh), Theme.Color(clrMenuItemHighBlend), menuItemWidthDefault-2, menuItemHeightDefault-2);
     handleBackgrounds[1] = cOsdProvider::StoreImage(imgLoader.GetImage());
-    imgLoader.DrawBackground(Theme.Color(clrMenuItem), Theme.Color(clrMenuItemBlend), menuItemWidthMain-2, menuItemHeightMain-2);
+    //Main Menu
+    cPoint itemSize;
+    GetMenuItemSize(mcMain, &itemSize);
+    imgLoader.DrawBackground(Theme.Color(clrMenuItem), Theme.Color(clrMenuItemBlend), itemSize.X()-2, itemSize.Y()-2);
     handleBackgrounds[2] = cOsdProvider::StoreImage(imgLoader.GetImage());
-    imgLoader.DrawBackground(Theme.Color(clrMenuItemHigh), Theme.Color(clrMenuItemHighBlend), menuItemWidthMain-2, menuItemHeightMain-2);
+    imgLoader.DrawBackground(Theme.Color(clrMenuItemHigh), Theme.Color(clrMenuItemHighBlend), itemSize.X()-2, itemSize.Y()-2);
     handleBackgrounds[3] = cOsdProvider::StoreImage(imgLoader.GetImage());
-    imgLoader.DrawBackground(Theme.Color(clrMenuItem), Theme.Color(clrMenuItemBlend), menuItemWidthMain-2, menuItemHeightSchedule-2);
+    //Schedules Menu
+    GetMenuItemSize(mcSchedule, &itemSize);
+    imgLoader.DrawBackground(Theme.Color(clrMenuItem), Theme.Color(clrMenuItemBlend), itemSize.X()-2, itemSize.Y()-2);
     handleBackgrounds[4] = cOsdProvider::StoreImage(imgLoader.GetImage());
-    imgLoader.DrawBackground(Theme.Color(clrMenuItemHigh), Theme.Color(clrMenuItemHighBlend), menuItemWidthMain-2, menuItemHeightSchedule-2);
+    imgLoader.DrawBackground(Theme.Color(clrMenuItemHigh), Theme.Color(clrMenuItemHighBlend), itemSize.X()-2, itemSize.Y()-2);
     handleBackgrounds[5] = cOsdProvider::StoreImage(imgLoader.GetImage());
-    imgLoader.DrawBackground(Theme.Color(clrMenuItem), Theme.Color(clrMenuItemBlend), menuItemWidthMain-2, menuItemHeightRecordings-2);
+    //Channels Menu
+    GetMenuItemSize(mcChannel, &itemSize);
+    imgLoader.DrawBackground(Theme.Color(clrMenuItem), Theme.Color(clrMenuItemBlend), itemSize.X()-2, itemSize.Y()-2);
     handleBackgrounds[6] = cOsdProvider::StoreImage(imgLoader.GetImage());
-    imgLoader.DrawBackground(Theme.Color(clrMenuItemHigh), Theme.Color(clrMenuItemHighBlend), menuItemWidthMain-2, menuItemHeightRecordings-2);
+    imgLoader.DrawBackground(Theme.Color(clrMenuItemHigh), Theme.Color(clrMenuItemHighBlend), itemSize.X()-2, itemSize.Y()-2);
     handleBackgrounds[7] = cOsdProvider::StoreImage(imgLoader.GetImage());
-
+    //Recordings Menu
+    GetMenuItemSize(mcRecording, &itemSize);
+    imgLoader.DrawBackground(Theme.Color(clrMenuItem), Theme.Color(clrMenuItemBlend), itemSize.X()-2, itemSize.Y()-2);
+    handleBackgrounds[8] = cOsdProvider::StoreImage(imgLoader.GetImage());
+    imgLoader.DrawBackground(Theme.Color(clrMenuItemHigh), Theme.Color(clrMenuItemHighBlend), itemSize.X()-2, itemSize.Y()-2);
+    handleBackgrounds[9] = cOsdProvider::StoreImage(imgLoader.GetImage());
+    
     imgLoader.DrawBackground(Theme.Color(clrMenuBack), Theme.Color(clrButtonRed), buttonWidth-4, buttonHeight-4);
     handleButtons[0] = cOsdProvider::StoreImage(imgLoader.GetImage());
     imgLoader.DrawBackground(Theme.Color(clrMenuBack), Theme.Color(clrButtonGreen), buttonWidth-4, buttonHeight-4);
@@ -310,11 +372,14 @@ void cNopacityDisplayMenuView::DrawBorderDecoration() {
     
     int borderWidth = 2;
     int radius = 10;
-    
+    int minContentWidth = Minimum(contentWidthMain, 
+                                  contentWidthSchedules, 
+                                  contentWidthChannels, 
+                                  contentWidthRecordings);
     pixmapContent->Fill(clrTransparent);
     pixmapContent->DrawRectangle(cRect(0, 0, contentWidthFull-radius, contentHeight), Theme.Color(clrMenuBack));
-    pixmapContent->DrawRectangle(cRect(contentWidthFull, 0, osdWidth - contentWidthNarrow, borderWidth), Theme.Color(clrMenuBorder));
-    pixmapContent->DrawRectangle(cRect(contentWidthFull, contentHeight - borderWidth, osdWidth - contentWidthNarrow, borderWidth), Theme.Color(clrMenuBorder));
+    pixmapContent->DrawRectangle(cRect(contentWidthFull, 0, osdWidth - minContentWidth, borderWidth), Theme.Color(clrMenuBorder));
+    pixmapContent->DrawRectangle(cRect(contentWidthFull, contentHeight - borderWidth, osdWidth - minContentWidth, borderWidth), Theme.Color(clrMenuBorder));
     pixmapContent->DrawRectangle(cRect(contentWidthFull - radius, 0, radius, radius), Theme.Color(clrMenuBack));
     pixmapContent->DrawEllipse(cRect(contentWidthFull - radius, 0, radius, radius), Theme.Color(clrMenuBorder),2);
     pixmapContent->DrawEllipse(cRect(contentWidthFull - radius + borderWidth, borderWidth, radius-borderWidth, radius-borderWidth), clrTransparent, 2);
@@ -325,30 +390,31 @@ void cNopacityDisplayMenuView::DrawBorderDecoration() {
 
 }
 
-void cNopacityDisplayMenuView::AdjustContentBackground(bool contentNarrow, bool contentNarrowLast, cRect & vidWin) {
-    if (contentNarrow) {
-        pixmapContent->SetDrawPortPoint(cPoint(contentWidthNarrow - contentWidthFull, 0));
-        if (config.scalePicture) {
-            // ask output device to scale down
-            cRect availableRect(
-                osdLeft + contentWidthNarrow + widthScrollbar + 2 * spaceMenu,
-                osdTop + headerHeight,
-                contentWidthFull - osdLeft - contentWidthNarrow - widthScrollbar - 4 * spaceMenu,
-                contentHeight);// - osdTop - headerHeight);
-            vidWin = cDevice::PrimaryDevice()->CanScaleVideo(availableRect);
-        }
-    } else {
-        pixmapContent->SetDrawPortPoint(cPoint(0, 0));
-        if (config.scalePicture) {
-            // ask output device to restore full size
-            vidWin = cDevice::PrimaryDevice()->CanScaleVideo(cRect::Null);
+void cNopacityDisplayMenuView::AdjustContentBackground(eMenuCategory menuCat, eMenuCategory menuCatLast, cRect & vidWin) {
+    int contentWidth = GetContentWidth(menuCat);
+    int contentWidthLast = GetContentWidth(menuCatLast);
+    if (contentWidth != contentWidthLast) {
+        if (contentWidth == contentWidthFull) {
+            pixmapContent->SetDrawPortPoint(cPoint(0, 0));
+            if (config.scalePicture) {
+                // ask output device to restore full size
+                vidWin = cDevice::PrimaryDevice()->CanScaleVideo(cRect::Null);
+            }
+        } else {
+            pixmapContent->SetDrawPortPoint(cPoint(contentWidth - contentWidthFull, 0));
+            if (config.scalePicture) {
+                // ask output device to scale down
+                cRect availableRect(
+                    osdLeft + contentWidth + widthScrollbar + 2 * spaceMenu,
+                    osdTop + headerHeight,
+                    contentWidthFull - osdLeft - contentWidth - widthScrollbar - 4 * spaceMenu,
+                    contentHeight);// - osdTop - headerHeight);
+                vidWin = cDevice::PrimaryDevice()->CanScaleVideo(availableRect);
+            }
         }
     }
-    if (contentNarrow != contentNarrowLast) {
-        osd->DestroyPixmap(pixmapScrollbar);
-        int contentWidth = (contentNarrow)?contentWidthNarrow:contentWidthFull;
-        pixmapScrollbar = osd->CreatePixmap(2, cRect(contentWidth , headerHeight + spaceMenu, widthScrollbar, osdHeight - headerHeight - footerHeight - 2*spaceMenu));
-    }
+    osd->DestroyPixmap(pixmapScrollbar);
+    pixmapScrollbar = osd->CreatePixmap(2, cRect(contentWidth , headerHeight + spaceMenu, widthScrollbar, osdHeight - headerHeight - footerHeight - 2*spaceMenu));
 }
 
 void cNopacityDisplayMenuView::DrawHeaderLogo(void) {

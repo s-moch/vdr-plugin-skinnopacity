@@ -567,7 +567,7 @@ void cNopacityChannelMenuItem::DrawBackground(int handleBackground) {
 
 void cNopacityChannelMenuItem::Render() {
     
-    int handleBgrd = (current)?handleBackgrounds[5]:handleBackgrounds[4];
+    int handleBgrd = (current)?handleBackgrounds[7]:handleBackgrounds[6];
     
     if (selectable) {                           //Channels
         DrawBackground(handleBgrd);
@@ -807,7 +807,7 @@ void cNopacityRecordingMenuItem::DrawFolderNewSeen(void) {
 
 void cNopacityRecordingMenuItem::Render() {
     
-    int handleBgrd = (current)?handleBackgrounds[7]:handleBackgrounds[6];
+    int handleBgrd = (current)?handleBackgrounds[9]:handleBackgrounds[8];
     if (selectable) {                           
         pixmap->Fill(Theme.Color(clrMenuBorder));
         pixmap->DrawImage(cPoint(1, 1), handleBgrd);

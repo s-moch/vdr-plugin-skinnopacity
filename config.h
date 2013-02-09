@@ -92,7 +92,10 @@ class cNopacityConfig {
         int menuInfoScrollDelay;
         int menuInfoScrollSpeed;
         int menuInfoScrollFrameTime;
-        int menuWidthNarrow;
+        int menuWidthMain;
+        int menuWidthSchedules;
+        int menuWidthChannels;
+        int menuWidthRecordings;
         int menuHeightInfoWindow;
         int menuWidthRightItems;
         int menuSizeDiskUsage;

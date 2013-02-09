@@ -61,7 +61,10 @@ cNopacityConfig::cNopacityConfig() {
     numAdditionalEPGPictures = 9;
     menuFadeTime = 300;
     menuEPGWindowFadeTime = 300;
-    menuWidthNarrow = 30;
+    menuWidthMain = 30;
+    menuWidthSchedules = 30;
+    menuWidthChannels = 30;
+    menuWidthRecordings = 30;
     menuHeightInfoWindow = 20;
     menuScrollDelay = 1;
     menuScrollSpeed = 2;
@@ -228,7 +231,10 @@ bool cNopacityConfig::SetupParse(const char *Name, const char *Value) {
     else if (strcmp(Name, "useSubtitleRerun") == 0)        useSubtitleRerun = atoi(Value);
     else if (strcmp(Name, "displayAdditionalEPGPictures") == 0) displayAdditionalEPGPictures = atoi(Value);
     else if (strcmp(Name, "numAdditionalEPGPictures") == 0) numAdditionalEPGPictures = atoi(Value);
-    else if (strcmp(Name, "menuWidthNarrow") == 0)         menuWidthNarrow = atoi(Value);
+    else if (strcmp(Name, "menuWidthMain") == 0)           menuWidthMain = atoi(Value);
+    else if (strcmp(Name, "menuWidthSchedules") == 0)      menuWidthSchedules = atoi(Value);
+    else if (strcmp(Name, "menuWidthChannels") == 0)       menuWidthChannels = atoi(Value);
+    else if (strcmp(Name, "menuWidthRecordings") == 0)     menuWidthRecordings = atoi(Value);
     else if (strcmp(Name, "menuWidthRightItems") == 0)     menuWidthRightItems = atoi(Value);
     else if (strcmp(Name, "menuSizeDiskUsage") == 0)       menuSizeDiskUsage = atoi(Value);
     else if (strcmp(Name, "menuHeightInfoWindow") == 0)    menuHeightInfoWindow = atoi(Value);

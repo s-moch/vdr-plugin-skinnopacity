@@ -107,7 +107,10 @@ void cNopacitySetup::Store(void) {
     SetupStore("menuFadeTime", config.menuFadeTime);
     SetupStore("menuScrollDelay", config.menuScrollDelay);
     SetupStore("menuScrollSpeed", config.menuScrollSpeed);
-    SetupStore("menuWidthNarrow", config.menuWidthNarrow);
+    SetupStore("menuWidthMain", config.menuWidthMain);
+    SetupStore("menuWidthSchedules", config.menuWidthSchedules);
+    SetupStore("menuWidthChannels", config.menuWidthChannels);
+    SetupStore("menuWidthRecordings", config.menuWidthRecordings);
     SetupStore("menuWidthRightItems", config.menuWidthRightItems);
     SetupStore("menuSizeDiskUsage", config.menuSizeDiskUsage);
     SetupStore("menuHeightInfoWindow", config.menuHeightInfoWindow);
@@ -231,7 +234,10 @@ cNopacitySetupMenuDisplayGeometry::cNopacitySetupMenuDisplayGeometry(cNopacityCo
 void cNopacitySetupMenuDisplayGeometry::Set(void) {
     int currentItem = Current();
     Clear();
-    Add(new cMenuEditIntItem(tr("Width of narrow Menu Bar (Percent of OSD Width)"), &tmpNopacityConfig->menuWidthNarrow, 10, 100));
+    Add(new cMenuEditIntItem(tr("Width of Main and Setup Menu (Percent of OSD Width)"), &tmpNopacityConfig->menuWidthMain, 10, 100));
+    Add(new cMenuEditIntItem(tr("Width of Schedules Menu (Percent of OSD Width)"), &tmpNopacityConfig->menuWidthSchedules, 10, 100));
+    Add(new cMenuEditIntItem(tr("Width of Channels Menu (Percent of OSD Width)"), &tmpNopacityConfig->menuWidthChannels, 10, 100));
+    Add(new cMenuEditIntItem(tr("Width of Recordings Menu (Percent of OSD Width)"), &tmpNopacityConfig->menuWidthRecordings, 10, 100));
     Add(new cMenuEditIntItem(tr("Size of Disc Usage (square, Percent of OSD Width)"), &tmpNopacityConfig->menuSizeDiskUsage, 2, 100));
     Add(new cMenuEditIntItem(tr("Width of Timers Display (Percent of OSD Width)"), &tmpNopacityConfig->menuWidthRightItems, 5, 100));
     Add(new cMenuEditIntItem(tr("Height of EPG Info Window (Percent of OSD Height)"), &tmpNopacityConfig->menuHeightInfoWindow, 10, 100));
