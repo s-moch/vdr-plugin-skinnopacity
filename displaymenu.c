@@ -249,6 +249,7 @@ void cNopacityDisplayMenu::SetTitle(const char *Title) {
                 left += menuView->ShowHeaderIconChannelLogo(Title);
                 break;
             case mcRecording:
+                menuView->ShowHeaderLogo(false);
                 title = cString::sprintf("%s (%s)", Title, *cVideoDiskUsage::String());
                 left += menuView->DrawHeaderIcon(MenuCategory());
                 break;
