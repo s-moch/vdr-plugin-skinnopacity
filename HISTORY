@@ -124,3 +124,6 @@ Version 0.0.7:
 - Width of narrow menus (main, schedule, channel, recordings, settings) 
   individually configurable
 - Display of free disk space in recordings menu header
+- Usage of narrow menus (main, schedule, channel, recordings, settings)
+  configurable via plugin setup. If option is set to "no", the "normal"
+  style for this menu will be used.

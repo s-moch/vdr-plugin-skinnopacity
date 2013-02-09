@@ -76,6 +76,11 @@ class cNopacityConfig {
         int fontVolume;
         //DisplayMenu
         int scalePicture;
+        int narrowMainMenu;
+        int narrowScheduleMenu;
+        int narrowChannelMenu;
+        int narrowRecordingMenu;
+        int narrowSetupMenu;
         int displayRerunsDetailEPGView;
         int numReruns;
         int useSubtitleRerun;

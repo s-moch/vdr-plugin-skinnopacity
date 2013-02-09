@@ -105,16 +105,32 @@ cRect *cNopacityDisplayMenuView::GetDescriptionTextWindowSize(eMenuCategory menu
 int cNopacityDisplayMenuView::GetContentWidth(eMenuCategory menuCat) {
     switch (menuCat) {
         case mcMain:
+            if (config.narrowMainMenu)
+                return contentWidthMain;
+            else
+                return contentWidthFull;
         case mcSetup:
-            return contentWidthMain;
+            if (config.narrowSetupMenu)
+                return contentWidthMain;
+            else
+                return contentWidthFull;
         case mcSchedule:
         case mcScheduleNow:
         case mcScheduleNext:
-            return contentWidthSchedules;
+            if (config.narrowScheduleMenu)
+                return contentWidthSchedules;
+            else
+                return contentWidthFull;
         case mcChannel:
-            return contentWidthChannels;
+            if (config.narrowChannelMenu)
+                return contentWidthChannels;
+            else
+                return contentWidthFull;
         case mcRecording:
-            return contentWidthRecordings;
+            if (config.narrowRecordingMenu)
+                return contentWidthRecordings;
+            else
+                return contentWidthFull;
         default:
             return contentWidthFull;     
     }

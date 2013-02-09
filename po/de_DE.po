@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-02-08 17:20+0100\n"
+"POT-Creation-Date: 2013-02-09 14:02+0100\n"
 "PO-Revision-Date: 2012-11-11 17:49+0200\n"
 "Last-Translator: louis\n"
 "Language-Team: \n"
@@ -107,20 +107,35 @@ msgstr "schnell"
 msgid "Number of Default Menu Entries per Page"
 msgstr "Anzahl der Default-Menüelemente pro Seite"
 
+msgid "Use narrow main menu"
+msgstr "Schmales Hauptmenü verwenden"
+
+msgid "Use narrow schedules menu"
+msgstr "Schmales Programm Menü verwenden"
+
+msgid "Use narrow channel menu"
+msgstr "Schmales Kanalmenü verwenden"
+
+msgid "Use narrow recording menu"
+msgstr "Schmales Aufzeichnungsmenü verwenden"
+
+msgid "Use narrow setup menu"
+msgstr "Schmales Setup Menü verwenden"
+
 msgid "Scale Video size to fit into menu window"
 msgstr "TV-Bildgröße in Menüfenster einpassen"
 
 msgid "Fade-In Time in ms (Zero for switching off fading)"
 msgstr "Fade-In Zeit in ms (Null zum Abschalten)"
 
-msgid "Display Disk Usage"
-msgstr "Festplattenstatus anzeigen"
+msgid "Display Disk Usage in main menu"
+msgstr "Festplattenstatus im Hauptmenü anzeigen"
 
-msgid "Display Timers"
-msgstr "Timer anzeigen"
+msgid "Display Timers in main menu"
+msgstr "Timer im Hauptmenü anzeigen"
 
-msgid "Show Timer Conflicts"
-msgstr "Timer Konflikte anzeigen"
+msgid "Show Timer Conflicts in main menu"
+msgstr "Timerkonflikte im Hauptmenü anzeigen"
 
 msgid "Menu Items Scrolling Speed"
 msgstr "Scroll Geschwindigkeit der Menüelemente"

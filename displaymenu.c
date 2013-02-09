@@ -47,6 +47,8 @@ cNopacityDisplayMenu::~cNopacityDisplayMenu() {
 }
 
 void cNopacityDisplayMenu::DrawDisk(void) {
+    if (!config.narrowMainMenu)
+        return;
     if (initial || ((menuCategoryLast!=mcMain)&&(MenuCategory()==mcMain)&&!diskUsageDrawn)) {
         if (cVideoDiskUsage::HasChanged(lastDiskUsageState)) {
             menuView->DrawDiskUsage();
@@ -81,6 +83,8 @@ int cNopacityDisplayMenu::CheckTimerConflict(bool timersChanged) {
 }
 
 void cNopacityDisplayMenu::DrawTimers(bool timersChanged, int numConflicts) {
+    if (!config.narrowMainMenu)
+        return;
     int maxTimersHeight = menuView->GetTimersMaxHeight();
     if (initial || ((menuCategoryLast!=mcMain)&&(MenuCategory()==mcMain)&&!timersDrawn)) {
         if (timersChanged) {
@@ -134,13 +138,36 @@ int cNopacityDisplayMenu::MaxItems(void) {
     int maxItems = 0;
     switch (MenuCategory()) {
         case mcMain:
+            if (config.narrowMainMenu)
+                maxItems = menuView->GetMaxItems(MenuCategory());
+            else
+                maxItems = config.numDefaultMenuItems;
+            break;
         case mcSetup:
+            if (config.narrowSetupMenu)
+                maxItems = menuView->GetMaxItems(MenuCategory());
+            else
+                maxItems = config.numDefaultMenuItems;
+            break;
         case mcSchedule:
         case mcScheduleNow:
         case mcScheduleNext:
+            if (config.narrowScheduleMenu)
+                maxItems = menuView->GetMaxItems(MenuCategory());
+            else
+                maxItems = config.numDefaultMenuItems;
+            break;
         case mcChannel:
+            if (config.narrowChannelMenu)
+                maxItems = menuView->GetMaxItems(MenuCategory());
+            else
+                maxItems = config.numDefaultMenuItems;
+            break;
         case mcRecording:
-            maxItems = menuView->GetMaxItems(MenuCategory());
+            if (config.narrowRecordingMenu)
+                maxItems = menuView->GetMaxItems(MenuCategory());
+            else
+                maxItems = config.numDefaultMenuItems;
             break;
         default:
             maxItems = config.numDefaultMenuItems;      
@@ -297,6 +324,8 @@ void cNopacityDisplayMenu::SetMessage(eMessageType Type, const char *Text) {
 
 bool cNopacityDisplayMenu::SetItemEvent(const cEvent *Event, int Index, bool Current, 
                                         bool Selectable, const cChannel *Channel, bool WithDate, eTimerMatch TimerMatch) { 
+    if (!config.narrowScheduleMenu)
+        return false;
     if ((initMenu)&&(Index > menuItemIndexLast)) {
         cNopacityMenuItem *item = new cNopacityScheduleMenuItem(osd, Event, Channel, TimerMatch, Selectable, MenuCategory());
         cPoint itemSize;
@@ -337,6 +366,8 @@ bool cNopacityDisplayMenu::SetItemTimer(const cTimer *Timer, int Index, bool Cur
 }
 
 bool cNopacityDisplayMenu::SetItemChannel(const cChannel *Channel, int Index, bool Current, bool Selectable, bool WithProvider) { 
+    if (!config.narrowChannelMenu)
+        return false;
     if ((initMenu)&&(Index > menuItemIndexLast)) {
         cNopacityMenuItem *item = new cNopacityChannelMenuItem(osd, Channel, Selectable);
         cPoint itemSize;
@@ -372,6 +403,8 @@ bool cNopacityDisplayMenu::SetItemChannel(const cChannel *Channel, int Index, bo
 
 bool cNopacityDisplayMenu::SetItemRecording(const cRecording *Recording, int Index, bool Current, bool Selectable, 
                                             int Level, int Total, int New) {
+    if (!config.narrowRecordingMenu)
+        return false;
     if ((initMenu)&&(Index > menuItemIndexLast)) {
         bool isFolder = false;
         if (Total > 0)
@@ -425,18 +458,15 @@ void cNopacityDisplayMenu::SetItem(const char *Text, int Index, bool Current, bo
         if (Index > menuItemIndexLast) {
             cNopacityMenuItem *item;
             cPoint itemSize;
-            switch (MenuCategory()) {
-                case mcMain:
-                case mcSetup:
-                    item = new cNopacityMainMenuItem(osd, Text, Selectable);
-                    menuView->GetMenuItemSize(mcMain, &itemSize);
-                    item->SetFont(menuView->GetMenuItemFont(mcMain));
-                    hasIcons = true;
-                    break;
-                default:
-                    item = new cNopacityDefaultMenuItem(osd, Text, Selectable);
-                    menuView->GetMenuItemSize(mcUnknown, &itemSize);
-                    item->SetFont(menuView->GetMenuItemFont(mcUnknown));
+            if (((MenuCategory() == mcMain)&&(config.narrowMainMenu)) || ((MenuCategory() == mcSetup)&&(config.narrowSetupMenu))){
+                item = new cNopacityMainMenuItem(osd, Text, Selectable);
+                menuView->GetMenuItemSize(mcMain, &itemSize);
+                item->SetFont(menuView->GetMenuItemFont(mcMain));
+                hasIcons = true;
+            } else {
+                item = new cNopacityDefaultMenuItem(osd, Text, Selectable);
+                menuView->GetMenuItemSize(mcUnknown, &itemSize);
+                item->SetFont(menuView->GetMenuItemFont(mcUnknown));
             }
             int spaceTop = menuView->GetMenuTop(currentNumItems, itemSize.Y());
             item->SetGeometry(Index, spaceTop, menuView->spaceMenu, itemSize.X(), itemSize.Y());
