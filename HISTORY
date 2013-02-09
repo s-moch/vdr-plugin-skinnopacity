@@ -88,7 +88,7 @@ VDR Plugin 'nOpacity' Revision History
   sections for clearer arrangement
 - different minor changes and fixes
 
-Version 0.0.6
+2012-02-07: Version 0.0.6
 
 - Introduced new narrow displayed Recordings menu
 - Fixed displaying configurable color buttons
@@ -119,3 +119,8 @@ Version 0.0.6
   highlighted
 - Added screen resolution icon in DisplayReplay
 - Changed Makefile to avoid warnings with newer ImageMagick versions
+
+Version 0.0.7:
+- Width of narrow menus (main, schedule, channel, recordings, settings) 
+  individually configurable
+- Display of free disk space in recordings menu header
