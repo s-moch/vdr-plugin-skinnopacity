@@ -84,6 +84,8 @@ void cNopacityMenuItem::SetBackgrounds(int *handleBackgrounds) {
 void cNopacityMenuItem::DrawDelimiter(const char *del, const char *icon, int handleBgrd) {
     pixmap->Fill(Theme.Color(clrSeparatorBorder));
     pixmap->DrawImage(cPoint(1, 1), handleBgrd);
+    if (config.roundedCorners)
+        DrawRoundedCorners(Theme.Color(clrSeparatorBorder));
     cImageLoader imgLoader;
     if (!drawn) {
         if (imgLoader.LoadIcon(icon, config.iconHeight)) {
@@ -171,6 +173,22 @@ std::string cNopacityMenuItem::CutText(std::string *text, int width, const cFont
         }
     }
     return cuttedText;
+}
+
+void cNopacityMenuItem::DrawRoundedCorners(tColor borderColor) {
+    int radius = config.cornerRadius;
+
+    pixmap->DrawEllipse(cRect(0,0,radius,radius), borderColor, -2);
+    pixmap->DrawEllipse(cRect(-1,-1,radius,radius), clrTransparent, -2);
+
+    pixmap->DrawEllipse(cRect(width-radius,0,radius,radius), borderColor, -1);
+    pixmap->DrawEllipse(cRect(width-radius+1,-1,radius,radius), clrTransparent, -1);
+
+    pixmap->DrawEllipse(cRect(0,height-radius,radius,radius), borderColor, -3);
+    pixmap->DrawEllipse(cRect(-1,height-radius+1,radius,radius), clrTransparent, -3);
+
+    pixmap->DrawEllipse(cRect(width-radius,height-radius,radius,radius), borderColor, -4);
+    pixmap->DrawEllipse(cRect(width-radius+1,height-radius+1,radius,radius), clrTransparent, -4);
 }
 
 // cNopacityMainMenuItem  -------------
@@ -279,6 +297,8 @@ void cNopacityMainMenuItem::Render() {
     pixmap->Fill(Theme.Color(clrMenuBorder));
     int handleBgrd = (current)?handleBackgrounds[3]:handleBackgrounds[2];
     pixmap->DrawImage(cPoint(1, 1), handleBgrd);
+    if (config.roundedCorners)
+        DrawRoundedCorners(Theme.Color(clrMenuBorder));
     if (selectable) {
         cString cIcon = GetIconName();
         if (!drawn) {
@@ -442,6 +462,8 @@ void cNopacityScheduleMenuItem::DrawBackground(int textLeft) {
     pixmap->Fill(Theme.Color(clrMenuBorder));
     pixmap->DrawImage(cPoint(1, 1), handleBgrd);
     pixmap->DrawText(cPoint(textLeft, 3), strDateTime.c_str(), Theme.Color(clrMenuFontMenuItem), clrTransparent, font);
+    if (config.roundedCorners)
+        DrawRoundedCorners(Theme.Color(clrMenuBorder));
     if (TimerMatch == tmFull) {
         cImageLoader imgLoader;
         if (imgLoader.LoadIcon("activetimer", 64, 64)) {
@@ -550,6 +572,8 @@ void cNopacityChannelMenuItem::SetTextShort(void) {
 void cNopacityChannelMenuItem::DrawBackground(int handleBackground) {
     pixmap->Fill(Theme.Color(clrMenuBorder));
     pixmap->DrawImage(cPoint(1, 1), handleBackground);
+    if (config.roundedCorners)
+        DrawRoundedCorners(Theme.Color(clrMenuBorder));
     
     int encryptedSize = height/4-2;
     int sourceX = config.menuItemLogoWidth + 15;
@@ -668,6 +692,8 @@ void cNopacityTimerMenuItem::SetTextShort(void) {
 void cNopacityTimerMenuItem::DrawBackground(int handleBackground, int textLeft) {
     pixmap->Fill(Theme.Color(clrMenuBorder));
     pixmap->DrawImage(cPoint(1, 1), handleBackground);
+    if (config.roundedCorners)
+        DrawRoundedCorners(Theme.Color(clrMenuBorder));
     int iconSize = height/2;
     cString iconName("");
     bool firstDay = false;
@@ -952,6 +978,8 @@ void cNopacityRecordingMenuItem::Render() {
     if (selectable) {                           
         pixmap->Fill(Theme.Color(clrMenuBorder));
         pixmap->DrawImage(cPoint(1, 1), handleBgrd);
+        if (config.roundedCorners)
+            DrawRoundedCorners(Theme.Color(clrMenuBorder));
         if (isFolder) {
             DrawFolderNewSeen();
             SetTextShort();
@@ -1038,6 +1066,8 @@ void cNopacityDefaultMenuItem::Render() {
     int handleBgrd = (current)?handleBackgrounds[1]:handleBackgrounds[0];
     tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
     pixmap->DrawImage(cPoint(1, 1), handleBgrd);
+    if (config.roundedCorners)
+        DrawRoundedCorners(Theme.Color(clrMenuBorder));
     int colWidth = 0;
     int colTextWidth = 0; 
     cString itemText("");
@@ -1055,7 +1085,9 @@ void cNopacityDefaultMenuItem::Render() {
                     } else {
                         itemText = itemTabs[i];
                     }
-                    pixmap->DrawText(cPoint(tabWidth[i], (height - font->Height()) / 2), *itemText, clrFont, clrTransparent, font);
+                    int posX = tabWidth[i];
+                    if (i==0) posX += 5;
+                    pixmap->DrawText(cPoint(posX, (height - font->Height()) / 2), *itemText, clrFont, clrTransparent, font);
                 } else {
                     if (!Running())
                         SetTextShort();
@@ -1091,5 +1123,7 @@ void cNopacityTrackMenuItem::Render() {
     pixmap->Fill(Theme.Color(clrMenuBorder));
     int handleBgrd = (current)?handleBackgrounds[1]:handleBackgrounds[0];
     pixmap->DrawImage(cPoint(1, 1), handleBgrd);
+    if (config.roundedCorners)
+        DrawRoundedCorners(Theme.Color(clrMenuBorder));
     pixmap->DrawText(cPoint(5, (height - font->Height())/2), Text, Theme.Color(clrTracksFontButtons), clrTransparent, font);
 }

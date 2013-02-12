@@ -129,3 +129,5 @@ Version 0.0.7:
   style for this menu will be used.
 - Introduced narrow display of timers menu (Usage of narrow timer menu 
   and width also configurable)
+- Introduced rounded corners for menuitems and buttons configurable via
+  plugin setup menu, corner radius also configurable.

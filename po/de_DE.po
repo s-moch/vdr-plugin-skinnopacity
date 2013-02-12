@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-02-12 13:50+0100\n"
+"POT-Creation-Date: 2013-02-12 16:07+0100\n"
 "PO-Revision-Date: 2012-11-11 17:49+0200\n"
 "Last-Translator: louis\n"
 "Language-Team: \n"
@@ -128,6 +128,9 @@ msgstr "Schmales Setup Menü verwenden"
 msgid "Scale Video size to fit into menu window"
 msgstr "TV-Bildgröße in Menüfenster einpassen"
 
+msgid "Rounded Corners for menu items and buttons"
+msgstr "Abgerundete Ecken für Menüelemente und Buttons"
+
 msgid "Fade-In Time in ms (Zero for switching off fading)"
 msgstr "Fade-In Zeit in ms (Null zum Abschalten)"
 
@@ -187,6 +190,9 @@ msgstr "Breite des Timermenüs (Proz. der OSD Breite)"
 
 msgid "Width of Recordings Menu (Percent of OSD Width)"
 msgstr "Breite des Aufzeichnugsmenüs (Proz. der OSD Breite)"
+
+msgid "Radius of rounded corners"
+msgstr "Radius der abgerundeten Ecken"
 
 msgid "Size of Disc Usage (square, Percent of OSD Width)"
 msgstr "Größe des Festplattenstatus (quadratisch, Proz. der OSD Breite)"

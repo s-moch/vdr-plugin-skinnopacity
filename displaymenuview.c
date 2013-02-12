@@ -607,6 +607,23 @@ void cNopacityDisplayMenuView::DrawButton(const char *text, int handleImage, tCo
     int left = num * buttonWidth + (2*num + 1) * buttonsBorder;
     pixmapFooter->DrawRectangle(cRect(left, top, buttonWidth, buttonHeight), borderColor);
     pixmapFooter->DrawImage(cPoint(left+2, top+2), handleImage);
+    
+    if (config.roundedCorners) {
+        int radius = config.cornerRadius;
+
+        pixmapFooter->DrawEllipse(cRect(left,top,radius,radius), borderColor, -2);
+        pixmapFooter->DrawEllipse(cRect(left-2,top-2,radius,radius), Theme.Color(clrMenuBack), -2);
+
+        pixmapFooter->DrawEllipse(cRect(left + buttonWidth -radius, top,radius,radius), borderColor, -1);
+        pixmapFooter->DrawEllipse(cRect(left + buttonWidth -radius+2,top-2,radius,radius), Theme.Color(clrMenuBack), -1);
+
+        pixmapFooter->DrawEllipse(cRect(left,top + buttonHeight -radius,radius,radius), borderColor, -3);
+        pixmapFooter->DrawEllipse(cRect(left - 2, top + buttonHeight - radius + 2,radius,radius), Theme.Color(clrMenuBack), -3);
+
+        pixmapFooter->DrawEllipse(cRect(left + buttonWidth -radius, top + buttonHeight -radius,radius,radius), borderColor, -4);
+        pixmapFooter->DrawEllipse(cRect(left + buttonWidth -radius + 2, top + buttonHeight -radius + 2,radius,radius), Theme.Color(clrMenuBack), -4);
+    }
+    
     int textWidth = fontButtons->Width(text);
     int textHeight = fontButtons->Height();
     pixmapFooter->DrawText(cPoint(left + (buttonWidth-textWidth)/2, top + (buttonHeight-textHeight)/2), text, Theme.Color(clrMenuFontButton), clrTransparent, fontButtons);

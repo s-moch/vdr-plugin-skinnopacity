@@ -54,6 +54,8 @@ cNopacityConfig::cNopacityConfig() {
     fontVolume = 0;
     //DisplayMenu
     scalePicture = 1;
+    roundedCorners = 0;
+    cornerRadius = 12;
     narrowMainMenu = 1;
     narrowScheduleMenu = 1;
     narrowChannelMenu = 1;
@@ -235,6 +237,8 @@ bool cNopacityConfig::SetupParse(const char *Name, const char *Value) {
     else if (strcmp(Name, "menuInfoScrollDelay") == 0)     menuInfoScrollDelay = atoi(Value);
     else if (strcmp(Name, "menuInfoScrollSpeed") == 0)     menuInfoScrollSpeed = atoi(Value);
     else if (strcmp(Name, "scalePicture") == 0)            scalePicture = atoi(Value);
+    else if (strcmp(Name, "roundedCorners") == 0)          roundedCorners = atoi(Value);
+    else if (strcmp(Name, "cornerRadius") == 0)            cornerRadius = atoi(Value);
     else if (strcmp(Name, "narrowMainMenu") == 0)          narrowMainMenu = atoi(Value);
     else if (strcmp(Name, "narrowScheduleMenu") == 0)      narrowScheduleMenu = atoi(Value);
     else if (strcmp(Name, "narrowChannelMenu") == 0)       narrowChannelMenu = atoi(Value);

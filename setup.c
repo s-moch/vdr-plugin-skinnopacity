@@ -99,6 +99,8 @@ void cNopacitySetup::Store(void) {
     SetupStore("volumeBorderBottom", config.volumeBorderBottom);
     SetupStore("fontVolume", config.fontVolume);
     SetupStore("scalePicture", config.scalePicture);
+    SetupStore("roundedCorners", config.roundedCorners);
+    SetupStore("cornerRadius", config.cornerRadius);
     SetupStore("narrowMainMenu", config.narrowMainMenu);
     SetupStore("narrowScheduleMenu", config.narrowScheduleMenu);
     SetupStore("narrowChannelMenu", config.narrowChannelMenu);
@@ -220,6 +222,7 @@ void cNopacitySetupMenuDisplay::Set(void) {
     Add(new cMenuEditBoolItem(tr("Use narrow recording menu"), &tmpNopacityConfig->narrowRecordingMenu));
     Add(new cMenuEditBoolItem(tr("Use narrow setup menu"), &tmpNopacityConfig->narrowSetupMenu));
     Add(new cMenuEditBoolItem(tr("Scale Video size to fit into menu window"), &tmpNopacityConfig->scalePicture));
+    Add(new cMenuEditBoolItem(tr("Rounded Corners for menu items and buttons"), &tmpNopacityConfig->roundedCorners));
     Add(new cMenuEditIntItem(tr("Fade-In Time in ms (Zero for switching off fading)"), &tmpNopacityConfig->menuFadeTime, 0, 1000));
     Add(new cMenuEditBoolItem(tr("Display Disk Usage in main menu"), &tmpNopacityConfig->showDiscUsage));
     Add(new cMenuEditBoolItem(tr("Display Timers in main menu"), &tmpNopacityConfig->showTimers));
@@ -254,6 +257,7 @@ void cNopacitySetupMenuDisplayGeometry::Set(void) {
     Add(new cMenuEditIntItem(tr("Width of Channels Menu (Percent of OSD Width)"), &tmpNopacityConfig->menuWidthChannels, 10, 100));
     Add(new cMenuEditIntItem(tr("Width of Timers Menu (Percent of OSD Width)"), &tmpNopacityConfig->menuWidthTimers, 10, 100));
     Add(new cMenuEditIntItem(tr("Width of Recordings Menu (Percent of OSD Width)"), &tmpNopacityConfig->menuWidthRecordings, 10, 100));
+    Add(new cMenuEditIntItem(tr("Radius of rounded corners"), &tmpNopacityConfig->cornerRadius, 5, 30));
     Add(new cMenuEditIntItem(tr("Size of Disc Usage (square, Percent of OSD Width)"), &tmpNopacityConfig->menuSizeDiskUsage, 2, 100));
     Add(new cMenuEditIntItem(tr("Width of Timers Display (Percent of OSD Width)"), &tmpNopacityConfig->menuWidthRightItems, 5, 100));
     Add(new cMenuEditIntItem(tr("Height of EPG Info Window (Percent of OSD Height)"), &tmpNopacityConfig->menuHeightInfoWindow, 10, 100));
