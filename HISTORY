@@ -127,3 +127,5 @@ Version 0.0.7:
 - Usage of narrow menus (main, schedule, channel, recordings, settings)
   configurable via plugin setup. If option is set to "no", the "normal"
   style for this menu will be used.
+- Introduced narrow display of timers menu (Usage of narrow timer menu 
+  and width also configurable)

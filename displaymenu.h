@@ -19,7 +19,7 @@ private:
     int currentNumItems;
     cList<cNopacityTimer> timers;
     cList<cNopacityMenuItem> menuItems;
-    int handleBackgrounds[10];
+    int handleBackgrounds[12];
     int handleButtons[4];
     int positionButtons[4];
     cRect videoWindowRect;

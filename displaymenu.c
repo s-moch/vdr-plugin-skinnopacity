@@ -37,7 +37,7 @@ cNopacityDisplayMenu::~cNopacityDisplayMenu() {
         delete detailView;
     }
     timers.Clear();
-    for (int i=0; i<10; i++)
+    for (int i=0; i<12; i++)
         cOsdProvider::DropImage(handleBackgrounds[i]);
     for (int i=0; i<4; i++)
         cOsdProvider::DropImage(handleButtons[i]);
@@ -159,6 +159,12 @@ int cNopacityDisplayMenu::MaxItems(void) {
             break;
         case mcChannel:
             if (config.narrowChannelMenu)
+                maxItems = menuView->GetMaxItems(MenuCategory());
+            else
+                maxItems = config.numDefaultMenuItems;
+            break;
+        case mcTimer:
+            if (config.narrowTimerMenu)
                 maxItems = menuView->GetMaxItems(MenuCategory());
             else
                 maxItems = config.numDefaultMenuItems;
@@ -363,7 +369,39 @@ bool cNopacityDisplayMenu::SetItemEvent(const cEvent *Event, int Index, bool Cur
 }
 
 bool cNopacityDisplayMenu::SetItemTimer(const cTimer *Timer, int Index, bool Current, bool Selectable) { 
-    return false; 
+    if (!config.narrowTimerMenu)
+        return false;
+    if ((initMenu)&&(Index > menuItemIndexLast)) {
+        cNopacityMenuItem *item = new cNopacityTimerMenuItem(osd, Timer, Selectable);
+        cPoint itemSize;
+        menuView->GetMenuItemSize(MenuCategory(), &itemSize);
+        item->SetFont(menuView->GetMenuItemFont(mcTimer));
+        item->SetFontSmall(menuView->GetMenuItemFontSmall(mcTimer));
+        int spaceTop = menuView->GetMenuTop(currentNumItems, itemSize.Y());
+        item->SetGeometry(Index, spaceTop, menuView->spaceMenu, itemSize.X(), itemSize.Y());
+        item->SetCurrent(Current);
+        item->SetBackgrounds(handleBackgrounds);
+        item->CreateText();
+        int textWidth = item->CheckScrollable(true);
+        item->CreatePixmap();
+        item->CreatePixmapIcon();
+        item->CreatePixmapTextScroller(textWidth);
+        menuItems.Add(item);
+        item->Render();
+        menuItemIndexLast = Index;
+        if (initial) {
+            if (FadeTime) {
+                item->SetAlpha(0);
+                item->SetAlphaIcon(0);
+                item->SetAlphaText(0);
+            }
+        }
+    } else {
+        cNopacityMenuItem *item = menuItems.Get(Index);
+        item->SetCurrent(Current);
+        item->Render();
+    }
+    return true;
 }
 
 bool cNopacityDisplayMenu::SetItemChannel(const cChannel *Channel, int Index, bool Current, bool Selectable, bool WithProvider) { 

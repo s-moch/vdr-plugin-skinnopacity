@@ -29,6 +29,8 @@ class cNopacityDisplayMenuView {
         cFont *fontMenuitemChannelSmall;
         cFont *fontMenuitemRecordings;
         cFont *fontMenuitemRecordingsSmall;
+        cFont *fontMenuitemTimers;
+        cFont *fontMenuitemTimersSmall;
         cFont *fontMenuitemDefault;
         cFont *fontDiskUsage;
         cFont *fontDiskUsagePercent;
@@ -46,11 +48,13 @@ class cNopacityDisplayMenuView {
         int contentWidthMain;
         int contentWidthSchedules;
         int contentWidthChannels;
+        int contentWidthTimers;
         int contentWidthRecordings;
         int menuItemWidthDefault, menuItemHeightDefault;
         int menuItemWidthMain, menuItemHeightMain;
         int menuItemWidthSchedule, menuItemHeightSchedule;
         int menuItemWidthChannel;
+        int menuItemWidthTimer;
         int menuItemWidthRecording, menuItemHeightRecordings;
         int diskUsageWidth, diskUsageHeight;
         int timersWidth;

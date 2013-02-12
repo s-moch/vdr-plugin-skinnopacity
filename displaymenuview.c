@@ -29,6 +29,8 @@ cNopacityDisplayMenuView::~cNopacityDisplayMenuView(void) {
     delete fontMenuitemChannelSmall;
     delete fontMenuitemRecordings;
     delete fontMenuitemRecordingsSmall;
+    delete fontMenuitemTimers;
+    delete fontMenuitemTimersSmall;
     delete fontMenuitemDefault;
     delete fontDiskUsage;
     delete fontDiskUsagePercent;
@@ -58,12 +60,14 @@ void cNopacityDisplayMenuView::SetGeometry(void) {
     contentWidthMain = osdWidth * config.menuWidthMain / 100;
     contentWidthSchedules = osdWidth * config.menuWidthSchedules / 100;
     contentWidthChannels = osdWidth * config.menuWidthChannels / 100;
+    contentWidthTimers = osdWidth * config.menuWidthTimers / 100;
     contentWidthRecordings = osdWidth * config.menuWidthRecordings / 100;
     contentWidthFull = osdWidth - widthScrollbar - spaceMenu;
     menuItemWidthDefault = contentWidthFull - 4 * spaceMenu;
     menuItemWidthMain = contentWidthMain - 4*spaceMenu;
     menuItemWidthSchedule = contentWidthSchedules - 4*spaceMenu;
     menuItemWidthChannel = contentWidthChannels - 4*spaceMenu;
+    menuItemWidthTimer = contentWidthTimers - 4*spaceMenu;
     menuItemWidthRecording = contentWidthRecordings - 4*spaceMenu;
     menuItemHeightMain = config.iconHeight + 2;
     menuItemHeightSchedule = config.menuItemLogoHeight + 2;
@@ -126,6 +130,11 @@ int cNopacityDisplayMenuView::GetContentWidth(eMenuCategory menuCat) {
                 return contentWidthChannels;
             else
                 return contentWidthFull;
+        case mcTimer:
+            if (config.narrowTimerMenu)
+                return contentWidthTimers;
+            else
+                return contentWidthFull;
         case mcRecording:
             if (config.narrowRecordingMenu)
                 return contentWidthRecordings;
@@ -147,7 +156,8 @@ void cNopacityDisplayMenuView::CreatePixmaps(void) {
     int drawPortWidth = osdWidth + contentWidthFull 
                         - Minimum(contentWidthMain, 
                                   contentWidthSchedules, 
-                                  contentWidthChannels, 
+                                  contentWidthChannels,
+                                  contentWidthTimers,
                                   contentWidthRecordings);
     pixmapContent = osd->CreatePixmap(1, cRect(0, headerHeight, osdWidth, contentHeight),
                                          cRect(0, 0, drawPortWidth, contentHeight));
@@ -198,6 +208,8 @@ void cNopacityDisplayMenuView::CreateFonts(void) {
     fontMenuitemChannelSmall = cFont::CreateFont(config.fontName, menuItemHeightSchedule / 5 - 2 + config.fontMenuitemChannelSmall);
     fontMenuitemRecordings = cFont::CreateFont(config.fontName, menuItemHeightRecordings / 2 - 14 + config.fontMenuitemRecordings);
     fontMenuitemRecordingsSmall = cFont::CreateFont(config.fontName, menuItemHeightRecordings / 4 - 3 + config.fontMenuitemRecordingsSmall);
+    fontMenuitemTimers = cFont::CreateFont(config.fontName, menuItemHeightSchedule / 3 + config.fontMenuitemTimers);
+    fontMenuitemTimersSmall = cFont::CreateFont(config.fontName, menuItemHeightSchedule / 4 - 3 + config.fontMenuitemTimersSmall);
     fontMenuitemDefault = cFont::CreateFont(config.fontName, menuItemHeightDefault * 2 / 3 + config.fontMenuitemDefault);
     fontDiskUsage = cFont::CreateFont(config.fontName, diskUsageHeight/6 - 2 + config.fontDiskUsage);
     fontDiskUsagePercent = cFont::CreateFont(config.fontName, diskUsageHeight/5 - 4 + config.fontDiskUsagePercent);
@@ -219,6 +231,8 @@ cFont *cNopacityDisplayMenuView::GetMenuItemFont(eMenuCategory menuCat) {
             return fontMenuitemSchedule;
         case mcChannel:
             return fontMenuitemChannel;
+        case mcTimer:
+            return fontMenuitemTimers;
         case mcRecording:
             return fontMenuitemRecordings;
         default:
@@ -233,8 +247,10 @@ cFont *cNopacityDisplayMenuView::GetMenuItemFontSmall(eMenuCategory menuCat) {
             return fontMenuitemScheduleSmall;
         case mcChannel:
             return fontMenuitemChannelSmall;
+        case mcTimer:
+            return fontMenuitemTimersSmall;
         case mcRecording:
-            return fontMenuitemRecordingsSmall;
+            return fontMenuitemTimersSmall;
         default:
             return fontMenuitemScheduleSmall;     
     }
@@ -268,6 +284,10 @@ void cNopacityDisplayMenuView::GetMenuItemSize(eMenuCategory menuCat, cPoint *it
             itemWidth = menuItemWidthChannel;
             itemHeight = menuItemHeightSchedule;
             break;
+        case mcTimer:
+            itemWidth = menuItemWidthTimer;
+            itemHeight = menuItemHeightSchedule;
+            break;
         case mcRecording:
             itemWidth = menuItemWidthRecording;
             itemHeight = menuItemHeightRecordings;
@@ -291,6 +311,7 @@ int cNopacityDisplayMenuView::GetMaxItems(eMenuCategory menuCat) {
         case mcScheduleNow:
         case mcScheduleNext:
         case mcChannel:
+        case mcTimer:
             maxItems = contentHeight / (menuItemHeightSchedule + spaceMenu);
             break;
         case mcRecording:
@@ -369,6 +390,12 @@ void cNopacityDisplayMenuView::CreateBackgroundImages(int *handleBackgrounds, in
     handleBackgrounds[8] = cOsdProvider::StoreImage(imgLoader.GetImage());
     imgLoader.DrawBackground(Theme.Color(clrMenuItemHigh), Theme.Color(clrMenuItemHighBlend), itemSize.X()-2, itemSize.Y()-2);
     handleBackgrounds[9] = cOsdProvider::StoreImage(imgLoader.GetImage());
+    //Timers Menu
+    GetMenuItemSize(mcTimer, &itemSize);
+    imgLoader.DrawBackground(Theme.Color(clrMenuItem), Theme.Color(clrMenuItemBlend), itemSize.X()-2, itemSize.Y()-2);
+    handleBackgrounds[10] = cOsdProvider::StoreImage(imgLoader.GetImage());
+    imgLoader.DrawBackground(Theme.Color(clrMenuItemHigh), Theme.Color(clrMenuItemHighBlend), itemSize.X()-2, itemSize.Y()-2);
+    handleBackgrounds[11] = cOsdProvider::StoreImage(imgLoader.GetImage());
     
     imgLoader.DrawBackground(Theme.Color(clrMenuBack), Theme.Color(clrButtonRed), buttonWidth-4, buttonHeight-4);
     handleButtons[0] = cOsdProvider::StoreImage(imgLoader.GetImage());
@@ -390,7 +417,8 @@ void cNopacityDisplayMenuView::DrawBorderDecoration() {
     int radius = 10;
     int minContentWidth = Minimum(contentWidthMain, 
                                   contentWidthSchedules, 
-                                  contentWidthChannels, 
+                                  contentWidthChannels,
+                                  contentWidthTimers,
                                   contentWidthRecordings);
     pixmapContent->Fill(clrTransparent);
     pixmapContent->DrawRectangle(cRect(0, 0, contentWidthFull-radius, contentHeight), Theme.Color(clrMenuBack));

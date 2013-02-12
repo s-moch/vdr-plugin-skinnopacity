@@ -102,7 +102,8 @@ void cNopacitySetup::Store(void) {
     SetupStore("narrowMainMenu", config.narrowMainMenu);
     SetupStore("narrowScheduleMenu", config.narrowScheduleMenu);
     SetupStore("narrowChannelMenu", config.narrowChannelMenu);
-    SetupStore("narrowRecordingMenu", config.narrowRecordingMenu);
+    SetupStore("narrowChannelMenu", config.narrowChannelMenu);
+    SetupStore("narrowTimerMenu", config.narrowTimerMenu);
     SetupStore("narrowSetupMenu", config.narrowSetupMenu);
     SetupStore("displayRerunsDetailEPGView", config.displayRerunsDetailEPGView);
     SetupStore("numReruns", config.numReruns);
@@ -115,6 +116,7 @@ void cNopacitySetup::Store(void) {
     SetupStore("menuWidthMain", config.menuWidthMain);
     SetupStore("menuWidthSchedules", config.menuWidthSchedules);
     SetupStore("menuWidthChannels", config.menuWidthChannels);
+    SetupStore("menuWidthTimers", config.menuWidthTimers);
     SetupStore("menuWidthRecordings", config.menuWidthRecordings);
     SetupStore("menuWidthRightItems", config.menuWidthRightItems);
     SetupStore("menuSizeDiskUsage", config.menuSizeDiskUsage);
@@ -153,6 +155,8 @@ void cNopacitySetup::Store(void) {
     SetupStore("fontMenuitemChannelSmall", config.fontMenuitemChannelSmall);
     SetupStore("fontMenuitemRecordings", config.fontMenuitemRecordings);
     SetupStore("fontMenuitemRecordingsSmall", config.fontMenuitemRecordingsSmall);
+    SetupStore("fontMenuitemTimers", config.fontMenuitemTimers);
+    SetupStore("fontMenuitemTimersSmall", config.fontMenuitemTimersSmall);
     SetupStore("fontMenuitemDefault", config.fontMenuitemDefault);
     SetupStore("fontDiskUsage", config.fontDiskUsage);
     SetupStore("fontDiskUsagePercent", config.fontDiskUsagePercent);
@@ -212,6 +216,7 @@ void cNopacitySetupMenuDisplay::Set(void) {
     Add(new cMenuEditBoolItem(tr("Use narrow main menu"), &tmpNopacityConfig->narrowMainMenu));
     Add(new cMenuEditBoolItem(tr("Use narrow schedules menu"), &tmpNopacityConfig->narrowScheduleMenu));
     Add(new cMenuEditBoolItem(tr("Use narrow channel menu"), &tmpNopacityConfig->narrowChannelMenu));
+    Add(new cMenuEditBoolItem(tr("Use narrow timer menu"), &tmpNopacityConfig->narrowTimerMenu));
     Add(new cMenuEditBoolItem(tr("Use narrow recording menu"), &tmpNopacityConfig->narrowRecordingMenu));
     Add(new cMenuEditBoolItem(tr("Use narrow setup menu"), &tmpNopacityConfig->narrowSetupMenu));
     Add(new cMenuEditBoolItem(tr("Scale Video size to fit into menu window"), &tmpNopacityConfig->scalePicture));
@@ -247,6 +252,7 @@ void cNopacitySetupMenuDisplayGeometry::Set(void) {
     Add(new cMenuEditIntItem(tr("Width of Main and Setup Menu (Percent of OSD Width)"), &tmpNopacityConfig->menuWidthMain, 10, 100));
     Add(new cMenuEditIntItem(tr("Width of Schedules Menu (Percent of OSD Width)"), &tmpNopacityConfig->menuWidthSchedules, 10, 100));
     Add(new cMenuEditIntItem(tr("Width of Channels Menu (Percent of OSD Width)"), &tmpNopacityConfig->menuWidthChannels, 10, 100));
+    Add(new cMenuEditIntItem(tr("Width of Timers Menu (Percent of OSD Width)"), &tmpNopacityConfig->menuWidthTimers, 10, 100));
     Add(new cMenuEditIntItem(tr("Width of Recordings Menu (Percent of OSD Width)"), &tmpNopacityConfig->menuWidthRecordings, 10, 100));
     Add(new cMenuEditIntItem(tr("Size of Disc Usage (square, Percent of OSD Width)"), &tmpNopacityConfig->menuSizeDiskUsage, 2, 100));
     Add(new cMenuEditIntItem(tr("Width of Timers Display (Percent of OSD Width)"), &tmpNopacityConfig->menuWidthRightItems, 5, 100));
@@ -290,6 +296,8 @@ void cNopacitySetupMenuDisplayFonts::Set(void) {
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Channels Menu Item Small"), &tmpNopacityConfig->fontMenuitemChannelSmall, -20, 20));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Recordings Menu Item"), &tmpNopacityConfig->fontMenuitemRecordings, -20, 20));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Recordings Menu Item Small"), &tmpNopacityConfig->fontMenuitemRecordingsSmall, -20, 20));
+    Add(new cMenuEditIntItem(tr("Adjust Font Size - Timers Menu Item"), &tmpNopacityConfig->fontMenuitemTimers, -20, 20));
+    Add(new cMenuEditIntItem(tr("Adjust Font Size - Timers Menu Item Small"), &tmpNopacityConfig->fontMenuitemTimersSmall, -20, 20));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Default Menu Item"), &tmpNopacityConfig->fontMenuitemDefault, -20, 20));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Disc Usage (free)"), &tmpNopacityConfig->fontDiskUsage, -20, 20));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Disc Usage (percent)"), &tmpNopacityConfig->fontDiskUsagePercent, -20, 20));

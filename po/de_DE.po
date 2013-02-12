@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-02-09 14:02+0100\n"
+"POT-Creation-Date: 2013-02-12 13:50+0100\n"
 "PO-Revision-Date: 2012-11-11 17:49+0200\n"
 "Last-Translator: louis\n"
 "Language-Team: \n"
@@ -116,6 +116,9 @@ msgstr "Schmales Programm Menü verwenden"
 msgid "Use narrow channel menu"
 msgstr "Schmales Kanalmenü verwenden"
 
+msgid "Use narrow timer menu"
+msgstr "Schmales Timermenü verwenden"
+
 msgid "Use narrow recording menu"
 msgstr "Schmales Aufzeichnungsmenü verwenden"
 
@@ -178,6 +181,9 @@ msgstr "Breite des Programm Menüs (Proz. der OSD Breite)"
 
 msgid "Width of Channels Menu (Percent of OSD Width)"
 msgstr "Breite des Kanalmenüs (Proz. der OSD Breite)"
+
+msgid "Width of Timers Menu (Percent of OSD Width)"
+msgstr "Breite des Timermenüs (Proz. der OSD Breite)"
 
 msgid "Width of Recordings Menu (Percent of OSD Width)"
 msgstr "Breite des Aufzeichnugsmenüs (Proz. der OSD Breite)"
@@ -268,6 +274,12 @@ msgstr "Schriftgröße anpassen - Aufzeichnungen Menübuttons"
 
 msgid "Adjust Font Size - Recordings Menu Item Small"
 msgstr "Schriftgröße anpassen - Aufzeichnungen Menübuttons klein"
+
+msgid "Adjust Font Size - Timers Menu Item"
+msgstr "Schriftgröße anpassen - Timer Menübuttons"
+
+msgid "Adjust Font Size - Timers Menu Item Small"
+msgstr "Schriftgröße anpassen - Timer Menübuttons klein"
 
 msgid "Adjust Font Size - Default Menu Item"
 msgstr "Schriftgröße anpassen - Default Menübuttons"

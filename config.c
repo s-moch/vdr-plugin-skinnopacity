@@ -57,6 +57,7 @@ cNopacityConfig::cNopacityConfig() {
     narrowMainMenu = 1;
     narrowScheduleMenu = 1;
     narrowChannelMenu = 1;
+    narrowTimerMenu = 1;
     narrowRecordingMenu = 1;
     narrowSetupMenu = 1;
     displayRerunsDetailEPGView = 1;
@@ -69,6 +70,7 @@ cNopacityConfig::cNopacityConfig() {
     menuWidthMain = 30;
     menuWidthSchedules = 30;
     menuWidthChannels = 30;
+    menuWidthTimers = 30;
     menuWidthRecordings = 30;
     menuHeightInfoWindow = 20;
     menuScrollDelay = 1;
@@ -108,6 +110,8 @@ cNopacityConfig::cNopacityConfig() {
     fontMenuitemChannelSmall = 0;
     fontMenuitemRecordings = 0;
     fontMenuitemRecordingsSmall = 0;
+    fontMenuitemTimers = 0;
+    fontMenuitemTimersSmall = 0;
     fontMenuitemDefault = 0;
     fontDiskUsage = 0;
     fontDiskUsagePercent = 0;
@@ -234,6 +238,7 @@ bool cNopacityConfig::SetupParse(const char *Name, const char *Value) {
     else if (strcmp(Name, "narrowMainMenu") == 0)          narrowMainMenu = atoi(Value);
     else if (strcmp(Name, "narrowScheduleMenu") == 0)      narrowScheduleMenu = atoi(Value);
     else if (strcmp(Name, "narrowChannelMenu") == 0)       narrowChannelMenu = atoi(Value);
+    else if (strcmp(Name, "narrowTimerMenu") == 0)         narrowTimerMenu = atoi(Value);
     else if (strcmp(Name, "narrowRecordingMenu") == 0)     narrowRecordingMenu = atoi(Value);
     else if (strcmp(Name, "narrowSetupMenu") == 0)         narrowSetupMenu = atoi(Value);
     else if (strcmp(Name, "displayRerunsDetailEPGView") == 0) displayRerunsDetailEPGView = atoi(Value);
@@ -244,6 +249,7 @@ bool cNopacityConfig::SetupParse(const char *Name, const char *Value) {
     else if (strcmp(Name, "menuWidthMain") == 0)           menuWidthMain = atoi(Value);
     else if (strcmp(Name, "menuWidthSchedules") == 0)      menuWidthSchedules = atoi(Value);
     else if (strcmp(Name, "menuWidthChannels") == 0)       menuWidthChannels = atoi(Value);
+    else if (strcmp(Name, "menuWidthTimers") == 0)         menuWidthTimers = atoi(Value);
     else if (strcmp(Name, "menuWidthRecordings") == 0)     menuWidthRecordings = atoi(Value);
     else if (strcmp(Name, "menuWidthRightItems") == 0)     menuWidthRightItems = atoi(Value);
     else if (strcmp(Name, "menuSizeDiskUsage") == 0)       menuSizeDiskUsage = atoi(Value);
@@ -278,6 +284,8 @@ bool cNopacityConfig::SetupParse(const char *Name, const char *Value) {
     else if (strcmp(Name, "fontMenuitemChannelSmall") == 0) fontMenuitemChannelSmall = atoi(Value);
     else if (strcmp(Name, "fontMenuitemRecordings") == 0)    fontMenuitemRecordings = atoi(Value);
     else if (strcmp(Name, "fontMenuitemRecordingsSmall") == 0) fontMenuitemRecordingsSmall = atoi(Value);
+    else if (strcmp(Name, "fontMenuitemTimers") == 0)      fontMenuitemTimers = atoi(Value);
+    else if (strcmp(Name, "fontMenuitemTimersSmall") == 0) fontMenuitemTimersSmall = atoi(Value);
     else if (strcmp(Name, "fontMenuitemDefault") == 0)     fontMenuitemDefault = atoi(Value);
     else if (strcmp(Name, "fontDiskUsage") == 0)           fontDiskUsage = atoi(Value);
     else if (strcmp(Name, "fontDiskUsagePercent") == 0)    fontDiskUsagePercent = atoi(Value);

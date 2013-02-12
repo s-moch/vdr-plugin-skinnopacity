@@ -594,6 +594,147 @@ void cNopacityChannelMenuItem::Render() {
     }
 }
 
+// cNopacityTimerMenuItem  -------------
+
+cNopacityTimerMenuItem::cNopacityTimerMenuItem(cOsd *osd, const cTimer *Timer, bool sel) : cNopacityMenuItem (osd, "", sel) {
+    this->Timer = Timer;
+}
+
+cNopacityTimerMenuItem::~cNopacityTimerMenuItem(void) {
+}
+
+void cNopacityTimerMenuItem::CreatePixmapTextScroller(int totalWidth) {
+    int pixmapLeft = left + config.menuItemLogoWidth + 10;
+    int pixmapWidth = width - config.menuItemLogoWidth - 10;
+    int drawPortWidth = totalWidth + 10;
+    pixmapTextScroller = osd->CreatePixmap(4, cRect(pixmapLeft, top + index * (height + left), pixmapWidth, height), cRect(0, 0, drawPortWidth, height));
+    pixmapTextScroller->Fill(clrTransparent);
+}
+
+void cNopacityTimerMenuItem::CreateText() {
+    const char *File = Setup.FoldersInTimerMenu ? NULL : strrchr(Timer->File(), FOLDERDELIMCHAR);
+    if (File && strcmp(File + 1, TIMERMACRO_TITLE) && strcmp(File + 1, TIMERMACRO_EPISODE))
+        File++;
+    else
+        File = Timer->File();
+    strEntry = File;
+    strDateTime = CreateDate();
+}
+
+std::string cNopacityTimerMenuItem::CreateDate(void) {
+    cString day, dayName("");
+    if (Timer->WeekDays())
+        day = Timer->PrintDay(0, Timer->WeekDays(), false);
+    else if (Timer->Day() - time(NULL) < 28 * SECSINDAY) {
+        day = itoa(Timer->GetMDay(Timer->Day()));
+        dayName = WeekDayName(Timer->Day());
+    } else {
+        struct tm tm_r;
+        time_t Day = Timer->Day();
+        localtime_r(&Day, &tm_r);
+        char buffer[16];
+        strftime(buffer, sizeof(buffer), "%Y%m%d", &tm_r);
+        day = buffer;
+    }
+    return *cString::sprintf("%s%s%s (%02d:%02d-%02d:%02d)", *dayName, *dayName && **dayName ? " " : "", *day, Timer->Start() / 100, Timer->Start() % 100, Timer->Stop() / 100, Timer->Stop() % 100);
+}
+
+int cNopacityTimerMenuItem::CheckScrollable(bool hasIcon) {
+    int spaceLeft = left;
+    if (hasIcon)
+        spaceLeft += config.menuItemLogoWidth;
+    int totalTextWidth = width - spaceLeft;
+    if (font->Width(strEntry.c_str()) > (width - spaceLeft)) {
+        scrollable = true;
+        totalTextWidth = max(font->Width(strEntry.c_str()), totalTextWidth);
+        strEntryFull = strEntry.c_str();
+        strEntry = CutText(&strEntry, width - spaceLeft, font);
+    }
+    return totalTextWidth;
+}
+
+void cNopacityTimerMenuItem::SetTextFull(void) {
+    tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
+    pixmapTextScroller->Fill(clrTransparent);
+    pixmapTextScroller->DrawText(cPoint(0, height/2 + (height/2 - font->Height())/2), strEntryFull.c_str(), clrFont, clrTransparent, font);
+}
+
+void cNopacityTimerMenuItem::SetTextShort(void) {
+    tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
+    pixmapTextScroller->Fill(clrTransparent);
+    pixmapTextScroller->DrawText(cPoint(0, height/2 + (height/2 - font->Height())/2), strEntry.c_str(), clrFont, clrTransparent, font);
+}
+
+void cNopacityTimerMenuItem::DrawBackground(int handleBackground, int textLeft) {
+    pixmap->Fill(Theme.Color(clrMenuBorder));
+    pixmap->DrawImage(cPoint(1, 1), handleBackground);
+    int iconSize = height/2;
+    cString iconName("");
+    bool firstDay = false;
+    if (!(Timer->HasFlags(tfActive)))
+        iconName = "timerInactive";
+    else if (Timer->FirstDay()) {
+        iconName = "timerActive";
+        firstDay = true;
+    } else if (Timer->Recording())
+        iconName = "timerRecording";
+    else 
+        iconName = "timerActive";
+    
+    cImageLoader imgLoader;
+    if (imgLoader.LoadIcon(iconName, iconSize)) {
+        pixmapIcon->DrawImage(cPoint(textLeft, 0), imgLoader.GetImage());
+    }
+    cString dateTime("");
+    if (firstDay)
+        dateTime = cString::sprintf("! %s", strDateTime.c_str());
+    else
+        dateTime = strDateTime.c_str();
+    pixmap->DrawText(cPoint(textLeft + iconSize, (height/2 - fontSmall->Height())/2), *dateTime, Theme.Color(clrMenuFontMenuItem), clrTransparent, fontSmall);
+}
+
+void cNopacityTimerMenuItem::Render() {
+    int handleBgrd = (current)?handleBackgrounds[11]:handleBackgrounds[10];
+    textLeft = config.menuItemLogoWidth + 10;
+    if (selectable) {                           
+        DrawBackground(handleBgrd, textLeft);
+        int logoWidth = config.menuItemLogoWidth;
+        int logoHeight = config.menuItemLogoHeight;
+        if (!drawn) {
+            DrawLogo(logoWidth, logoHeight);
+            drawn = true;
+        }
+        if (!Running())
+            SetTextShort();
+        if (current && scrollable && !Running() && config.menuScrollSpeed) {
+            Start();
+        }
+        if (wasCurrent && !current && scrollable && Running()) {
+            pixmapTextScroller->SetDrawPortPoint(cPoint(0, 0));
+            SetTextShort();
+            Cancel(-1);
+        }
+    }
+}
+
+void cNopacityTimerMenuItem::DrawLogo(int logoWidth, int logoHeight) {
+    if (Timer && Timer->Channel() && Timer->Channel()->Name()) {
+        cImageLoader imgLoader;
+        if (imgLoader.LoadLogo(Timer->Channel()->Name(), logoWidth, logoHeight)) {
+            pixmapIcon->DrawImage(cPoint(1, 1), imgLoader.GetImage());
+        } else {
+            cTextWrapper channel;
+            channel.Set(Timer->Channel()->Name(), font, logoWidth);
+            int lines = channel.Lines();
+            int lineHeight = height / 3;
+            int heightChannel = lines * lineHeight;
+            int y = (heightChannel>height)?0:(height-heightChannel)/2;
+            for (int line = 0; line < lines; line++) {
+                pixmapIcon->DrawText(cPoint((logoWidth - font->Width(channel.GetLine(line)))/2, y+lineHeight*line), channel.GetLine(line), Theme.Color(clrMenuFontMenuItemHigh), clrTransparent, font);
+            }   
+        }
+    }
+}
 // cNopacityRecordingMenuItem  -------------
 
 cNopacityRecordingMenuItem::cNopacityRecordingMenuItem(cOsd *osd, const cRecording *Recording, bool sel, bool isFolder, int Level, int Total, int New) : cNopacityMenuItem (osd, "", sel) {

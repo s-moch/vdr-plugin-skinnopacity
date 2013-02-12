@@ -120,6 +120,26 @@ public:
     void Render();
 };
 
+class cNopacityTimerMenuItem : public cNopacityMenuItem {
+private:
+    const cTimer *Timer;
+    std::string strEntry;
+    std::string strEntryFull;
+    std::string strDateTime;
+    void SetTextFull(void);
+    void SetTextShort(void);
+    void DrawBackground(int handleBackground, int textLeft);
+    void DrawLogo(int logoWidth, int logoHeight);
+    std::string CreateDate(void);
+public:
+    cNopacityTimerMenuItem(cOsd *osd, const cTimer *Timer, bool sel);
+    ~cNopacityTimerMenuItem(void);
+    void CreatePixmapTextScroller(int totalWidth);
+    void CreateText(void);
+    int CheckScrollable(bool hasIcon);
+    void Render();
+};
+
 class cNopacityRecordingMenuItem : public cNopacityMenuItem {
 private:
     const cRecording *Recording;

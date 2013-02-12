@@ -79,6 +79,7 @@ class cNopacityConfig {
         int narrowMainMenu;
         int narrowScheduleMenu;
         int narrowChannelMenu;
+        int narrowTimerMenu;
         int narrowRecordingMenu;
         int narrowSetupMenu;
         int displayRerunsDetailEPGView;
@@ -100,6 +101,7 @@ class cNopacityConfig {
         int menuWidthMain;
         int menuWidthSchedules;
         int menuWidthChannels;
+        int menuWidthTimers;
         int menuWidthRecordings;
         int menuHeightInfoWindow;
         int menuWidthRightItems;
@@ -134,6 +136,8 @@ class cNopacityConfig {
         int fontMenuitemChannelSmall;
         int fontMenuitemRecordings;
         int fontMenuitemRecordingsSmall;
+        int fontMenuitemTimers;
+        int fontMenuitemTimersSmall;
         int fontMenuitemDefault;
         int fontDiskUsage;
         int fontDiskUsagePercent;
