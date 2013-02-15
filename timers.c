@@ -65,6 +65,17 @@ void cNopacityTimer::CreateShowName(void) {
     cString title("");
     if (Event) {
         title = Event->Title();
+    } else {
+        const char *File = Setup.FoldersInTimerMenu ? NULL : strrchr(timer->File(), FOLDERDELIMCHAR);
+        if (File && strcmp(File + 1, TIMERMACRO_TITLE) && strcmp(File + 1, TIMERMACRO_EPISODE))
+            File++;
+        else
+            File = timer->File();
+        title = File;
+        std::string name(title);
+        size_t index = name.find_last_of(FOLDERDELIMCHAR);
+        if (index != std::string::npos)
+            title = File + index + 1;
     }
     showName.Set(*title, font, width-10);
 }

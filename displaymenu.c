@@ -1,3 +1,10 @@
+#include "services/remotetimers.h"
+namespace PluginRemoteTimers {
+    static int CompareTimers(const void *a, const void *b) {
+        return (*(const cTimer **)a)->Compare(**(const cTimer **)b);
+    }
+}
+
 #include "displaymenu.h"
 #include <string>
 
@@ -88,8 +95,25 @@ void cNopacityDisplayMenu::DrawTimers(bool timersChanged, int numConflicts) {
     int maxTimersHeight = menuView->GetTimersMaxHeight();
     if (initial || ((menuCategoryLast!=mcMain)&&(MenuCategory()==mcMain)&&!timersDrawn)) {
         if (timersChanged) {
+            //check if remotetimers plugin is available
+            static cPlugin* pRemoteTimers = cPluginManager::CallFirstService("RemoteTimers::RefreshTimers-v1.0", NULL);
+            bool drawRemoteTimers = false;
+            cString errorMsg;
+            if (pRemoteTimers) {
+                drawRemoteTimers = pRemoteTimers->Service("RemoteTimers::RefreshTimers-v1.0", &errorMsg);
+            }
             timers.Clear();
             cSortedTimers SortedTimers; 
+            //if remotetimers plugin is available, take timers also from him
+            if (drawRemoteTimers) {
+                cTimer* remoteTimer = NULL;
+                int numRemoteTimers = 0;
+                while (pRemoteTimers->Service("RemoteTimers::ForEach-v1.0", &remoteTimer) && remoteTimer != NULL) {
+                    SortedTimers.Append(remoteTimer);
+                    numRemoteTimers++;
+                }
+                SortedTimers.Sort(PluginRemoteTimers::CompareTimers);
+            }
             int numTimers = SortedTimers.Size();
             int currentHeight = menuView->GetTimersInitHeight();
             if (numConflicts > 0) {
