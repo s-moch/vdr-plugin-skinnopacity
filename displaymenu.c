@@ -102,16 +102,18 @@ void cNopacityDisplayMenu::DrawTimers(bool timersChanged, int numConflicts) {
             }
             for (int i = 0; i < numTimers; i++) {
                 if (const cTimer *Timer = SortedTimers[i]) {
-                    cNopacityTimer *t = menuView->DrawTimer(Timer, currentHeight);
-                    if (initial)
-                        if (FadeTime)
-                            t->SetAlpha(0);
-                    currentHeight += t->GetHeight() + menuView->spaceMenu;
-                    if (currentHeight < maxTimersHeight) {
-                        timers.Add(t);
-                    } else {
-                        delete t;
-                        break;
+                    if (Timer->HasFlags(tfActive)) {
+                        cNopacityTimer *t = menuView->DrawTimer(Timer, currentHeight);
+                        if (initial)
+                            if (FadeTime)
+                                t->SetAlpha(0);
+                        currentHeight += t->GetHeight() + menuView->spaceMenu;
+                        if (currentHeight < maxTimersHeight) {
+                            timers.Add(t);
+                        } else {
+                            delete t;
+                            break;
+                        }
                     }
                 }
             }
