@@ -67,7 +67,7 @@ cNopacityConfig::cNopacityConfig() {
     useSubtitleRerun = 1;
     displayAdditionalEPGPictures = 1;
     numAdditionalEPGPictures = 9;
-    menuFadeTime = 300;
+    menuFadeTime = 0;
     menuEPGWindowFadeTime = 300;
     menuWidthMain = 30;
     menuWidthSchedules = 30;

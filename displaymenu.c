@@ -267,6 +267,12 @@ void cNopacityDisplayMenu::SetMenuCategory(eMenuCategory MenuCategory) {
 }
 
 void cNopacityDisplayMenu::SetTitle(const char *Title) {
+    //resetting menuitems if no call to clear
+    if (!initMenu) {
+        initMenu = true;
+        menuItemIndexLast = -1;
+        menuItems.Clear();
+    }
     int left = 5;
     menuView->DestroyHeaderIcon();
     if (Title) {

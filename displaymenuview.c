@@ -459,6 +459,7 @@ void cNopacityDisplayMenuView::AdjustContentBackground(eMenuCategory menuCat, eM
     }
     osd->DestroyPixmap(pixmapScrollbar);
     pixmapScrollbar = osd->CreatePixmap(2, cRect(contentWidth , headerHeight + spaceMenu, widthScrollbar, osdHeight - headerHeight - footerHeight - 2*spaceMenu));
+    pixmapScrollbar->Fill(clrTransparent);
 }
 
 void cNopacityDisplayMenuView::DrawHeaderLogo(void) {

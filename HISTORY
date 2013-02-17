@@ -131,3 +131,9 @@ Version 0.0.7:
   and width also configurable)
 - Introduced rounded corners for menuitems and buttons configurable via
   plugin setup menu, corner radius also configurable.
+- Display only active timers in main menu
+- Support for remote timers in main menu timer display
+- Display timer title in main menu also if no event is set for the timer
+- Fixed a bug with cdplayer plugin, this plugin calls no "clear()" before
+  showing menu
+- disabled fading for displaymenu per default
