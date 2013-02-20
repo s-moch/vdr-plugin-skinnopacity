@@ -156,12 +156,12 @@ void cNopacityTimer::DrawLogo(void) {
             pixmapLogo->DrawImage(cPoint((width - logoWidth)/2, 1), imgLoader.GetImage());
         } else {
             cTextWrapper channel;
-            channel.Set(Channel->Name(), font, logoWidth);
+            channel.Set(Channel->Name(), font, width - 10);
             int lines = channel.Lines();
             int lineHeight = font->Height();
             int y = 1;
             for (int line = 0; line < lines; line++) {
-                pixmapLogo->DrawText(cPoint((logoWidth - font->Width(channel.GetLine(line)))/2, y+lineHeight*line), channel.GetLine(line), Theme.Color(clrMenuFontMenuItemHigh), clrTransparent, font);
+                pixmapLogo->DrawText(cPoint((width - font->Width(channel.GetLine(line)))/2, y+lineHeight*line), channel.GetLine(line), Theme.Color(clrMenuFontMenuItemHigh), clrTransparent, font);
             }   
         }
     }

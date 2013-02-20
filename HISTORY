@@ -137,3 +137,5 @@ Version 0.0.7:
 - Fixed a bug with cdplayer plugin, this plugin calls no "clear()" before
   showing menu
 - disabled fading for displaymenu per default
+- Fixed display of timers channel name in main menu if no channel logo
+  is available
