@@ -147,6 +147,18 @@ bool cImageLoader::LoadRecordingImage(cString Path) {
     return false;
 }
 
+bool cImageLoader::LoadAdditionalRecordingImage(cString path, cString name) {
+    int width = config.epgImageWidthLarge;
+    int height = config.epgImageHeightLarge;
+    if ((width == 0)||(height==0))
+        return false;
+    if (LoadImage(name, path, "jpg")) {
+        buffer.sample( Geometry(width, height));
+        return true;
+    }
+    return false;
+}
+
 void cImageLoader::DrawBackground(tColor back, tColor blend, int width, int height) {
     Color Back = Argb2Color(back);
     Color Blend = Argb2Color(blend);

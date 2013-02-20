@@ -139,3 +139,4 @@ Version 0.0.7:
 - disabled fading for displaymenu per default
 - Fixed display of timers channel name in main menu if no channel logo
   is available
+- display all jpegs in a recording folder in detailed recording view

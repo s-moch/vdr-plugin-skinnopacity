@@ -89,6 +89,8 @@ class cNopacityConfig {
         int useSubtitleRerun;
         int displayAdditionalEPGPictures;
         int numAdditionalEPGPictures;
+        int displayAdditionalRecEPGPictures;
+        int numAdditionalRecEPGPictures;
         int menuFadeTime;
         int menuEPGWindowFadeTime;
         int menuFrameTime;

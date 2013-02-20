@@ -112,6 +112,8 @@ void cNopacitySetup::Store(void) {
     SetupStore("useSubtitleRerun", config.useSubtitleRerun);
     SetupStore("displayAdditionalEPGPictures", config.displayAdditionalEPGPictures);
     SetupStore("numAdditionalEPGPictures", config.numAdditionalEPGPictures);
+    SetupStore("displayAdditionalRecEPGPictures", config.displayAdditionalRecEPGPictures);
+    SetupStore("numAdditionalRecEPGPictures", config.numAdditionalRecEPGPictures);
     SetupStore("menuFadeTime", config.menuFadeTime);
     SetupStore("menuScrollDelay", config.menuScrollDelay);
     SetupStore("menuScrollSpeed", config.menuScrollSpeed);
@@ -238,6 +240,8 @@ void cNopacitySetupMenuDisplay::Set(void) {
     Add(new cMenuEditStraItem(tr("Use Subtitle for reruns"), &tmpNopacityConfig->useSubtitleRerun, 3, useSubtitleRerunTexts));
     Add(new cMenuEditBoolItem(tr("Display additional EPG Pictures in detailed EPG View"), &tmpNopacityConfig->displayAdditionalEPGPictures));
     Add(new cMenuEditIntItem(tr("Number of EPG pictures to display"), &tmpNopacityConfig->numAdditionalEPGPictures, 1, 9));
+    Add(new cMenuEditBoolItem(tr("Display additional EPG Pictures in detailed recording View"), &tmpNopacityConfig->displayAdditionalRecEPGPictures));
+    Add(new cMenuEditIntItem(tr("Number of EPG pictures to display"), &tmpNopacityConfig->numAdditionalRecEPGPictures, 1, 9));
     
     SetCurrent(Get(currentItem));
     Display();

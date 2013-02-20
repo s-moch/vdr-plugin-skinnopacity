@@ -58,6 +58,10 @@ private:
     void DrawHeader(void);
     void LoadRecordingInformation(void);
     int ReadSizeVdr(const char *strPath);
+    std::vector<std::string> epgpics;
+    bool LoadEPGPics(void);
+    int HeightEPGPics(void);
+    void DrawEPGPictures(int height);
 public:
     cNopacityMenuDetailRecordingView(cOsd *osd, const cRecording *Recording);
     virtual ~cNopacityMenuDetailRecordingView(void);

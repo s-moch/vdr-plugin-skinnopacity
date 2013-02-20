@@ -1,6 +1,9 @@
 #include "menudetailview.h"
 #include "services/epgsearch.h"
 #include <sstream>
+#include <iostream>
+#include <dirent.h>
+#include <vector>
 
 cNopacityMenuDetailView::cNopacityMenuDetailView(cOsd *osd) {
     this->osd = osd;
@@ -333,7 +336,10 @@ void cNopacityMenuDetailRecordingView::SetContentHeight(void) {
     int linesContent = content.Lines() + 1;
     linesContent+= additionalInfo.Lines() + 1;
     int heightContentText = linesContent * lineHeight;
-
+    if (config.displayAdditionalRecEPGPictures) {
+        if (LoadEPGPics())
+            heightContentText += HeightEPGPics();
+    }
     if (heightContentText > contentHeight) {
         contentDrawPortHeight = heightContentText;
         hasScrollbar = true;
@@ -342,10 +348,72 @@ void cNopacityMenuDetailRecordingView::SetContentHeight(void) {
     }
 }
 
+bool cNopacityMenuDetailRecordingView::LoadEPGPics(void) {
+    DIR *dirHandle;
+    struct dirent *dirEntry;
+    dirHandle = opendir(recording->FileName());
+    int picsFound = 0;
+    if (dirHandle != NULL) {
+        while ( 0 != (dirEntry = readdir(dirHandle))) {
+            if (endswith(dirEntry->d_name, "jpg")) { 
+                std::string fileName = dirEntry->d_name;
+                if (fileName.length() > 4) {
+                    fileName = fileName.substr(0, fileName.length() - 4);
+                    epgpics.push_back(fileName);
+                    picsFound++;
+                }
+            }
+            if (picsFound >= config.numAdditionalRecEPGPictures)
+                break;
+        }
+        closedir(dirHandle);
+    }
+    if (picsFound > 0)
+        return true;
+    return false;
+}
+
+int cNopacityMenuDetailRecordingView::HeightEPGPics(void) {
+    int numPicsAvailable = epgpics.size();
+    int picsPerLine = width / (config.epgImageWidthLarge + border);
+    int picLines = numPicsAvailable / picsPerLine;
+    if (numPicsAvailable%picsPerLine != 0)
+        picLines++;
+    return picLines * (config.epgImageHeightLarge + border) + 2*border;
+}
+
+void cNopacityMenuDetailRecordingView::DrawEPGPictures(int height) {
+    int picsPerLine = width / (config.epgImageWidthLarge + border);
+    int currentX = border;
+    int currentY = height + border;
+    int currentPicsPerLine = 1;
+    cImageLoader imgLoader;
+    for (unsigned i=0; i < epgpics.size(); i++) {
+        cString path = cString::sprintf("%s/", recording->FileName());
+        cString epgimage = epgpics.at(i).c_str();
+        if (imgLoader.LoadAdditionalRecordingImage(path, epgimage)) {
+            pixmapContent->DrawImage(cPoint(currentX, currentY), imgLoader.GetImage());
+            if (currentPicsPerLine < picsPerLine) {
+                currentX += config.epgImageWidthLarge + border;
+                currentPicsPerLine++;
+            } else {
+                currentX = border;
+                currentY += config.epgImageHeightLarge + border;
+                currentPicsPerLine = 1;
+            }
+        } else {
+            break;
+        }
+    }
+}
+
 void cNopacityMenuDetailRecordingView::Render(void) {
     DrawHeader();
-    int currentHight = DrawTextWrapper(&content, 0);
-    DrawTextWrapper(&additionalInfo, currentHight);
+    int currentHeight = DrawTextWrapper(&content, 0);
+    currentHeight = DrawTextWrapper(&additionalInfo, currentHeight);
+    if (epgpics.size() > 0) {
+        DrawEPGPictures(currentHeight);
+    }
 }
 
 void cNopacityMenuDetailRecordingView::DrawHeader(void) {

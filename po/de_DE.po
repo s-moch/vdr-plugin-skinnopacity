@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-02-12 16:07+0100\n"
+"POT-Creation-Date: 2013-02-20 15:36+0100\n"
 "PO-Revision-Date: 2012-11-11 17:49+0200\n"
 "Last-Translator: louis\n"
 "Language-Team: \n"
@@ -175,6 +175,9 @@ msgstr "Weitere EPG Bilder in der detaillierten EPG Ansicht anzeigen"
 
 msgid "Number of EPG pictures to display"
 msgstr "Anzahl der zusätzlichen EPG Bilder"
+
+msgid "Display additional EPG Pictures in detailed recording View"
+msgstr "Weitere EPG Bilder in der detaillierten Aufnahmeansicht anzeigen"
 
 msgid "Width of Main and Setup Menu (Percent of OSD Width)"
 msgstr "Breite des Haupt und Setup Menüs (Proz. der OSD Breite)"
