@@ -104,8 +104,8 @@ void cNopacitySetup::Store(void) {
     SetupStore("narrowMainMenu", config.narrowMainMenu);
     SetupStore("narrowScheduleMenu", config.narrowScheduleMenu);
     SetupStore("narrowChannelMenu", config.narrowChannelMenu);
-    SetupStore("narrowChannelMenu", config.narrowChannelMenu);
     SetupStore("narrowTimerMenu", config.narrowTimerMenu);
+    SetupStore("narrowRecordingMenu", config.narrowRecordingMenu);
     SetupStore("narrowSetupMenu", config.narrowSetupMenu);
     SetupStore("displayRerunsDetailEPGView", config.displayRerunsDetailEPGView);
     SetupStore("numReruns", config.numReruns);
