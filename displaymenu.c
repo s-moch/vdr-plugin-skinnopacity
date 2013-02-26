@@ -96,7 +96,7 @@ void cNopacityDisplayMenu::DrawTimers(bool timersChanged, int numConflicts) {
     if (initial || ((menuCategoryLast!=mcMain)&&(MenuCategory()==mcMain)&&!timersDrawn)) {
         if (timersChanged) {
             //check if remotetimers plugin is available
-            static cPlugin* pRemoteTimers = cPluginManager::CallFirstService("RemoteTimers::RefreshTimers-v1.0", NULL);
+            static cPlugin* pRemoteTimers = cPluginManager::GetPlugin("remotetimers");
             bool drawRemoteTimers = false;
             cString errorMsg;
             if (pRemoteTimers) {
