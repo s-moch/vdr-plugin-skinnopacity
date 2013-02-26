@@ -533,7 +533,8 @@ void cNopacityDisplayMenu::SetItem(const char *Text, int Index, bool Current, bo
                 item = new cNopacityMainMenuItem(osd, Text, Selectable);
                 menuView->GetMenuItemSize(mcMain, &itemSize);
                 item->SetFont(menuView->GetMenuItemFont(mcMain));
-                hasIcons = true;
+                if (config.useMenuIcons)
+                    hasIcons = true;
             } else {
                 item = new cNopacityDefaultMenuItem(osd, Text, Selectable);
                 menuView->GetMenuItemSize(mcUnknown, &itemSize);

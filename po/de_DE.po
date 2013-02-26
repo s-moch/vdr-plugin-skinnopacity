@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-02-20 15:36+0100\n"
+"POT-Creation-Date: 2013-02-26 17:20+0100\n"
 "PO-Revision-Date: 2012-11-11 17:49+0200\n"
 "Last-Translator: louis\n"
 "Language-Team: \n"
@@ -133,6 +133,9 @@ msgstr "Abgerundete Ecken für Menüelemente und Buttons"
 
 msgid "Fade-In Time in ms (Zero for switching off fading)"
 msgstr "Fade-In Zeit in ms (Null zum Abschalten)"
+
+msgid "Use menu icons in main and setup menu"
+msgstr "Menü Icons im Haupt- und Setupmenü benutzen"
 
 msgid "Display Disk Usage in main menu"
 msgstr "Festplattenstatus im Hauptmenü anzeigen"

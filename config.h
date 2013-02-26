@@ -78,6 +78,7 @@ class cNopacityConfig {
         int scalePicture;
         int roundedCorners;
         int cornerRadius;
+        int useMenuIcons;
         int narrowMainMenu;
         int narrowScheduleMenu;
         int narrowChannelMenu;

@@ -212,8 +212,12 @@ cString cNopacityMainMenuItem::GetIconName() {
 }
 
 void cNopacityMainMenuItem::CreatePixmapTextScroller(int totalWidth) {
-    int pixmapLeft = left + config.iconHeight + 10;
-    int pixmapWidth = width - config.iconHeight - 10;
+    int pixmapLeft = left + 10;
+    if (config.useMenuIcons)
+        pixmapLeft += config.iconHeight;
+    int pixmapWidth = width - 10;
+    if (config.useMenuIcons)
+        pixmapWidth -= config.iconHeight;
     int drawPortWidth = totalWidth + 10;
     pixmapTextScroller = osd->CreatePixmap(4, cRect(pixmapLeft, top + index * (height + left), pixmapWidth, height), cRect(0, 0, drawPortWidth, height));
     pixmapTextScroller->Fill(clrTransparent);
@@ -300,13 +304,15 @@ void cNopacityMainMenuItem::Render() {
     if (config.roundedCorners)
         DrawRoundedCorners(Theme.Color(clrMenuBorder));
     if (selectable) {
-        cString cIcon = GetIconName();
-        if (!drawn) {
-            cImageLoader imgLoader;
-            if (imgLoader.LoadIcon(*cIcon, config.iconHeight)) {
-                pixmapIcon->DrawImage(cPoint(1, 1), imgLoader.GetImage());
+        if (config.useMenuIcons) {
+            cString cIcon = GetIconName();
+            if (!drawn) {
+                cImageLoader imgLoader;
+                if (imgLoader.LoadIcon(*cIcon, config.iconHeight)) {
+                    pixmapIcon->DrawImage(cPoint(1, 1), imgLoader.GetImage());
+                }
+                drawn = true;
             }
-            drawn = true;
         }
         SetTextShort();
         if (current && scrollable && !Running() && config.menuScrollSpeed) {

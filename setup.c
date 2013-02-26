@@ -101,6 +101,7 @@ void cNopacitySetup::Store(void) {
     SetupStore("scalePicture", config.scalePicture);
     SetupStore("roundedCorners", config.roundedCorners);
     SetupStore("cornerRadius", config.cornerRadius);
+    SetupStore("useMenuIcons", config.useMenuIcons);
     SetupStore("narrowMainMenu", config.narrowMainMenu);
     SetupStore("narrowScheduleMenu", config.narrowScheduleMenu);
     SetupStore("narrowChannelMenu", config.narrowChannelMenu);
@@ -226,6 +227,7 @@ void cNopacitySetupMenuDisplay::Set(void) {
     Add(new cMenuEditBoolItem(tr("Scale Video size to fit into menu window"), &tmpNopacityConfig->scalePicture));
     Add(new cMenuEditBoolItem(tr("Rounded Corners for menu items and buttons"), &tmpNopacityConfig->roundedCorners));
     Add(new cMenuEditIntItem(tr("Fade-In Time in ms (Zero for switching off fading)"), &tmpNopacityConfig->menuFadeTime, 0, 1000));
+    Add(new cMenuEditBoolItem(tr("Use menu icons in main and setup menu"), &tmpNopacityConfig->useMenuIcons));
     Add(new cMenuEditBoolItem(tr("Display Disk Usage in main menu"), &tmpNopacityConfig->showDiscUsage));
     Add(new cMenuEditBoolItem(tr("Display Timers in main menu"), &tmpNopacityConfig->showTimers));
     Add(new cMenuEditBoolItem(tr("Show Timer Conflicts in main menu"), &tmpNopacityConfig->checkTimerConflict));
