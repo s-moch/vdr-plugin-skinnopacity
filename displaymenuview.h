@@ -50,6 +50,7 @@ class cNopacityDisplayMenuView {
         int contentWidthChannels;
         int contentWidthTimers;
         int contentWidthRecordings;
+        int contentWidthMinimum;
         int menuItemWidthDefault, menuItemHeightDefault;
         int menuItemWidthMain, menuItemHeightMain;
         int menuItemWidthSchedule, menuItemHeightSchedule;
@@ -79,6 +80,7 @@ class cNopacityDisplayMenuView {
         void GetMenuItemSize(eMenuCategory menuCat, cPoint *itemSize);
         int GetMaxItems(eMenuCategory menuCat);
         int GetMenuTop(int numItems, int itemHeight);
+        int GetMenuItemLeft(int itemWidth);
         void SetAvrgFontWidth(void);
         int mytabs[cSkinDisplayMenu::MaxTabs];
         void SetTabs(int Tab1, int Tab2 = 0, int Tab3 = 0, int Tab4 = 0, int Tab5 = 0);

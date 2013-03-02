@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-02-26 17:20+0100\n"
+"POT-Creation-Date: 2013-02-27 16:55+0100\n"
 "PO-Revision-Date: 2012-11-11 17:49+0200\n"
 "Last-Translator: louis\n"
 "Language-Team: \n"
@@ -83,6 +83,12 @@ msgstr "Audio Spuren"
 msgid "Messages"
 msgstr "Nachrichten"
 
+msgid "right"
+msgstr "rechts"
+
+msgid "left"
+msgstr "links"
+
 msgid "never"
 msgstr "nie"
 
@@ -106,6 +112,9 @@ msgstr "schnell"
 
 msgid "Number of Default Menu Entries per Page"
 msgstr "Anzahl der Default-Menüelemente pro Seite"
+
+msgid "Adjustment of narrow menus"
+msgstr "Ausrichtung der schmalen Menüs"
 
 msgid "Use narrow main menu"
 msgstr "Schmales Hauptmenü verwenden"

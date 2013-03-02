@@ -53,6 +53,7 @@ cNopacityConfig::cNopacityConfig() {
     volumeBorderBottom = 10;
     fontVolume = 0;
     //DisplayMenu
+    menuAdjustLeft = 1;
     scalePicture = 1;
     roundedCorners = 0;
     cornerRadius = 12;
@@ -239,6 +240,7 @@ bool cNopacityConfig::SetupParse(const char *Name, const char *Value) {
     else if (strcmp(Name, "menuInfoTextDelay") == 0)       menuInfoTextDelay = atoi(Value);
     else if (strcmp(Name, "menuInfoScrollDelay") == 0)     menuInfoScrollDelay = atoi(Value);
     else if (strcmp(Name, "menuInfoScrollSpeed") == 0)     menuInfoScrollSpeed = atoi(Value);
+    else if (strcmp(Name, "menuAdjustLeft") == 0)          menuAdjustLeft = atoi(Value);
     else if (strcmp(Name, "scalePicture") == 0)            scalePicture = atoi(Value);
     else if (strcmp(Name, "roundedCorners") == 0)          roundedCorners = atoi(Value);
     else if (strcmp(Name, "cornerRadius") == 0)            cornerRadius = atoi(Value);

@@ -75,6 +75,7 @@ class cNopacityConfig {
         int volumeBorderBottom;
         int fontVolume;
         //DisplayMenu
+        int menuAdjustLeft;
         int scalePicture;
         int roundedCorners;
         int cornerRadius;

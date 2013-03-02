@@ -159,7 +159,7 @@ bool cImageLoader::LoadAdditionalRecordingImage(cString path, cString name) {
     return false;
 }
 
-void cImageLoader::DrawBackground(tColor back, tColor blend, int width, int height) {
+void cImageLoader::DrawBackground(tColor back, tColor blend, int width, int height, bool mirror) {
     Color Back = Argb2Color(back);
     Color Blend = Argb2Color(blend);
     Image tmp(Geometry(width, height), Blend);
@@ -167,6 +167,8 @@ void cImageLoader::DrawBackground(tColor back, tColor blend, int width, int heig
     tmp.sparseColor(MatteChannel, BarycentricColorInterpolate, 9, arguments);
     Image tmp2(Geometry(width, height), Back);
     tmp.composite(tmp2, 0, 0, OverlayCompositeOp);
+    if (mirror)
+        tmp.flop();
     buffer = tmp;
 }
 

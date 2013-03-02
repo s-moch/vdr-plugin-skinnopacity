@@ -98,6 +98,7 @@ void cNopacitySetup::Store(void) {
     SetupStore("volumeHeight", config.volumeHeight);
     SetupStore("volumeBorderBottom", config.volumeBorderBottom);
     SetupStore("fontVolume", config.fontVolume);
+    SetupStore("menuAdjustLeft", config.menuAdjustLeft);
     SetupStore("scalePicture", config.scalePicture);
     SetupStore("roundedCorners", config.roundedCorners);
     SetupStore("cornerRadius", config.cornerRadius);
@@ -204,6 +205,8 @@ eOSState cMenuSetupSubMenu::ProcessKey(eKeys Key) {
 //-----MenuDisplay Common Settings -------------------------------------------------------------------------------------------------------------
 
 cNopacitySetupMenuDisplay::cNopacitySetupMenuDisplay(cNopacityConfig* data)  : cMenuSetupSubMenu(tr("VDR Menu: Common Settings"), data) {
+    adjustLeft[0] = tr("right");
+    adjustLeft[1] = tr("left");
     useSubtitleRerunTexts[0] = tr("never");
     useSubtitleRerunTexts[1] = tr("if exists");
     useSubtitleRerunTexts[2] = tr("always");
@@ -218,6 +221,7 @@ void cNopacitySetupMenuDisplay::Set(void) {
     int currentItem = Current();
     Clear();
     Add(new cMenuEditIntItem(tr("Number of Default Menu Entries per Page"), &tmpNopacityConfig->numDefaultMenuItems, 10, 40));
+    Add(new cMenuEditStraItem(tr("Adjustment of narrow menus"), &tmpNopacityConfig->menuAdjustLeft, 2, adjustLeft));
     Add(new cMenuEditBoolItem(tr("Use narrow main menu"), &tmpNopacityConfig->narrowMainMenu));
     Add(new cMenuEditBoolItem(tr("Use narrow schedules menu"), &tmpNopacityConfig->narrowScheduleMenu));
     Add(new cMenuEditBoolItem(tr("Use narrow channel menu"), &tmpNopacityConfig->narrowChannelMenu));

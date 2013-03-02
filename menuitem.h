@@ -19,6 +19,7 @@ protected:
     cFont *fontEPGWindow;
     int width, height;
     int top, left;
+    int spaceMenu;
     int textLeft;
     int index;
     cString *itemTabs;
@@ -39,7 +40,7 @@ public:
     void CreatePixmap();
     void CreatePixmapIcon(void);
     virtual void CreatePixmapTextScroller(int totalWidth);
-    void SetGeometry(int index, int top, int left, int width, int height);
+    void SetGeometry(int index, int top, int left, int width, int height, int spaceMenu);
     void SetFont(cFont *font) {this->font = font;}
     void SetFontSmall(cFont *fontSmall) {this->fontSmall = fontSmall;}
     void SetFontEPGWindow(cFont *font) {this->fontEPGWindow = font;}

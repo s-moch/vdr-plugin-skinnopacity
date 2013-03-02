@@ -18,7 +18,8 @@ cNopacityMenuDetailView::~cNopacityMenuDetailView(void) {
         delete fontHeaderLarge;
 }
 
-void cNopacityMenuDetailView::SetGeometry(int width, int height, int top, int contentBorder, int headerHeight) {
+void cNopacityMenuDetailView::SetGeometry(int x, int width, int height, int top, int contentBorder, int headerHeight) {
+    this->x = x;
     this->width = width;
     this->height = height;
     this->top = top;
@@ -103,10 +104,10 @@ cNopacityMenuDetailEventView::~cNopacityMenuDetailEventView(void) {
 }
 
 void cNopacityMenuDetailEventView::CreatePixmaps(void) {
-    pixmapHeader =  osd->CreatePixmap(3, cRect(0, top, width, headerHeight));
-    pixmapContent = osd->CreatePixmap(3, cRect(0, top + headerHeight, width, contentHeight),
+    pixmapHeader =  osd->CreatePixmap(3, cRect(x, top, width, headerHeight));
+    pixmapContent = osd->CreatePixmap(3, cRect(x, top + headerHeight, width, contentHeight),
                                          cRect(0, 0, width, contentDrawPortHeight));
-    pixmapLogo =    osd->CreatePixmap(4, cRect(0 + border, top + max((headerHeight-config.logoHeight)/2,1), config.detailViewLogoWidth, config.detailViewLogoHeight));
+    pixmapLogo =    osd->CreatePixmap(4, cRect(x + border, top + max((headerHeight-config.logoHeight)/2,1), config.detailViewLogoWidth, config.detailViewLogoHeight));
 
     pixmapHeader->Fill(clrTransparent);
     pixmapHeader->DrawRectangle(cRect(0, headerHeight - 2, width, 2), Theme.Color(clrMenuBorder));
@@ -309,8 +310,8 @@ cNopacityMenuDetailRecordingView::~cNopacityMenuDetailRecordingView(void) {
 }
 
 void cNopacityMenuDetailRecordingView::CreatePixmaps(void) {
-    pixmapHeader =  osd->CreatePixmap(3, cRect(0, top, width, headerHeight));
-    pixmapContent = osd->CreatePixmap(3, cRect(0, top + headerHeight, width, contentHeight),
+    pixmapHeader =  osd->CreatePixmap(3, cRect(x, top, width, headerHeight));
+    pixmapContent = osd->CreatePixmap(3, cRect(x, top + headerHeight, width, contentHeight),
                                          cRect(0, 0, width, contentDrawPortHeight));
 
     pixmapHeader->Fill(clrTransparent);
@@ -614,7 +615,7 @@ void cNopacityMenuDetailTextView::SetContentHeight(void) {
 }
 
 void cNopacityMenuDetailTextView::CreatePixmaps(void) {
-    pixmapContent = osd->CreatePixmap(3, cRect(0, top + headerHeight, width, contentHeight),
+    pixmapContent = osd->CreatePixmap(3, cRect(x, top + headerHeight, width, contentHeight),
                                          cRect(0, 0, width, contentDrawPortHeight));
 
     pixmapContent->Fill(clrTransparent);

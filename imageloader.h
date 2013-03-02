@@ -21,7 +21,7 @@ public:
     bool LoadAdditionalEPGImage(cString name);
     bool LoadRecordingImage(cString Path);
     bool LoadAdditionalRecordingImage(cString path, cString name);
-    void DrawBackground(tColor back, tColor blend, int width, int height);
+    void DrawBackground(tColor back, tColor blend, int width, int height, bool mirror = false);
     void DrawBackground2(tColor back, tColor blend, int width, int height);
 private:
     Image buffer;

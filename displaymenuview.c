@@ -63,6 +63,11 @@ void cNopacityDisplayMenuView::SetGeometry(void) {
     contentWidthTimers = osdWidth * config.menuWidthTimers / 100;
     contentWidthRecordings = osdWidth * config.menuWidthRecordings / 100;
     contentWidthFull = osdWidth - widthScrollbar - spaceMenu;
+    contentWidthMinimum = Minimum(contentWidthMain, 
+                                  contentWidthSchedules, 
+                                  contentWidthChannels,
+                                  contentWidthTimers,
+                                  contentWidthRecordings);
     menuItemWidthDefault = contentWidthFull - 4 * spaceMenu;
     menuItemWidthMain = contentWidthMain - 4*spaceMenu;
     menuItemWidthSchedule = contentWidthSchedules - 4*spaceMenu;
@@ -84,12 +89,12 @@ void cNopacityDisplayMenuView::SetGeometry(void) {
 }
 
 void cNopacityDisplayMenuView::SetDescriptionTextWindowSize(void) {
-    int xSchedules = 2 * spaceMenu + contentWidthSchedules + widthScrollbar;
-    int xRecordings = 2 * spaceMenu + contentWidthRecordings + widthScrollbar;
+    int xSchedules =  (config.menuAdjustLeft) ? (2 * spaceMenu + contentWidthSchedules + widthScrollbar)  : (spaceMenu);
+    int xRecordings = (config.menuAdjustLeft) ? (2 * spaceMenu + contentWidthRecordings + widthScrollbar) : (spaceMenu);
     int height = config.menuHeightInfoWindow * (contentHeight - 2*spaceMenu) / 100;
     int y = headerHeight + (contentHeight - height - spaceMenu);
-    int widthSchedules = osdWidth - xSchedules - spaceMenu;
-    int widthRecordings = osdWidth - xRecordings - spaceMenu;
+    int widthSchedules = (config.menuAdjustLeft)  ? (osdWidth - xSchedules - spaceMenu)  : (osdWidth - contentWidthSchedules - widthScrollbar - 2 * spaceMenu);
+    int widthRecordings = (config.menuAdjustLeft) ? (osdWidth - xRecordings - spaceMenu) : (osdWidth - contentWidthRecordings - widthScrollbar - 2 * spaceMenu);
     textWindowSizeSchedules = cRect(xSchedules,y,widthSchedules,height);
     textWindowSizeRecordings = cRect(xRecordings,y,widthRecordings,height);
 }
@@ -149,23 +154,23 @@ int cNopacityDisplayMenuView::GetContentWidth(eMenuCategory menuCat) {
 
 void cNopacityDisplayMenuView::CreatePixmaps(void) {
     pixmapHeader = osd->CreatePixmap(1, cRect(0, 0, osdWidth, headerHeight));
-    pixmapHeaderLogo = osd->CreatePixmap(-1, cRect(0, 0, config.menuHeaderLogoWidth, config.menuHeaderLogoHeight));
-    pixmapHeaderLabel = osd->CreatePixmap(2, cRect(0, 0, osdWidth - dateWidth, headerHeight));
-    pixmapDate = osd->CreatePixmap(2, cRect(osdWidth - dateWidth, 0, dateWidth, headerHeight));
+    int dateX = (config.menuAdjustLeft) ? (osdWidth - dateWidth) : 0;
+    pixmapDate = osd->CreatePixmap(2, cRect(dateX, 0, dateWidth, headerHeight));
+    int logoX = (config.menuAdjustLeft) ? 0 : (osdWidth - config.menuHeaderLogoWidth);
+    pixmapHeaderLogo = osd->CreatePixmap(-1, cRect(logoX, 0, config.menuHeaderLogoWidth, config.menuHeaderLogoHeight));
+    int labelX = (config.menuAdjustLeft) ? 0 : dateWidth;
+    pixmapHeaderLabel = osd->CreatePixmap(2, cRect(labelX, 0, osdWidth - dateWidth, headerHeight));
     pixmapFooter = osd->CreatePixmap(1, cRect(0, osdHeight-footerHeight, osdWidth, footerHeight));
-    int drawPortWidth = osdWidth + contentWidthFull 
-                        - Minimum(contentWidthMain, 
-                                  contentWidthSchedules, 
-                                  contentWidthChannels,
-                                  contentWidthTimers,
-                                  contentWidthRecordings);
+    int drawPortWidth = osdWidth + contentWidthFull - contentWidthMinimum;
     pixmapContent = osd->CreatePixmap(1, cRect(0, headerHeight, osdWidth, contentHeight),
                                          cRect(0, 0, drawPortWidth, contentHeight));
-    pixmapScrollbar = osd->CreatePixmap(2, cRect(contentWidthMain, headerHeight + spaceMenu, widthScrollbar, contentHeight - 2 * spaceMenu));
-    pixmapDiskUsage = osd->CreatePixmap(2, cRect(osdWidth - diskUsageWidth - 10, headerHeight + spaceMenu, diskUsageWidth, diskUsageHeight));
-    pixmapDiskUsageIcon = osd->CreatePixmap(3, cRect(osdWidth - diskUsageWidth - 8, headerHeight + spaceMenu + 2, diskUsageWidth - 4, diskUsageHeight - 4));
-    pixmapDiskUsageLabel = osd->CreatePixmap(4, cRect(osdWidth - diskUsageWidth - 8, headerHeight + spaceMenu + 2, diskUsageWidth - 4, diskUsageHeight - 4));
-    
+    int diskUsageX = (config.menuAdjustLeft) ? (osdWidth - diskUsageWidth - 10) : 10;
+    pixmapDiskUsage = osd->CreatePixmap(2, cRect(diskUsageX, headerHeight + spaceMenu, diskUsageWidth, diskUsageHeight));
+    pixmapDiskUsageIcon = osd->CreatePixmap(3, cRect(diskUsageX + 2, headerHeight + spaceMenu + 2, diskUsageWidth - 4, diskUsageHeight - 4));
+    pixmapDiskUsageLabel = osd->CreatePixmap(4, cRect(diskUsageX + 2, headerHeight + spaceMenu + 2, diskUsageWidth - 4, diskUsageHeight - 4));
+    int scrollbarX = (config.menuAdjustLeft) ? contentWidthMain : (osdWidth - contentWidthMain);
+    pixmapScrollbar = osd->CreatePixmap(2, cRect(scrollbarX, headerHeight + spaceMenu, widthScrollbar, contentHeight - 2 * spaceMenu));
+
     pixmapHeaderLogo->Fill(clrTransparent);
     pixmapHeaderLabel->Fill(clrTransparent);
     pixmapDiskUsage->Fill(clrTransparent);
@@ -327,6 +332,13 @@ int cNopacityDisplayMenuView::GetMenuTop(int numItems, int itemHeight) {
     return headerHeight + (contentHeight - numItems*(itemHeight + spaceMenu))/2;
 }
 
+int cNopacityDisplayMenuView::GetMenuItemLeft(int itemWidth) {
+    int menuLeft = spaceMenu;
+    if (!config.menuAdjustLeft)
+        menuLeft = osdWidth - itemWidth - spaceMenu;
+    return menuLeft;
+}
+
 void cNopacityDisplayMenuView::SetAvrgFontWidth(void) {
     avrgFontWidth = fontMenuitemDefault->Width("x")+3;
 }
@@ -409,56 +421,86 @@ void cNopacityDisplayMenuView::CreateBackgroundImages(int *handleBackgrounds, in
 
 void cNopacityDisplayMenuView::DrawBorderDecoration() {
     cImageLoader imgLoader;
-    imgLoader.DrawBackground(Theme.Color(clrMenuHeaderBlend), Theme.Color(clrMenuHeader), osdWidth, headerHeight);
+    bool mirrorHeader = (config.menuAdjustLeft) ? false : true;
+    imgLoader.DrawBackground(Theme.Color(clrMenuHeaderBlend), Theme.Color(clrMenuHeader), osdWidth, headerHeight, mirrorHeader);
     pixmapHeader->DrawImage(cPoint(0,0), imgLoader.GetImage());
     pixmapFooter->Fill(Theme.Color(clrMenuBack));
     
     int borderWidth = 2;
     int radius = 10;
-    int minContentWidth = Minimum(contentWidthMain, 
-                                  contentWidthSchedules, 
-                                  contentWidthChannels,
-                                  contentWidthTimers,
-                                  contentWidthRecordings);
-    pixmapContent->Fill(clrTransparent);
-    pixmapContent->DrawRectangle(cRect(0, 0, contentWidthFull-radius, contentHeight), Theme.Color(clrMenuBack));
-    pixmapContent->DrawRectangle(cRect(contentWidthFull, 0, osdWidth - minContentWidth, borderWidth), Theme.Color(clrMenuBorder));
-    pixmapContent->DrawRectangle(cRect(contentWidthFull, contentHeight - borderWidth, osdWidth - minContentWidth, borderWidth), Theme.Color(clrMenuBorder));
-    pixmapContent->DrawRectangle(cRect(contentWidthFull - radius, 0, radius, radius), Theme.Color(clrMenuBack));
-    pixmapContent->DrawEllipse(cRect(contentWidthFull - radius, 0, radius, radius), Theme.Color(clrMenuBorder),2);
-    pixmapContent->DrawEllipse(cRect(contentWidthFull - radius + borderWidth, borderWidth, radius-borderWidth, radius-borderWidth), clrTransparent, 2);
-    pixmapContent->DrawRectangle(cRect(contentWidthFull-radius, radius, borderWidth, contentHeight - 2*radius), Theme.Color(clrMenuBorder));
-    pixmapContent->DrawRectangle(cRect(contentWidthFull - radius, contentHeight - radius, radius, radius), Theme.Color(clrMenuBack));
-    pixmapContent->DrawEllipse(cRect(contentWidthFull - radius, contentHeight - radius, radius, radius), Theme.Color(clrMenuBorder),3);
-    pixmapContent->DrawEllipse(cRect(contentWidthFull - radius + borderWidth, contentHeight - radius, radius-borderWidth, radius-borderWidth), clrTransparent, 3);
 
+    pixmapContent->Fill(clrTransparent);
+
+    if (config.menuAdjustLeft) {
+        //Background
+        pixmapContent->DrawRectangle(cRect(0, 0, contentWidthFull - radius, contentHeight), Theme.Color(clrMenuBack));
+        //Upper and lower Corner Square
+        pixmapContent->DrawRectangle(cRect(contentWidthFull - radius, 0, radius, radius), Theme.Color(clrMenuBack));
+        pixmapContent->DrawRectangle(cRect(contentWidthFull - radius, contentHeight - radius, radius, radius), Theme.Color(clrMenuBack));
+        //Upper line
+        pixmapContent->DrawRectangle(cRect(contentWidthFull, 0, osdWidth - contentWidthMinimum, borderWidth), Theme.Color(clrMenuBorder));
+        //Lower Line
+        pixmapContent->DrawRectangle(cRect(contentWidthFull, contentHeight - borderWidth, osdWidth - contentWidthMinimum, borderWidth), Theme.Color(clrMenuBorder));
+        //Vertical line
+        pixmapContent->DrawRectangle(cRect(contentWidthFull-radius, radius, borderWidth, contentHeight - 2*radius), Theme.Color(clrMenuBorder));
+        //Upper Ellipse
+        pixmapContent->DrawEllipse(cRect(contentWidthFull - radius, 0, radius, radius), Theme.Color(clrMenuBorder),2);
+        pixmapContent->DrawEllipse(cRect(contentWidthFull - radius + borderWidth, borderWidth, radius-borderWidth, radius-borderWidth), clrTransparent, 2);
+        //Lower Ellipse
+        pixmapContent->DrawEllipse(cRect(contentWidthFull - radius, contentHeight - radius, radius, radius), Theme.Color(clrMenuBorder),3);
+        pixmapContent->DrawEllipse(cRect(contentWidthFull - radius + borderWidth, contentHeight - radius, radius-borderWidth, radius-borderWidth), clrTransparent, 3);
+    } else {
+        //Background
+        pixmapContent->DrawRectangle(cRect(osdWidth - contentWidthMinimum + radius, 0, contentWidthFull - radius, contentHeight), Theme.Color(clrMenuBack));
+        //Upper and lower Corner Square
+        pixmapContent->DrawRectangle(cRect(osdWidth - contentWidthMinimum, 0, radius, radius), Theme.Color(clrMenuBack));
+        pixmapContent->DrawRectangle(cRect(osdWidth - contentWidthMinimum, contentHeight - radius, radius, radius), Theme.Color(clrMenuBack));
+        //Upper line
+        pixmapContent->DrawRectangle(cRect(0, 0, osdWidth - contentWidthMinimum, borderWidth), Theme.Color(clrMenuBorder));
+        //Lower Line
+        pixmapContent->DrawRectangle(cRect(0, contentHeight - borderWidth, osdWidth - contentWidthMinimum, borderWidth), Theme.Color(clrMenuBorder));
+        //Vertical line
+        pixmapContent->DrawRectangle(cRect(osdWidth - contentWidthMinimum + radius - borderWidth, radius, borderWidth, contentHeight - 2*radius), Theme.Color(clrMenuBorder));
+        //Upper Ellipse
+        pixmapContent->DrawEllipse(cRect(osdWidth - contentWidthMinimum, 0, radius, radius), Theme.Color(clrMenuBorder),1);
+        pixmapContent->DrawEllipse(cRect(osdWidth - contentWidthMinimum, borderWidth, radius-borderWidth, radius-borderWidth), clrTransparent, 1);
+        //Lower Ellipse
+        pixmapContent->DrawEllipse(cRect(osdWidth - contentWidthMinimum, contentHeight - radius, radius, radius), Theme.Color(clrMenuBorder),4);
+        pixmapContent->DrawEllipse(cRect(osdWidth - contentWidthMinimum, contentHeight - radius, radius-borderWidth, radius-borderWidth), clrTransparent, 4);
+    }
 }
 
 void cNopacityDisplayMenuView::AdjustContentBackground(eMenuCategory menuCat, eMenuCategory menuCatLast, cRect & vidWin) {
     int contentWidth = GetContentWidth(menuCat);
     int contentWidthLast = GetContentWidth(menuCatLast);
-    if (contentWidth != contentWidthLast) {
+    int drawportX;
+    if ((contentWidth != contentWidthLast)||(menuCatLast == mcUndefined)) {
         if (contentWidth == contentWidthFull) {
-            pixmapContent->SetDrawPortPoint(cPoint(0, 0));
+            drawportX = (config.menuAdjustLeft)?0:(contentWidthMinimum - contentWidthFull);
+            pixmapContent->SetDrawPortPoint(cPoint(drawportX, 0));
             if (config.scalePicture) {
                 // ask output device to restore full size
                 vidWin = cDevice::PrimaryDevice()->CanScaleVideo(cRect::Null);
             }
         } else {
-            pixmapContent->SetDrawPortPoint(cPoint(contentWidth - contentWidthFull, 0));
+            drawportX = (config.menuAdjustLeft)?(contentWidth - contentWidthFull):(contentWidthMinimum - contentWidth);
+            pixmapContent->SetDrawPortPoint(cPoint(drawportX, 0));
             if (config.scalePicture) {
                 // ask output device to scale down
+                int windowX = (config.menuAdjustLeft)?(osdLeft + contentWidth + widthScrollbar + 2 * spaceMenu)
+                                                     :(osdLeft + 2 * spaceMenu);
                 cRect availableRect(
-                    osdLeft + contentWidth + widthScrollbar + 2 * spaceMenu,
+                    windowX,
                     osdTop + headerHeight,
                     contentWidthFull - osdLeft - contentWidth - widthScrollbar - 4 * spaceMenu,
-                    contentHeight);// - osdTop - headerHeight);
+                    contentHeight);
                 vidWin = cDevice::PrimaryDevice()->CanScaleVideo(availableRect);
             }
         }
     }
     osd->DestroyPixmap(pixmapScrollbar);
-    pixmapScrollbar = osd->CreatePixmap(2, cRect(contentWidth , headerHeight + spaceMenu, widthScrollbar, osdHeight - headerHeight - footerHeight - 2*spaceMenu));
+    int scrollbarX = (config.menuAdjustLeft)?(contentWidth):(osdWidth - contentWidth - widthScrollbar);
+    pixmapScrollbar = osd->CreatePixmap(2, cRect(scrollbarX , headerHeight + spaceMenu, widthScrollbar, osdHeight - headerHeight - footerHeight - 2*spaceMenu));
     pixmapScrollbar->Fill(clrTransparent);
 }
 
@@ -507,7 +549,8 @@ int cNopacityDisplayMenuView::DrawHeaderIcon(eMenuCategory menuCat) {
     
     int left = 0;
     if (drawIcon) {
-        pixmapHeaderIcon = osd->CreatePixmap(2, cRect(0, 0, config.headerIconHeight, config.headerIconHeight));
+        int iconX = (config.menuAdjustLeft) ? 0 : (osdWidth - config.headerIconHeight);
+        pixmapHeaderIcon = osd->CreatePixmap(2, cRect(iconX, 0, config.headerIconHeight, config.headerIconHeight));
         pixmapHeaderIcon->Fill(clrTransparent);
         cImageLoader imgLoader;
         if (imgLoader.LoadIcon(*icon, config.headerIconHeight)) {
@@ -520,7 +563,8 @@ int cNopacityDisplayMenuView::DrawHeaderIcon(eMenuCategory menuCat) {
 
 int cNopacityDisplayMenuView::ShowHeaderIconChannelLogo(const char *Title) {
     int left = 0;
-    pixmapHeaderIcon = osd->CreatePixmap(2, cRect(0, 0, config.menuItemLogoWidth, config.menuItemLogoHeight));
+    int iconX = (config.menuAdjustLeft) ? 0 : (osdWidth - config.menuItemLogoWidth);
+    pixmapHeaderIcon = osd->CreatePixmap(2, cRect(iconX, 0, config.menuItemLogoWidth, config.menuItemLogoHeight));
     pixmapHeaderIcon->Fill(clrTransparent);
     std::string channel = Title;
     if (channel.length() == 0)
@@ -547,8 +591,9 @@ void cNopacityDisplayMenuView::DestroyHeaderIcon(void) {
 
 void cNopacityDisplayMenuView::DrawHeaderLabel(int left, cString label) {
     pixmapHeaderLabel->Fill(clrTransparent);
-    pixmapHeaderLabel->DrawText(cPoint(left, ((headerHeight - 10) - fontHeader->Height()) / 2), *label, Theme.Color(clrMenuFontHeader), clrTransparent, fontHeader);
-
+    int labelW = fontHeader->Width(label);
+    int labelX = (config.menuAdjustLeft) ? (left) : (osdWidth - dateWidth - labelW - left - 2*spaceMenu);
+    pixmapHeaderLabel->DrawText(cPoint(labelX, ((headerHeight - 10) - fontHeader->Height()) / 2), *label, Theme.Color(clrMenuFontHeader), clrTransparent, fontHeader);
 }
 
 void cNopacityDisplayMenuView::DrawDate(bool initial) {
@@ -556,7 +601,8 @@ void cNopacityDisplayMenuView::DrawDate(bool initial) {
     if (initial || strcmp(date, lastDate)) {
         pixmapDate->Fill(clrTransparent);
         int dateW = fontDate->Width(date);
-        pixmapDate->DrawText(cPoint(dateWidth - dateW - 2*spaceMenu, (headerHeight - fontDate->Height()) / 2), date, Theme.Color(clrMenuFontDate), clrTransparent, fontDate);
+        int dateX = (config.menuAdjustLeft) ? (dateWidth - dateW - 2*spaceMenu) : (spaceMenu);
+        pixmapDate->DrawText(cPoint(dateX, (headerHeight - fontDate->Height()) / 2), date, Theme.Color(clrMenuFontDate), clrTransparent, fontDate);
         lastDate = date;
     }
 }
@@ -654,7 +700,8 @@ cNopacityTimer *cNopacityDisplayMenuView::DrawTimerConflict(int numConflicts, in
     t->SetGeometry(timersWidth, y);
     t->CreateConflictText();
     t->CalculateHeight(spaceMenu);
-    t->CreatePixmaps(osdWidth - timersWidth - 10);
+    int timerX = (config.menuAdjustLeft) ? (osdWidth - timersWidth - 10) : 10;
+    t->CreatePixmaps(timerX);
     t->Render();
     return t;
 }
@@ -665,7 +712,8 @@ cNopacityTimer *cNopacityDisplayMenuView::DrawTimer(const cTimer *Timer, int y) 
     t->CreateDate();
     t->CreateShowName();
     t->CalculateHeight(spaceMenu);
-    t->CreatePixmaps(osdWidth - timersWidth - 10);
+    int timerX = (config.menuAdjustLeft) ? (osdWidth - timersWidth - 10) : 10;
+    t->CreatePixmaps(timerX);
     t->Render();
     return t;
 }
@@ -720,6 +768,7 @@ void cNopacityDisplayMenuView::ClearMessage(void) {
 }
 
 void cNopacityDisplayMenuView::SetDetailViewSize(eDetailViewType detailViewType, cNopacityMenuDetailView *detailView) {
+    int x = (config.menuAdjustLeft) ? 0 : osdWidth - contentWidthFull + 2*spaceMenu;
     int width = 0;
     int height = 0;
     int top = 0;
@@ -742,5 +791,5 @@ void cNopacityDisplayMenuView::SetDetailViewSize(eDetailViewType detailViewType,
     width = contentWidthFull - 2*spaceMenu;
     height = contentHeight;
     top = headerHeight;
-    detailView->SetGeometry(width, height, top, contentBorder, detailHeaderHeight);
+    detailView->SetGeometry(x, width, height, top, contentBorder, detailHeaderHeight);
 }

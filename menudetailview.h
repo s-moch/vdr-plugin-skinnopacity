@@ -5,7 +5,7 @@ class cNopacityMenuDetailView {
 protected:
     cOsd *osd;
     bool hasScrollbar;
-    int width, height, top;
+    int x, width, height, top;
     int headerHeight;
     int contentHeight;
     int contentDrawPortHeight;
@@ -19,7 +19,7 @@ protected:
 public:
     cNopacityMenuDetailView(cOsd *osd);
     virtual ~cNopacityMenuDetailView(void);
-    void SetGeometry(int width, int height, int top, int contentBorder, int headerHeight);
+    void SetGeometry(int x, int width, int height, int top, int contentBorder, int headerHeight);
     virtual void SetFonts(void) = 0;
     bool Scrollable(void) {return hasScrollbar;}
     double ScrollbarSize(void);

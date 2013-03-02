@@ -45,25 +45,26 @@ void cNopacityMenuItem::SetCurrent(bool cur) {
     current = cur;
 } 
 
-void cNopacityMenuItem::SetGeometry(int index, int top, int left, int width, int height) {
+void cNopacityMenuItem::SetGeometry(int index, int top, int left, int width, int height, int spaceMenu) {
     this->index = index;
     this->top = top;
     this->left = left;
     this->width = width;
     this->height = height;
+    this->spaceMenu = spaceMenu;
 }
 
 void cNopacityMenuItem::CreatePixmap() {
-    pixmap = osd->CreatePixmap(3, cRect(left, top + index * (height + left), width, height));
+    pixmap = osd->CreatePixmap(3, cRect(left, top + index * (height + spaceMenu), width, height));
 }
 
 void cNopacityMenuItem::CreatePixmapIcon(void) {
-    pixmapIcon = osd->CreatePixmap(5, cRect(left, top + index * (height + left), width, height));
+    pixmapIcon = osd->CreatePixmap(5, cRect(left, top + index * (height + spaceMenu), width, height));
     pixmapIcon->Fill(clrTransparent);
 }
 
 void cNopacityMenuItem::CreatePixmapTextScroller(int totalWidth) {
-    pixmapTextScroller = osd->CreatePixmap(4, cRect(left, top + index * (height + left), width, height), cRect(0, 0, totalWidth+10, height));
+    pixmapTextScroller = osd->CreatePixmap(4, cRect(left, top + index * (height + spaceMenu), width, height), cRect(0, 0, totalWidth+10, height));
     pixmapTextScroller->Fill(clrTransparent);
 }
 
@@ -90,7 +91,7 @@ void cNopacityMenuItem::DrawDelimiter(const char *del, const char *icon, int han
     if (!drawn) {
         if (imgLoader.LoadIcon(icon, config.iconHeight)) {
             if (pixmapIcon == NULL) {
-                pixmapIcon = osd->CreatePixmap(5, cRect(left, top + index * (height + left), config.menuItemLogoWidth, config.menuItemLogoWidth));
+                pixmapIcon = osd->CreatePixmap(5, cRect(left, top + index * (height + spaceMenu), config.menuItemLogoWidth, config.menuItemLogoWidth));
                 pixmapIcon->Fill(clrTransparent);
             }
             pixmapIcon->DrawImage(cPoint(1, (height - config.iconHeight) / 2), imgLoader.GetImage());
@@ -219,7 +220,7 @@ void cNopacityMainMenuItem::CreatePixmapTextScroller(int totalWidth) {
     if (config.useMenuIcons)
         pixmapWidth -= config.iconHeight;
     int drawPortWidth = totalWidth + 10;
-    pixmapTextScroller = osd->CreatePixmap(4, cRect(pixmapLeft, top + index * (height + left), pixmapWidth, height), cRect(0, 0, drawPortWidth, height));
+    pixmapTextScroller = osd->CreatePixmap(4, cRect(pixmapLeft, top + index * (height + spaceMenu), pixmapWidth, height), cRect(0, 0, drawPortWidth, height));
     pixmapTextScroller->Fill(clrTransparent);
 }
 
@@ -260,7 +261,7 @@ void cNopacityMainMenuItem::CreateText() {
 }
 
 int cNopacityMainMenuItem::CheckScrollable(bool hasIcon) {
-    int spaceLeft = left;
+    int spaceLeft = spaceMenu;
     if (hasIcon)
         spaceLeft += config.iconHeight;
     int totalTextWidth = width - spaceLeft;
@@ -356,7 +357,7 @@ void cNopacityScheduleMenuItem::CreatePixmapTextScroller(int totalWidth) {
         pixmapLeft += config.menuItemLogoWidth + 5;
         pixmapWidth = pixmapWidth - config.menuItemLogoWidth - 5;
     }
-    pixmapTextScroller = osd->CreatePixmap(4, cRect(pixmapLeft, top + index * (height + left), pixmapWidth, height), cRect(0, 0, drawPortWidth, height));
+    pixmapTextScroller = osd->CreatePixmap(4, cRect(pixmapLeft, top + index * (height + spaceMenu), pixmapWidth, height), cRect(0, 0, drawPortWidth, height));
     pixmapTextScroller->Fill(clrTransparent);
 }
 
@@ -379,7 +380,7 @@ void cNopacityScheduleMenuItem::CreateText() {
 }
 
 int cNopacityScheduleMenuItem::CheckScrollable(bool hasIcon) {
-    int spaceLeft = left;
+    int spaceLeft = spaceMenu;
     if (hasIcon)
         spaceLeft += config.menuItemLogoWidth;
     int totalTextWidth = width - spaceLeft;
@@ -535,7 +536,7 @@ void cNopacityChannelMenuItem::CreatePixmapTextScroller(int totalWidth) {
     int pixmapLeft = left + config.menuItemLogoWidth + 10;
     int pixmapWidth = width - config.menuItemLogoWidth - 10;
     int drawPortWidth = totalWidth + 10;
-    pixmapTextScroller = osd->CreatePixmap(4, cRect(pixmapLeft, top + index * (height + left), pixmapWidth, height), cRect(0, 0, drawPortWidth, height));
+    pixmapTextScroller = osd->CreatePixmap(4, cRect(pixmapLeft, top + index * (height + spaceMenu), pixmapWidth, height), cRect(0, 0, drawPortWidth, height));
     pixmapTextScroller->Fill(clrTransparent);
 }
 
@@ -550,7 +551,7 @@ void cNopacityChannelMenuItem::CreateText() {
 }
 
 int cNopacityChannelMenuItem::CheckScrollable(bool hasIcon) {
-    int spaceLeft = left;
+    int spaceLeft = spaceMenu;
     if (hasIcon)
         spaceLeft += config.menuItemLogoWidth;
     int totalTextWidth = width - spaceLeft;
@@ -637,7 +638,7 @@ void cNopacityTimerMenuItem::CreatePixmapTextScroller(int totalWidth) {
     int pixmapLeft = left + config.menuItemLogoWidth + 10;
     int pixmapWidth = width - config.menuItemLogoWidth - 10;
     int drawPortWidth = totalWidth + 10;
-    pixmapTextScroller = osd->CreatePixmap(4, cRect(pixmapLeft, top + index * (height + left), pixmapWidth, height), cRect(0, 0, drawPortWidth, height));
+    pixmapTextScroller = osd->CreatePixmap(4, cRect(pixmapLeft, top + index * (height + spaceMenu), pixmapWidth, height), cRect(0, 0, drawPortWidth, height));
     pixmapTextScroller->Fill(clrTransparent);
 }
 
@@ -670,7 +671,7 @@ std::string cNopacityTimerMenuItem::CreateDate(void) {
 }
 
 int cNopacityTimerMenuItem::CheckScrollable(bool hasIcon) {
-    int spaceLeft = left;
+    int spaceLeft = spaceMenu;
     if (hasIcon)
         spaceLeft += config.menuItemLogoWidth;
     int totalTextWidth = width - spaceLeft;
@@ -793,7 +794,7 @@ void cNopacityRecordingMenuItem::CreatePixmapTextScroller(int totalWidth) {
         pixmapWidth = width - 10;
     }
     
-    pixmapTextScroller = osd->CreatePixmap(4, cRect(pixmapLeft, top + index * (height + left), pixmapWidth, height), cRect(0, 0, drawPortWidth, height));
+    pixmapTextScroller = osd->CreatePixmap(4, cRect(pixmapLeft, top + index * (height + spaceMenu), pixmapWidth, height), cRect(0, 0, drawPortWidth, height));
     pixmapTextScroller->Fill(clrTransparent);
 }
 
@@ -825,7 +826,7 @@ int cNopacityRecordingMenuItem::CheckScrollable(bool hasIcon) {
 }
 
 int cNopacityRecordingMenuItem::CheckScrollableRecording(void) {
-    int spaceLeft = left;
+    int spaceLeft = spaceMenu;
     int iconWidth = 0;
     if (Recording->IsNew())
         iconWidth += font->Height() + 10;
@@ -842,7 +843,7 @@ int cNopacityRecordingMenuItem::CheckScrollableRecording(void) {
 }
 
 int cNopacityRecordingMenuItem::CheckScrollableFolder(void) {
-    int spaceLeft = left + config.menuRecFolderSize;
+    int spaceLeft = spaceMenu + config.menuRecFolderSize;
     int totalTextWidth = width - spaceLeft;
     strRecNameFull = strRecName.c_str();
     if (font->Width(strRecName.c_str()) > (width - spaceLeft)) {
@@ -1030,13 +1031,13 @@ cNopacityDefaultMenuItem::~cNopacityDefaultMenuItem(void) {
 void cNopacityDefaultMenuItem::SetTextFull(void) {
     tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
     pixmapTextScroller->Fill(clrTransparent);
-    pixmapTextScroller->DrawText(cPoint(0, (height - font->Height()) / 2), strEntryFull.c_str(), clrFont, clrTransparent, font);
+    pixmapTextScroller->DrawText(cPoint(5, (height - font->Height()) / 2), strEntryFull.c_str(), clrFont, clrTransparent, font);
 }
 
 void cNopacityDefaultMenuItem::SetTextShort(void) {
     tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
     pixmapTextScroller->Fill(clrTransparent);
-    pixmapTextScroller->DrawText(cPoint(0, (height - font->Height()) / 2), strEntry.c_str(), clrFont, clrTransparent, font);
+    pixmapTextScroller->DrawText(cPoint(5, (height - font->Height()) / 2), strEntry.c_str(), clrFont, clrTransparent, font);
 }
 
 int cNopacityDefaultMenuItem::CheckScrollable(bool hasIcon) {
@@ -1061,7 +1062,7 @@ int cNopacityDefaultMenuItem::CheckScrollable(bool hasIcon) {
             break;
     }
     if (scrollable) {
-        pixmapTextScroller = osd->CreatePixmap(4, cRect(left + tabWidth[scrollCol], top + index * (height + left), tabWidth[scrollCol+numTabs], height), cRect(0, 0, colTextWidth+10, height));
+        pixmapTextScroller = osd->CreatePixmap(4, cRect(left + tabWidth[scrollCol], top + index * (height + spaceMenu), tabWidth[scrollCol+numTabs], height), cRect(0, 0, colTextWidth+10, height));
         pixmapTextScroller->Fill(clrTransparent);
     }
     return 0;

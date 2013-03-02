@@ -143,3 +143,5 @@ Version 0.0.7:
 - Fixed a bug that Setup option narrowRecordingMenu was not stored
 - Fixed displaying remotetimers in main menu
 - Usage of menu icons in main and setup menu configurable
+- "nOpacity mirrored": narrow menus can be adjusted on the right side via 
+  plugin setup
