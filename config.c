@@ -104,7 +104,7 @@ cNopacityConfig::cNopacityConfig() {
     timersLogoHeight = 70;
     epgImageWidth = 210;
     epgImageHeight = 160;
-    epgImageWidthLarge = 545;
+    epgImageWidthLarge = 525;
     epgImageHeightLarge = 400;
     menuRecFolderSize = 128;
     fontHeader = 0;
