@@ -145,3 +145,5 @@ Version 0.0.7:
 - Usage of menu icons in main and setup menu configurable
 - "nOpacity mirrored": narrow menus can be adjusted on the right side via 
   plugin setup
+- trying to load channel separator icon. It has to be named as the channel
+  separator in low letters. If no icon is found, a generic icon is used.

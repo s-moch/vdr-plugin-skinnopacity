@@ -372,7 +372,9 @@ void cNopacityDisplayChannel::SetChannel(const cChannel *Channel, int Number) {
             pixmapChannelInfo->DrawText(cPoint(channelInfoHeight/2, (channelInfoHeight-fontHeader->Height())/2), channelString, Theme.Color(clrChannelHead), clrTransparent, fontHeader);
         }
         cImageLoader imgLoader;
-        if (imgLoader.LoadIcon("Channelseparator", config.logoHeight)) {
+        if (imgLoader.LoadLogo(*ChannelName)) {
+            pixmapLogo->DrawImage(cPoint(config.logoBorder, (height-config.logoHeight)/2), imgLoader.GetImage());
+        } else if (imgLoader.LoadIcon("Channelseparator", config.logoHeight)) {
             pixmapLogo->DrawImage(cPoint(config.logoBorder + (config.logoWidth - config.logoHeight)/2, (height-config.logoHeight)/2), imgLoader.GetImage());
         }
     }
