@@ -572,9 +572,11 @@ void cNopacityDisplayMenu::SetItem(const char *Text, int Index, bool Current, bo
     } else {
         //redraw item when switching through menu
         cNopacityMenuItem *item = menuItems.Get(Index);
-        item->SetTabs(strItems, tabItems, MaxTabs);
-        item->SetCurrent(Current);
-        item->Render();
+        if (item) {
+            item->SetTabs(strItems, tabItems, MaxTabs);
+            item->SetCurrent(Current);
+            item->Render();
+        }
     }
     SetEditableWidth(menuView->GetEditableWidth());
 }

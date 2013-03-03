@@ -1,5 +1,4 @@
 #include "imageloader.h"
-#include "imageloader.h"
 #include <math.h>
 #include <string>
 #include <dirent.h>
