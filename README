@@ -48,11 +48,16 @@ at startup:
 
 First copy the icons from 
 /put/your/path/toVDRsources/here/VDR/PLUGINS/src/skinnopcaity/icons/
-to the configured icon path. After that download the logopack from:
-http://www.dvbviewer.tv/forum/topic/21378-logopacks/
-unzip it and place it accordingly the settings for the channel logos path.
+to the configured icon path.
 
-if no pathes are set for the different types of images, the following default
+I recommend to use channel logos from https://github.com/3PO/Senderlogos
+To download them just change in the directory you want to place the logos
+and do a:
+git clone https://github.com/3PO/Senderlogos.git logos
+An update of the logos can then be done with a "git pull" just inside this
+directory.
+
+If no pathes are set for the different types of images, the following default
 paths are used:
 channel logos: {ResourceDirectory}/logos/
 icons:         {ResourceDirectory}/icons/

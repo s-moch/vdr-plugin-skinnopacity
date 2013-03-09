@@ -204,10 +204,36 @@ std::string cNopacityMainMenuItem::items[16] = { "Schedule", "Channels", "Timers
 
 cString cNopacityMainMenuItem::GetIconName() {
     std::string element = *menuEntry;
+    //check for standard menu entries
     for (int i=0; i<16; i++) {
         std::string s = trVDR(items[i].c_str());
         if (s == element)
             return items[i].c_str();
+    }
+    //check for special main menu entries "stop recording", "stop replay"
+    std::string stopRecording = skipspace(trVDR(" Stop recording "));
+    std::string stopReplay = skipspace(trVDR(" Stop replaying"));
+    try {
+        if (element.substr(0, stopRecording.size()) == stopRecording)
+            return "StopRecording";
+        if (element.substr(0, stopReplay.size()) == stopReplay)
+            return "StopReplay";
+    } catch (...) {}
+    //check for Plugins
+    for (int i = 0; ; i++) {
+        cPlugin *p = cPluginManager::GetPlugin(i);
+        if (p) {
+            const char *mainMenuEntry = p->MainMenuEntry();
+            if (mainMenuEntry) {
+                std::string plugMainEntry = mainMenuEntry;
+                try {
+                    if (element.substr(0, plugMainEntry.size()) == plugMainEntry) {
+                        return p->Name();
+                    }
+                } catch (...) {}
+            } 
+        } else
+            break;
     }
     return menuEntry;
 }

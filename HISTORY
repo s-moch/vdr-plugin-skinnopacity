@@ -149,3 +149,5 @@ Version 0.0.7:
   separator in low letters. If no icon is found, a generic icon is used.
 - if rounded corners for menuitems are used, also epg images are drawn with
   rounded corners with the same corner radius
+- Changed plugin icons filename for loading icons in main menu, plugin name
+  is now used
