@@ -78,6 +78,7 @@ cNopacityConfig::cNopacityConfig() {
     menuWidthChannels = 30;
     menuWidthTimers = 30;
     menuWidthRecordings = 30;
+    menuWidthSetup = 30;
     menuHeightInfoWindow = 20;
     menuScrollDelay = 1;
     menuScrollSpeed = 2;
@@ -263,6 +264,7 @@ bool cNopacityConfig::SetupParse(const char *Name, const char *Value) {
     else if (strcmp(Name, "menuWidthChannels") == 0)       menuWidthChannels = atoi(Value);
     else if (strcmp(Name, "menuWidthTimers") == 0)         menuWidthTimers = atoi(Value);
     else if (strcmp(Name, "menuWidthRecordings") == 0)     menuWidthRecordings = atoi(Value);
+    else if (strcmp(Name, "menuWidthSetup") == 0)          menuWidthSetup = atoi(Value);
     else if (strcmp(Name, "menuWidthRightItems") == 0)     menuWidthRightItems = atoi(Value);
     else if (strcmp(Name, "menuSizeDiskUsage") == 0)       menuSizeDiskUsage = atoi(Value);
     else if (strcmp(Name, "menuHeightInfoWindow") == 0)    menuHeightInfoWindow = atoi(Value);

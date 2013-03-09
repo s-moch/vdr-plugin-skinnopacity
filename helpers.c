@@ -37,11 +37,12 @@ static void DrawBlendedBackground(cPixmap *pixmap, tColor color, tColor colorBle
     }
 }
 
-static int Minimum(int a, int b, int c, int d, int e) {
+static int Minimum(int a, int b, int c, int d, int e, int f) {
     int min = a;
     if (b < min) min = b;
     if (c < min) min = c;
     if (d < min) min = d;
     if (e < min) min = e;
+    if (f < min) min = f;
     return min;
 }

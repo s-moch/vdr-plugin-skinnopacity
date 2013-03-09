@@ -62,18 +62,21 @@ void cNopacityDisplayMenuView::SetGeometry(void) {
     contentWidthChannels = osdWidth * config.menuWidthChannels / 100;
     contentWidthTimers = osdWidth * config.menuWidthTimers / 100;
     contentWidthRecordings = osdWidth * config.menuWidthRecordings / 100;
+    contentWidthSetup = osdWidth * config.menuWidthSetup / 100;
     contentWidthFull = osdWidth - widthScrollbar - spaceMenu;
     contentWidthMinimum = Minimum(contentWidthMain, 
                                   contentWidthSchedules, 
                                   contentWidthChannels,
                                   contentWidthTimers,
-                                  contentWidthRecordings);
+                                  contentWidthRecordings,
+                                  contentWidthSetup);
     menuItemWidthDefault = contentWidthFull - 4 * spaceMenu;
     menuItemWidthMain = contentWidthMain - 4*spaceMenu;
     menuItemWidthSchedule = contentWidthSchedules - 4*spaceMenu;
     menuItemWidthChannel = contentWidthChannels - 4*spaceMenu;
     menuItemWidthTimer = contentWidthTimers - 4*spaceMenu;
     menuItemWidthRecording = contentWidthRecordings - 4*spaceMenu;
+    menuItemWidthSetup = contentWidthSetup - 4*spaceMenu;
     menuItemHeightMain = config.iconHeight + 2;
     menuItemHeightSchedule = config.menuItemLogoHeight + 2;
     menuItemHeightDefault = contentHeight / config.numDefaultMenuItems - spaceMenu;
@@ -120,7 +123,7 @@ int cNopacityDisplayMenuView::GetContentWidth(eMenuCategory menuCat) {
                 return contentWidthFull;
         case mcSetup:
             if (config.narrowSetupMenu)
-                return contentWidthMain;
+                return contentWidthSetup;
             else
                 return contentWidthFull;
         case mcSchedule:
@@ -275,8 +278,11 @@ void cNopacityDisplayMenuView::GetMenuItemSize(eMenuCategory menuCat, cPoint *it
             itemHeight = menuItemHeightDefault;
             break;
         case mcMain:
-        case mcSetup:
             itemWidth = menuItemWidthMain;
+            itemHeight = menuItemHeightMain;
+            break;
+        case mcSetup:
+            itemWidth = menuItemWidthSetup;
             itemHeight = menuItemHeightMain;
             break;
         case mcSchedule:
@@ -408,6 +414,12 @@ void cNopacityDisplayMenuView::CreateBackgroundImages(int *handleBackgrounds, in
     handleBackgrounds[10] = cOsdProvider::StoreImage(imgLoader.GetImage());
     imgLoader.DrawBackground(Theme.Color(clrMenuItemHigh), Theme.Color(clrMenuItemHighBlend), itemSize.X()-2, itemSize.Y()-2);
     handleBackgrounds[11] = cOsdProvider::StoreImage(imgLoader.GetImage());
+    //Setup Menu
+    GetMenuItemSize(mcSetup, &itemSize);
+    imgLoader.DrawBackground(Theme.Color(clrMenuItem), Theme.Color(clrMenuItemBlend), itemSize.X()-2, itemSize.Y()-2);
+    handleBackgrounds[12] = cOsdProvider::StoreImage(imgLoader.GetImage());
+    imgLoader.DrawBackground(Theme.Color(clrMenuItemHigh), Theme.Color(clrMenuItemHighBlend), itemSize.X()-2, itemSize.Y()-2);
+    handleBackgrounds[13] = cOsdProvider::StoreImage(imgLoader.GetImage());
     
     imgLoader.DrawBackground(Theme.Color(clrMenuBack), Theme.Color(clrButtonRed), buttonWidth-4, buttonHeight-4);
     handleButtons[0] = cOsdProvider::StoreImage(imgLoader.GetImage());

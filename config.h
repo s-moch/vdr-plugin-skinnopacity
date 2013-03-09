@@ -109,6 +109,7 @@ class cNopacityConfig {
         int menuWidthChannels;
         int menuWidthTimers;
         int menuWidthRecordings;
+        int menuWidthSetup;
         int menuHeightInfoWindow;
         int menuWidthRightItems;
         int menuSizeDiskUsage;

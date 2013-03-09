@@ -19,6 +19,7 @@ class cNopacitySetup : public cMenuSetupPage {
 class cMenuSetupSubMenu : public cOsdMenu {
     protected:
         cNopacityConfig *tmpNopacityConfig;
+        cString spacer;
         virtual eOSState ProcessKey(eKeys Key);
         virtual void Set(void) = 0;
         cOsdItem *InfoItem(const char *label, const char *value);
@@ -29,25 +30,47 @@ class cMenuSetupSubMenu : public cOsdMenu {
 class cNopacitySetupMenuDisplay : public cMenuSetupSubMenu {
     protected:
         const char *adjustLeft[2];
-        const char *useSubtitleRerunTexts[3];
         const char *scrollSpeed[4];
         void Set(void);
     public:
         cNopacitySetupMenuDisplay(cNopacityConfig *data);
 };
 
-class cNopacitySetupMenuDisplayGeometry : public cMenuSetupSubMenu {
+class cNopacitySetupMenuDisplayMain : public cMenuSetupSubMenu {
     protected:
         void Set(void);
     public:
-        cNopacitySetupMenuDisplayGeometry(cNopacityConfig *data);
+        cNopacitySetupMenuDisplayMain(cNopacityConfig *data);
 };
 
-class cNopacitySetupMenuDisplayFonts : public cMenuSetupSubMenu {
+class cNopacitySetupMenuDisplaySchedules : public cMenuSetupSubMenu {
+    protected:
+        const char *useSubtitleRerunTexts[3];
+        const char *scrollSpeed[4];
+        void Set(void);
+    public:
+        cNopacitySetupMenuDisplaySchedules(cNopacityConfig *data);
+};
+
+class cNopacitySetupMenuDisplayChannels : public cMenuSetupSubMenu {
     protected:
         void Set(void);
     public:
-        cNopacitySetupMenuDisplayFonts(cNopacityConfig *data);
+        cNopacitySetupMenuDisplayChannels(cNopacityConfig *data);
+};
+
+class cNopacitySetupMenuDisplayTimers : public cMenuSetupSubMenu {
+    protected:
+        void Set(void);
+    public:
+        cNopacitySetupMenuDisplayTimers(cNopacityConfig *data);
+};
+
+class cNopacitySetupMenuDisplayRecordings : public cMenuSetupSubMenu {
+    protected:
+        void Set(void);
+    public:
+        cNopacitySetupMenuDisplayRecordings(cNopacityConfig *data);
 };
 
 class cNopacitySetupChannelDisplay : public cMenuSetupSubMenu {

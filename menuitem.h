@@ -58,6 +58,7 @@ public:
 
 class cNopacityMainMenuItem : public cNopacityMenuItem {
 private:
+    bool isSetup;
     cString menuNumber;
     cString menuEntry;
     std::string strEntry;
@@ -67,7 +68,7 @@ private:
     void SetTextFull(void);
     void SetTextShort(void);
 public:
-    cNopacityMainMenuItem(cOsd *osd, const char *text, bool sel);
+    cNopacityMainMenuItem(cOsd *osd, const char *text, bool sel, bool setup);
     ~cNopacityMainMenuItem(void);
     void CreatePixmapTextScroller(int totalWidth);
     void CreateText(void);

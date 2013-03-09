@@ -44,7 +44,7 @@ cNopacityDisplayMenu::~cNopacityDisplayMenu() {
         delete detailView;
     }
     timers.Clear();
-    for (int i=0; i<12; i++)
+    for (int i=0; i<14; i++)
         cOsdProvider::DropImage(handleBackgrounds[i]);
     for (int i=0; i<4; i++)
         cOsdProvider::DropImage(handleButtons[i]);
@@ -530,8 +530,9 @@ void cNopacityDisplayMenu::SetItem(const char *Text, int Index, bool Current, bo
             cNopacityMenuItem *item;
             cPoint itemSize;
             if (((MenuCategory() == mcMain)&&(config.narrowMainMenu)) || ((MenuCategory() == mcSetup)&&(config.narrowSetupMenu))){
-                item = new cNopacityMainMenuItem(osd, Text, Selectable);
-                menuView->GetMenuItemSize(mcMain, &itemSize);
+                bool isSetup = (MenuCategory() == mcSetup)?true:false;
+                item = new cNopacityMainMenuItem(osd, Text, Selectable, isSetup);
+                menuView->GetMenuItemSize(MenuCategory(), &itemSize);
                 item->SetFont(menuView->GetMenuItemFont(mcMain));
                 if (config.useMenuIcons)
                     hasIcons = true;

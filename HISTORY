@@ -151,3 +151,4 @@ Version 0.0.7:
   rounded corners with the same corner radius
 - Changed plugin icons filename for loading icons in main menu, plugin name
   is now used
+- Restructured Setup Menü

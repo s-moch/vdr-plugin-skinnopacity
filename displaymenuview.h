@@ -50,6 +50,7 @@ class cNopacityDisplayMenuView {
         int contentWidthChannels;
         int contentWidthTimers;
         int contentWidthRecordings;
+        int contentWidthSetup;
         int contentWidthMinimum;
         int menuItemWidthDefault, menuItemHeightDefault;
         int menuItemWidthMain, menuItemHeightMain;
@@ -57,6 +58,7 @@ class cNopacityDisplayMenuView {
         int menuItemWidthChannel;
         int menuItemWidthTimer;
         int menuItemWidthRecording, menuItemHeightRecordings;
+        int menuItemWidthSetup;
         int diskUsageWidth, diskUsageHeight;
         int timersWidth;
         int buttonsBorder, buttonWidth, buttonHeight;

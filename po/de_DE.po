@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-02-27 16:55+0100\n"
+"POT-Creation-Date: 2013-03-09 15:43+0100\n"
 "PO-Revision-Date: 2012-11-11 17:49+0200\n"
 "Last-Translator: louis\n"
 "Language-Team: \n"
@@ -65,11 +65,20 @@ msgstr "Schriftart"
 msgid "VDR Menu: Common Settings"
 msgstr "VDR Menü: Allgemeine Einstellungen"
 
-msgid "VDR Menu: Dimensions Settings"
-msgstr "VDR Menü: Größeneinstellungen"
+msgid "VDR Menu: Main and Setup Menu"
+msgstr "VDR Menü: Haupt- und Setup Menü"
 
-msgid "VDR Menu: Font Sizes"
-msgstr "VDR Menü: Schriftgrößen"
+msgid "VDR Menu: Schedules Menu"
+msgstr "VDR Menü: Programm Menü"
+
+msgid "VDR Menu: Channels Menu"
+msgstr "VDR Menü: Kanal Menü"
+
+msgid "VDR Menu: Timers Menu"
+msgstr "VDR Menü: Timer Menü"
+
+msgid "VDR Menu: Recordings Menu"
+msgstr "VDR Menü: Aufzeichnungs Menü"
 
 msgid "Channel Switching"
 msgstr "Kanalwechsel"
@@ -89,15 +98,6 @@ msgstr "rechts"
 msgid "left"
 msgstr "links"
 
-msgid "never"
-msgstr "nie"
-
-msgid "if exists"
-msgstr "falls vorhanden"
-
-msgid "always"
-msgstr "immer"
-
 msgid "off"
 msgstr "aus"
 
@@ -113,53 +113,125 @@ msgstr "schnell"
 msgid "Number of Default Menu Entries per Page"
 msgstr "Anzahl der Default-Menüelemente pro Seite"
 
+msgid "Adjust Font Size - Default Menu Item"
+msgstr "Schriftgröße anpassen - Default Menübuttons"
+
 msgid "Adjustment of narrow menus"
 msgstr "Ausrichtung der schmalen Menüs"
-
-msgid "Use narrow main menu"
-msgstr "Schmales Hauptmenü verwenden"
-
-msgid "Use narrow schedules menu"
-msgstr "Schmales Programm Menü verwenden"
-
-msgid "Use narrow channel menu"
-msgstr "Schmales Kanalmenü verwenden"
-
-msgid "Use narrow timer menu"
-msgstr "Schmales Timermenü verwenden"
-
-msgid "Use narrow recording menu"
-msgstr "Schmales Aufzeichnungsmenü verwenden"
-
-msgid "Use narrow setup menu"
-msgstr "Schmales Setup Menü verwenden"
 
 msgid "Scale Video size to fit into menu window"
 msgstr "TV-Bildgröße in Menüfenster einpassen"
 
+msgid "Header Height (Percent of OSD Height)"
+msgstr "Header Höhe (in Prozent der OSD Höhe)"
+
+msgid "Header Icon Size (Square Header Menu Icons)"
+msgstr "Größe der quadratischen Headericons"
+
+msgid "Footer Height (Percent of OSD Height)"
+msgstr "Footer Höhe (in Prozent der OSD Höhe)"
+
 msgid "Rounded Corners for menu items and buttons"
 msgstr "Abgerundete Ecken für Menüelemente und Buttons"
 
+msgid "Radius of rounded corners"
+msgstr "Radius der abgerundeten Ecken"
+
 msgid "Fade-In Time in ms (Zero for switching off fading)"
 msgstr "Fade-In Zeit in ms (Null zum Abschalten)"
-
-msgid "Use menu icons in main and setup menu"
-msgstr "Menü Icons im Haupt- und Setupmenü benutzen"
-
-msgid "Display Disk Usage in main menu"
-msgstr "Festplattenstatus im Hauptmenü anzeigen"
-
-msgid "Display Timers in main menu"
-msgstr "Timer im Hauptmenü anzeigen"
-
-msgid "Show Timer Conflicts in main menu"
-msgstr "Timerkonflikte im Hauptmenü anzeigen"
 
 msgid "Menu Items Scrolling Speed"
 msgstr "Scroll Geschwindigkeit der Menüelemente"
 
 msgid "Menu Items Scrolling Delay in s"
 msgstr "Scroll Verzögerung der Menüelemente in s"
+
+msgid "Adjust Font Size - Header"
+msgstr "Schriftgröße anpassen - Header"
+
+msgid "Adjust Font Size - Date"
+msgstr "Schriftgröße anpassen - Datum und Uhrzeit"
+
+msgid "Adjust Font Size - Color Buttons"
+msgstr "Schriftgröße anpassen - Farbbuttons"
+
+msgid "Adjust Font Size - Messages"
+msgstr "Schriftgröße anpassen - Nachrichten"
+
+msgid "Adjust Font Size - Detail View Text"
+msgstr "Schriftgröße anpassen - Text EPG Detailanzeige"
+
+msgid "Adjust Font Size - Detail View Header"
+msgstr "Schriftgröße anpassen - Header EPG Detailanzeige"
+
+msgid "Adjust Font Size - Detail View Header Large"
+msgstr "Schriftgröße anpassen - Header Groß EPG Detailanzeige"
+
+msgid "Use narrow main menu"
+msgstr "Schmales Hauptmenü verwenden"
+
+msgid "Width (Percent of OSD Width)"
+msgstr "Breite (Prozent der OSD Breite)"
+
+msgid "Use narrow setup menu"
+msgstr "Schmales Setup Menü verwenden"
+
+msgid "Use menu icons"
+msgstr "Menü Icons benutzen"
+
+msgid "Icon Size (Square)"
+msgstr "Icon Größe (quadratisch)"
+
+msgid "Display Disk Usage"
+msgstr "Festplattenstatus anzeigen"
+
+msgid "Size (square, Percent of OSD Width)"
+msgstr "Größe (quadr., Proz. der OSD Breite)"
+
+msgid "Adjust Font Size - free"
+msgstr "Schriftgröße anpassen - frei"
+
+msgid "Adjust Font Size - percent"
+msgstr "Schriftgröße anpassen - Prozent"
+
+msgid "Display Timers"
+msgstr "Timer anzeigen"
+
+msgid "Width of Timers (Percent of OSD Width)"
+msgstr "Breite der Timer (Proz. der OSD Breite)"
+
+msgid "Channel Logo Width"
+msgstr "Breite der Kanallogos"
+
+msgid "Channel Logo Height"
+msgstr "Höhe der Kanallogos"
+
+msgid "Adjust Font Size - Title"
+msgstr "Schriftgröße anpassen - Titel"
+
+msgid "Show Timer Conflicts"
+msgstr "Timer Konflikte anzeigen"
+
+msgid "Header Logo Width"
+msgstr "Header Logo Breite"
+
+msgid "Header Logo Height"
+msgstr "Header Logo Höhe"
+
+msgid "Adjust Font Size - Menu Items"
+msgstr "Schriftgröße anpassen - Menüelemente"
+
+msgid "never"
+msgstr "nie"
+
+msgid "if exists"
+msgstr "falls vorhanden"
+
+msgid "always"
+msgstr "immer"
+
+msgid "Use narrow menu"
+msgstr "Schmales Menü verwenden"
 
 msgid "EPG Window Fade-In Time in ms (Zero for switching off fading)"
 msgstr "Fade-In Zeit des EPG Fensters in ms (Null zum Abschalten)"
@@ -172,6 +244,9 @@ msgstr "Scroll Verzögerung des EPG Fensters in s"
 
 msgid "EPG Window Text Scrolling Speed"
 msgstr "Text Scroll Geschwindigkeit des EPG Fensters"
+
+msgid "Height of EPG Info Window (Percent of OSD Height)"
+msgstr "Höhe des EPG Info Fensters (Proz. der OSD Höhe)"
 
 msgid "Display Reruns in detailed EPG View"
 msgstr "Wiederholungen in der detailierten EPG Ansicht anzeigen"
@@ -187,69 +262,6 @@ msgstr "Weitere EPG Bilder in der detaillierten EPG Ansicht anzeigen"
 
 msgid "Number of EPG pictures to display"
 msgstr "Anzahl der zusätzlichen EPG Bilder"
-
-msgid "Display additional EPG Pictures in detailed recording View"
-msgstr "Weitere EPG Bilder in der detaillierten Aufnahmeansicht anzeigen"
-
-msgid "Width of Main and Setup Menu (Percent of OSD Width)"
-msgstr "Breite des Haupt und Setup Menüs (Proz. der OSD Breite)"
-
-msgid "Width of Schedules Menu (Percent of OSD Width)"
-msgstr "Breite des Programm Menüs (Proz. der OSD Breite)"
-
-msgid "Width of Channels Menu (Percent of OSD Width)"
-msgstr "Breite des Kanalmenüs (Proz. der OSD Breite)"
-
-msgid "Width of Timers Menu (Percent of OSD Width)"
-msgstr "Breite des Timermenüs (Proz. der OSD Breite)"
-
-msgid "Width of Recordings Menu (Percent of OSD Width)"
-msgstr "Breite des Aufzeichnugsmenüs (Proz. der OSD Breite)"
-
-msgid "Radius of rounded corners"
-msgstr "Radius der abgerundeten Ecken"
-
-msgid "Size of Disc Usage (square, Percent of OSD Width)"
-msgstr "Größe des Festplattenstatus (quadratisch, Proz. der OSD Breite)"
-
-msgid "Width of Timers Display (Percent of OSD Width)"
-msgstr "Breite der Timeranzeige (Proz. der OSD Breite)"
-
-msgid "Height of EPG Info Window (Percent of OSD Height)"
-msgstr "Höhe des EPG Info Fensters (Proz. der OSD Höhe)"
-
-msgid "Header Height (Percent of OSD Height)"
-msgstr "Header Höhe (in Prozent der OSD Höhe)"
-
-msgid "Footer Height (Percent of OSD Height)"
-msgstr "Footer Höhe (in Prozent der OSD Höhe)"
-
-msgid "Icon Size (Square Main Menu Icons)"
-msgstr "Größe der quadratischen Hauptmenü Icons"
-
-msgid "Header Icon Size (Square Header Menu Icons)"
-msgstr "Größe der quadratischen Headericons"
-
-msgid "Channel Logo Width (on the Menu Buttons)"
-msgstr "Breite der Kanallogos auf den Menübuttons"
-
-msgid "Channel Logo Height (on the Menu Buttons)"
-msgstr "Höhe der Kanallogos auf den Menübuttons"
-
-msgid "Channel Logo Width (on timers in main menu)"
-msgstr "Breite der Kanallogos auf den Timern im Hauptmenü"
-
-msgid "Channel Logo Height (on timers in main menu)"
-msgstr "Höhe der Kanallogos auf den Timern im Hauptmenü"
-
-msgid "Main Menu Header Logo Width"
-msgstr "Höhe des Logos im Hauptmenü"
-
-msgid "Main Menu Header Logo Height"
-msgstr "Breite des Logos im Hauptmenü"
-
-msgid "Recordings Menu Folder Icon Size"
-msgstr "Ordner Icon Größe im Aufnahmeverzeichnis"
 
 msgid "Detail EPG View Logo Width"
 msgstr "Breite der Kanallogos in der EPG Detailanzeige"
@@ -269,71 +281,20 @@ msgstr "Breite der zusätzlichen EPG Bilder"
 msgid "Detail EPG View additional EPG Image Height"
 msgstr "Höhe der zusätzlichen EPG Bilder"
 
-msgid "Adjust Font Size - Header"
-msgstr "Schriftgröße anpassen - Header"
+msgid "Adjust Font Size - Menu Item"
+msgstr "Schriftgröße anpassen - Menüelement"
 
-msgid "Adjust Font Size - Date"
-msgstr "Schriftgröße anpassen - Datum und Uhrzeit"
-
-msgid "Adjust Font Size - Large Menu Item"
-msgstr "Schriftgröße anpassen - Große Menübuttons"
-
-msgid "Adjust Font Size - Schedule Menu Item"
-msgstr "Schriftgröße anpassen - Programmübersicht Menübuttons"
-
-msgid "Adjust Font Size - Schedule Menu Item Small"
-msgstr "Schriftgröße anpassen - Programmübersicht Menübuttons klein"
-
-msgid "Adjust Font Size - Channels Menu Item"
-msgstr "Schriftgröße anpassen - Kanäle Menübuttons"
-
-msgid "Adjust Font Size - Channels Menu Item Small"
-msgstr "Schriftgröße anpassen - Kanäle Menübuttons klein"
-
-msgid "Adjust Font Size - Recordings Menu Item"
-msgstr "Schriftgröße anpassen - Aufzeichnungen Menübuttons"
-
-msgid "Adjust Font Size - Recordings Menu Item Small"
-msgstr "Schriftgröße anpassen - Aufzeichnungen Menübuttons klein"
-
-msgid "Adjust Font Size - Timers Menu Item"
-msgstr "Schriftgröße anpassen - Timer Menübuttons"
-
-msgid "Adjust Font Size - Timers Menu Item Small"
-msgstr "Schriftgröße anpassen - Timer Menübuttons klein"
-
-msgid "Adjust Font Size - Default Menu Item"
-msgstr "Schriftgröße anpassen - Default Menübuttons"
-
-msgid "Adjust Font Size - Disc Usage (free)"
-msgstr "Schriftgröße anpassen - Festplatte frei"
-
-msgid "Adjust Font Size - Disc Usage (percent)"
-msgstr "Schriftgröße anpassen - Festplatte Prozent"
-
-msgid "Adjust Font Size - Timers Header"
-msgstr "Schriftgröße anpassen - Timer Header"
-
-msgid "Adjust Font Size - Timers Title"
-msgstr "Schriftgröße anpassen - Timer Name"
-
-msgid "Adjust Font Size - Color Buttons"
-msgstr "Schriftgröße anpassen - Farbbuttons"
-
-msgid "Adjust Font Size - Messages"
-msgstr "Schriftgröße anpassen - Nachrichten"
-
-msgid "Adjust Font Size - Detail View Text"
-msgstr "Schriftgröße anpassen - Text EPG Detailanzeige"
-
-msgid "Adjust Font Size - Detail View Header"
-msgstr "Schriftgröße anpassen - Header EPG Detailanzeige"
-
-msgid "Adjust Font Size - Detail View Header Large"
-msgstr "Schriftgröße anpassen - Header Groß EPG Detailanzeige"
+msgid "Adjust Font Size - Menu Item Small"
+msgstr "Schriftgröße anpassen - Menüelement klein"
 
 msgid "Adjust Font Size - EPG Info Window"
 msgstr "Schriftgröße anpassen - EPG Infofenster"
+
+msgid "Display additional EPG Pictures in detailed recording View"
+msgstr "Weitere EPG Bilder in der detaillierten Aufnahmeansicht anzeigen"
+
+msgid "Folder Icon Size"
+msgstr "Order Icon Größe"
 
 msgid "Hight of Channel Display (Percent of OSD Height)"
 msgstr "Höhe der Kanalwechsel Anzeige (Proz. der OSD Höhe)"
@@ -343,12 +304,6 @@ msgstr "Breite des linken und rechten Rands"
 
 msgid "Bottom Border Height"
 msgstr "Höhe des unteren Rands"
-
-msgid "Channel Logo Width"
-msgstr "Breite der Kanallogos"
-
-msgid "Channel Logo Height"
-msgstr "Höhe der Kanallogos"
 
 msgid "Channel Logo Border"
 msgstr "Rand um die Kanallogos"

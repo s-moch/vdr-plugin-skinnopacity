@@ -193,7 +193,8 @@ void cNopacityMenuItem::DrawRoundedCorners(tColor borderColor) {
 }
 
 // cNopacityMainMenuItem  -------------
-cNopacityMainMenuItem::cNopacityMainMenuItem(cOsd *osd, const char *text, bool sel) : cNopacityMenuItem (osd, text, sel) {
+cNopacityMainMenuItem::cNopacityMainMenuItem(cOsd *osd, const char *text, bool sel, bool setup) : cNopacityMenuItem (osd, text, sel) {
+    this->isSetup = setup;
 }
 
 cNopacityMainMenuItem::~cNopacityMainMenuItem(void) {
@@ -326,7 +327,11 @@ void cNopacityMainMenuItem::SetTextShort(void) {
 
 void cNopacityMainMenuItem::Render() {
     pixmap->Fill(Theme.Color(clrMenuBorder));
-    int handleBgrd = (current)?handleBackgrounds[3]:handleBackgrounds[2];
+    int handleBgrd;
+    if (!isSetup)
+        handleBgrd = (current)?handleBackgrounds[3]:handleBackgrounds[2];
+    else
+        handleBgrd = (current)?handleBackgrounds[13]:handleBackgrounds[12];
     pixmap->DrawImage(cPoint(1, 1), handleBgrd);
     if (config.roundedCorners)
         DrawRoundedCorners(Theme.Color(clrMenuBorder));
