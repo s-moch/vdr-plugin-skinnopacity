@@ -67,8 +67,20 @@ void cNopacityDisplayChannel::SetGeometry(void) {
     height = cOsd::OsdHeight() * config.channelHeight / 100;
     int top = cOsd::OsdTop() + cOsd::OsdHeight() - height - config.channelBorderBottom;
     osd = CreateOsd(cOsd::OsdLeft(), top, cOsd::OsdWidth(), height);
-    infoWidth = osd->Width() - (config.logoWidth + 2 * config.channelBorderVertical + config.logoBorder);
-    infoX = config.logoWidth + config.channelBorderVertical + config.logoBorder;
+    switch (config.logoPosition) {
+        case lpLeft:
+            infoWidth = osd->Width() - (config.logoWidth + 2 * config.channelBorderVertical + config.logoBorder);
+            infoX = config.logoWidth + config.channelBorderVertical + config.logoBorder;
+            break;
+        case lpRight:
+            infoWidth = osd->Width() - (config.logoWidth + 2 * config.channelBorderVertical + config.logoBorder);
+            infoX = config.channelBorderVertical;
+            break;
+        case lpNone:
+            infoWidth = osd->Width() - 2 * config.channelBorderVertical;
+            infoX = config.channelBorderVertical;
+            break;
+    }
     channelInfoWidth = infoWidth * 0.7;
     dateWidth = infoWidth - channelInfoWidth;   
     channelInfoHeight = height * 0.2;
@@ -83,7 +95,6 @@ void cNopacityDisplayChannel::SetGeometry(void) {
     streamInfoY = channelInfoHeight + progressBarHeight + epgInfoHeight;
     iconSize = config.statusIconSize;
     iconsWidth = 5*iconSize;
-
 }
 
 void cNopacityDisplayChannel::CreatePixmaps(void) {
@@ -104,7 +115,20 @@ void cNopacityDisplayChannel::CreatePixmaps(void) {
     pixmapFooter  = osd->CreatePixmap(2, cRect(infoX, streamInfoY, infoWidth, streamInfoHeight));
     pixmapStreamInfo =     osd->CreatePixmap(4, cRect(infoX + (infoWidth - iconsWidth - config.resolutionIconSize - 35), height - iconSize - 10, iconsWidth, iconSize));
     pixmapStreamInfoBack = osd->CreatePixmap(3, cRect(infoX + (infoWidth - iconsWidth - config.resolutionIconSize - 35), height - iconSize - 10, iconsWidth, iconSize));
-    pixmapLogo = osd->CreatePixmap(1, cRect(0, 0, config.logoWidth + 2 * config.logoBorder, height));
+    
+    switch (config.logoPosition) {
+        case lpLeft:
+            pixmapLogo = osd->CreatePixmap(1, cRect(0, 0, config.logoWidth + 2 * config.logoBorder, height));
+            break;
+        case lpRight:
+            pixmapLogo = osd->CreatePixmap(1, cRect(infoX + infoWidth, 0, config.logoWidth + 2 * config.logoBorder, height));
+            break;
+        case lpNone:
+            pixmapLogo = osd->CreatePixmap(-1, cRect(0, 0, 1, 1));
+            break;
+    }
+
+    
     
     if (config.channelFadeTime) {
         pixmapBackgroundTop->SetAlpha(0);
@@ -358,10 +382,11 @@ void cNopacityDisplayChannel::SetChannel(const cChannel *Channel, int Number) {
 
     if (!groupSep) {
         pixmapChannelInfo->DrawText(cPoint(channelInfoHeight/2, (channelInfoHeight-fontHeader->Height())/2), channelString, Theme.Color(clrChannelHead), clrTransparent, fontHeader);
-        
-        cImageLoader imgLoader;
-        if (imgLoader.LoadLogo(*ChannelName)) {
-            pixmapLogo->DrawImage(cPoint(config.logoBorder, (height-config.logoHeight)/2), imgLoader.GetImage());
+        if (config.logoPosition != lpNone) {
+            cImageLoader imgLoader;
+            if (imgLoader.LoadLogo(*ChannelName)) {
+                pixmapLogo->DrawImage(cPoint(config.logoBorder, (height-config.logoHeight)/2), imgLoader.GetImage());
+            }
         }
     } else {
         if (withInfo) {
@@ -371,11 +396,13 @@ void cNopacityDisplayChannel::SetChannel(const cChannel *Channel, int Number) {
         } else {
             pixmapChannelInfo->DrawText(cPoint(channelInfoHeight/2, (channelInfoHeight-fontHeader->Height())/2), channelString, Theme.Color(clrChannelHead), clrTransparent, fontHeader);
         }
-        cImageLoader imgLoader;
-        if (imgLoader.LoadLogo(*ChannelName)) {
-            pixmapLogo->DrawImage(cPoint(config.logoBorder, (height-config.logoHeight)/2), imgLoader.GetImage());
-        } else if (imgLoader.LoadIcon("Channelseparator", config.logoHeight)) {
-            pixmapLogo->DrawImage(cPoint(config.logoBorder + (config.logoWidth - config.logoHeight)/2, (height-config.logoHeight)/2), imgLoader.GetImage());
+        if (config.logoPosition != lpNone) {
+            cImageLoader imgLoader;
+            if (imgLoader.LoadLogo(*ChannelName)) {
+                pixmapLogo->DrawImage(cPoint(config.logoBorder, (height-config.logoHeight)/2), imgLoader.GetImage());
+            } else if (imgLoader.LoadIcon("Channelseparator", config.logoHeight)) {
+                pixmapLogo->DrawImage(cPoint(config.logoBorder + (config.logoWidth - config.logoHeight)/2, (height-config.logoHeight)/2), imgLoader.GetImage());
+            }
         }
     }
 }

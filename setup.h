@@ -75,6 +75,7 @@ class cNopacitySetupMenuDisplayRecordings : public cMenuSetupSubMenu {
 
 class cNopacitySetupChannelDisplay : public cMenuSetupSubMenu {
     protected:
+        const char *logoPos[3];
         void Set(void);
     public:
         cNopacitySetupChannelDisplay(cNopacityConfig *data);

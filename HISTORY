@@ -152,3 +152,6 @@ Version 0.0.7:
 - Changed plugin icons filename for loading icons in main menu, plugin name
   is now used
 - Restructured Setup Menü
+- Position of channel logos in channel display now configurable. Possible
+  values are left (default), right and none. If value is set to none, the
+  comlete screen width is used for channel display.

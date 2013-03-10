@@ -32,6 +32,7 @@ class cNopacityConfig {
         int channelBorderBottom;
         int channelFadeTime;
         int channelFrameTime;
+        int logoPosition;
         int logoWidth;
         int logoHeight;
         int logoBorder;

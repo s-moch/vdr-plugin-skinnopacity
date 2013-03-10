@@ -13,6 +13,7 @@ cNopacityConfig::cNopacityConfig() {
     channelBorderVertical = 15;
     channelBorderBottom = 15;
     channelFadeTime = 300; // ms
+    logoPosition = 1;
     logoWidth = 260;
     logoHeight = 200;
     logoExtension = "png";
@@ -200,6 +201,7 @@ bool cNopacityConfig::SetupParse(const char *Name, const char *Value) {
     else if (strcmp(Name, "channelHeight") == 0)           channelHeight = atoi(Value);
     else if (strcmp(Name, "channelBorderVertical") == 0)   channelBorderVertical = atoi(Value);
     else if (strcmp(Name, "channelBorderBottom") == 0)     channelBorderBottom = atoi(Value);
+    else if (strcmp(Name, "logoPosition") == 0)            logoPosition = atoi(Value);
     else if (strcmp(Name, "logoWidth") == 0)               logoWidth = atoi(Value);
     else if (strcmp(Name, "logoHeight") == 0)              logoHeight = atoi(Value);
     else if (strcmp(Name, "logoBorder") == 0)              logoBorder = atoi(Value);

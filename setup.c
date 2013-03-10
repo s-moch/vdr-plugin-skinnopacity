@@ -72,6 +72,7 @@ void cNopacitySetup::Store(void) {
     SetupStore("channelHeight", config.channelHeight);
     SetupStore("channelBorderVertical", config.channelBorderVertical);
     SetupStore("channelBorderBottom", config.channelBorderBottom);
+    SetupStore("logoPosition", config.logoPosition);
     SetupStore("logoWidth", config.logoWidth);
     SetupStore("logoHeight", config.logoHeight);
     SetupStore("logoBorder", config.logoBorder);
@@ -413,6 +414,9 @@ void cNopacitySetupMenuDisplayRecordings::Set(void) {
 //----ChannelDisplay--------------------------------------------------------------------------------------------------------------
 
 cNopacitySetupChannelDisplay::cNopacitySetupChannelDisplay(cNopacityConfig* data)  : cMenuSetupSubMenu(tr("Channel Switching"), data) {
+    logoPos[0] = tr("do not display");
+    logoPos[1] = tr("left");
+    logoPos[2] = tr("right");
     Set();
 }
 
@@ -424,9 +428,12 @@ void cNopacitySetupChannelDisplay::Set(void) {
     Add(new cMenuEditIntItem(tr("Hight of Channel Display (Percent of OSD Height)"), &tmpNopacityConfig->channelHeight, 15, 100));
     Add(new cMenuEditIntItem(tr("Left & Right Border Width"), &tmpNopacityConfig->channelBorderVertical, 0, 300));
     Add(new cMenuEditIntItem(tr("Bottom Border Height"), &tmpNopacityConfig->channelBorderBottom, 0, 300));
-    Add(new cMenuEditIntItem(tr("Channel Logo Width"), &tmpNopacityConfig->logoWidth, 30, 500));
-    Add(new cMenuEditIntItem(tr("Channel Logo Height"), &tmpNopacityConfig->logoHeight, 30, 500));
-    Add(new cMenuEditIntItem(tr("Channel Logo Border"), &tmpNopacityConfig->logoBorder, 0, 200));
+    Add(new cMenuEditStraItem(tr("Channel Logo Position"), &tmpNopacityConfig->logoPosition, 3, logoPos));
+    if (tmpNopacityConfig->logoPosition) {
+        Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Channel Logo Width")), &tmpNopacityConfig->logoWidth, 30, 500));
+        Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Channel Logo Height")), &tmpNopacityConfig->logoHeight, 30, 500));
+        Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Channel Logo Border")), &tmpNopacityConfig->logoBorder, 0, 200));
+    }
     Add(new cMenuEditBoolItem(tr("Display Signal Strength & Quality"), &tmpNopacityConfig->displaySignalStrength));
     Add(new cMenuEditIntItem(tr("Screen Resolution Icon Size"), &tmpNopacityConfig->resolutionIconSize, 30, 200));
     Add(new cMenuEditIntItem(tr("Status Icons Size"), &tmpNopacityConfig->statusIconSize, 30, 150));

@@ -1,6 +1,8 @@
 #ifndef __NOPACITY_DISPLAYCHANNEL_H
 #define __NOPACITY_DISPLAYCHANNEL_H
 
+enum eLogoPosition {lpNone = 0, lpLeft, lpRight};
+
 class cNopacityDisplayChannel : public cSkinDisplayChannel, cThread {
 private:
     int FrameTime;
