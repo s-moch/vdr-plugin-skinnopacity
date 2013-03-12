@@ -120,7 +120,7 @@ VDR Plugin 'nOpacity' Revision History
 - Added screen resolution icon in DisplayReplay
 - Changed Makefile to avoid warnings with newer ImageMagick versions
 
-Version 0.0.7:
+Version 0.1.0:
 - Width of narrow menus (main, schedule, channel, recordings, settings) 
   individually configurable
 - Display of free disk space in recordings menu header
@@ -155,3 +155,5 @@ Version 0.0.7:
 - Position of channel logos in channel display now configurable. Possible
   values are left (default), right and none. If value is set to none, the
   comlete screen width is used for channel display.
+- Updated README
+- Added more plugin icons (thanks @BooStar)

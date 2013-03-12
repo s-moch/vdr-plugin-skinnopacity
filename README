@@ -2,9 +2,9 @@ This is a "plugin" for the Video Disk Recorder (VDR).
 
 Written by:                  Louis Braun <louis DOT braun AT gmx DOT de>
 
-Project's homepage:          URL
+Project's homepage:          http://projects.vdr-developer.org/projects/skin-nopacity/
 
-Latest version available at: URL
+Latest version available at: http://projects.vdr-developer.org/projects/skin-nopacity/files
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -38,30 +38,27 @@ used Icons, the channel logos and epg images. The following paths can be set
 at startup:
 
 -i path, --iconpath=path
-    Path to the icons (Default: <vdrconfdir>/plugins/skinnopacity/icons/).
+    Path to the icons (Default: <ResourceDirectory>/plugins/skinnopacity/icons/)
 
 -l path, --logopath=path
-    Path to the logos (Default: <vdrconfdir>/plugins/skinnopacity/logos/).
+    Path to the logos (Default: <ResourceDirectory>/plugins/skinnopacity/logos/)
 
 -e path, --epgimages=path
-    Path to the epgimages (Default: <vdrconfdir>/plugins/skinnopacity/epgimages/).
+    Path to the epgimages (Default: <CacheDirectory>/plugins/skinnopacity/epgimages/)
 
-First copy the icons from 
-/put/your/path/toVDRsources/here/VDR/PLUGINS/src/skinnopcaity/icons/
-to the configured icon path.
+ResourceDirectory and CacheDirectory are taken from your VDR configuration (make.config
+or vdr.pc). 
 
+During a "make install" the Icons are automatically copied from <SkinSourceDirectory>/icons/
+to the default path. Included Theme files are also copied from  <SkinSourceDirectory>/themes/
+to <ConfigDirectory>/themes/ 
+    
 I recommend to use channel logos from https://github.com/3PO/Senderlogos
 To download them just change in the directory you want to place the logos
 and do a:
 git clone https://github.com/3PO/Senderlogos.git logos
 An update of the logos can then be done with a "git pull" just inside this
 directory.
-
-If no pathes are set for the different types of images, the following default
-paths are used:
-channel logos: {ResourceDirectory}/logos/
-icons:         {ResourceDirectory}/icons/
-epg images:    {CacheDirectory}/epgimages/
 
 If directories for channel logos, icons or epg images are set via startup 
 parameters, images are searched first in these directories. If the image
@@ -97,7 +94,7 @@ positive value.
 
 As described in "installation", you should use a special channel logo pack with transparent
 channel logos. In this logo pack all files are named only with lower case letters. 
-nOpacity uses the channel name CONVERTED TO LOWER CASE LETTERS to search for aT 
+nOpacity uses the channel name CONVERTED TO LOWER CASE LETTERS to search for an 
 appropriate channel logo. With this, approximately 90% of the channel logos should work 
 immediately after placing the channel logos in the correct place. So if you have to change
 the name of a channel logo (may be by inserting a space or a hyphen) so that it fits to
@@ -107,8 +104,29 @@ Additional hint: some channels have slashes in their name (in germany nick/comed
 In this example, as a dirty hack just create a folder in your channel logo directory named 
 "nick" and place an image named "comedy.png" inside this folder.
 
-Setup Options
--------------
+Themes and theme specific Icons
+-------------------------------
+
+nOpacity is fully themable. Examples for theme files with all possible color settings are
+included in <SkinSourceDirectory>/themes/. As already mentioned these themes are automatically
+copied during a "make install" into the VDR themes directory and can be choosed in VDRs
+OSD setup menu.
+
+Beside colors also the icons and images shown in the different menus are theme dependend. 
+Icons and images are first looked up in <IconPath>/<ThemeName>/. If there is no appropriate
+icon found, <IconPath>/ is used. With that it is possible to use specific icons for every
+different theme.
+
+Two types of icons are used:
+    - statically named icons for standard main and setup menu entries, recording folders, 
+      active timers and other menu decorations.
+    - icons for plugins with a main menu entry: if a plugin has a main menu entry, the icon
+      has to be named as the plugin name so that the appropriate icon will be shown in the
+      main menu.
+
+
+Customizing, Skin Setup Options
+-------------------------------
 
 * General Options (only non self-explanatory options are described)
 
@@ -117,77 +135,122 @@ Setup Options
 * VDR menu: Common Settings:
 
 - Number of Default Menu Entries: Number of menu items for the default menu view.
+- Adjust Font Size - Default Menu Item
+- Adjustment of narrow menus: the narrow menus (main, schedules, channels, timers,
+  setup) can either be adjusted left or right.
 - Scale Video size to fit into menu window
-- Fade-In Time in ms (Zero for switching off fading): Default 300ms
-- Display Disk Usage: Display Disk Usage in Main Menu
-- Display Timers: Display active Tiers in Main Menu
+- Header Height (% of OSD Height): Default: 7%
+- Header Icon Size (Square Header Menu Icons)
+- Footer Height (% of OSD Height): Default: 7%
+- Rounded Corners for menu items and buttons
+  - Radius of rounded corners: if rounded corners are used, radius in px.
+- Fade-In Time in ms (Zero for switching off fading): Default 0, active fading
+  for main menu caused sometimes trouble in some special setups. Activate on
+  own risk ;)
 - Menu Items Scrolling Speed
 - Menu Items Scrolling Delay in s: period which menu element has to be selected
   till scrolling starts
-- EPG Window Fade-In Time in ms (Zero for switching off fading)
-- EPG Window Display Delay in s: period which schedules menu element has to be
-  selected till fade in of epg window starts
-- EPG Window Scroll Delay in s: period which epg window has to be opened till 
-  window text starts to scroll
-- Display Reruns in detailed EPG View: via epgsearch service
-- Number of reruns to display: Default 5
-- Use Subtitle for reruns
+- Adjust Font Size - Header
+- Adjust Font Size - Date
+- Adjust Font Size - Color Buttons: Font for color buttons
+- Adjust Font Size - Messages  
+- Adjust Font Size - Detail View Text: Font for detailed EPG & recordings view text
+- Adjust Font Size - Detail View Header: Font for Header date/time and short text 
+- Adjust Font Size - Detail View Header Large: Font for detailed EPG & recordings 
+  view title
 
-* VDR menu: Dimensions Settings:
+* VDR Menu: Main and Setup Menu
 
-- Width of narrow Menu Bar (% of OSD Width): Width of menu bar for the main menu,
-  schedules menu and channels menu. Default: 30%.
-- Width of Disc Usage and Timers Display (% of OSD Width): Default: 12%
-- Height of EPG Info Window (Percent of OSD Height): Height of text window which
-  is shown for schedules menu elements
-- Header Height (% of OSD Height): Default: 7%
-- Footer Height (% of OSD Height): Default: 7%
-- Icon Size (Square Main Menu Icons): This size determinates the number of main 
-  menu entries per page.
-- Header Icon Size (Square Header Menu Icons)
+- Use narrow main menu: display main menu in narrow or standard style
+  - Width (Percent of OSD Width): if displayed narrow, width of this menu
+- Use narrow setup menu: display setup menu in narrow or standard style
+  - Width (Percent of OSD Width): if displayed narrow, width of this menu
+- Use menu icons
+  - Icon Size (Square): if icons are used, size of the icons. Even if no icons
+    are used, the height of the menu items is determinated by this value.
+- Display Disk Usage: Display Disk Usage in Main Menu
+  - Size (square, Percent of OSD Width)
+  - Adjust Font Size - free
+  - Adjust Font Size - percent
+- Display Timers: Display active Tiers in Main Menu
+  - Width of Timers (Percent of OSD Width)
+  - Channel Logo Width (at the top of the timers displayed in main menu)
+  - Channel Logo Height (at the top of the timers displayed in main menu)
+  - Adjust Font Size - Header
+  - Adjust Font Size - Title
+- Show Timer Conflicts
+- Header Logo Width: Default 104px
+- Header Logo Height: Default 78px
+- Adjust Font Size - Menu Items
+
+* VDR Menu: Schedules Menu
+
+- Use narrow menu: display menu in narrow or standard style
+  - Width (Percent of OSD Width): if displayed narrow, width of this menu
 - Channel Logo Width (Menu Buttons): width of channel logos shown in scheduling
   "what's on" and "what's next" menus and channels menu. 
 - Channel Logo Height (Menu Buttons): height of channel logos shown in scheduling
   "what's on" and "what's next" menus and channels menu. This size determinates 
   the number of menu entries in schedules and channels menu.
-- Main Menu Header Logo Width: Default 104px
-- Main Menu Header Logo Height: Default 78px
+- EPG Window Fade-In Time in ms (Zero for switching off fading)
+- EPG Window Display Delay in s: period which schedules menu element has to be
+  selected till fade in of epg window starts
+- EPG Window Scroll Delay in s: period which epg window has to be opened till 
+  window text starts to scroll
+- Height of EPG Info Window (Percent of OSD Height): Height of text window which
+  is shown for schedules menu elements
+- Display Reruns in detailed EPG View: via epgsearch service
+  - Number of reruns to display: Default 5
+  - Use Subtitle for reruns
+- Display additional EPG Pictures in detailed EPG View: if set to yes, additional
+  EPG pictures will be shown at the end of the detailed EPG view. The pictures have
+  to be named as eventid_number.jpg with number from 1 to 9.
+  - Number of EPG pictures to display
 - Detail EPG View Logo Width: Default 260px
 - Detail EPG View Logo Height: Default 200px
 - Detail EPG View EPG Image Width: Default 210px
 - Detail EPG View EPG Image Height: Default 160px
-
-* VDR menu: Font Settings:
-
-- Adjust Font Size - Header
-- Adjust Font Size - Date
-- Adjust Font Size - Large Menu Item: Font for Main menu and channels menu items
-- Adjust Font Size - Schedule Menu Item: Font for schedules menu items
-- Adjust Font Size - Default Menu Item
-- Adjust Font Size - Disc Usage
-- Adjust Font Size - Timers Header
-- Adjust Font Size - Timers Title
-- Adjust Font Size - Buttons: Font for color buttons
-- Adjust Font Size - Messages
-- Adjust Font Size - Detail View Text: Font for detailed EPG & recordings view text
-- Adjust Font Size - Detail View Header: Font for Header date/time and short text 
-- Adjust Font Size - Detail View Header Large: Font for detailed EPG & recordings 
-  view title
+- Detail EPG View additional EPG Image Width: Default: 525 px
+- Detail EPG View additional EPG Image Height: Default: 400 px
+- Adjust Font Size - Menu Item
+- Adjust Font Size - Menu Item Small
 - Adjust Font Size - EPG Info Window
+
+* VDR Menu: Channels Menu
+
+- Use narrow menu: display menu in narrow or standard style
+  - Width (Percent of OSD Width): if displayed narrow, width of this menu
+- Adjust Font Size - Menu Item
+- Adjust Font Size - Menu Item Small
+
+* VDR Menu: Recordings Menu
+
+- Use narrow menu: display menu in narrow or standard style
+  - Width (Percent of OSD Width): if displayed narrow, width of this menu
+- Display additional EPG Pictures in detailed recording View: if set to yes, additional
+  pictures will be shown at the end of the detailed recording view. All jpegs in the
+  recording directory will be used.
+  - Number of EPG pictures to display
+- Folder Icon Size: size of the folder image used in recordings list
+- Adjust Font Size - Menu Item
+- Adjust Font Size - Menu Item Small
   
 * Channel Switching:
 
 - Fade-In Time in ms (Zero for switching off fading): Default 300ms
-- Hight of Channel Display (% of OSD Height): Default 25%
+- Height of Channel Display (% of OSD Height): Default 25%
 - Left & Right Border Width: Default 15px
 - Bottom Border Height: Default 15px
-- Channel Logo Width: Default 260px
-- Channel Logo Height: Default 200px
-- Channel Logo Border: Default 15px
+- Channel Logo Position: left / right / do not display. If set to "do not display",
+  the whole screen width is used for channel display.
+  - Channel Logo Width: Default 260px
+  - Channel Logo Height: Default 200px
+  - Channel Logo Border: Default 15px
 - Display Signal Strength & Quality: Set this to Zero if you want to disable the
   display of signal strength & quality (for instance if your dvb drivers does not
   deliver this values)
 - Screen Resolution Icon Size: Default 100px
+- Status Icon Size: Default 64px
 - Adjust Font Size - Header: Font for Channel / Channelgroup Name
 - Adjust Font Size - Date
 - Adjust Font Size - EPG Text
@@ -196,7 +259,7 @@ Setup Options
 * Replay:
 
 - Fade-In Time in ms (Zero for switching off fading)
-- Hight of Replay Display (% of OSD Height)
+- Height of Replay Display (% of OSD Height)
 - Left & Right Border Width
 - Bottom Border Height
 - Adjust Font Size - Header
@@ -206,7 +269,7 @@ Setup Options
 
 - Fade-In Time in ms (Zero for switching off fading)
 - Width of Tracks Display (% of OSD Height)
-- Hight of Tracks Display (% of OSD Height)
+- Height of Tracks Display (% of OSD Height)
 - Position (0: bot. center, 1: bot. left, ... , 7: bot. right): The following 
   positions are possible, starting at bottom middle:
   0: bottom center
@@ -226,7 +289,7 @@ Setup Options
 
 - Fade-In Time in ms (Zero for switching off fading): Default 300ms
 - Width of Message Display (% of OSD Height): Default 90%
-- Hight of Message Display (% of OSD Height): Default 10%
+- Height of Message Display (% of OSD Height): Default 10%
 - Bottom Border Height: Default 10px
   Remark: with different sizes and a large value for the bottom border height you
   are able to achieve a positioning for the messages box analogue to the positioning 
@@ -237,6 +300,8 @@ Setup Options
 
 - Fade-In Time in ms (Zero for switching off fading): Default 300ms
 - Width of Volume Display (% of OSD Height): Default 40%
-- Hight of Volume Display (% of OSD Height): Default 10%
-  Remark: the volume display is always positioned in the center of the screen
+- Height of Volume Display (% of OSD Height): Default 10%
+- Bottom Border Height: Default 10px
+  Remark: the volume display is always positioned in the center of the screen,
+  with bottom border it can be moved to the top.
 - Adjust Font Size
