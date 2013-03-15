@@ -1052,23 +1052,56 @@ void cNopacityRecordingMenuItem::Render() {
 
 // cNopacityDefaultMenuItem  -------------
 
-cNopacityDefaultMenuItem::cNopacityDefaultMenuItem(cOsd *osd, const char *text, bool sel) : cNopacityMenuItem (osd, text, sel) {
+cNopacityDefaultMenuItem::cNopacityDefaultMenuItem(cOsd *osd, const char *text, bool sel, eMenuCategory menuCat) : cNopacityMenuItem (osd, text, sel) {
     scrollCol = -1;
+    this->menuCat = menuCat;
 }
 
 cNopacityDefaultMenuItem::~cNopacityDefaultMenuItem(void) {
 }
 
+bool cNopacityDefaultMenuItem::CheckProgressBar(const char *text) {
+    if (strlen(text) > 5 && text[0] == '[' && text[strlen(text) - 1] == ']')
+        return true;
+    return false;
+}
+
+void cNopacityDefaultMenuItem::DrawProgressBar(int x, int width, const char *bar, tColor color) {
+    const char *p = bar + 1;
+    bool isProgressbar = true;
+    int total = 0;
+    int now = 0;
+    for (; *p != ']'; ++p) {
+        if (*p == ' ' || *p == '|') {
+            ++total;
+            if (*p == '|')
+                ++now;
+        } else {
+            isProgressbar = false;
+            break;
+        }
+    }
+    if (isProgressbar) {
+        pixmap->DrawRectangle(cRect(x+5, height/4, width-10, height/2), color);
+        pixmap->DrawRectangle(cRect(x+7, height/4+2, width-14, height/2-4), Theme.Color(clrMenuItemBlend));
+        double progress = (double)now/(double)total;
+        pixmap->DrawRectangle(cRect(x+8, height/4+3, (width-16)*progress, height/2-6), color);
+        
+    }
+}
+
 void cNopacityDefaultMenuItem::SetTextFull(void) {
     tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
     pixmapTextScroller->Fill(clrTransparent);
-    pixmapTextScroller->DrawText(cPoint(5, (height - font->Height()) / 2), strEntryFull.c_str(), clrFont, clrTransparent, font);
+    int x = (scrollCol == 0)?5:0;
+    pixmapTextScroller->DrawText(cPoint(x, (height - font->Height()) / 2), strEntryFull.c_str(), clrFont, clrTransparent, font);
 }
 
 void cNopacityDefaultMenuItem::SetTextShort(void) {
     tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
     pixmapTextScroller->Fill(clrTransparent);
-    pixmapTextScroller->DrawText(cPoint(5, (height - font->Height()) / 2), strEntry.c_str(), clrFont, clrTransparent, font);
+    int x = (scrollCol == 0)?5:0;
+    pixmapTextScroller->DrawText(cPoint(x, (height - font->Height()) / 2), strEntry.c_str(), clrFont, clrTransparent, font);
 }
 
 int cNopacityDefaultMenuItem::CheckScrollable(bool hasIcon) {
@@ -1078,6 +1111,8 @@ int cNopacityDefaultMenuItem::CheckScrollable(bool hasIcon) {
     int colTextWidth = 0; 
     for (int i=0; i<numTabs; i++) {
         if (tabWidth[i] > 0) {
+            if ((menuCat == mcScheduleNow)&&(CheckProgressBar(*itemTabs[i])))
+                continue;
             colWidth = tabWidth[i+cSkinDisplayMenu::MaxTabs];
             colTextWidth = font->Width(*itemTabs[i]);
             if (colTextWidth > colWidth) {
@@ -1087,8 +1122,8 @@ int cNopacityDefaultMenuItem::CheckScrollable(bool hasIcon) {
                 strEntryFull = *itemTabs[i];
                 itemTextWrapped.Set(*itemTabs[i], font, colWidth - font->Width("... "));
                 strEntry = cString::sprintf("%s... ", itemTextWrapped.GetLine(0));
+                break;
             }
-            break;
         } else
             break;
     }
@@ -1113,8 +1148,11 @@ void cNopacityDefaultMenuItem::Render() {
     for (int i=0; i<numTabs; i++) {
         if (tabWidth[i] > 0) {
             if (selectable) {
-                if (i != scrollCol) {
-                    colWidth = tabWidth[i+cSkinDisplayMenu::MaxTabs];
+                colWidth = tabWidth[i+cSkinDisplayMenu::MaxTabs];
+                int posX = tabWidth[i];
+                if ((menuCat == mcScheduleNow)&&(CheckProgressBar(*itemTabs[i]))) {
+                        DrawProgressBar(posX, colWidth, *itemTabs[i], clrFont);
+                } else if (i != scrollCol) {
                     colTextWidth = font->Width(*itemTabs[i]);
                     if (colTextWidth > colWidth) {
                         cTextWrapper itemTextWrapped;
@@ -1123,7 +1161,6 @@ void cNopacityDefaultMenuItem::Render() {
                     } else {
                         itemText = itemTabs[i];
                     }
-                    int posX = tabWidth[i];
                     if (i==0) posX += 5;
                     pixmap->DrawText(cPoint(posX, (height - font->Height()) / 2), *itemText, clrFont, clrTransparent, font);
                 } else {
@@ -1137,7 +1174,7 @@ void cNopacityDefaultMenuItem::Render() {
             break;
     }
     if (!selectable) {
-        pixmap->DrawText(cPoint(1, (height - font->Height()) / 2), sstrText.str().c_str(), clrFont, clrTransparent, font);
+        pixmap->DrawText(cPoint(10, (height - font->Height()) / 2), sstrText.str().c_str(), clrFont, clrTransparent, font);
     }
     if (current && scrollable && !Running() && config.menuScrollSpeed) {
         Start();

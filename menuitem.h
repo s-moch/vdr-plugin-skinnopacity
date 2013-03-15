@@ -174,13 +174,16 @@ public:
 
 class cNopacityDefaultMenuItem : public cNopacityMenuItem {
 private:
+    eMenuCategory menuCat;
+    bool CheckProgressBar(const char *text);
+    void DrawProgressBar(int x, int width, const char *bar, tColor color);
     std::string strEntry;
     std::string strEntryFull;
     int scrollCol;
     void SetTextFull(void);
     void SetTextShort(void);
 public:
-    cNopacityDefaultMenuItem(cOsd *osd, const char *text, bool sel);
+    cNopacityDefaultMenuItem(cOsd *osd, const char *text, bool sel, eMenuCategory menuCat);
     ~cNopacityDefaultMenuItem(void);
     int CheckScrollable(bool hasIcon);
     void Render();
