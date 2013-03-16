@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-03-10 16:40+0100\n"
+"POT-Creation-Date: 2013-03-16 11:47+0100\n"
 "PO-Revision-Date: 2012-11-11 17:49+0200\n"
 "Last-Translator: louis\n"
 "Language-Team: \n"
@@ -167,6 +167,15 @@ msgstr "Schriftgröße anpassen - Header EPG Detailanzeige"
 msgid "Adjust Font Size - Detail View Header Large"
 msgstr "Schriftgröße anpassen - Header Groß EPG Detailanzeige"
 
+msgid "\"VDR\" plus VDR version"
+msgstr "\"VDR\" und VDR Version"
+
+msgid "only VDR version"
+msgstr "nur VDR Version"
+
+msgid "no title"
+msgstr "kein Titel"
+
 msgid "Use narrow main menu"
 msgstr "Schmales Hauptmenü verwenden"
 
@@ -181,6 +190,9 @@ msgstr "Menü Icons benutzen"
 
 msgid "Icon Size (Square)"
 msgstr "Icon Größe (quadratisch)"
+
+msgid "Main menu title style"
+msgstr ""
 
 msgid "Display Disk Usage"
 msgstr "Festplattenstatus anzeigen"

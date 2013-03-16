@@ -59,6 +59,7 @@ cNopacityConfig::cNopacityConfig() {
     roundedCorners = 0;
     cornerRadius = 12;
     useMenuIcons = 1;
+    mainMenuTitleStyle = 0;
     narrowMainMenu = 1;
     narrowScheduleMenu = 1;
     narrowChannelMenu = 1;
@@ -248,6 +249,7 @@ bool cNopacityConfig::SetupParse(const char *Name, const char *Value) {
     else if (strcmp(Name, "roundedCorners") == 0)          roundedCorners = atoi(Value);
     else if (strcmp(Name, "cornerRadius") == 0)            cornerRadius = atoi(Value);
     else if (strcmp(Name, "useMenuIcons") == 0)            useMenuIcons = atoi(Value);
+    else if (strcmp(Name, "mainMenuTitleStyle") == 0)      mainMenuTitleStyle = atoi(Value);
     else if (strcmp(Name, "narrowMainMenu") == 0)          narrowMainMenu = atoi(Value);
     else if (strcmp(Name, "narrowScheduleMenu") == 0)      narrowScheduleMenu = atoi(Value);
     else if (strcmp(Name, "narrowChannelMenu") == 0)       narrowChannelMenu = atoi(Value);

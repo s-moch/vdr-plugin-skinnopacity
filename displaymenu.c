@@ -279,7 +279,17 @@ void cNopacityDisplayMenu::SetTitle(const char *Title) {
         cString title = Title;
         switch (MenuCategory()) {
             case mcMain:
-                title = cString::sprintf("%s %s", Title, VDRVERSION);
+                switch (config.mainMenuTitleStyle) {
+                    case 0:
+                        title = cString::sprintf("%s %s", Title, VDRVERSION);
+                        break;
+                    case 1:
+                        title = cString::sprintf("%s", VDRVERSION);
+                        break;
+                    case 2:
+                        title = " ";
+                        break;
+                }
                 left += menuView->ShowHeaderLogo(true);
                 break;
             case mcSchedule:

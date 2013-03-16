@@ -38,6 +38,7 @@ class cNopacitySetupMenuDisplay : public cMenuSetupSubMenu {
 
 class cNopacitySetupMenuDisplayMain : public cMenuSetupSubMenu {
     protected:
+        const char *titleStyle[3];
         void Set(void);
     public:
         cNopacitySetupMenuDisplayMain(cNopacityConfig *data);

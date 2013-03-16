@@ -113,6 +113,7 @@ void cNopacitySetup::Store(void) {
     SetupStore("roundedCorners", config.roundedCorners);
     SetupStore("cornerRadius", config.cornerRadius);
     SetupStore("useMenuIcons", config.useMenuIcons);
+    SetupStore("mainMenuTitleStyle", config.mainMenuTitleStyle);
     SetupStore("narrowMainMenu", config.narrowMainMenu);
     SetupStore("narrowScheduleMenu", config.narrowScheduleMenu);
     SetupStore("narrowChannelMenu", config.narrowChannelMenu);
@@ -259,6 +260,9 @@ void cNopacitySetupMenuDisplay::Set(void) {
 //-----MenuDisplay Main and Setup Menu -------------------------------------------------------------------------------------------------------------
 
 cNopacitySetupMenuDisplayMain::cNopacitySetupMenuDisplayMain(cNopacityConfig* data)  : cMenuSetupSubMenu(tr("VDR Menu: Main and Setup Menu"), data) {
+    titleStyle[0] = tr("\"VDR\" plus VDR version");
+    titleStyle[1] = tr("only VDR version");
+    titleStyle[2] = tr("no title");
     Set();
 }
 
@@ -275,6 +279,7 @@ void cNopacitySetupMenuDisplayMain::Set(void) {
     Add(new cMenuEditBoolItem(tr("Use menu icons"), &tmpNopacityConfig->useMenuIcons));
     if (tmpNopacityConfig->useMenuIcons)
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Icon Size (Square)")), &tmpNopacityConfig->iconHeight, 30, 200));
+    Add(new cMenuEditStraItem(tr("Main menu title style"), &tmpNopacityConfig->mainMenuTitleStyle, 3, titleStyle));
     Add(new cMenuEditBoolItem(tr("Display Disk Usage"), &tmpNopacityConfig->showDiscUsage));
     if (tmpNopacityConfig->showDiscUsage) {
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Size (square, Percent of OSD Width)")), &tmpNopacityConfig->menuSizeDiskUsage, 2, 100));
