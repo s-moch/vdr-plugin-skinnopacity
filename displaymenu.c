@@ -124,6 +124,7 @@ void cNopacityDisplayMenu::DrawTimers(bool timersChanged, int numConflicts) {
                 currentHeight += t->GetHeight() + menuView->spaceMenu;
                 timers.Add(t);
             }
+            int numTimersDisplayed = 0;
             for (int i = 0; i < numTimers; i++) {
                 if (const cTimer *Timer = SortedTimers[i]) {
                     if (Timer->HasFlags(tfActive)) {
@@ -134,6 +135,9 @@ void cNopacityDisplayMenu::DrawTimers(bool timersChanged, int numConflicts) {
                         currentHeight += t->GetHeight() + menuView->spaceMenu;
                         if (currentHeight < maxTimersHeight) {
                             timers.Add(t);
+                        numTimersDisplayed++;
+                        if (numTimersDisplayed == config.numberTimers)
+                            break;
                         } else {
                             delete t;
                             break;

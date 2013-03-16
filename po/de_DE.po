@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-03-16 11:47+0100\n"
+"POT-Creation-Date: 2013-03-16 11:52+0100\n"
 "PO-Revision-Date: 2012-11-11 17:49+0200\n"
 "Last-Translator: louis\n"
 "Language-Team: \n"
@@ -192,7 +192,7 @@ msgid "Icon Size (Square)"
 msgstr "Icon Größe (quadratisch)"
 
 msgid "Main menu title style"
-msgstr ""
+msgstr "Titel Stil im Hauptmenü"
 
 msgid "Display Disk Usage"
 msgstr "Festplattenstatus anzeigen"
@@ -208,6 +208,9 @@ msgstr "Schriftgröße anpassen - Prozent"
 
 msgid "Display Timers"
 msgstr "Timer anzeigen"
+
+msgid "Maximum number of Timers"
+msgstr "Maximale Timer Anzahl"
 
 msgid "Width of Timers (Percent of OSD Width)"
 msgstr "Breite der Timer (Proz. der OSD Breite)"

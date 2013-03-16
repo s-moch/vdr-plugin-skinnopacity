@@ -162,3 +162,6 @@ Version 0.1.0:
 Version 0.1.1
 - graphical progress bar if default menu item style for schedules is used 
   for epgsearchs What's on now
+- Main menu title style configurable
+- Maximum number of timers in main menu configurable
+- Added alternative main menu header icons (thanks @BooStar)

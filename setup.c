@@ -145,6 +145,7 @@ void cNopacitySetup::Store(void) {
     SetupStore("menuInfoScrollSpeed", config.menuInfoScrollSpeed);
     SetupStore("showDiscUsage", config.showDiscUsage);
     SetupStore("showTimers", config.showTimers);
+    SetupStore("numberTimers", config.numberTimers);
     SetupStore("checkTimerConflict", config.checkTimerConflict);
     SetupStore("headerHeight", config.headerHeight);
     SetupStore("footerHeight", config.footerHeight);
@@ -288,6 +289,7 @@ void cNopacitySetupMenuDisplayMain::Set(void) {
     }
     Add(new cMenuEditBoolItem(tr("Display Timers"), &tmpNopacityConfig->showTimers));
     if (tmpNopacityConfig->showTimers) {
+        Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Maximum number of Timers")), &tmpNopacityConfig->numberTimers, 1, 10));
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Width of Timers (Percent of OSD Width)")), &tmpNopacityConfig->menuWidthRightItems, 5, 100));
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Channel Logo Width")), &tmpNopacityConfig->timersLogoWidth, 30, 300));
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Channel Logo Height")), &tmpNopacityConfig->timersLogoHeight, 30, 300));
