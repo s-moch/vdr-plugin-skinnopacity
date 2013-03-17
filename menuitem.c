@@ -1052,16 +1052,19 @@ void cNopacityRecordingMenuItem::Render() {
 
 // cNopacityDefaultMenuItem  -------------
 
-cNopacityDefaultMenuItem::cNopacityDefaultMenuItem(cOsd *osd, const char *text, bool sel, eMenuCategory menuCat) : cNopacityMenuItem (osd, text, sel) {
+cNopacityDefaultMenuItem::cNopacityDefaultMenuItem(cOsd *osd, const char *text, bool sel) : cNopacityMenuItem (osd, text, sel) {
     scrollCol = -1;
-    this->menuCat = menuCat;
 }
 
 cNopacityDefaultMenuItem::~cNopacityDefaultMenuItem(void) {
 }
 
 bool cNopacityDefaultMenuItem::CheckProgressBar(const char *text) {
-    if (strlen(text) > 5 && text[0] == '[' && text[strlen(text) - 1] == ']')
+    if (strlen(text) > 5 
+        && text[0] == '[' 
+        && ((text[1] == '|')||(text[1] == ' ')) 
+        && ((text[2] == '|')||(text[2] == ' ')) 
+        && text[strlen(text) - 1] == ']')
         return true;
     return false;
 }
@@ -1111,7 +1114,7 @@ int cNopacityDefaultMenuItem::CheckScrollable(bool hasIcon) {
     int colTextWidth = 0; 
     for (int i=0; i<numTabs; i++) {
         if (tabWidth[i] > 0) {
-            if ((menuCat == mcScheduleNow)&&(CheckProgressBar(*itemTabs[i])))
+            if (CheckProgressBar(*itemTabs[i]))
                 continue;
             colWidth = tabWidth[i+cSkinDisplayMenu::MaxTabs];
             colTextWidth = font->Width(*itemTabs[i]);
@@ -1144,38 +1147,34 @@ void cNopacityDefaultMenuItem::Render() {
     int colWidth = 0;
     int colTextWidth = 0; 
     cString itemText("");
-    std::stringstream sstrText;
     for (int i=0; i<numTabs; i++) {
         if (tabWidth[i] > 0) {
-            if (selectable) {
-                colWidth = tabWidth[i+cSkinDisplayMenu::MaxTabs];
-                int posX = tabWidth[i];
-                if ((menuCat == mcScheduleNow)&&(CheckProgressBar(*itemTabs[i]))) {
-                        DrawProgressBar(posX, colWidth, *itemTabs[i], clrFont);
-                } else if (i != scrollCol) {
-                    colTextWidth = font->Width(*itemTabs[i]);
-                    if (colTextWidth > colWidth) {
-                        cTextWrapper itemTextWrapped;
-                        itemTextWrapped.Set(*itemTabs[i], font, colWidth - font->Width("... "));
+            colWidth = tabWidth[i+cSkinDisplayMenu::MaxTabs];
+            int posX = tabWidth[i];
+            if (CheckProgressBar(*itemTabs[i])) {
+                    DrawProgressBar(posX, colWidth, *itemTabs[i], clrFont);
+            } else if (i != scrollCol) {
+                colTextWidth = font->Width(*itemTabs[i]);
+                if (colTextWidth > colWidth) {
+                    cTextWrapper itemTextWrapped;
+                    itemTextWrapped.Set(*itemTabs[i], font, colWidth - font->Width("... "));
+                    if (selectable)
                         itemText = cString::sprintf("%s... ", itemTextWrapped.GetLine(0));
-                    } else {
-                        itemText = itemTabs[i];
-                    }
-                    if (i==0) posX += 5;
-                    pixmap->DrawText(cPoint(posX, (height - font->Height()) / 2), *itemText, clrFont, clrTransparent, font);
+                    else
+                        itemText = cString::sprintf("%s", itemTextWrapped.GetLine(0));
                 } else {
-                    if (!Running())
-                        SetTextShort();
+                    itemText = itemTabs[i];
                 }
+                if (i==0) posX += 5;
+                pixmap->DrawText(cPoint(posX, (height - font->Height()) / 2), *itemText, clrFont, clrTransparent, font);
             } else {
-                sstrText << *itemTabs[i];
+                if (!Running())
+                    SetTextShort();
             }
         } else
             break;
     }
-    if (!selectable) {
-        pixmap->DrawText(cPoint(10, (height - font->Height()) / 2), sstrText.str().c_str(), clrFont, clrTransparent, font);
-    }
+
     if (current && scrollable && !Running() && config.menuScrollSpeed) {
         Start();
     }
