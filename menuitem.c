@@ -1137,6 +1137,30 @@ int cNopacityDefaultMenuItem::CheckScrollable(bool hasIcon) {
     return 0;
 }
 
+bool cNopacityDefaultMenuItem::DrawHeaderElement(void) {
+    const char *c = Text + 3;
+    while (*c == '-')
+        c++;
+    if (*c == ' ' || *c == '\t') {
+        // it's a headline
+        while (*c == ' ' || *c == '\t') // find start of headline text
+            c++;
+
+        // find end of headline text
+        char *c2 = (char*)(c + strlen(c) - 1);
+        while (*c2 == '-')
+            c2--;
+        while (*c2 == ' ' || *c2 == '\t')
+            c2--;
+        *(c2 + 1) = 0;
+
+        int left = 5 + tabWidth[0];
+        pixmap->DrawText(cPoint(left, (height - font->Height()) / 2), c, Theme.Color(clrMenuFontMenuItemSep), clrTransparent, font);
+        return true;
+    }
+    return false;
+}
+
 void cNopacityDefaultMenuItem::Render() {
     pixmap->Fill(Theme.Color(clrMenuBorder));
     int handleBgrd = (current)?handleBackgrounds[1]:handleBackgrounds[0];
@@ -1144,6 +1168,10 @@ void cNopacityDefaultMenuItem::Render() {
     pixmap->DrawImage(cPoint(1, 1), handleBgrd);
     if (config.roundedCorners)
         DrawRoundedCorners(Theme.Color(clrMenuBorder));
+    if (!selectable && (strncmp(Text, "---", 3) == 0)) {
+        if (DrawHeaderElement())
+            return;
+    }
     int colWidth = 0;
     int colTextWidth = 0; 
     cString itemText("");
@@ -1157,11 +1185,13 @@ void cNopacityDefaultMenuItem::Render() {
                 colTextWidth = font->Width(*itemTabs[i]);
                 if (colTextWidth > colWidth) {
                     cTextWrapper itemTextWrapped;
-                    itemTextWrapped.Set(*itemTabs[i], font, colWidth - font->Width("... "));
-                    if (selectable)
+                    if (selectable) {
+                        itemTextWrapped.Set(*itemTabs[i], font, colWidth - font->Width("... "));
                         itemText = cString::sprintf("%s... ", itemTextWrapped.GetLine(0));
-                    else
+                    } else {
+                        itemTextWrapped.Set(*itemTabs[i], font, colWidth);
                         itemText = cString::sprintf("%s", itemTextWrapped.GetLine(0));
+                    }
                 } else {
                     itemText = itemTabs[i];
                 }

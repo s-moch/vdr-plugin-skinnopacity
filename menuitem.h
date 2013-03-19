@@ -176,6 +176,7 @@ class cNopacityDefaultMenuItem : public cNopacityMenuItem {
 private:
     bool CheckProgressBar(const char *text);
     void DrawProgressBar(int x, int width, const char *bar, tColor color);
+    bool DrawHeaderElement(void);
     std::string strEntry;
     std::string strEntryFull;
     int scrollCol;

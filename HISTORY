@@ -168,3 +168,4 @@ Version 0.1.1
 - Display grapical progress bar in every default style VDR menu, fixed 
   progress bar detection
 - Added Channel Number in Channel Menu
+- Improved display of non selectable header lines in default menus
