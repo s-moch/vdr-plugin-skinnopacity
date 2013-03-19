@@ -572,7 +572,7 @@ void cNopacityChannelMenuItem::CreatePixmapTextScroller(int totalWidth) {
 }
 
 void cNopacityChannelMenuItem::CreateText() {
-    strEntry = Channel->Name();
+    strEntry = cString::sprintf("%d %s", Channel->Number(), Channel->Name());
     const cSource *source = Sources.Get(Channel->Source());
     if (source)
         strChannelSource = cString::sprintf("%s - %s", *cSource::ToString(source->Code()),  source->Description());

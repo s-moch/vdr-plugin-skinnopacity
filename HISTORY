@@ -165,3 +165,6 @@ Version 0.1.1
 - Main menu title style configurable
 - Maximum number of timers in main menu configurable
 - Added alternative main menu header icons (thanks @BooStar)
+- Display grapical progress bar in every default style VDR menu, fixed 
+  progress bar detection
+- Added Channel Number in Channel Menu
