@@ -116,7 +116,7 @@ void cNopacityDisplayTracks::DrawHeader(const char *Title) {
     pixmapIcon = osd->CreatePixmap(3, cRect(2, 2, menuItemHeight-2, menuItemHeight-2));
     pixmapIcon->Fill(clrTransparent);
     cImageLoader imgLoader;
-    if (imgLoader.LoadIcon("skinItems/tracks", menuItemHeight-6)) {
+    if (imgLoader.LoadIcon("skinIcons/tracks", menuItemHeight-6)) {
         pixmapIcon->DrawImage(cPoint(3, 3), imgLoader.GetImage());
     }
     pixmapHeader->DrawText(cPoint((width - fontHeader->Width(Title)) / 2, (menuItemHeight - fontHeader->Height()) / 2), Title, Theme.Color(clrTracksFontHead), clrTransparent, fontHeader);

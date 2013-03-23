@@ -159,16 +159,16 @@ void cNopacityDisplayReplay::LoadControlIcons(void) {
     pixmapFwd->Fill(clrTransparent);
     
     cImageLoader imgLoader;
-    if (imgLoader.LoadIcon("skinItems/rewInactive", iconSize)) {
+    if (imgLoader.LoadIcon("skinIcons/rewInactive", iconSize)) {
         pixmapRew->DrawImage(cPoint(0,0), imgLoader.GetImage());
     }
-    if (imgLoader.LoadIcon("skinItems/pauseInactive", iconSize)) {
+    if (imgLoader.LoadIcon("skinIcons/pauseInactive", iconSize)) {
         pixmapPause->DrawImage(cPoint(0,0), imgLoader.GetImage());
     }
-    if (imgLoader.LoadIcon("skinItems/playInactive", iconSize)) {
+    if (imgLoader.LoadIcon("skinIcons/playInactive", iconSize)) {
         pixmapPlay->DrawImage(cPoint(0,0), imgLoader.GetImage());
     }
-    if (imgLoader.LoadIcon("skinItems/fwdInactive", iconSize)) {
+    if (imgLoader.LoadIcon("skinIcons/fwdInactive", iconSize)) {
         pixmapFwd->DrawImage(cPoint(0,0), imgLoader.GetImage());
     }
 }
@@ -196,19 +196,19 @@ void cNopacityDisplayReplay::DrawScreenResolution(void) {
     switch (screenWidth) {
         case 1920:
         case 1440:
-            iconName = "skinItems/hd1080i";
+            iconName = "skinIcons/hd1080i";
             break;
         case 1280:
             if (screenHeight == 720)
-                iconName = "skinItems/hd720p";
+                iconName = "skinIcons/hd720p";
             else
-                iconName = "skinItems/hd1080i";
+                iconName = "skinIcons/hd1080i";
             break;
         case 720:
-            iconName = "skinItems/sd576i";
+            iconName = "skinIcons/sd576i";
             break;
         default:
-            iconName = "skinItems/sd576i";
+            iconName = "skinIcons/sd576i";
             break;
     }
     cImageLoader imgLoader;
@@ -244,17 +244,17 @@ void cNopacityDisplayReplay::SetMode(bool Play, bool Forward, int Speed) {
     cImageLoader imgLoader;
     if (!Play) {
         pixmapPause->Fill(clrTransparent);
-        if (imgLoader.LoadIcon("skinItems/pause", iconSize)) {
+        if (imgLoader.LoadIcon("skinIcons/pause", iconSize)) {
             pixmapPause->DrawImage(cPoint(0,0), imgLoader.GetImage());
         }
     } else if (Play && (Speed < 0)) {
         pixmapPlay->Fill(clrTransparent);
-        if (imgLoader.LoadIcon("skinItems/play", iconSize)) {
+        if (imgLoader.LoadIcon("skinIcons/play", iconSize)) {
             pixmapPlay->DrawImage(cPoint(0,0), imgLoader.GetImage());
         }
     } else if (Play && Forward) {
         pixmapFwd->Fill(clrTransparent);
-        if (imgLoader.LoadIcon("skinItems/fwd", iconSize)) {
+        if (imgLoader.LoadIcon("skinIcons/fwd", iconSize)) {
             pixmapFwd->DrawImage(cPoint(0,0), imgLoader.GetImage());
         }
         if (Speed > 0) {
@@ -264,7 +264,7 @@ void cNopacityDisplayReplay::SetMode(bool Play, bool Forward, int Speed) {
         }
     } else if (Play && !Forward) {
         pixmapRew->Fill(clrTransparent);
-        if (imgLoader.LoadIcon("skinItems/rew", iconSize)) {
+        if (imgLoader.LoadIcon("skinIcons/rew", iconSize)) {
             pixmapRew->DrawImage(cPoint(0,0), imgLoader.GetImage());
         }
         if (Speed > 0) {
