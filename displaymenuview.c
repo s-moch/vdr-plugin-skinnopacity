@@ -518,7 +518,7 @@ void cNopacityDisplayMenuView::AdjustContentBackground(eMenuCategory menuCat, eM
 
 void cNopacityDisplayMenuView::DrawHeaderLogo(void) {
     cImageLoader imgLoader;
-    if (imgLoader.LoadIcon("vdrlogo", config.menuHeaderLogoWidth, config.menuHeaderLogoHeight)) {
+    if (imgLoader.LoadIcon("skinIcons/vdrlogo", config.menuHeaderLogoWidth, config.menuHeaderLogoHeight)) {
         pixmapHeaderLogo->DrawImage(cPoint(0,0), imgLoader.GetImage());
     }
 }
@@ -538,22 +538,22 @@ int cNopacityDisplayMenuView::DrawHeaderIcon(eMenuCategory menuCat) {
     switch (menuCat) {
         case mcScheduleNow:
         case mcScheduleNext:
-            icon = "Schedule";
+            icon = "menuIcons/Schedule";
             break;
         case mcChannel:
-            icon = "Channels";
+            icon = "menuIcons/Channels";
             break;
         case mcTimer:
-            icon = "Timers";
+            icon = "menuIcons/Timers";
             break;
         case mcRecording:
-            icon = "Recordings";
+            icon = "menuIcons/Recordings";
             break;
         case mcSetup:
-            icon = "Setup";
+            icon = "menuIcons/Setup";
             break;
         case mcCommand:
-            icon = "Commands";
+            icon = "menuIcons/Commands";
             break;
         default:
             drawIcon = false;
@@ -627,11 +627,11 @@ void cNopacityDisplayMenuView::DrawDiskUsage(void) {
     pixmapDiskUsage->Fill(Theme.Color(clrMenuBorder));
     pixmapDiskUsage->DrawRectangle(cRect(2,2,diskUsageWidth-4, diskUsageHeight-4), bgColor);
     cImageLoader imgLoader;
-    if (imgLoader.LoadIcon("DiskUsage", iconWidth)) {
+    if (imgLoader.LoadIcon("skinIcons/DiskUsage", iconWidth)) {
         cImage icon = imgLoader.GetImage();
         pixmapDiskUsageIcon->DrawImage(cPoint((diskUsageWidth - iconWidth)/2,0), icon);
     }
-    if (imgLoader.LoadIcon("discpercent", diskUsageWidth - 4, diskUsageHeight/5, false)) {
+    if (imgLoader.LoadIcon("skinIcons/discpercent", diskUsageWidth - 4, diskUsageHeight/5, false)) {
         cImage icon = imgLoader.GetImage();
         pixmapDiskUsageIcon->DrawImage(cPoint(0,4*diskUsageHeight/5), icon);
     }

@@ -169,3 +169,11 @@ Version 0.1.1
   progress bar detection
 - Added Channel Number in Channel Menu
 - Improved display of non selectable header lines in default menus
+- Added italian translation
+- Restructured icons directory. Now different directories in main icon
+  directory and theme specific icon directories are used:
+  - skinIcons: all directly skin related icons
+  - menuIcons: all standard icons for main and setup menu
+  - pluginIcons: icons for VDR plugins with main menu entires
+  - extraIcons: further icons for non standard menu elements (added 
+    via menuorg or similar)

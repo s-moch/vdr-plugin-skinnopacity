@@ -208,17 +208,19 @@ cString cNopacityMainMenuItem::GetIconName() {
     //check for standard menu entries
     for (int i=0; i<16; i++) {
         std::string s = trVDR(items[i].c_str());
-        if (s == element)
-            return items[i].c_str();
+        if (s == element) {
+            cString menuIcon = cString::sprintf("menuIcons/%s", items[i].c_str());
+            return menuIcon;
+        }
     }
     //check for special main menu entries "stop recording", "stop replay"
     std::string stopRecording = skipspace(trVDR(" Stop recording "));
     std::string stopReplay = skipspace(trVDR(" Stop replaying"));
     try {
         if (element.substr(0, stopRecording.size()) == stopRecording)
-            return "StopRecording";
+            return "menuIcons/StopRecording";
         if (element.substr(0, stopReplay.size()) == stopReplay)
-            return "StopReplay";
+            return "menuIcons/StopReplay";
     } catch (...) {}
     //check for Plugins
     for (int i = 0; ; i++) {
@@ -229,7 +231,7 @@ cString cNopacityMainMenuItem::GetIconName() {
                 std::string plugMainEntry = mainMenuEntry;
                 try {
                     if (element.substr(0, plugMainEntry.size()) == plugMainEntry) {
-                        return p->Name();
+                        return cString::sprintf("pluginIcons/%s", p->Name());
                     }
                 } catch (...) {}
             } 
@@ -356,7 +358,7 @@ void cNopacityMainMenuItem::Render() {
             Cancel(-1);
         }
     } else {
-        DrawDelimiter(*itemTabs[1], "Channelseparator", handleBgrd);
+        DrawDelimiter(*itemTabs[1], "skinIcons/Channelseparator", handleBgrd);
     }
 }
 
@@ -488,9 +490,9 @@ void cNopacityScheduleMenuItem::Render() {
         }
     } else {
         if (Event) {
-            DrawDelimiter(Event->Title(), "daydelimiter", handleBackgrounds[4]);
+            DrawDelimiter(Event->Title(), "skinIcons/daydelimiter", handleBackgrounds[4]);
         } else if (Channel) {
-            DrawDelimiter(Channel->Name(), "Channelseparator", handleBackgrounds[4]);
+            DrawDelimiter(Channel->Name(), "skinIcons/Channelseparator", handleBackgrounds[4]);
         }
     }
 }
@@ -504,12 +506,12 @@ void cNopacityScheduleMenuItem::DrawBackground(int textLeft) {
         DrawRoundedCorners(Theme.Color(clrMenuBorder));
     if (TimerMatch == tmFull) {
         cImageLoader imgLoader;
-        if (imgLoader.LoadIcon("activetimer", 64, 64)) {
+        if (imgLoader.LoadIcon("skinIcons/activetimer", 64, 64)) {
             pixmapIcon->DrawImage(cPoint(width - 66, 2), imgLoader.GetImage());
         }
     } else if (TimerMatch == tmPartial) {
         cImageLoader imgLoader;
-        if (imgLoader.LoadIcon("activetimersmall", 32, 32)) {
+        if (imgLoader.LoadIcon("skinIcons/activetimersmall", 32, 32)) {
             pixmapIcon->DrawImage(cPoint(width - 34, 2), imgLoader.GetImage());
         }
     }
@@ -619,7 +621,7 @@ void cNopacityChannelMenuItem::DrawBackground(int handleBackground) {
     pixmap->DrawText(cPoint(sourceX, 3*height/4 + (height/4 - fontSmall->Height())/2), *strChannelInfo, Theme.Color(clrMenuFontMenuItem), clrTransparent, fontSmall);
     if (Channel->Ca()) {
         cImageLoader imgLoader;
-        if (imgLoader.LoadIcon("encrypted", encryptedSize)) {
+        if (imgLoader.LoadIcon("skinIcons/encrypted", encryptedSize)) {
             pixmapIcon->DrawImage(cPoint(sourceX, height/2+1), imgLoader.GetImage());
             sourceX += encryptedSize + 10;
         }
@@ -652,7 +654,7 @@ void cNopacityChannelMenuItem::Render() {
             Cancel(-1);
         }
     } else {                                    //Channelseparators
-        DrawDelimiter(Channel->Name(), "Channelseparator", handleBgrd);
+        DrawDelimiter(Channel->Name(), "skinIcons/Channelseparator", handleBgrd);
     }
 }
 
@@ -736,14 +738,14 @@ void cNopacityTimerMenuItem::DrawBackground(int handleBackground, int textLeft) 
     cString iconName("");
     bool firstDay = false;
     if (!(Timer->HasFlags(tfActive)))
-        iconName = "timerInactive";
+        iconName = "skinIcons/timerInactive";
     else if (Timer->FirstDay()) {
-        iconName = "timerActive";
+        iconName = "skinIcons/timerActive";
         firstDay = true;
     } else if (Timer->Recording())
-        iconName = "timerRecording";
+        iconName = "skinIcons/timerRecording";
     else 
-        iconName = "timerActive";
+        iconName = "skinIcons/timerActive";
     
     cImageLoader imgLoader;
     if (imgLoader.LoadIcon(iconName, iconSize)) {
@@ -949,7 +951,7 @@ void cNopacityRecordingMenuItem::SetTextShortRecording(void) {
 int cNopacityRecordingMenuItem::DrawRecordingNewIcon(void) {
     int iconNewSize = font->Height();
     cImageLoader imgLoader;
-    if (imgLoader.LoadIcon("newrecording", iconNewSize)) {
+    if (imgLoader.LoadIcon("skinIcons/newrecording", iconNewSize)) {
         int iconHeight = (height/2 - iconNewSize)/2;
         pixmapTextScroller->DrawImage(cPoint(1, iconHeight), imgLoader.GetImage());
     }
@@ -959,7 +961,7 @@ int cNopacityRecordingMenuItem::DrawRecordingNewIcon(void) {
 int cNopacityRecordingMenuItem::DrawRecordingEditedIcon(int startLeft) {
     int iconEditedSize = font->Height() - 10;
     cImageLoader imgLoader;
-    if (imgLoader.LoadIcon("recordingcutted", iconEditedSize)) {
+    if (imgLoader.LoadIcon("skinIcons/recordingcutted", iconEditedSize)) {
         int iconHeight = (height/2 - iconEditedSize)/2;
         pixmapTextScroller->DrawImage(cPoint(startLeft + 5, iconHeight), imgLoader.GetImage());
     }
@@ -968,7 +970,7 @@ int cNopacityRecordingMenuItem::DrawRecordingEditedIcon(int startLeft) {
 
 void cNopacityRecordingMenuItem::DrawFolderIcon(void) {
     cImageLoader imgLoader;
-    if (imgLoader.LoadIcon("recordingfolder", config.menuRecFolderSize)) {
+    if (imgLoader.LoadIcon("skinIcons/recordingfolder", config.menuRecFolderSize)) {
         pixmapIcon->DrawImage(cPoint(1, 1), imgLoader.GetImage());
     }
 }
@@ -977,7 +979,7 @@ void cNopacityRecordingMenuItem::DrawRecDateTime(void) {
     int iconDateTimeSize = config.menuRecFolderSize / 2;
     if (!drawn) {
         cImageLoader imgLoader;
-        if (imgLoader.LoadIcon("recordingdatetime", iconDateTimeSize)) {
+        if (imgLoader.LoadIcon("skinIcons/recordingdatetime", iconDateTimeSize)) {
             int iconHeight = height/2 + (height/2 - iconDateTimeSize)/2;
             pixmapIcon->DrawImage(cPoint(3, iconHeight), imgLoader.GetImage());
         }

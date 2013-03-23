@@ -177,7 +177,7 @@ void cNopacityDisplayChannel::DrawBackground(void){
     pixmapFooter->Fill(clrTransparent);
     pixmapStreamInfo->Fill(clrTransparent);
     cImageLoader imgLoader;
-    if (imgLoader.LoadIcon("channelsymbols", iconsWidth, iconSize)) {
+    if (imgLoader.LoadIcon("skinIcons/channelsymbols", iconsWidth, iconSize)) {
         pixmapStreamInfo->DrawImage(cPoint(0, 0), imgLoader.GetImage());
     }
 
@@ -256,7 +256,7 @@ void cNopacityDisplayChannel::DrawScreenResolution(void) {
     cImageLoader imgLoader;
     if (isRadioChannel) {
         if (!radioIconDrawn) {
-            if (imgLoader.LoadIcon("radio", config.resolutionIconSize)) {
+            if (imgLoader.LoadIcon("skinIcons/radio", config.resolutionIconSize)) {
                     pixmapScreenResolution->DrawImage(cPoint(0,0), imgLoader.GetImage());
             }
             lastScreenWidth = 0;
@@ -269,19 +269,19 @@ void cNopacityDisplayChannel::DrawScreenResolution(void) {
             switch (screenWidth) {
                 case 1920:
                 case 1440:
-                    iconName = "hd1080i";
+                    iconName = "skinIcons/hd1080i";
                     break;
                 case 1280:
                     if (screenHeight == 720)
-                        iconName = "hd720p";
+                        iconName = "skinIcons/hd720p";
                     else
-                        iconName = "hd1080i";
+                        iconName = "skinIcons/hd1080i";
                     break;
                 case 720:
-                    iconName = "sd576i";
+                    iconName = "skinIcons/sd576i";
                     break;
                 default:
-                    iconName = "sd576i";
+                    iconName = "skinIcons/sd576i";
                     break;
             }
             if (imgLoader.LoadIcon(*iconName, config.resolutionIconSize)) {
@@ -301,7 +301,7 @@ void cNopacityDisplayChannel::DrawSignalMeter(void) {
         cImageLoader imgLoader;
         cString signalStrength = "STR";
         cString signalQuality = "SNR";
-        if (imgLoader.LoadIcon("signal", signalWidth, signalHeight, false)) {
+        if (imgLoader.LoadIcon("skinIcons/signal", signalWidth, signalHeight, false)) {
             cImage imgSignal = imgLoader.GetImage();
             signalWidth = imgSignal.Width();
             signalHeight = imgSignal.Height();
@@ -400,7 +400,7 @@ void cNopacityDisplayChannel::SetChannel(const cChannel *Channel, int Number) {
             cImageLoader imgLoader;
             if (imgLoader.LoadLogo(*ChannelName)) {
                 pixmapLogo->DrawImage(cPoint(config.logoBorder, (height-config.logoHeight)/2), imgLoader.GetImage());
-            } else if (imgLoader.LoadIcon("Channelseparator", config.logoHeight)) {
+            } else if (imgLoader.LoadIcon("skinIcons/Channelseparator", config.logoHeight)) {
                 pixmapLogo->DrawImage(cPoint(config.logoBorder + (config.logoWidth - config.logoHeight)/2, (height-config.logoHeight)/2), imgLoader.GetImage());
             }
         }

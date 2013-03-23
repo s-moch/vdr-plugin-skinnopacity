@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-03-10 16:40+0100\n"
+"POT-Creation-Date: 2013-03-22 16:23+0100\n"
 "PO-Revision-Date: 2013-03-19 22:56+0100\n"
 "Last-Translator: Diego Pierotto <vdr-italian@tiscali.it>\n"
 "Language-Team: \n"
@@ -170,6 +170,15 @@ msgstr "Adatta dim. caratteri - Intestazione vista dettagli"
 msgid "Adjust Font Size - Detail View Header Large"
 msgstr "Adatta dim. caratteri - Intestazione grande vista dettagli"
 
+msgid "\"VDR\" plus VDR version"
+msgstr ""
+
+msgid "only VDR version"
+msgstr ""
+
+msgid "no title"
+msgstr ""
+
 msgid "Use narrow main menu"
 msgstr "Usa menu principale ridotto"
 
@@ -185,6 +194,9 @@ msgstr "Usa icone menu"
 msgid "Icon Size (Square)"
 msgstr "Dim. icona (quadrato)"
 
+msgid "Main menu title style"
+msgstr ""
+
 msgid "Display Disk Usage"
 msgstr "Mostra utilizzo disco"
 
@@ -199,6 +211,9 @@ msgstr "Adatta dim. caratteri - Percentuale"
 
 msgid "Display Timers"
 msgstr "Mostra timer"
+
+msgid "Maximum number of Timers"
+msgstr ""
 
 msgid "Width of Timers (Percent of OSD Width)"
 msgstr "Larghezza di Timer (% larghezza OSD)"
@@ -379,4 +394,3 @@ msgstr "conflitto"
 
 msgid "conflicts"
 msgstr "conflitti"
-

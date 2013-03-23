@@ -98,8 +98,8 @@ cNopacityConfig::cNopacityConfig() {
     numDefaultMenuItems = 16;
     iconHeight = 100;
     headerIconHeight = 80;
-    menuHeaderLogoWidth = 104;
-    menuHeaderLogoHeight = 78;
+    menuHeaderLogoWidth = 160;
+    menuHeaderLogoHeight = 70;
     menuItemLogoWidth = 130;
     menuItemLogoHeight = 100;
     detailViewLogoWidth = 260;
