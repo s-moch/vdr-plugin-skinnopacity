@@ -127,8 +127,6 @@ void cNopacityDisplayChannel::CreatePixmaps(void) {
             pixmapLogo = osd->CreatePixmap(-1, cRect(0, 0, 1, 1));
             break;
     }
-
-    
     
     if (config.channelFadeTime) {
         pixmapBackgroundTop->SetAlpha(0);
@@ -398,7 +396,8 @@ void cNopacityDisplayChannel::SetChannel(const cChannel *Channel, int Number) {
         }
         if (config.logoPosition != lpNone) {
             cImageLoader imgLoader;
-            if (imgLoader.LoadLogo(*ChannelName)) {
+            cString separator = cString::sprintf("separatorlogos/%s", *ChannelName);
+            if (imgLoader.LoadLogo(*separator)) {
                 pixmapLogo->DrawImage(cPoint(config.logoBorder, (height-config.logoHeight)/2), imgLoader.GetImage());
             } else if (imgLoader.LoadIcon("skinIcons/Channelseparator", config.logoHeight)) {
                 pixmapLogo->DrawImage(cPoint(config.logoBorder + (config.logoWidth - config.logoHeight)/2, (height-config.logoHeight)/2), imgLoader.GetImage());

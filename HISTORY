@@ -177,3 +177,5 @@ Version 0.1.1
   - pluginIcons: icons for VDR plugins with main menu entires
   - extraIcons: further icons for non standard menu elements (added 
     via menuorg or similar)
+- Searching in folder <channellogofolder>/separatorlogos for channel
+  separator logos
