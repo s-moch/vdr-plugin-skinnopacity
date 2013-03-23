@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: vdr-skinnopacity 0.0.6\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-03-16 11:52+0100\n"
+"POT-Creation-Date: 2013-03-23 11:49+0100\n"
 "PO-Revision-Date: 2013-03-12 15:59+0100\n"
 "Last-Translator: Milan Hrala <hrala.milan@gmail.com>\n"
 "Language-Team: \n"
@@ -317,6 +317,12 @@ msgstr "Veµkos» ikony prieèinku"
 msgid "do not display"
 msgstr "nezobrazova»"
 
+msgid "show elapsed time"
+msgstr ""
+
+msgid "show remaining time"
+msgstr ""
+
 msgid "Hight of Channel Display (Percent of OSD Height)"
 msgstr "Vý¹ka zobrazenia (Percento z OSD vý¹ky)"
 
@@ -331,6 +337,9 @@ msgstr "Pozícia loga kanálu"
 
 msgid "Channel Logo Border"
 msgstr "Okraj loga kanálu"
+
+msgid "Kind of time display for current schedule"
+msgstr ""
 
 msgid "Display Signal Strength & Quality"
 msgstr "Zobrazi» silu a kvalitu signálu"

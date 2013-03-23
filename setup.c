@@ -84,6 +84,7 @@ void cNopacitySetup::Store(void) {
     SetupStore("fontEPGSmallSize", config.fontEPGSmallSize);
     SetupStore("resolutionIconSize", config.resolutionIconSize);
     SetupStore("statusIconSize", config.statusIconSize);
+    SetupStore("progressCurrentSchedule", config.progressCurrentSchedule);
     SetupStore("replayHeight", config.replayHeight);
     SetupStore("replayBorderVertical", config.replayBorderVertical);
     SetupStore("replayBorderBottom", config.replayBorderBottom);
@@ -424,6 +425,8 @@ cNopacitySetupChannelDisplay::cNopacitySetupChannelDisplay(cNopacityConfig* data
     logoPos[0] = tr("do not display");
     logoPos[1] = tr("left");
     logoPos[2] = tr("right");
+    progressStyleCurrentSchedule[0] = tr("show elapsed time");
+    progressStyleCurrentSchedule[1] = tr("show remaining time");
     Set();
 }
 
@@ -441,6 +444,7 @@ void cNopacitySetupChannelDisplay::Set(void) {
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Channel Logo Height")), &tmpNopacityConfig->logoHeight, 30, 500));
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Channel Logo Border")), &tmpNopacityConfig->logoBorder, 0, 200));
     }
+    Add(new cMenuEditStraItem(tr("Kind of time display for current schedule"), &tmpNopacityConfig->progressCurrentSchedule, 2, progressStyleCurrentSchedule));
     Add(new cMenuEditBoolItem(tr("Display Signal Strength & Quality"), &tmpNopacityConfig->displaySignalStrength));
     Add(new cMenuEditIntItem(tr("Screen Resolution Icon Size"), &tmpNopacityConfig->resolutionIconSize, 30, 200));
     Add(new cMenuEditIntItem(tr("Status Icons Size"), &tmpNopacityConfig->statusIconSize, 30, 150));

@@ -43,6 +43,7 @@ class cNopacityConfig {
         int fontEPGSmallSize;
         int resolutionIconSize;
         int statusIconSize;
+        int progressCurrentSchedule;
         //DisplayReplay
         int replayHeight;
         int replayBorderVertical;

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-03-16 11:52+0100\n"
+"POT-Creation-Date: 2013-03-23 11:49+0100\n"
 "PO-Revision-Date: 2012-11-11 17:49+0200\n"
 "Last-Translator: louis\n"
 "Language-Team: \n"
@@ -314,6 +314,12 @@ msgstr "Order Icon Größe"
 msgid "do not display"
 msgstr "nicht anzeigen"
 
+msgid "show elapsed time"
+msgstr "vergangene Zeit anzeigen"
+
+msgid "show remaining time"
+msgstr "verbleibende Zeit anzeigen"
+
 msgid "Hight of Channel Display (Percent of OSD Height)"
 msgstr "Höhe der Kanalwechsel Anzeige (Proz. der OSD Höhe)"
 
@@ -328,6 +334,9 @@ msgstr "Kanallogo Position"
 
 msgid "Channel Logo Border"
 msgstr "Rand um die Kanallogos"
+
+msgid "Kind of time display for current schedule"
+msgstr "Art der Zeitanzeige für die laufende Sendung"
 
 msgid "Display Signal Strength & Quality"
 msgstr "Signalstärke- und Qualität anzeigen"

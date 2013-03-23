@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-03-22 16:23+0100\n"
+"POT-Creation-Date: 2013-03-23 11:49+0100\n"
 "PO-Revision-Date: 2013-03-19 22:56+0100\n"
 "Last-Translator: Diego Pierotto <vdr-italian@tiscali.it>\n"
 "Language-Team: \n"
@@ -317,6 +317,12 @@ msgstr "Dim. icona cartella"
 msgid "do not display"
 msgstr "non mostrare"
 
+msgid "show elapsed time"
+msgstr ""
+
+msgid "show remaining time"
+msgstr ""
+
 msgid "Hight of Channel Display (Percent of OSD Height)"
 msgstr "Altezza di Mostra canale (% altezza OSD)"
 
@@ -331,6 +337,9 @@ msgstr "Posizione logo canale"
 
 msgid "Channel Logo Border"
 msgstr "Bordo logo canale"
+
+msgid "Kind of time display for current schedule"
+msgstr ""
 
 msgid "Display Signal Strength & Quality"
 msgstr "Mostra qualità e intensità segnale"

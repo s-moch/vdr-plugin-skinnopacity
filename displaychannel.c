@@ -429,8 +429,13 @@ void cNopacityDisplayChannel::SetEvents(const cEvent *Present, const cEvent *Fol
             int epgWidthShort = fontEPGSmall->Width(e->ShortText());
             cString strSeen("");
             if (i==0) {
-                int seen = (int)(time(NULL) - e->StartTime())/60;
-                strSeen = cString::sprintf("%d/%dmin", seen, e->Duration()/60);
+                if (config.progressCurrentSchedule == 0) {
+                    int seen = (int)(time(NULL) - e->StartTime())/60;
+                    strSeen = cString::sprintf("%d/%dmin", seen, e->Duration()/60);
+                } else if (config.progressCurrentSchedule == 1) {
+                    int remaining = (int)(e->EndTime() - time(NULL))/60;
+                    strSeen = cString::sprintf("-%d/%dmin", remaining, e->Duration()/60);
+                }
             } else {
                 strSeen = cString::sprintf("%dmin", e->Duration()/60);
             }
@@ -482,7 +487,6 @@ void cNopacityDisplayChannel::DrawProgressBar(int Current, int Total) {
         if (Current > 0) {
             tColor colAct = DrawProgressbarBackground(10 + barHeight/2, 4, barFullWidth * percentSeen, barHeight-1);
             pixmapProgressBar->DrawEllipse(cRect(10 + barFullWidth * percentSeen, 4, barHeight, barHeight), colAct);
-            //pixmapProgressBar->DrawRectangle(cRect(   10 + barHeight/2, 4, barFullWidth * percentSeen, barHeight-1), Theme.Color(clrProgressBar));
         }
     }
 }
