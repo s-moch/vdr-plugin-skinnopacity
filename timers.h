@@ -4,6 +4,7 @@
 class cNopacityTimer : public cListObject {
     private:
         cOsd *osd;
+        cPixmap *pixmapBackground;
         cPixmap *pixmap;
         cPixmap *pixmapLogo;
         const cTimer *timer;

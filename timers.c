@@ -17,6 +17,7 @@ cNopacityTimer::cNopacityTimer(cOsd *osd, int numConflicts, const cFont *font, c
 }
 
 cNopacityTimer::~cNopacityTimer(void) {
+    osd->DestroyPixmap(pixmapBackground);
     osd->DestroyPixmap(pixmap);
     osd->DestroyPixmap(pixmapLogo);
 }
@@ -27,16 +28,19 @@ void cNopacityTimer::SetGeometry(int width, int y) {
 }
 
 void cNopacityTimer::SetAlpha(int alpha) {
+    pixmapBackground->SetAlpha(alpha);
     pixmap->SetAlpha(alpha);
     pixmapLogo->SetAlpha(alpha);
 }
 
 void cNopacityTimer::Show(void) {
-    pixmap->SetLayer(2);
-    pixmapLogo->SetLayer(3);
+    pixmapBackground->SetLayer(2);
+    pixmap->SetLayer(3);
+    pixmapLogo->SetLayer(4);
 }
 
 void cNopacityTimer::Hide(void) {
+    pixmapBackground->SetLayer(-1);
     pixmap->SetLayer(-1);
     pixmapLogo->SetLayer(-1);
 }
@@ -102,11 +106,13 @@ void cNopacityTimer::CalculateHeight(int space) {
 }
 
 void cNopacityTimer::CreatePixmaps(int x) {
-    pixmap = osd->CreatePixmap(2, cRect(x, y, width, height));
-    pixmapLogo = osd->CreatePixmap(3, cRect(x, y, width, height));
+    pixmapBackground = osd->CreatePixmap(2, cRect(x, y, width, height));
+    pixmap = osd->CreatePixmap(3, cRect(x, y, width, height));
+    pixmapLogo = osd->CreatePixmap(4, cRect(x, y, width, height));
 }
 
 void cNopacityTimer::Render(void) {
+    pixmapBackground->Fill(clrBlack);
     cImageLoader imgLoader;
     if (isTimerConflict) {
         pixmapLogo->Fill(clrTransparent);

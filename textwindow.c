@@ -3,6 +3,7 @@
 cNopacityTextWindow::cNopacityTextWindow(cOsd *osd, cFont *font) {
     this->osd = osd;
     this->font = font;
+    pixmapBackground = NULL;
     pixmap = NULL;
 }
 
@@ -10,6 +11,10 @@ cNopacityTextWindow::~cNopacityTextWindow(void) {
     Cancel(-1);
     while (Active())
         cCondWait::SleepMs(10);
+    if (pixmapBackground) {
+        osd->DestroyPixmap(pixmapBackground);
+        pixmapBackground = NULL;
+    }
     if (pixmap) {
         osd->DestroyPixmap(pixmap);
         pixmap = NULL;
@@ -27,8 +32,11 @@ bool cNopacityTextWindow::CreatePixmap(int border) {
         scrolling = true;
     }
     cPixmap::Lock();
-    pixmap = osd->CreatePixmap(4, cRect(geometry->X(), geometry->Y(), geometry->Width(), geometry->Height()),
+    pixmapBackground = osd->CreatePixmap(4, cRect(geometry->X(), geometry->Y(), geometry->Width(), geometry->Height()));
+    pixmap = osd->CreatePixmap(5, cRect(geometry->X(), geometry->Y(), geometry->Width(), geometry->Height()),
                                   cRect(0, 0, geometry->Width(), drawportHeight));
+    pixmapBackground->SetAlpha(0);
+    pixmapBackground->Fill(clrBlack);
     pixmap->SetAlpha(0);
     pixmap->Fill(Theme.Color(clrMenuBorder));
     pixmap->DrawRectangle(cRect(1, 1, geometry->Width()-2, drawportHeight-2), Theme.Color(clrMenuBack));
@@ -74,6 +82,7 @@ void cNopacityTextWindow::Action(void) {
             cPixmap::Lock();
             double t = min(double(Now - Start) / FadeTime, 1.0);
             int Alpha = t * ALPHA_OPAQUE;
+            pixmapBackground->SetAlpha(Alpha);
             pixmap->SetAlpha(Alpha);
             if (Running())
                 osd->Flush();

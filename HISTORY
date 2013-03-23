@@ -181,4 +181,6 @@ Version 0.1.1
   separator logos
 - time display for current schedule in channel display configurable
   (elapsed / remaining)
-- fixed a bug that extraIcons directory was not used 
+- fixed a bug that extraIcons directory was not used
+- added background pixmaps for main menu timers and epg info window
+  to avoid nasty font pixelation effect 

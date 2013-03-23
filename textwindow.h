@@ -4,6 +4,7 @@ class cNopacityTextWindow : public cThread {
 private:
     cOsd *osd;
     cFont *font;
+    cPixmap *pixmapBackground;
     cPixmap *pixmap;
     cRect *geometry;
     const char *text;
