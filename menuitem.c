@@ -238,7 +238,7 @@ cString cNopacityMainMenuItem::GetIconName() {
         } else
             break;
     }
-    return menuEntry;
+    return cString::sprintf("extraIcons/%s", *menuEntry);
 }
 
 void cNopacityMainMenuItem::CreatePixmapTextScroller(int totalWidth) {

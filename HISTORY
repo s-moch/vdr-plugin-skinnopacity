@@ -179,3 +179,6 @@ Version 0.1.1
     via menuorg or similar)
 - Searching in folder <channellogofolder>/separatorlogos for channel
   separator logos
+- time display for current schedule in channel display configurable
+  (elapsed / remaining)
+- fixed a bug that extraIcons directory was not used 
