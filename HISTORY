@@ -183,4 +183,6 @@ Version 0.1.1
   (elapsed / remaining)
 - fixed a bug that extraIcons directory was not used
 - added background pixmaps for main menu timers and epg info window
-  to avoid nasty font pixelation effect 
+  to avoid nasty font pixelation effect
+- changed tracks display to fixed track item height
+- changed stereo and ac3 icons in tracks display

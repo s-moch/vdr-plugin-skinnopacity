@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: vdr-skinnopacity 0.0.6\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-03-23 11:49+0100\n"
+"POT-Creation-Date: 2013-03-24 11:09+0100\n"
 "PO-Revision-Date: 2013-03-12 15:59+0100\n"
 "Last-Translator: Milan Hrala <hrala.milan@gmail.com>\n"
 "Language-Team: \n"
@@ -323,8 +323,8 @@ msgstr ""
 msgid "show remaining time"
 msgstr ""
 
-msgid "Hight of Channel Display (Percent of OSD Height)"
-msgstr "Vý¹ka zobrazenia (Percento z OSD vý¹ky)"
+msgid "Height of Channel Display (Percent of OSD Height)"
+msgstr ""
 
 msgid "Left & Right Border Width"
 msgstr "©írka µavého a pravého okraja"
@@ -356,8 +356,8 @@ msgstr "Nastavenie veµkos»i písma - EPG text"
 msgid "Adjust Font Size - EPG Infotext"
 msgstr "Nastavenie veµkos»i písma - EPG informaèný text"
 
-msgid "Hight of Replay Display (Percent of OSD Height)"
-msgstr "Vý¹ka zobrazenia prehrávania (Percent z OSD vý¹ky)"
+msgid "Height of Replay Display (Percent of OSD Height)"
+msgstr ""
 
 msgid "Adjust Font Size - Text"
 msgstr "Nastavenie veµkos»i písma - textu"
@@ -365,8 +365,8 @@ msgstr "Nastavenie veµkos»i písma - textu"
 msgid "Width of Tracks Display (Percent of OSD Width)"
 msgstr "©írka zobrazenia výberu stopy (Percent z OSD ¹írky)"
 
-msgid "Hight of Tracks Display (Percent of OSD Height)"
-msgstr "Vý¹ka zobrazenia výberu stopy (Percent z OSD vý¹ky)"
+msgid "Height of Track Items (in pixels)"
+msgstr ""
 
 msgid "Position (0: bot. center, 1: bot. left, ... , 7: bot. right)"
 msgstr "Pozícia (0: dole uprostred, 1: vµavo dole, ... , 7: vpravo dole)"
@@ -383,8 +383,8 @@ msgstr "Nastavenie veµkosti písma - Tlaèítka"
 msgid "Width of Message Display (Percent of OSD Height)"
 msgstr "©írka zobrazenej správy (percento z èasti OSD)"
 
-msgid "Hight of Message Display (Percent of OSD Height)"
-msgstr "Vý¹ka zobrazenej správy (percento z èasti OSD vý¹ky)"
+msgid "Height of Message Display (Percent of OSD Height)"
+msgstr ""
 
 msgid "Adjust Font Size"
 msgstr "Nastavenie veµkosti písma"
@@ -395,14 +395,29 @@ msgstr "Zobrazenie hlasitosti"
 msgid "Width of Volume Display (Percent of OSD Height)"
 msgstr "©írka zobrazenia hlasitosti (Percent z OSD ¹írky)"
 
-msgid "Hight of Volume Display (Percent of OSD Height)"
-msgstr "Vý¹ka zobrazenia hlasitosti (Percent z OSD vý¹ky)"
+msgid "Height of Volume Display (Percent of OSD Height)"
+msgstr ""
 
 msgid "conflict"
 msgstr "konflikt"
 
 msgid "conflicts"
 msgstr "konflikty"
+
+#~ msgid "Hight of Channel Display (Percent of OSD Height)"
+#~ msgstr "Vý¹ka zobrazenia (Percento z OSD vý¹ky)"
+
+#~ msgid "Hight of Replay Display (Percent of OSD Height)"
+#~ msgstr "Vý¹ka zobrazenia prehrávania (Percent z OSD vý¹ky)"
+
+#~ msgid "Hight of Message Display (Percent of OSD Height)"
+#~ msgstr "Vý¹ka zobrazenej správy (percento z èasti OSD vý¹ky)"
+
+#~ msgid "Hight of Volume Display (Percent of OSD Height)"
+#~ msgstr "Vý¹ka zobrazenia hlasitosti (Percent z OSD vý¹ky)"
+
+#~ msgid "Hight of Tracks Display (Percent of OSD Height)"
+#~ msgstr "Vý¹ka zobrazenia výberu stopy (Percent z OSD vý¹ky)"
 
 #~ msgid "VDR Menu: Dimensions Settings"
 #~ msgstr "VDR menu: Nastavenie veµkosti"

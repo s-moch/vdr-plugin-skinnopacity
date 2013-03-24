@@ -42,7 +42,7 @@ cNopacityConfig::cNopacityConfig() {
     //DisplayTracks
     tracksFadeTime = 300;
     tracksWidth = 25;
-    tracksHeight = 25;
+    tracksItemHeight = 80;
     tracksPosition = 0;
     tracksBorderHorizontal = 10;
     tracksBorderVertical = 10;
@@ -229,7 +229,7 @@ bool cNopacityConfig::SetupParse(const char *Name, const char *Value) {
     else if (strcmp(Name, "messageFadeTime") == 0)         messageFadeTime = atoi(Value);
     else if (strcmp(Name, "tracksFadeTime") == 0)          tracksFadeTime = atoi(Value);
     else if (strcmp(Name, "tracksWidth") == 0)             tracksWidth = atoi(Value);
-    else if (strcmp(Name, "tracksHeight") == 0)            tracksHeight = atoi(Value);
+    else if (strcmp(Name, "tracksItemHeight") == 0)        tracksItemHeight = atoi(Value);
     else if (strcmp(Name, "tracksPosition") == 0)          tracksPosition = atoi(Value);
     else if (strcmp(Name, "tracksBorderHorizontal") == 0)  tracksBorderHorizontal = atoi(Value);
     else if (strcmp(Name, "tracksBorderVertical") == 0)    tracksBorderVertical = atoi(Value);

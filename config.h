@@ -63,7 +63,7 @@ class cNopacityConfig {
         int tracksFadeTime;
         int tracksFrameTime;
         int tracksWidth;
-        int tracksHeight;
+        int tracksItemHeight;
         int tracksPosition;
         int tracksBorderHorizontal;
         int tracksBorderVertical;

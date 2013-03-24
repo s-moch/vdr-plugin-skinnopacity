@@ -1,4 +1,3 @@
-
 #include "displaytracks.h"
 
 cNopacityDisplayTracks::cNopacityDisplayTracks(const char *Title, int NumTracks, const char * const *Tracks) {
@@ -6,6 +5,7 @@ cNopacityDisplayTracks::cNopacityDisplayTracks(const char *Title, int NumTracks,
     initial = true;
     currentIndex = -1;
     numTracks = NumTracks;
+    audioChannelLast = -5;
     FrameTime = config.tracksFrameTime; 
     FadeTime = config.tracksFadeTime;
     SetGeometry();
@@ -23,6 +23,7 @@ cNopacityDisplayTracks::~cNopacityDisplayTracks() {
         cCondWait::SleepMs(10);
     osd->DestroyPixmap(pixmapContainer);
     osd->DestroyPixmap(pixmapHeader);
+    osd->DestroyPixmap(pixmapHeaderAudio);
     menuItems.Clear();
     for (int i=0; i<2; i++)
         cOsdProvider::DropImage(handleBackgrounds[i]);
@@ -31,17 +32,12 @@ cNopacityDisplayTracks::~cNopacityDisplayTracks() {
     delete osd;
 }
 
-cBitmap cNopacityDisplayTracks::bmStereo(audio_xpm);
-cBitmap cNopacityDisplayTracks::bmDolbyDigital(dolbydigital_xpm);
-
 void cNopacityDisplayTracks::SetGeometry(void) {
     width = cOsd::OsdWidth() * config.tracksWidth / 100;
-    height = cOsd::OsdHeight() * config.tracksHeight / 100;
-    if (!height%(numTracks + 1)) {
-        height += numTracks + 1 - height%(numTracks + 1);
-    }
+    height = (config.tracksItemHeight +4) * (numTracks+1);
+
     menuItemWidth = width - 4;
-    menuItemHeight = (height - 2*(numTracks + 1)) / (numTracks + 1) - 1;
+    menuItemHeight = config.tracksItemHeight;
 
     int top, left;
     switch(config.tracksPosition) {
@@ -88,9 +84,11 @@ void cNopacityDisplayTracks::SetGeometry(void) {
 void cNopacityDisplayTracks::CreatePixmaps(void) {
     pixmapContainer = osd->CreatePixmap(1, cRect(0, 0, width, height));
     pixmapHeader = osd->CreatePixmap(2, cRect(2, 2, menuItemWidth, menuItemHeight));
+    pixmapHeaderAudio = osd->CreatePixmap(3, cRect(menuItemWidth - menuItemHeight, 2, menuItemHeight, menuItemHeight));
     if (config.tracksFadeTime) {
         pixmapContainer->SetAlpha(0);
         pixmapHeader->SetAlpha(0);
+        pixmapHeaderAudio->SetAlpha(0);
     }
 }
 
@@ -127,7 +125,7 @@ void cNopacityDisplayTracks::SetItem(const char *Text, int Index, bool Current) 
     item = new cNopacityTrackMenuItem(osd, Text);
     item->SetCurrent(Current);
     item->SetFont(font);
-    item->SetGeometry(Index, menuItemHeight+5, 2, menuItemWidth, menuItemHeight, 5);
+    item->SetGeometry(Index, menuItemHeight+4, 2, menuItemWidth, menuItemHeight, 4);
     item->CreatePixmap();
     item->SetBackgrounds(handleBackgrounds);
     menuItems.Add(item);
@@ -148,14 +146,26 @@ void cNopacityDisplayTracks::SetTrack(int Index, const char * const *Tracks) {
 }
 
 void cNopacityDisplayTracks::SetAudioChannel(int AudioChannel) {
-    cBitmap *bm = NULL;
-    switch (AudioChannel) {
-        case -1: bm = &bmDolbyDigital; break;
-        case 0: bm = &bmStereo; break;
-        default: ;
+    if (AudioChannel != audioChannelLast) {
+        audioChannelLast = AudioChannel;
+        pixmapHeaderAudio->Fill(clrTransparent);
+        cString icon("");
+        switch (AudioChannel) {
+            case -1: 
+                icon = "skinIcons/ac3";
+                break;
+            case 0: 
+                icon = "skinIcons/stereo"; 
+                break;
+            default:
+                icon = "skinIcons/stereo"; 
+                break;
+        }
+        cImageLoader imgLoader;
+        if (imgLoader.LoadIcon(icon, menuItemHeight-2)) {
+            pixmapHeaderAudio->DrawImage(cPoint(1, 1), imgLoader.GetImage());
+        }
     }
-    if (bm)
-        pixmapHeader->DrawBitmap(cPoint(width - bm->Width() - 10, (menuItemHeight - bm->Width()) / 2), *bm, Theme.Color(clrChannelSymbolOn), Theme.Color(clrMenuBack));
 }
 
 void cNopacityDisplayTracks::Flush(void) {
@@ -175,6 +185,7 @@ void cNopacityDisplayTracks::Action(void) {
         int Alpha = t * ALPHA_OPAQUE;
         pixmapContainer->SetAlpha(Alpha);
         pixmapHeader->SetAlpha(Alpha);
+        pixmapHeaderAudio->SetAlpha(Alpha);
         for (cNopacityMenuItem *item = menuItems.First(); Running() && item; item = menuItems.Next(item)) {
             item->SetAlpha(Alpha);
         }

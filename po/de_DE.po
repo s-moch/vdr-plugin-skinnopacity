@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-03-23 11:49+0100\n"
+"POT-Creation-Date: 2013-03-24 11:09+0100\n"
 "PO-Revision-Date: 2012-11-11 17:49+0200\n"
 "Last-Translator: louis\n"
 "Language-Team: \n"
@@ -123,13 +123,13 @@ msgid "Scale Video size to fit into menu window"
 msgstr "TV-Bildgröße in Menüfenster einpassen"
 
 msgid "Header Height (Percent of OSD Height)"
-msgstr "Header Höhe (in Prozent der OSD Höhe)"
+msgstr "Header Höhe (in % der OSD Höhe)"
 
 msgid "Header Icon Size (Square Header Menu Icons)"
 msgstr "Größe der quadratischen Headericons"
 
 msgid "Footer Height (Percent of OSD Height)"
-msgstr "Footer Höhe (in Prozent der OSD Höhe)"
+msgstr "Footer Höhe (in % der OSD Höhe)"
 
 msgid "Rounded Corners for menu items and buttons"
 msgstr "Abgerundete Ecken für Menüelemente und Buttons"
@@ -180,7 +180,7 @@ msgid "Use narrow main menu"
 msgstr "Schmales Hauptmenü verwenden"
 
 msgid "Width (Percent of OSD Width)"
-msgstr "Breite (Prozent der OSD Breite)"
+msgstr "Breite (% der OSD Breite)"
 
 msgid "Use narrow setup menu"
 msgstr "Schmales Setup Menü verwenden"
@@ -198,13 +198,13 @@ msgid "Display Disk Usage"
 msgstr "Festplattenstatus anzeigen"
 
 msgid "Size (square, Percent of OSD Width)"
-msgstr "Größe (quadr., Proz. der OSD Breite)"
+msgstr "Größe (quadr., % der OSD Breite)"
 
 msgid "Adjust Font Size - free"
 msgstr "Schriftgröße anpassen - frei"
 
 msgid "Adjust Font Size - percent"
-msgstr "Schriftgröße anpassen - Prozent"
+msgstr "Schriftgröße anpassen - %"
 
 msgid "Display Timers"
 msgstr "Timer anzeigen"
@@ -213,7 +213,7 @@ msgid "Maximum number of Timers"
 msgstr "Maximale Timer Anzahl"
 
 msgid "Width of Timers (Percent of OSD Width)"
-msgstr "Breite der Timer (Proz. der OSD Breite)"
+msgstr "Breite der Timer (% der OSD Breite)"
 
 msgid "Channel Logo Width"
 msgstr "Breite der Kanallogos"
@@ -261,7 +261,7 @@ msgid "EPG Window Text Scrolling Speed"
 msgstr "Text Scroll Geschwindigkeit des EPG Fensters"
 
 msgid "Height of EPG Info Window (Percent of OSD Height)"
-msgstr "Höhe des EPG Info Fensters (Proz. der OSD Höhe)"
+msgstr "Höhe des EPG Info Fensters (% der OSD Höhe)"
 
 msgid "Display Reruns in detailed EPG View"
 msgstr "Wiederholungen in der detailierten EPG Ansicht anzeigen"
@@ -320,8 +320,8 @@ msgstr "vergangene Zeit anzeigen"
 msgid "show remaining time"
 msgstr "verbleibende Zeit anzeigen"
 
-msgid "Hight of Channel Display (Percent of OSD Height)"
-msgstr "Höhe der Kanalwechsel Anzeige (Proz. der OSD Höhe)"
+msgid "Height of Channel Display (Percent of OSD Height)"
+msgstr "Höhe der Kanalwechsel Anzeige (% der OSD Höhe)"
 
 msgid "Left & Right Border Width"
 msgstr "Breite des linken und rechten Rands"
@@ -353,17 +353,17 @@ msgstr "Schriftgröße anpassen - EPG Text"
 msgid "Adjust Font Size - EPG Infotext"
 msgstr "Schriftgröße anpassen - EPG Infotext"
 
-msgid "Hight of Replay Display (Percent of OSD Height)"
-msgstr "Höhe der Wiedergabe Anzeige (Proz. der OSD Höhe)"
+msgid "Height of Replay Display (Percent of OSD Height)"
+msgstr "Höhe der Wiedergabe Anzeige (% der OSD Höhe)"
 
 msgid "Adjust Font Size - Text"
 msgstr "Schriftgröße anpassen - Anzeigetext"
 
 msgid "Width of Tracks Display (Percent of OSD Width)"
-msgstr "Breite der Audio Tracks Anzeige (Proz. der OSD Breite)"
+msgstr "Breite der Audio Tracks Anzeige (% der OSD Breite)"
 
-msgid "Hight of Tracks Display (Percent of OSD Height)"
-msgstr "Höhe der Wiedergabe Anzeige (Proz. der OSD Höhe)"
+msgid "Height of Track Items (in pixels)"
+msgstr "Höhe der Track Elemente (in Pixel)"
 
 msgid "Position (0: bot. center, 1: bot. left, ... , 7: bot. right)"
 msgstr "Position (0: unten mitte, 1: unten links, ... , 7: unten rechts)"
@@ -378,10 +378,10 @@ msgid "Adjust Font Size - Buttons"
 msgstr "Schriftgröße anpassen - Buttons"
 
 msgid "Width of Message Display (Percent of OSD Height)"
-msgstr "Breite der Nachrichten Anzeige (Proz. der OSD Breite)"
+msgstr "Breite der Nachrichten Anzeige (% der OSD Breite)"
 
-msgid "Hight of Message Display (Percent of OSD Height)"
-msgstr "Höhe der Nachrichten Anzeige (Proz. der OSD Höhe)"
+msgid "Height of Message Display (Percent of OSD Height)"
+msgstr "Höhe der Nachrichten Anzeige (% der OSD Höhe)"
 
 msgid "Adjust Font Size"
 msgstr "Schriftgröße anpassen"
@@ -390,10 +390,10 @@ msgid "Volume Display"
 msgstr "Lautstärke Anzeige"
 
 msgid "Width of Volume Display (Percent of OSD Height)"
-msgstr "Breite der Lautstärken Anzeige (Proz. der OSD Breite)"
+msgstr "Breite der Lautstärken Anzeige (% der OSD Breite)"
 
-msgid "Hight of Volume Display (Percent of OSD Height)"
-msgstr "Breite der Lautstärken Anzeige (Proz. der OSD Breite)"
+msgid "Height of Volume Display (Percent of OSD Height)"
+msgstr "Höhe der Lautstärken Anzeige (% der OSD Höhe)"
 
 msgid "conflict"
 msgstr "Konflikt"

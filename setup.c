@@ -98,7 +98,7 @@ void cNopacitySetup::Store(void) {
     SetupStore("messageFadeTime", config.messageFadeTime);
     SetupStore("tracksFadeTime", config.tracksFadeTime);
     SetupStore("tracksWidth", config.tracksWidth);
-    SetupStore("tracksHeight", config.tracksHeight);
+    SetupStore("tracksItemHeight", config.tracksItemHeight);
     SetupStore("tracksPosition", config.tracksPosition);
     SetupStore("tracksBorderHorizontal", config.tracksBorderHorizontal);
     SetupStore("tracksBorderVertical", config.tracksBorderVertical);
@@ -435,7 +435,7 @@ void cNopacitySetupChannelDisplay::Set(void) {
     Clear();
 
     Add(new cMenuEditIntItem(tr("Fade-In Time in ms (Zero for switching off fading)"), &tmpNopacityConfig->channelFadeTime, 0, 1000));
-    Add(new cMenuEditIntItem(tr("Hight of Channel Display (Percent of OSD Height)"), &tmpNopacityConfig->channelHeight, 15, 100));
+    Add(new cMenuEditIntItem(tr("Height of Channel Display (Percent of OSD Height)"), &tmpNopacityConfig->channelHeight, 15, 100));
     Add(new cMenuEditIntItem(tr("Left & Right Border Width"), &tmpNopacityConfig->channelBorderVertical, 0, 300));
     Add(new cMenuEditIntItem(tr("Bottom Border Height"), &tmpNopacityConfig->channelBorderBottom, 0, 300));
     Add(new cMenuEditStraItem(tr("Channel Logo Position"), &tmpNopacityConfig->logoPosition, 3, logoPos));
@@ -467,7 +467,7 @@ void cNopacitySetupReplayDisplay::Set(void) {
     Clear();
 
     Add(new cMenuEditIntItem(tr("Fade-In Time in ms (Zero for switching off fading)"), &tmpNopacityConfig->replayFadeTime, 0, 1000));
-    Add(new cMenuEditIntItem(tr("Hight of Replay Display (Percent of OSD Height)"), &tmpNopacityConfig->replayHeight, 15, 100));
+    Add(new cMenuEditIntItem(tr("Height of Replay Display (Percent of OSD Height)"), &tmpNopacityConfig->replayHeight, 15, 100));
     Add(new cMenuEditIntItem(tr("Left & Right Border Width"), &tmpNopacityConfig->replayBorderVertical, 0, 300));
     Add(new cMenuEditIntItem(tr("Bottom Border Height"), &tmpNopacityConfig->replayBorderBottom, 0, 300));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Header"), &tmpNopacityConfig->fontReplayHeader, -20, 20));
@@ -488,7 +488,7 @@ void cNopacitySetupTrackDisplay::Set(void) {
     Clear();
     Add(new cMenuEditIntItem(tr("Fade-In Time in ms (Zero for switching off fading)"), &tmpNopacityConfig->tracksFadeTime, 0, 1000));
     Add(new cMenuEditIntItem(tr("Width of Tracks Display (Percent of OSD Width)"), &tmpNopacityConfig->tracksWidth, 10, 100));
-    Add(new cMenuEditIntItem(tr("Hight of Tracks Display (Percent of OSD Height)"), &tmpNopacityConfig->tracksHeight, 10, 100));
+    Add(new cMenuEditIntItem(tr("Height of Track Items (in pixels)"), &tmpNopacityConfig->tracksItemHeight, 30, 200));
     Add(new cMenuEditIntItem(tr("Position (0: bot. center, 1: bot. left, ... , 7: bot. right)"), &tmpNopacityConfig->tracksPosition, 0, 7));
     Add(new cMenuEditIntItem(tr("Border Top / Bottom"), &tmpNopacityConfig->tracksBorderHorizontal, 0, 100));
     Add(new cMenuEditIntItem(tr("Border Left / Right"), &tmpNopacityConfig->tracksBorderVertical, 0, 100));
@@ -511,7 +511,7 @@ void cNopacitySetupMessageDisplay::Set(void) {
 
     Add(new cMenuEditIntItem(tr("Fade-In Time in ms (Zero for switching off fading)"), &tmpNopacityConfig->messageFadeTime, 0, 1000));
     Add(new cMenuEditIntItem(tr("Width of Message Display (Percent of OSD Height)"), &tmpNopacityConfig->messageWidth, 30, 100));
-    Add(new cMenuEditIntItem(tr("Hight of Message Display (Percent of OSD Height)"), &tmpNopacityConfig->messageHeight, 5, 100));
+    Add(new cMenuEditIntItem(tr("Height of Message Display (Percent of OSD Height)"), &tmpNopacityConfig->messageHeight, 5, 100));
     Add(new cMenuEditIntItem(tr("Bottom Border Height"), &tmpNopacityConfig->messageBorderBottom, 0, 1000));
     Add(new cMenuEditIntItem(tr("Adjust Font Size"), &tmpNopacityConfig->fontMessage, -30, 30));
 
@@ -531,7 +531,7 @@ void cNopacitySetupVolumeDisplay::Set(void) {
 
     Add(new cMenuEditIntItem(tr("Fade-In Time in ms (Zero for switching off fading)"), &tmpNopacityConfig->volumeFadeTime, 0, 1000));
     Add(new cMenuEditIntItem(tr("Width of Volume Display (Percent of OSD Height)"), &tmpNopacityConfig->volumeWidth, 10, 100));
-    Add(new cMenuEditIntItem(tr("Hight of Volume Display (Percent of OSD Height)"), &tmpNopacityConfig->volumeHeight, 5, 100));
+    Add(new cMenuEditIntItem(tr("Height of Volume Display (Percent of OSD Height)"), &tmpNopacityConfig->volumeHeight, 5, 100));
     Add(new cMenuEditIntItem(tr("Bottom Border Height"), &tmpNopacityConfig->volumeBorderBottom, 0, 1000));
     Add(new cMenuEditIntItem(tr("Adjust Font Size"), &tmpNopacityConfig->fontVolume, -30, 30));
 

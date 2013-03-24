@@ -12,8 +12,10 @@ private:
     bool initial;
     int currentIndex;
     int numTracks;
+    int audioChannelLast;
     cPixmap *pixmapContainer;
     cPixmap *pixmapHeader;
+    cPixmap *pixmapHeaderAudio;
     cPixmap *pixmapIcon;
     cList<cNopacityMenuItem> menuItems;
     int handleBackgrounds[2];
@@ -21,7 +23,6 @@ private:
     cFont *fontHeader;
     virtual void Action(void);
     void SetItem(const char *Text, int Index, bool Current);
-    static cBitmap bmStereo, bmDolbyDigital;
     void SetGeometry(void);
     void CreatePixmaps(void);
     void CreateFonts(void);
