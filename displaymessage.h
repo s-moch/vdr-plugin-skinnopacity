@@ -6,6 +6,7 @@ private:
     int width;
     int height;
     cPixmap *pixmap;
+    cPixmap *pixmapBackground;
     cFont *font;
     int FrameTime;
     int FadeTime;

@@ -7,9 +7,12 @@ cNopacityDisplayMessage::cNopacityDisplayMessage(void) {
     width = cOsd::OsdWidth() * config.messageWidth / 100;
     int left = (cOsd::OsdLeft() + cOsd::OsdWidth() - width) / 2;
     osd = CreateOsd(left, top, width, height);
-    pixmap = osd->CreatePixmap(1, cRect(0, 0, width, height));
-    if (config.messageFadeTime)
+    pixmap = osd->CreatePixmap(2, cRect(0, 0, width, height));
+    pixmapBackground = osd->CreatePixmap(1, cRect(0, 0, width, height));
+    if (config.messageFadeTime) {
         pixmap->SetAlpha(0);
+        pixmapBackground->SetAlpha(0);
+    }
     font = cFont::CreateFont(config.fontName, height / 4 + 15 + config.fontMessage);
     FrameTime = config.messageFrameTime;
     FadeTime = config.messageFadeTime;
@@ -20,6 +23,7 @@ cNopacityDisplayMessage::~cNopacityDisplayMessage() {
     while (Active())
         cCondWait::SleepMs(10);
     osd->DestroyPixmap(pixmap);
+    osd->DestroyPixmap(pixmapBackground);
     delete font;
     delete osd;
 }
@@ -40,6 +44,7 @@ void cNopacityDisplayMessage::SetMessage(eMessageType Type, const char *Text) {
             col = Theme.Color(clrMessageError);
             break;
     }
+    pixmapBackground->Fill(clrBlack);
     pixmap->Fill(col);
     cImageLoader imgLoader;
     imgLoader.DrawBackground2(Theme.Color(clrMessageBlend), col, width-2, height-2);
@@ -61,6 +66,7 @@ void cNopacityDisplayMessage::Action(void) {
         cPixmap::Lock();
         double t = min(double(Now - Start) / FadeTime, 1.0);
         int Alpha = t * ALPHA_OPAQUE;
+        pixmapBackground->SetAlpha(Alpha);
         pixmap->SetAlpha(Alpha);
         if (Running())
             osd->Flush();
