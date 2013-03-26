@@ -238,9 +238,9 @@ void cNopacitySetupMenuDisplay::Set(void) {
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Default Menu Item"), &tmpNopacityConfig->fontMenuitemDefault, -20, 20));
     Add(new cMenuEditStraItem(tr("Adjustment of narrow menus"), &tmpNopacityConfig->menuAdjustLeft, 2, adjustLeft));
     Add(new cMenuEditBoolItem(tr("Scale Video size to fit into menu window"), &tmpNopacityConfig->scalePicture));
-    Add(new cMenuEditIntItem(tr("Header Height (Percent of OSD Height)"), &tmpNopacityConfig->headerHeight, 0, 30));
+    Add(new cMenuEditIntItem(tr("Header Height (Percent of OSD Height)"), &tmpNopacityConfig->headerHeight, 5, 30));
     Add(new cMenuEditIntItem(tr("Header Icon Size (Square Header Menu Icons)"), &tmpNopacityConfig->headerIconHeight, 30, 200));
-    Add(new cMenuEditIntItem(tr("Footer Height (Percent of OSD Height)"), &tmpNopacityConfig->footerHeight, 0, 30));
+    Add(new cMenuEditIntItem(tr("Footer Height (Percent of OSD Height)"), &tmpNopacityConfig->footerHeight, 5, 30));
     Add(new cMenuEditBoolItem(tr("Rounded Corners for menu items and buttons"), &tmpNopacityConfig->roundedCorners));
     if (tmpNopacityConfig->roundedCorners)
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Radius of rounded corners")), &tmpNopacityConfig->cornerRadius, 5, 30));
@@ -273,10 +273,10 @@ void cNopacitySetupMenuDisplayMain::Set(void) {
     Clear();
     Add(new cMenuEditBoolItem(tr("Use narrow main menu"), &tmpNopacityConfig->narrowMainMenu));
     if (tmpNopacityConfig->narrowMainMenu)
-        Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Width (Percent of OSD Width)")), &tmpNopacityConfig->menuWidthMain, 10, 100));
+        Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Width (Percent of OSD Width)")), &tmpNopacityConfig->menuWidthMain, 10, 97));
     Add(new cMenuEditBoolItem(tr("Use narrow setup menu"), &tmpNopacityConfig->narrowSetupMenu));
     if (tmpNopacityConfig->narrowSetupMenu)
-        Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Width (Percent of OSD Width)")), &tmpNopacityConfig->menuWidthSetup, 10, 100));
+        Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Width (Percent of OSD Width)")), &tmpNopacityConfig->menuWidthSetup, 10, 97));
 
     Add(new cMenuEditBoolItem(tr("Use menu icons"), &tmpNopacityConfig->useMenuIcons));
     if (tmpNopacityConfig->useMenuIcons)
@@ -284,14 +284,14 @@ void cNopacitySetupMenuDisplayMain::Set(void) {
     Add(new cMenuEditStraItem(tr("Main menu title style"), &tmpNopacityConfig->mainMenuTitleStyle, 3, titleStyle));
     Add(new cMenuEditBoolItem(tr("Display Disk Usage"), &tmpNopacityConfig->showDiscUsage));
     if (tmpNopacityConfig->showDiscUsage) {
-        Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Size (square, Percent of OSD Width)")), &tmpNopacityConfig->menuSizeDiskUsage, 2, 100));
+        Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Size (square, Percent of OSD Width)")), &tmpNopacityConfig->menuSizeDiskUsage, 5, 30));
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Adjust Font Size - free")), &tmpNopacityConfig->fontDiskUsage, -20, 20));
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Adjust Font Size - percent")), &tmpNopacityConfig->fontDiskUsagePercent, -20, 20));
     }
     Add(new cMenuEditBoolItem(tr("Display Timers"), &tmpNopacityConfig->showTimers));
     if (tmpNopacityConfig->showTimers) {
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Maximum number of Timers")), &tmpNopacityConfig->numberTimers, 1, 10));
-        Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Width of Timers (Percent of OSD Width)")), &tmpNopacityConfig->menuWidthRightItems, 5, 100));
+        Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Width of Timers (Percent of OSD Width)")), &tmpNopacityConfig->menuWidthRightItems, 5, 30));
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Channel Logo Width")), &tmpNopacityConfig->timersLogoWidth, 30, 300));
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Channel Logo Height")), &tmpNopacityConfig->timersLogoHeight, 30, 300));
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Adjust Font Size - Header")), &tmpNopacityConfig->fontTimersHead, -20, 20));
@@ -325,7 +325,7 @@ void cNopacitySetupMenuDisplaySchedules::Set(void) {
 
     Add(new cMenuEditBoolItem(tr("Use narrow menu"), &tmpNopacityConfig->narrowScheduleMenu));
     if (tmpNopacityConfig->narrowScheduleMenu)
-        Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Width (Percent of OSD Width)")), &tmpNopacityConfig->menuWidthSchedules, 10, 100));
+        Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Width (Percent of OSD Width)")), &tmpNopacityConfig->menuWidthSchedules, 10, 97));
     Add(new cMenuEditIntItem(tr("Channel Logo Width"), &tmpNopacityConfig->menuItemLogoWidth, 30, 200));
     Add(new cMenuEditIntItem(tr("Channel Logo Height"), &tmpNopacityConfig->menuItemLogoHeight, 30, 200));
     Add(new cMenuEditIntItem(tr("EPG Window Fade-In Time in ms (Zero for switching off fading)"), &tmpNopacityConfig->menuEPGWindowFadeTime, 0, 1000));
@@ -367,7 +367,7 @@ void cNopacitySetupMenuDisplayChannels::Set(void) {
     
     Add(new cMenuEditBoolItem(tr("Use narrow menu"), &tmpNopacityConfig->narrowChannelMenu));
     if (tmpNopacityConfig->narrowChannelMenu)
-        Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Width (Percent of OSD Width)")), &tmpNopacityConfig->menuWidthChannels, 10, 100));
+        Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Width (Percent of OSD Width)")), &tmpNopacityConfig->menuWidthChannels, 10, 97));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Menu Item"), &tmpNopacityConfig->fontMenuitemChannel, -20, 20));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Menu Item Small"), &tmpNopacityConfig->fontMenuitemChannelSmall, -20, 20));
    
@@ -387,7 +387,7 @@ void cNopacitySetupMenuDisplayTimers::Set(void) {
     
     Add(new cMenuEditBoolItem(tr("Use narrow menu"), &tmpNopacityConfig->narrowTimerMenu));
     if (tmpNopacityConfig->narrowTimerMenu)
-        Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Width (Percent of OSD Width)")), &tmpNopacityConfig->menuWidthTimers, 10, 100));
+        Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Width (Percent of OSD Width)")), &tmpNopacityConfig->menuWidthTimers, 10, 97));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Menu Item"), &tmpNopacityConfig->fontMenuitemTimers, -20, 20));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Menu Item Small"), &tmpNopacityConfig->fontMenuitemTimersSmall, -20, 20));
    
@@ -407,7 +407,7 @@ void cNopacitySetupMenuDisplayRecordings::Set(void) {
     
     Add(new cMenuEditBoolItem(tr("Use narrow menu"), &tmpNopacityConfig->narrowRecordingMenu));
     if (tmpNopacityConfig->narrowRecordingMenu)
-        Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Width (Percent of OSD Width)")), &tmpNopacityConfig->menuWidthRecordings, 10, 100));
+        Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Width (Percent of OSD Width)")), &tmpNopacityConfig->menuWidthRecordings, 10, 97));
     Add(new cMenuEditBoolItem(tr("Display additional EPG Pictures in detailed recording View"), &tmpNopacityConfig->displayAdditionalRecEPGPictures));
     if (tmpNopacityConfig->displayAdditionalRecEPGPictures)
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Number of EPG pictures to display")), &tmpNopacityConfig->numAdditionalRecEPGPictures, 1, 9));
@@ -435,7 +435,7 @@ void cNopacitySetupChannelDisplay::Set(void) {
     Clear();
 
     Add(new cMenuEditIntItem(tr("Fade-In Time in ms (Zero for switching off fading)"), &tmpNopacityConfig->channelFadeTime, 0, 1000));
-    Add(new cMenuEditIntItem(tr("Height of Channel Display (Percent of OSD Height)"), &tmpNopacityConfig->channelHeight, 15, 100));
+    Add(new cMenuEditIntItem(tr("Height of Channel Display (Percent of OSD Height)"), &tmpNopacityConfig->channelHeight, 15, 80));
     Add(new cMenuEditIntItem(tr("Left & Right Border Width"), &tmpNopacityConfig->channelBorderVertical, 0, 300));
     Add(new cMenuEditIntItem(tr("Bottom Border Height"), &tmpNopacityConfig->channelBorderBottom, 0, 300));
     Add(new cMenuEditStraItem(tr("Channel Logo Position"), &tmpNopacityConfig->logoPosition, 3, logoPos));
@@ -467,7 +467,7 @@ void cNopacitySetupReplayDisplay::Set(void) {
     Clear();
 
     Add(new cMenuEditIntItem(tr("Fade-In Time in ms (Zero for switching off fading)"), &tmpNopacityConfig->replayFadeTime, 0, 1000));
-    Add(new cMenuEditIntItem(tr("Height of Replay Display (Percent of OSD Height)"), &tmpNopacityConfig->replayHeight, 15, 100));
+    Add(new cMenuEditIntItem(tr("Height of Replay Display (Percent of OSD Height)"), &tmpNopacityConfig->replayHeight, 15, 80));
     Add(new cMenuEditIntItem(tr("Left & Right Border Width"), &tmpNopacityConfig->replayBorderVertical, 0, 300));
     Add(new cMenuEditIntItem(tr("Bottom Border Height"), &tmpNopacityConfig->replayBorderBottom, 0, 300));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Header"), &tmpNopacityConfig->fontReplayHeader, -20, 20));
