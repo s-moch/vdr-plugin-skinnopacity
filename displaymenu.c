@@ -9,7 +9,6 @@ namespace PluginRemoteTimers {
 #include <string>
 
 cNopacityDisplayMenu::cNopacityDisplayMenu(void) {
-esyslog("nopacity: starting menu");
     config.setDynamicValues();
     menuCategoryLast = mcUndefined;
     FrameTime = config.menuFrameTime; 
@@ -359,7 +358,6 @@ void cNopacityDisplayMenu::SetButtonPositions(void) {
             continue;
         }
     }
-    
 }
 
 void cNopacityDisplayMenu::SetButtons(const char *Red, const char *Green, const char *Yellow, const char *Blue) {

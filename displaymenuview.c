@@ -90,7 +90,7 @@ void cNopacityDisplayMenuView::SetGeometry(void) {
     menuItemHeightRecordings = config.menuRecFolderSize + 2;
     diskUsageWidth = diskUsageHeight = osdWidth  * config.menuSizeDiskUsage / 100;
     timersWidth = osdWidth  * config.menuWidthRightItems / 100;
-    buttonsBorder = 10;
+    buttonsBorder = footerHeight / 6;
     buttonWidth = (osdWidth / 4) - 2 * buttonsBorder;
     buttonHeight = footerHeight - 3 * buttonsBorder;
     messageWidth = 0.8 * osdWidth;

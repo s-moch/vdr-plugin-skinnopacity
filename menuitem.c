@@ -155,6 +155,8 @@ void cNopacityMenuItem::DoSleep(int duration) {
 }
 
 std::string cNopacityMenuItem::CutText(std::string *text, int width, const cFont *font) {
+    if (width <= font->Size())
+        return text->c_str();
     cTextWrapper twText;
     twText.Set(text->c_str(), font, width);
     std::string cuttedTextNative = twText.GetLine(0);
@@ -165,6 +167,8 @@ std::string cNopacityMenuItem::CutText(std::string *text, int width, const cFont
     if (actWidth > width) {
         int overlap = actWidth - width;
         int charWidth = font->Width(".");
+        if (charWidth == 0)
+            charWidth = 1;
         int cutChars = overlap / charWidth;
         if (cutChars > 0) {
             cuttedTextNative = cuttedTextNative.substr(0, cuttedTextNative.length() - cutChars);
