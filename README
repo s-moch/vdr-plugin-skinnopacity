@@ -72,6 +72,11 @@ package maintainer or distributor in parallel.
 For S2-6400 Users: Disable High Level OSD, otherwise the plugin will not be
 loaded because lack of true color support
 
+For Xine-Plugin Users: Set "Blend scaled Auto" as OSD display mode to achieve
+an suitable true color OSD.
+
+For Xineliboutput Users: Start vdr-sxfe with the --hud option enabled
+
 Usage
 -----
 

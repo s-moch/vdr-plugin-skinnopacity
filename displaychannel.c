@@ -22,45 +22,49 @@ cNopacityDisplayChannel::cNopacityDisplayChannel(bool WithInfo) {
     FadeTime = config.channelFadeTime;
     lastDate = "";
     SetGeometry();
-    CreatePixmaps();
-    CreateFonts();
-    DrawBackground();
-    DrawSignalMeter();
+    if (osd) {
+        CreatePixmaps();
+        CreateFonts();
+        DrawBackground();
+        DrawSignalMeter();
+    }
 }
 
 cNopacityDisplayChannel::~cNopacityDisplayChannel() {
     Cancel(-1);
     while (Active())
         cCondWait::SleepMs(10);
-    osd->DestroyPixmap(pixmapBackgroundTop);
-    osd->DestroyPixmap(pixmapBackgroundBottom);
-    osd->DestroyPixmap(pixmapLogo);
-    osd->DestroyPixmap(pixmapChannelInfo);
-    osd->DestroyPixmap(pixmapDate);
-    if (withInfo) {
-        osd->DestroyPixmap(pixmapBackgroundMiddle);
-        osd->DestroyPixmap(pixmapProgressBar);
-        osd->DestroyPixmap(pixmapEPGInfo);
+    if (osd) {
+        osd->DestroyPixmap(pixmapBackgroundTop);
+        osd->DestroyPixmap(pixmapBackgroundBottom);
+        osd->DestroyPixmap(pixmapLogo);
+        osd->DestroyPixmap(pixmapChannelInfo);
+        osd->DestroyPixmap(pixmapDate);
+        if (withInfo) {
+            osd->DestroyPixmap(pixmapBackgroundMiddle);
+            osd->DestroyPixmap(pixmapProgressBar);
+            osd->DestroyPixmap(pixmapEPGInfo);
+        }
+        if (pixmapScreenResolution)
+            osd->DestroyPixmap(pixmapScreenResolution); 
+        osd->DestroyPixmap(pixmapFooter);
+        osd->DestroyPixmap(pixmapStreamInfo);
+        osd->DestroyPixmap(pixmapStreamInfoBack);
+        if (config.displaySignalStrength && showSignal) {
+            osd->DestroyPixmap(pixmapSignalStrength);
+            osd->DestroyPixmap(pixmapSignalQuality);
+            osd->DestroyPixmap(pixmapSignalMeter);
+            osd->DestroyPixmap(pixmapSignalLabel);
+        }
+        if (config.displaySignalStrength && showSignal) {
+            delete fontInfoline;
+        }
+        delete fontHeader;
+        delete fontDate;
+        delete fontEPG;
+        delete fontEPGSmall;
+        delete osd;
     }
-    if (pixmapScreenResolution)
-        osd->DestroyPixmap(pixmapScreenResolution); 
-    osd->DestroyPixmap(pixmapFooter);
-    osd->DestroyPixmap(pixmapStreamInfo);
-    osd->DestroyPixmap(pixmapStreamInfoBack);
-    if (config.displaySignalStrength && showSignal) {
-        osd->DestroyPixmap(pixmapSignalStrength);
-        osd->DestroyPixmap(pixmapSignalQuality);
-        osd->DestroyPixmap(pixmapSignalMeter);
-        osd->DestroyPixmap(pixmapSignalLabel);
-    }
-    if (config.displaySignalStrength && showSignal) {
-        delete fontInfoline;
-    }
-    delete fontHeader;
-    delete fontDate;
-    delete fontEPG;
-    delete fontEPGSmall;
-    delete osd;
 }
 
 void cNopacityDisplayChannel::SetGeometry(void) {

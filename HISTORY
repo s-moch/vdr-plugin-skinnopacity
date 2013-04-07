@@ -187,3 +187,4 @@ Version 0.1.1
 - changed tracks display to fixed track item height
 - changed stereo and ac3 icons in tracks display
 - Added RSS Feed support
+- Fixed crash on initial startup with xine plugin as output device
