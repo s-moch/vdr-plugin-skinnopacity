@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-03-24 11:09+0100\n"
+"POT-Creation-Date: 2013-03-31 14:22+0200\n"
 "PO-Revision-Date: 2012-11-11 17:49+0200\n"
 "Last-Translator: louis\n"
 "Language-Team: \n"
@@ -91,6 +91,9 @@ msgstr "Audio Spuren"
 
 msgid "Messages"
 msgstr "Nachrichten"
+
+msgid "RSS Feeds"
+msgstr "RSS Feeds"
 
 msgid "right"
 msgstr "rechts"
@@ -394,6 +397,36 @@ msgstr "Breite der Lautstärken Anzeige (% der OSD Breite)"
 
 msgid "Height of Volume Display (Percent of OSD Height)"
 msgstr "Höhe der Lautstärken Anzeige (% der OSD Höhe)"
+
+msgid "none"
+msgstr "keiner"
+
+msgid "Display RSS Feed"
+msgstr "RSS Feed anzeigen"
+
+msgid "Height of RSS Feed Line (Percent of OSD Height)"
+msgstr "Höhe des RSS Feeds (% der OSD Höhe)"
+
+msgid "RSS Feed 1"
+msgstr "RSS Feed 1"
+
+msgid "RSS Feed 2"
+msgstr "RSS Feed 2"
+
+msgid "RSS Feed 3"
+msgstr "RSS Feed 3"
+
+msgid "RSS Feed 4"
+msgstr "RSS Feed 4"
+
+msgid "RSS Feed 5"
+msgstr "RSS Feed 5"
+
+msgid "Scrolling Speed"
+msgstr "Scroll Geschwindigkeit"
+
+msgid "Scrolling Delay in s"
+msgstr "Scroll Verzögerung in s"
 
 msgid "conflict"
 msgstr "Konflikt"

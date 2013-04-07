@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: vdr-skinnopacity 0.0.6\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-03-24 11:09+0100\n"
+"POT-Creation-Date: 2013-03-31 14:22+0200\n"
 "PO-Revision-Date: 2013-03-12 15:59+0100\n"
 "Last-Translator: Milan Hrala <hrala.milan@gmail.com>\n"
 "Language-Team: \n"
@@ -94,6 +94,9 @@ msgstr "Zvuková stopa"
 
 msgid "Messages"
 msgstr "Správy"
+
+msgid "RSS Feeds"
+msgstr ""
 
 msgid "right"
 msgstr "vpravo"
@@ -396,6 +399,36 @@ msgid "Width of Volume Display (Percent of OSD Height)"
 msgstr "©írka zobrazenia hlasitosti (Percent z OSD ¹írky)"
 
 msgid "Height of Volume Display (Percent of OSD Height)"
+msgstr ""
+
+msgid "none"
+msgstr ""
+
+msgid "Display RSS Feed"
+msgstr ""
+
+msgid "Height of RSS Feed Line (Percent of OSD Height)"
+msgstr ""
+
+msgid "RSS Feed 1"
+msgstr ""
+
+msgid "RSS Feed 2"
+msgstr ""
+
+msgid "RSS Feed 3"
+msgstr ""
+
+msgid "RSS Feed 4"
+msgstr ""
+
+msgid "RSS Feed 5"
+msgstr ""
+
+msgid "Scrolling Speed"
+msgstr ""
+
+msgid "Scrolling Delay in s"
 msgstr ""
 
 msgid "conflict"

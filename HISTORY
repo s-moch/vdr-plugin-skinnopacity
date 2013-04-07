@@ -186,3 +186,4 @@ Version 0.1.1
   to avoid nasty font pixelation effect
 - changed tracks display to fixed track item height
 - changed stereo and ac3 icons in tracks display
+- Added RSS Feed support

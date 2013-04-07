@@ -9,6 +9,7 @@ namespace PluginRemoteTimers {
 #include <string>
 
 cNopacityDisplayMenu::cNopacityDisplayMenu(void) {
+esyslog("nopacity: starting menu");
     config.setDynamicValues();
     menuCategoryLast = mcUndefined;
     FrameTime = config.menuFrameTime; 
@@ -32,12 +33,27 @@ cNopacityDisplayMenu::cNopacityDisplayMenu(void) {
     menuView->CreateBackgroundImages(handleBackgrounds, handleButtons);
     menuView->DrawHeaderLogo();
     menuView->DrawBorderDecoration();
+    currentFeed = 0;
+    if (config.displayRSSFeed) {
+        menuView->DrawRssFeed(config.rssFeeds[config.rssFeed[currentFeed]].name);
+        rssReader = new cRssReader(osd, menuView->GetRssFeedFont(), menuView->GetRssFeedPosition(), menuView->GetRssFeedSize());
+        rssReader->SetFeed(config.rssFeeds[config.rssFeed[currentFeed]].url);
+        rssReader->Start();
+    } else
+        rssReader = NULL;
 }
 
 cNopacityDisplayMenu::~cNopacityDisplayMenu() {
     Cancel(-1);
     while (Active())
         cCondWait::SleepMs(10);
+    if (rssReader) {
+        rssReader->Stop();
+        while (rssReader->Active())
+            cCondWait::SleepMs(10);
+        delete rssReader;
+        rssReader = NULL;
+    }
     delete menuView;
     menuItems.Clear();
     if (detailView) {
@@ -51,6 +67,7 @@ cNopacityDisplayMenu::~cNopacityDisplayMenu() {
 
     delete osd;
     cDevice::PrimaryDevice()->ScaleVideo(cRect::Null);
+    menuActive = false;
 }
 
 void cNopacityDisplayMenu::DrawDisk(void) {
@@ -757,3 +774,40 @@ void cNopacityDisplayMenu::Action(void) {
             break;
     }
 }
+
+void cNopacityDisplayMenu::SwitchNextRssMessage(void) {
+    if (!config.displayRSSFeed)
+        return;
+    if (rssReader) {
+        rssReader->SwitchNextMessage();
+    }
+}
+
+void cNopacityDisplayMenu::SwitchNextRssFeed(void) {
+    if (!config.displayRSSFeed)
+        return;
+    if (rssReader) {
+        rssReader->Stop();
+        while (rssReader->Active())
+            cCondWait::SleepMs(10);
+        delete rssReader;
+        rssReader = NULL;
+    }
+    SetNextFeed();
+    int feedNum = (config.rssFeed[currentFeed]==0)?0:(config.rssFeed[currentFeed]-1);
+    menuView->DrawRssFeed(config.rssFeeds[feedNum].name);
+    rssReader = new cRssReader(osd, menuView->GetRssFeedFont(), menuView->GetRssFeedPosition(), menuView->GetRssFeedSize());
+    rssReader->SetFeed(config.rssFeeds[feedNum].url);
+    rssReader->Start();
+}
+
+void cNopacityDisplayMenu::SetNextFeed(void) {
+    int nextFeed = 0;
+    for (int i = 1; i<6; i++) {
+        nextFeed = (currentFeed + i)%5;
+        if ((nextFeed == 0)||(config.rssFeed[nextFeed] > 0)) {
+            currentFeed = nextFeed;
+            break;
+        }    
+    }
+} 

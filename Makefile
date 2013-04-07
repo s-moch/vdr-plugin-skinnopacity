@@ -53,8 +53,11 @@ INCLUDES += $(shell pkg-config --cflags-only-I Magick++)
 DEFINES += -DPLUGIN_NAME_I18N='"$(PLUGIN)"'
 DEFINES += -DMAGICKCORE_HDRI_ENABLE=0
 DEFINES += -DMAGICKCORE_QUANTUM_DEPTH=16
+DEFINES += $(shell xml2-config --cflags)
 
 LIBS += $(shell pkg-config --libs Magick++)
+LIBS += $(shell pkg-config --libs libcurl)
+LIBS += $(shell xml2-config --libs)
 
 ### The object files (add further files here):
 

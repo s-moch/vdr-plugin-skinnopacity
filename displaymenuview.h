@@ -20,6 +20,9 @@ class cNopacityDisplayMenuView {
         cPixmap *pixmapDiskUsageIcon;
         cPixmap *pixmapDiskUsageLabel;
         cPixmap *pixmapStatus;
+        cPixmap *pixmapRssFeed;
+        cPixmap *pixmapRssFeedBackground;
+        cPixmap *pixmapRssFeedIcon;
         cFont *fontHeader;
         cFont *fontDate;
         cFont *fontMenuitemLarge;
@@ -39,11 +42,12 @@ class cNopacityDisplayMenuView {
         cFont *fontButtons;
         cFont *fontMessage;
         cFont *fontEPGInfoWindow;
+        cFont *fontRssFeed;
         int osdWidth, osdHeight;
         int osdLeft, osdTop;
         int widthScrollbar;
         int dateWidth;
-        int headerHeight, footerHeight, contentHeight;
+        int headerHeight, footerHeight, rssFeedHeight, contentHeight;
         int contentWidthFull;
         int contentWidthMain;
         int contentWidthSchedules;
@@ -63,6 +67,7 @@ class cNopacityDisplayMenuView {
         int timersWidth;
         int buttonsBorder, buttonWidth, buttonHeight;
         int messageWidth, messageHeight;
+        int feedNameLength;
         int avrgFontWidth;
         cRect textWindowSizeSchedules;
         cRect textWindowSizeRecordings;
@@ -114,6 +119,10 @@ class cNopacityDisplayMenuView {
         void DrawMessage(eMessageType Type, const char *Text);
         void ClearMessage(void);
         void SetDetailViewSize(eDetailViewType detailViewType, cNopacityMenuDetailView *detailView);
+        void DrawRssFeed(std::string feedName);
+        cFont *GetRssFeedFont(void) {return fontRssFeed;};
+        cPoint GetRssFeedPosition(void);
+        cPoint GetRssFeedSize(void);
         int spaceMenu;
 };
 

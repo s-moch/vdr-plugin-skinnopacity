@@ -19,7 +19,12 @@ cNopacityDisplayMenuView::~cNopacityDisplayMenuView(void) {
     osd->DestroyPixmap(pixmapDiskUsageLabel);
     if (pixmapHeaderIcon)
         osd->DestroyPixmap(pixmapHeaderIcon);
-    
+    if (pixmapRssFeed)
+        osd->DestroyPixmap(pixmapRssFeed);
+    if (pixmapRssFeedBackground)
+        osd->DestroyPixmap(pixmapRssFeedBackground);
+    if (pixmapRssFeedIcon)
+        osd->DestroyPixmap(pixmapRssFeedIcon);
     delete fontHeader;
     delete fontDate;
     delete fontMenuitemLarge;
@@ -39,6 +44,7 @@ cNopacityDisplayMenuView::~cNopacityDisplayMenuView(void) {
     delete fontButtons;
     delete fontMessage;
     delete fontEPGInfoWindow;
+    delete fontRssFeed;
 }
 
 cOsd *cNopacityDisplayMenuView::createOsd(void) {
@@ -56,7 +62,8 @@ void cNopacityDisplayMenuView::SetGeometry(void) {
     dateWidth = osdWidth * 0.3;
     headerHeight = osdHeight * config.headerHeight / 100;
     footerHeight = osdHeight * config.footerHeight / 100;
-    contentHeight = osdHeight - headerHeight - footerHeight;
+    rssFeedHeight = (config.displayRSSFeed)?(osdHeight * config.rssFeedHeight / 100):0;
+    contentHeight = osdHeight - headerHeight - footerHeight - rssFeedHeight;
     contentWidthMain = osdWidth * config.menuWidthMain / 100;
     contentWidthSchedules = osdWidth * config.menuWidthSchedules / 100;
     contentWidthChannels = osdWidth * config.menuWidthChannels / 100;
@@ -163,7 +170,7 @@ void cNopacityDisplayMenuView::CreatePixmaps(void) {
     pixmapHeaderLogo = osd->CreatePixmap(-1, cRect(logoX, 0, config.menuHeaderLogoWidth, config.menuHeaderLogoHeight));
     int labelX = (config.menuAdjustLeft) ? 0 : dateWidth;
     pixmapHeaderLabel = osd->CreatePixmap(2, cRect(labelX, 0, osdWidth - dateWidth, headerHeight));
-    pixmapFooter = osd->CreatePixmap(1, cRect(0, osdHeight-footerHeight, osdWidth, footerHeight));
+    pixmapFooter = osd->CreatePixmap(1, cRect(0, osdHeight - rssFeedHeight - footerHeight, osdWidth, footerHeight));
     int drawPortWidth = osdWidth + contentWidthFull - contentWidthMinimum;
     pixmapContent = osd->CreatePixmap(1, cRect(0, headerHeight, osdWidth, contentHeight),
                                          cRect(0, 0, drawPortWidth, contentHeight));
@@ -174,6 +181,15 @@ void cNopacityDisplayMenuView::CreatePixmaps(void) {
     int scrollbarX = (config.menuAdjustLeft) ? contentWidthMain : (osdWidth - contentWidthMain);
     pixmapScrollbar = osd->CreatePixmap(2, cRect(scrollbarX, headerHeight + spaceMenu, widthScrollbar, contentHeight - 2 * spaceMenu));
 
+    if (config.displayRSSFeed) {
+        pixmapRssFeedBackground = osd->CreatePixmap(1, cRect(0, headerHeight + contentHeight + footerHeight, osdWidth, rssFeedHeight));
+        pixmapRssFeed = osd->CreatePixmap(2, cRect(0, headerHeight + contentHeight + footerHeight, osdWidth, rssFeedHeight));
+        pixmapRssFeedIcon = osd->CreatePixmap(3, cRect(0, headerHeight + contentHeight + footerHeight, rssFeedHeight, rssFeedHeight));
+    } else {
+        pixmapRssFeedBackground = NULL;
+        pixmapRssFeed = NULL;
+        pixmapRssFeedIcon = NULL;
+    }
     pixmapHeaderLogo->Fill(clrTransparent);
     pixmapHeaderLabel->Fill(clrTransparent);
     pixmapDiskUsage->Fill(clrTransparent);
@@ -226,6 +242,7 @@ void cNopacityDisplayMenuView::CreateFonts(void) {
     fontButtons = cFont::CreateFont(config.fontName, buttonHeight*0.8 + config.fontButtons);
     fontMessage = cFont::CreateFont(config.fontName, messageHeight / 3 + config.fontMessageMenu);
     fontEPGInfoWindow = cFont::CreateFont(config.fontName, (config.menuHeightInfoWindow *  contentHeight / 100)/ 6 + config.fontEPGInfoWindow);
+    fontRssFeed = cFont::CreateFont(config.fontName, (rssFeedHeight / 2) + 3 + config.fontRssFeed);
 }
 
 cFont *cNopacityDisplayMenuView::GetMenuItemFont(eMenuCategory menuCat) {
@@ -512,7 +529,7 @@ void cNopacityDisplayMenuView::AdjustContentBackground(eMenuCategory menuCat, eM
     }
     osd->DestroyPixmap(pixmapScrollbar);
     int scrollbarX = (config.menuAdjustLeft)?(contentWidth):(osdWidth - contentWidth - widthScrollbar);
-    pixmapScrollbar = osd->CreatePixmap(2, cRect(scrollbarX , headerHeight + spaceMenu, widthScrollbar, osdHeight - headerHeight - footerHeight - 2*spaceMenu));
+    pixmapScrollbar = osd->CreatePixmap(2, cRect(scrollbarX , headerHeight + spaceMenu, widthScrollbar, contentHeight - 2*spaceMenu));
     pixmapScrollbar->Fill(clrTransparent);
 }
 
@@ -804,4 +821,37 @@ void cNopacityDisplayMenuView::SetDetailViewSize(eDetailViewType detailViewType,
     height = contentHeight;
     top = headerHeight;
     detailView->SetGeometry(x, width, height, top, contentBorder, detailHeaderHeight);
+}
+
+void cNopacityDisplayMenuView::DrawRssFeed(std::string feedName) {
+    pixmapRssFeedBackground->Fill(clrBlack);
+    pixmapRssFeed->Fill(clrTransparent);
+    feedNameLength = fontRssFeed->Width(feedName.c_str());
+    int labelWidth = 2 + rssFeedHeight + 2 + feedNameLength + 6;
+    pixmapRssFeed->Fill(Theme.Color(clrMenuBorder));
+    cImageLoader imgLoader;
+    imgLoader.DrawBackground(Theme.Color(clrMenuItemHigh), Theme.Color(clrMenuItemHighBlend), labelWidth, rssFeedHeight - 4);
+    pixmapRssFeed->DrawImage(cPoint(2,2), imgLoader.GetImage());
+
+    imgLoader.DrawBackground(Theme.Color(clrMenuItem), Theme.Color(clrMenuItemBlend), osdWidth - labelWidth - 2, rssFeedHeight - 4);
+    pixmapRssFeed->DrawImage(cPoint(labelWidth,2), imgLoader.GetImage());
+    
+    pixmapRssFeed->DrawText(cPoint(rssFeedHeight + 2, (rssFeedHeight - fontRssFeed->Height()) / 2), feedName.c_str(), Theme.Color(clrMenuFontHeader), clrTransparent, fontRssFeed);
+    pixmapRssFeedIcon->Fill(clrTransparent);
+    if (imgLoader.LoadIcon("skinIcons/rss", rssFeedHeight-4)) {
+        cImage icon = imgLoader.GetImage();
+        pixmapRssFeedIcon->DrawImage(cPoint(2,2), icon);
+    }
+}
+
+cPoint cNopacityDisplayMenuView::GetRssFeedPosition(void) {
+    int x = rssFeedHeight + feedNameLength + 10;
+    int y = osdHeight - rssFeedHeight + 2;
+    return cPoint(x, y);
+}
+
+cPoint cNopacityDisplayMenuView::GetRssFeedSize(void) {
+    int width = osdWidth - (rssFeedHeight + feedNameLength + 12);
+    int height = rssFeedHeight - 4;
+    return cPoint(width, height);
 }

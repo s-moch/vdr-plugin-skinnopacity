@@ -1,6 +1,11 @@
 #ifndef __NOPACITY_CONFIG_H
 #define __NOPACITY_CONFIG_H
 
+struct RssFeed {
+    std::string name;
+    std::string url;
+};
+
 class cNopacityConfig {
     private:
     public:
@@ -17,6 +22,7 @@ class cNopacityConfig {
         cString iconPathDefault;
         cString epgImagePathDefault;
         void setDynamicValues();
+        void loadRssFeeds(void);
         //Common
         int fontIndex;
         const char *fontDefaultName;
@@ -160,6 +166,15 @@ class cNopacityConfig {
         int fontDetailViewHeader;
         int fontDetailViewHeaderLarge;
         int fontEPGInfoWindow;
+        //RSS Feeds
+        std::vector<RssFeed> rssFeeds;
+        int displayRSSFeed;
+        int rssFeedHeight;
+        int fontRssFeed;
+        int rssScrollDelay;
+        int rssScrollSpeed;
+        int rssScrollFrameTime;
+        int rssFeed[5];
 };
 
 #endif //__NOPACITY_CONFIG_H

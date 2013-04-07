@@ -1,3 +1,5 @@
+#include <string>
+#include <vector>
 #include "config.h"
 
 cNopacityConfig::cNopacityConfig() {
@@ -134,6 +136,17 @@ cNopacityConfig::cNopacityConfig() {
     fontDetailViewHeader = 0;
     fontDetailViewHeaderLarge = 0;
     fontEPGInfoWindow = 0;
+    //RSS Feeds
+    displayRSSFeed = 1;
+    rssFeedHeight = 5;
+    fontRssFeed = 0;
+    rssScrollDelay = 2;
+    rssScrollSpeed = 1;
+    rssFeed[0] = 0;
+    rssFeed[1] = 0;
+    rssFeed[2] = 0;
+    rssFeed[3] = 0;
+    rssFeed[4] = 0;
 }
 
 cNopacityConfig::~cNopacityConfig() {
@@ -173,7 +186,16 @@ void cNopacityConfig::setDynamicValues() {
         menuInfoScrollFrameTime = 30;
     else if (menuInfoScrollSpeed == 3)
         menuInfoScrollFrameTime = 15;
-    
+
+    rssScrollFrameTime = 0;
+    if (rssScrollSpeed == 0)
+        rssScrollFrameTime = 30;
+    else if (rssScrollSpeed == 1)
+        rssScrollFrameTime = 15;
+    else if (rssScrollSpeed == 2)
+        rssScrollFrameTime = 5;
+
+        
     logoPathDefault = cString::sprintf("%s/logos/", cPlugin::ResourceDirectory(PLUGIN_NAME_I18N));
     iconPathDefault = cString::sprintf("%s/icons/", cPlugin::ResourceDirectory(PLUGIN_NAME_I18N));
     epgImagePathDefault = cString::sprintf("%s/epgimages/", cPlugin::CacheDirectory(PLUGIN_NAME_I18N));
@@ -182,6 +204,57 @@ void cNopacityConfig::setDynamicValues() {
     dsyslog("nopacity: using Icon Directory %s", (iconPathSet)?(*iconPath):(*iconPathDefault)); 
     dsyslog("nopacity: using EPG Images Directory %s", (epgImagePathSet)?(*epgImagePath):(*epgImagePathDefault)); 
 }
+
+void cNopacityConfig::loadRssFeeds(void) {
+    cString rssconf = cString::sprintf("%s/rssfeeds.conf", cPlugin::ConfigDirectory(PLUGIN_NAME_I18N));
+    dsyslog("nopacity: trying to load rss feeds from %s", *rssconf);
+    FILE *f = fopen(*rssconf, "r");
+    bool foundEntries = false;
+    if (f) {
+        char *line;
+        cReadLine ReadLine;
+        while ((line = ReadLine.Read(f)) != NULL) {
+            try {
+                std::string currentLine = line;
+                size_t startTag = currentLine.find_first_of('[') + 1;
+                size_t endTag = currentLine.find_first_of(']');
+                if (endTag != std::string::npos) {
+                    std::string rssName = currentLine.substr(startTag, endTag - 1);
+                    std::string rssUrl = currentLine.substr(endTag + 1);
+                    size_t startUrl = rssUrl.find_first_of("http");
+                    if (startUrl != std::string::npos) {
+                        rssUrl = rssUrl.substr(startUrl);
+                        size_t whitespaces = rssUrl.find_first_of(" ");
+                        if (whitespaces != std::string::npos) {
+                            rssUrl = rssUrl.substr(0, whitespaces);
+                        }
+                        RssFeed feed;
+                        feed.name = rssName;
+                        feed.url = rssUrl;
+                        rssFeeds.push_back(feed);
+                        foundEntries = true;
+                    }
+                }
+            } catch (...) {}
+        }
+        fclose(f);
+    }
+    if (foundEntries) {
+        dsyslog("nopacity: loaded %d rss feeds from %s", rssFeeds.size(), *rssconf);
+        int i = 1;
+        for (std::vector<RssFeed>::iterator it = rssFeeds.begin(); it != rssFeeds.end(); it++) {
+            dsyslog("nopacity: RssFeed %d: name %s, URL: %s", i, it->name.c_str(), it->url.c_str());
+            i++;
+        }
+    } else {
+        dsyslog("nopacity: no valid rss config found, using default rss feed");
+        RssFeed feed;
+        feed.name = "Tagesschau";
+        feed.url = "http://www.tagesschau.de/xml/rss2";
+        rssFeeds.push_back(feed);
+    }
+}
+
 
 void cNopacityConfig::SetLogoPath(cString path) {
     logoPath = path;
@@ -319,6 +392,16 @@ bool cNopacityConfig::SetupParse(const char *Name, const char *Value) {
     else if (strcmp(Name, "fontDetailViewHeader") == 0)    fontDetailViewHeader = atoi(Value);
     else if (strcmp(Name, "fontDetailViewHeaderLarge") == 0) fontDetailViewHeaderLarge = atoi(Value);
     else if (strcmp(Name, "fontEPGInfoWindow") == 0)       fontEPGInfoWindow = atoi(Value);
+    else if (strcmp(Name, "displayRSSFeed") == 0)          displayRSSFeed = atoi(Value);
+    else if (strcmp(Name, "rssFeedHeight") == 0)           rssFeedHeight = atoi(Value);
+    else if (strcmp(Name, "fontRssFeed") == 0)             fontRssFeed = atoi(Value);
+    else if (strcmp(Name, "rssScrollDelay") == 0)          rssScrollDelay = atoi(Value);
+    else if (strcmp(Name, "rssScrollSpeed") == 0)          rssScrollSpeed = atoi(Value);
+    else if (strcmp(Name, "rssFeed[0]") == 0)              rssFeed[0] = atoi(Value);
+    else if (strcmp(Name, "rssFeed[1]") == 0)              rssFeed[1] = atoi(Value);
+    else if (strcmp(Name, "rssFeed[2]") == 0)              rssFeed[2] = atoi(Value);
+    else if (strcmp(Name, "rssFeed[3]") == 0)              rssFeed[3] = atoi(Value);
+    else if (strcmp(Name, "rssFeed[4]") == 0)              rssFeed[4] = atoi(Value);
     else return false;
     return true;
     

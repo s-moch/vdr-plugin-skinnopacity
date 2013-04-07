@@ -21,6 +21,7 @@ static const char *MAINMENUENTRY  = "nOpacity";
 
 class cPluginNopacity : public cPlugin {
 private:
+  cNopacity *nopacity;
 public:
   cPluginNopacity(void);
   virtual ~cPluginNopacity();
@@ -46,6 +47,7 @@ public:
 
 cPluginNopacity::cPluginNopacity(void)
 {
+  nopacity = NULL;
 }
 
 cPluginNopacity::~cPluginNopacity()
@@ -107,7 +109,8 @@ bool cPluginNopacity::Start(void)
         return false;
     } else
         dsyslog("nopacity: TrueColor OSD found");
-  return new cNopacity;
+  nopacity = new cNopacity;
+  return nopacity;
 }
 
 void cPluginNopacity::Stop(void)
@@ -157,9 +160,18 @@ const char **cPluginNopacity::SVDRPHelpPages(void)
   return NULL;
 }
 
-cString cPluginNopacity::SVDRPCommand(const char *Command, const char *Option, int &ReplyCode)
-{
-  return NULL;
+cString cPluginNopacity::SVDRPCommand(const char *Command, const char *Option, int &ReplyCode) {
+    if (!strcasecmp(Command, "NEXTMESG")) {
+        ReplyCode = 250;
+        nopacity->svdrpSwitchMessage();
+        return "Switched to next RSS Message";
+    } else if (!strcasecmp(Command, "NEXTFEED")) {
+        ReplyCode = 250;
+        nopacity->svdrpSwitchRss();
+        return "Switched to next RSS Feed";
+    }
+    ReplyCode = 502;
+    return NULL;
 }
 
 VDRPLUGINCREATOR(cPluginNopacity); // Don't touch this!

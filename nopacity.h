@@ -4,7 +4,11 @@
 #include <vdr/skins.h>
 #include <vdr/videodir.h>
 
+class cNopacityDisplayMenu;
+
 class cNopacity : public cSkin {
+private:
+  cNopacityDisplayMenu *displayMenu;
 public:
   cNopacity(void);
   virtual const char *Description(void);
@@ -14,5 +18,7 @@ public:
   virtual cSkinDisplayVolume *DisplayVolume(void);
   virtual cSkinDisplayTracks *DisplayTracks(const char *Title, int NumTracks, const char * const *Tracks);
   virtual cSkinDisplayMessage *DisplayMessage(void);
+  void svdrpSwitchRss(void);
+  void svdrpSwitchMessage(void);
   };
 #endif //__NOPACITY_H

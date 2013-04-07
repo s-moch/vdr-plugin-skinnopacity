@@ -110,4 +110,13 @@ class cNopacitySetupVolumeDisplay : public cMenuSetupSubMenu {
     public:
         cNopacitySetupVolumeDisplay(cNopacityConfig *data);
 };
+class cNopacitySetupRssFeed : public cMenuSetupSubMenu {
+    protected:
+        const char *scrollSpeed[3];
+        const char *feeds[20];
+        const char *feedsWithNone[21];
+        void Set(void);
+    public:
+        cNopacitySetupRssFeed(cNopacityConfig *data);
+};
 #endif //__NOPACITY_SETUP_H

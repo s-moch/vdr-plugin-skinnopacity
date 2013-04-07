@@ -2,6 +2,7 @@
 #include <vdr/menu.h>
 
 static cTheme Theme;
+static bool menuActive = false;
 
 //COMMON
 #define CLR_TRANSBLACK          0xDD000000
@@ -131,6 +132,7 @@ cNopacityConfig config;
 #include "imageloader.c"
 #include "nopacity.h"
 #include "helpers.c"
+#include "rssreader.c"
 #include "displaychannel.c"
 #include "textwindow.c"
 #include "timers.c"
@@ -143,8 +145,12 @@ cNopacityConfig config;
 #include "displaytracks.c"
 #include "displaymessage.c"
 
+
+
 cNopacity::cNopacity(void) : cSkin("nOpacity", &::Theme) {
+    displayMenu = NULL;
     config.setDynamicValues();
+    config.loadRssFeeds();
 }
 
 const char *cNopacity::Description(void) {
@@ -156,7 +162,10 @@ cSkinDisplayChannel *cNopacity::DisplayChannel(bool WithInfo) {
 }
 
 cSkinDisplayMenu *cNopacity::DisplayMenu(void) {
-  return new cNopacityDisplayMenu;
+  cNopacityDisplayMenu *menu = new cNopacityDisplayMenu;
+  displayMenu = menu;
+  menuActive = true;
+  return menu;
 }
 
 cSkinDisplayReplay *cNopacity::DisplayReplay(bool ModeOnly) {
@@ -175,3 +184,14 @@ cSkinDisplayMessage *cNopacity::DisplayMessage(void) {
   return new cNopacityDisplayMessage;
 }
 
+void cNopacity::svdrpSwitchRss(void) {
+    if (menuActive) {
+        displayMenu->SwitchNextRssFeed();
+    }
+}
+
+void cNopacity::svdrpSwitchMessage(void) {
+    if (menuActive) {
+        displayMenu->SwitchNextRssMessage();
+    }
+}

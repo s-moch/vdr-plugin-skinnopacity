@@ -26,6 +26,7 @@ void cNopacitySetup::Setup(void) {
     Add(new cOsdItem(tr("Audio Tracks")));
     Add(new cOsdItem(tr("Messages")));
     Add(new cOsdItem(tr("Volume")));
+    Add(new cOsdItem(tr("RSS Feeds")));
     
     SetCurrent(Get(currentItem));
     Display();
@@ -61,6 +62,8 @@ eOSState cNopacitySetup::ProcessKey(eKeys Key) {
                 state = AddSubMenu(new cNopacitySetupMessageDisplay(&tmpNopacityConfig));
             if (strcmp(ItemText, tr("Volume")) == 0)
                 state = AddSubMenu(new cNopacitySetupVolumeDisplay(&tmpNopacityConfig));
+            if (strcmp(ItemText, tr("RSS Feeds")) == 0)
+                state = AddSubMenu(new cNopacitySetupRssFeed(&tmpNopacityConfig));
         }
     }   
     return state;
@@ -188,6 +191,16 @@ void cNopacitySetup::Store(void) {
     SetupStore("fontDetailViewHeader", config.fontDetailViewHeader);
     SetupStore("fontDetailViewHeaderLarge", config.fontDetailViewHeaderLarge);
     SetupStore("fontEPGInfoWindow", config.fontEPGInfoWindow);
+    SetupStore("displayRSSFeed", config.displayRSSFeed);
+    SetupStore("rssFeedHeight", config.rssFeedHeight);
+    SetupStore("rssFeed[0]", config.rssFeed[0]);
+    SetupStore("rssFeed[1]", config.rssFeed[1]);
+    SetupStore("rssFeed[2]", config.rssFeed[2]);
+    SetupStore("rssFeed[3]", config.rssFeed[3]);
+    SetupStore("rssFeed[4]", config.rssFeed[4]);
+    SetupStore("fontRssFeed", config.fontRssFeed);
+    SetupStore("rssScrollDelay", config.rssScrollDelay);
+    SetupStore("rssScrollSpeed", config.rssScrollSpeed);
 }
 
 //------------------------------------------------------------------------------------------------------------------
@@ -535,6 +548,45 @@ void cNopacitySetupVolumeDisplay::Set(void) {
     Add(new cMenuEditIntItem(tr("Bottom Border Height"), &tmpNopacityConfig->volumeBorderBottom, 0, 1000));
     Add(new cMenuEditIntItem(tr("Adjust Font Size"), &tmpNopacityConfig->fontVolume, -30, 30));
 
+    SetCurrent(Get(currentItem));
+    Display();
+}
+
+//-----RSS Feeds-------------------------------------------------------------------------------------------------------------
+
+cNopacitySetupRssFeed::cNopacitySetupRssFeed(cNopacityConfig* data)  : cMenuSetupSubMenu(tr("RSS Feeds"), data) {
+    scrollSpeed[0] = tr("slow");
+    scrollSpeed[1] = tr("medium");
+    scrollSpeed[2] = tr("fast");
+    feedsWithNone[0] = tr("none");
+    int i = 0;
+    for (std::vector<RssFeed>::iterator it = config.rssFeeds.begin(); it!=config.rssFeeds.end(); ++it) {
+        feeds[i] = it->name.c_str();
+        feedsWithNone[i+1] = it->name.c_str();
+        i++;
+        if (i==20)
+            break;
+    }
+    
+    Set();
+}
+
+void cNopacitySetupRssFeed::Set(void) {
+    int currentItem = Current();
+    Clear();
+
+    Add(new cMenuEditBoolItem(tr("Display RSS Feed"), &tmpNopacityConfig->displayRSSFeed));
+    if (tmpNopacityConfig->displayRSSFeed) {
+        Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Height of RSS Feed Line (Percent of OSD Height)")), &tmpNopacityConfig->rssFeedHeight, 3, 10));
+        Add(new cMenuEditStraItem(cString::sprintf("%s%s", *spacer, tr("RSS Feed 1")), &tmpNopacityConfig->rssFeed[0], config.rssFeeds.size(), feeds));
+        Add(new cMenuEditStraItem(cString::sprintf("%s%s", *spacer, tr("RSS Feed 2")), &tmpNopacityConfig->rssFeed[1], config.rssFeeds.size()+1, feedsWithNone));
+        Add(new cMenuEditStraItem(cString::sprintf("%s%s", *spacer, tr("RSS Feed 3")), &tmpNopacityConfig->rssFeed[2], config.rssFeeds.size()+1, feedsWithNone));
+        Add(new cMenuEditStraItem(cString::sprintf("%s%s", *spacer, tr("RSS Feed 4")), &tmpNopacityConfig->rssFeed[3], config.rssFeeds.size()+1, feedsWithNone));
+        Add(new cMenuEditStraItem(cString::sprintf("%s%s", *spacer, tr("RSS Feed 5")), &tmpNopacityConfig->rssFeed[4], config.rssFeeds.size()+1, feedsWithNone));
+        Add(new cMenuEditStraItem(cString::sprintf("%s%s", *spacer, tr("Scrolling Speed")), &tmpNopacityConfig->rssScrollSpeed, 3, scrollSpeed));
+        Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Scrolling Delay in s")), &tmpNopacityConfig->rssScrollDelay, 0, 3));
+        Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Adjust Font Size")), &tmpNopacityConfig->fontRssFeed, -30, 30));
+    }
     SetCurrent(Get(currentItem));
     Display();
 }
