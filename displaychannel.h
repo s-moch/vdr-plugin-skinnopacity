@@ -2,6 +2,7 @@
 #define __NOPACITY_DISPLAYCHANNEL_H
 
 enum eLogoPosition {lpNone = 0, lpLeft, lpRight};
+enum eBackgroundStyle {bsTrans = 0, bsFull};
 
 class cNopacityDisplayChannel : public cSkinDisplayChannel, cThread {
 private:
@@ -29,6 +30,9 @@ private:
     cPixmap *pixmapChannelInfo;
     cPixmap *pixmapDate;
     cPixmap *pixmapLogo;
+    cPixmap *pixmapLogoBackground;
+    cPixmap *pixmapLogoBackgroundTop;
+    cPixmap *pixmapLogoBackgroundBottom;
     cPixmap *pixmapProgressBar;
     cPixmap *pixmapEPGInfo;
     cPixmap *pixmapFooter;

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-03-31 14:22+0200\n"
+"POT-Creation-Date: 2013-04-07 13:48+0200\n"
 "PO-Revision-Date: 2013-03-19 22:56+0100\n"
 "Last-Translator: Diego Pierotto <vdr-italian@tiscali.it>\n"
 "Language-Team: \n"
@@ -317,6 +317,12 @@ msgstr "Mostra immagini EPG aggiuntivo nella vista dettagli registrazione"
 msgid "Folder Icon Size"
 msgstr "Dim. icona cartella"
 
+msgid "transparent channel logo"
+msgstr ""
+
+msgid "full osd width"
+msgstr ""
+
 msgid "do not display"
 msgstr "non mostrare"
 
@@ -334,6 +340,9 @@ msgstr "Larghezza bordi sinistro e destro"
 
 msgid "Bottom Border Height"
 msgstr "Altezza bordo inferiore"
+
+msgid "Background Style"
+msgstr ""
 
 msgid "Channel Logo Position"
 msgstr "Posizione logo canale"

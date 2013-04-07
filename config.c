@@ -20,6 +20,7 @@ cNopacityConfig::cNopacityConfig() {
     logoHeight = 200;
     logoExtension = "png";
     logoBorder = 15;
+    backgroundStyle = 0;
     displaySignalStrength = 1;
     fontChannelHeaderSize = 0;
     fontChannelDateSize = 0;
@@ -281,6 +282,7 @@ bool cNopacityConfig::SetupParse(const char *Name, const char *Value) {
     else if (strcmp(Name, "logoWidth") == 0)               logoWidth = atoi(Value);
     else if (strcmp(Name, "logoHeight") == 0)              logoHeight = atoi(Value);
     else if (strcmp(Name, "logoBorder") == 0)              logoBorder = atoi(Value);
+    else if (strcmp(Name, "backgroundStyle") == 0)         backgroundStyle = atoi(Value);
     else if (strcmp(Name, "displaySignalStrength") == 0)   displaySignalStrength = atoi(Value);
     else if (strcmp(Name, "fontChannelHeaderSize") == 0)   fontChannelHeaderSize = atoi(Value);
     else if (strcmp(Name, "fontChannelDateSize") == 0)     fontChannelDateSize = atoi(Value);

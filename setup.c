@@ -79,6 +79,7 @@ void cNopacitySetup::Store(void) {
     SetupStore("logoWidth", config.logoWidth);
     SetupStore("logoHeight", config.logoHeight);
     SetupStore("logoBorder", config.logoBorder);
+    SetupStore("backgroundStyle", config.backgroundStyle);
     SetupStore("displaySignalStrength", config.displaySignalStrength);
     SetupStore("channelFadeTime", config.channelFadeTime);
     SetupStore("fontChannelHeaderSize", config.fontChannelHeaderSize);
@@ -435,6 +436,8 @@ void cNopacitySetupMenuDisplayRecordings::Set(void) {
 //----ChannelDisplay--------------------------------------------------------------------------------------------------------------
 
 cNopacitySetupChannelDisplay::cNopacitySetupChannelDisplay(cNopacityConfig* data)  : cMenuSetupSubMenu(tr("Channel Switching"), data) {
+    bgStyle[0] = tr("transparent channel logo");
+    bgStyle[1] = tr("full osd width");
     logoPos[0] = tr("do not display");
     logoPos[1] = tr("left");
     logoPos[2] = tr("right");
@@ -451,6 +454,7 @@ void cNopacitySetupChannelDisplay::Set(void) {
     Add(new cMenuEditIntItem(tr("Height of Channel Display (Percent of OSD Height)"), &tmpNopacityConfig->channelHeight, 15, 80));
     Add(new cMenuEditIntItem(tr("Left & Right Border Width"), &tmpNopacityConfig->channelBorderVertical, 0, 300));
     Add(new cMenuEditIntItem(tr("Bottom Border Height"), &tmpNopacityConfig->channelBorderBottom, 0, 300));
+    Add(new cMenuEditStraItem(tr("Background Style"), &tmpNopacityConfig->backgroundStyle, 2, bgStyle));
     Add(new cMenuEditStraItem(tr("Channel Logo Position"), &tmpNopacityConfig->logoPosition, 3, logoPos));
     if (tmpNopacityConfig->logoPosition) {
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Channel Logo Width")), &tmpNopacityConfig->logoWidth, 30, 500));

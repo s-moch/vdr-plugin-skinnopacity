@@ -38,6 +38,9 @@ cNopacityDisplayChannel::~cNopacityDisplayChannel() {
         osd->DestroyPixmap(pixmapBackgroundTop);
         osd->DestroyPixmap(pixmapBackgroundBottom);
         osd->DestroyPixmap(pixmapLogo);
+        osd->DestroyPixmap(pixmapLogoBackground);
+        osd->DestroyPixmap(pixmapLogoBackgroundTop);
+        osd->DestroyPixmap(pixmapLogoBackgroundBottom);
         osd->DestroyPixmap(pixmapChannelInfo);
         osd->DestroyPixmap(pixmapDate);
         if (withInfo) {
@@ -122,13 +125,22 @@ void cNopacityDisplayChannel::CreatePixmaps(void) {
     
     switch (config.logoPosition) {
         case lpLeft:
-            pixmapLogo = osd->CreatePixmap(1, cRect(0, 0, config.logoWidth + 2 * config.logoBorder, height));
+            pixmapLogoBackgroundTop = osd->CreatePixmap(1, cRect(config.channelBorderVertical, 0, infoX - config.channelBorderVertical, channelInfoHeight));
+            pixmapLogoBackground = osd->CreatePixmap(1, cRect(config.channelBorderVertical, channelInfoHeight, infoX - config.channelBorderVertical, progressBarHeight + epgInfoHeight));
+            pixmapLogoBackgroundBottom = osd->CreatePixmap(1, cRect(config.channelBorderVertical, streamInfoY, infoX - config.channelBorderVertical, streamInfoHeight));
+            pixmapLogo = osd->CreatePixmap(2, cRect(0, 0, config.logoWidth + 2 * config.logoBorder, height));
             break;
         case lpRight:
-            pixmapLogo = osd->CreatePixmap(1, cRect(infoX + infoWidth, 0, config.logoWidth + 2 * config.logoBorder, height));
+            pixmapLogoBackgroundTop = osd->CreatePixmap(1, cRect(infoX + infoWidth, 0, cOsd::OsdWidth() - 2*config.channelBorderVertical - infoWidth, channelInfoHeight));
+            pixmapLogoBackground = osd->CreatePixmap(1, cRect(infoX + infoWidth, channelInfoHeight, cOsd::OsdWidth() - 2*config.channelBorderVertical - infoWidth, progressBarHeight + epgInfoHeight));
+            pixmapLogoBackgroundBottom = osd->CreatePixmap(1, cRect(infoX + infoWidth, streamInfoY, cOsd::OsdWidth() - 2*config.channelBorderVertical - infoWidth, streamInfoHeight));
+            pixmapLogo = osd->CreatePixmap(2, cRect(infoX + infoWidth, 0, config.logoWidth + 2 * config.logoBorder, height));
             break;
         case lpNone:
             pixmapLogo = osd->CreatePixmap(-1, cRect(0, 0, 1, 1));
+            pixmapLogoBackground = osd->CreatePixmap(-1, cRect(0, 0, 1, 1));
+            pixmapLogoBackgroundTop = osd->CreatePixmap(-1, cRect(0, 0, 1, 1));
+            pixmapLogoBackgroundBottom = osd->CreatePixmap(-1, cRect(0, 0, 1, 1));
             break;
     }
     
@@ -138,6 +150,9 @@ void cNopacityDisplayChannel::CreatePixmaps(void) {
         pixmapChannelInfo->SetAlpha(0);
         pixmapDate->SetAlpha(0);
         pixmapLogo->SetAlpha(0);
+        pixmapLogoBackground->SetAlpha(0);
+        pixmapLogoBackgroundTop->SetAlpha(0);
+        pixmapLogoBackgroundBottom->SetAlpha(0);
         pixmapFooter->SetAlpha(0);
         pixmapStreamInfo->SetAlpha(0);
         pixmapStreamInfoBack->SetAlpha(0);
@@ -167,15 +182,38 @@ void cNopacityDisplayChannel::DrawBackground(void){
     if (withInfo)
         pixmapBackgroundMiddle->Fill(Theme.Color(clrChannelBackground));
     DrawBlendedBackground(pixmapBackgroundBottom, Theme.Color(clrChannelBackground), Theme.Color(clrChannelBackBlend), false);
-
-    pixmapBackgroundTop->DrawEllipse(cRect(0, 0, channelInfoHeight/2, channelInfoHeight/2), clrTransparent, -2);
-    pixmapBackgroundTop->DrawEllipse(cRect(infoWidth - channelInfoHeight/2, 0, channelInfoHeight/2, channelInfoHeight/2), clrTransparent, -1);
-    pixmapBackgroundBottom->DrawEllipse(cRect(0, streamInfoHeight/2, streamInfoHeight/2, streamInfoHeight/2), clrTransparent, -3);
-    pixmapBackgroundBottom->DrawEllipse(cRect(infoWidth - streamInfoHeight/2, streamInfoHeight/2, streamInfoHeight/2, streamInfoHeight/2), clrTransparent, -4);
+    
+    if (config.backgroundStyle == bsFull) {
+        pixmapLogoBackground->Fill(Theme.Color(clrChannelBackground));
+        DrawBlendedBackground(pixmapLogoBackgroundTop, Theme.Color(clrChannelBackground), Theme.Color(clrChannelBackBlend), true);
+        DrawBlendedBackground(pixmapLogoBackgroundBottom, Theme.Color(clrChannelBackground), Theme.Color(clrChannelBackBlend), false);
+    } else {
+        pixmapLogoBackgroundTop->Fill(clrTransparent);
+        pixmapLogoBackground->Fill(clrTransparent);
+        pixmapLogoBackgroundBottom->Fill(clrTransparent);
+    }
+ 
+    if ((config.backgroundStyle == bsTrans) || ((config.logoPosition == lpNone))) {
+        pixmapBackgroundTop->DrawEllipse(cRect(0, 0, channelInfoHeight/2, channelInfoHeight/2), clrTransparent, -2);
+        pixmapBackgroundTop->DrawEllipse(cRect(infoWidth - channelInfoHeight/2, 0, channelInfoHeight/2, channelInfoHeight/2), clrTransparent, -1);
+        pixmapBackgroundBottom->DrawEllipse(cRect(0, streamInfoHeight/2, streamInfoHeight/2, streamInfoHeight/2), clrTransparent, -3);
+        pixmapBackgroundBottom->DrawEllipse(cRect(infoWidth - streamInfoHeight/2, streamInfoHeight/2, streamInfoHeight/2, streamInfoHeight/2), clrTransparent, -4);
+    } else if ((config.backgroundStyle == bsFull) && (config.logoPosition == lpLeft)){
+        pixmapLogoBackgroundTop->DrawEllipse(cRect(0, 0, channelInfoHeight/2, channelInfoHeight/2), clrTransparent, -2);
+        pixmapBackgroundTop->DrawEllipse(cRect(infoWidth - channelInfoHeight/2, 0, channelInfoHeight/2, channelInfoHeight/2), clrTransparent, -1);
+        pixmapLogoBackgroundBottom->DrawEllipse(cRect(0, streamInfoHeight/2, streamInfoHeight/2, streamInfoHeight/2), clrTransparent, -3);
+        pixmapBackgroundBottom->DrawEllipse(cRect(infoWidth - streamInfoHeight/2, streamInfoHeight/2, streamInfoHeight/2, streamInfoHeight/2), clrTransparent, -4);
+    } else if ((config.backgroundStyle == bsFull) && (config.logoPosition == lpRight)){
+        pixmapBackgroundTop->DrawEllipse(cRect(0, 0, channelInfoHeight/2, channelInfoHeight/2), clrTransparent, -2);
+        pixmapLogoBackgroundTop->DrawEllipse(cRect(pixmapLogoBackgroundTop->ViewPort().Width() - channelInfoHeight/2, 0, channelInfoHeight/2, channelInfoHeight/2), clrTransparent, -1);
+        pixmapBackgroundBottom->DrawEllipse(cRect(0, streamInfoHeight/2, streamInfoHeight/2, streamInfoHeight/2), clrTransparent, -3);
+        pixmapLogoBackgroundBottom->DrawEllipse(cRect(pixmapLogoBackgroundBottom->ViewPort().Width() - streamInfoHeight/2, streamInfoHeight/2, streamInfoHeight/2, streamInfoHeight/2), clrTransparent, -4);
+    }
 
     pixmapChannelInfo->Fill(clrTransparent);
     pixmapDate->Fill(clrTransparent);
     pixmapLogo->Fill(clrTransparent);
+
     pixmapFooter->Fill(clrTransparent);
     pixmapStreamInfo->Fill(clrTransparent);
     cImageLoader imgLoader;
@@ -566,6 +604,9 @@ void cNopacityDisplayChannel::Action(void) {
         int Alpha = t * ALPHA_OPAQUE;
         pixmapBackgroundTop->SetAlpha(Alpha);
         pixmapBackgroundBottom->SetAlpha(Alpha);
+        pixmapLogoBackground->SetAlpha(Alpha);
+        pixmapLogoBackgroundTop->SetAlpha(Alpha);
+        pixmapLogoBackgroundBottom->SetAlpha(Alpha);
         pixmapLogo->SetAlpha(Alpha);
         pixmapChannelInfo->SetAlpha(Alpha);
         pixmapDate->SetAlpha(Alpha);
