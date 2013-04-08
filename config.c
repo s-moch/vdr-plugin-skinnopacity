@@ -138,9 +138,12 @@ cNopacityConfig::cNopacityConfig() {
     fontDetailViewHeaderLarge = 0;
     fontEPGInfoWindow = 0;
     //RSS Feeds
-    displayRSSFeed = 1;
+    displayRSSFeed = 0;
     rssFeedHeight = 5;
+    rssFeedHeightStandalone = 7;
     fontRssFeed = 0;
+    fontRssFeedStandalone = 0;
+    rssFeedStandalonePos = 0;
     rssScrollDelay = 2;
     rssScrollSpeed = 1;
     rssFeed[0] = 0;
@@ -404,6 +407,9 @@ bool cNopacityConfig::SetupParse(const char *Name, const char *Value) {
     else if (strcmp(Name, "rssFeed[2]") == 0)              rssFeed[2] = atoi(Value);
     else if (strcmp(Name, "rssFeed[3]") == 0)              rssFeed[3] = atoi(Value);
     else if (strcmp(Name, "rssFeed[4]") == 0)              rssFeed[4] = atoi(Value);
+    else if (strcmp(Name, "rssFeedHeightStandalone") == 0) rssFeedHeightStandalone = atoi(Value);
+    else if (strcmp(Name, "fontRssFeedStandalone") == 0)   fontRssFeedStandalone = atoi(Value);
+    else if (strcmp(Name, "rssFeedStandalonePos") == 0)    rssFeedStandalonePos = atoi(Value);
     else return false;
     return true;
     

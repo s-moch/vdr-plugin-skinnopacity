@@ -171,7 +171,10 @@ class cNopacityConfig {
         std::vector<RssFeed> rssFeeds;
         int displayRSSFeed;
         int rssFeedHeight;
+        int rssFeedHeightStandalone;
         int fontRssFeed;
+        int fontRssFeedStandalone;
+        int rssFeedStandalonePos;
         int rssScrollDelay;
         int rssScrollSpeed;
         int rssScrollFrameTime;

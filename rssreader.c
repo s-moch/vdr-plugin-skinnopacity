@@ -170,6 +170,7 @@ void cRssReader::DoSleep(int duration) {
 }
 
 void cRssReader::Action(void) {
+esyslog("nopacity: feed %s", feedUrl.c_str());
     int success = readRssURL(feedUrl.c_str());
     if (success < 1)
         return;
@@ -181,7 +182,7 @@ void cRssReader::Action(void) {
         return;
     }
     saveRss();
-
+//debugRSS();
     int numElements = rssElements.size();
     int scrollDelay = config.rssScrollDelay * 1000;
     int drawPortX;
@@ -252,3 +253,105 @@ void cRssReader::fadeInOut(bool fadeIn) {
         DoSleep(frameTime);       
     }
 }
+
+void cRssReader::debugRSS(void) {
+    for (std::vector<RssElement>::iterator it = rssElements.begin(); it!=rssElements.end(); ++it) {
+        esyslog("nopacity: title %s", it->title.c_str());
+        esyslog("nopacity: content %s", it->content.c_str());
+    }
+    
+}
+
+cRssStandaloneTicker::cRssStandaloneTicker(void) {
+    osdLeft = cOsd::OsdLeft();
+    osdWidth = cOsd::OsdWidth();
+    osdHeight = config.rssFeedHeightStandalone * cOsd::OsdHeight() / 100;
+    if (config.rssFeedStandalonePos == 0)
+        osdTop = cOsd::OsdHeight() - osdHeight - 5;
+    else
+        osdTop = cOsd::OsdTop() + 5;
+    
+    osd = CreateOsd(osdLeft, osdTop, osdWidth, osdHeight);
+    font = cFont::CreateFont(config.fontName, (osdHeight / 2) + 3 + config.fontRssFeedStandalone);
+    pixmapBackground = osd->CreatePixmap(1, cRect(0, 0, osdWidth, osdHeight));
+    pixmapFeed = osd->CreatePixmap(2, cRect(0, 0, osdWidth, osdHeight));
+    pixmapIcon = osd->CreatePixmap(3, cRect(0, 0, osdHeight, osdHeight));
+    currentFeed = 0;
+}
+
+cRssStandaloneTicker::~cRssStandaloneTicker() {
+    if (rssReader) {
+        rssReader->Stop();
+        while (rssReader->Active())
+            cCondWait::SleepMs(10);
+        delete rssReader;
+        rssReader = NULL;
+    }
+    osd->DestroyPixmap(pixmapFeed);
+    osd->DestroyPixmap(pixmapBackground);
+    osd->DestroyPixmap(pixmapIcon);
+    delete font;
+    delete osd;
+}
+
+void cRssStandaloneTicker::SetFeed(std::string feedName) {
+    pixmapBackground->Fill(clrBlack);
+    pixmapFeed->Fill(clrTransparent);
+    pixmapIcon->Fill(clrTransparent);
+    
+    int feedNameLength = font->Width(feedName.c_str());
+    labelWidth = 2 + osdHeight + 2 + feedNameLength + 6;
+    pixmapFeed->Fill(Theme.Color(clrMenuBorder));
+    cImageLoader imgLoader;
+    imgLoader.DrawBackground(Theme.Color(clrMenuItemHigh), Theme.Color(clrMenuItemHighBlend), labelWidth, osdHeight - 4);
+    pixmapFeed->DrawImage(cPoint(2,2), imgLoader.GetImage());
+
+    imgLoader.DrawBackground(Theme.Color(clrMenuItem), Theme.Color(clrMenuItemBlend), osdWidth - labelWidth - 2, osdHeight - 4);
+    pixmapFeed->DrawImage(cPoint(labelWidth,2), imgLoader.GetImage());
+    
+    pixmapFeed->DrawText(cPoint(osdHeight + 2, (osdHeight - font->Height()) / 2), feedName.c_str(), Theme.Color(clrMenuFontHeader), clrTransparent, font);
+    pixmapIcon->Fill(clrTransparent);
+    if (imgLoader.LoadIcon("skinIcons/rss", osdHeight-4)) {
+        cImage icon = imgLoader.GetImage();
+        pixmapIcon->DrawImage(cPoint(2,2), icon);
+    }
+    
+    osd->Flush();
+}
+
+void cRssStandaloneTicker::Start(void) {
+    rssReader = new cRssReader(osd, font, cPoint(labelWidth,0), cPoint(osdWidth, osdHeight));
+    rssReader->SetFeed(config.rssFeeds[config.rssFeed[currentFeed]].url);
+    rssReader->Start();
+}
+
+void cRssStandaloneTicker::SwitchNextRssMessage(void) {
+    if (rssReader) {
+        rssReader->SwitchNextMessage();
+    }
+}
+
+void cRssStandaloneTicker::SwitchNextRssFeed(void) {
+    if (rssReader) {
+        rssReader->Stop();
+        while (rssReader->Active())
+            cCondWait::SleepMs(10);
+        delete rssReader;
+        rssReader = NULL;
+    }
+    SetNextFeed();
+    int feedNum = (config.rssFeed[currentFeed]==0)?0:(config.rssFeed[currentFeed]-1);
+    SetFeed(config.rssFeeds[feedNum].name);
+    Start();
+}
+
+void cRssStandaloneTicker::SetNextFeed(void) {
+    int nextFeed = 0;
+    for (int i = 1; i<6; i++) {
+        nextFeed = (currentFeed + i)%5;
+        if ((nextFeed == 0)||(config.rssFeed[nextFeed] > 0)) {
+            currentFeed = nextFeed;
+            break;
+        }    
+    }
+} 

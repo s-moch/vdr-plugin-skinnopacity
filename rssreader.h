@@ -53,6 +53,30 @@ private:
     std::string separator;
     void DoSleep(int duration);
     bool switchToNextMessage;
+    void debugRSS(void);
 };
 
+class cRssStandaloneTicker {
+    public:
+        cRssStandaloneTicker(void);
+        ~cRssStandaloneTicker();
+        void Start(void);
+        void SetFeed(std::string feedName);
+        void SwitchNextRssMessage(void);
+        void SwitchNextRssFeed(void);
+    private:
+        int osdLeft;
+        int osdTop;
+        int osdWidth;
+        int osdHeight;
+        cRssReader *rssReader;
+        cOsd *osd;
+        cPixmap *pixmapFeed;
+        cPixmap *pixmapBackground;
+        cPixmap *pixmapIcon;
+        cFont *font;
+        int labelWidth;
+        int currentFeed;
+        void SetNextFeed(void);
+};
 #endif //__NOPACITY_RSSREADER_H

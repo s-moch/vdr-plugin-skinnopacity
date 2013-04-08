@@ -9,6 +9,7 @@ class cNopacityDisplayMenu;
 class cNopacity : public cSkin {
 private:
   cNopacityDisplayMenu *displayMenu;
+  cRssStandaloneTicker *rssTicker;
 public:
   cNopacity(void);
   virtual const char *Description(void);
@@ -20,5 +21,6 @@ public:
   virtual cSkinDisplayMessage *DisplayMessage(void);
   void svdrpSwitchRss(void);
   void svdrpSwitchMessage(void);
+  bool svdrpToggleStandaloneRss(void);
   };
 #endif //__NOPACITY_H

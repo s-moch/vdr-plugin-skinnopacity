@@ -130,9 +130,9 @@ THEME_CLR(Theme, clrMessageBlend,           CLR_TRANSBLACK);
 cNopacityConfig config;
 #include "setup.c"
 #include "imageloader.c"
-#include "nopacity.h"
 #include "helpers.c"
 #include "rssreader.c"
+#include "nopacity.h"
 #include "displaychannel.c"
 #include "textwindow.c"
 #include "timers.c"
@@ -149,6 +149,7 @@ cNopacityConfig config;
 
 cNopacity::cNopacity(void) : cSkin("nOpacity", &::Theme) {
     displayMenu = NULL;
+    rssTicker = NULL;
     config.setDynamicValues();
     config.loadRssFeeds();
 }
@@ -158,10 +159,18 @@ const char *cNopacity::Description(void) {
 }
 
 cSkinDisplayChannel *cNopacity::DisplayChannel(bool WithInfo) {
+  if (rssTicker) {
+    delete rssTicker;
+    rssTicker = NULL;
+  }
   return new cNopacityDisplayChannel(WithInfo);
 }
 
 cSkinDisplayMenu *cNopacity::DisplayMenu(void) {
+  if (rssTicker) {
+    delete rssTicker;
+    rssTicker = NULL;
+  }
   cNopacityDisplayMenu *menu = new cNopacityDisplayMenu;
   displayMenu = menu;
   menuActive = true;
@@ -169,29 +178,66 @@ cSkinDisplayMenu *cNopacity::DisplayMenu(void) {
 }
 
 cSkinDisplayReplay *cNopacity::DisplayReplay(bool ModeOnly) {
+  if (rssTicker) {
+    delete rssTicker;
+    rssTicker = NULL;
+  }
   return new cNopacityDisplayReplay(ModeOnly);
 }
 
 cSkinDisplayVolume *cNopacity::DisplayVolume(void) {
+  if (rssTicker) {
+    delete rssTicker;
+    rssTicker = NULL;
+  }
   return new cNopacityDisplayVolume;
 }
 
 cSkinDisplayTracks *cNopacity::DisplayTracks(const char *Title, int NumTracks, const char * const *Tracks) {
+  if (rssTicker) {
+    delete rssTicker;
+    rssTicker = NULL;
+  }
   return new cNopacityDisplayTracks(Title, NumTracks, Tracks);
 }
 
 cSkinDisplayMessage *cNopacity::DisplayMessage(void) {
+  if (rssTicker) {
+    delete rssTicker;
+    rssTicker = NULL;
+  }
   return new cNopacityDisplayMessage;
 }
 
 void cNopacity::svdrpSwitchRss(void) {
     if (menuActive) {
         displayMenu->SwitchNextRssFeed();
+    } else if (rssTicker) {
+        rssTicker->SwitchNextRssFeed();
     }
 }
 
 void cNopacity::svdrpSwitchMessage(void) {
     if (menuActive) {
         displayMenu->SwitchNextRssMessage();
+    } else if (rssTicker) {
+        rssTicker->SwitchNextRssMessage();
     }
+}
+
+bool cNopacity::svdrpToggleStandaloneRss(void) {
+    if (menuActive)
+        return false;
+        
+    if (!rssTicker) {
+        rssTicker = new cRssStandaloneTicker();
+        rssTicker->SetFeed(config.rssFeeds[config.rssFeed[0]].name);
+        rssTicker->Start();
+        return true;
+    } else {
+        delete rssTicker;
+        rssTicker = NULL;
+        return false;
+    }
+    return false;
 }

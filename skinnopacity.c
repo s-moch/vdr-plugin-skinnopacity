@@ -169,6 +169,13 @@ cString cPluginNopacity::SVDRPCommand(const char *Command, const char *Option, i
         ReplyCode = 250;
         nopacity->svdrpSwitchRss();
         return "Switched to next RSS Feed";
+    } else if (!strcasecmp(Command, "STANDALONEFEED")) {
+        ReplyCode = 250;
+        bool onOff = nopacity->svdrpToggleStandaloneRss();
+        if (onOff)
+            return "Displaying standalone RSS Feed";
+        else
+            return "Closing standalone RSS Feed";
     }
     ReplyCode = 502;
     return NULL;

@@ -114,9 +114,11 @@ In this example, as a dirty hack just create a folder in your channel logo direc
 RSS Feeds
 ---------
 
-nOpacity supports the display RSS Feeds in the VDR menu. On VDR startup nOpacity tries to load
-the RSS config file "rssfeeds.conf" from the plugin config directory. In this file rss feeds
-can be set up per line in the following format:
+nOpacity supports the display of RSS Feeds in the VDR menu and standalone. Displaying the
+RSS Feed in the VDR menu is disabled per default because on slow machines it could slow down
+the VDR menu. If you like, enable it in the RSS Feed setup. 
+On VDR startup nOpacity tries to load the RSS config file "rssfeeds.conf" from the plugin 
+config directory. In this file rss feeds can be set up per line in the following format:
 
 [rssfeedname1]   rssfeedurl1
 [rssfeedname2]   rssfeedurl2
@@ -133,9 +135,12 @@ Each rss feed configured in this file can be selected in the plugin setup for th
 "RSS Feed 1" to "RSS Feed 5". Per default "RSS Feed 1" points to the first feed from the
 config file, "RSS Feed 2" up to "RSS Feed 5" are empty.
 
-If the VDR Menu is opened, RSS Feed 1 is displayed at startup. If one or more of the fields
-"RSS Feed 2" to "RSS Feed 5" are activated, it can be toggled through these feeds via svdrp
-with the command:
+The standalone RSS Feed can be activated (and if active dectivated) with the svdrp command:
+
+svdrpsend plug skinnopacity STANDALONEFEED
+
+RSS Feed 1 is displayed at startup. If one or more of the fields "RSS Feed 2" to "RSS Feed 5" 
+are activated, it can be toggled through these feeds via svdrp with the command:
 
 svdrpsend plug skinnopacity NEXTFEED
 

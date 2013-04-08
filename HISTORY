@@ -190,3 +190,4 @@ Version 0.1.1
 - Fixed crash on initial startup with xine plugin as output device
 - Fixed crash / hang if menu is opened with small screen size
 - Background of ChannelDisplay configurable also to cover channel logo
+- Added standalone RSS Feed

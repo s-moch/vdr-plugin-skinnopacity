@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: vdr-skinnopacity 0.0.6\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-04-07 13:48+0200\n"
+"POT-Creation-Date: 2013-04-08 18:48+0200\n"
 "PO-Revision-Date: 2013-03-12 15:59+0100\n"
 "Last-Translator: Milan Hrala <hrala.milan@gmail.com>\n"
 "Language-Team: \n"
@@ -413,10 +413,25 @@ msgstr ""
 msgid "none"
 msgstr ""
 
-msgid "Display RSS Feed"
+msgid "bottom"
+msgstr ""
+
+msgid "top"
+msgstr ""
+
+msgid "Display RSS Feed in Skin"
 msgstr ""
 
 msgid "Height of RSS Feed Line (Percent of OSD Height)"
+msgstr ""
+
+msgid "Height of standalone RSS Feed (Percent of OSD Height)"
+msgstr ""
+
+msgid "Adjust Font Size of standalone Feed"
+msgstr ""
+
+msgid "Standalone RSS Feed Position"
 msgstr ""
 
 msgid "RSS Feed 1"

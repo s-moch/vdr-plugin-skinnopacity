@@ -116,6 +116,7 @@ class cNopacitySetupRssFeed : public cMenuSetupSubMenu {
         const char *scrollSpeed[3];
         const char *feeds[20];
         const char *feedsWithNone[21];
+        const char *standalonePos[2];
         void Set(void);
     public:
         cNopacitySetupRssFeed(cNopacityConfig *data);

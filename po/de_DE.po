@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-04-07 13:48+0200\n"
+"POT-Creation-Date: 2013-04-08 18:48+0200\n"
 "PO-Revision-Date: 2012-11-11 17:49+0200\n"
 "Last-Translator: louis\n"
 "Language-Team: \n"
@@ -410,11 +410,26 @@ msgstr "Höhe der Lautstärken Anzeige (% der OSD Höhe)"
 msgid "none"
 msgstr "keiner"
 
-msgid "Display RSS Feed"
-msgstr "RSS Feed anzeigen"
+msgid "bottom"
+msgstr "unten"
+
+msgid "top"
+msgstr "oben"
+
+msgid "Display RSS Feed in Skin"
+msgstr "RSS Feed im Skin anzeigen"
 
 msgid "Height of RSS Feed Line (Percent of OSD Height)"
 msgstr "Höhe des RSS Feeds (% der OSD Höhe)"
+
+msgid "Height of standalone RSS Feed (Percent of OSD Height)"
+msgstr "Höhe des Standalone RSS Feeds (% der OSD Höhe)"
+
+msgid "Adjust Font Size of standalone Feed"
+msgstr "Schriftgröße des standalone Feeds anpassen"
+
+msgid "Standalone RSS Feed Position"
+msgstr "Position des standalone Feeds"
 
 msgid "RSS Feed 1"
 msgstr "RSS Feed 1"
