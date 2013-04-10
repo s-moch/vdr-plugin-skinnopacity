@@ -192,3 +192,4 @@ Version 0.1.1
 - Background of ChannelDisplay configurable also to cover channel logo
 - Added standalone RSS Feed
 - check for Slash at end of startup path parameters
+- changed scaling of EPG info window font size

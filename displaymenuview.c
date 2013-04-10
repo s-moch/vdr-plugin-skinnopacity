@@ -241,7 +241,7 @@ void cNopacityDisplayMenuView::CreateFonts(void) {
     fontTimers = cFont::CreateFont(config.fontName, (contentHeight - 3*spaceMenu - diskUsageHeight) / 25 - 6 + config.fontTimers);
     fontButtons = cFont::CreateFont(config.fontName, buttonHeight*0.8 + config.fontButtons);
     fontMessage = cFont::CreateFont(config.fontName, messageHeight / 3 + config.fontMessageMenu);
-    fontEPGInfoWindow = cFont::CreateFont(config.fontName, (config.menuHeightInfoWindow *  contentHeight / 100)/ 6 + config.fontEPGInfoWindow);
+    fontEPGInfoWindow = cFont::CreateFont(config.fontName, contentHeight / 30 + config.fontEPGInfoWindow);
     fontRssFeed = cFont::CreateFont(config.fontName, (rssFeedHeight / 2) + 3 + config.fontRssFeed);
 }
 
