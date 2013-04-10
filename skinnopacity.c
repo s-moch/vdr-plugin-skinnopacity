@@ -15,7 +15,7 @@
 #endif
 
 
-static const char *VERSION        = "0.1.0";
+static const char *VERSION        = "0.1.1";
 static const char *DESCRIPTION    = "'nOpacity' Skin";
 static const char *MAINMENUENTRY  = "nOpacity";
 
@@ -151,7 +151,17 @@ bool cPluginNopacity::Service(const char *Id, void *Data)
 
 const char **cPluginNopacity::SVDRPHelpPages(void)
 {
-  return NULL;
+    static const char *HelpPages[] = {
+        "NEXTMESG\n"
+	"    Switches to next message in running RSS Feed\n",
+	"NEXTFEED\n"
+	"    Switches to next defined RSS Feed in Setup Menu\n",
+	"STANDALONEFEED\n"
+	"    Switches standalone RSS Feed on and off\n",
+	NULL
+    };
+    return HelpPages;
+
 }
 
 cString cPluginNopacity::SVDRPCommand(const char *Command, const char *Option, int &ReplyCode) {
