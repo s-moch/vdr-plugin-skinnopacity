@@ -358,9 +358,12 @@ Customizing, Skin Setup Options
 * RSS Feeds:
 
 - Display RSS Feed
-- Height of RSS Feed Line (Percent of OSD Height): Default 5%
+  - Height of RSS Feed Line (Percent of OSD Height): Default 5%
+  - Adjust Font Size
+- Height of standalone RSS Feed (Percent of OSD Height): Default 7%
+- Standalone RSS Feed Position: bottom / top
+- Adjust Font Size of standalone Feed
 - RSS Feed 1: First feed in rssfeeds.conf
 - RSS Feed 2 - 5: Optional feeds which can be selected via svdrp
 - Scrolling Speed: slow / medium / fast
 - Scrolling Delay in s: Default 3 s
-- Adjust Font Size
