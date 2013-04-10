@@ -261,19 +261,28 @@ void cNopacityConfig::loadRssFeeds(void) {
 
 
 void cNopacityConfig::SetLogoPath(cString path) {
-    logoPath = path;
+    logoPath = checkSlashAtEnd(*path);
     logoPathSet = true;
 }
 
 void cNopacityConfig::SetIconPath(cString path) {
-    iconPath = path;
+    iconPath = checkSlashAtEnd(*path);
     iconPathSet = true;
 }
 
 void cNopacityConfig::SetEpgImagePath(cString path) {
-    epgImagePath = path;
+    epgImagePath = checkSlashAtEnd(*path);
     epgImagePathSet = true;
 }
+
+cString cNopacityConfig::checkSlashAtEnd(std::string path) {
+    try {
+        if (!(path.at(path.size()-1) == '/'))
+            return cString::sprintf("%s/", path.c_str());
+    } catch (...) {return path.c_str();}
+    return path.c_str();
+}
+
 
 bool cNopacityConfig::SetupParse(const char *Name, const char *Value) {
     if      (strcmp(Name, "fontIndex") == 0)               fontIndex = atoi(Value);

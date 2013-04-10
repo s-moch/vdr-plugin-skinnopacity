@@ -8,6 +8,7 @@ struct RssFeed {
 
 class cNopacityConfig {
     private:
+        cString checkSlashAtEnd(std::string path);
     public:
         cNopacityConfig();
         ~cNopacityConfig();

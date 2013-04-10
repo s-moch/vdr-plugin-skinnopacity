@@ -73,26 +73,20 @@ bool cPluginNopacity::ProcessArgs(int argc, char *argv[])
   };
 
   int c;
-  cString *path = NULL;
   while ((c = getopt_long(argc, argv, "e:l:i:", long_options, NULL)) != -1) {
     switch (c) {
       case 'l':
-        path = new cString(optarg);
-        config.SetLogoPath(*path);
+        config.SetLogoPath(cString(optarg));
         break;
       case 'e':
-        path = new cString(optarg);
-        config.SetEpgImagePath(*path);
+        config.SetEpgImagePath(cString(optarg));
         break;
       case 'i':
-        path = new cString(optarg);
-        config.SetIconPath(*path);
+        config.SetIconPath(cString(optarg));
         break;
       default:
         return false;
     }
-    if (path) 
-        delete path;
   }
   return true;
 }
