@@ -7,6 +7,7 @@ cNopacityTextWindow::cNopacityTextWindow(cOsd *osd, cFont *font, cRect *vidWin) 
     pixmapBackground = NULL;
     pixmap = NULL;
     oldVidWinHeight = 0;
+    scaledWindow = false;
 }
 
 cNopacityTextWindow::~cNopacityTextWindow(void) {
@@ -21,7 +22,7 @@ cNopacityTextWindow::~cNopacityTextWindow(void) {
         osd->DestroyPixmap(pixmap);
         pixmap = NULL;
     }
-    if (config.scalePicture == 2)
+    if ((config.scalePicture == 2) && scaledWindow)
         vidWin->SetHeight(oldVidWinHeight);
 }
 
@@ -73,6 +74,7 @@ void cNopacityTextWindow::Action(void) {
         cRect availableRect(vidWin->X(), vidWin->Y(), vidWin->Width(), vidWin->Height() - geometry->Height());
         cRect vidWinNew = cDevice::PrimaryDevice()->CanScaleVideo(availableRect);
         vidWin->SetHeight(vidWinNew.Height());
+        scaledWindow = true;
     }
     
     int border = 5;

@@ -9,6 +9,7 @@ private:
     cRect *geometry;
     cRect *vidWin;
     int oldVidWinHeight;
+    bool scaledWindow;
     const char *text;
     cTextWrapper twText;
     bool CreatePixmap(int border);
