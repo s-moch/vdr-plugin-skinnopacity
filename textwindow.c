@@ -35,7 +35,7 @@ bool cNopacityTextWindow::CreatePixmap(int border) {
     twText.Set(text, font, geometry->Width() - 2*border);
     int pixmapTotalHeight = lineHeight * (twText.Lines()+1);
     int drawportHeight = geometry->Height();
-    if (pixmapTotalHeight > drawportHeight) {
+    if ((pixmapTotalHeight - (lineHeight/2)) > drawportHeight) {
         drawportHeight = pixmapTotalHeight;
         scrolling = true;
     }
