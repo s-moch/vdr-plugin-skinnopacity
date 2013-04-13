@@ -7,6 +7,8 @@ private:
     cPixmap *pixmapBackground;
     cPixmap *pixmap;
     cRect *geometry;
+    cRect *vidWin;
+    int oldVidWinHeight;
     const char *text;
     cTextWrapper twText;
     bool CreatePixmap(int border);
@@ -14,7 +16,7 @@ private:
     void DoSleep(int duration);
     virtual void Action(void);
 public:
-    cNopacityTextWindow(cOsd *osd, cFont *font);
+    cNopacityTextWindow(cOsd *osd, cFont *font, cRect *vidWin);
     virtual ~cNopacityTextWindow(void);
     void SetGeometry(cRect *geo) {geometry = geo;};
     void SetText(const char *Text) {text = Text;};

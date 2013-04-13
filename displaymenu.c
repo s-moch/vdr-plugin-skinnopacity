@@ -395,7 +395,7 @@ bool cNopacityDisplayMenu::SetItemEvent(const cEvent *Event, int Index, bool Cur
     if (!config.narrowScheduleMenu)
         return false;
     if ((initMenu)&&(Index > menuItemIndexLast)) {
-        cNopacityMenuItem *item = new cNopacityScheduleMenuItem(osd, Event, Channel, TimerMatch, Selectable, MenuCategory());
+        cNopacityMenuItem *item = new cNopacityScheduleMenuItem(osd, Event, Channel, TimerMatch, Selectable, MenuCategory(), &videoWindowRect);
         cPoint itemSize;
         menuView->GetMenuItemSize(MenuCategory(), &itemSize);
         item->SetFont(menuView->GetMenuItemFont(mcSchedule));
@@ -509,7 +509,7 @@ bool cNopacityDisplayMenu::SetItemRecording(const cRecording *Recording, int Ind
         bool isFolder = false;
         if (Total > 0)
             isFolder = true;
-        cNopacityMenuItem *item = new cNopacityRecordingMenuItem(osd, Recording, Selectable, isFolder, Level, Total, New);
+        cNopacityMenuItem *item = new cNopacityRecordingMenuItem(osd, Recording, Selectable, isFolder, Level, Total, New, &videoWindowRect);
         cPoint itemSize;
         menuView->GetMenuItemSize(MenuCategory(), &itemSize);
         item->SetFont(menuView->GetMenuItemFont(mcRecording));

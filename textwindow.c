@@ -1,10 +1,12 @@
 #include "textwindow.h"
 
-cNopacityTextWindow::cNopacityTextWindow(cOsd *osd, cFont *font) {
+cNopacityTextWindow::cNopacityTextWindow(cOsd *osd, cFont *font, cRect *vidWin) {
     this->osd = osd;
     this->font = font;
+    this->vidWin = vidWin;
     pixmapBackground = NULL;
     pixmap = NULL;
+    oldVidWinHeight = 0;
 }
 
 cNopacityTextWindow::~cNopacityTextWindow(void) {
@@ -19,6 +21,8 @@ cNopacityTextWindow::~cNopacityTextWindow(void) {
         osd->DestroyPixmap(pixmap);
         pixmap = NULL;
     }
+    if (config.scalePicture == 2)
+        vidWin->SetHeight(oldVidWinHeight);
 }
 
 bool cNopacityTextWindow::CreatePixmap(int border) {
@@ -63,7 +67,14 @@ void cNopacityTextWindow::DoSleep(int duration) {
    
 void cNopacityTextWindow::Action(void) {
     DoSleep(config.menuInfoTextDelay*1000);
-   
+
+    if (config.scalePicture == 2) {
+        oldVidWinHeight = vidWin->Height();
+        cRect availableRect(vidWin->X(), vidWin->Y(), vidWin->Width(), vidWin->Height() - geometry->Height());
+        cRect vidWinNew = cDevice::PrimaryDevice()->CanScaleVideo(availableRect);
+        vidWin->SetHeight(vidWinNew.Height());
+    }
+    
     int border = 5;
     bool scrolling = false;
     if (Running()) {

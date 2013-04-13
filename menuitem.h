@@ -82,6 +82,7 @@ private:
     const cEvent *Event;
     const cChannel *Channel;
     eTimerMatch TimerMatch;
+    cRect *vidWin;
     std::string strDateTime;
     std::string strTitle;
     std::string strSubTitle;
@@ -96,7 +97,7 @@ private:
     void SetTextFull(void);
     void SetTextShort(void);
 public:
-    cNopacityScheduleMenuItem(cOsd *osd, const cEvent *Event, const cChannel *Channel, eTimerMatch TimerMatch, bool sel, eMenuCategory category);
+    cNopacityScheduleMenuItem(cOsd *osd, const cEvent *Event, const cChannel *Channel, eTimerMatch TimerMatch, bool sel, eMenuCategory category, cRect *vidWin);
     ~cNopacityScheduleMenuItem(void);
     void CreatePixmapTextScroller(int totalWidth);
     void CreateText(void);
@@ -148,6 +149,7 @@ private:
     const cRecording *Recording;
     bool isFolder;
     int Level, Total, New;
+    cRect *vidWin;
     std::string strRecName;
     std::string strRecNameFull;
     void SetTextFull(void);
@@ -164,7 +166,7 @@ private:
     int CheckScrollableRecording(void);
     int CheckScrollableFolder(void);
 public:
-    cNopacityRecordingMenuItem(cOsd *osd, const cRecording *Recording, bool sel, bool isFolder, int Level, int Total, int New);
+    cNopacityRecordingMenuItem(cOsd *osd, const cRecording *Recording, bool sel, bool isFolder, int Level, int Total, int New, cRect *vidWin);
     ~cNopacityRecordingMenuItem(void);
     void CreatePixmapTextScroller(int totalWidth);
     void CreateText(void);

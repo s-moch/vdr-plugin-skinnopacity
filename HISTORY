@@ -194,3 +194,9 @@ Version 0.1.1
 - check for Slash at end of startup path parameters
 - changed scaling of EPG info window font size
 - Added and changed some icons
+
+Version 0.1.2
+- changed some color settings and icons in theme darkred
+- added option "auto" for video scaling: with this option the video window
+  is resized when the detailed EPG Window is displayed in Schedules and
+  Recordings menu to be completely visible.

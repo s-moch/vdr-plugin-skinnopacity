@@ -245,6 +245,9 @@ cNopacitySetupMenuDisplay::cNopacitySetupMenuDisplay(cNopacityConfig* data)  : c
     scrollSpeed[1] = tr("slow");
     scrollSpeed[2] = tr("medium");
     scrollSpeed[3] = tr("fast");
+    scalePic[0] = tr("no");
+    scalePic[1] = tr("yes");
+    scalePic[2] = tr("auto");
     Set();
 }
 
@@ -254,7 +257,7 @@ void cNopacitySetupMenuDisplay::Set(void) {
     Add(new cMenuEditIntItem(tr("Number of Default Menu Entries per Page"), &tmpNopacityConfig->numDefaultMenuItems, 10, 40));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Default Menu Item"), &tmpNopacityConfig->fontMenuitemDefault, -20, 20));
     Add(new cMenuEditStraItem(tr("Adjustment of narrow menus"), &tmpNopacityConfig->menuAdjustLeft, 2, adjustLeft));
-    Add(new cMenuEditBoolItem(tr("Scale Video size to fit into menu window"), &tmpNopacityConfig->scalePicture));
+    Add(new cMenuEditStraItem(tr("Scale Video size to fit into menu window"), &tmpNopacityConfig->scalePicture, 3, scalePic));
     Add(new cMenuEditIntItem(tr("Header Height (Percent of OSD Height)"), &tmpNopacityConfig->headerHeight, 5, 30));
     Add(new cMenuEditIntItem(tr("Header Icon Size (Square Header Menu Icons)"), &tmpNopacityConfig->headerIconHeight, 30, 200));
     Add(new cMenuEditIntItem(tr("Footer Height (Percent of OSD Height)"), &tmpNopacityConfig->footerHeight, 5, 30));

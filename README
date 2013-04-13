@@ -187,7 +187,8 @@ Customizing, Skin Setup Options
 - Adjust Font Size - Default Menu Item
 - Adjustment of narrow menus: the narrow menus (main, schedules, channels, timers,
   setup) can either be adjusted left or right.
-- Scale Video size to fit into menu window
+- Scale Video size to fit into menu window: no / yes / auto: with "auto" the video  window is resized when the detailed EPG Window is displayed in Schedules and
+  Recordings menu to be completely visible.
 - Header Height (% of OSD Height): Default: 7%
 - Header Icon Size (Square Header Menu Icons)
 - Footer Height (% of OSD Height): Default: 7%

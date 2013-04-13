@@ -368,12 +368,13 @@ void cNopacityMainMenuItem::Render() {
 
 // cNopacityScheduleMenuItem  -------------
 
-cNopacityScheduleMenuItem::cNopacityScheduleMenuItem(cOsd *osd, const cEvent *Event, const cChannel *Channel, eTimerMatch TimerMatch, bool sel, eMenuCategory category) 
-: cNopacityMenuItem (osd, "", sel) {
+cNopacityScheduleMenuItem::cNopacityScheduleMenuItem(cOsd *osd, const cEvent *Event, const cChannel *Channel, eTimerMatch TimerMatch, bool sel, eMenuCategory category, cRect *vidWin) 
+                            : cNopacityMenuItem (osd, "", sel) {
     this->category = category;
     this->Event = Event;
     this->Channel = Channel;
     this->TimerMatch = TimerMatch;
+    this->vidWin = vidWin;
     strDateTime = "";
     strTitle = "";
     strSubTitle = "";
@@ -487,7 +488,7 @@ void cNopacityScheduleMenuItem::Render() {
                 infoTextWindow = NULL;
             }
         if (current && Event) {
-            infoTextWindow = new cNopacityTextWindow(osd, fontEPGWindow);
+            infoTextWindow = new cNopacityTextWindow(osd, fontEPGWindow, vidWin);
             infoTextWindow->SetGeometry(textWindow);
             infoTextWindow->SetText(Event->Description());
             infoTextWindow->Start();
@@ -807,12 +808,13 @@ void cNopacityTimerMenuItem::DrawLogo(int logoWidth, int logoHeight) {
 }
 // cNopacityRecordingMenuItem  -------------
 
-cNopacityRecordingMenuItem::cNopacityRecordingMenuItem(cOsd *osd, const cRecording *Recording, bool sel, bool isFolder, int Level, int Total, int New) : cNopacityMenuItem (osd, "", sel) {
+cNopacityRecordingMenuItem::cNopacityRecordingMenuItem(cOsd *osd, const cRecording *Recording, bool sel, bool isFolder, int Level, int Total, int New, cRect *vidWin) : cNopacityMenuItem (osd, "", sel) {
     this->Recording = Recording;
     this->isFolder = isFolder;
     this->Level = Level;
     this->Total = Total;
     this->New = New;
+    this->vidWin = vidWin;
 }
 
 cNopacityRecordingMenuItem::~cNopacityRecordingMenuItem(void) {
@@ -1046,7 +1048,7 @@ void cNopacityRecordingMenuItem::Render() {
                     infoTextWindow = NULL;
                 }
             if (current) {
-                infoTextWindow = new cNopacityTextWindow(osd, fontEPGWindow);
+                infoTextWindow = new cNopacityTextWindow(osd, fontEPGWindow, vidWin);
                 infoTextWindow->SetGeometry(textWindow);
                 infoTextWindow->SetText(Recording->Info()->Description());
                 infoTextWindow->Start();

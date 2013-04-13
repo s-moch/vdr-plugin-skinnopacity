@@ -170,7 +170,7 @@ void cRssReader::DoSleep(int duration) {
 }
 
 void cRssReader::Action(void) {
-esyslog("nopacity: feed %s", feedUrl.c_str());
+
     int success = readRssURL(feedUrl.c_str());
     if (success < 1)
         return;
@@ -182,7 +182,7 @@ esyslog("nopacity: feed %s", feedUrl.c_str());
         return;
     }
     saveRss();
-//debugRSS();
+    //debugRSS();
     int numElements = rssElements.size();
     int scrollDelay = config.rssScrollDelay * 1000;
     int drawPortX;
