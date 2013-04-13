@@ -22,10 +22,13 @@ cNopacityTextWindow::~cNopacityTextWindow(void) {
         pixmap = NULL;
     }
     if ((config.scalePicture == 2) && scaledWindow) {
-        vidWin->SetX(oldVidWin.X());
-        vidWin->SetY(oldVidWin.Y());
-        vidWin->SetWidth(oldVidWin.Width());
-        vidWin->SetHeight(oldVidWin.Height());
+        cRect vidWinNew = cDevice::PrimaryDevice()->CanScaleVideo(oldVidWin);
+        if (vidWinNew != cRect::Null) {
+            vidWin->SetX(vidWinNew.X());
+            vidWin->SetY(vidWinNew.Y());
+            vidWin->SetWidth(vidWinNew.Width());
+            vidWin->SetHeight(vidWinNew.Height());
+        }
     }
 }
 
@@ -73,17 +76,19 @@ void cNopacityTextWindow::Action(void) {
     DoSleep(config.menuInfoTextDelay*1000);
 
     if (config.scalePicture == 2) {
-        cRect availableRect(vidWin->X(), vidWin->Y(), vidWin->Width(), vidWin->Height() - geometry->Height());
         oldVidWin.SetX(vidWin->X());
         oldVidWin.SetY(vidWin->Y());
         oldVidWin.SetWidth(vidWin->Width());
         oldVidWin.SetHeight(vidWin->Height());
+        cRect availableRect(vidWin->X(), vidWin->Y(), vidWin->Width(), vidWin->Height() - geometry->Height());
         cRect vidWinNew = cDevice::PrimaryDevice()->CanScaleVideo(availableRect);
-        vidWin->SetX(vidWinNew.X());
-        vidWin->SetY(vidWinNew.Y());
-        vidWin->SetWidth(vidWinNew.Width());
-        vidWin->SetHeight(vidWinNew.Height());
-        scaledWindow = true;
+        if (vidWinNew != cRect::Null) {
+            vidWin->SetX(vidWinNew.X());
+            vidWin->SetY(vidWinNew.Y());
+            vidWin->SetWidth(vidWinNew.Width());
+            vidWin->SetHeight(vidWinNew.Height());
+            scaledWindow = true;
+        }
     }
     
     int border = 5;

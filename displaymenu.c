@@ -744,6 +744,7 @@ void cNopacityDisplayMenu::Flush(void) {
     initMenu = false;
     initial = false;
     osd->Flush();
+    //esyslog("nopacity: scaling to x: %d, y: %d, width: %d, height: %d", videoWindowRect.X(), videoWindowRect.Y(), videoWindowRect.Width(), videoWindowRect.Height());
     cDevice::PrimaryDevice()->ScaleVideo(videoWindowRect);
 }
 
