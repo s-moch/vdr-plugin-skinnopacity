@@ -79,6 +79,9 @@ void cNopacityTextWindow::Action(void) {
         oldVidWin.SetWidth(vidWin->Width());
         oldVidWin.SetHeight(vidWin->Height());
         cRect vidWinNew = cDevice::PrimaryDevice()->CanScaleVideo(availableRect);
+        vidWin->SetX(vidWinNew.X());
+        vidWin->SetY(vidWinNew.Y());
+        vidWin->SetWidth(vidWinNew.Width());
         vidWin->SetHeight(vidWinNew.Height());
         scaledWindow = true;
     }
