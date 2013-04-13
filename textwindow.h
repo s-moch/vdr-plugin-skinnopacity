@@ -8,7 +8,7 @@ private:
     cPixmap *pixmap;
     cRect *geometry;
     cRect *vidWin;
-    int oldVidWinHeight;
+    cRect oldVidWin;
     bool scaledWindow;
     const char *text;
     cTextWrapper twText;
