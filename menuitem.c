@@ -705,7 +705,12 @@ std::string cNopacityTimerMenuItem::CreateDate(void) {
         strftime(buffer, sizeof(buffer), "%Y%m%d", &tm_r);
         day = buffer;
     }
-    return *cString::sprintf("%s%s%s (%02d:%02d-%02d:%02d)", *dayName, *dayName && **dayName ? " " : "", *day, Timer->Start() / 100, Timer->Start() % 100, Timer->Stop() / 100, Timer->Stop() % 100);
+    cString dateString;
+    if (Timer->Channel())
+        dateString = *cString::sprintf("%d - %s%s%s (%02d:%02d-%02d:%02d)", Timer->Channel()->Number(), *dayName, *dayName && **dayName ? " " : "", *day, Timer->Start() / 100, Timer->Start() % 100, Timer->Stop() / 100, Timer->Stop() % 100);
+    else
+        dateString = *cString::sprintf("%s%s%s (%02d:%02d-%02d:%02d)", *dayName, *dayName && **dayName ? " " : "", *day, Timer->Start() / 100, Timer->Start() % 100, Timer->Stop() / 100, Timer->Stop() % 100);
+    return *dateString;
 }
 
 int cNopacityTimerMenuItem::CheckScrollable(bool hasIcon) {
