@@ -35,7 +35,7 @@ cNopacityTextWindow::~cNopacityTextWindow(void) {
 bool cNopacityTextWindow::CreatePixmap(int border) {
     int lineHeight = font->Height();
     bool scrolling = false;
-    twText.Set(text, font, geometry->Width() - 2*border);
+    twText.Set(*text, font, geometry->Width() - 2*border);
     int pixmapTotalHeight = lineHeight * (twText.Lines()+1);
     int drawportHeight = geometry->Height();
     if ((pixmapTotalHeight - (lineHeight/2)) > drawportHeight) {
@@ -43,14 +43,14 @@ bool cNopacityTextWindow::CreatePixmap(int border) {
         scrolling = true;
     }
     cPixmap::Lock();
-    pixmapBackground = osd->CreatePixmap(4, cRect(geometry->X(), geometry->Y(), geometry->Width(), geometry->Height()));
+    pixmapBackground = osd->CreatePixmap(4, cRect(geometry->X()-1, geometry->Y()-1, geometry->Width()+2, geometry->Height()+2));
     pixmap = osd->CreatePixmap(5, cRect(geometry->X(), geometry->Y(), geometry->Width(), geometry->Height()),
                                   cRect(0, 0, geometry->Width(), drawportHeight));
     pixmapBackground->SetAlpha(0);
-    pixmapBackground->Fill(clrBlack);
+    pixmapBackground->Fill(Theme.Color(clrMenuBorder));
+    pixmapBackground->DrawRectangle(cRect(1, 1, geometry->Width(), geometry->Height()), clrBlack);
     pixmap->SetAlpha(0);
-    pixmap->Fill(Theme.Color(clrMenuBorder));
-    pixmap->DrawRectangle(cRect(1, 1, geometry->Width()-2, drawportHeight-2), Theme.Color(clrMenuBack));
+    pixmap->Fill(Theme.Color(clrMenuBack));
     cPixmap::Unlock();
     return scrolling;
 }
@@ -60,7 +60,7 @@ void cNopacityTextWindow::DrawText(int border) {
     int currentLineHeight = lineHeight/2;
     cPixmap::Lock();
     for (int i=0; (i < twText.Lines()) && Running(); i++) {
-        pixmap->DrawText(cPoint(border, currentLineHeight), twText.GetLine(i), Theme.Color(clrMenuFontButton), clrTransparent, font);
+        pixmap->DrawText(cPoint(border, currentLineHeight), twText.GetLine(i), Theme.Color(clrMenuFontDetailViewText), clrTransparent, font);
         currentLineHeight += lineHeight;
     }
     cPixmap::Unlock();        
@@ -71,7 +71,7 @@ void cNopacityTextWindow::DoSleep(int duration) {
     for (int i = 0; Running() && (i*sleepSlice < duration); i++)
         cCondWait::SleepMs(sleepSlice);
 }
-   
+
 void cNopacityTextWindow::Action(void) {
     DoSleep(config.menuInfoTextDelay*1000);
 

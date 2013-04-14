@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-04-13 10:26+0200\n"
+"POT-Creation-Date: 2013-04-14 11:28+0200\n"
 "PO-Revision-Date: 2013-03-19 22:56+0100\n"
 "Last-Translator: Diego Pierotto <vdr-italian@tiscali.it>\n"
 "Language-Team: \n"
@@ -46,6 +46,9 @@ msgstr "Bitrate estimato"
 
 msgid "Transp."
 msgstr "Transponder"
+
+msgid "No EPG Information found"
+msgstr ""
 
 msgid "Duration"
 msgstr "Durata"
@@ -319,6 +322,9 @@ msgstr "Adatta dim. caratteri - Voce menu piccolo"
 
 msgid "Adjust Font Size - EPG Info Window"
 msgstr "Adatta dim. caratteri - Finestra info EPG"
+
+msgid "Number of EPG Entries in Schedules Info Window"
+msgstr ""
 
 msgid "Display additional EPG Pictures in detailed recording View"
 msgstr "Mostra immagini EPG aggiuntivo nella vista dettagli registrazione"

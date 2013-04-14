@@ -469,13 +469,15 @@ bool cNopacityDisplayMenu::SetItemChannel(const cChannel *Channel, int Index, bo
     if (!config.narrowChannelMenu)
         return false;
     if ((initMenu)&&(Index > menuItemIndexLast)) {
-        cNopacityMenuItem *item = new cNopacityChannelMenuItem(osd, Channel, Selectable);
+        cNopacityMenuItem *item = new cNopacityChannelMenuItem(osd, Channel, Selectable, &videoWindowRect);
         cPoint itemSize;
         menuView->GetMenuItemSize(MenuCategory(), &itemSize);
         item->SetFont(menuView->GetMenuItemFont(mcChannel));
         item->SetFontSmall(menuView->GetMenuItemFontSmall(mcChannel));
+        item->SetFontEPGWindow(menuView->GetEPGWindowFont());
         int spaceTop = menuView->GetMenuTop(currentNumItems, itemSize.Y());
         item->SetGeometry(Index, spaceTop, menuView->GetMenuItemLeft(itemSize.X()), itemSize.X(), itemSize.Y(), menuView->spaceMenu);
+        item->SetTextWindow(menuView->GetDescriptionTextWindowSize(mcChannel));
         item->SetCurrent(Current);
         item->SetBackgrounds(handleBackgrounds);
         item->CreateText();

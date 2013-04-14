@@ -10,7 +10,7 @@ private:
     cRect *vidWin;
     cRect oldVidWin;
     bool scaledWindow;
-    const char *text;
+    cString text;
     cTextWrapper twText;
     bool CreatePixmap(int border);
     void DrawText(int border);
@@ -20,7 +20,7 @@ public:
     cNopacityTextWindow(cOsd *osd, cFont *font, cRect *vidWin);
     virtual ~cNopacityTextWindow(void);
     void SetGeometry(cRect *geo) {geometry = geo;};
-    void SetText(const char *Text) {text = Text;};
+    void SetText(cString Text) {text = Text;};
 };
 
 #endif //__NOPACITY_TEXTWINDOW_H

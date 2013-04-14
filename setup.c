@@ -132,6 +132,7 @@ void cNopacitySetup::Store(void) {
     SetupStore("numAdditionalEPGPictures", config.numAdditionalEPGPictures);
     SetupStore("displayAdditionalRecEPGPictures", config.displayAdditionalRecEPGPictures);
     SetupStore("numAdditionalRecEPGPictures", config.numAdditionalRecEPGPictures);
+    SetupStore("numEPGEntriesChannelsMenu", config.numEPGEntriesChannelsMenu);
     SetupStore("menuFadeTime", config.menuFadeTime);
     SetupStore("menuScrollDelay", config.menuScrollDelay);
     SetupStore("menuScrollSpeed", config.menuScrollSpeed);
@@ -388,6 +389,7 @@ void cNopacitySetupMenuDisplayChannels::Set(void) {
     Add(new cMenuEditBoolItem(tr("Use narrow menu"), &tmpNopacityConfig->narrowChannelMenu));
     if (tmpNopacityConfig->narrowChannelMenu)
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Width (Percent of OSD Width)")), &tmpNopacityConfig->menuWidthChannels, 10, 97));
+    Add(new cMenuEditIntItem(tr("Number of EPG Entries in Schedules Info Window"), &tmpNopacityConfig->numEPGEntriesChannelsMenu, 1, 100));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Menu Item"), &tmpNopacityConfig->fontMenuitemChannel, -20, 20));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Menu Item Small"), &tmpNopacityConfig->fontMenuitemChannelSmall, -20, 20));
    

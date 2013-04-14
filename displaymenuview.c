@@ -101,12 +101,15 @@ void cNopacityDisplayMenuView::SetGeometry(void) {
 void cNopacityDisplayMenuView::SetDescriptionTextWindowSize(void) {
     int xSchedules =  (config.menuAdjustLeft) ? (2 * spaceMenu + contentWidthSchedules + widthScrollbar)  : (spaceMenu);
     int xRecordings = (config.menuAdjustLeft) ? (2 * spaceMenu + contentWidthRecordings + widthScrollbar) : (spaceMenu);
+    int xChannels = (config.menuAdjustLeft) ? (2 * spaceMenu + contentWidthChannels + widthScrollbar) : (spaceMenu);
     int height = config.menuHeightInfoWindow * (contentHeight - 2*spaceMenu) / 100;
     int y = headerHeight + (contentHeight - height - spaceMenu);
     int widthSchedules = (config.menuAdjustLeft)  ? (osdWidth - xSchedules - spaceMenu)  : (osdWidth - contentWidthSchedules - widthScrollbar - 2 * spaceMenu);
     int widthRecordings = (config.menuAdjustLeft) ? (osdWidth - xRecordings - spaceMenu) : (osdWidth - contentWidthRecordings - widthScrollbar - 2 * spaceMenu);
+    int widthChannels = (config.menuAdjustLeft) ? (osdWidth - xChannels - spaceMenu) : (osdWidth - contentWidthChannels - widthScrollbar - 2 * spaceMenu);
     textWindowSizeSchedules = cRect(xSchedules,y,widthSchedules,height);
     textWindowSizeRecordings = cRect(xRecordings,y,widthRecordings,height);
+    textWindowSizeChannels = cRect(xChannels,y,widthChannels,height);
 }
 
 cRect *cNopacityDisplayMenuView::GetDescriptionTextWindowSize(eMenuCategory menuCat) {
@@ -115,6 +118,8 @@ cRect *cNopacityDisplayMenuView::GetDescriptionTextWindowSize(eMenuCategory menu
             return &textWindowSizeSchedules;
         case mcRecording:
             return &textWindowSizeRecordings;
+        case mcChannel:
+            return &textWindowSizeChannels;
         default:
             return NULL;
     }

@@ -71,6 +71,7 @@ class cNopacityDisplayMenuView {
         int avrgFontWidth;
         cRect textWindowSizeSchedules;
         cRect textWindowSizeRecordings;
+        cRect textWindowSizeChannels;
         void SetDescriptionTextWindowSize(void);
         int GetContentWidth(eMenuCategory menuCat);
     public:

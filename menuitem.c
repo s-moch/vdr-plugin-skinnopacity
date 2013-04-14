@@ -563,8 +563,9 @@ void cNopacityScheduleMenuItem::DrawRemaining(int x, int y, int width) {
 
 // cNopacityChannelMenuItem  -------------
 
-cNopacityChannelMenuItem::cNopacityChannelMenuItem(cOsd *osd, const cChannel *Channel, bool sel) : cNopacityMenuItem (osd, "", sel) {
+cNopacityChannelMenuItem::cNopacityChannelMenuItem(cOsd *osd, const cChannel *Channel, bool sel, cRect *vidWin) : cNopacityMenuItem (osd, "", sel) {
     this->Channel = Channel;
+    this->vidWin = vidWin;
 }
 
 cNopacityChannelMenuItem::~cNopacityChannelMenuItem(void) {
@@ -585,7 +586,7 @@ void cNopacityChannelMenuItem::CreateText() {
         strChannelSource = cString::sprintf("%s - %s", *cSource::ToString(source->Code()),  source->Description());
     else
         strChannelSource = "";
-    strChannelInfo = cString::sprintf("%s %d, %d MHz", tr("Transp."), Channel->Transponder(), Channel->Frequency());
+    strChannelInfo = cString::sprintf("%s %d, %d MHz", tr("Transp."), Channel->Transponder(), Channel->Frequency()/1000);
 }
 
 int cNopacityChannelMenuItem::CheckScrollable(bool hasIcon) {
@@ -634,6 +635,39 @@ void cNopacityChannelMenuItem::DrawBackground(int handleBackground) {
     pixmap->DrawText(cPoint(sourceX, height/2 + (height/4 - fontSmall->Height())/2), *strChannelSource, Theme.Color(clrMenuFontMenuItem), clrTransparent, fontSmall);
 }
 
+std::string cNopacityChannelMenuItem::readEPG(void) {
+    std::stringstream sstrText;
+    cSchedulesLock schedulesLock;
+    const cSchedules *schedules = cSchedules::Schedules(schedulesLock);
+    const cSchedule *Schedule = NULL;
+	Schedule = schedules->GetSchedule(Channel);
+	if (!Schedule) {
+		sstrText << tr("No EPG Information found");
+	} else {
+        const cEvent *PresentEvent = Schedule->GetPresentEvent();
+        int i=0;
+        if (!PresentEvent) {
+            sstrText << tr("No EPG Information found");
+        } else {
+            for (const cEvent *event = PresentEvent; event; event = Schedule->Events()->Next(event)) {
+                if (event) {
+                    sstrText << *event->GetTimeString();
+                    sstrText << " ";
+                    sstrText << event->Title();
+                    if (event->ShortText() && (strlen(event->ShortText()) > 1))
+                        sstrText << " ~ " << event->ShortText();
+                    i++;
+                    if (i < config.numEPGEntriesChannelsMenu)
+                        sstrText << "\n";
+                    else
+                        break;
+                }
+            }
+        }
+    }
+    return sstrText.str();
+}
+
 void cNopacityChannelMenuItem::Render() {
     
     int handleBgrd = (current)?handleBackgrounds[7]:handleBackgrounds[6];
@@ -657,6 +691,17 @@ void cNopacityChannelMenuItem::Render() {
             pixmapTextScroller->SetDrawPortPoint(cPoint(0, 0));
             SetTextShort();
             Cancel(-1);
+        }
+        if (wasCurrent)
+            if (infoTextWindow) {
+                delete infoTextWindow;
+                infoTextWindow = NULL;
+            }
+        if (current && Channel) {
+            infoTextWindow = new cNopacityTextWindow(osd, fontEPGWindow, vidWin);
+            infoTextWindow->SetGeometry(textWindow);
+            infoTextWindow->SetText(readEPG().c_str());
+            infoTextWindow->Start();
         }
     } else {                                    //Channelseparators
         DrawDelimiter(Channel->Name(), "skinIcons/Channelseparator", handleBgrd);

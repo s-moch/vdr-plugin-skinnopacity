@@ -112,11 +112,13 @@ private:
     std::string strEntryFull;
     cString strChannelSource;
     cString strChannelInfo;
+    cRect *vidWin;
     void SetTextFull(void);
     void SetTextShort(void);
     void DrawBackground(int handleBackground);
+    std::string readEPG(void);
 public:
-    cNopacityChannelMenuItem(cOsd *osd, const cChannel *Channel, bool sel);
+    cNopacityChannelMenuItem(cOsd *osd, const cChannel *Channel, bool sel, cRect *vidWin);
     ~cNopacityChannelMenuItem(void);
     void CreatePixmapTextScroller(int totalWidth);
     void CreateText(void);

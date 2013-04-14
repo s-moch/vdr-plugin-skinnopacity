@@ -200,3 +200,7 @@ Version 0.1.2
 - added option "auto" for video scaling: with this option the video window
   is resized when the detailed EPG Window is displayed in Schedules and
   Recordings menu to be completely visible.
+- Added Channel Number in narrow Timer menu
+- Added display of next Schedules in Channel Menu in separate Info Window. 
+  The Number of displayed Schedules can be configured in Plugin Channels 
+  Menu Setup.

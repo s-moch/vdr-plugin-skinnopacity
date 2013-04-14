@@ -104,6 +104,7 @@ class cNopacityConfig {
         int numAdditionalEPGPictures;
         int displayAdditionalRecEPGPictures;
         int numAdditionalRecEPGPictures;
+        int numEPGEntriesChannelsMenu;
         int menuFadeTime;
         int menuEPGWindowFadeTime;
         int menuFrameTime;
