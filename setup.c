@@ -150,6 +150,7 @@ void cNopacitySetup::Store(void) {
     SetupStore("menuInfoScrollDelay", config.menuInfoScrollDelay);
     SetupStore("menuInfoScrollSpeed", config.menuInfoScrollSpeed);
     SetupStore("showDiscUsage", config.showDiscUsage);
+    SetupStore("discUsageStyle", config.discUsageStyle);
     SetupStore("showTimers", config.showTimers);
     SetupStore("numberTimers", config.numberTimers);
     SetupStore("checkTimerConflict", config.checkTimerConflict);
@@ -286,6 +287,8 @@ cNopacitySetupMenuDisplayMain::cNopacitySetupMenuDisplayMain(cNopacityConfig* da
     titleStyle[0] = tr("\"VDR\" plus VDR version");
     titleStyle[1] = tr("only VDR version");
     titleStyle[2] = tr("no title");
+    discUsageStyle[0] = tr("free time in hours");
+    discUsageStyle[1] = tr("free space in GB");
     Set();
 }
 
@@ -306,6 +309,7 @@ void cNopacitySetupMenuDisplayMain::Set(void) {
     Add(new cMenuEditBoolItem(tr("Display Disk Usage"), &tmpNopacityConfig->showDiscUsage));
     if (tmpNopacityConfig->showDiscUsage) {
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Size (square, Percent of OSD Width)")), &tmpNopacityConfig->menuSizeDiskUsage, 5, 30));
+        Add(new cMenuEditStraItem(cString::sprintf("%s%s", *spacer, tr("Free Disc Display")), &tmpNopacityConfig->discUsageStyle, 2, discUsageStyle));
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Adjust Font Size - free")), &tmpNopacityConfig->fontDiskUsage, -20, 20));
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Adjust Font Size - percent")), &tmpNopacityConfig->fontDiskUsagePercent, -20, 20));
     }

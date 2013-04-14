@@ -95,6 +95,7 @@ cNopacityConfig::cNopacityConfig() {
     menuWidthRightItems = 12;
     menuSizeDiskUsage = 12;
     showDiscUsage = 1;
+    discUsageStyle = 0;
     showTimers = 1;
     numberTimers = 10;
     checkTimerConflict = 1;
@@ -365,6 +366,7 @@ bool cNopacityConfig::SetupParse(const char *Name, const char *Value) {
     else if (strcmp(Name, "menuSizeDiskUsage") == 0)       menuSizeDiskUsage = atoi(Value);
     else if (strcmp(Name, "menuHeightInfoWindow") == 0)    menuHeightInfoWindow = atoi(Value);
     else if (strcmp(Name, "showDiscUsage") == 0)           showDiscUsage = atoi(Value);
+    else if (strcmp(Name, "discUsageStyle") == 0)          discUsageStyle = atoi(Value);
     else if (strcmp(Name, "showTimers") == 0)              showTimers = atoi(Value);
     else if (strcmp(Name, "numberTimers") == 0)            numberTimers = atoi(Value);
     else if (strcmp(Name, "checkTimerConflict") == 0)      checkTimerConflict = atoi(Value);

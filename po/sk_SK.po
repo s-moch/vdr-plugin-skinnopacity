@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: vdr-skinnopacity 0.0.6\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-04-14 11:28+0200\n"
+"POT-Creation-Date: 2013-04-14 16:39+0200\n"
 "PO-Revision-Date: 2013-03-12 15:59+0100\n"
 "Last-Translator: Milan Hrala <hrala.milan@gmail.com>\n"
 "Language-Team: \n"
@@ -194,6 +194,12 @@ msgstr ""
 msgid "no title"
 msgstr ""
 
+msgid "free time in hours"
+msgstr ""
+
+msgid "free space in GB"
+msgstr ""
+
 msgid "Use narrow main menu"
 msgstr "Úzke hlavné menu"
 
@@ -217,6 +223,9 @@ msgstr "Zobrazi» vyu¾itie disku"
 
 msgid "Size (square, Percent of OSD Width)"
 msgstr "Veµkos» (do ¹tvorca, percento z OSD ¹írky)"
+
+msgid "Free Disc Display"
+msgstr ""
 
 msgid "Adjust Font Size - free"
 msgstr "Nastavenie veµkos»i písma - voµné"

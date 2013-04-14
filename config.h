@@ -126,6 +126,7 @@ class cNopacityConfig {
         int menuWidthRightItems;
         int menuSizeDiskUsage;
         int showDiscUsage;
+        int discUsageStyle;
         int showTimers;
         int numberTimers;
         int checkTimerConflict;

@@ -204,3 +204,5 @@ Version 0.1.2
 - Added display of next Schedules in Channel Menu in separate Info Window. 
   The Number of displayed Schedules can be configured in Plugin Channels 
   Menu Setup.
+- Display of disc status in main menu configurable: either remaining recording 
+  time in hours or free disc space in GB is displayed

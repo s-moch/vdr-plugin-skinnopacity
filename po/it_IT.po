@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-04-14 11:28+0200\n"
+"POT-Creation-Date: 2013-04-14 16:39+0200\n"
 "PO-Revision-Date: 2013-03-19 22:56+0100\n"
 "Last-Translator: Diego Pierotto <vdr-italian@tiscali.it>\n"
 "Language-Team: \n"
@@ -194,6 +194,12 @@ msgstr ""
 msgid "no title"
 msgstr ""
 
+msgid "free time in hours"
+msgstr ""
+
+msgid "free space in GB"
+msgstr ""
+
 msgid "Use narrow main menu"
 msgstr "Usa menu principale ridotto"
 
@@ -217,6 +223,9 @@ msgstr "Mostra utilizzo disco"
 
 msgid "Size (square, Percent of OSD Width)"
 msgstr "Dimensione (quadrato, % larghezza OSD)"
+
+msgid "Free Disc Display"
+msgstr ""
 
 msgid "Adjust Font Size - free"
 msgstr "Adatta dim. caratteri - Disponibili"

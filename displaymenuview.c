@@ -659,7 +659,11 @@ void cNopacityDisplayMenuView::DrawDiskUsage(void) {
     }
     pixmapDiskUsageLabel->Fill(clrTransparent);
     cString usage = cString::sprintf("%d%%", DiskUsage);
-    cString rest = cString::sprintf("%02d:%02dh %s", cVideoDiskUsage::FreeMinutes() / 60, cVideoDiskUsage::FreeMinutes() % 60, tr("free"));
+    cString rest;
+    if (config.discUsageStyle == 0)
+        rest = cString::sprintf("%02d:%02dh %s", cVideoDiskUsage::FreeMinutes() / 60, cVideoDiskUsage::FreeMinutes() % 60, tr("free"));
+    else
+        rest = cString::sprintf("%d GB %s", cVideoDiskUsage::FreeMB() / 1024, tr("free"));
     pixmapDiskUsageLabel->DrawRectangle(cRect((diskUsageWidth - 4)*DiskUsage/100,4*diskUsageHeight/5, (diskUsageWidth - 4) - (diskUsageWidth - 4)*DiskUsage/100, diskUsageHeight/5), 0xDD000000);
     pixmapDiskUsageLabel->DrawText(cPoint((diskUsageWidth - fontDiskUsagePercent->Width(*usage))/2, 4*diskUsageHeight/5), *usage, Theme.Color(clrMenuFontDiscUsage), clrTransparent, fontDiskUsagePercent);
     pixmapDiskUsageLabel->DrawText(cPoint((diskUsageWidth - fontDiskUsage->Width(*rest))/2, (diskUsageHeight - fontDiskUsage->Height())/2), *rest, Theme.Color(clrMenuFontDiscUsage), clrTransparent, fontDiskUsage);
