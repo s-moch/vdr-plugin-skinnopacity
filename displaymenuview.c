@@ -789,7 +789,7 @@ void cNopacityDisplayMenuView::DrawMessage(eMessageType Type, const char *Text) 
     if (pixmapStatus) {
         ClearMessage();
     }
-    pixmapStatus = osd->CreatePixmap(8, cRect(0.1*osdWidth, 0.8*osdHeight, messageWidth, messageHeight));
+    pixmapStatus = osd->CreatePixmap(7, cRect(0.1*osdWidth, 0.8*osdHeight, messageWidth, messageHeight));
     pixmapStatus->Fill(col);
     cImageLoader imgLoader;
     imgLoader.DrawBackground2(Theme.Color(clrMenuBack), col, messageWidth-2, messageHeight-2);
