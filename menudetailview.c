@@ -279,7 +279,8 @@ void cNopacityMenuDetailEventView::LoadReruns(void) {
             }
         }
         reruns.Set(sstrReruns.str().c_str(), font, width - 4 * border);
-    }
+    } else
+        reruns.Set("", font, width - 4 * border);
 }
 
 void cNopacityMenuDetailEventView::DrawEPGPictures(int height) {
