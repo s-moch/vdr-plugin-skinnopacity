@@ -242,17 +242,19 @@ void cNopacityDisplayReplay::SetMode(bool Play, bool Forward, int Speed) {
     pixmapFwdSpeed->Fill(clrTransparent);
 
     cImageLoader imgLoader;
-    if (!Play) {
-        pixmapPause->Fill(clrTransparent);
-        if (imgLoader.LoadIcon("skinIcons/pause", iconSize)) {
-            pixmapPause->DrawImage(cPoint(0,0), imgLoader.GetImage());
+    if (Speed == -1) {
+        if (Play) {
+            pixmapPlay->Fill(clrTransparent);
+            if (imgLoader.LoadIcon("skinIcons/play", iconSize)) {
+                pixmapPlay->DrawImage(cPoint(0,0), imgLoader.GetImage());
+            }
+        } else {
+            pixmapPause->Fill(clrTransparent);
+            if (imgLoader.LoadIcon("skinIcons/pause", iconSize)) {
+                pixmapPause->DrawImage(cPoint(0,0), imgLoader.GetImage());
+            }
         }
-    } else if (Play && (Speed < 0)) {
-        pixmapPlay->Fill(clrTransparent);
-        if (imgLoader.LoadIcon("skinIcons/play", iconSize)) {
-            pixmapPlay->DrawImage(cPoint(0,0), imgLoader.GetImage());
-        }
-    } else if (Play && Forward) {
+    } else if (Forward) {
         pixmapFwd->Fill(clrTransparent);
         if (imgLoader.LoadIcon("skinIcons/fwd", iconSize)) {
             pixmapFwd->DrawImage(cPoint(0,0), imgLoader.GetImage());
@@ -262,7 +264,7 @@ void cNopacityDisplayReplay::SetMode(bool Play, bool Forward, int Speed) {
             int sWidth = fontReplayHeader->Width(*speed);
             pixmapFwdSpeed->DrawText(cPoint((iconSize - sWidth)/2, (iconSize - fontReplayHeader->Height())/2), *speed, Theme.Color(clrReplayHighlightIcon), clrTransparent, fontReplayHeader); 
         }
-    } else if (Play && !Forward) {
+    } else {
         pixmapRew->Fill(clrTransparent);
         if (imgLoader.LoadIcon("skinIcons/rew", iconSize)) {
             pixmapRew->DrawImage(cPoint(0,0), imgLoader.GetImage());
@@ -273,7 +275,6 @@ void cNopacityDisplayReplay::SetMode(bool Play, bool Forward, int Speed) {
             pixmapRewSpeed->DrawText(cPoint((iconSize - sWidth)/2, (iconSize - fontReplayHeader->Height())/2), *speed, Theme.Color(clrReplayHighlightIcon), clrTransparent, fontReplayHeader); 
         }
     }
-    
 }
 
 void cNopacityDisplayReplay::SetProgress(int Current, int Total) {

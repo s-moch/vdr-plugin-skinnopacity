@@ -206,3 +206,5 @@ Version 0.1.2
   Menu Setup.
 - Display of disc status in main menu configurable: either remaining recording 
   time in hours or free disc space in GB is displayed
+- Fixed a bug that slow motion trick speed during recording replay was not 
+  displayed
