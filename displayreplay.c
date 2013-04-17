@@ -255,6 +255,12 @@ void cNopacityDisplayReplay::SetMode(bool Play, bool Forward, int Speed) {
             }
         }
     } else if (Forward) {
+        if (!Play) {
+            pixmapPause->Fill(clrTransparent);
+            if (imgLoader.LoadIcon("skinIcons/pause", iconSize)) {
+                pixmapPause->DrawImage(cPoint(0,0), imgLoader.GetImage());
+            }
+        }
         pixmapFwd->Fill(clrTransparent);
         if (imgLoader.LoadIcon("skinIcons/fwd", iconSize)) {
             pixmapFwd->DrawImage(cPoint(0,0), imgLoader.GetImage());
@@ -265,6 +271,12 @@ void cNopacityDisplayReplay::SetMode(bool Play, bool Forward, int Speed) {
             pixmapFwdSpeed->DrawText(cPoint((iconSize - sWidth)/2, (iconSize - fontReplayHeader->Height())/2), *speed, Theme.Color(clrReplayHighlightIcon), clrTransparent, fontReplayHeader); 
         }
     } else {
+        if (!Play) {
+            pixmapPause->Fill(clrTransparent);
+            if (imgLoader.LoadIcon("skinIcons/pause", iconSize)) {
+                pixmapPause->DrawImage(cPoint(0,0), imgLoader.GetImage());
+            }
+        }
         pixmapRew->Fill(clrTransparent);
         if (imgLoader.LoadIcon("skinIcons/rew", iconSize)) {
             pixmapRew->DrawImage(cPoint(0,0), imgLoader.GetImage());
