@@ -167,6 +167,7 @@ void cNopacityDisplayChannel::CreatePixmaps(void) {
         pixmapEPGInfo->Fill(clrTransparent);
     }
     pixmapScreenResolution = NULL;
+    pixmapSignalMeter = NULL;
 }
 
 void cNopacityDisplayChannel::CreateFonts(void) {
@@ -633,7 +634,8 @@ void cNopacityDisplayChannel::Flush(void) {
     if (config.displaySignalStrength && showSignal && !groupSep) {
         DrawSignal();
     } else
-        pixmapSignalMeter->Fill(clrTransparent);
+        if (pixmapSignalMeter)
+            pixmapSignalMeter->Fill(clrTransparent);
     if (withInfo) {
         int Current = 0;
         int Total = 0;
