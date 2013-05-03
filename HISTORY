@@ -208,3 +208,4 @@ Version 0.1.2
   time in hours or free disc space in GB is displayed
 - Fixed a bug that slow motion trick speed during recording replay was not 
   displayed
+- Added previous and next Channel Group in Channel Display

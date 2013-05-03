@@ -154,32 +154,6 @@ void cNopacityMenuItem::DoSleep(int duration) {
         cCondWait::SleepMs(sleepSlice);
 }
 
-std::string cNopacityMenuItem::CutText(std::string *text, int width, const cFont *font) {
-    if (width <= font->Size())
-        return text->c_str();
-    cTextWrapper twText;
-    twText.Set(text->c_str(), font, width);
-    std::string cuttedTextNative = twText.GetLine(0);
-    std::stringstream sstrText;
-    sstrText << cuttedTextNative << "...";
-    std::string cuttedText = sstrText.str();
-    int actWidth = font->Width(cuttedText.c_str());
-    if (actWidth > width) {
-        int overlap = actWidth - width;
-        int charWidth = font->Width(".");
-        if (charWidth == 0)
-            charWidth = 1;
-        int cutChars = overlap / charWidth;
-        if (cutChars > 0) {
-            cuttedTextNative = cuttedTextNative.substr(0, cuttedTextNative.length() - cutChars);
-            std::stringstream sstrText2;
-            sstrText2 << cuttedTextNative << "...";
-            cuttedText = sstrText2.str();
-        }
-    }
-    return cuttedText;
-}
-
 void cNopacityMenuItem::DrawRoundedCorners(tColor borderColor) {
     int radius = config.cornerRadius;
 
@@ -304,7 +278,7 @@ int cNopacityMainMenuItem::CheckScrollable(bool hasIcon) {
         scrollable = true;
         totalTextWidth = max(numberWidth + textWidth, totalTextWidth);
         strEntryFull = strEntry.c_str();
-        strEntry = CutText(&strEntry, width - spaceLeft - numberWidth, font);
+        strEntry = CutText(strEntry, width - spaceLeft - numberWidth, font);
     }
     return totalTextWidth;
 }
@@ -428,7 +402,7 @@ int cNopacityScheduleMenuItem::CheckScrollable(bool hasIcon) {
         totalTextWidth = max(font->Width(strTitle.c_str()), totalTextWidth);
         strTitleFull = strTitle.c_str();
         strSubTitleFull = strSubTitle.c_str();
-        strTitle = CutText(&strTitle, width - spaceLeft, font);
+        strTitle = CutText(strTitle, width - spaceLeft, font);
     }
     if (fontSmall->Width(strSubTitle.c_str()) > (width - spaceLeft)) {
         if (!scrollable) {
@@ -438,7 +412,7 @@ int cNopacityScheduleMenuItem::CheckScrollable(bool hasIcon) {
         }
         scrollSubTitle = true;
         totalTextWidth = max(fontSmall->Width(strSubTitle.c_str()), totalTextWidth);
-        strSubTitle = CutText(&strSubTitle, width - spaceLeft, fontSmall);
+        strSubTitle = CutText(strSubTitle, width - spaceLeft, fontSmall);
     }
     return totalTextWidth;
 
@@ -598,7 +572,7 @@ int cNopacityChannelMenuItem::CheckScrollable(bool hasIcon) {
         scrollable = true;
         totalTextWidth = max(font->Width(strEntry.c_str()), totalTextWidth);
         strEntryFull = strEntry.c_str();
-        strEntry = CutText(&strEntry, width - spaceLeft, font);
+        strEntry = CutText(strEntry, width - spaceLeft, font);
     }
     return totalTextWidth;
 }
@@ -767,7 +741,7 @@ int cNopacityTimerMenuItem::CheckScrollable(bool hasIcon) {
         scrollable = true;
         totalTextWidth = max(font->Width(strEntry.c_str()), totalTextWidth);
         strEntryFull = strEntry.c_str();
-        strEntry = CutText(&strEntry, width - spaceLeft, font);
+        strEntry = CutText(strEntry, width - spaceLeft, font);
     }
     return totalTextWidth;
 }
@@ -926,7 +900,7 @@ int cNopacityRecordingMenuItem::CheckScrollableRecording(void) {
     if (font->Width(strRecName.c_str()) + iconWidth > (width - spaceLeft)) {
         scrollable = true;
         totalTextWidth = max(font->Width(strRecName.c_str()) + iconWidth, totalTextWidth);
-        strRecName = CutText(&strRecName, width - spaceLeft - iconWidth, font);
+        strRecName = CutText(strRecName, width - spaceLeft - iconWidth, font);
     }
     return totalTextWidth;
 }
@@ -938,7 +912,7 @@ int cNopacityRecordingMenuItem::CheckScrollableFolder(void) {
     if (font->Width(strRecName.c_str()) > (width - spaceLeft)) {
         scrollable = true;
         totalTextWidth = max(font->Width(strRecName.c_str()), totalTextWidth);
-        strRecName = CutText(&strRecName, width - spaceLeft, font);
+        strRecName = CutText(strRecName, width - spaceLeft, font);
     }
     return totalTextWidth;
 }

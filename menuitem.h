@@ -32,7 +32,6 @@ protected:
     void DrawDelimiter(const char *del, const char *icon, int handleBgrd);
     virtual void Action(void);
     void DoSleep(int duration);
-    std::string CutText(std::string *text, int width, const cFont *font);
     void DrawRoundedCorners(tColor borderColor);
 public:
     cNopacityMenuItem(cOsd *osd, const char *text, bool sel);

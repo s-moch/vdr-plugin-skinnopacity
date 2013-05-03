@@ -183,7 +183,7 @@ void cNopacityDisplayChannel::DrawBackground(void){
         pixmapBackgroundMiddle->Fill(Theme.Color(clrChannelBackground));
     DrawBlendedBackground(pixmapBackgroundBottom, Theme.Color(clrChannelBackground), Theme.Color(clrChannelBackBlend), false);
     
-    if (config.backgroundStyle == bsFull) {
+    if ((config.backgroundStyle == bsFull) && withInfo) {
         pixmapLogoBackground->Fill(Theme.Color(clrChannelBackground));
         DrawBlendedBackground(pixmapLogoBackgroundTop, Theme.Color(clrChannelBackground), Theme.Color(clrChannelBackBlend), true);
         DrawBlendedBackground(pixmapLogoBackgroundBottom, Theme.Color(clrChannelBackground), Theme.Color(clrChannelBackBlend), false);
@@ -216,11 +216,6 @@ void cNopacityDisplayChannel::DrawBackground(void){
 
     pixmapFooter->Fill(clrTransparent);
     pixmapStreamInfo->Fill(clrTransparent);
-    cImageLoader imgLoader;
-    if (imgLoader.LoadIcon("skinIcons/channelsymbols", iconsWidth, iconSize)) {
-        pixmapStreamInfo->DrawImage(cPoint(0, 0), imgLoader.GetImage());
-    }
-
 }
 
 void cNopacityDisplayChannel::DrawDate(void) {
@@ -236,9 +231,15 @@ void cNopacityDisplayChannel::DrawDate(void) {
     }
 }
 
+void cNopacityDisplayChannel::DrawIconMask(void) {
+    cImageLoader imgLoader;
+    if (imgLoader.LoadIcon("skinIcons/channelsymbols", iconsWidth, iconSize)) {
+        pixmapStreamInfo->DrawImage(cPoint(0, 0), imgLoader.GetImage());
+    }
+}
+
 void cNopacityDisplayChannel::DrawIcons(const cChannel *Channel) {
     isRadioChannel = ((!Channel->Vpid())&&(Channel->Apid(0)))?true:false;
-    pixmapStreamInfoBack->Fill(clrTransparent);
     
     int backX = 5;
     int backY = 5;
@@ -393,7 +394,8 @@ void cNopacityDisplayChannel::DrawSignal(void) {
 void cNopacityDisplayChannel::SetChannel(const cChannel *Channel, int Number) {
     pixmapLogo->Fill(clrTransparent);
     pixmapChannelInfo->Fill(clrTransparent);
-    
+    pixmapStreamInfo->Fill(clrTransparent);
+    pixmapStreamInfoBack->Fill(clrTransparent);
     if (withInfo) {
         pixmapProgressBar->Fill(clrTransparent);
         pixmapEPGInfo->Fill(clrTransparent);
@@ -408,19 +410,22 @@ void cNopacityDisplayChannel::SetChannel(const cChannel *Channel, int Number) {
     if (Channel) {
         ChannelName = Channel->Name();
         if (!Channel->GroupSep()) {
-            DrawIcons(Channel);
             ChannelNumber = cString::sprintf("%d%s", Channel->Number(), Number ? "-" : "");
-        } else
+        } else {
             groupSep = true;
-        } else if (Number) {
+        }
+    } else if (Number) {
         ChannelNumber = cString::sprintf("%d-", Number);
     } else {
         ChannelName = ChannelString(NULL, 0);
     }
-
-    cString channelString = cString::sprintf("%s %s", *ChannelNumber, *ChannelName);
-
+    
     if (!groupSep) {
+        if (withInfo) {
+            DrawIconMask();
+            DrawIcons(Channel);
+        }
+        cString channelString = cString::sprintf("%s %s", *ChannelNumber, *ChannelName);
         pixmapChannelInfo->DrawText(cPoint(channelInfoHeight/2, (channelInfoHeight-fontHeader->Height())/2), channelString, Theme.Color(clrChannelHead), clrTransparent, fontHeader);
         if (config.logoPosition != lpNone) {
             cImageLoader imgLoader;
@@ -429,23 +434,79 @@ void cNopacityDisplayChannel::SetChannel(const cChannel *Channel, int Number) {
             }
         }
     } else {
-        if (withInfo) {
-            pixmapProgressBar->Fill(clrTransparent);
-            pixmapEPGInfo->Fill(clrTransparent);
-            pixmapEPGInfo->DrawText(cPoint(channelInfoHeight/2, (epgInfoHeight-fontHeader->Height())/2 - fontHeader->Height()/2), channelString, Theme.Color(clrChannelHead), clrTransparent, fontHeader);
-        } else {
-            pixmapChannelInfo->DrawText(cPoint(channelInfoHeight/2, (channelInfoHeight-fontHeader->Height())/2), channelString, Theme.Color(clrChannelHead), clrTransparent, fontHeader);
+        DrawChannelGroups(Channel, ChannelName);
+    }
+}
+
+void cNopacityDisplayChannel::DrawChannelGroups(const cChannel *Channel, cString ChannelName) {
+    int ySep;
+    cPixmap *infoPixmap;
+    cString prevSymbol = " < ";
+    cString nextSymbol = " > ";
+
+    if (withInfo) {
+        pixmapProgressBar->Fill(clrTransparent);
+        pixmapEPGInfo->Fill(clrTransparent);
+        ySep = (epgInfoHeight-fontHeader->Height())/2 - fontHeader->Height()/2;
+        infoPixmap = pixmapEPGInfo;
+    } else {
+        ySep = (channelInfoHeight-fontHeader->Height())/2;
+        infoPixmap = pixmapChannelInfo;
+    }
+
+    cString prevChannelSep = GetChannelSep(Channel, true);
+    cString nextChannelSep = GetChannelSep(Channel, false);
+    bool prevAvailable = (strlen(*prevChannelSep) > 0)?true:false;
+    bool nextAvailable = (strlen(*nextChannelSep) > 0)?true:false;
+
+    int widthSep = fontHeader->Width(*ChannelName);
+    int xSep = (infoWidth - widthSep)/2;
+    infoPixmap->DrawText(cPoint(xSep, ySep), *ChannelName, Theme.Color(clrChannelHead), clrTransparent, fontHeader);
+
+    int ySepNextPrev = ySep + (fontHeader->Height() - fontEPG->Height())/2;
+    if (prevAvailable) {
+        int xSymbol = xSep - fontHeader->Width(*prevSymbol);
+        infoPixmap->DrawText(cPoint(xSymbol, ySep), *prevSymbol, Theme.Color(clrChannelHead), clrTransparent, fontHeader);
+        int xSepPrev = xSymbol - fontEPG->Width(prevChannelSep);
+        if (xSepPrev < 0) {
+            prevChannelSep = CutText(*prevChannelSep, xSymbol, fontEPG).c_str();
+            xSepPrev = xSymbol - fontEPG->Width(prevChannelSep);
         }
-        if (config.logoPosition != lpNone) {
-            cImageLoader imgLoader;
-            cString separator = cString::sprintf("separatorlogos/%s", *ChannelName);
-            if (imgLoader.LoadLogo(*separator)) {
-                pixmapLogo->DrawImage(cPoint(config.logoBorder, (height-config.logoHeight)/2), imgLoader.GetImage());
-            } else if (imgLoader.LoadIcon("skinIcons/Channelseparator", config.logoHeight)) {
-                pixmapLogo->DrawImage(cPoint(config.logoBorder + (config.logoWidth - config.logoHeight)/2, (height-config.logoHeight)/2), imgLoader.GetImage());
-            }
+        infoPixmap->DrawText(cPoint(xSepPrev, ySepNextPrev), *prevChannelSep, Theme.Color(clrChannelEPG), clrTransparent, fontEPG);
+    }
+    if (nextAvailable) {
+        int xSymbol = xSep + widthSep;
+        infoPixmap->DrawText(cPoint(xSymbol, ySep), *nextSymbol, Theme.Color(clrChannelHead), clrTransparent, fontHeader);
+        int xSepNext = xSymbol + fontHeader->Width(*nextSymbol);
+        int spaceAvailable = infoPixmap->DrawPort().Width() - xSepNext;
+        if (fontEPG->Width(nextChannelSep) > spaceAvailable) {
+            nextChannelSep = CutText(*nextChannelSep, spaceAvailable, fontEPG).c_str();
+        }
+        infoPixmap->DrawText(cPoint(xSepNext, ySepNextPrev), *nextChannelSep, Theme.Color(clrChannelEPG), clrTransparent, fontEPG);
+    }
+    
+    if (config.logoPosition != lpNone) {
+        cImageLoader imgLoader;
+        cString separator = cString::sprintf("separatorlogos/%s", *ChannelName);
+        if (imgLoader.LoadLogo(*separator)) {
+            pixmapLogo->DrawImage(cPoint(config.logoBorder, (height-config.logoHeight)/2), imgLoader.GetImage());
+        } else if (imgLoader.LoadIcon("skinIcons/Channelseparator", config.logoHeight)) {
+            pixmapLogo->DrawImage(cPoint(config.logoBorder + (config.logoWidth - config.logoHeight)/2, (height-config.logoHeight)/2), imgLoader.GetImage());
         }
     }
+}
+
+cString cNopacityDisplayChannel::GetChannelSep(const cChannel *channel, bool prev) {
+    cString sepName("");
+    const cChannel *sep = prev ? Channels.Prev(channel) : 
+                                 Channels.Next(channel);
+    for (; sep; (prev)?(sep = Channels.Prev(sep)):(sep = Channels.Next(sep))) {
+        if (sep->GroupSep()) {
+            sepName = sep->Name();
+            break;
+        }
+    }
+    return sepName;
 }
 
 void cNopacityDisplayChannel::SetEvents(const cEvent *Present, const cEvent *Following) {
@@ -483,22 +544,14 @@ void cNopacityDisplayChannel::SetEvents(const cEvent *Present, const cEvent *Fol
             }
             int seenWidth = fontEPG->Width(*strSeen);
             int space = infoWidth - 9*indent - seenWidth - startTimeWidth - config.resolutionIconSize;
-            cString strEPG;
+            cString strEPG = e->Title();
             if (space < epgWidth) {
-                cTextWrapper epgInfoWrapper(e->Title(), fontEPG, space);
-                strEPG = epgInfoWrapper.GetLine(0);
-                strEPG = cString::sprintf("%s...", *strEPG);
-            } else {
-                strEPG = e->Title();
+                strEPG = CutText(e->Title(), space, fontEPG).c_str();
             }
-            cString strEPGShort("");
+            cString strEPGShort = e->ShortText();
             int spaceShort = infoWidth - 6*indent - startTimeWidth - config.resolutionIconSize;
             if (spaceShort < epgWidthShort) {
-                cTextWrapper epgInfoWrapper(e->ShortText(), fontEPGSmall, spaceShort);
-                strEPGShort = epgInfoWrapper.GetLine(0);
-                strEPGShort = cString::sprintf("%s...", *strEPGShort);
-            } else {
-                strEPGShort = e->ShortText();
+                strEPGShort = CutText(e->ShortText(), spaceShort, fontEPGSmall).c_str();
             }
             tColor fontColor = (i==0)?Theme.Color(clrChannelEPG):Theme.Color(clrChannelEPGInfo);
             pixmapEPGInfo->DrawText(cPoint(indent, y * epgInfoLineHeight), *startTime, fontColor, clrTransparent, fontEPG);
@@ -572,9 +625,15 @@ void cNopacityDisplayChannel::Flush(void) {
     DrawDate();
     if (!groupSep)
         DrawScreenResolution();
-    if (config.displaySignalStrength && showSignal) {
-        DrawSignal();
+    else {
+        if (pixmapScreenResolution)
+            pixmapScreenResolution->Fill(clrTransparent);
     }
+    
+    if (config.displaySignalStrength && showSignal && !groupSep) {
+        DrawSignal();
+    } else
+        pixmapSignalMeter->Fill(clrTransparent);
     if (withInfo) {
         int Current = 0;
         int Total = 0;

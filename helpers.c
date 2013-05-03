@@ -1,3 +1,6 @@
+#include <string>
+#include <sstream>
+
 static cOsd *CreateOsd(int Left, int Top, int Width, int Height) {
     cOsd *osd = cOsdProvider::NewOsd(Left, Top);
     if (osd) {
@@ -45,4 +48,30 @@ static int Minimum(int a, int b, int c, int d, int e, int f) {
     if (e < min) min = e;
     if (f < min) min = f;
     return min;
+}
+
+static std::string CutText(std::string text, int width, const cFont *font) {
+    if (width <= font->Size())
+        return text.c_str();
+    cTextWrapper twText;
+    twText.Set(text.c_str(), font, width);
+    std::string cuttedTextNative = twText.GetLine(0);
+    std::stringstream sstrText;
+    sstrText << cuttedTextNative << "...";
+    std::string cuttedText = sstrText.str();
+    int actWidth = font->Width(cuttedText.c_str());
+    if (actWidth > width) {
+        int overlap = actWidth - width;
+        int charWidth = font->Width(".");
+        if (charWidth == 0)
+            charWidth = 1;
+        int cutChars = overlap / charWidth;
+        if (cutChars > 0) {
+            cuttedTextNative = cuttedTextNative.substr(0, cuttedTextNative.length() - cutChars);
+            std::stringstream sstrText2;
+            sstrText2 << cuttedTextNative << "...";
+            cuttedText = sstrText2.str();
+        }
+    }
+    return cuttedText;
 }

@@ -70,10 +70,13 @@ private:
     void DrawDate(void);
     void DrawProgressBar(int Current, int Total);
     tColor DrawProgressbarBackground(int left, int top, int width, int height);
+    void DrawIconMask(void);
     void DrawIcons(const cChannel *channel);
     void DrawScreenResolution(void);
     void DrawSignalMeter(void);
     void DrawSignal(void);
+    void DrawChannelGroups(const cChannel *Channel, cString ChannelName);
+    cString GetChannelSep(const cChannel *channel, bool prev);
 public:
     cNopacityDisplayChannel(bool WithInfo);
     virtual ~cNopacityDisplayChannel();
