@@ -73,6 +73,9 @@ void cNopacityTextWindow::DoSleep(int duration) {
 }
 
 void cNopacityTextWindow::Action(void) {
+    if (! *text)
+        return;
+        
     DoSleep(config.menuInfoTextDelay*1000);
 
     if (config.scalePicture == 2) {
