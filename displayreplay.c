@@ -52,19 +52,19 @@ void cNopacityDisplayReplay::SetGeometry(void) {
     if (headerHeight%2 != 0)
         headerHeight++;
     footerHeight = headerHeight;
-    info2Height = 0.2 * height;
+    resolutionX = 10;
+    resolutionY = 5;
+    info2Height = max(headerHeight,config.resolutionIconSize+resolutionY*2-headerHeight);
     progressBarHeight = 0.1 * height;
     if (progressBarHeight%2 != 0)
         progressBarHeight++;
     currentHeight = progressBarHeight + config.fontReplay;
     controlsHeight = height - headerHeight - info2Height - footerHeight - progressBarHeight;
-
+    if (controlsHeight < 11)
+        controlsHeight = 11;
     infoWidth = 0.75 * width - config.resolutionIconSize - 10;
     dateWidth = width - infoWidth;
 
-    resolutionX = 10;
-    resolutionY = 5;
-    
     jumpX = (width - 4 * controlsHeight)/2 + 5*controlsHeight;
     jumpY = headerHeight + info2Height + progressBarHeight;
     jumpWidth = width - jumpX;
