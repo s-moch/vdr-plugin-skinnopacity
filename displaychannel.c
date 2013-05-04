@@ -4,6 +4,12 @@
 #include "displaychannel.h"
 
 cNopacityDisplayChannel::cNopacityDisplayChannel(bool WithInfo) {
+    if (firstDisplay) {
+        firstDisplay = false;
+        doOutput = false;
+        return;
+    } else
+        doOutput = true;  
     config.setDynamicValues();
     withInfo = WithInfo;
     groupSep = false;
@@ -22,54 +28,53 @@ cNopacityDisplayChannel::cNopacityDisplayChannel(bool WithInfo) {
     FadeTime = config.channelFadeTime;
     lastDate = "";
     SetGeometry();
-    if (osd) {
-        CreatePixmaps();
-        CreateFonts();
-        DrawBackground();
-        DrawSignalMeter();
-    }
+    CreatePixmaps();
+    CreateFonts();
+    DrawBackground();
+    DrawSignalMeter();
 }
 
 cNopacityDisplayChannel::~cNopacityDisplayChannel() {
+    if (!doOutput)
+        return;
     Cancel(-1);
     while (Active())
         cCondWait::SleepMs(10);
-    if (osd) {
-        osd->DestroyPixmap(pixmapBackgroundTop);
-        osd->DestroyPixmap(pixmapBackgroundBottom);
-        osd->DestroyPixmap(pixmapLogo);
-        osd->DestroyPixmap(pixmapLogoBackground);
-        osd->DestroyPixmap(pixmapLogoBackgroundTop);
-        osd->DestroyPixmap(pixmapLogoBackgroundBottom);
-        osd->DestroyPixmap(pixmapChannelInfo);
-        osd->DestroyPixmap(pixmapDate);
-        if (withInfo) {
-            osd->DestroyPixmap(pixmapBackgroundMiddle);
-            osd->DestroyPixmap(pixmapProgressBar);
-            osd->DestroyPixmap(pixmapEPGInfo);
-        }
-        if (pixmapScreenResolution)
-            osd->DestroyPixmap(pixmapScreenResolution); 
-        osd->DestroyPixmap(pixmapFooter);
-        osd->DestroyPixmap(pixmapStreamInfo);
-        osd->DestroyPixmap(pixmapStreamInfoBack);
-        if (config.displaySignalStrength && showSignal) {
-            osd->DestroyPixmap(pixmapSignalStrength);
-            osd->DestroyPixmap(pixmapSignalQuality);
-            osd->DestroyPixmap(pixmapSignalMeter);
-            osd->DestroyPixmap(pixmapSignalLabel);
-        }
-        if (config.displaySignalStrength && showSignal) {
-            delete fontInfoline;
-        }
-        delete fontHeader;
-        delete fontDate;
-        delete fontEPG;
-        delete fontEPGSmall;
-        delete fontChannelGroup;
-        delete fontChannelGroupSmall;
-        delete osd;
+
+    osd->DestroyPixmap(pixmapBackgroundTop);
+    osd->DestroyPixmap(pixmapBackgroundBottom);
+    osd->DestroyPixmap(pixmapLogo);
+    osd->DestroyPixmap(pixmapLogoBackground);
+    osd->DestroyPixmap(pixmapLogoBackgroundTop);
+    osd->DestroyPixmap(pixmapLogoBackgroundBottom);
+    osd->DestroyPixmap(pixmapChannelInfo);
+    osd->DestroyPixmap(pixmapDate);
+    if (withInfo) {
+        osd->DestroyPixmap(pixmapBackgroundMiddle);
+        osd->DestroyPixmap(pixmapProgressBar);
+        osd->DestroyPixmap(pixmapEPGInfo);
     }
+    if (pixmapScreenResolution)
+        osd->DestroyPixmap(pixmapScreenResolution); 
+    osd->DestroyPixmap(pixmapFooter);
+    osd->DestroyPixmap(pixmapStreamInfo);
+    osd->DestroyPixmap(pixmapStreamInfoBack);
+    if (config.displaySignalStrength && showSignal) {
+        osd->DestroyPixmap(pixmapSignalStrength);
+        osd->DestroyPixmap(pixmapSignalQuality);
+        osd->DestroyPixmap(pixmapSignalMeter);
+        osd->DestroyPixmap(pixmapSignalLabel);
+    }
+    if (config.displaySignalStrength && showSignal) {
+        delete fontInfoline;
+    }
+    delete fontHeader;
+    delete fontDate;
+    delete fontEPG;
+    delete fontEPGSmall;
+    delete fontChannelGroup;
+    delete fontChannelGroupSmall;
+    delete osd;
 }
 
 void cNopacityDisplayChannel::SetGeometry(void) {
@@ -397,6 +402,8 @@ void cNopacityDisplayChannel::DrawSignal(void) {
 }
 
 void cNopacityDisplayChannel::SetChannel(const cChannel *Channel, int Number) {
+    if (!doOutput)
+        return;
     pixmapLogo->Fill(clrTransparent);
     pixmapChannelInfo->Fill(clrTransparent);
     pixmapStreamInfo->Fill(clrTransparent);
@@ -518,6 +525,8 @@ cString cNopacityDisplayChannel::GetChannelSep(const cChannel *channel, bool pre
 }
 
 void cNopacityDisplayChannel::SetEvents(const cEvent *Present, const cEvent *Following) {
+    if (!doOutput)
+        return;
     if (!withInfo)
         return;
     if (present != Present)
@@ -630,6 +639,8 @@ void cNopacityDisplayChannel::SetMessage(eMessageType Type, const char *Text) {
 }
 
 void cNopacityDisplayChannel::Flush(void) {
+    if (!doOutput)
+        return;
     DrawDate();
     if (!groupSep)
         DrawScreenResolution();

@@ -3,6 +3,7 @@
 
 static cTheme Theme;
 static bool menuActive = false;
+static bool firstDisplay = true;
 
 //COMMON
 #define CLR_TRANSBLACK          0xDD000000

@@ -6,6 +6,7 @@ enum eBackgroundStyle {bsTrans = 0, bsFull};
 
 class cNopacityDisplayChannel : public cSkinDisplayChannel, cThread {
 private:
+    bool doOutput;
     int FrameTime;
     int FadeTime;
     bool withInfo;
