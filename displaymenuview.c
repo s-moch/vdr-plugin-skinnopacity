@@ -477,12 +477,14 @@ void cNopacityDisplayMenuView::DrawBorderDecoration() {
         pixmapContent->DrawRectangle(cRect(contentWidthFull, contentHeight - borderWidth, osdWidth - contentWidthMinimum, borderWidth), Theme.Color(clrMenuBorder));
         //Vertical line
         pixmapContent->DrawRectangle(cRect(contentWidthFull-radius, radius, borderWidth, contentHeight - 2*radius), Theme.Color(clrMenuBorder));
-        //Upper Ellipse
-        pixmapContent->DrawEllipse(cRect(contentWidthFull - radius, 0, radius, radius), Theme.Color(clrMenuBorder),2);
-        pixmapContent->DrawEllipse(cRect(contentWidthFull - radius + borderWidth, borderWidth, radius-borderWidth, radius-borderWidth), clrTransparent, 2);
-        //Lower Ellipse
-        pixmapContent->DrawEllipse(cRect(contentWidthFull - radius, contentHeight - radius, radius, radius), Theme.Color(clrMenuBorder),3);
-        pixmapContent->DrawEllipse(cRect(contentWidthFull - radius + borderWidth, contentHeight - radius, radius-borderWidth, radius-borderWidth), clrTransparent, 3);
+        if (radius-borderWidth > 2) {
+            //Upper Ellipse
+            pixmapContent->DrawEllipse(cRect(contentWidthFull - radius, 0, radius, radius), Theme.Color(clrMenuBorder),2);
+            pixmapContent->DrawEllipse(cRect(contentWidthFull - radius + borderWidth, borderWidth, radius-borderWidth, radius-borderWidth), clrTransparent, 2);
+            //Lower Ellipse
+            pixmapContent->DrawEllipse(cRect(contentWidthFull - radius, contentHeight - radius, radius, radius), Theme.Color(clrMenuBorder),3);
+            pixmapContent->DrawEllipse(cRect(contentWidthFull - radius + borderWidth, contentHeight - radius, radius-borderWidth, radius-borderWidth), clrTransparent, 3);
+        }
     } else {
         //Background
         pixmapContent->DrawRectangle(cRect(osdWidth - contentWidthMinimum + radius, 0, contentWidthFull - radius, contentHeight), Theme.Color(clrMenuBack));
@@ -495,12 +497,14 @@ void cNopacityDisplayMenuView::DrawBorderDecoration() {
         pixmapContent->DrawRectangle(cRect(0, contentHeight - borderWidth, osdWidth - contentWidthMinimum, borderWidth), Theme.Color(clrMenuBorder));
         //Vertical line
         pixmapContent->DrawRectangle(cRect(osdWidth - contentWidthMinimum + radius - borderWidth, radius, borderWidth, contentHeight - 2*radius), Theme.Color(clrMenuBorder));
-        //Upper Ellipse
-        pixmapContent->DrawEllipse(cRect(osdWidth - contentWidthMinimum, 0, radius, radius), Theme.Color(clrMenuBorder),1);
-        pixmapContent->DrawEllipse(cRect(osdWidth - contentWidthMinimum, borderWidth, radius-borderWidth, radius-borderWidth), clrTransparent, 1);
-        //Lower Ellipse
-        pixmapContent->DrawEllipse(cRect(osdWidth - contentWidthMinimum, contentHeight - radius, radius, radius), Theme.Color(clrMenuBorder),4);
-        pixmapContent->DrawEllipse(cRect(osdWidth - contentWidthMinimum, contentHeight - radius, radius-borderWidth, radius-borderWidth), clrTransparent, 4);
+        if (radius-borderWidth > 2) {
+            //Upper Ellipse
+            pixmapContent->DrawEllipse(cRect(osdWidth - contentWidthMinimum, 0, radius, radius), Theme.Color(clrMenuBorder),1);
+            pixmapContent->DrawEllipse(cRect(osdWidth - contentWidthMinimum, borderWidth, radius-borderWidth, radius-borderWidth), clrTransparent, 1);
+            //Lower Ellipse
+            pixmapContent->DrawEllipse(cRect(osdWidth - contentWidthMinimum, contentHeight - radius, radius, radius), Theme.Color(clrMenuBorder),4);
+            pixmapContent->DrawEllipse(cRect(osdWidth - contentWidthMinimum, contentHeight - radius, radius-borderWidth, radius-borderWidth), clrTransparent, 4);
+        }
     }
 }
 
@@ -695,18 +699,19 @@ void cNopacityDisplayMenuView::DrawButton(const char *text, int handleImage, tCo
     
     if (config.roundedCorners) {
         int radius = config.cornerRadius;
+        if (radius > 2) {
+            pixmapFooter->DrawEllipse(cRect(left,top,radius,radius), borderColor, -2);
+            pixmapFooter->DrawEllipse(cRect(left-2,top-2,radius,radius), Theme.Color(clrMenuBack), -2);
 
-        pixmapFooter->DrawEllipse(cRect(left,top,radius,radius), borderColor, -2);
-        pixmapFooter->DrawEllipse(cRect(left-2,top-2,radius,radius), Theme.Color(clrMenuBack), -2);
+            pixmapFooter->DrawEllipse(cRect(left + buttonWidth -radius, top,radius,radius), borderColor, -1);
+            pixmapFooter->DrawEllipse(cRect(left + buttonWidth -radius+2,top-2,radius,radius), Theme.Color(clrMenuBack), -1);
 
-        pixmapFooter->DrawEllipse(cRect(left + buttonWidth -radius, top,radius,radius), borderColor, -1);
-        pixmapFooter->DrawEllipse(cRect(left + buttonWidth -radius+2,top-2,radius,radius), Theme.Color(clrMenuBack), -1);
+            pixmapFooter->DrawEllipse(cRect(left,top + buttonHeight -radius,radius,radius), borderColor, -3);
+            pixmapFooter->DrawEllipse(cRect(left - 2, top + buttonHeight - radius + 2,radius,radius), Theme.Color(clrMenuBack), -3);
 
-        pixmapFooter->DrawEllipse(cRect(left,top + buttonHeight -radius,radius,radius), borderColor, -3);
-        pixmapFooter->DrawEllipse(cRect(left - 2, top + buttonHeight - radius + 2,radius,radius), Theme.Color(clrMenuBack), -3);
-
-        pixmapFooter->DrawEllipse(cRect(left + buttonWidth -radius, top + buttonHeight -radius,radius,radius), borderColor, -4);
-        pixmapFooter->DrawEllipse(cRect(left + buttonWidth -radius + 2, top + buttonHeight -radius + 2,radius,radius), Theme.Color(clrMenuBack), -4);
+            pixmapFooter->DrawEllipse(cRect(left + buttonWidth -radius, top + buttonHeight -radius,radius,radius), borderColor, -4);
+            pixmapFooter->DrawEllipse(cRect(left + buttonWidth -radius + 2, top + buttonHeight -radius + 2,radius,radius), Theme.Color(clrMenuBack), -4);
+        }
     }
     
     int textWidth = fontButtons->Width(text);

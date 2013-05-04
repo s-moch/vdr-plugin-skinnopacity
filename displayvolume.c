@@ -21,12 +21,13 @@ cNopacityDisplayVolume::cNopacityDisplayVolume(void) {
 
     DrawBlendedBackground(pixmapBackgroundTop, Theme.Color(clrChannelBackground), Theme.Color(clrChannelBackBlend), true);
     DrawBlendedBackground(pixmapBackgroundBottom, Theme.Color(clrChannelBackground), Theme.Color(clrChannelBackBlend), false);
-
-    pixmapBackgroundTop->DrawEllipse(cRect(0, 0, height/4, height/4), clrTransparent, -2);
-    pixmapBackgroundTop->DrawEllipse(cRect(width - height/4, 0, height/4, height/4), clrTransparent, -1);
-    pixmapBackgroundBottom->DrawEllipse(cRect(0, height/4, height/4, height/4), clrTransparent, -3);
-    pixmapBackgroundBottom->DrawEllipse(cRect(width - height/4, height/4, height/4, height/4), clrTransparent, -4);
-
+    int cornerSize = height/4;
+    if (cornerSize > 2) {
+        pixmapBackgroundTop->DrawEllipse(cRect(0, 0, cornerSize, cornerSize), clrTransparent, -2);
+        pixmapBackgroundTop->DrawEllipse(cRect(width - cornerSize, 0, cornerSize, cornerSize), clrTransparent, -1);
+        pixmapBackgroundBottom->DrawEllipse(cRect(0, cornerSize, cornerSize, cornerSize), clrTransparent, -3);
+        pixmapBackgroundBottom->DrawEllipse(cRect(width - cornerSize, cornerSize, cornerSize, cornerSize), clrTransparent, -4);
+    }
     labelHeight = height/3;
     pixmapLabel = osd->CreatePixmap(2, cRect(0, 5, width, labelHeight));
     progressBarWidth = 0.9 * width;
@@ -69,6 +70,8 @@ void cNopacityDisplayVolume::SetVolume(int Current, int Total, bool Mute) {
 
 void cNopacityDisplayVolume::DrawProgressBar(int Current, int Total) {
     pixmapProgressBar->Fill(clrTransparent);
+    if (progressBarHeight < 5)
+        return;
     double percent = ((double)Current) / (double)Total;
     int barWidth = progressBarWidth - progressBarHeight;
     if ((Current > 0) || (Total > 0)) {

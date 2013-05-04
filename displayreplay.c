@@ -135,16 +135,20 @@ void cNopacityDisplayReplay::CreateFonts(void) {
 void cNopacityDisplayReplay::DrawBackground(void) {
     if (!modeOnly) {
         DrawBlendedBackground(pixmapHeader, Theme.Color(clrReplayBackground), Theme.Color(clrReplayBackBlend), true);
-        pixmapHeader->DrawEllipse(cRect(0,0, headerHeight/2, headerHeight/2), clrTransparent, -2);
-        pixmapHeader->DrawEllipse(cRect(width - headerHeight/2 ,0 ,headerHeight/2,headerHeight/2), clrTransparent, -1);
+        DrawBlendedBackground(pixmapFooter, Theme.Color(clrReplayBackground), Theme.Color(clrReplayBackBlend), false);
+        int cornerTopSize = headerHeight/2;
+        int cornerBottomSize = footerHeight/2;
+        if ((cornerTopSize > 2)&&(cornerBottomSize > 2)) {
+            pixmapHeader->DrawEllipse(cRect(0,0, cornerTopSize, cornerTopSize), clrTransparent, -2);
+            pixmapHeader->DrawEllipse(cRect(width - cornerTopSize, 0, cornerTopSize, cornerTopSize), clrTransparent, -1);
+            pixmapFooter->DrawEllipse(cRect(0, cornerBottomSize, cornerBottomSize, cornerBottomSize), clrTransparent, -3);
+            pixmapFooter->DrawEllipse(cRect(width - cornerBottomSize, cornerBottomSize, cornerBottomSize, cornerBottomSize), clrTransparent, -4);
+        }
         pixmapBackground->Fill(Theme.Color(clrReplayBackground));
         pixmapControls->Fill(clrTransparent);
         pixmapProgressBar->Fill(clrTransparent);
         pixmapScreenResolution->Fill(clrTransparent);
         pixmapJump->Fill(clrTransparent);
-        DrawBlendedBackground(pixmapFooter, Theme.Color(clrReplayBackground), Theme.Color(clrReplayBackBlend), false);
-        pixmapFooter->DrawEllipse(cRect(0,footerHeight/2,footerHeight/2,footerHeight/2), clrTransparent, -3);
-        pixmapFooter->DrawEllipse(cRect(width - footerHeight/2, footerHeight/2 ,footerHeight/2,footerHeight/2), clrTransparent, -4);
     } else {
         pixmapControls->Fill(Theme.Color(clrMenuBorder));
         pixmapControls->DrawRectangle(cRect(2, 2, pixmapControls->ViewPort().Width() - 4, pixmapControls->ViewPort().Height() - 4),Theme.Color(clrReplayBackground));
@@ -290,6 +294,8 @@ void cNopacityDisplayReplay::SetMode(bool Play, bool Forward, int Speed) {
 }
 
 void cNopacityDisplayReplay::SetProgress(int Current, int Total) {
+    if (progressBarHeight < 5)
+        return;
     int barWidth = width - 2*progressBarHeight;
     cProgressBar pb(barWidth, progressBarHeight-2, Current, Total, marks, Theme.Color(clrReplayProgressSeen), Theme.Color(clrReplayProgressRest), Theme.Color(clrReplayProgressSelected), Theme.Color(clrReplayProgressMark), Theme.Color(clrReplayProgressCurrent));
     pixmapProgressBar->DrawEllipse(cRect(progressBarHeight/2, 0, progressBarHeight, progressBarHeight), Theme.Color(clrProgressBarBack));

@@ -156,7 +156,8 @@ void cNopacityMenuItem::DoSleep(int duration) {
 
 void cNopacityMenuItem::DrawRoundedCorners(tColor borderColor) {
     int radius = config.cornerRadius;
-
+    if (radius < 3)
+        return;
     pixmap->DrawEllipse(cRect(0,0,radius,radius), borderColor, -2);
     pixmap->DrawEllipse(cRect(-1,-1,radius,radius), clrTransparent, -2);
 
