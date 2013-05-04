@@ -45,10 +45,13 @@ class cNopacityConfig {
         int logoBorder;
         int backgroundStyle;
         int displaySignalStrength;
+        int displayPrevNextChannelGroup;
         int fontChannelHeaderSize;
         int fontChannelDateSize;
         int fontEPGSize;
         int fontEPGSmallSize;
+        int fontChannelGroupSize;
+        int fontChannelGroupSmallSize;
         int resolutionIconSize;
         int statusIconSize;
         int progressCurrentSchedule;

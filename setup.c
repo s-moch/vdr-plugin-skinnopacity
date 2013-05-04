@@ -81,11 +81,14 @@ void cNopacitySetup::Store(void) {
     SetupStore("logoBorder", config.logoBorder);
     SetupStore("backgroundStyle", config.backgroundStyle);
     SetupStore("displaySignalStrength", config.displaySignalStrength);
+    SetupStore("displayPrevNextChannelGroup", config.displayPrevNextChannelGroup);
     SetupStore("channelFadeTime", config.channelFadeTime);
     SetupStore("fontChannelHeaderSize", config.fontChannelHeaderSize);
     SetupStore("fontChannelDateSize", config.fontChannelDateSize);
     SetupStore("fontEPGSize", config.fontEPGSize);
     SetupStore("fontEPGSmallSize", config.fontEPGSmallSize);
+    SetupStore("fontChannelGroupSize", config.fontChannelGroupSize);
+    SetupStore("fontChannelGroupSmallSize", config.fontChannelGroupSmallSize);
     SetupStore("resolutionIconSize", config.resolutionIconSize);
     SetupStore("statusIconSize", config.statusIconSize);
     SetupStore("progressCurrentSchedule", config.progressCurrentSchedule);
@@ -475,12 +478,15 @@ void cNopacitySetupChannelDisplay::Set(void) {
     }
     Add(new cMenuEditStraItem(tr("Kind of time display for current schedule"), &tmpNopacityConfig->progressCurrentSchedule, 2, progressStyleCurrentSchedule));
     Add(new cMenuEditBoolItem(tr("Display Signal Strength & Quality"), &tmpNopacityConfig->displaySignalStrength));
+    Add(new cMenuEditBoolItem(tr("Display previous and next Channel Group"), &tmpNopacityConfig->displayPrevNextChannelGroup));
     Add(new cMenuEditIntItem(tr("Screen Resolution Icon Size"), &tmpNopacityConfig->resolutionIconSize, 30, 200));
     Add(new cMenuEditIntItem(tr("Status Icons Size"), &tmpNopacityConfig->statusIconSize, 30, 150));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Header"), &tmpNopacityConfig->fontChannelHeaderSize, -20, 20));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Date"), &tmpNopacityConfig->fontChannelDateSize, -20, 20));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - EPG Text"), &tmpNopacityConfig->fontEPGSize, -20, 20));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - EPG Infotext"), &tmpNopacityConfig->fontEPGSmallSize, -20, 20));
+    Add(new cMenuEditIntItem(tr("Adjust Font Size - Channel Group"), &tmpNopacityConfig->fontChannelGroupSize, -20, 20));
+    Add(new cMenuEditIntItem(tr("Adjust Font Size - Next/Prev Channel Group"), &tmpNopacityConfig->fontChannelGroupSmallSize, -20, 20));
     SetCurrent(Get(currentItem));
     Display();
 }

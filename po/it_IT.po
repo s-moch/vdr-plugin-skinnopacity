@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-04-14 16:39+0200\n"
+"POT-Creation-Date: 2013-05-04 11:26+0200\n"
 "PO-Revision-Date: 2013-03-19 22:56+0100\n"
 "Last-Translator: Diego Pierotto <vdr-italian@tiscali.it>\n"
 "Language-Team: \n"
@@ -380,6 +380,9 @@ msgstr ""
 msgid "Display Signal Strength & Quality"
 msgstr "Mostra qualità e intensità segnale"
 
+msgid "Display previous and next Channel Group"
+msgstr ""
+
 msgid "Screen Resolution Icon Size"
 msgstr "Dim. icona risoluzione schermo"
 
@@ -391,6 +394,12 @@ msgstr "Adatta dim. caratteri - Testo EPG"
 
 msgid "Adjust Font Size - EPG Infotext"
 msgstr "Adatta dim. caratteri - Info testo EPG"
+
+msgid "Adjust Font Size - Channel Group"
+msgstr ""
+
+msgid "Adjust Font Size - Next/Prev Channel Group"
+msgstr ""
 
 msgid "Height of Replay Display (Percent of OSD Height)"
 msgstr "Altezza di Mostra riproduzione (% altezza OSD)"

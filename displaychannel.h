@@ -62,6 +62,8 @@ private:
     cFont *fontEPG;
     cFont *fontEPGSmall;
     cFont *fontInfoline;
+    cFont *fontChannelGroup;
+    cFont *fontChannelGroupSmall;
     virtual void Action(void);
     void SetGeometry(void);
     void CreatePixmaps(void);

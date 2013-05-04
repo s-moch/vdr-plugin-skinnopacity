@@ -22,10 +22,13 @@ cNopacityConfig::cNopacityConfig() {
     logoBorder = 15;
     backgroundStyle = 0;
     displaySignalStrength = 1;
+    displayPrevNextChannelGroup = 1;
     fontChannelHeaderSize = 0;
     fontChannelDateSize = 0;
     fontEPGSize = 0;
     fontEPGSmallSize = 0;
+    fontChannelGroupSize = 0;
+    fontChannelGroupSmallSize = 0;
     resolutionIconSize = 100;
     statusIconSize = 64;
     progressCurrentSchedule = 0;
@@ -298,10 +301,13 @@ bool cNopacityConfig::SetupParse(const char *Name, const char *Value) {
     else if (strcmp(Name, "logoBorder") == 0)              logoBorder = atoi(Value);
     else if (strcmp(Name, "backgroundStyle") == 0)         backgroundStyle = atoi(Value);
     else if (strcmp(Name, "displaySignalStrength") == 0)   displaySignalStrength = atoi(Value);
+    else if (strcmp(Name, "displayPrevNextChannelGroup") == 0) displayPrevNextChannelGroup = atoi(Value);
     else if (strcmp(Name, "fontChannelHeaderSize") == 0)   fontChannelHeaderSize = atoi(Value);
     else if (strcmp(Name, "fontChannelDateSize") == 0)     fontChannelDateSize = atoi(Value);
     else if (strcmp(Name, "fontEPGSize") == 0)             fontEPGSize = atoi(Value);
     else if (strcmp(Name, "fontEPGSmallSize") == 0)        fontEPGSmallSize = atoi(Value);
+    else if (strcmp(Name, "fontChannelGroupSize") == 0)    fontChannelGroupSize = atoi(Value);
+    else if (strcmp(Name, "fontChannelGroupSmallSize") == 0) fontChannelGroupSmallSize = atoi(Value);
     else if (strcmp(Name, "resolutionIconSize") == 0)      resolutionIconSize = atoi(Value);
     else if (strcmp(Name, "statusIconSize") == 0)          statusIconSize = atoi(Value);
     else if (strcmp(Name, "progressCurrentSchedule") == 0) progressCurrentSchedule = atoi(Value);
