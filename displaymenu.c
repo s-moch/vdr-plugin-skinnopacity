@@ -59,11 +59,12 @@ cNopacityDisplayMenu::~cNopacityDisplayMenu() {
         delete detailView;
     }
     timers.Clear();
-    for (int i=0; i<14; i++)
-        cOsdProvider::DropImage(handleBackgrounds[i]);
-    for (int i=0; i<4; i++)
-        cOsdProvider::DropImage(handleButtons[i]);
-
+    if (config.doBlending) {
+        for (int i=0; i<14; i++)
+            cOsdProvider::DropImage(handleBackgrounds[i]);
+        for (int i=0; i<4; i++)
+            cOsdProvider::DropImage(handleButtons[i]);
+    }
     delete osd;
     cDevice::PrimaryDevice()->ScaleVideo(cRect::Null);
     menuActive = false;
@@ -362,22 +363,22 @@ void cNopacityDisplayMenu::SetButtonPositions(void) {
 
 void cNopacityDisplayMenu::SetButtons(const char *Red, const char *Green, const char *Yellow, const char *Blue) {
     if (Red) {
-        menuView->DrawButton(Red, handleButtons[0], Theme.Color(clrButtonRedBorder), positionButtons[0]);
+        menuView->DrawButton(Red, handleButtons[0], Theme.Color(clrButtonRed), Theme.Color(clrButtonRedBorder), positionButtons[0]);
     } else
         menuView->ClearButton(positionButtons[0]);
 
     if (Green) {
-        menuView->DrawButton(Green, handleButtons[1], Theme.Color(clrButtonGreenBorder), positionButtons[1]);
+        menuView->DrawButton(Green, handleButtons[1],Theme.Color(clrButtonGreen),  Theme.Color(clrButtonGreenBorder), positionButtons[1]);
     } else
         menuView->ClearButton(positionButtons[1]);
 
     if (Yellow) {
-        menuView->DrawButton(Yellow, handleButtons[2], Theme.Color(clrButtonYellowBorder), positionButtons[2]);
+        menuView->DrawButton(Yellow, handleButtons[2], Theme.Color(clrButtonYellow), Theme.Color(clrButtonYellowBorder), positionButtons[2]);
     } else
         menuView->ClearButton(positionButtons[2]);
 
     if (Blue) {
-        menuView->DrawButton(Blue, handleButtons[3], Theme.Color(clrButtonBlueBorder), positionButtons[3]);
+        menuView->DrawButton(Blue, handleButtons[3], Theme.Color(clrButtonBlue), Theme.Color(clrButtonBlueBorder), positionButtons[3]);
     } else
         menuView->ClearButton(positionButtons[3]);
 }

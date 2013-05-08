@@ -18,9 +18,13 @@ cNopacityDisplayVolume::cNopacityDisplayVolume(void) {
 
     pixmapBackgroundTop = osd->CreatePixmap(1, cRect(0, 0, width, height/2));
     pixmapBackgroundBottom = osd->CreatePixmap(1, cRect(0, height/2, width, height/2));
-
-    DrawBlendedBackground(pixmapBackgroundTop, Theme.Color(clrChannelBackground), Theme.Color(clrChannelBackBlend), true);
-    DrawBlendedBackground(pixmapBackgroundBottom, Theme.Color(clrChannelBackground), Theme.Color(clrChannelBackBlend), false);
+    if (config.doBlending) {
+        DrawBlendedBackground(pixmapBackgroundTop, Theme.Color(clrChannelBackground), Theme.Color(clrChannelBackBlend), true);
+        DrawBlendedBackground(pixmapBackgroundBottom, Theme.Color(clrChannelBackground), Theme.Color(clrChannelBackBlend), false);
+    } else {
+        pixmapBackgroundTop->Fill(Theme.Color(clrChannelBackground));
+        pixmapBackgroundBottom->Fill(Theme.Color(clrChannelBackground));
+    }
     int cornerSize = height/4;
     if (cornerSize > 2) {
         pixmapBackgroundTop->DrawEllipse(cRect(0, 0, cornerSize, cornerSize), clrTransparent, -2);

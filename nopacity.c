@@ -5,6 +5,9 @@ static cTheme Theme;
 static bool menuActive = false;
 static bool firstDisplay = true;
 
+//ENABLE BLENDING
+#define CLR_BLENDING_ON         0xFFFFFFFF
+
 //COMMON
 #define CLR_TRANSBLACK          0xDD000000
 #define CLR_TRANSBLACK2         0xB0000000
@@ -34,7 +37,7 @@ static bool firstDisplay = true;
 #define CLR_MENUITEMHIGHBLEND   0xEE0033FF
 #define CLR_SEPARATORBORDER     0xEE444444
 #define CLR_DISKALERT           0xDDFF0000
-#define CLR_MENUHEADER		     0xDD000000
+#define CLR_MENUHEADER		    0xDD000000
 #define CLR_MENUHEADERBLEND     0xEE0033FF
 
 //BUTTONS
@@ -52,6 +55,9 @@ static bool firstDisplay = true;
 #define CLR_MESSAGEINFO         0x90009900
 #define CLR_MESSAGEWARNING      0x90BBBB00
 #define CLR_MESSAGEERROR        0x90BB0000
+
+//ENABLE BLENDING
+THEME_CLR(Theme, clrDoBlending,             CLR_BLENDING_ON);
 
 //CHANNELS
 THEME_CLR(Theme, clrChannelBackground,      CLR_TRANSBLACK2);

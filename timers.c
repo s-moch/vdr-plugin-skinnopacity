@@ -117,8 +117,12 @@ void cNopacityTimer::Render(void) {
     if (isTimerConflict) {
         pixmapLogo->Fill(clrTransparent);
         pixmap->Fill(Theme.Color(clrDiskAlert));
-        imgLoader.DrawBackground(Theme.Color(clrDiskAlert), Theme.Color(clrMenuItemHigh), width-2, height-2);
-        pixmap->DrawImage(cPoint(1,1), imgLoader.GetImage());
+        if (config.doBlending) {
+            imgLoader.DrawBackground(Theme.Color(clrDiskAlert), Theme.Color(clrMenuItemHigh), width-2, height-2);
+            pixmap->DrawImage(cPoint(1,1), imgLoader.GetImage());
+        } else {
+            pixmap->DrawRectangle(cRect(1, 1, width-2, height-2), Theme.Color(clrDiskAlert));
+        }        
         int numLines = showName.Lines();
         int textWidth = 0;
         int x = 0;
@@ -133,12 +137,20 @@ void cNopacityTimer::Render(void) {
         DrawLogo();
         if (timer->Recording()) {
             pixmap->Fill(Theme.Color(clrDiskAlert));
-            imgLoader.DrawBackground(Theme.Color(clrDiskAlert), Theme.Color(clrMenuItemHigh), width-2, height-2);
-            pixmap->DrawImage(cPoint(1,1), imgLoader.GetImage());
+            if (config.doBlending) {
+                imgLoader.DrawBackground(Theme.Color(clrDiskAlert), Theme.Color(clrMenuItemHigh), width-2, height-2);
+                pixmap->DrawImage(cPoint(1,1), imgLoader.GetImage());
+            } else {
+                pixmap->DrawRectangle(cRect(1, 1, width-2, height-2), Theme.Color(clrDiskAlert));
+            } 
         } else {
             pixmap->Fill(Theme.Color(clrMenuBorder));
-            imgLoader.DrawBackground(Theme.Color(clrMenuItemHighBlend), Theme.Color(clrMenuItemHigh), width-2, height-2);
-            pixmap->DrawImage(cPoint(1,1), imgLoader.GetImage());
+            if (config.doBlending) {
+                imgLoader.DrawBackground(Theme.Color(clrMenuItemHighBlend), Theme.Color(clrMenuItemHigh), width-2, height-2);
+                pixmap->DrawImage(cPoint(1,1), imgLoader.GetImage());
+            } else {
+                pixmap->DrawRectangle(cRect(1, 1, width-2, height-2), Theme.Color(clrMenuItemHigh));
+            } 
         }
 
         pixmap->DrawText(cPoint(5, config.timersLogoHeight), *Date, Theme.Color(clrMenuFontTimersHeader), clrTransparent, fontLarge);

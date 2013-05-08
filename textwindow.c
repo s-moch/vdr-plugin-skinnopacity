@@ -58,9 +58,10 @@ bool cNopacityTextWindow::CreatePixmap(int border) {
 void cNopacityTextWindow::DrawText(int border) {
     int lineHeight = font->Height();
     int currentLineHeight = lineHeight/2;
+    tColor clrFontBack = (config.doBlending)?(clrTransparent):(Theme.Color(clrMenuBack));
     cPixmap::Lock();
     for (int i=0; (i < twText.Lines()) && Running(); i++) {
-        pixmap->DrawText(cPoint(border, currentLineHeight), twText.GetLine(i), Theme.Color(clrMenuFontDetailViewText), clrTransparent, font);
+        pixmap->DrawText(cPoint(border, currentLineHeight), twText.GetLine(i), Theme.Color(clrMenuFontDetailViewText), clrFontBack, font);
         currentLineHeight += lineHeight;
     }
     cPixmap::Unlock();        

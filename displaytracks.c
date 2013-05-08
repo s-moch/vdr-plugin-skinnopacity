@@ -25,8 +25,10 @@ cNopacityDisplayTracks::~cNopacityDisplayTracks() {
     osd->DestroyPixmap(pixmapHeader);
     osd->DestroyPixmap(pixmapHeaderAudio);
     menuItems.Clear();
-    for (int i=0; i<2; i++)
-        cOsdProvider::DropImage(handleBackgrounds[i]);
+    if (config.doBlending) {
+        for (int i=0; i<2; i++)
+            cOsdProvider::DropImage(handleBackgrounds[i]);
+    }
     delete font;
     delete fontHeader;
     delete osd;
@@ -98,6 +100,8 @@ void cNopacityDisplayTracks::CreateFonts(void) {
 }
 
 void cNopacityDisplayTracks::CreateBackgroundImages(void) {
+    if (!config.doBlending)
+        return;
     cImageLoader imgLoader;
     imgLoader.DrawBackground(Theme.Color(clrMenuItem), Theme.Color(clrMenuItemBlend), menuItemWidth-2, menuItemHeight-2);
     handleBackgrounds[0] = cOsdProvider::StoreImage(imgLoader.GetImage());
@@ -108,16 +112,20 @@ void cNopacityDisplayTracks::CreateBackgroundImages(void) {
 void cNopacityDisplayTracks::DrawHeader(const char *Title) {
     pixmapContainer->Fill(Theme.Color(clrMenuBorder));
     pixmapContainer->DrawRectangle(cRect(1, 1, width-2, height-2), Theme.Color(clrMenuBack));
-
     pixmapHeader->Fill(Theme.Color(clrMenuItem));
-    pixmapHeader->DrawImage(cPoint(1, 1), handleBackgrounds[0]);
+    if (config.doBlending) {
+        pixmapHeader->DrawImage(cPoint(1, 1), handleBackgrounds[0]);
+    } else {
+        pixmapHeader->DrawRectangle(cRect(1, 1, width-2, height-2), Theme.Color(clrMenuItemHigh));
+    }
     pixmapIcon = osd->CreatePixmap(3, cRect(2, 2, menuItemHeight-2, menuItemHeight-2));
     pixmapIcon->Fill(clrTransparent);
     cImageLoader imgLoader;
     if (imgLoader.LoadIcon("skinIcons/tracks", menuItemHeight-6)) {
         pixmapIcon->DrawImage(cPoint(3, 3), imgLoader.GetImage());
     }
-    pixmapHeader->DrawText(cPoint((width - fontHeader->Width(Title)) / 2, (menuItemHeight - fontHeader->Height()) / 2), Title, Theme.Color(clrTracksFontHead), clrTransparent, fontHeader);
+    int clrFontBack = (config.doBlending)?clrTransparent:Theme.Color(clrMenuItemHigh);
+    pixmapHeader->DrawText(cPoint((width - fontHeader->Width(Title)) / 2, (menuItemHeight - fontHeader->Height()) / 2), Title, Theme.Color(clrTracksFontHead), clrFontBack, fontHeader);
 }
 
 void cNopacityDisplayTracks::SetItem(const char *Text, int Index, bool Current) {

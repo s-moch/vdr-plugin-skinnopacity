@@ -187,43 +187,52 @@ void cNopacityDisplayChannel::CreateFonts(void) {
 }
 
 void cNopacityDisplayChannel::DrawBackground(void){
-    
-    DrawBlendedBackground(pixmapBackgroundTop, Theme.Color(clrChannelBackground), Theme.Color(clrChannelBackBlend), true);
+    if (config.doBlending) {
+        DrawBlendedBackground(pixmapBackgroundTop, Theme.Color(clrChannelBackground), Theme.Color(clrChannelBackBlend), true);
+        DrawBlendedBackground(pixmapBackgroundBottom, Theme.Color(clrChannelBackground), Theme.Color(clrChannelBackBlend), false);
+    } else {
+        pixmapBackgroundTop->Fill(Theme.Color(clrChannelBackground));
+        pixmapBackgroundBottom->Fill(Theme.Color(clrChannelBackground));
+    }
     if (withInfo)
         pixmapBackgroundMiddle->Fill(Theme.Color(clrChannelBackground));
-    DrawBlendedBackground(pixmapBackgroundBottom, Theme.Color(clrChannelBackground), Theme.Color(clrChannelBackBlend), false);
     
     if ((config.backgroundStyle == bsFull) && withInfo) {
         pixmapLogoBackground->Fill(Theme.Color(clrChannelBackground));
-        DrawBlendedBackground(pixmapLogoBackgroundTop, Theme.Color(clrChannelBackground), Theme.Color(clrChannelBackBlend), true);
-        DrawBlendedBackground(pixmapLogoBackgroundBottom, Theme.Color(clrChannelBackground), Theme.Color(clrChannelBackBlend), false);
+        if (config.doBlending) {
+            DrawBlendedBackground(pixmapLogoBackgroundTop, Theme.Color(clrChannelBackground), Theme.Color(clrChannelBackBlend), true);
+            DrawBlendedBackground(pixmapLogoBackgroundBottom, Theme.Color(clrChannelBackground), Theme.Color(clrChannelBackBlend), false);
+        } else {
+            pixmapLogoBackgroundTop->Fill(Theme.Color(clrChannelBackground));
+            pixmapLogoBackgroundBottom->Fill(Theme.Color(clrChannelBackground));
+        }
     } else {
         pixmapLogoBackgroundTop->Fill(clrTransparent);
         pixmapLogoBackground->Fill(clrTransparent);
         pixmapLogoBackgroundBottom->Fill(clrTransparent);
     }
-    
-    int cornerTopSize = channelInfoHeight/2;
-    int cornerBottomSize = streamInfoHeight/2;
-    if ((cornerTopSize > 2)&&(cornerBottomSize > 2)) {
-        if ((config.backgroundStyle == bsTrans) || ((config.logoPosition == lpNone))) {
-            pixmapBackgroundTop->DrawEllipse(cRect(0, 0, cornerTopSize, cornerTopSize), clrTransparent, -2);
-            pixmapBackgroundTop->DrawEllipse(cRect(infoWidth - cornerTopSize, 0, cornerTopSize, cornerTopSize), clrTransparent, -1);
-            pixmapBackgroundBottom->DrawEllipse(cRect(0, cornerBottomSize, cornerBottomSize, cornerBottomSize), clrTransparent, -3);
-            pixmapBackgroundBottom->DrawEllipse(cRect(infoWidth - cornerBottomSize, cornerBottomSize, cornerBottomSize, cornerBottomSize), clrTransparent, -4);
-        } else if ((config.backgroundStyle == bsFull) && (config.logoPosition == lpLeft)){
-            pixmapLogoBackgroundTop->DrawEllipse(cRect(0, 0, cornerTopSize, cornerTopSize), clrTransparent, -2);
-            pixmapBackgroundTop->DrawEllipse(cRect(infoWidth - cornerTopSize, 0, cornerTopSize, cornerTopSize), clrTransparent, -1);
-            pixmapLogoBackgroundBottom->DrawEllipse(cRect(0, cornerBottomSize, cornerBottomSize, cornerBottomSize), clrTransparent, -3);
-            pixmapBackgroundBottom->DrawEllipse(cRect(infoWidth - cornerBottomSize, cornerBottomSize, cornerBottomSize, cornerBottomSize), clrTransparent, -4);
-        } else if ((config.backgroundStyle == bsFull) && (config.logoPosition == lpRight)){
-            pixmapBackgroundTop->DrawEllipse(cRect(0, 0, cornerTopSize, cornerTopSize), clrTransparent, -2);
-            pixmapLogoBackgroundTop->DrawEllipse(cRect(pixmapLogoBackgroundTop->ViewPort().Width() - cornerTopSize, 0, cornerTopSize, cornerTopSize), clrTransparent, -1);
-            pixmapBackgroundBottom->DrawEllipse(cRect(0, cornerBottomSize, cornerBottomSize, cornerBottomSize), clrTransparent, -3);
-            pixmapLogoBackgroundBottom->DrawEllipse(cRect(pixmapLogoBackgroundBottom->ViewPort().Width() - cornerBottomSize, cornerBottomSize, cornerBottomSize, cornerBottomSize), clrTransparent, -4);
+    if (config.roundedCornersChannel) {
+        int cornerTopSize = channelInfoHeight/2;
+        int cornerBottomSize = streamInfoHeight/2;
+        if ((cornerTopSize > 2)&&(cornerBottomSize > 2)) {
+            if ((config.backgroundStyle == bsTrans) || ((config.logoPosition == lpNone))) {
+                pixmapBackgroundTop->DrawEllipse(cRect(0, 0, cornerTopSize, cornerTopSize), clrTransparent, -2);
+                pixmapBackgroundTop->DrawEllipse(cRect(infoWidth - cornerTopSize, 0, cornerTopSize, cornerTopSize), clrTransparent, -1);
+                pixmapBackgroundBottom->DrawEllipse(cRect(0, cornerBottomSize, cornerBottomSize, cornerBottomSize), clrTransparent, -3);
+                pixmapBackgroundBottom->DrawEllipse(cRect(infoWidth - cornerBottomSize, cornerBottomSize, cornerBottomSize, cornerBottomSize), clrTransparent, -4);
+            } else if ((config.backgroundStyle == bsFull) && (config.logoPosition == lpLeft)){
+                pixmapLogoBackgroundTop->DrawEllipse(cRect(0, 0, cornerTopSize, cornerTopSize), clrTransparent, -2);
+                pixmapBackgroundTop->DrawEllipse(cRect(infoWidth - cornerTopSize, 0, cornerTopSize, cornerTopSize), clrTransparent, -1);
+                pixmapLogoBackgroundBottom->DrawEllipse(cRect(0, cornerBottomSize, cornerBottomSize, cornerBottomSize), clrTransparent, -3);
+                pixmapBackgroundBottom->DrawEllipse(cRect(infoWidth - cornerBottomSize, cornerBottomSize, cornerBottomSize, cornerBottomSize), clrTransparent, -4);
+            } else if ((config.backgroundStyle == bsFull) && (config.logoPosition == lpRight)){
+                pixmapBackgroundTop->DrawEllipse(cRect(0, 0, cornerTopSize, cornerTopSize), clrTransparent, -2);
+                pixmapLogoBackgroundTop->DrawEllipse(cRect(pixmapLogoBackgroundTop->ViewPort().Width() - cornerTopSize, 0, cornerTopSize, cornerTopSize), clrTransparent, -1);
+                pixmapBackgroundBottom->DrawEllipse(cRect(0, cornerBottomSize, cornerBottomSize, cornerBottomSize), clrTransparent, -3);
+                pixmapLogoBackgroundBottom->DrawEllipse(cRect(pixmapLogoBackgroundBottom->ViewPort().Width() - cornerBottomSize, cornerBottomSize, cornerBottomSize, cornerBottomSize), clrTransparent, -4);
+            }
         }
     }
-    
     pixmapChannelInfo->Fill(clrTransparent);
     pixmapDate->Fill(clrTransparent);
     pixmapLogo->Fill(clrTransparent);

@@ -209,3 +209,5 @@ Version 0.1.2
 - Fixed a bug that slow motion trick speed during recording replay was not 
   displayed
 - Added previous and next Channel Group in Channel Display
+- Introduced "plain" style without any blending effects configurable by
+  dedicated theme color

@@ -1,4 +1,5 @@
 Description = Dark Red
+clrDoBlending = FFFFFFFF
 clrChannelBackground = CC000000
 clrChannelBackBlend = CC333333
 clrChannelHead = FFEEEEEE

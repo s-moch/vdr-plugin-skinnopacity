@@ -24,6 +24,8 @@ class cNopacityConfig {
         cString epgImagePathDefault;
         void setDynamicValues();
         void loadRssFeeds(void);
+        //Theme Setting
+        bool doBlending;
         //Common
         int fontIndex;
         const char *fontDefaultName;
@@ -44,6 +46,7 @@ class cNopacityConfig {
         int logoHeight;
         int logoBorder;
         int backgroundStyle;
+        int roundedCornersChannel;
         int displaySignalStrength;
         int displayPrevNextChannelGroup;
         int fontChannelHeaderSize;

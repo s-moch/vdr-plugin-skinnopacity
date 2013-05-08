@@ -30,9 +30,9 @@ protected:
     virtual void SetTextFull(void) {};
     virtual void SetTextShort(void) {};
     void DrawDelimiter(const char *del, const char *icon, int handleBgrd);
+    void DrawRoundedCorners(tColor borderColor);
     virtual void Action(void);
     void DoSleep(int duration);
-    void DrawRoundedCorners(tColor borderColor);
 public:
     cNopacityMenuItem(cOsd *osd, const char *text, bool sel);
     virtual ~cNopacityMenuItem(void);
@@ -64,6 +64,7 @@ private:
     std::string strEntryFull;
     static std::string items[16];
     cString GetIconName();
+    void DrawBackground(void);
     void SetTextFull(void);
     void SetTextShort(void);
 public:
@@ -114,7 +115,7 @@ private:
     cRect *vidWin;
     void SetTextFull(void);
     void SetTextShort(void);
-    void DrawBackground(int handleBackground);
+    void DrawBackground(void);
     std::string readEPG(void);
 public:
     cNopacityChannelMenuItem(cOsd *osd, const cChannel *Channel, bool sel, cRect *vidWin);
@@ -133,7 +134,7 @@ private:
     std::string strDateTime;
     void SetTextFull(void);
     void SetTextShort(void);
-    void DrawBackground(int handleBackground, int textLeft);
+    void DrawBackground(int textLeft);
     void DrawLogo(int logoWidth, int logoHeight);
     std::string CreateDate(void);
 public:
@@ -159,6 +160,7 @@ private:
     void SetTextShortFolder(void);
     void SetTextFullRecording(void);
     void SetTextShortRecording(void);
+    void DrawBackground(void);
     int DrawRecordingNewIcon(void);
     int DrawRecordingEditedIcon(int startLeft);
     void DrawFolderIcon(void);
@@ -178,6 +180,7 @@ public:
 class cNopacityDefaultMenuItem : public cNopacityMenuItem {
 private:
     bool CheckProgressBar(const char *text);
+    void DrawBackground(void);
     void DrawProgressBar(int x, int width, const char *bar, tColor color);
     bool DrawHeaderElement(void);
     std::string strEntry;

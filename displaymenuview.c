@@ -399,6 +399,8 @@ const cFont *cNopacityDisplayMenuView::GetTextAreaFont(bool FixedFont) {
 }
 
 void cNopacityDisplayMenuView::CreateBackgroundImages(int *handleBackgrounds, int *handleButtons) {
+    if (!config.doBlending)
+        return;
     cImageLoader imgLoader;
     //Default Menus
     imgLoader.DrawBackground(Theme.Color(clrMenuItem), Theme.Color(clrMenuItemBlend), menuItemWidthDefault-2, menuItemHeightDefault-2);
@@ -442,7 +444,7 @@ void cNopacityDisplayMenuView::CreateBackgroundImages(int *handleBackgrounds, in
     handleBackgrounds[12] = cOsdProvider::StoreImage(imgLoader.GetImage());
     imgLoader.DrawBackground(Theme.Color(clrMenuItemHigh), Theme.Color(clrMenuItemHighBlend), itemSize.X()-2, itemSize.Y()-2);
     handleBackgrounds[13] = cOsdProvider::StoreImage(imgLoader.GetImage());
-    
+    //Color Buttons
     imgLoader.DrawBackground(Theme.Color(clrMenuBack), Theme.Color(clrButtonRed), buttonWidth-4, buttonHeight-4);
     handleButtons[0] = cOsdProvider::StoreImage(imgLoader.GetImage());
     imgLoader.DrawBackground(Theme.Color(clrMenuBack), Theme.Color(clrButtonGreen), buttonWidth-4, buttonHeight-4);
@@ -454,10 +456,13 @@ void cNopacityDisplayMenuView::CreateBackgroundImages(int *handleBackgrounds, in
 }
 
 void cNopacityDisplayMenuView::DrawBorderDecoration() {
-    cImageLoader imgLoader;
-    bool mirrorHeader = (config.menuAdjustLeft) ? false : true;
-    imgLoader.DrawBackground(Theme.Color(clrMenuHeaderBlend), Theme.Color(clrMenuHeader), osdWidth, headerHeight, mirrorHeader);
-    pixmapHeader->DrawImage(cPoint(0,0), imgLoader.GetImage());
+    if (config.doBlending) {
+        cImageLoader imgLoader;
+        bool mirrorHeader = (config.menuAdjustLeft) ? false : true;
+        imgLoader.DrawBackground(Theme.Color(clrMenuHeaderBlend), Theme.Color(clrMenuHeader), osdWidth, headerHeight, mirrorHeader);
+        pixmapHeader->DrawImage(cPoint(0,0), imgLoader.GetImage());
+    } else 
+        pixmapHeader->Fill(Theme.Color(clrMenuBack));
     pixmapFooter->Fill(Theme.Color(clrMenuBack));
     
     int borderWidth = 2;
@@ -689,14 +694,17 @@ void cNopacityDisplayMenuView::ShowDiskUsage(bool show) {
     }
 }
 
-void cNopacityDisplayMenuView::DrawButton(const char *text, int handleImage, tColor borderColor, int num) {
+void cNopacityDisplayMenuView::DrawButton(const char *text, int handleImage, tColor buttonColor, tColor borderColor, int num) {
     if (num < 0)
         return;
     int top = 2*buttonsBorder;
     int left = num * buttonWidth + (2*num + 1) * buttonsBorder;
-    pixmapFooter->DrawRectangle(cRect(left, top, buttonWidth, buttonHeight), borderColor);
-    pixmapFooter->DrawImage(cPoint(left+2, top+2), handleImage);
-    
+    if (config.doBlending) {
+        pixmapFooter->DrawRectangle(cRect(left, top, buttonWidth, buttonHeight), borderColor);
+	pixmapFooter->DrawImage(cPoint(left+2, top+2), handleImage);
+    } else {
+        pixmapFooter->DrawRectangle(cRect(left, top, buttonWidth, buttonHeight), buttonColor);
+    }
     if (config.roundedCorners) {
         int radius = config.cornerRadius;
         if (radius > 2) {
@@ -716,7 +724,8 @@ void cNopacityDisplayMenuView::DrawButton(const char *text, int handleImage, tCo
     
     int textWidth = fontButtons->Width(text);
     int textHeight = fontButtons->Height();
-    pixmapFooter->DrawText(cPoint(left + (buttonWidth-textWidth)/2, top + (buttonHeight-textHeight)/2), text, Theme.Color(clrMenuFontButton), clrTransparent, fontButtons);
+    tColor clrFontBack = (config.doBlending)?(clrTransparent):buttonColor;
+    pixmapFooter->DrawText(cPoint(left + (buttonWidth-textWidth)/2, top + (buttonHeight-textHeight)/2), text, Theme.Color(clrMenuFontButton), clrFontBack, fontButtons);
 }
 
 void cNopacityDisplayMenuView::ClearButton(int num) {
@@ -796,11 +805,14 @@ void cNopacityDisplayMenuView::DrawMessage(eMessageType Type, const char *Text) 
     }
     pixmapStatus = osd->CreatePixmap(7, cRect(0.1*osdWidth, 0.8*osdHeight, messageWidth, messageHeight));
     pixmapStatus->Fill(col);
-    cImageLoader imgLoader;
-    imgLoader.DrawBackground2(Theme.Color(clrMenuBack), col, messageWidth-2, messageHeight-2);
-    pixmapStatus->DrawImage(cPoint(1, 1), imgLoader.GetImage());
+    if (config.doBlending) {
+        cImageLoader imgLoader;
+        imgLoader.DrawBackground2(Theme.Color(clrMenuBack), col, messageWidth-2, messageHeight-2);
+        pixmapStatus->DrawImage(cPoint(1, 1), imgLoader.GetImage());
+    }
     int textWidth = fontMessage->Width(Text);
-    pixmapStatus->DrawText(cPoint((messageWidth - textWidth) / 2, (messageHeight - fontMessage->Height()) / 2), Text, Theme.Color(clrMenuFontMessages), clrTransparent, fontMessage);
+    tColor clrFontBack = (config.doBlending)?(clrTransparent):col;
+    pixmapStatus->DrawText(cPoint((messageWidth - textWidth) / 2, (messageHeight - fontMessage->Height()) / 2), Text, Theme.Color(clrMenuFontMessages), clrFontBack, fontMessage);
 }
 
 void cNopacityDisplayMenuView::ClearMessage(void) {

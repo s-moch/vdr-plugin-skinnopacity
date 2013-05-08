@@ -80,6 +80,7 @@ void cNopacitySetup::Store(void) {
     SetupStore("logoHeight", config.logoHeight);
     SetupStore("logoBorder", config.logoBorder);
     SetupStore("backgroundStyle", config.backgroundStyle);
+    SetupStore("roundedCornersChannel", config.roundedCornersChannel);
     SetupStore("displaySignalStrength", config.displaySignalStrength);
     SetupStore("displayPrevNextChannelGroup", config.displayPrevNextChannelGroup);
     SetupStore("channelFadeTime", config.channelFadeTime);
@@ -470,6 +471,7 @@ void cNopacitySetupChannelDisplay::Set(void) {
     Add(new cMenuEditIntItem(tr("Left & Right Border Width"), &tmpNopacityConfig->channelBorderVertical, 0, 300));
     Add(new cMenuEditIntItem(tr("Bottom Border Height"), &tmpNopacityConfig->channelBorderBottom, 0, 300));
     Add(new cMenuEditStraItem(tr("Background Style"), &tmpNopacityConfig->backgroundStyle, 2, bgStyle));
+    Add(new cMenuEditBoolItem(tr("Rounded Corners"), &tmpNopacityConfig->roundedCornersChannel));
     Add(new cMenuEditStraItem(tr("Channel Logo Position"), &tmpNopacityConfig->logoPosition, 3, logoPos));
     if (tmpNopacityConfig->logoPosition) {
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Channel Logo Width")), &tmpNopacityConfig->logoWidth, 30, 500));

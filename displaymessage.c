@@ -46,11 +46,13 @@ void cNopacityDisplayMessage::SetMessage(eMessageType Type, const char *Text) {
     }
     pixmapBackground->Fill(clrBlack);
     pixmap->Fill(col);
-    cImageLoader imgLoader;
-    imgLoader.DrawBackground2(Theme.Color(clrMessageBlend), col, width-2, height-2);
-    pixmap->DrawImage(cPoint(1, 1), imgLoader.GetImage());
+    if (config.doBlending) {
+        cImageLoader imgLoader;
+        imgLoader.DrawBackground2(Theme.Color(clrMessageBlend), col, width-2, height-2);
+        pixmap->DrawImage(cPoint(1, 1), imgLoader.GetImage());
+    }
     int textWidth = font->Width(Text);
-    pixmap->DrawText(cPoint((width - textWidth) / 2, (height - font->Height()) / 2), Text, Theme.Color(clrMessageFont), clrTransparent, font);
+    pixmap->DrawText(cPoint((width - textWidth) / 2, (height - font->Height()) / 2), Text, Theme.Color(clrMessageFont), (config.doBlending)?clrTransparent:col, font);
     if (config.messageFadeTime)
         Start();
 }

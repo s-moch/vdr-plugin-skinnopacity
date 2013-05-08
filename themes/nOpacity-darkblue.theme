@@ -1,4 +1,6 @@
 Description = Dark Blue
+#DO BLENDING
+clrDoBlending = FFFFFFFF
 clrChannelBackground = B0000000
 clrChannelBackBlend = DD5078ab
 clrChannelHead = FFEEEEEE

@@ -21,6 +21,7 @@ cNopacityConfig::cNopacityConfig() {
     logoExtension = "png";
     logoBorder = 15;
     backgroundStyle = 0;
+    roundedCornersChannel = 1;
     displaySignalStrength = 1;
     displayPrevNextChannelGroup = 1;
     fontChannelHeaderSize = 0;
@@ -162,6 +163,8 @@ cNopacityConfig::~cNopacityConfig() {
 }
 
 void cNopacityConfig::setDynamicValues() {
+esyslog("nopacity: col blending %x, do Blending %x", Theme.Color(clrDoBlending), CLR_BLENDING_ON);
+    doBlending = (Theme.Color(clrDoBlending) == CLR_BLENDING_ON)?true:false;
     if (fontIndex == 0) {
         fontName = strdup(fontDefaultName);
     } else {
@@ -300,6 +303,7 @@ bool cNopacityConfig::SetupParse(const char *Name, const char *Value) {
     else if (strcmp(Name, "logoHeight") == 0)              logoHeight = atoi(Value);
     else if (strcmp(Name, "logoBorder") == 0)              logoBorder = atoi(Value);
     else if (strcmp(Name, "backgroundStyle") == 0)         backgroundStyle = atoi(Value);
+    else if (strcmp(Name, "roundedCornersChannel") == 0)   roundedCornersChannel = atoi(Value);
     else if (strcmp(Name, "displaySignalStrength") == 0)   displaySignalStrength = atoi(Value);
     else if (strcmp(Name, "displayPrevNextChannelGroup") == 0) displayPrevNextChannelGroup = atoi(Value);
     else if (strcmp(Name, "fontChannelHeaderSize") == 0)   fontChannelHeaderSize = atoi(Value);

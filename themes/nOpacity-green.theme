@@ -1,4 +1,5 @@
-Description = Green 
+Description = Green
+clrDoBlending = FFFFFFFF
 clrChannelBackground = B0000000
 clrChannelBackBlend = DD006600
 clrChannelHead = FFFFCC00

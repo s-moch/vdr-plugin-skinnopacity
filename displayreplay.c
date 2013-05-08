@@ -134,15 +134,22 @@ void cNopacityDisplayReplay::CreateFonts(void) {
 
 void cNopacityDisplayReplay::DrawBackground(void) {
     if (!modeOnly) {
-        DrawBlendedBackground(pixmapHeader, Theme.Color(clrReplayBackground), Theme.Color(clrReplayBackBlend), true);
-        DrawBlendedBackground(pixmapFooter, Theme.Color(clrReplayBackground), Theme.Color(clrReplayBackBlend), false);
-        int cornerTopSize = headerHeight/2;
-        int cornerBottomSize = footerHeight/2;
-        if ((cornerTopSize > 2)&&(cornerBottomSize > 2)) {
-            pixmapHeader->DrawEllipse(cRect(0,0, cornerTopSize, cornerTopSize), clrTransparent, -2);
-            pixmapHeader->DrawEllipse(cRect(width - cornerTopSize, 0, cornerTopSize, cornerTopSize), clrTransparent, -1);
-            pixmapFooter->DrawEllipse(cRect(0, cornerBottomSize, cornerBottomSize, cornerBottomSize), clrTransparent, -3);
-            pixmapFooter->DrawEllipse(cRect(width - cornerBottomSize, cornerBottomSize, cornerBottomSize, cornerBottomSize), clrTransparent, -4);
+        if (config.doBlending) {
+            DrawBlendedBackground(pixmapHeader, Theme.Color(clrReplayBackground), Theme.Color(clrReplayBackBlend), true);
+            DrawBlendedBackground(pixmapFooter, Theme.Color(clrReplayBackground), Theme.Color(clrReplayBackBlend), false);
+        } else {
+            pixmapHeader->Fill(Theme.Color(clrReplayBackground));
+            pixmapFooter->Fill(Theme.Color(clrReplayBackground));
+        }
+        if (config.roundedCornersChannel) {
+            int cornerTopSize = headerHeight/2;
+            int cornerBottomSize = footerHeight/2;
+            if ((cornerTopSize > 2)&&(cornerBottomSize > 2)) {
+                pixmapHeader->DrawEllipse(cRect(0,0, cornerTopSize, cornerTopSize), clrTransparent, -2);
+                pixmapHeader->DrawEllipse(cRect(width - cornerTopSize, 0, cornerTopSize, cornerTopSize), clrTransparent, -1);
+                pixmapFooter->DrawEllipse(cRect(0, cornerBottomSize, cornerBottomSize, cornerBottomSize), clrTransparent, -3);
+                pixmapFooter->DrawEllipse(cRect(width - cornerBottomSize, cornerBottomSize, cornerBottomSize, cornerBottomSize), clrTransparent, -4);
+            }
         }
         pixmapBackground->Fill(Theme.Color(clrReplayBackground));
         pixmapControls->Fill(clrTransparent);

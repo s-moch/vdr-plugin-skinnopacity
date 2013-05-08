@@ -109,7 +109,7 @@ class cNopacityDisplayMenuView {
         void DrawDate(bool initial);
         void DrawDiskUsage(void);
         void ShowDiskUsage(bool show);
-        void DrawButton(const char *text, int handleImage, tColor borderColor, int num);
+        void DrawButton(const char *text, int handleImage, tColor buttonColor, tColor borderColor, int num);
         void ClearButton(int num);
         int GetTimersInitHeight(void);
         int GetTimersMaxHeight(void);
