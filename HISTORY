@@ -211,3 +211,4 @@ Version 0.1.2
 - Added previous and next Channel Group in Channel Display
 - Introduced "plain" style without any blending effects configurable by
   dedicated theme color
+- Added theme "iceblue" based on the introduced plain display style
