@@ -366,7 +366,7 @@ msgid "Background Style"
 msgstr "Hintergrund Stil"
 
 msgid "Rounded Corners"
-msgstr ""
+msgstr "Abgerundete Ecken"
 
 msgid "Channel Logo Position"
 msgstr "Kanallogo Position"

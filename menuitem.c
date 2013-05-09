@@ -1054,14 +1054,15 @@ void cNopacityRecordingMenuItem::DrawFolderIcon(void) {
 
 void cNopacityRecordingMenuItem::DrawRecDateTime(void) {
     int iconDateTimeSize = config.menuRecFolderSize / 2;
+    int iconHeight = height/2 + (height/2 - iconDateTimeSize)/2;
     if (!drawn) {
         cImageLoader imgLoader;
         if (imgLoader.LoadIcon("skinIcons/recordingdatetime", iconDateTimeSize)) {
-            int iconHeight = height/2 + (height/2 - iconDateTimeSize)/2;
             pixmapIcon->DrawImage(cPoint(3, iconHeight), imgLoader.GetImage());
         }
         drawn = true;
     }
+    pixmapIcon->DrawRectangle(cRect(iconHeight, 0, width-iconHeight, height), clrTransparent);
     const cEvent *Event = NULL;
     Event = Recording->Info()->GetEvent();
     cString strDateTime("");

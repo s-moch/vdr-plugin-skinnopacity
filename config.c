@@ -163,7 +163,6 @@ cNopacityConfig::~cNopacityConfig() {
 }
 
 void cNopacityConfig::setDynamicValues() {
-esyslog("nopacity: col blending %x, do Blending %x", Theme.Color(clrDoBlending), CLR_BLENDING_ON);
     doBlending = (Theme.Color(clrDoBlending) == CLR_BLENDING_ON)?true:false;
     if (fontIndex == 0) {
         fontName = strdup(fontDefaultName);

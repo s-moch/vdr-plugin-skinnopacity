@@ -212,3 +212,5 @@ Version 0.1.2
 - Introduced "plain" style without any blending effects configurable by
   dedicated theme color
 - Added theme "iceblue" based on the introduced plain display style
+- Fixed display of recording duration in recordings menu when a cut is
+  running in the background
