@@ -57,6 +57,7 @@ class cNopacitySetupMenuDisplaySchedules : public cMenuSetupSubMenu {
 
 class cNopacitySetupMenuDisplayChannels : public cMenuSetupSubMenu {
     protected:
+        const char *displayModes[2];
         void Set(void);
     public:
         cNopacitySetupMenuDisplayChannels(cNopacityConfig *data);

@@ -214,3 +214,5 @@ Version 0.1.2
 - Added theme "iceblue" based on the introduced plain display style
 - Fixed display of recording duration in recordings menu when a cut is
   running in the background
+- Additional information in channels menu configurable: choice between
+  transponder information and current schedule

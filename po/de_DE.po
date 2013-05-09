@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-05-07 16:23+0200\n"
+"POT-Creation-Date: 2013-05-09 14:41+0200\n"
 "PO-Revision-Date: 2012-11-11 17:49+0200\n"
 "Last-Translator: louis\n"
 "Language-Team: \n"
@@ -328,6 +328,15 @@ msgstr "Schriftgröße anpassen - Menüelement klein"
 
 msgid "Adjust Font Size - EPG Info Window"
 msgstr "Schriftgröße anpassen - EPG Infofenster"
+
+msgid "Transponder Information"
+msgstr "Transponder Information"
+
+msgid "Current Schedule"
+msgstr "Aktuelles Programm"
+
+msgid "Menu Items display mode"
+msgstr "Anzeigemodus Menüelemente"
 
 msgid "Number of EPG Entries in Schedules Info Window"
 msgstr "Anzahl der EPG Einträge im Programm Info Fenster"

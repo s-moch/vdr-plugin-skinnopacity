@@ -562,6 +562,7 @@ void cNopacityScheduleMenuItem::DrawRemaining(int x, int y, int width) {
 cNopacityChannelMenuItem::cNopacityChannelMenuItem(cOsd *osd, const cChannel *Channel, bool sel, cRect *vidWin) : cNopacityMenuItem (osd, "", sel) {
     this->Channel = Channel;
     this->vidWin = vidWin;
+    epgRead = false;
 }
 
 cNopacityChannelMenuItem::~cNopacityChannelMenuItem(void) {
@@ -577,12 +578,16 @@ void cNopacityChannelMenuItem::CreatePixmapTextScroller(int totalWidth) {
 
 void cNopacityChannelMenuItem::CreateText() {
     strEntry = cString::sprintf("%d %s", Channel->Number(), Channel->Name());
-    const cSource *source = Sources.Get(Channel->Source());
-    if (source)
-        strChannelSource = cString::sprintf("%s - %s", *cSource::ToString(source->Code()),  source->Description());
-    else
-        strChannelSource = "";
-    strChannelInfo = cString::sprintf("%s %d, %d MHz", tr("Transp."), Channel->Transponder(), Channel->Frequency()/1000);
+    if (config.menuChannelDisplayMode == 0) {
+        const cSource *source = Sources.Get(Channel->Source());
+        if (source)
+            strChannelSource = cString::sprintf("%s - %s", *cSource::ToString(source->Code()),  source->Description());
+        else
+            strChannelSource = "";
+        strChannelInfo = cString::sprintf("%s %d, %d MHz", tr("Transp."), Channel->Transponder(), Channel->Frequency()/1000);
+    } else {
+        readCurrentEPG();
+    }
 }
 
 int cNopacityChannelMenuItem::CheckScrollable(bool hasIcon) {
@@ -595,7 +600,17 @@ int cNopacityChannelMenuItem::CheckScrollable(bool hasIcon) {
         totalTextWidth = max(font->Width(strEntry.c_str()), totalTextWidth);
         strEntryFull = strEntry.c_str();
         strEntry = CutText(strEntry, width - spaceLeft, font);
-    }
+    } else 
+        strEntryFull = strEntry;
+        
+    if (fontSmall->Width(strEpgInfo.c_str()) > (width - spaceLeft)) {
+        scrollable = true;
+        totalTextWidth = max(fontSmall->Width(strEpgInfo.c_str()), totalTextWidth);
+        strEpgInfoFull = strEpgInfo.c_str();
+        strEpgInfo = CutText(strEpgInfo, width - spaceLeft, fontSmall);
+    } else
+        strEpgInfoFull = strEpgInfo;
+    
     return totalTextWidth;
 }
 
@@ -603,12 +618,20 @@ void cNopacityChannelMenuItem::SetTextFull(void) {
     tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
     pixmapTextScroller->Fill(clrTransparent);
     pixmapTextScroller->DrawText(cPoint(5, (height/2 - font->Height())/2), strEntryFull.c_str(), clrFont, clrTransparent, font);
+    if (config.menuChannelDisplayMode == 1) {
+        pixmapTextScroller->DrawText(cPoint(5, height/2 + (height/4 - fontSmall->Height())/2), strTimeInfo.c_str(), clrFont, clrTransparent, fontSmall);
+        pixmapTextScroller->DrawText(cPoint(5, 3*height/4 + (height/4 - fontSmall->Height())/2), strEpgInfoFull.c_str(), clrFont, clrTransparent, fontSmall);
+    }
 }
 
 void cNopacityChannelMenuItem::SetTextShort(void) {
     tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
     pixmapTextScroller->Fill(clrTransparent);
     pixmapTextScroller->DrawText(cPoint(5, (height/2 - font->Height())/2), strEntry.c_str(), clrFont, clrTransparent, font);
+    if (config.menuChannelDisplayMode == 1) {
+        pixmapTextScroller->DrawText(cPoint(5, height/2 + (height/4 - fontSmall->Height())/2), strTimeInfo.c_str(), clrFont, clrTransparent, fontSmall);
+        pixmapTextScroller->DrawText(cPoint(5, 3*height/4 + (height/4 - fontSmall->Height())/2), strEpgInfo.c_str(), clrFont, clrTransparent, fontSmall);
+    }
 }
 
 void cNopacityChannelMenuItem::DrawBackground(void) {
@@ -623,19 +646,42 @@ void cNopacityChannelMenuItem::DrawBackground(void) {
     if (config.roundedCorners)
         DrawRoundedCorners(Theme.Color(clrMenuBorder));
     
-    int encryptedSize = height/4-2;
-    int sourceX = config.menuItemLogoWidth + 15;
-    tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
-    tColor clrFontBack = (config.doBlending)?(clrTransparent):((current)?Theme.Color(clrMenuItemHigh):Theme.Color(clrMenuItem)); 
-    pixmap->DrawText(cPoint(sourceX, 3*height/4 + (height/4 - fontSmall->Height())/2), *strChannelInfo, clrFont, clrFontBack, fontSmall);
-    if (Channel->Ca()) {
-        cImageLoader imgLoader;
-        if (imgLoader.LoadIcon("skinIcons/encrypted", encryptedSize)) {
-            pixmapIcon->DrawImage(cPoint(sourceX, height/2+1), imgLoader.GetImage());
-            sourceX += encryptedSize + 10;
+    if (config.menuChannelDisplayMode == 0) {
+        int encryptedSize = height/4-2;
+        int sourceX = config.menuItemLogoWidth + 15;
+        tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
+        tColor clrFontBack = (config.doBlending)?(clrTransparent):((current)?Theme.Color(clrMenuItemHigh):Theme.Color(clrMenuItem)); 
+        pixmap->DrawText(cPoint(sourceX, 3*height/4 + (height/4 - fontSmall->Height())/2), *strChannelInfo, clrFont, clrFontBack, fontSmall);
+        if (Channel->Ca()) {
+            cImageLoader imgLoader;
+            if (imgLoader.LoadIcon("skinIcons/encrypted", encryptedSize)) {
+                pixmapIcon->DrawImage(cPoint(sourceX, height/2+1), imgLoader.GetImage());
+                sourceX += encryptedSize + 10;
+            }
+        }
+        pixmap->DrawText(cPoint(sourceX, height/2 + (height/4 - fontSmall->Height())/2), *strChannelSource, clrFont, clrFontBack, fontSmall);
+    }
+}
+
+void cNopacityChannelMenuItem::readCurrentEPG(void) {
+    cSchedulesLock schedulesLock;
+    const cSchedules *schedules = cSchedules::Schedules(schedulesLock);
+    const cSchedule *Schedule = NULL;
+	Schedule = schedules->GetSchedule(Channel);
+	if (!Schedule) {
+		strEpgInfo = tr("No EPG Information found");
+        strTimeInfo = "";
+	} else {
+        const cEvent *PresentEvent = Schedule->GetPresentEvent();
+        int i=0;
+        if (!PresentEvent) {
+            strEpgInfo = tr("No EPG Information found");
+            strTimeInfo = "";
+        } else {
+            strEpgInfo = PresentEvent->Title();
+            strTimeInfo = *cString::sprintf("%s - %s:", *PresentEvent->GetTimeString(), *PresentEvent->GetEndTimeString());
         }
     }
-    pixmap->DrawText(cPoint(sourceX, height/2 + (height/4 - fontSmall->Height())/2), *strChannelSource, clrFont, clrFontBack, fontSmall);
 }
 
 std::string cNopacityChannelMenuItem::readEPG(void) {
@@ -672,9 +718,12 @@ std::string cNopacityChannelMenuItem::readEPG(void) {
 }
 
 void cNopacityChannelMenuItem::Render() {
-    
+   
     if (selectable) {                           //Channels
         DrawBackground();
+        if (!epgRead) {
+            
+        }
         int logoWidth = config.menuItemLogoWidth;
         int logoHeight = config.menuItemLogoHeight;
         if (!drawn) {
@@ -698,7 +747,7 @@ void cNopacityChannelMenuItem::Render() {
                 delete infoTextWindow;
                 infoTextWindow = NULL;
             }
-        if (current && Channel) {
+        if (current && Channel && (config.menuChannelDisplayMode == 0)) {
             infoTextWindow = new cNopacityTextWindow(osd, fontEPGWindow, vidWin);
             infoTextWindow->SetGeometry(textWindow);
             infoTextWindow->SetText(readEPG().c_str());

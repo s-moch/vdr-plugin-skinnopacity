@@ -112,10 +112,15 @@ private:
     std::string strEntryFull;
     cString strChannelSource;
     cString strChannelInfo;
+    std::string strEpgInfo;
+    std::string strEpgInfoFull;
+    std::string strTimeInfo;
     cRect *vidWin;
+    bool epgRead;
     void SetTextFull(void);
     void SetTextShort(void);
     void DrawBackground(void);
+    void readCurrentEPG(void);
     std::string readEPG(void);
 public:
     cNopacityChannelMenuItem(cOsd *osd, const cChannel *Channel, bool sel, cRect *vidWin);
