@@ -672,7 +672,6 @@ void cNopacityChannelMenuItem::readCurrentEPG(void) {
         strTimeInfo = "";
 	} else {
         const cEvent *PresentEvent = Schedule->GetPresentEvent();
-        int i=0;
         if (!PresentEvent) {
             strEpgInfo = tr("No EPG Information found");
             strTimeInfo = "";
