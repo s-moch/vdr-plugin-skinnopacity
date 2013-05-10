@@ -116,7 +116,6 @@ private:
     std::string strEpgInfoFull;
     std::string strTimeInfo;
     cRect *vidWin;
-    bool epgRead;
     void SetTextFull(void);
     void SetTextShort(void);
     void DrawBackground(void);

@@ -562,7 +562,6 @@ void cNopacityScheduleMenuItem::DrawRemaining(int x, int y, int width) {
 cNopacityChannelMenuItem::cNopacityChannelMenuItem(cOsd *osd, const cChannel *Channel, bool sel, cRect *vidWin) : cNopacityMenuItem (osd, "", sel) {
     this->Channel = Channel;
     this->vidWin = vidWin;
-    epgRead = false;
 }
 
 cNopacityChannelMenuItem::~cNopacityChannelMenuItem(void) {
@@ -721,9 +720,6 @@ void cNopacityChannelMenuItem::Render() {
    
     if (selectable) {                           //Channels
         DrawBackground();
-        if (!epgRead) {
-            
-        }
         int logoWidth = config.menuItemLogoWidth;
         int logoHeight = config.menuItemLogoHeight;
         if (!drawn) {

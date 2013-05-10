@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-05-09 14:41+0200\n"
+"POT-Creation-Date: 2013-05-10 11:09+0200\n"
 "PO-Revision-Date: 2012-11-11 17:49+0200\n"
 "Last-Translator: louis\n"
 "Language-Team: \n"
@@ -347,6 +347,12 @@ msgstr "Weitere EPG Bilder in der detaillierten Aufnahmeansicht anzeigen"
 msgid "Folder Icon Size"
 msgstr "Order Icon Größe"
 
+msgid "simple, one common image"
+msgstr "einfach, eine gemeinsame Graphik"
+
+msgid "complex, dedicated images"
+msgstr "aufwändig, einzelne Graphiken"
+
 msgid "transparent channel logo"
 msgstr "Kanallogo transparent"
 
@@ -397,6 +403,9 @@ msgstr "Größe des Icons zur Anzeige der Bildschirmauflösung"
 
 msgid "Status Icons Size"
 msgstr "Status Icon Größe"
+
+msgid "Status Icon Style"
+msgstr "Status Icon Stil"
 
 msgid "Adjust Font Size - EPG Text"
 msgstr "Schriftgröße anpassen - EPG Text"

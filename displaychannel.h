@@ -74,7 +74,8 @@ private:
     void DrawProgressBar(int Current, int Total);
     tColor DrawProgressbarBackground(int left, int top, int width, int height);
     void DrawIconMask(void);
-    void DrawIcons(const cChannel *channel);
+    void DrawIcons(const cChannel *Channel);
+    void DrawIconsSingle(const cChannel *Channel);
     void DrawScreenResolution(void);
     void DrawSignalMeter(void);
     void DrawSignal(void);

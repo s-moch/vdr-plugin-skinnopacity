@@ -80,6 +80,7 @@ void cNopacitySetup::Store(void) {
     SetupStore("logoHeight", config.logoHeight);
     SetupStore("logoBorder", config.logoBorder);
     SetupStore("backgroundStyle", config.backgroundStyle);
+    SetupStore("symbolStyle", config.symbolStyle);
     SetupStore("roundedCornersChannel", config.roundedCornersChannel);
     SetupStore("displaySignalStrength", config.displaySignalStrength);
     SetupStore("displayPrevNextChannelGroup", config.displayPrevNextChannelGroup);
@@ -456,6 +457,8 @@ void cNopacitySetupMenuDisplayRecordings::Set(void) {
 //----ChannelDisplay--------------------------------------------------------------------------------------------------------------
 
 cNopacitySetupChannelDisplay::cNopacitySetupChannelDisplay(cNopacityConfig* data)  : cMenuSetupSubMenu(tr("Channel Switching"), data) {
+    symStyle[0] = tr("simple, one common image");
+    symStyle[1] = tr("complex, dedicated images");
     bgStyle[0] = tr("transparent channel logo");
     bgStyle[1] = tr("full osd width");
     logoPos[0] = tr("do not display");
@@ -487,6 +490,7 @@ void cNopacitySetupChannelDisplay::Set(void) {
     Add(new cMenuEditBoolItem(tr("Display previous and next Channel Group"), &tmpNopacityConfig->displayPrevNextChannelGroup));
     Add(new cMenuEditIntItem(tr("Screen Resolution Icon Size"), &tmpNopacityConfig->resolutionIconSize, 30, 200));
     Add(new cMenuEditIntItem(tr("Status Icons Size"), &tmpNopacityConfig->statusIconSize, 30, 150));
+    Add(new cMenuEditStraItem(tr("Status Icon Style"), &tmpNopacityConfig->symbolStyle, 2, symStyle));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Header"), &tmpNopacityConfig->fontChannelHeaderSize, -20, 20));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Date"), &tmpNopacityConfig->fontChannelDateSize, -20, 20));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - EPG Text"), &tmpNopacityConfig->fontEPGSize, -20, 20));

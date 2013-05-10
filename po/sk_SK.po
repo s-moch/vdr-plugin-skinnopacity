@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: vdr-skinnopacity 0.0.6\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-05-09 14:41+0200\n"
+"POT-Creation-Date: 2013-05-10 11:09+0200\n"
 "PO-Revision-Date: 2013-03-12 15:59+0100\n"
 "Last-Translator: Milan Hrala <hrala.milan@gmail.com>\n"
 "Language-Team: \n"
@@ -350,6 +350,12 @@ msgstr "Zobrazi» ïal¹ie EPG obrázky v podrobnom zobrazení nahrávky"
 msgid "Folder Icon Size"
 msgstr "Veµkos» ikony prieèinku"
 
+msgid "simple, one common image"
+msgstr ""
+
+msgid "complex, dedicated images"
+msgstr ""
+
 msgid "transparent channel logo"
 msgstr ""
 
@@ -400,6 +406,9 @@ msgstr "Veµkos» ikony rozlí¹enia obrazovky"
 
 msgid "Status Icons Size"
 msgstr "Veµkos» ikón panelu úloh"
+
+msgid "Status Icon Style"
+msgstr ""
 
 msgid "Adjust Font Size - EPG Text"
 msgstr "Nastavenie veµkos»i písma - EPG text"

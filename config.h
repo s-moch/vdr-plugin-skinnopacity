@@ -46,6 +46,7 @@ class cNopacityConfig {
         int logoHeight;
         int logoBorder;
         int backgroundStyle;
+        int symbolStyle;
         int roundedCornersChannel;
         int displaySignalStrength;
         int displayPrevNextChannelGroup;

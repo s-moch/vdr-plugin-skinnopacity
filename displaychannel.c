@@ -302,6 +302,72 @@ void cNopacityDisplayChannel::DrawIcons(const cChannel *Channel) {
     pixmapStreamInfoBack->DrawRectangle(cRect(backX, backY, iconSize-10, iconSize-10), colRecording);
 }
 
+void cNopacityDisplayChannel::DrawIconsSingle(const cChannel *Channel) {
+    isRadioChannel = ((!Channel->Vpid())&&(Channel->Apid(0)))?true:false;
+    pixmapStreamInfo->Fill(clrTransparent);
+    int iconX = 0;
+    cImageLoader imgLoader;
+
+    if (Channel->Vpid() && Channel->Tpid()) {
+        if (imgLoader.LoadIcon("skinIcons/txton", iconSize)) {
+            pixmapStreamInfo->DrawImage(cPoint(iconX, 0), imgLoader.GetImage());
+        }
+    } else {
+        if (imgLoader.LoadIcon("skinIcons/txtoff", iconSize)) {
+            pixmapStreamInfo->DrawImage(cPoint(iconX, 0), imgLoader.GetImage());
+        }
+    }
+
+    iconX += iconSize;
+
+    if (Channel->Apid(1)) {
+        if (imgLoader.LoadIcon("skinIcons/stereoon", iconSize)) {
+            pixmapStreamInfo->DrawImage(cPoint(iconX, 0), imgLoader.GetImage());
+        }
+    } else {
+        if (imgLoader.LoadIcon("skinIcons/stereooff", iconSize)) {
+            pixmapStreamInfo->DrawImage(cPoint(iconX, 0), imgLoader.GetImage());
+        }
+    }
+
+    iconX += iconSize;
+    
+    if (Channel->Dpid(0)) {
+        if (imgLoader.LoadIcon("skinIcons/dolbyon", iconSize)) {
+            pixmapStreamInfo->DrawImage(cPoint(iconX, 0), imgLoader.GetImage());
+        }
+    } else {
+        if (imgLoader.LoadIcon("skinIcons/dolbyoff", iconSize)) {
+            pixmapStreamInfo->DrawImage(cPoint(iconX, 0), imgLoader.GetImage());
+        }
+    }
+
+    iconX += iconSize;
+
+    if (Channel->Ca()) {
+        if (imgLoader.LoadIcon("skinIcons/crypted", iconSize)) {
+            pixmapStreamInfo->DrawImage(cPoint(iconX, 0), imgLoader.GetImage());
+        }
+    } else {
+        if (imgLoader.LoadIcon("skinIcons/fta", iconSize)) {
+            pixmapStreamInfo->DrawImage(cPoint(iconX, 0), imgLoader.GetImage());
+        }
+    }
+
+    iconX += iconSize;
+    
+    if (cRecordControls::Active()) {
+        if (imgLoader.LoadIcon("skinIcons/recon", iconSize)) {
+            pixmapStreamInfo->DrawImage(cPoint(iconX, 0), imgLoader.GetImage());
+        }
+    } else {
+        if (imgLoader.LoadIcon("skinIcons/recoff", iconSize)) {
+            pixmapStreamInfo->DrawImage(cPoint(iconX, 0), imgLoader.GetImage());
+        }
+    }
+
+}
+
 void cNopacityDisplayChannel::DrawScreenResolution(void) {
     int spacing = 10;
     int screenWidth = 0;
@@ -447,8 +513,12 @@ void cNopacityDisplayChannel::SetChannel(const cChannel *Channel, int Number) {
     
     if (!groupSep) {
         if (withInfo) {
-            DrawIconMask();
-            DrawIcons(Channel);
+            if (config.symbolStyle == 0) {
+                DrawIconMask();
+                DrawIcons(Channel);
+            } else {
+                DrawIconsSingle(Channel);
+            }
         }
         cString channelString = cString::sprintf("%s %s", *ChannelNumber, *ChannelName);
         pixmapChannelInfo->DrawText(cPoint(channelInfoHeight/2, (channelInfoHeight-fontHeader->Height())/2), channelString, Theme.Color(clrChannelHead), clrTransparent, fontHeader);
