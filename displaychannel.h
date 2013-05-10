@@ -79,6 +79,7 @@ private:
     void DrawScreenResolution(void);
     void DrawSignalMeter(void);
     void DrawSignal(void);
+    void DrawSourceInfo(const cChannel *Channel);
     void DrawChannelGroups(const cChannel *Channel, cString ChannelName);
     cString GetChannelSep(const cChannel *channel, bool prev);
 public:

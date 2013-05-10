@@ -49,6 +49,7 @@ class cNopacityConfig {
         int symbolStyle;
         int roundedCornersChannel;
         int displaySignalStrength;
+        int displaySourceInfo;
         int displayPrevNextChannelGroup;
         int fontChannelHeaderSize;
         int fontChannelDateSize;

@@ -109,6 +109,7 @@ void cNopacityDisplayChannel::SetGeometry(void) {
     streamInfoY = channelInfoHeight + progressBarHeight + epgInfoHeight;
     iconSize = config.statusIconSize;
     iconsWidth = 5*iconSize;
+    signalX = 0;
 }
 
 void cNopacityDisplayChannel::CreatePixmaps(void) {
@@ -480,6 +481,18 @@ void cNopacityDisplayChannel::DrawSignal(void) {
     }
 }
 
+void cNopacityDisplayChannel::DrawSourceInfo(const cChannel *Channel) {
+    const cSource *source = Sources.Get(Channel->Source());
+    cString channelInfo = "";
+    if (source)
+        channelInfo = cString::sprintf("%s - %s", *cSource::ToString(source->Code()),  source->Description());
+    int x = signalX + 20;
+    if (config.displaySignalStrength)
+        x += signalWidth;
+    pixmapFooter->DrawText(cPoint(x, (streamInfoHeight - fontDate->Height())/2), channelInfo, Theme.Color(clrChannelHead), clrTransparent, fontDate);
+        
+}
+
 void cNopacityDisplayChannel::SetChannel(const cChannel *Channel, int Number) {
     if (!doOutput)
         return;
@@ -519,6 +532,8 @@ void cNopacityDisplayChannel::SetChannel(const cChannel *Channel, int Number) {
             } else {
                 DrawIconsSingle(Channel);
             }
+            if (config.displaySourceInfo)
+                DrawSourceInfo(Channel);
         }
         cString channelString = cString::sprintf("%s %s", *ChannelNumber, *ChannelName);
         pixmapChannelInfo->DrawText(cPoint(channelInfoHeight/2, (channelInfoHeight-fontHeader->Height())/2), channelString, Theme.Color(clrChannelHead), clrTransparent, fontHeader);

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: vdr-skinnopacity 0.0.6\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-05-10 11:09+0200\n"
+"POT-Creation-Date: 2013-05-10 12:52+0200\n"
 "PO-Revision-Date: 2013-03-12 15:59+0100\n"
 "Last-Translator: Milan Hrala <hrala.milan@gmail.com>\n"
 "Language-Team: \n"
@@ -397,6 +397,9 @@ msgstr ""
 
 msgid "Display Signal Strength & Quality"
 msgstr "Zobrazi» silu a kvalitu signálu"
+
+msgid "Display Channel Source information"
+msgstr ""
 
 msgid "Display previous and next Channel Group"
 msgstr ""

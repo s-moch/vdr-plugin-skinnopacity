@@ -83,6 +83,7 @@ void cNopacitySetup::Store(void) {
     SetupStore("symbolStyle", config.symbolStyle);
     SetupStore("roundedCornersChannel", config.roundedCornersChannel);
     SetupStore("displaySignalStrength", config.displaySignalStrength);
+    SetupStore("displaySourceInfo", config.displaySourceInfo);
     SetupStore("displayPrevNextChannelGroup", config.displayPrevNextChannelGroup);
     SetupStore("channelFadeTime", config.channelFadeTime);
     SetupStore("fontChannelHeaderSize", config.fontChannelHeaderSize);
@@ -487,6 +488,7 @@ void cNopacitySetupChannelDisplay::Set(void) {
     }
     Add(new cMenuEditStraItem(tr("Kind of time display for current schedule"), &tmpNopacityConfig->progressCurrentSchedule, 2, progressStyleCurrentSchedule));
     Add(new cMenuEditBoolItem(tr("Display Signal Strength & Quality"), &tmpNopacityConfig->displaySignalStrength));
+    Add(new cMenuEditBoolItem(tr("Display Channel Source information"), &tmpNopacityConfig->displaySourceInfo));
     Add(new cMenuEditBoolItem(tr("Display previous and next Channel Group"), &tmpNopacityConfig->displayPrevNextChannelGroup));
     Add(new cMenuEditIntItem(tr("Screen Resolution Icon Size"), &tmpNopacityConfig->resolutionIconSize, 30, 200));
     Add(new cMenuEditIntItem(tr("Status Icons Size"), &tmpNopacityConfig->statusIconSize, 30, 150));

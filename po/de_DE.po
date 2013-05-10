@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-05-10 11:09+0200\n"
+"POT-Creation-Date: 2013-05-10 12:52+0200\n"
 "PO-Revision-Date: 2012-11-11 17:49+0200\n"
 "Last-Translator: louis\n"
 "Language-Team: \n"
@@ -394,6 +394,9 @@ msgstr "Art der Zeitanzeige für die laufende Sendung"
 
 msgid "Display Signal Strength & Quality"
 msgstr "Signalstärke- und Qualität anzeigen"
+
+msgid "Display Channel Source information"
+msgstr "Quellinformationen für Kanal anzeigen"
 
 msgid "Display previous and next Channel Group"
 msgstr "Vorherige und nächste Kanalgruppe anzeigen"
