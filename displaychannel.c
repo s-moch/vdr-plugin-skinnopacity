@@ -489,6 +489,7 @@ void cNopacityDisplayChannel::DrawSourceInfo(const cChannel *Channel) {
     int x = signalX + 20;
     if (config.displaySignalStrength)
         x += signalWidth;
+    pixmapFooter->Fill(clrTransparent);    
     pixmapFooter->DrawText(cPoint(x, (streamInfoHeight - fontDate->Height())/2), channelInfo, Theme.Color(clrChannelHead), clrTransparent, fontDate);
         
 }
