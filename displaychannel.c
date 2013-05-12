@@ -377,7 +377,7 @@ void cNopacityDisplayChannel::DrawScreenResolution(void) {
 
     if (!pixmapScreenResolution) {
         int x = infoX + infoWidth - config.resolutionIconSize - 2*spacing;
-        int y = streamInfoY + streamInfoHeight - config.resolutionIconSize - 3;
+        int y = height - config.resolutionIconSize - 10;
         pixmapScreenResolution = osd->CreatePixmap(3, cRect(x, y, config.resolutionIconSize, config.resolutionIconSize));
         pixmapScreenResolution->Fill(clrTransparent);
         if ((initial)&&(config.channelFadeTime))
