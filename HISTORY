@@ -217,4 +217,5 @@ Version 0.1.2
 - Additional information in channels menu configurable: choice between
   transponder information and current schedule
 - Added optional dedicated status icons in channel display
-- Added optional display of channel source information in channel display 
+- Added optional display of channel source information in channel display
+- Fixed a bug if switching to a invalid channel

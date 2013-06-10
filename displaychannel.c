@@ -526,7 +526,7 @@ void cNopacityDisplayChannel::SetChannel(const cChannel *Channel, int Number) {
     }
     
     if (!groupSep) {
-        if (withInfo) {
+        if (withInfo && Channel) {
             if (config.symbolStyle == 0) {
                 DrawIconMask();
                 DrawIcons(Channel);
