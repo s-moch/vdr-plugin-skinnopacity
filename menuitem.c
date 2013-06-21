@@ -351,7 +351,7 @@ void cNopacityMainMenuItem::Render() {
             Cancel(-1);
         }
     } else {
-        DrawDelimiter(*itemTabs[1], "skinIcons/Channelseparator", (config.doBlending)?-1:(isSetup?12:2));
+        DrawDelimiter(strEntry.c_str(), "skinIcons/Channelseparator", (config.doBlending)?-1:(isSetup?12:2));
     }
 }
 
