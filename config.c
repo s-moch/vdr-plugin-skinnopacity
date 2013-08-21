@@ -143,6 +143,7 @@ cNopacityConfig::cNopacityConfig() {
     fontButtons = 0;
     fontMessageMenu = 0;
     fontDetailView = 0;
+    fontDetailViewSmall = 0;
     fontDetailViewHeader = 0;
     fontDetailViewHeaderLarge = 0;
     fontEPGInfoWindow = 0;
@@ -254,7 +255,7 @@ void cNopacityConfig::loadRssFeeds(void) {
         fclose(f);
     }
     if (foundEntries) {
-        dsyslog("nopacity: loaded %d rss feeds from %s", rssFeeds.size(), *rssconf);
+        dsyslog("nopacity: loaded %u rss feeds from %s", rssFeeds.size(), *rssconf);
         int i = 1;
         for (std::vector<RssFeed>::iterator it = rssFeeds.begin(); it != rssFeeds.end(); it++) {
             dsyslog("nopacity: RssFeed %d: name %s, URL: %s", i, it->name.c_str(), it->url.c_str());
@@ -422,6 +423,7 @@ bool cNopacityConfig::SetupParse(const char *Name, const char *Value) {
     else if (strcmp(Name, "fontButtons") == 0)             fontButtons = atoi(Value);
     else if (strcmp(Name, "fontMessageMenu") == 0)         fontMessageMenu = atoi(Value);
     else if (strcmp(Name, "fontDetailView") == 0)          fontDetailView = atoi(Value);
+    else if (strcmp(Name, "fontDetailViewSmall") == 0)     fontDetailViewSmall = atoi(Value);
     else if (strcmp(Name, "fontDetailViewHeader") == 0)    fontDetailViewHeader = atoi(Value);
     else if (strcmp(Name, "fontDetailViewHeaderLarge") == 0) fontDetailViewHeaderLarge = atoi(Value);
     else if (strcmp(Name, "fontEPGInfoWindow") == 0)       fontEPGInfoWindow = atoi(Value);

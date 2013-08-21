@@ -8,10 +8,14 @@
 cNopacityMenuDetailView::cNopacityMenuDetailView(cOsd *osd) {
     this->osd = osd;
     hasScrollbar = false;
+    hasAdditionalMedia = false;
+    pixmapPoster = NULL;
 }
 
 cNopacityMenuDetailView::~cNopacityMenuDetailView(void) {
     delete font;
+    if (fontSmall)
+        delete fontSmall;
     if (fontHeader)
         delete fontHeader;
     if (fontHeaderLarge)
@@ -26,17 +30,182 @@ void cNopacityMenuDetailView::SetGeometry(int x, int width, int height, int top,
     this->border = contentBorder;
     this->headerHeight = headerHeight;
     contentHeight = height - headerHeight;
+    widthPoster = 30 * width / 100;
 }
 
-int cNopacityMenuDetailView::DrawTextWrapper(cTextWrapper *wrapper, int top) {
+void cNopacityMenuDetailView::DrawTextWrapper(cTextWrapper *wrapper, int top) {
     int linesText = wrapper->Lines();
     int textHeight = font->Height();
-    int currentHeight = 0;
+    int currentHeight = top;
     for (int i=0; i < linesText; i++) {
-        currentHeight = (i+1)*textHeight + top;
-        pixmapContent->DrawText(cPoint(2*border, currentHeight), wrapper->GetLine(i), Theme.Color(clrMenuFontDetailViewText), clrTransparent, font);
+        pixmapContent->DrawText(cPoint(border, currentHeight), wrapper->GetLine(i), Theme.Color(clrMenuFontDetailViewText), clrTransparent, font);
+        currentHeight += textHeight;
     }
-    return currentHeight + textHeight;
+}
+
+int cNopacityMenuDetailView::HeightActorPics(void) {
+    int numActors = mediaInfo.actors.size();
+    if (numActors < 1)
+        return 0;
+    if (mediaInfo.type == typeMovie) {
+        actorThumbWidth = mediaInfo.actors[0].thumb.width/2;
+        actorThumbHeight = mediaInfo.actors[0].thumb.height/2;
+    } else if (mediaInfo.type == typeSeries) {
+        actorThumbWidth = mediaInfo.actors[0].thumb.width/2;
+        actorThumbHeight = mediaInfo.actors[0].thumb.height/2;
+    }
+    int picsPerLine = contentWidth / (actorThumbWidth + 2*border);
+    int picLines = numActors / picsPerLine;
+    if (numActors%picsPerLine != 0)
+        picLines++;
+    int actorsHeight = picLines * (actorThumbHeight + 2*fontSmall->Height()) + font->Height() + fontHeader->Height();
+    return actorsHeight;
+}
+
+int cNopacityMenuDetailView::HeightFanart(void) {
+    int retVal = 0;
+    if (mediaInfo.fanart.size() >= 1) {
+        int fanartWidthOrig = mediaInfo.fanart[0].width;
+        int fanartHeightOrig = mediaInfo.fanart[0].height;
+        int fanartWidth = fanartWidthOrig;
+        int fanartHeight = fanartHeightOrig;
+        retVal = fanartHeight;
+	if (fanartWidthOrig > (contentWidth - 2*border)) {
+            fanartWidth = contentWidth - 2*border;
+            fanartHeight = fanartHeightOrig * ((double)fanartWidth / (double)fanartWidthOrig);
+            retVal = fanartHeight;
+        }
+    }
+    return retVal;
+}
+
+void cNopacityMenuDetailView::DrawPoster(void) {
+    if (mediaInfo.posters.size() < 1)
+        return;
+    int posterWidthOrig = mediaInfo.posters[0].width;
+    int posterHeightOrig = mediaInfo.posters[0].height;
+    int posterWidth = posterWidthOrig;
+    int posterHeight = posterHeightOrig;
+    
+    if ((posterWidthOrig > widthPoster) && (posterHeightOrig < contentHeight)) {
+        posterWidth = widthPoster - 2*border;
+        posterHeight = posterHeightOrig * ((double)posterWidth / (double)posterWidthOrig);
+    } else if ((posterWidthOrig < widthPoster) && (posterHeightOrig > contentHeight)) {
+        posterHeight = contentHeight - 2*border;
+        posterWidth = posterWidthOrig * ((double)posterHeight / (double)posterHeightOrig);
+    } else if ((posterWidthOrig > widthPoster) && (posterHeightOrig > contentHeight)) {
+        int overlapWidth = posterWidthOrig - widthPoster;
+        int overlapHeight = posterHeightOrig - contentHeight;
+        if (overlapWidth >= overlapHeight) {
+            posterWidth = widthPoster - 2*border;
+            posterHeight = posterHeightOrig * ((double)posterWidth / (double)posterWidthOrig);
+        } else {
+            posterHeight = contentHeight - 2*border;
+            posterWidth = posterWidthOrig * ((double)posterHeight / (double)posterHeightOrig);
+        }
+    }
+    if (!Running())
+        return;
+    cImageLoader imgLoader;
+    if (imgLoader.LoadPoster(mediaInfo.posters[0].path.c_str(), posterWidth, posterHeight)) {
+        int posterX = (widthPoster - posterWidth) / 2;
+        int posterY = (contentHeight - posterHeight) / 2;
+        if (Running() && pixmapPoster)
+            pixmapPoster->DrawImage(cPoint(posterX, posterY), imgLoader.GetImage());
+    }        
+}
+
+void cNopacityMenuDetailView::DrawBanner(int height) {
+    int bannerWidthOrig = mediaInfo.banner.width;
+    int bannerHeightOrig = mediaInfo.banner.height;
+    int bannerWidth = bannerWidthOrig;
+    int bannerHeight = bannerHeightOrig;
+    
+    if (bannerWidthOrig > contentWidth - 2*border) {
+        bannerWidth = contentWidth - 2*border;
+        bannerHeight = bannerHeightOrig * ((double)bannerWidth / (double)bannerWidthOrig);
+    }
+    if (!Running())
+        return;
+    cImageLoader imgLoader;
+    if (imgLoader.LoadPoster(mediaInfo.banner.path.c_str(), bannerWidth, bannerHeight)) {
+        int bannerX = (contentWidth - bannerWidth) / 2;
+        if (Running() && pixmapContent)
+            pixmapContent->DrawImage(cPoint(bannerX, height), imgLoader.GetImage());
+    }
+}
+
+void cNopacityMenuDetailView::DrawActors(int height) {
+    int numActors = mediaInfo.actors.size();
+    if (numActors < 1)
+        return;
+
+    cString header = cString::sprintf("%s:", tr("Actors"));
+    pixmapContent->DrawText(cPoint(border, height), *header, Theme.Color(clrMenuFontDetailViewText), clrTransparent, fontHeader);
+
+    int picsPerLine = contentWidth / (actorThumbWidth + 2*border);
+    int picLines = numActors / picsPerLine;
+    if (numActors%picsPerLine != 0)
+        picLines++;
+    int x = 0;
+    int y = height + fontHeader->Height();
+    if (!Running())
+        return;
+    cImageLoader imgLoader;
+    int actor = 0;
+    for (int row = 0; row < picLines; row++) {
+        for (int col = 0; col < picsPerLine; col++) {
+            if (!Running())
+                return;
+            if (actor == numActors)
+                break;
+            std::string path = mediaInfo.actors[actor].thumb.path;
+            if (imgLoader.LoadPoster(path.c_str(), actorThumbWidth, actorThumbHeight)) {
+                if (Running() && pixmapContent)
+                    pixmapContent->DrawImage(cPoint(x + border, y), imgLoader.GetImage());
+            }
+            std::string name = mediaInfo.actors[actor].name;
+            std::stringstream sstrRole;
+            sstrRole << "\"" << mediaInfo.actors[actor].role << "\"";
+            std::string role = sstrRole.str();
+            if (fontSmall->Width(name.c_str()) > actorThumbWidth + 2*border)
+                name = CutText(name, actorThumbWidth + 2*border, fontSmall);
+            if (fontSmall->Width(role.c_str()) > actorThumbWidth + 2*border)
+                role = CutText(role, actorThumbWidth + 2*border, fontSmall);
+            int xName = x + ((actorThumbWidth+2*border) - fontSmall->Width(name.c_str()))/2;
+            int xRole = x + ((actorThumbWidth+2*border) - fontSmall->Width(role.c_str()))/2;
+            if (Running() && pixmapContent) {
+                pixmapContent->DrawText(cPoint(xName, y + actorThumbHeight), name.c_str(), Theme.Color(clrMenuFontDetailViewText), clrTransparent, fontSmall);
+                pixmapContent->DrawText(cPoint(xRole, y + actorThumbHeight + fontSmall->Height()), role.c_str(), Theme.Color(clrMenuFontDetailViewText), clrTransparent, fontSmall);
+                x += actorThumbWidth + 2*border;
+            }
+            actor++;
+        }
+        x = 0;
+        y += actorThumbHeight + 2 * fontSmall->Height();
+    }
+}
+
+void cNopacityMenuDetailView::DrawFanart(int height) {
+    if (mediaInfo.fanart.size() < 1)
+        return;
+    int fanartWidthOrig = mediaInfo.fanart[0].width;
+    int fanartHeightOrig = mediaInfo.fanart[0].height;
+    int fanartWidth = fanartWidthOrig;
+    int fanartHeight = fanartHeightOrig;
+    
+    if (fanartWidthOrig > contentWidth - 2*border) {
+        fanartWidth = contentWidth - 2*border;
+        fanartHeight = fanartHeightOrig * ((double)fanartWidth / (double)fanartWidthOrig);
+    }
+    if (!Running())
+        return;
+    cImageLoader imgLoader;
+    if (imgLoader.LoadPoster(mediaInfo.fanart[0].path.c_str(), fanartWidth, fanartHeight)) {
+        int fanartX = (contentWidth - fanartWidth) / 2;
+        if (Running() && pixmapContent)
+            pixmapContent->DrawImage(cPoint(fanartX, height), imgLoader.GetImage());
+    }
 }
 
 double cNopacityMenuDetailView::ScrollbarSize(void) {
@@ -54,7 +223,6 @@ double cNopacityMenuDetailView::Offset(void) {
 
 }
 bool cNopacityMenuDetailView::Scroll(bool Up, bool Page) {
-
     int aktHeight = pixmapContent->DrawPort().Point().Y();
     int totalHeight = pixmapContent->DrawPort().Height();
     int screenHeight = pixmapContent->ViewPort().Height();
@@ -98,33 +266,47 @@ cNopacityMenuDetailEventView::cNopacityMenuDetailEventView(cOsd *osd, const cEve
 }
 
 cNopacityMenuDetailEventView::~cNopacityMenuDetailEventView(void) {
+    Cancel(-1);
+    while (Active())
+        cCondWait::SleepMs(10);
     osd->DestroyPixmap(pixmapHeader);
+    pixmapHeader = NULL;
     osd->DestroyPixmap(pixmapContent);
+    pixmapContent = NULL;
     osd->DestroyPixmap(pixmapLogo);
-}
-
-void cNopacityMenuDetailEventView::CreatePixmaps(void) {
-    pixmapHeader =  osd->CreatePixmap(3, cRect(x, top, width, headerHeight));
-    pixmapContent = osd->CreatePixmap(3, cRect(x, top + headerHeight, width, contentHeight),
-                                         cRect(0, 0, width, contentDrawPortHeight));
-    pixmapLogo =    osd->CreatePixmap(4, cRect(x + border, top + max((headerHeight-config.logoHeight)/2,1), config.detailViewLogoWidth, config.detailViewLogoHeight));
-
-    pixmapHeader->Fill(clrTransparent);
-    pixmapHeader->DrawRectangle(cRect(0, headerHeight - 2, width, 2), Theme.Color(clrMenuBorder));
-    pixmapContent->Fill(clrTransparent);
-    pixmapLogo->Fill(clrTransparent);
-    
+    pixmapLogo = NULL;
+    if (pixmapPoster) {
+        osd->DestroyPixmap(pixmapPoster);
+        pixmapLogo = NULL;
+    }
 }
 
 void cNopacityMenuDetailEventView::SetFonts(void) {
     font = cFont::CreateFont(config.fontName, contentHeight / 25 + 3 + config.fontDetailView);
+    fontSmall = cFont::CreateFont(config.fontName, contentHeight / 30 + config.fontDetailViewSmall);
     fontHeaderLarge = cFont::CreateFont(config.fontName, headerHeight / 4 + config.fontDetailViewHeaderLarge);
     fontHeader = cFont::CreateFont(config.fontName, headerHeight / 6 + config.fontDetailViewHeader);
 }
 
 void cNopacityMenuDetailEventView::SetContent(void) {
     if (event) {
-        content.Set(event->Description(), font, width - 4 * border);
+        static cPlugin *pTVScrapper = cPluginManager::GetPlugin("tvscrapper");
+        if (pTVScrapper) {
+            mediaInfo.event = event;
+            mediaInfo.isRecording = false;
+            if (pTVScrapper->Service("TVScrapperGetFullInformation", &mediaInfo)) {
+                hasAdditionalMedia = true;
+            }
+        }
+        contentWidth = width;
+        contentX = 0;
+        if (hasAdditionalMedia) {
+            if (mediaInfo.posters.size() >= 1) {
+                contentWidth -=  widthPoster;
+                contentX = widthPoster;
+            }
+        }
+        epgText.Set(event->Description(), font, contentWidth - 2 * border);
         if (config.displayRerunsDetailEPGView) {
             LoadReruns();
         }
@@ -133,21 +315,102 @@ void cNopacityMenuDetailEventView::SetContent(void) {
 
 void cNopacityMenuDetailEventView::SetContentHeight(void) {
     int lineHeight = font->Height();
-    int linesContent = content.Lines() + 1;
+    //Height of banner (only for series)
+    int heightBanner = 0;
+    if (hasAdditionalMedia && (mediaInfo.type == typeSeries)) {
+        heightBanner = mediaInfo.banner.height + lineHeight;
+    }
+    //Height of EPG Text
+    int heightEPG = (epgText.Lines()+1) * lineHeight;
+    //Height of rerun information
+    int heightReruns = 0;
     if (config.displayRerunsDetailEPGView) {
-        linesContent+= reruns.Lines() + 2;
+        heightReruns = reruns.Lines() * lineHeight;
     }
-    int heightContentText = linesContent * lineHeight;
+    //Height of actor pictures
+    int heightActors = 0;
+    if (hasAdditionalMedia) {
+        heightActors = HeightActorPics();
+    }
+    //Height of fanart
+    int heightFanart = 0;
+    if (hasAdditionalMedia) {
+        heightFanart = HeightFanart() + lineHeight;
+    }
+    //Height of EPG Pictures
+    int heightEPGPics = 0;
+    if (!hasAdditionalMedia && config.displayAdditionalEPGPictures) {
+        heightEPGPics = HeightEPGPics();
+    }
     
-    if (config.displayAdditionalEPGPictures) {
-        heightContentText += HeightEPGPics();
-    }
-
-    if (heightContentText > contentHeight) {
-        contentDrawPortHeight = heightContentText;
+    yBanner  = 0;
+    yEPGText = heightBanner;
+    yActors  = heightBanner + heightEPG;
+    yFanart  = heightBanner + heightEPG + heightActors;
+    yAddInf  = heightBanner + heightEPG + heightActors + heightFanart;
+    yEPGPics = heightBanner + heightEPG + heightActors + heightFanart + heightReruns;
+    
+    int totalHeight = heightBanner + heightEPG + heightActors + heightFanart + heightReruns + heightEPGPics;
+    //check if pixmap content has to be scrollable
+    if (totalHeight > contentHeight) {
+        contentDrawPortHeight = totalHeight;
         hasScrollbar = true;
     } else {
         contentDrawPortHeight = contentHeight;  
+    }
+}
+
+void cNopacityMenuDetailEventView::CreatePixmaps(void) {
+    pixmapHeader =  osd->CreatePixmap(3, cRect(x, top, width, headerHeight));
+    pixmapContent = osd->CreatePixmap(3, cRect(x + contentX, top + headerHeight, contentWidth, contentHeight),
+                                      cRect(0, 0, contentWidth, contentDrawPortHeight));
+    pixmapLogo =    osd->CreatePixmap(4, cRect(x + border, top + max((headerHeight-config.logoHeight)/2,1), config.detailViewLogoWidth, config.detailViewLogoHeight));
+
+    pixmapHeader->Fill(clrTransparent);
+    pixmapHeader->DrawRectangle(cRect(0, headerHeight - 2, width, 2), Theme.Color(clrMenuBorder));
+    pixmapContent->Fill(clrTransparent);
+    pixmapLogo->Fill(clrTransparent);
+    
+    if (hasAdditionalMedia) {
+        pixmapPoster = osd->CreatePixmap(4, cRect(x, top + headerHeight, widthPoster, contentHeight));
+        pixmapPoster->Fill(clrTransparent);
+    }
+}
+
+void cNopacityMenuDetailEventView::Render(void) {
+    DrawHeader();
+    //draw EPG text
+    DrawTextWrapper(&epgText, yEPGText);
+    //draw reruns
+    if (config.displayRerunsDetailEPGView) {
+        DrawTextWrapper(&reruns, yAddInf);
+    }
+}
+
+void cNopacityMenuDetailEventView::Action(void) {
+    if (hasAdditionalMedia && Running()) {
+        DrawPoster();
+        osd->Flush();
+    }
+    //draw banner only for series
+    if (hasAdditionalMedia && (mediaInfo.type == typeSeries) && Running()) {
+        DrawBanner(yBanner);
+        osd->Flush();
+    }
+    //draw actors
+    if (hasAdditionalMedia && Running()) {
+       DrawActors(yActors);
+        osd->Flush();
+    }
+    //draw fanart
+    if (hasAdditionalMedia && Running()) {
+       DrawFanart(yFanart);
+        osd->Flush();
+    }
+    //draw additional EPG Pictures only if no media is available
+    if (!hasAdditionalMedia && config.displayAdditionalEPGPictures && Running()) {
+        DrawEPGPictures(yEPGPics);
+        osd->Flush();
     }
 }
 
@@ -169,22 +432,11 @@ int cNopacityMenuDetailEventView::HeightEPGPics(void) {
         }
     }
     numEPGPics = numPicsAvailable;
-    int picsPerLine = width / (config.epgImageWidthLarge + border);
+    int picsPerLine = contentWidth / (config.epgImageWidthLarge + border);
     int picLines = numPicsAvailable / picsPerLine;
     if (numPicsAvailable%picsPerLine != 0)
         picLines++;
     return picLines * (config.epgImageHeightLarge + border) + 2*border;
-}
-
-void cNopacityMenuDetailEventView::Render(void) {
-    DrawHeader();
-    int currentHight = DrawTextWrapper(&content, 0);
-    if (config.displayRerunsDetailEPGView) {
-        currentHight = DrawTextWrapper(&reruns, currentHight);
-    }
-    if (config.displayAdditionalEPGPictures) {
-        DrawEPGPictures(currentHight);
-    }
 }
 
 void cNopacityMenuDetailEventView::DrawHeader(void) {
@@ -195,22 +447,23 @@ void cNopacityMenuDetailEventView::DrawHeader(void) {
         pixmapLogo->DrawImage(cPoint(0, max((headerHeight - config.detailViewLogoHeight - border)/2, 0)), imgLoader.GetImage());
     }
     int widthTextHeader = width - 4 * border - logoWidth;
-    if (imgLoader.LoadEPGImage(event->EventID())) {
-        pixmapHeader->DrawImage(cPoint(width - config.epgImageWidth - border, (headerHeight-config.epgImageHeight)/2), imgLoader.GetImage());
-        if (config.roundedCorners) {
-            int radius = config.cornerRadius;
-            if (radius > 2) {
-                int x = width - config.epgImageWidth - border;
-                int y = (headerHeight-config.epgImageHeight)/2;
-                pixmapHeader->DrawEllipse(cRect(x,y,radius,radius), clrTransparent, -2);
-                pixmapHeader->DrawEllipse(cRect(x + config.epgImageWidth - radius,y,radius,radius), clrTransparent, -1);
-                pixmapHeader->DrawEllipse(cRect(x,y + config.epgImageHeight - radius,radius,radius), clrTransparent, -3);
-                pixmapHeader->DrawEllipse(cRect(x + config.epgImageWidth - radius,y + config.epgImageHeight - radius,radius,radius), clrTransparent, -4);
+    if (!hasAdditionalMedia) {
+        if (imgLoader.LoadEPGImage(event->EventID())) {
+            pixmapHeader->DrawImage(cPoint(width - config.epgImageWidth - border, (headerHeight-config.epgImageHeight)/2), imgLoader.GetImage());
+            if (config.roundedCorners) {
+                int radius = config.cornerRadius;
+                if (radius > 2) {
+                    int x = width - config.epgImageWidth - border;
+                    int y = (headerHeight-config.epgImageHeight)/2;
+                    pixmapHeader->DrawEllipse(cRect(x,y,radius,radius), clrTransparent, -2);
+                    pixmapHeader->DrawEllipse(cRect(x + config.epgImageWidth - radius,y,radius,radius), clrTransparent, -1);
+                    pixmapHeader->DrawEllipse(cRect(x,y + config.epgImageHeight - radius,radius,radius), clrTransparent, -3);
+                    pixmapHeader->DrawEllipse(cRect(x + config.epgImageWidth - radius,y + config.epgImageHeight - radius,radius,radius), clrTransparent, -4);
+                }
             }
+            widthTextHeader -= config.epgImageWidth;
         }
-        widthTextHeader -= config.epgImageWidth;
     }
-
     int lineHeight = fontHeaderLarge->Height();
 
     cString dateTime = cString::sprintf("%s  %s - %s", *event->GetDateString(), *event->GetTimeString(), *event->GetEndTimeString());
@@ -280,13 +533,13 @@ void cNopacityMenuDetailEventView::LoadReruns(void) {
                 delete list;
             }
         }
-        reruns.Set(sstrReruns.str().c_str(), font, width - 4 * border);
+        reruns.Set(sstrReruns.str().c_str(), font, contentWidth - 4 * border);
     } else
-        reruns.Set("", font, width - 4 * border);
+        reruns.Set("", font, contentWidth);
 }
 
 void cNopacityMenuDetailEventView::DrawEPGPictures(int height) {
-    int picsPerLine = width / (config.epgImageWidthLarge + border);
+    int picsPerLine = contentWidth / (config.epgImageWidthLarge + border);
     int currentX = border;
     int currentY = height + border;
     int currentPicsPerLine = 1;
@@ -326,47 +579,146 @@ cNopacityMenuDetailRecordingView::cNopacityMenuDetailRecordingView(cOsd *osd, co
 }
 
 cNopacityMenuDetailRecordingView::~cNopacityMenuDetailRecordingView(void) {
+    Cancel(-1);
+    while (Active())
+        cCondWait::SleepMs(10);
     osd->DestroyPixmap(pixmapHeader);
+    pixmapHeader = NULL;
     osd->DestroyPixmap(pixmapContent);
-}
-
-void cNopacityMenuDetailRecordingView::CreatePixmaps(void) {
-    pixmapHeader =  osd->CreatePixmap(3, cRect(x, top, width, headerHeight));
-    pixmapContent = osd->CreatePixmap(3, cRect(x, top + headerHeight, width, contentHeight),
-                                         cRect(0, 0, width, contentDrawPortHeight));
-
-    pixmapHeader->Fill(clrTransparent);
-    pixmapHeader->DrawRectangle(cRect(0, headerHeight - 2, width, 2), Theme.Color(clrMenuBorder));
-    pixmapContent->Fill(clrTransparent);
+    pixmapContent = NULL;
+    if (pixmapPoster) {
+        osd->DestroyPixmap(pixmapPoster);
+        pixmapLogo = NULL;
+    }
 }
 
 void cNopacityMenuDetailRecordingView::SetFonts(void) {
     font = cFont::CreateFont(config.fontName, contentHeight / 25 + config.fontDetailView);
+    fontSmall = cFont::CreateFont(config.fontName, contentHeight / 30 + config.fontDetailViewSmall);
     fontHeaderLarge = cFont::CreateFont(config.fontName, headerHeight / 4 + config.fontDetailViewHeaderLarge);
     fontHeader = cFont::CreateFont(config.fontName, headerHeight / 6 + config.fontDetailViewHeader);
 }
 
 void cNopacityMenuDetailRecordingView::SetContent(void) {
     if (recording) {
-        content.Set(recording->Info()->Description(), font, width - 4 * border);
+        const cEvent *event = info->GetEvent();
+        if (event) {
+            static cPlugin *pTVScrapper = cPluginManager::GetPlugin("tvscrapper");
+            if (pTVScrapper) {
+                mediaInfo.event = event;
+                mediaInfo.isRecording = true;
+                if (pTVScrapper->Service("TVScrapperGetFullInformation", &mediaInfo)) {
+                    hasAdditionalMedia = true;
+                }
+            }
+            contentWidth = width;
+            contentX = 0;
+            if (hasAdditionalMedia) {
+                if (mediaInfo.posters.size() >= 1) {
+                    contentWidth -=  widthPoster;
+                    contentX = widthPoster;
+                }
+            }
+        }
+        recInfo.Set(recording->Info()->Description(), font, contentWidth - 2 * border);
         LoadRecordingInformation();
-    }   
+    }
 }
 
 void cNopacityMenuDetailRecordingView::SetContentHeight(void) {
     int lineHeight = font->Height();
-    int linesContent = content.Lines() + 1;
-    linesContent+= additionalInfo.Lines() + 1;
-    int heightContentText = linesContent * lineHeight;
-    if (config.displayAdditionalRecEPGPictures) {
-        if (LoadEPGPics())
-            heightContentText += HeightEPGPics();
+    //Height of banner (only for series)
+    int heightBanner = 0;
+    if (hasAdditionalMedia && (mediaInfo.type == typeSeries)) {
+        heightBanner = mediaInfo.banner.height + lineHeight;
     }
-    if (heightContentText > contentHeight) {
-        contentDrawPortHeight = heightContentText;
+    //Height of Recording EPG Info
+    int heightEPG = (recInfo.Lines()+1) * lineHeight;
+    //Height of actor pictures
+    int heightActors = 0;
+    if (hasAdditionalMedia) {
+        heightActors = HeightActorPics();
+    }
+    //Height of fanart
+    int heightFanart = 0;
+    if (hasAdditionalMedia) {
+        heightFanart = HeightFanart() + lineHeight;
+    }
+    //Height of EPG Pictures
+    int heightEPGPics = 0;
+    if (!hasAdditionalMedia && config.displayAdditionalEPGPictures) {
+        if (LoadEPGPics())
+            heightEPGPics = HeightEPGPics();
+    }
+    //additional recording Info
+    int heightAdditionalInfo = (additionalInfo.Lines() + 1) * lineHeight;
+    
+    yBanner  = 0;
+    yEPGText = heightBanner;
+    yActors  = heightBanner + heightEPG;
+    yFanart  = heightBanner + heightEPG + heightActors;
+    yAddInf  = heightBanner + heightEPG + heightActors + heightFanart;
+    yEPGPics = heightBanner + heightEPG + heightActors + heightFanart + heightAdditionalInfo;
+    
+    int totalHeight = heightBanner + heightEPG + heightActors + heightFanart + heightAdditionalInfo + heightEPGPics;
+    //check if pixmap content has to be scrollable
+    if (totalHeight > contentHeight) {
+        contentDrawPortHeight = totalHeight;
         hasScrollbar = true;
     } else {
         contentDrawPortHeight = contentHeight;  
+    }
+    
+}
+
+void cNopacityMenuDetailRecordingView::CreatePixmaps(void) {
+    pixmapHeader =  osd->CreatePixmap(3, cRect(x, top, width, headerHeight));
+    pixmapContent = osd->CreatePixmap(3, cRect(x + contentX, top + headerHeight, contentWidth, contentHeight),
+                                         cRect(0, 0, contentWidth, contentDrawPortHeight));
+
+    pixmapHeader->Fill(clrTransparent);
+    pixmapHeader->DrawRectangle(cRect(0, headerHeight - 2, width, 2), Theme.Color(clrMenuBorder));
+    pixmapContent->Fill(clrTransparent);
+    if (hasAdditionalMedia) {
+        pixmapPoster = osd->CreatePixmap(4, cRect(x, top + headerHeight, widthPoster, contentHeight));
+        pixmapPoster->Fill(clrTransparent);
+    }
+}
+
+void cNopacityMenuDetailRecordingView::Render(void) {
+    DrawHeader();
+    //draw Recording EPG text
+    DrawTextWrapper(&recInfo, yEPGText);
+    //draw additional Info
+    if (config.displayRerunsDetailEPGView) {
+        DrawTextWrapper(&additionalInfo, yAddInf);
+    }
+}
+
+void cNopacityMenuDetailRecordingView::Action(void) {
+    if (hasAdditionalMedia && Running()) {
+        DrawPoster();
+        osd->Flush();
+    }
+    //draw banner only for series
+    if (hasAdditionalMedia && (mediaInfo.type == typeSeries) && Running()) {
+        DrawBanner(yBanner);
+        osd->Flush();
+    }
+    //draw actors
+    if (hasAdditionalMedia && Running()) {
+       DrawActors(yActors);
+        osd->Flush();
+    }
+    //draw fanart
+    if (hasAdditionalMedia && Running()) {
+       DrawFanart(yFanart);
+        osd->Flush();
+    }
+    //draw additional EPG Pictures only if no media is available
+    if (!hasAdditionalMedia && config.displayAdditionalEPGPictures && Running()) {
+        DrawEPGPictures(yEPGPics);
+        osd->Flush();
     }
 }
 
@@ -438,18 +790,9 @@ void cNopacityMenuDetailRecordingView::DrawEPGPictures(int height) {
     }
 }
 
-void cNopacityMenuDetailRecordingView::Render(void) {
-    DrawHeader();
-    int currentHeight = DrawTextWrapper(&content, 0);
-    currentHeight = DrawTextWrapper(&additionalInfo, currentHeight);
-    if (epgpics.size() > 0) {
-        DrawEPGPictures(currentHeight);
-    }
-}
-
 void cNopacityMenuDetailRecordingView::DrawHeader(void) {
     cImageLoader imgLoader;
-	int widthTextHeader = width - 4 * border;
+    int widthTextHeader = width - 4 * border;
     if (imgLoader.LoadRecordingImage(recording->FileName())) {
         pixmapHeader->DrawImage(cPoint(width - config.epgImageWidth - border, (headerHeight-config.epgImageHeight)/2), imgLoader.GetImage());
         if (config.roundedCorners) {
@@ -634,6 +977,7 @@ cNopacityMenuDetailTextView::~cNopacityMenuDetailTextView(void) {
 
 void cNopacityMenuDetailTextView::SetFonts(void) {
     font = cFont::CreateFont(config.fontName, contentHeight / 25 + config.fontDetailView);
+    fontSmall = NULL;
     fontHeaderLarge = NULL;
     fontHeader = NULL;
 }

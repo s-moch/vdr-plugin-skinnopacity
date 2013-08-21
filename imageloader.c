@@ -159,6 +159,14 @@ bool cImageLoader::LoadAdditionalRecordingImage(cString path, cString name) {
     return false;
 }
 
+bool cImageLoader::LoadPoster(const char *poster, int width, int height) {
+    if (LoadImage(poster)) {
+        buffer.sample(Geometry(width, height));
+        return true;
+    }
+    return false;
+}
+
 void cImageLoader::DrawBackground(tColor back, tColor blend, int width, int height, bool mirror) {
     Color Back = Argb2Color(back);
     Color Blend = Argb2Color(blend);
@@ -224,6 +232,17 @@ bool cImageLoader::LoadImage(cString FileName, cString Path, cString Extension) 
         dsyslog("nopacity: trying to load: %s", *File);
         buffer.read(*File);
         dsyslog("nopacity: %s sucessfully loaded", *File);
+    } catch (...) {     
+        return false;
+    }
+    return true;
+}
+
+bool cImageLoader::LoadImage(const char *fullpath) {
+    try {
+        dsyslog("nopacity: trying to load: %s", fullpath);
+        buffer.read(fullpath);
+        dsyslog("nopacity: %s sucessfully loaded", fullpath);
     } catch (...) {     
         return false;
     }

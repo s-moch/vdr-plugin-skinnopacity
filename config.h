@@ -176,6 +176,7 @@ class cNopacityConfig {
         int fontButtons;
         int fontMessageMenu;
         int fontDetailView;
+        int fontDetailViewSmall;
         int fontDetailViewHeader;
         int fontDetailViewHeaderLarge;
         int fontEPGInfoWindow;

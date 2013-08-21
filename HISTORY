@@ -219,3 +219,7 @@ Version 0.1.2
 - Added optional dedicated status icons in channel display
 - Added optional display of channel source information in channel display
 - Fixed a bug if switching to a invalid channel
+
+Version 0.1.3
+- Added TVScrapper support, if TVScrapper is used scrapped images are
+  displayed in various EPG views 

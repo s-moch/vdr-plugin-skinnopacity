@@ -21,6 +21,7 @@ public:
     bool LoadAdditionalEPGImage(cString name);
     bool LoadRecordingImage(cString Path);
     bool LoadAdditionalRecordingImage(cString path, cString name);
+    bool LoadPoster(const char *poster, int width, int height);
     void DrawBackground(tColor back, tColor blend, int width, int height, bool mirror = false);
     void DrawBackground2(tColor back, tColor blend, int width, int height);
 private:
@@ -28,7 +29,8 @@ private:
     Color Argb2Color(tColor col);
     void toLowerCase(std::string &str);
     bool LoadImage(cString FileName, cString Path, cString Extension);
-	bool FirstImageInFolder(cString Path, cString Extension, cString *recImage);
+    bool LoadImage(const char *fullpath);
+    bool FirstImageInFolder(cString Path, cString Extension, cString *recImage);
 };
 
 #endif //__NOPACITY_IMAGELOADER_H

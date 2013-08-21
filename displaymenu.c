@@ -524,6 +524,7 @@ bool cNopacityDisplayMenu::SetItemRecording(const cRecording *Recording, int Ind
         item->SetCurrent(Current);
         item->SetBackgrounds(handleBackgrounds);
         item->CreateText();
+        item->SetPoster();
         int textWidth = item->CheckScrollable(false);
         item->CreatePixmap();
         item->CreatePixmapIcon();
@@ -686,6 +687,7 @@ void cNopacityDisplayMenu::SetEvent(const cEvent *Event) {
         double offset = 0.0;
         menuView->DrawScrollbar(height, offset);
     }
+    detailView->Start();
 }
 
 void cNopacityDisplayMenu::SetRecording(const cRecording *Recording) {
@@ -708,6 +710,7 @@ void cNopacityDisplayMenu::SetRecording(const cRecording *Recording) {
         double offset = 0.0;
         menuView->DrawScrollbar(height, offset);
     }
+    detailView->Start();
 }
 
 void cNopacityDisplayMenu::SetText(const char *Text, bool FixedFont) {

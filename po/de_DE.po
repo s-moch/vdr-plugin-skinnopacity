@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-05-10 12:52+0200\n"
+"POT-Creation-Date: 2013-08-18 15:18+0200\n"
 "PO-Revision-Date: 2012-11-11 17:49+0200\n"
 "Last-Translator: louis\n"
 "Language-Team: \n"
@@ -22,6 +22,9 @@ msgstr "frei"
 
 msgid "Volume"
 msgstr "Lautstärke"
+
+msgid "Actors"
+msgstr "Schauspieler"
 
 msgid "RERUNS OF THIS SHOW"
 msgstr "Wiederholungen dieser Sendung"
@@ -175,6 +178,9 @@ msgstr "Schriftgröße anpassen - Nachrichten"
 
 msgid "Adjust Font Size - Detail View Text"
 msgstr "Schriftgröße anpassen - Text EPG Detailanzeige"
+
+msgid "Adjust Font Size - Detail View Text Small"
+msgstr "Schriftgröße anpassen - Text EPG Detailanzeige klein"
 
 msgid "Adjust Font Size - Detail View Header"
 msgstr "Schriftgröße anpassen - Header EPG Detailanzeige"

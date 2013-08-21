@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-05-10 12:52+0200\n"
+"POT-Creation-Date: 2013-08-18 15:18+0200\n"
 "PO-Revision-Date: 2013-03-19 22:56+0100\n"
 "Last-Translator: Gabychan <gbonich@gmail.com>\n"
 "Language-Team: \n"
@@ -25,6 +25,9 @@ msgstr "lliure"
 
 msgid "Volume"
 msgstr "Volum"
+
+msgid "Actors"
+msgstr ""
 
 msgid "RERUNS OF THIS SHOW"
 msgstr "REEMISSIONS"
@@ -178,6 +181,9 @@ msgstr "Ajusta mida de la Font - Missatges"
 
 msgid "Adjust Font Size - Detail View Text"
 msgstr "Ajusta mida de la Font - Vista detall del text"
+
+msgid "Adjust Font Size - Detail View Text Small"
+msgstr ""
 
 msgid "Adjust Font Size - Detail View Header"
 msgstr "Ajusta mida de la Font - Vista detall capçalera"

@@ -2,6 +2,7 @@
 #include "symbols/dolbydigital.xpm"
 
 #include "displaychannel.h"
+#include "services/tvscrapper.h"
 
 cNopacityDisplayChannel::cNopacityDisplayChannel(bool WithInfo) {
     if (firstDisplay) {
@@ -65,6 +66,8 @@ cNopacityDisplayChannel::~cNopacityDisplayChannel() {
         osd->DestroyPixmap(pixmapSignalMeter);
         osd->DestroyPixmap(pixmapSignalLabel);
     }
+    if (pixmapPoster)
+        osd->DestroyPixmap(pixmapPoster);
     if (config.displaySignalStrength && showSignal) {
         delete fontInfoline;
     }
@@ -79,8 +82,8 @@ cNopacityDisplayChannel::~cNopacityDisplayChannel() {
 
 void cNopacityDisplayChannel::SetGeometry(void) {
     height = cOsd::OsdHeight() * config.channelHeight / 100;
-    int top = cOsd::OsdTop() + cOsd::OsdHeight() - height - config.channelBorderBottom;
-    osd = CreateOsd(cOsd::OsdLeft(), top, cOsd::OsdWidth(), height);
+    top = cOsd::OsdTop() + cOsd::OsdHeight() - height - config.channelBorderBottom;
+    osd = CreateOsd(cOsd::OsdLeft(), cOsd::OsdTop(), cOsd::OsdWidth(), cOsd::OsdHeight());
     switch (config.logoPosition) {
         case lpLeft:
             infoWidth = osd->Width() - (config.logoWidth + 2 * config.channelBorderVertical + config.logoBorder);
@@ -115,40 +118,40 @@ void cNopacityDisplayChannel::SetGeometry(void) {
 void cNopacityDisplayChannel::CreatePixmaps(void) {
     int channelInfoY = 0;
     if (withInfo) {
-        pixmapProgressBar = osd->CreatePixmap(2, cRect(infoX, channelInfoHeight, infoWidth, progressBarHeight));
-        pixmapEPGInfo     = osd->CreatePixmap(2, cRect(infoX, channelInfoHeight + progressBarHeight, infoWidth, epgInfoHeight));
-        pixmapBackgroundMiddle = osd->CreatePixmap(1, cRect(infoX, channelInfoHeight, infoWidth, progressBarHeight + epgInfoHeight));
+        pixmapProgressBar = osd->CreatePixmap(2, cRect(infoX, top + channelInfoHeight, infoWidth, progressBarHeight));
+        pixmapEPGInfo = osd->CreatePixmap(2, cRect(infoX, top + channelInfoHeight + progressBarHeight, infoWidth, epgInfoHeight));
+        pixmapBackgroundMiddle = osd->CreatePixmap(1, cRect(infoX, top + channelInfoHeight, infoWidth, progressBarHeight + epgInfoHeight));
     } else {
         channelInfoY = (height - channelInfoHeight) / 3;
         streamInfoY = (height - channelInfoHeight) / 3 + channelInfoHeight;
     }
-    pixmapBackgroundTop = osd->CreatePixmap(1, cRect(infoX, channelInfoY, infoWidth, channelInfoHeight));
-    pixmapBackgroundBottom = osd->CreatePixmap(1, cRect(infoX, streamInfoY, infoWidth, streamInfoHeight));
+    pixmapBackgroundTop = osd->CreatePixmap(1, cRect(infoX, top + channelInfoY, infoWidth, channelInfoHeight));
+    pixmapBackgroundBottom = osd->CreatePixmap(1, cRect(infoX, top + streamInfoY, infoWidth, streamInfoHeight));
         
-    pixmapChannelInfo = osd->CreatePixmap(2, cRect(infoX, channelInfoY, channelInfoWidth, channelInfoHeight));
-    pixmapDate = osd->CreatePixmap(2, cRect(infoX + channelInfoWidth, channelInfoY, dateWidth, channelInfoHeight));
-    pixmapFooter  = osd->CreatePixmap(2, cRect(infoX, streamInfoY, infoWidth, streamInfoHeight));
-    pixmapStreamInfo =     osd->CreatePixmap(4, cRect(infoX + (infoWidth - iconsWidth - config.resolutionIconSize - 35), height - iconSize - 10, iconsWidth, iconSize));
-    pixmapStreamInfoBack = osd->CreatePixmap(3, cRect(infoX + (infoWidth - iconsWidth - config.resolutionIconSize - 35), height - iconSize - 10, iconsWidth, iconSize));
+    pixmapChannelInfo = osd->CreatePixmap(2, cRect(infoX, top + channelInfoY, channelInfoWidth, channelInfoHeight));
+    pixmapDate = osd->CreatePixmap(2, cRect(infoX + channelInfoWidth, top + channelInfoY, dateWidth, channelInfoHeight));
+    pixmapFooter  = osd->CreatePixmap(2, cRect(infoX, top + streamInfoY, infoWidth, streamInfoHeight));
+    pixmapStreamInfo =     osd->CreatePixmap(4, cRect(infoX + (infoWidth - iconsWidth - config.resolutionIconSize - 35), top + height - iconSize - 10, iconsWidth, iconSize));
+    pixmapStreamInfoBack = osd->CreatePixmap(3, cRect(infoX + (infoWidth - iconsWidth - config.resolutionIconSize - 35), top + height - iconSize - 10, iconsWidth, iconSize));
     
     switch (config.logoPosition) {
         case lpLeft:
-            pixmapLogoBackgroundTop = osd->CreatePixmap(1, cRect(config.channelBorderVertical, 0, infoX - config.channelBorderVertical, channelInfoHeight));
-            pixmapLogoBackground = osd->CreatePixmap(1, cRect(config.channelBorderVertical, channelInfoHeight, infoX - config.channelBorderVertical, progressBarHeight + epgInfoHeight));
-            pixmapLogoBackgroundBottom = osd->CreatePixmap(1, cRect(config.channelBorderVertical, streamInfoY, infoX - config.channelBorderVertical, streamInfoHeight));
-            pixmapLogo = osd->CreatePixmap(2, cRect(0, 0, config.logoWidth + 2 * config.logoBorder, height));
+            pixmapLogoBackgroundTop = osd->CreatePixmap(1, cRect(config.channelBorderVertical, top, infoX - config.channelBorderVertical, channelInfoHeight));
+            pixmapLogoBackground = osd->CreatePixmap(1, cRect(config.channelBorderVertical, top + channelInfoHeight, infoX - config.channelBorderVertical, progressBarHeight + epgInfoHeight));
+            pixmapLogoBackgroundBottom = osd->CreatePixmap(1, cRect(config.channelBorderVertical, top + streamInfoY, infoX - config.channelBorderVertical, streamInfoHeight));
+            pixmapLogo = osd->CreatePixmap(2, cRect(0, top, config.logoWidth + 2 * config.logoBorder, height));
             break;
         case lpRight:
-            pixmapLogoBackgroundTop = osd->CreatePixmap(1, cRect(infoX + infoWidth, 0, cOsd::OsdWidth() - 2*config.channelBorderVertical - infoWidth, channelInfoHeight));
-            pixmapLogoBackground = osd->CreatePixmap(1, cRect(infoX + infoWidth, channelInfoHeight, cOsd::OsdWidth() - 2*config.channelBorderVertical - infoWidth, progressBarHeight + epgInfoHeight));
-            pixmapLogoBackgroundBottom = osd->CreatePixmap(1, cRect(infoX + infoWidth, streamInfoY, cOsd::OsdWidth() - 2*config.channelBorderVertical - infoWidth, streamInfoHeight));
-            pixmapLogo = osd->CreatePixmap(2, cRect(infoX + infoWidth, 0, config.logoWidth + 2 * config.logoBorder, height));
+            pixmapLogoBackgroundTop = osd->CreatePixmap(1, cRect(infoX + infoWidth, top, cOsd::OsdWidth() - 2*config.channelBorderVertical - infoWidth, channelInfoHeight));
+            pixmapLogoBackground = osd->CreatePixmap(1, cRect(infoX + infoWidth, top + channelInfoHeight, cOsd::OsdWidth() - 2*config.channelBorderVertical - infoWidth, progressBarHeight + epgInfoHeight));
+            pixmapLogoBackgroundBottom = osd->CreatePixmap(1, cRect(infoX + infoWidth, top + streamInfoY, cOsd::OsdWidth() - 2*config.channelBorderVertical - infoWidth, streamInfoHeight));
+            pixmapLogo = osd->CreatePixmap(2, cRect(infoX + infoWidth, top, config.logoWidth + 2 * config.logoBorder, height));
             break;
         case lpNone:
-            pixmapLogo = osd->CreatePixmap(-1, cRect(0, 0, 1, 1));
-            pixmapLogoBackground = osd->CreatePixmap(-1, cRect(0, 0, 1, 1));
-            pixmapLogoBackgroundTop = osd->CreatePixmap(-1, cRect(0, 0, 1, 1));
-            pixmapLogoBackgroundBottom = osd->CreatePixmap(-1, cRect(0, 0, 1, 1));
+            pixmapLogo = osd->CreatePixmap(-1, cRect(0, top, 1, 1));
+            pixmapLogoBackground = osd->CreatePixmap(-1, cRect(0, top, 1, 1));
+            pixmapLogoBackgroundTop = osd->CreatePixmap(-1, cRect(0, top, 1, 1));
+            pixmapLogoBackgroundBottom = osd->CreatePixmap(-1, cRect(0, top, 1, 1));
             break;
     }
     
@@ -176,6 +179,7 @@ void cNopacityDisplayChannel::CreatePixmaps(void) {
     }
     pixmapScreenResolution = NULL;
     pixmapSignalMeter = NULL;
+    pixmapPoster = NULL;
 }
 
 void cNopacityDisplayChannel::CreateFonts(void) {
@@ -377,7 +381,7 @@ void cNopacityDisplayChannel::DrawScreenResolution(void) {
 
     if (!pixmapScreenResolution) {
         int x = infoX + infoWidth - config.resolutionIconSize - 2*spacing;
-        int y = height - config.resolutionIconSize - 10;
+        int y = top + height - config.resolutionIconSize - 10;
         pixmapScreenResolution = osd->CreatePixmap(3, cRect(x, y, config.resolutionIconSize, config.resolutionIconSize));
         pixmapScreenResolution->Fill(clrTransparent);
         if ((initial)&&(config.channelFadeTime))
@@ -441,10 +445,10 @@ void cNopacityDisplayChannel::DrawSignalMeter(void) {
             int labelWidth = max(fontInfoline->Width(*signalStrength), fontInfoline->Width(*signalQuality)) + 2;
             signalX = streamInfoHeight / 2 + labelWidth;
             showSignal = true;
-            pixmapSignalStrength = osd->CreatePixmap(3, cRect(infoX + signalX, signalMeterY + 2, signalWidth + 2, signalHeight + 2));
-            pixmapSignalQuality  = osd->CreatePixmap(3, cRect(infoX + signalX, signalMeterY + signalHeight + 5, signalWidth + 2, signalHeight + 2));
-            pixmapSignalMeter    = osd->CreatePixmap(4, cRect(infoX + signalX + 1, signalMeterY + 3, signalWidth, 2*signalHeight + 3));
-            pixmapSignalLabel    = osd->CreatePixmap(3, cRect(infoX + streamInfoHeight / 2, signalMeterY + 2, labelWidth, 2*signalHeight + 3));
+            pixmapSignalStrength = osd->CreatePixmap(3, cRect(infoX + signalX, top + signalMeterY + 2, signalWidth + 2, signalHeight + 2));
+            pixmapSignalQuality  = osd->CreatePixmap(3, cRect(infoX + signalX, top + signalMeterY + signalHeight + 5, signalWidth + 2, signalHeight + 2));
+            pixmapSignalMeter    = osd->CreatePixmap(4, cRect(infoX + signalX + 1, top + signalMeterY + 3, signalWidth, 2*signalHeight + 3));
+            pixmapSignalLabel    = osd->CreatePixmap(3, cRect(infoX + streamInfoHeight / 2, top + signalMeterY + 2, labelWidth, 2*signalHeight + 3));
             pixmapSignalStrength->Fill(Theme.Color(clrProgressBarBack));
             pixmapSignalQuality->Fill(Theme.Color(clrProgressBarBack));
             pixmapSignalMeter->Fill(clrTransparent);
@@ -655,6 +659,7 @@ void cNopacityDisplayChannel::SetEvents(const cEvent *Present, const cEvent *Fol
                     int remaining = (int)(e->EndTime() - time(NULL))/60;
                     strSeen = cString::sprintf("-%d/%dmin", remaining, e->Duration()/60);
                 }
+                DrawPoster(e);
             } else {
                 strSeen = cString::sprintf("%dmin", e->Duration()/60);
             }
@@ -675,6 +680,43 @@ void cNopacityDisplayChannel::SetEvents(const cEvent *Present, const cEvent *Fol
             pixmapEPGInfo->DrawText(cPoint(2 * indent + startTimeWidth, (y+1) * epgInfoLineHeight + 3), *strEPGShort, fontColor, clrTransparent, fontEPGSmall);
             int x = infoWidth - indent - seenWidth - config.resolutionIconSize - indent;
             pixmapEPGInfo->DrawText(cPoint(x, y * epgInfoLineHeight), *strSeen, fontColor, clrTransparent, fontEPG);
+        }
+    }
+}
+
+void cNopacityDisplayChannel::DrawPoster(const cEvent *event) {
+    if (pixmapPoster) {
+        osd->DestroyPixmap(pixmapPoster);
+        pixmapPoster = NULL;
+    }
+    static cPlugin *pTVScrapper = cPluginManager::GetPlugin("tvscrapper");
+    if (pTVScrapper) {
+        TVScrapperGetPosterOrBanner call;
+        call.event = event;
+        if (pTVScrapper->Service("TVScrapperGetPosterOrBanner", &call)) {
+            int mediaWidth = 0;
+            int mediaHeight = 0;
+            if (call.type == typeSeries) {
+                mediaWidth = call.media.width;
+                mediaHeight = call.media.height;
+            } else if (call.type == typeMovie) {
+                double ratio = (double)(cOsd::OsdHeight()/3) / (double)call.media.height;
+                mediaWidth = ratio * call.media.width;
+                mediaHeight = ratio * call.media.height;
+            }
+            pixmapPoster = osd->CreatePixmap(1, cRect(config.channelBorderVertical,
+                                                      config.channelBorderBottom, 
+                                                      mediaWidth + 2*config.channelBorderVertical, 
+                                                      mediaHeight + 2*config.channelBorderBottom));
+            if (initial)
+                pixmapPoster->SetAlpha(0);
+            cImageLoader imgLoader;
+            if (imgLoader.LoadPoster(call.media.path.c_str(), mediaWidth, mediaHeight)) {
+                pixmapPoster->Fill(Theme.Color(clrChannelBackground));
+                pixmapPoster->DrawImage(cPoint(config.channelBorderVertical, config.channelBorderBottom), imgLoader.GetImage());
+            } else {
+                pixmapPoster->Fill(clrTransparent);                            
+            }
         }
     }
 }
@@ -806,6 +848,8 @@ void cNopacityDisplayChannel::Action(void) {
             pixmapSignalMeter->SetAlpha(Alpha);
             pixmapSignalLabel->SetAlpha(Alpha);
         }
+        if (pixmapPoster)
+            pixmapPoster->SetAlpha(Alpha);
         if (Running())
             osd->Flush();
         cPixmap::Unlock();

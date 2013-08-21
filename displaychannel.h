@@ -44,7 +44,8 @@ private:
     cPixmap *pixmapSignalMeter;
     cPixmap *pixmapSignalLabel;
     cPixmap *pixmapScreenResolution;
-    int height;
+    cPixmap *pixmapPoster;
+    int top, height;
     int infoWidth;
     int infoX;
     int channelInfoWidth;
@@ -82,6 +83,7 @@ private:
     void DrawSourceInfo(const cChannel *Channel);
     void DrawChannelGroups(const cChannel *Channel, cString ChannelName);
     cString GetChannelSep(const cChannel *channel, bool prev);
+    void DrawPoster(const cEvent *event);
 public:
     cNopacityDisplayChannel(bool WithInfo);
     virtual ~cNopacityDisplayChannel();

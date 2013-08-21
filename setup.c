@@ -198,6 +198,7 @@ void cNopacitySetup::Store(void) {
     SetupStore("fontButtons", config.fontButtons);
     SetupStore("fontMessageMenu", config.fontMessageMenu);
     SetupStore("fontDetailView", config.fontDetailView);
+    SetupStore("fontDetailViewSmall", config.fontDetailViewSmall);
     SetupStore("fontDetailViewHeader", config.fontDetailViewHeader);
     SetupStore("fontDetailViewHeaderLarge", config.fontDetailViewHeaderLarge);
     SetupStore("fontEPGInfoWindow", config.fontEPGInfoWindow);
@@ -281,6 +282,7 @@ void cNopacitySetupMenuDisplay::Set(void) {
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Color Buttons"), &tmpNopacityConfig->fontButtons, -20, 20));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Messages"), &tmpNopacityConfig->fontMessageMenu, -20, 20));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Detail View Text"), &tmpNopacityConfig->fontDetailView, -20, 20));
+    Add(new cMenuEditIntItem(tr("Adjust Font Size - Detail View Text Small"), &tmpNopacityConfig->fontDetailViewSmall, -20, 20));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Detail View Header"), &tmpNopacityConfig->fontDetailViewHeader, -20, 20));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Detail View Header Large"), &tmpNopacityConfig->fontDetailViewHeaderLarge, -20, 20));
 

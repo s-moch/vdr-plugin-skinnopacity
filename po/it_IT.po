@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-05-10 12:52+0200\n"
+"POT-Creation-Date: 2013-08-18 15:18+0200\n"
 "PO-Revision-Date: 2013-03-19 22:56+0100\n"
 "Last-Translator: Diego Pierotto <vdr-italian@tiscali.it>\n"
 "Language-Team: \n"
@@ -25,6 +25,9 @@ msgstr "disponibili"
 
 msgid "Volume"
 msgstr "Volume"
+
+msgid "Actors"
+msgstr ""
 
 msgid "RERUNS OF THIS SHOW"
 msgstr "REPLICHE DI QUESTO SPETTACOLO"
@@ -178,6 +181,9 @@ msgstr "Adatta dim. caratteri - Messaggi"
 
 msgid "Adjust Font Size - Detail View Text"
 msgstr "Adatta dim. caratteri - Testo vista dettagli"
+
+msgid "Adjust Font Size - Detail View Text Small"
+msgstr ""
 
 msgid "Adjust Font Size - Detail View Header"
 msgstr "Adatta dim. caratteri - Intestazione vista dettagli"

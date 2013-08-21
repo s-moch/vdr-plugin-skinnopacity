@@ -51,6 +51,7 @@ public:
     void SetBackgrounds(int *handleBackgrounds);
     void SetTextWindow(cRect *window) {textWindow = window;};
     virtual void CreateText(void) {};
+    virtual void SetPoster(void) {};
     virtual int CheckScrollable(bool hasIcon) {return 0;};
     virtual void Render() = 0;
 };
@@ -154,6 +155,9 @@ class cNopacityRecordingMenuItem : public cNopacityMenuItem {
 private:
     const cRecording *Recording;
     bool isFolder;
+    bool hasPoster;
+    int posterWidth, posterHeight;
+    TVScrapperGetPoster poster;
     int Level, Total, New;
     cRect *vidWin;
     std::string strRecName;
@@ -170,6 +174,7 @@ private:
     void DrawFolderIcon(void);
     void DrawRecDateTime(void);
     void DrawFolderNewSeen(void);
+    void DrawPoster(void);
     int CheckScrollableRecording(void);
     int CheckScrollableFolder(void);
 public:
@@ -177,6 +182,7 @@ public:
     ~cNopacityRecordingMenuItem(void);
     void CreatePixmapTextScroller(int totalWidth);
     void CreateText(void);
+    void SetPoster(void);
     int CheckScrollable(bool hasIcon);
     void Render();
 };
