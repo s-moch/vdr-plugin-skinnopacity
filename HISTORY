@@ -229,3 +229,5 @@ Version 0.1.4
 - fixed an possible uninitialised variable in recordings menu
 - fixed a bug that epg info is not displayed in schedules menu if fade
   in is set to zero
+- fixed a bug that poster or banner is not displayed in displayChannel
+  if fade in is set to zero

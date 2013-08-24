@@ -708,7 +708,7 @@ void cNopacityDisplayChannel::DrawPoster(const cEvent *event) {
                                                       config.channelBorderBottom, 
                                                       mediaWidth + 2*config.channelBorderVertical, 
                                                       mediaHeight + 2*config.channelBorderBottom));
-            if (initial)
+            if (initial && config.channelFadeTime)
                 pixmapPoster->SetAlpha(0);
             cImageLoader imgLoader;
             if (imgLoader.LoadPoster(call.media.path.c_str(), mediaWidth, mediaHeight)) {
