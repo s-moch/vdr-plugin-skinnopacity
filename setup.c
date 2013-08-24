@@ -350,6 +350,9 @@ cNopacitySetupMenuDisplaySchedules::cNopacitySetupMenuDisplaySchedules(cNopacity
     scrollSpeed[1] = tr("slow");
     scrollSpeed[2] = tr("medium");
     scrollSpeed[3] = tr("fast");
+    displayEPGPictures[0] = tr("never");
+    displayEPGPictures[1] = tr("always");
+    displayEPGPictures[2] = tr("only if no tvscraper media available");
     Set();
 }
 
@@ -372,7 +375,7 @@ void cNopacitySetupMenuDisplaySchedules::Set(void) {
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Number of reruns to display")), &tmpNopacityConfig->numReruns, 1, 10));
         Add(new cMenuEditStraItem(cString::sprintf("%s%s", *spacer, tr("Use Subtitle for reruns")), &tmpNopacityConfig->useSubtitleRerun, 3, useSubtitleRerunTexts));
     }
-    Add(new cMenuEditBoolItem(tr("Display additional EPG Pictures in detailed EPG View"), &tmpNopacityConfig->displayAdditionalEPGPictures));
+    Add(new cMenuEditStraItem(tr("Display additional EPG Pictures in detailed EPG View"), &tmpNopacityConfig->displayAdditionalEPGPictures, 3, displayEPGPictures));
     if (tmpNopacityConfig->displayAdditionalEPGPictures)
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Number of EPG pictures to display")), &tmpNopacityConfig->numAdditionalEPGPictures, 1, 9));
     Add(new cMenuEditIntItem(tr("Detail EPG View Logo Width"), &tmpNopacityConfig->detailViewLogoWidth, 30, 500));
@@ -436,6 +439,9 @@ void cNopacitySetupMenuDisplayTimers::Set(void) {
 //-----MenuDisplay Recordings Menu -------------------------------------------------------------------------------------------------------------
 
 cNopacitySetupMenuDisplayRecordings::cNopacitySetupMenuDisplayRecordings(cNopacityConfig* data)  : cMenuSetupSubMenu(tr("VDR Menu: Recordings Menu"), data) {
+    displayEPGPictures[0] = tr("never");
+    displayEPGPictures[1] = tr("always");
+    displayEPGPictures[2] = tr("only if no tvscraper media available");
     Set();
 }
 
@@ -446,7 +452,7 @@ void cNopacitySetupMenuDisplayRecordings::Set(void) {
     Add(new cMenuEditBoolItem(tr("Use narrow menu"), &tmpNopacityConfig->narrowRecordingMenu));
     if (tmpNopacityConfig->narrowRecordingMenu)
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Width (Percent of OSD Width)")), &tmpNopacityConfig->menuWidthRecordings, 10, 97));
-    Add(new cMenuEditBoolItem(tr("Display additional EPG Pictures in detailed recording View"), &tmpNopacityConfig->displayAdditionalRecEPGPictures));
+    Add(new cMenuEditStraItem(tr("Display additional EPG Pictures in detailed recording View"), &tmpNopacityConfig->displayAdditionalRecEPGPictures, 3, displayEPGPictures));
     if (tmpNopacityConfig->displayAdditionalRecEPGPictures)
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Number of EPG pictures to display")), &tmpNopacityConfig->numAdditionalRecEPGPictures, 1, 9));
     Add(new cMenuEditIntItem(tr("Folder Icon Size"), &tmpNopacityConfig->menuRecFolderSize, 30, 300));

@@ -339,7 +339,7 @@ void cNopacityMenuDetailEventView::SetContentHeight(void) {
     }
     //Height of EPG Pictures
     int heightEPGPics = 0;
-    if (!hasAdditionalMedia && config.displayAdditionalEPGPictures) {
+    if ((config.displayAdditionalEPGPictures == 1) || ((config.displayAdditionalEPGPictures == 2) && !hasAdditionalMedia)) {
         heightEPGPics = HeightEPGPics();
     }
     
@@ -407,8 +407,8 @@ void cNopacityMenuDetailEventView::Action(void) {
        DrawFanart(yFanart);
         osd->Flush();
     }
-    //draw additional EPG Pictures only if no media is available
-    if (!hasAdditionalMedia && config.displayAdditionalEPGPictures && Running()) {
+    //draw additional EPG Pictures
+    if (((config.displayAdditionalEPGPictures == 1) || ((config.displayAdditionalEPGPictures == 2) && !hasAdditionalMedia)) && Running()) {
         DrawEPGPictures(yEPGPics);
         osd->Flush();
     }
@@ -447,22 +447,20 @@ void cNopacityMenuDetailEventView::DrawHeader(void) {
         pixmapLogo->DrawImage(cPoint(0, max((headerHeight - config.detailViewLogoHeight - border)/2, 0)), imgLoader.GetImage());
     }
     int widthTextHeader = width - 4 * border - logoWidth;
-    if (!hasAdditionalMedia) {
-        if (imgLoader.LoadEPGImage(event->EventID())) {
-            pixmapHeader->DrawImage(cPoint(width - config.epgImageWidth - border, (headerHeight-config.epgImageHeight)/2), imgLoader.GetImage());
-            if (config.roundedCorners) {
-                int radius = config.cornerRadius;
-                if (radius > 2) {
-                    int x = width - config.epgImageWidth - border;
-                    int y = (headerHeight-config.epgImageHeight)/2;
-                    pixmapHeader->DrawEllipse(cRect(x,y,radius,radius), clrTransparent, -2);
-                    pixmapHeader->DrawEllipse(cRect(x + config.epgImageWidth - radius,y,radius,radius), clrTransparent, -1);
-                    pixmapHeader->DrawEllipse(cRect(x,y + config.epgImageHeight - radius,radius,radius), clrTransparent, -3);
-                    pixmapHeader->DrawEllipse(cRect(x + config.epgImageWidth - radius,y + config.epgImageHeight - radius,radius,radius), clrTransparent, -4);
-                }
+    if (imgLoader.LoadEPGImage(event->EventID())) {
+        pixmapHeader->DrawImage(cPoint(width - config.epgImageWidth - border, (headerHeight-config.epgImageHeight)/2), imgLoader.GetImage());
+        if (config.roundedCorners) {
+            int radius = config.cornerRadius;
+            if (radius > 2) {
+                int x = width - config.epgImageWidth - border;
+                int y = (headerHeight-config.epgImageHeight)/2;
+                pixmapHeader->DrawEllipse(cRect(x,y,radius,radius), clrTransparent, -2);
+                pixmapHeader->DrawEllipse(cRect(x + config.epgImageWidth - radius,y,radius,radius), clrTransparent, -1);
+                pixmapHeader->DrawEllipse(cRect(x,y + config.epgImageHeight - radius,radius,radius), clrTransparent, -3);
+                pixmapHeader->DrawEllipse(cRect(x + config.epgImageWidth - radius,y + config.epgImageHeight - radius,radius,radius), clrTransparent, -4);
             }
-            widthTextHeader -= config.epgImageWidth;
         }
+        widthTextHeader -= config.epgImageWidth;
     }
     int lineHeight = fontHeaderLarge->Height();
 
@@ -646,7 +644,7 @@ void cNopacityMenuDetailRecordingView::SetContentHeight(void) {
     }
     //Height of EPG Pictures
     int heightEPGPics = 0;
-    if (!hasAdditionalMedia && config.displayAdditionalEPGPictures) {
+    if ((config.displayAdditionalRecEPGPictures == 1) || ((config.displayAdditionalRecEPGPictures == 2) && !hasAdditionalMedia)) {
         if (LoadEPGPics())
             heightEPGPics = HeightEPGPics();
     }
@@ -715,8 +713,8 @@ void cNopacityMenuDetailRecordingView::Action(void) {
        DrawFanart(yFanart);
         osd->Flush();
     }
-    //draw additional EPG Pictures only if no media is available
-    if (!hasAdditionalMedia && config.displayAdditionalEPGPictures && Running()) {
+    //draw additional EPG Pictures
+    if (((config.displayAdditionalRecEPGPictures == 1) || ((config.displayAdditionalRecEPGPictures == 2) && !hasAdditionalMedia)) && Running()) {
         DrawEPGPictures(yEPGPics);
         osd->Flush();
     }

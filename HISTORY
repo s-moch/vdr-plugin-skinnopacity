@@ -231,3 +231,6 @@ Version 0.1.4
   in is set to zero
 - fixed a bug that poster or banner is not displayed in displayChannel
   if fade in is set to zero
+- Added setup option in detailed EPG view and in detailed recordings view 
+  to select if additional EPG pictures are shown if tvscraper media 
+  is available
