@@ -17,7 +17,7 @@ private:
     bool drawTextTall;
     bool drawTextFull;
     bool hasPoster;
-    TVScrapperGetPoster poster;
+    TVScraperGetPoster poster;
     int posterWidth, posterHeight;
     bool SetTextScroller(int border, int left);
     void CreatePixmap(void);

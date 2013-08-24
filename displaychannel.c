@@ -2,7 +2,7 @@
 #include "symbols/dolbydigital.xpm"
 
 #include "displaychannel.h"
-#include "services/tvscrapper.h"
+#include "services/tvscraper.h"
 
 cNopacityDisplayChannel::cNopacityDisplayChannel(bool WithInfo) {
     if (firstDisplay) {
@@ -689,11 +689,11 @@ void cNopacityDisplayChannel::DrawPoster(const cEvent *event) {
         osd->DestroyPixmap(pixmapPoster);
         pixmapPoster = NULL;
     }
-    static cPlugin *pTVScrapper = cPluginManager::GetPlugin("tvscrapper");
-    if (pTVScrapper) {
-        TVScrapperGetPosterOrBanner call;
+    static cPlugin *pTVScraper = cPluginManager::GetPlugin("tvscraper");
+    if (pTVScraper) {
+        TVScraperGetPosterOrBanner call;
         call.event = event;
-        if (pTVScrapper->Service("TVScrapperGetPosterOrBanner", &call)) {
+        if (pTVScraper->Service("TVScraperGetPosterOrBanner", &call)) {
             int mediaWidth = 0;
             int mediaHeight = 0;
             if (call.type == typeSeries) {

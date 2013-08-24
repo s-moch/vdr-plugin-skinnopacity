@@ -290,11 +290,11 @@ void cNopacityMenuDetailEventView::SetFonts(void) {
 
 void cNopacityMenuDetailEventView::SetContent(void) {
     if (event) {
-        static cPlugin *pTVScrapper = cPluginManager::GetPlugin("tvscrapper");
-        if (pTVScrapper) {
+        static cPlugin *pTVScraper = cPluginManager::GetPlugin("tvscraper");
+        if (pTVScraper) {
             mediaInfo.event = event;
             mediaInfo.isRecording = false;
-            if (pTVScrapper->Service("TVScrapperGetFullInformation", &mediaInfo)) {
+            if (pTVScraper->Service("TVScraperGetFullInformation", &mediaInfo)) {
                 hasAdditionalMedia = true;
             }
         }
@@ -603,11 +603,11 @@ void cNopacityMenuDetailRecordingView::SetContent(void) {
     if (recording) {
         const cEvent *event = info->GetEvent();
         if (event) {
-            static cPlugin *pTVScrapper = cPluginManager::GetPlugin("tvscrapper");
-            if (pTVScrapper) {
+            static cPlugin *pTVScraper = cPluginManager::GetPlugin("tvscraper");
+            if (pTVScraper) {
                 mediaInfo.event = event;
                 mediaInfo.isRecording = true;
-                if (pTVScrapper->Service("TVScrapperGetFullInformation", &mediaInfo)) {
+                if (pTVScraper->Service("TVScraperGetFullInformation", &mediaInfo)) {
                     hasAdditionalMedia = true;
                 }
             }

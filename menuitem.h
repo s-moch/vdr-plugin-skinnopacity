@@ -157,7 +157,7 @@ private:
     bool isFolder;
     bool hasPoster;
     int posterWidth, posterHeight;
-    TVScrapperGetPoster poster;
+    TVScraperGetPoster poster;
     int Level, Total, New;
     cRect *vidWin;
     std::string strRecName;

@@ -16,8 +16,8 @@ struct tvActor {
     tvMedia thumb;
 };
 
-// Data structure for service "TVScrapper-GetPosterOrBanner"
-struct TVScrapperGetPosterOrBanner
+// Data structure for service "TVScraper-GetPosterOrBanner"
+struct TVScraperGetPosterOrBanner
 {
 // in
     const cEvent *event;             // search image for this event 
@@ -26,8 +26,8 @@ struct TVScrapperGetPosterOrBanner
     tvMedia media;                   //banner or poster
 };
 
-// Data structure for service "TVScrapper-GetPoster"
-struct TVScrapperGetPoster
+// Data structure for service "TVScraper-GetPoster"
+struct TVScraperGetPoster
 {
 // in
     const cEvent *event;             // search image for this event 
@@ -37,11 +37,11 @@ struct TVScrapperGetPoster
 };
 
 
-/* Data structure for service "TVScrapper-GetFullEPGInformation"
+/* Data structure for service "TVScraper-GetFullEPGInformation"
 if type == typeMovie a poster and a fanart image is delivered
 if type == typeSeries a banner and up to three posters and fanarts are delivered
 */
-struct TVScrapperGetFullInformation
+struct TVScraperGetFullInformation
 {
 // in
     const cEvent *event;             // search all media for this event

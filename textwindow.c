@@ -34,11 +34,11 @@ cNopacityTextWindow::~cNopacityTextWindow(void) {
 }
 
 void cNopacityTextWindow::SetPoster(const cEvent *event, bool isRecording) {
-    static cPlugin *pTVScrapper = cPluginManager::GetPlugin("tvscrapper");
-    if (pTVScrapper && event) {
+    static cPlugin *pTVScraper = cPluginManager::GetPlugin("tvscraper");
+    if (pTVScraper && event) {
         poster.event = event;
         poster.isRecording = isRecording;
-        if (pTVScrapper->Service("TVScrapperGetPoster", &poster)) {
+        if (pTVScraper->Service("TVScraperGetPoster", &poster)) {
             hasPoster = true;
             int posterWidthOrig = poster.media.width;
             int posterHeightOrig = poster.media.height;

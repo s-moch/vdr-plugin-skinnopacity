@@ -917,6 +917,8 @@ cNopacityRecordingMenuItem::cNopacityRecordingMenuItem(cOsd *osd, const cRecordi
     this->Total = Total;
     this->New = New;
     this->vidWin = vidWin;
+    posterWidth = 0;
+    posterHeight = 0;
 }
 
 cNopacityRecordingMenuItem::~cNopacityRecordingMenuItem(void) {
@@ -964,11 +966,11 @@ void cNopacityRecordingMenuItem::SetPoster(void) {
     const cRecordingInfo *info = Recording->Info();
     if (info) {
         const cEvent *event = info->GetEvent();
-        static cPlugin *pTVScrapper = cPluginManager::GetPlugin("tvscrapper");
-        if (pTVScrapper && event) {
+        static cPlugin *pTVScraper = cPluginManager::GetPlugin("tvscraper");
+        if (pTVScraper && event) {
             poster.event = event;
             poster.isRecording = true;
-            if (pTVScrapper->Service("TVScrapperGetPoster", &poster)) {
+            if (pTVScraper->Service("TVScraperGetPoster", &poster)) {
                 hasPoster = true;
                 int posterWidthOrig = poster.media.width;
                 int posterHeightOrig = poster.media.height;
