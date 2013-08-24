@@ -116,11 +116,13 @@ void cNopacityTextWindow::CreatePixmap(void) {
     pixmapBackground = osd->CreatePixmap(4, cRect(geometry->X()-1, geometry->Y()-1, geometry->Width()+2, geometry->Height()+2));
     pixmap = osd->CreatePixmap(5, cRect(geometry->X(), geometry->Y(), geometry->Width(), geometry->Height()),
                                   cRect(0, 0, geometry->Width(), drawportHeight));
-    pixmapBackground->SetAlpha(0);
     pixmapBackground->Fill(Theme.Color(clrMenuBorder));
     pixmapBackground->DrawRectangle(cRect(1, 1, geometry->Width(), geometry->Height()), clrBlack);
-    pixmap->SetAlpha(0);
     pixmap->Fill(Theme.Color(clrMenuBack));
+    if (config.menuEPGWindowFadeTime) {
+        pixmap->SetAlpha(0);
+        pixmapBackground->SetAlpha(0);
+    }
     cPixmap::Unlock();
 }
 

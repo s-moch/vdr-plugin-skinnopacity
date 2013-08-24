@@ -227,3 +227,5 @@ Version 0.1.3
 Version 0.1.4
 - changed service interface for tvscraper
 - fixed an possible uninitialised variable in recordings menu
+- fixed a bug that epg info is not displayed in schedules menu if fade
+  in is set to zero
