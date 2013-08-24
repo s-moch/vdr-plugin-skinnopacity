@@ -655,8 +655,8 @@ void cNopacityMenuDetailRecordingView::SetContentHeight(void) {
     yEPGText = heightBanner;
     yActors  = heightBanner + heightEPG;
     yFanart  = heightBanner + heightEPG + heightActors;
-    yAddInf  = heightBanner + heightEPG + heightActors + heightFanart;
-    yEPGPics = heightBanner + heightEPG + heightActors + heightFanart + heightAdditionalInfo;
+    yEPGPics = heightBanner + heightEPG + heightActors + heightFanart;
+    yAddInf  = heightBanner + heightEPG + heightActors + heightFanart + heightEPGPics;
     
     int totalHeight = heightBanner + heightEPG + heightActors + heightFanart + heightAdditionalInfo + heightEPGPics;
     //check if pixmap content has to be scrollable
@@ -747,7 +747,7 @@ bool cNopacityMenuDetailRecordingView::LoadEPGPics(void) {
 
 int cNopacityMenuDetailRecordingView::HeightEPGPics(void) {
     int numPicsAvailable = epgpics.size();
-    int picsPerLine = width / (config.epgImageWidthLarge + border);
+    int picsPerLine = contentWidth / (config.epgImageWidthLarge + border);
     int picLines = numPicsAvailable / picsPerLine;
     if (numPicsAvailable%picsPerLine != 0)
         picLines++;
@@ -755,7 +755,7 @@ int cNopacityMenuDetailRecordingView::HeightEPGPics(void) {
 }
 
 void cNopacityMenuDetailRecordingView::DrawEPGPictures(int height) {
-    int picsPerLine = width / (config.epgImageWidthLarge + border);
+    int picsPerLine = contentWidth / (config.epgImageWidthLarge + border);
     int currentX = border;
     int currentY = height + border;
     int currentPicsPerLine = 1;
