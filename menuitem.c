@@ -919,6 +919,7 @@ cNopacityRecordingMenuItem::cNopacityRecordingMenuItem(cOsd *osd, const cRecordi
     this->vidWin = vidWin;
     posterWidth = 0;
     posterHeight = 0;
+    hasPoster = false;
 }
 
 cNopacityRecordingMenuItem::~cNopacityRecordingMenuItem(void) {
@@ -975,13 +976,13 @@ void cNopacityRecordingMenuItem::SetPoster(void) {
                 int posterWidthOrig = poster.media.width;
                 int posterHeightOrig = poster.media.height;
                 if ((posterWidthOrig > 10) && (posterHeightOrig > 10)) {
-		    posterHeight = height - 10;
+                    posterHeight = height - 10;
                     posterWidth = posterWidthOrig * ((double)posterHeight / (double)posterHeightOrig);
                 } else {
                     hasPoster = false;
                     posterHeight = 0;
                     posterWidth = 0;
-		}
+                }
             } else {
                 hasPoster = false;
                 posterHeight = 0;
