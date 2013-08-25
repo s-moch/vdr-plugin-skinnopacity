@@ -141,9 +141,9 @@ void cNopacityDisplayVolume::Action(void) {
         pixmapBackgroundBottom->SetAlpha(Alpha);
         pixmapProgressBar->SetAlpha(Alpha);
         pixmapLabel->SetAlpha(Alpha);
+        cPixmap::Unlock();
         if (Running())
             osd->Flush();
-        cPixmap::Unlock();
         int Delta = cTimeMs::Now() - Now;
         if (Running() && (Delta < FrameTime))
             cCondWait::SleepMs(FrameTime - Delta);

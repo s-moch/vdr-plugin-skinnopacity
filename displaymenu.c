@@ -768,9 +768,9 @@ void cNopacityDisplayMenu::Action(void) {
         }
         for (cNopacityTimer *t = timers.First(); Running() && t; t = timers.Next(t))
             t->SetAlpha(Alpha);
+        cPixmap::Unlock();
         if (Running())
             osd->Flush();
-        cPixmap::Unlock();
         int Delta = cTimeMs::Now() - Now;
         if (Running() && (Delta < FrameTime))
             cCondWait::SleepMs(FrameTime - Delta);

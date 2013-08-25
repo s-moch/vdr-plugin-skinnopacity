@@ -234,3 +234,4 @@ Version 0.1.4
 - Added setup option in detailed EPG view and in detailed recordings view 
   to select if additional EPG pictures are shown if tvscraper media 
   is available
+- Added Deadlock Patch

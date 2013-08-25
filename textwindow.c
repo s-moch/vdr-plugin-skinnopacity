@@ -212,9 +212,9 @@ void cNopacityTextWindow::Action(void) {
             int Alpha = t * ALPHA_OPAQUE;
             pixmapBackground->SetAlpha(Alpha);
             pixmap->SetAlpha(Alpha);
+            cPixmap::Unlock();
             if (Running())
                 osd->Flush();
-            cPixmap::Unlock();
             int Delta = cTimeMs::Now() - Now;
             if (Running() && (Delta < FadeFrameTime))
                 cCondWait::SleepMs(FadeFrameTime - Delta);

@@ -197,9 +197,9 @@ void cNopacityDisplayTracks::Action(void) {
         for (cNopacityMenuItem *item = menuItems.First(); Running() && item; item = menuItems.Next(item)) {
             item->SetAlpha(Alpha);
         }
+        cPixmap::Unlock();
         if (Running())
             osd->Flush();
-        cPixmap::Unlock();
         int Delta = cTimeMs::Now() - Now;
         if (Running() && (Delta < FrameTime))
             cCondWait::SleepMs(FrameTime - Delta);

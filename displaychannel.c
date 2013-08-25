@@ -850,9 +850,9 @@ void cNopacityDisplayChannel::Action(void) {
         }
         if (pixmapPoster)
             pixmapPoster->SetAlpha(Alpha);
+        cPixmap::Unlock();
         if (Running())
             osd->Flush();
-        cPixmap::Unlock();
         int Delta = cTimeMs::Now() - Now;
         if (Running() && (Delta < FrameTime))
             cCondWait::SleepMs(FrameTime - Delta);

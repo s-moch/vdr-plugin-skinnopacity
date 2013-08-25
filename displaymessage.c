@@ -70,9 +70,9 @@ void cNopacityDisplayMessage::Action(void) {
         int Alpha = t * ALPHA_OPAQUE;
         pixmapBackground->SetAlpha(Alpha);
         pixmap->SetAlpha(Alpha);
+        cPixmap::Unlock();
         if (Running())
             osd->Flush();
-        cPixmap::Unlock();
         int Delta = cTimeMs::Now() - Now;
         if (Running() && (Delta < FrameTime))
             cCondWait::SleepMs(FrameTime - Delta);

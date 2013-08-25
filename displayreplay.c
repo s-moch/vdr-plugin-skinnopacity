@@ -371,9 +371,9 @@ void cNopacityDisplayReplay::Action(void) {
         pixmapPlay->SetAlpha(Alpha);    
         pixmapFwd->SetAlpha(Alpha);
         pixmapFwdSpeed->SetAlpha(Alpha);
+        cPixmap::Unlock();
         if (Running())
             osd->Flush();
-        cPixmap::Unlock();
         int Delta = cTimeMs::Now() - Now;
         if (Running() && (Delta < FrameTime))
             cCondWait::SleepMs(FrameTime - Delta);
