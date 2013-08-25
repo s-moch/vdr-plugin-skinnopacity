@@ -48,11 +48,9 @@ SOFILE = libvdr-$(PLUGIN).so
 
 ### Includes and Defines and Dependencies (add further entries here):
 
-INCLUDES += $(shell pkg-config --cflags-only-I Magick++)
+INCLUDES += $(shell pkg-config --cflags Magick++)
 
 DEFINES += -DPLUGIN_NAME_I18N='"$(PLUGIN)"'
-DEFINES += -DMAGICKCORE_HDRI_ENABLE=0
-DEFINES += -DMAGICKCORE_QUANTUM_DEPTH=16
 DEFINES += $(shell xml2-config --cflags)
 
 LIBS += $(shell pkg-config --libs Magick++)
