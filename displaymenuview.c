@@ -280,7 +280,7 @@ cFont *cNopacityDisplayMenuView::GetMenuItemFontSmall(eMenuCategory menuCat) {
         case mcTimer:
             return fontMenuitemTimersSmall;
         case mcRecording:
-            return fontMenuitemTimersSmall;
+            return fontMenuitemRecordingsSmall;
         default:
             return fontMenuitemScheduleSmall;     
     }
