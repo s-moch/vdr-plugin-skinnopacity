@@ -351,7 +351,7 @@ void cNopacityMainMenuItem::Render() {
             Cancel(-1);
         }
     } else {
-        DrawDelimiter(strEntry.c_str(), "skinIcons/Channelseparator", (config.doBlending)?-1:(isSetup?12:2));
+        DrawDelimiter(strEntry.c_str(), "skinIcons/channeldelimiter", (config.doBlending)?-1:(isSetup?12:2));
     }
 }
 
@@ -487,7 +487,7 @@ void cNopacityScheduleMenuItem::Render() {
         if (Event) {
             DrawDelimiter(Event->Title(), "skinIcons/daydelimiter", (config.doBlending)?4:-1);
         } else if (Channel) {
-            DrawDelimiter(Channel->Name(), "skinIcons/Channelseparator", (config.doBlending)?4:-1);
+            DrawDelimiter(Channel->Name(), "skinIcons/channeldelimiter", (config.doBlending)?4:-1);
         }
     }
 }
@@ -749,7 +749,7 @@ void cNopacityChannelMenuItem::Render() {
             infoTextWindow->Start();
         }
     } else {                                    //Channelseparators
-        DrawDelimiter(Channel->Name(), "skinIcons/Channelseparator", (config.doBlending)?6:-1);
+        DrawDelimiter(Channel->Name(), "skinIcons/channeldelimiter", (config.doBlending)?6:-1);
     }
 }
 
