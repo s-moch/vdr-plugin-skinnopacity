@@ -236,3 +236,4 @@ Version 0.1.4
   is available
 - Added Deadlock Patch
 - Changed default Channelseparator Icon (closes Bug 1412)
+- Display correct recording date even if recording info is empty (closes Bug 1448)

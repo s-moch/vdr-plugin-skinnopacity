@@ -1159,9 +1159,14 @@ void cNopacityRecordingMenuItem::DrawRecDateTime(void) {
     cString strDateTime("");
     cString strDuration("");
     if (Event) {
-        cString strDate = Event->GetDateString();
+        std::string strDate = *(Event->GetDateString());
         cString strTime = Event->GetTimeString();
-        strDateTime = cString::sprintf("%s - %s", *strDate, *strTime);
+        if (strDate.find("1970") != std::string::npos) {
+            time_t start = Recording->Start();
+            strDateTime = cString::sprintf("%s %s", *DateString(start),*TimeString(start));
+        } else {
+            strDateTime = cString::sprintf("%s - %s", strDate.c_str(), *strTime);
+        }
         int duration = Event->Duration() / 60;
         int recDuration = Recording->LengthInSeconds();
         recDuration = (recDuration>0)?(recDuration / 60):0;
