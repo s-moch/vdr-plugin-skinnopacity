@@ -1,4 +1,4 @@
-#include "symbols/audio.xpm"
+    #include "symbols/audio.xpm"
 #include "symbols/dolbydigital.xpm"
 
 #include "displaychannel.h"
@@ -577,8 +577,8 @@ void cNopacityDisplayChannel::DrawChannelGroups(const cChannel *Channel, cString
         cString separator = cString::sprintf("separatorlogos/%s", *ChannelName);
         if (imgLoader.LoadLogo(*separator)) {
             pixmapLogo->DrawImage(cPoint(config.logoBorder, (height-config.logoHeight)/2), imgLoader.GetImage());
-        } else if (imgLoader.LoadIcon("skinIcons/Channelseparator", config.logoHeight)) {
-            pixmapLogo->DrawImage(cPoint(config.logoBorder + (config.logoWidth - config.logoHeight)/2, (height-config.logoHeight)/2), imgLoader.GetImage());
+        } else if (imgLoader.LoadIcon("skinIcons/Channelseparator", config.logoWidth, config.logoHeight)) {
+            pixmapLogo->DrawImage(cPoint(config.logoBorder + (config.logoWidth - config.logoWidth)/2, (height-config.logoHeight)/2), imgLoader.GetImage());
         }
     }
     

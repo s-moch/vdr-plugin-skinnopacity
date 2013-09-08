@@ -235,3 +235,4 @@ Version 0.1.4
   to select if additional EPG pictures are shown if tvscraper media 
   is available
 - Added Deadlock Patch
+- Changed default Channelseparator Icon (closes Bug 1412)
