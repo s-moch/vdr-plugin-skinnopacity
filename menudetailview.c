@@ -940,8 +940,40 @@ void cNopacityMenuDetailRecordingView::LoadRecordingInformation(void) {
     }
     delete index;
     
+    if (Info) {
+        const char *aux = NULL;
+        aux = Info->Aux();
+        if (aux) {
+            std::string strAux = aux;
+            std::string auxEpgsearch = StripXmlTag(strAux, "epgsearch");
+            if (!auxEpgsearch.empty()) {
+                std::string searchTimer = StripXmlTag(auxEpgsearch, "searchtimer");
+                if (!searchTimer.empty()) {
+                    sstrInfo << tr("Search timer") << ": " << searchTimer << std::endl; 
+                }
+            }
+        }
+    }
+    
     additionalInfo.Set(sstrInfo.str().c_str(), font, width - 4 * border);
 }
+
+std::string cNopacityMenuDetailRecordingView::StripXmlTag(std::string &Line, const char *Tag) {
+        // set the search strings
+        std::stringstream strStart, strStop;
+        strStart << "<" << Tag << ">";
+        strStop << "</" << Tag << ">";
+        // find the strings
+        std::string::size_type locStart = Line.find(strStart.str());
+        std::string::size_type locStop = Line.find(strStop.str());
+        if (locStart == std::string::npos || locStop == std::string::npos)
+                return "";
+        // extract relevant text
+        int pos = locStart + strStart.str().size();
+        int len = locStop - pos;
+        return len < 0 ? "" : Line.substr(pos, len);
+}
+
 
 int cNopacityMenuDetailRecordingView::ReadSizeVdr(const char *strPath) {
     int dirSize = -1;

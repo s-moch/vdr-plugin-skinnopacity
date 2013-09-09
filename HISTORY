@@ -239,3 +239,5 @@ Version 0.1.4
 - Display correct recording date even if recording info is empty (closes Bug 1448)
 - Added option to display plain channels and EPG information without time in
   channels menu (closes Feature 1377)
+- Added name of search timer which created recording in detailed recording
+  information (closes Feature 1401)

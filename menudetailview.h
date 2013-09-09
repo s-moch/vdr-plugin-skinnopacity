@@ -80,6 +80,7 @@ private:
     cTextWrapper additionalInfo;
     void DrawHeader(void);
     void LoadRecordingInformation(void);
+    std::string StripXmlTag(std::string &Line, const char *Tag);
     int ReadSizeVdr(const char *strPath);
     std::vector<std::string> epgpics;
     bool LoadEPGPics(void);
