@@ -241,3 +241,5 @@ Version 0.1.4
   channels menu (closes Feature 1377)
 - Added name of search timer which created recording in detailed recording
   information (closes Feature 1401)
+- Added channel number in display of reruns in detailed EPG view 
+  (closes Feature 1402)

@@ -521,8 +521,10 @@ void cNopacityMenuDetailEventView::LoadReruns(void) {
                     sstrReruns  << "- "
                                 << *DayDateTime(r->event->StartTime());
                     cChannel *channel = Channels.GetByChannelID(r->event->ChannelID(), true, true);
-                    if (channel)
+                    if (channel) {
+                        sstrReruns << ", " << channel->Number() << ".";
                         sstrReruns << " " << channel->ShortName(true);
+                    }
                     sstrReruns << ":  " << r->event->Title();
                     if (!isempty(r->event->ShortText()))
                         sstrReruns << "~" << r->event->ShortText();
