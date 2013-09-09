@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-08-24 09:40+0200\n"
+"POT-Creation-Date: 2013-09-09 17:06+0200\n"
 "PO-Revision-Date: 2012-11-11 17:49+0200\n"
 "Last-Translator: louis\n"
 "Language-Team: \n"
@@ -344,8 +344,14 @@ msgstr "Transponder Information"
 msgid "Current Schedule"
 msgstr "Aktuelles Programm"
 
+msgid "Plain Channels"
+msgstr "Nur Kanäle"
+
 msgid "Menu Items display mode"
 msgstr "Anzeigemodus Menüelemente"
+
+msgid "Display schedules with time info"
+msgstr "Programm mit Zeitinformation anzeigen"
 
 msgid "Number of EPG Entries in Schedules Info Window"
 msgstr "Anzahl der EPG Einträge im Programm Info Fenster"

@@ -84,6 +84,7 @@ cNopacityConfig::cNopacityConfig() {
     displayAdditionalRecEPGPictures = 1;
     numAdditionalRecEPGPictures = 9;
     menuChannelDisplayMode = 0;
+    menuChannelDisplayTime = 1;
     numEPGEntriesChannelsMenu = 15;
     menuFadeTime = 0;
     menuEPGWindowFadeTime = 300;
@@ -371,6 +372,7 @@ bool cNopacityConfig::SetupParse(const char *Name, const char *Value) {
     else if (strcmp(Name, "displayAdditionalRecEPGPictures") == 0) displayAdditionalRecEPGPictures = atoi(Value);
     else if (strcmp(Name, "numAdditionalRecEPGPictures") == 0) numAdditionalRecEPGPictures = atoi(Value);
     else if (strcmp(Name, "menuChannelDisplayMode") == 0)  menuChannelDisplayMode = atoi(Value);
+    else if (strcmp(Name, "menuChannelDisplayTime") == 0)  menuChannelDisplayTime= atoi(Value);
     else if (strcmp(Name, "numEPGEntriesChannelsMenu") == 0) numEPGEntriesChannelsMenu = atoi(Value);
     else if (strcmp(Name, "menuWidthMain") == 0)           menuWidthMain = atoi(Value);
     else if (strcmp(Name, "menuWidthSchedules") == 0)      menuWidthSchedules = atoi(Value);

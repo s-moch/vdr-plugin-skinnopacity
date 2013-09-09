@@ -139,6 +139,7 @@ void cNopacitySetup::Store(void) {
     SetupStore("displayAdditionalRecEPGPictures", config.displayAdditionalRecEPGPictures);
     SetupStore("numAdditionalRecEPGPictures", config.numAdditionalRecEPGPictures);
     SetupStore("menuChannelDisplayMode", config.menuChannelDisplayMode);
+    SetupStore("menuChannelDisplayTime", config.menuChannelDisplayTime);
     SetupStore("numEPGEntriesChannelsMenu", config.numEPGEntriesChannelsMenu);
     SetupStore("menuFadeTime", config.menuFadeTime);
     SetupStore("menuScrollDelay", config.menuScrollDelay);
@@ -397,6 +398,7 @@ void cNopacitySetupMenuDisplaySchedules::Set(void) {
 cNopacitySetupMenuDisplayChannels::cNopacitySetupMenuDisplayChannels(cNopacityConfig* data)  : cMenuSetupSubMenu(tr("VDR Menu: Channels Menu"), data) {
     displayModes[0] = tr("Transponder Information");
     displayModes[1] = tr("Current Schedule");
+    displayModes[2] = tr("Plain Channels");
     Set();
 }
 
@@ -407,7 +409,10 @@ void cNopacitySetupMenuDisplayChannels::Set(void) {
     Add(new cMenuEditBoolItem(tr("Use narrow menu"), &tmpNopacityConfig->narrowChannelMenu));
     if (tmpNopacityConfig->narrowChannelMenu)
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Width (Percent of OSD Width)")), &tmpNopacityConfig->menuWidthChannels, 10, 97));
-    Add(new cMenuEditStraItem(tr("Menu Items display mode"), &tmpNopacityConfig->menuChannelDisplayMode, 2, displayModes));
+    Add(new cMenuEditStraItem(tr("Menu Items display mode"), &tmpNopacityConfig->menuChannelDisplayMode, 3, displayModes));
+    if (tmpNopacityConfig->menuChannelDisplayMode == 1) {
+        Add(new cMenuEditBoolItem(cString::sprintf("%s%s", *spacer, tr("Display schedules with time info")), &tmpNopacityConfig->menuChannelDisplayTime));
+    }
     Add(new cMenuEditIntItem(tr("Number of EPG Entries in Schedules Info Window"), &tmpNopacityConfig->numEPGEntriesChannelsMenu, 1, 100));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Menu Item"), &tmpNopacityConfig->fontMenuitemChannel, -20, 20));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Menu Item Small"), &tmpNopacityConfig->fontMenuitemChannelSmall, -20, 20));

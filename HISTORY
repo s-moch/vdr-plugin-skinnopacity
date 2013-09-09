@@ -237,3 +237,5 @@ Version 0.1.4
 - Added Deadlock Patch
 - Changed default Channelseparator Icon (closes Bug 1412)
 - Display correct recording date even if recording info is empty (closes Bug 1448)
+- Added option to display plain channels and EPG information without time in
+  channels menu (closes Feature 1377)

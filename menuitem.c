@@ -563,6 +563,13 @@ void cNopacityScheduleMenuItem::DrawRemaining(int x, int y, int width) {
 cNopacityChannelMenuItem::cNopacityChannelMenuItem(cOsd *osd, const cChannel *Channel, bool sel, cRect *vidWin) : cNopacityMenuItem (osd, "", sel) {
     this->Channel = Channel;
     this->vidWin = vidWin;
+    strEntry = "";
+    strEntryFull = "";
+    strChannelSource = "";
+    strChannelInfo = "";
+    strEpgInfo = "";
+    strEpgInfoFull = "";
+    strTimeInfo = "";
 }
 
 cNopacityChannelMenuItem::~cNopacityChannelMenuItem(void) {
@@ -617,20 +624,52 @@ int cNopacityChannelMenuItem::CheckScrollable(bool hasIcon) {
 void cNopacityChannelMenuItem::SetTextFull(void) {
     tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
     pixmapTextScroller->Fill(clrTransparent);
-    pixmapTextScroller->DrawText(cPoint(5, (height/2 - font->Height())/2), strEntryFull.c_str(), clrFont, clrTransparent, font);
+    int heightChannelName = 0;
+    if (config.menuChannelDisplayMode == 2) {
+        heightChannelName = (height - font->Height())/2;
+    } else {
+        heightChannelName = (height/2 - font->Height())/2;
+    }
+    pixmapTextScroller->DrawText(cPoint(5, heightChannelName), strEntryFull.c_str(), clrFont, clrTransparent, font);
     if (config.menuChannelDisplayMode == 1) {
-        pixmapTextScroller->DrawText(cPoint(5, height/2 + (height/4 - fontSmall->Height())/2), strTimeInfo.c_str(), clrFont, clrTransparent, fontSmall);
-        pixmapTextScroller->DrawText(cPoint(5, 3*height/4 + (height/4 - fontSmall->Height())/2), strEpgInfoFull.c_str(), clrFont, clrTransparent, fontSmall);
+        int heightTimeInfo = 0;
+        int heightEPGInfo = 0;
+        if (config.menuChannelDisplayTime) {
+            heightTimeInfo = height/2 + (height/4 - fontSmall->Height())/2;
+            heightEPGInfo = 3*height/4 + (height/4 - fontSmall->Height())/2;
+        } else {
+            heightEPGInfo = height/2 + (height/4 - fontSmall->Height())/2;
+        }
+        if (config.menuChannelDisplayTime) {
+            pixmapTextScroller->DrawText(cPoint(5, heightTimeInfo), strTimeInfo.c_str(), clrFont, clrTransparent, fontSmall);
+        }
+        pixmapTextScroller->DrawText(cPoint(5, heightEPGInfo), strEpgInfoFull.c_str(), clrFont, clrTransparent, fontSmall);
     }
 }
 
 void cNopacityChannelMenuItem::SetTextShort(void) {
     tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
     pixmapTextScroller->Fill(clrTransparent);
-    pixmapTextScroller->DrawText(cPoint(5, (height/2 - font->Height())/2), strEntry.c_str(), clrFont, clrTransparent, font);
+    int heightChannelName = 0;
+    if (config.menuChannelDisplayMode == 2) {
+        heightChannelName = (height - font->Height())/2;
+    } else {
+        heightChannelName = (height/2 - font->Height())/2;
+    }
+    pixmapTextScroller->DrawText(cPoint(5, heightChannelName), strEntry.c_str(), clrFont, clrTransparent, font);
     if (config.menuChannelDisplayMode == 1) {
-        pixmapTextScroller->DrawText(cPoint(5, height/2 + (height/4 - fontSmall->Height())/2), strTimeInfo.c_str(), clrFont, clrTransparent, fontSmall);
-        pixmapTextScroller->DrawText(cPoint(5, 3*height/4 + (height/4 - fontSmall->Height())/2), strEpgInfo.c_str(), clrFont, clrTransparent, fontSmall);
+        int heightTimeInfo = 0;
+        int heightEPGInfo = 0;
+        if (config.menuChannelDisplayTime) {
+            heightTimeInfo = height/2 + (height/4 - fontSmall->Height())/2;
+            heightEPGInfo = 3*height/4 + (height/4 - fontSmall->Height())/2;
+        } else {
+            heightEPGInfo = height/2 + (height/4 - fontSmall->Height())/2;
+        }
+        if (config.menuChannelDisplayTime) {
+            pixmapTextScroller->DrawText(cPoint(5, heightTimeInfo), strTimeInfo.c_str(), clrFont, clrTransparent, fontSmall);
+        }
+        pixmapTextScroller->DrawText(cPoint(5, heightEPGInfo), strEpgInfo.c_str(), clrFont, clrTransparent, fontSmall);
     }
 }
 
