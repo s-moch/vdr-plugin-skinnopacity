@@ -79,6 +79,8 @@ private:
     void DrawIconsSingle(const cChannel *Channel);
     void DrawScreenResolution(void);
     void DrawSignalMeter(void);
+    void ShowSignalMeter(void);
+    void HideSignalMeter(void);
     void DrawSignal(void);
     void DrawSourceInfo(const cChannel *Channel);
     void DrawChannelGroups(const cChannel *Channel, cString ChannelName);

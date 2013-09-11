@@ -176,6 +176,9 @@ void cNopacityDisplayChannel::CreatePixmaps(void) {
     }
     pixmapScreenResolution = NULL;
     pixmapSignalMeter = NULL;
+    pixmapSignalStrength = NULL;
+    pixmapSignalQuality = NULL;
+    pixmapSignalLabel = NULL;
     pixmapPoster = NULL;
 }
 
@@ -464,6 +467,28 @@ void cNopacityDisplayChannel::DrawSignalMeter(void) {
     }
 }
 
+void cNopacityDisplayChannel::ShowSignalMeter(void) {
+    if(pixmapSignalStrength)
+        pixmapSignalStrength->SetLayer(3);
+    if(pixmapSignalQuality)
+        pixmapSignalQuality->SetLayer(3);
+    if(pixmapSignalMeter)
+        pixmapSignalMeter->SetLayer(4);
+    if(pixmapSignalLabel)
+        pixmapSignalLabel->SetLayer(3);
+}
+
+void cNopacityDisplayChannel::HideSignalMeter(void) {
+    if(pixmapSignalStrength)
+        pixmapSignalStrength->SetLayer(-1);
+    if(pixmapSignalQuality)
+        pixmapSignalQuality->SetLayer(-1);
+    if(pixmapSignalMeter)
+        pixmapSignalMeter->SetLayer(-1);
+    if(pixmapSignalLabel)
+        pixmapSignalLabel->SetLayer(-1);
+}
+
 void cNopacityDisplayChannel::DrawSignal(void) {
     time_t Now = time(NULL);
     if (Now != lastSignalDisplay) {
@@ -491,8 +516,7 @@ void cNopacityDisplayChannel::DrawSourceInfo(const cChannel *Channel) {
     if (config.displaySignalStrength)
         x += signalWidth;
     pixmapFooter->Fill(clrTransparent);    
-    pixmapFooter->DrawText(cPoint(x, (streamInfoHeight - fontDate->Height())/2), channelInfo, Theme.Color(clrChannelHead), clrTransparent, fontDate);
-        
+    pixmapFooter->DrawText(cPoint(x, (streamInfoHeight - fontDate->Height())/2), channelInfo, Theme.Color(clrChannelHead), clrTransparent, fontDate);   
 }
 
 void cNopacityDisplayChannel::SetChannel(const cChannel *Channel, int Number) {
@@ -545,32 +569,37 @@ void cNopacityDisplayChannel::SetChannel(const cChannel *Channel, int Number) {
                 pixmapLogo->DrawImage(cPoint(config.logoBorder, (height-config.logoHeight)/2), imgLoader.GetImage());
             }
         }
+        ShowSignalMeter();
     } else {
         DrawChannelGroups(Channel, ChannelName);
+        HideSignalMeter();
+        pixmapFooter->Fill(clrTransparent);
     }
 }
 
 void cNopacityDisplayChannel::DrawChannelGroups(const cChannel *Channel, cString ChannelName) {
     int ySep;
+    int ySepNextPrevIcon;
     cPixmap *infoPixmap;
-    cString prevSymbol = " < ";
-    cString nextSymbol = " > ";
+    int prevNextSize = 64;
 
     if (withInfo) {
         pixmapProgressBar->Fill(clrTransparent);
         pixmapEPGInfo->Fill(clrTransparent);
         ySep = (epgInfoHeight-fontChannelGroup->Height())/2 - fontChannelGroup->Height()/2;
+        ySepNextPrevIcon = (epgInfoHeight - prevNextSize)/2 - fontChannelGroup->Height()/2;
         infoPixmap = pixmapEPGInfo;
     } else {
         ySep = (channelInfoHeight - fontChannelGroup->Height())/2;
+        ySepNextPrevIcon = (channelInfoHeight - prevNextSize)/2;
         infoPixmap = pixmapChannelInfo;
     }
     int widthSep = fontChannelGroup->Width(*ChannelName);
     int xSep = (config.displayPrevNextChannelGroup)?(infoWidth * 2 / 5):0;
     infoPixmap->DrawText(cPoint(xSep, ySep), *ChannelName, Theme.Color(clrChannelHead), clrTransparent, fontChannelGroup);
 
+    cImageLoader imgLoader;
     if (config.logoPosition != lpNone) {
-        cImageLoader imgLoader;
         cString separator = cString::sprintf("separatorlogos/%s", *ChannelName);
         if (imgLoader.LoadLogo(*separator)) {
             pixmapLogo->DrawImage(cPoint(config.logoBorder, (height-config.logoHeight)/2), imgLoader.GetImage());
@@ -590,24 +619,28 @@ void cNopacityDisplayChannel::DrawChannelGroups(const cChannel *Channel, cString
 
     int ySepNextPrev = ySep + (fontChannelGroup->Height() - fontChannelGroupSmall->Height())/2;
     if (prevAvailable) {
-        int xSymbol = xSep - fontChannelGroup->Width(*prevSymbol);
-        infoPixmap->DrawText(cPoint(xSymbol, ySep), *prevSymbol, Theme.Color(clrChannelHead), clrTransparent, fontChannelGroup);
-        int xSepPrev = xSymbol - fontChannelGroupSmall->Width(prevChannelSep);
+        int xSymbol = xSep - prevNextSize - 10;
+        if (imgLoader.LoadIcon("skinIcons/arrowLeftChannelSep", prevNextSize)) {
+            infoPixmap->DrawImage(cPoint(xSymbol, ySepNextPrevIcon), imgLoader.GetImage());
+        }
+        int xSepPrev = xSymbol - 10 - fontChannelGroupSmall->Width(prevChannelSep);
         if (xSepPrev < 0) {
             prevChannelSep = CutText(*prevChannelSep, xSymbol, fontChannelGroupSmall).c_str();
-            xSepPrev = xSymbol - fontChannelGroupSmall->Width(prevChannelSep);
+            xSepPrev = xSymbol - 10 - fontChannelGroupSmall->Width(prevChannelSep);
         }
-        infoPixmap->DrawText(cPoint(xSepPrev, ySepNextPrev), *prevChannelSep, Theme.Color(clrChannelEPG), clrTransparent, fontChannelGroupSmall);
+        infoPixmap->DrawText(cPoint(xSepPrev, ySepNextPrev), *prevChannelSep, Theme.Color(clrChannelEPGInfo), clrTransparent, fontChannelGroupSmall);
     }
     if (nextAvailable) {
-        int xSymbol = xSep + widthSep;
-        infoPixmap->DrawText(cPoint(xSymbol, ySep), *nextSymbol, Theme.Color(clrChannelHead), clrTransparent, fontChannelGroup);
-        int xSepNext = xSymbol + fontChannelGroup->Width(*nextSymbol);
+        int xSymbol = xSep + widthSep + 10;
+        if (imgLoader.LoadIcon("skinIcons/arrowRightChannelSep", prevNextSize)) {
+            infoPixmap->DrawImage(cPoint(xSymbol, ySepNextPrevIcon), imgLoader.GetImage());
+        }
+        int xSepNext = xSymbol + 10 + prevNextSize;
         int spaceAvailable = infoPixmap->DrawPort().Width() - xSepNext;
         if (fontChannelGroupSmall->Width(nextChannelSep) > spaceAvailable) {
             nextChannelSep = CutText(*nextChannelSep, spaceAvailable, fontChannelGroupSmall).c_str();
         }
-        infoPixmap->DrawText(cPoint(xSepNext, ySepNextPrev), *nextChannelSep, Theme.Color(clrChannelEPG), clrTransparent, fontChannelGroupSmall);
+        infoPixmap->DrawText(cPoint(xSepNext, ySepNextPrev), *nextChannelSep, Theme.Color(clrChannelEPGInfo), clrTransparent, fontChannelGroupSmall);
     }
 }
 
