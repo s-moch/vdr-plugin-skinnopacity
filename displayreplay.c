@@ -33,11 +33,9 @@ cNopacityDisplayReplay::~cNopacityDisplayReplay() {
     }
     osd->DestroyPixmap(pixmapControls);
     osd->DestroyPixmap(pixmapRew);
-    osd->DestroyPixmap(pixmapRewSpeed);
     osd->DestroyPixmap(pixmapPause);
     osd->DestroyPixmap(pixmapPlay);
     osd->DestroyPixmap(pixmapFwd);
-    osd->DestroyPixmap(pixmapFwdSpeed);
     delete fontReplayHeader;
     delete fontReplay;
     delete osd;
@@ -97,12 +95,10 @@ void cNopacityDisplayReplay::CreatePixmaps(void) {
         pixmapControls = osd->CreatePixmap(2, cRect( (width - (5 * backgroundWidth))/2, controlY - 10, 5 * backgroundWidth, controlsHeight + 20));
     }
     pixmapRew = osd->CreatePixmap(4, cRect((width - 4 * backgroundWidth)/2 + iconBorder, controlY + iconBorder, iconSize, iconSize));   
-    pixmapRewSpeed = osd->CreatePixmap(5, cRect((width - 4 * backgroundWidth)/2 + iconBorder, controlY + iconBorder, iconSize, iconSize));  
     pixmapPause = osd->CreatePixmap(4, cRect((width - 4 * backgroundWidth)/2 + (iconSize + 2*iconBorder) + iconBorder, controlY + iconBorder, iconSize, iconSize)); 
     pixmapPlay = osd->CreatePixmap(4, cRect((width - 4 * backgroundWidth)/2 + 2*(iconSize + 2*iconBorder) + iconBorder, controlY + iconBorder, iconSize, iconSize));    
     pixmapFwd = osd->CreatePixmap(4, cRect((width - 4 * backgroundWidth)/2 + 3*(iconSize + 2*iconBorder) + iconBorder, controlY + iconBorder, iconSize, iconSize)); 
-    pixmapFwdSpeed = osd->CreatePixmap(5, cRect((width - 4 * backgroundWidth)/2 + 3*(iconSize + 2*iconBorder) + iconBorder, controlY + iconBorder, iconSize, iconSize));    
-
+    
     if (config.replayFadeTime) {
         if (!modeOnly) {
             pixmapHeader->SetAlpha(0);
@@ -119,11 +115,9 @@ void cNopacityDisplayReplay::CreatePixmaps(void) {
         }
         pixmapControls->SetAlpha(0);
         pixmapRew->SetAlpha(0); 
-        pixmapRewSpeed->SetAlpha(0);    
         pixmapPause->SetAlpha(0);   
         pixmapPlay->SetAlpha(0);    
         pixmapFwd->SetAlpha(0);
-        pixmapFwdSpeed->SetAlpha(0);    
     }
 }
 
@@ -249,9 +243,6 @@ void cNopacityDisplayReplay::SetTitle(const char *Title) {
 
 void cNopacityDisplayReplay::SetMode(bool Play, bool Forward, int Speed) {
     LoadControlIcons();
-    pixmapRewSpeed->Fill(clrTransparent);
-    pixmapFwdSpeed->Fill(clrTransparent);
-
     cImageLoader imgLoader;
     if (Speed == -1) {
         if (Play) {
@@ -273,13 +264,13 @@ void cNopacityDisplayReplay::SetMode(bool Play, bool Forward, int Speed) {
             }
         }
         pixmapFwd->Fill(clrTransparent);
-        if (imgLoader.LoadIcon("skinIcons/fwd", iconSize)) {
-            pixmapFwd->DrawImage(cPoint(0,0), imgLoader.GetImage());
-        }
         if (Speed > 0) {
-            cString speed = cString::sprintf("x%d", Speed);
-            int sWidth = fontReplayHeader->Width(*speed);
-            pixmapFwdSpeed->DrawText(cPoint((iconSize - sWidth)/2, (iconSize - fontReplayHeader->Height())/2), *speed, Theme.Color(clrReplayHighlightIcon), clrTransparent, fontReplayHeader); 
+            cString trickIcon = cString::sprintf("skinIcons/fwdx%d", Speed);
+            if (imgLoader.LoadIcon(*trickIcon, iconSize)) {
+                pixmapFwd->DrawImage(cPoint(0,0), imgLoader.GetImage());
+            }
+        } else if (imgLoader.LoadIcon("skinIcons/fwd", iconSize)) {
+            pixmapFwd->DrawImage(cPoint(0,0), imgLoader.GetImage());
         }
     } else {
         if (!Play) {
@@ -289,13 +280,13 @@ void cNopacityDisplayReplay::SetMode(bool Play, bool Forward, int Speed) {
             }
         }
         pixmapRew->Fill(clrTransparent);
-        if (imgLoader.LoadIcon("skinIcons/rew", iconSize)) {
-            pixmapRew->DrawImage(cPoint(0,0), imgLoader.GetImage());
-        }
         if (Speed > 0) {
-            cString speed = cString::sprintf("x%d", Speed);
-            int sWidth = fontReplayHeader->Width(*speed);
-            pixmapRewSpeed->DrawText(cPoint((iconSize - sWidth)/2, (iconSize - fontReplayHeader->Height())/2), *speed, Theme.Color(clrReplayHighlightIcon), clrTransparent, fontReplayHeader); 
+            cString trickIcon = cString::sprintf("skinIcons/rewx%d", Speed);
+            if (imgLoader.LoadIcon(*trickIcon, iconSize)) {
+                pixmapRew->DrawImage(cPoint(0,0), imgLoader.GetImage());
+            }
+        } else if (imgLoader.LoadIcon("skinIcons/rew", iconSize)) {
+            pixmapRew->DrawImage(cPoint(0,0), imgLoader.GetImage());
         }
     }
 }
@@ -366,11 +357,9 @@ void cNopacityDisplayReplay::Action(void) {
         }
         pixmapControls->SetAlpha(Alpha);
         pixmapRew->SetAlpha(Alpha); 
-        pixmapRewSpeed->SetAlpha(Alpha);    
         pixmapPause->SetAlpha(Alpha);   
         pixmapPlay->SetAlpha(Alpha);    
         pixmapFwd->SetAlpha(Alpha);
-        pixmapFwdSpeed->SetAlpha(Alpha);
         cPixmap::Unlock();
         if (Running())
             osd->Flush();

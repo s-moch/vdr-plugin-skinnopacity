@@ -243,3 +243,4 @@ Version 0.1.4
   information (closes Feature 1401)
 - Added channel number in display of reruns in detailed EPG view 
   (closes Feature 1402)
+- Changed display of trick speed in displayReplay (closes Feature 1433)

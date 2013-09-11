@@ -34,11 +34,9 @@ private:
     cPixmap *pixmapScreenResolution;
     cPixmap *pixmapControls;
     cPixmap *pixmapRew;
-    cPixmap *pixmapRewSpeed;
     cPixmap *pixmapPause;
     cPixmap *pixmapPlay;
     cPixmap *pixmapFwd;
-    cPixmap *pixmapFwdSpeed;
     cPixmap *pixmapJump;
     cPixmap *pixmapFooter;
     cFont *fontReplayHeader;
