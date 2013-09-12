@@ -695,6 +695,13 @@ void cNopacityDisplayChannel::SetEvents(const cEvent *Present, const cEvent *Fol
             }
             int seenWidth = fontEPG->Width(*strSeen);
             int space = infoWidth - 9*indent - seenWidth - startTimeWidth - config.resolutionIconSize;
+            bool drawRecIcon = false;
+            int widthRecIcon = 0;
+            if (e->HasTimer()) {
+                drawRecIcon = true;
+                widthRecIcon = fontEPGSmall->Width(" REC ");
+                space -= widthRecIcon + indent/2;
+            }
             cString strEPG = e->Title();
             if (space < epgWidth) {
                 strEPG = CutText(e->Title(), space, fontEPG).c_str();
@@ -706,7 +713,17 @@ void cNopacityDisplayChannel::SetEvents(const cEvent *Present, const cEvent *Fol
             }
             tColor fontColor = (i==0)?Theme.Color(clrChannelEPG):Theme.Color(clrChannelEPGInfo);
             pixmapEPGInfo->DrawText(cPoint(indent, y * epgInfoLineHeight), *startTime, fontColor, clrTransparent, fontEPG);
-            pixmapEPGInfo->DrawText(cPoint(2 * indent + startTimeWidth, y * epgInfoLineHeight), *strEPG, fontColor, clrTransparent, fontEPG);
+            int xEPGInfo = 2 * indent + startTimeWidth;
+            if (drawRecIcon) {
+                tColor clrRecIcon = (i==0)?Theme.Color(clrChannelRecActive):Theme.Color(clrRecNext);
+                tColor clrRecIconText = (i==0)?Theme.Color(clrRecNowFont):Theme.Color(clrRecNextFont);
+                pixmapEPGInfo->DrawRectangle(cRect(xEPGInfo, y * epgInfoLineHeight , widthRecIcon, epgInfoLineHeight), clrRecIcon);
+                int xRecText = xEPGInfo + (widthRecIcon - fontEPGSmall->Width("REC"))/2;
+                int yRecText = y * epgInfoLineHeight + (epgInfoLineHeight - fontEPGSmall->Height())/2;
+                pixmapEPGInfo->DrawText(cPoint(xRecText, yRecText), "REC", clrRecIconText, clrRecIcon, fontEPGSmall);
+                xEPGInfo += widthRecIcon + indent/2;
+            }
+            pixmapEPGInfo->DrawText(cPoint(xEPGInfo, y * epgInfoLineHeight), *strEPG, fontColor, clrTransparent, fontEPG);
             pixmapEPGInfo->DrawText(cPoint(2 * indent + startTimeWidth, (y+1) * epgInfoLineHeight + 3), *strEPGShort, fontColor, clrTransparent, fontEPGSmall);
             int x = infoWidth - indent - seenWidth - config.resolutionIconSize - indent;
             pixmapEPGInfo->DrawText(cPoint(x, y * epgInfoLineHeight), *strSeen, fontColor, clrTransparent, fontEPG);

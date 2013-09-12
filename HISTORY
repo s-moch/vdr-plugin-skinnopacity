@@ -245,3 +245,5 @@ Version 0.1.4
   (closes Feature 1402)
 - Changed display of trick speed in displayReplay (closes Feature 1433)
 - Improved display of channel separators (closes tickets 1477 and 1482)
+- Added REC Icon in displayChannel for current and next event (closes
+  Feature 1403)

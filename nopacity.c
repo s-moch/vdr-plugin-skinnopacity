@@ -11,6 +11,7 @@ static bool firstDisplay = true;
 //COMMON
 #define CLR_TRANSBLACK          0xDD000000
 #define CLR_TRANSBLACK2         0xB0000000
+#define CLR_BLACK               0xFF000000
 #define CLR_DARKBLUE            0xDD003DF5
 #define CLR_DARKBLUE2           0xB0003DF5
 #define CLR_WHITE               0xFFFFFFFF
@@ -22,6 +23,7 @@ static bool firstDisplay = true;
 #define CLR_PROGRESSBARBLEND    0xDD80B3FF
 #define CLR_CHANNELSYMBOLOFF    0xDD858585
 #define CLR_CHANNELRECACTIVE    0xDDFF0000
+#define CLR_RECNEXT             0xDDFFFF00
 
 //REPLAY
 #define CLR_REPLAYCURRENTTOTAL  0xFF003DF5
@@ -37,7 +39,7 @@ static bool firstDisplay = true;
 #define CLR_MENUITEMHIGHBLEND   0xEE0033FF
 #define CLR_SEPARATORBORDER     0xEE444444
 #define CLR_DISKALERT           0xDDFF0000
-#define CLR_MENUHEADER		    0xDD000000
+#define CLR_MENUHEADER          0xDD000000
 #define CLR_MENUHEADERBLEND     0xEE0033FF
 
 //BUTTONS
@@ -71,6 +73,9 @@ THEME_CLR(Theme, clrProgressBarBlend,       CLR_PROGRESSBARBLEND);
 THEME_CLR(Theme, clrChannelSymbolOn,        CLR_DARKBLUE);
 THEME_CLR(Theme, clrChannelSymbolOff,       CLR_CHANNELSYMBOLOFF);
 THEME_CLR(Theme, clrChannelRecActive,       CLR_CHANNELRECACTIVE);
+THEME_CLR(Theme, clrRecNowFont,             CLR_WHITE);
+THEME_CLR(Theme, clrRecNext,                CLR_RECNEXT);
+THEME_CLR(Theme, clrRecNextFont,            CLR_BLACK);
 //REPLAY
 THEME_CLR(Theme, clrReplayBackground,       CLR_TRANSBLACK2);
 THEME_CLR(Theme, clrReplayBackBlend,        CLR_DARKBLUE2);
