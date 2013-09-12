@@ -247,3 +247,5 @@ Version 0.1.4
 - Improved display of channel separators (closes tickets 1477 and 1482)
 - Added REC Icon in displayChannel for current and next event (closes
   Feature 1403)
+- Display stereo symbol in displayChannel if at least one mpeg track 
+  is available (and not two, closes Feature 1404)

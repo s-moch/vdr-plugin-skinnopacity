@@ -280,7 +280,7 @@ void cNopacityDisplayChannel::DrawIcons(const cChannel *Channel) {
 
     backX += iconSize;
     tColor colStereo = Theme.Color(clrChannelSymbolOff);
-    if (Channel->Apid(1)) {
+    if (Channel->Apid(0)) {
         colStereo = Theme.Color(clrChannelSymbolOn);
     }
     pixmapStreamInfoBack->DrawRectangle(cRect(backX, backY, iconSize-10, iconSize-10), colStereo);
@@ -325,7 +325,7 @@ void cNopacityDisplayChannel::DrawIconsSingle(const cChannel *Channel) {
 
     iconX += iconSize;
 
-    if (Channel->Apid(1)) {
+    if (Channel->Apid(0)) {
         if (imgLoader.LoadIcon("skinIcons/stereoon", iconSize)) {
             pixmapStreamInfo->DrawImage(cPoint(iconX, 0), imgLoader.GetImage());
         }
