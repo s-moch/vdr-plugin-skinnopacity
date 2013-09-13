@@ -524,6 +524,8 @@ void cNopacityScheduleMenuItem::DrawLogo(int logoWidth, int logoHeight) {
         cImageLoader imgLoader;
         if (imgLoader.LoadLogo(Channel->Name(), logoWidth, logoHeight)) {
             pixmapIcon->DrawImage(cPoint(1, 1), imgLoader.GetImage());
+        } else if (imgLoader.LoadLogo(*(Channel->GetChannelID().ToString()), logoWidth, logoHeight)) {
+            pixmapIcon->DrawImage(cPoint(1, 1), imgLoader.GetImage());
         } else {
             cTextWrapper channel;
             channel.Set(Channel->Name(), font, logoWidth);
@@ -764,7 +766,9 @@ void cNopacityChannelMenuItem::Render() {
             cImageLoader imgLoader;
             if (imgLoader.LoadLogo(Channel->Name(), logoWidth, logoHeight)) {
                 pixmapIcon->DrawImage(cPoint(1, 1), imgLoader.GetImage());
-            }
+            } else if (imgLoader.LoadLogo(*(Channel->GetChannelID().ToString()), logoWidth, logoHeight)) {
+                pixmapIcon->DrawImage(cPoint(1, 1), imgLoader.GetImage());
+            } 
             drawn = true;
         }
         SetTextShort();
@@ -933,6 +937,8 @@ void cNopacityTimerMenuItem::DrawLogo(int logoWidth, int logoHeight) {
     if (Timer && Timer->Channel() && Timer->Channel()->Name()) {
         cImageLoader imgLoader;
         if (imgLoader.LoadLogo(Timer->Channel()->Name(), logoWidth, logoHeight)) {
+            pixmapIcon->DrawImage(cPoint(1, 1), imgLoader.GetImage());
+        } else if (imgLoader.LoadLogo(*(Timer->Channel()->GetChannelID().ToString()), logoWidth, logoHeight)) {
             pixmapIcon->DrawImage(cPoint(1, 1), imgLoader.GetImage());
         } else {
             cTextWrapper channel;

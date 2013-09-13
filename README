@@ -107,9 +107,19 @@ immediately after placing the channel logos in the correct place. So if you have
 the name of a channel logo (may be by inserting a space or a hyphen) so that it fits to
 the channel name, only use lower case letters, and not the name of the channel with upper 
 and lower letters as displayed inside VDR.
+If no logo is found for the channel name, additionally a search for a logo named as the
+ChannelID is performed. Analog to the channel name the ChannelID is also convertted to lower 
+case letters. This allows channel logos for channels with changing names (for instance
+Sky Feed Channels).
 Additional hint: some channels have slashes in their name (in germany nick/comedy for instance).
 In this example, as a dirty hack just create a folder in your channel logo directory named 
 "nick" and place an image named "comedy.png" inside this folder.
+
+In the folder "logoconverter" a script and some backgrounds are provided to create logos
+with fancy backgrounds from the transparent logos. Before running the script, just adapt the 
+config variables in the header of the script according to your needs. If you place the newly 
+created logos in a subfolder of your logo directory named exactly as the used Theme name, 
+nOpacity uses these logos only for the appropriate theme automatically.
 
 RSS Feeds
 ---------

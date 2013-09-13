@@ -249,3 +249,11 @@ Version 0.1.4
   Feature 1403)
 - Display stereo symbol in displayChannel if at least one mpeg track 
   is available (and not two, closes Feature 1404)
+- Added script and background images to create fancy channel logos with
+  theme dependend background
+- searching channel logos first in <logopath>/theme, then in 
+  <defaltlogopath>/theme, then in <logopath> and finally in <defaultlogopath>
+  to allow theme dependend channel logos
+- if no channel logo is found for channel name, the ChannelID is used to allow
+  logos for (feed) channels with changing names. Analog to the channel name
+  the ChannelID is also converted to lower case letters. 

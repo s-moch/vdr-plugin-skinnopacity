@@ -20,10 +20,18 @@ bool cImageLoader::LoadLogo(const char *logo, int width = config.logoWidth, int 
     toLowerCase(logoLower);
     bool success = false;
     if (config.logoPathSet) {
-        success = LoadImage(logoLower.c_str(), config.logoPath, config.logoExtension);
+        //theme dependend logo
+        cString logoPath = cString::sprintf("%s%s/", *config.logoPath, Setup.OSDTheme);
+        success = LoadImage(logoLower.c_str(), logoPath, config.logoExtension);
+        if (!success)
+            success = LoadImage(logoLower.c_str(), config.logoPath, config.logoExtension);
     }
     if (!success) {
-        success = LoadImage(logoLower.c_str(), config.logoPathDefault, config.logoExtension);
+        //theme dependend logo
+        cString logoPath = cString::sprintf("%s%s/", *config.logoPathDefault, Setup.OSDTheme);
+        success = LoadImage(logoLower.c_str(), logoPath, config.logoExtension);
+        if (!success)
+            success = LoadImage(logoLower.c_str(), config.logoPathDefault, config.logoExtension);
     }
     if (!success)
         return false;

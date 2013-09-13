@@ -567,6 +567,8 @@ void cNopacityDisplayChannel::SetChannel(const cChannel *Channel, int Number) {
             cImageLoader imgLoader;
             if (imgLoader.LoadLogo(*ChannelName)) {
                 pixmapLogo->DrawImage(cPoint(config.logoBorder, (height-config.logoHeight)/2), imgLoader.GetImage());
+            } else if (imgLoader.LoadLogo(*(Channel->GetChannelID().ToString()))) {
+                pixmapLogo->DrawImage(cPoint(config.logoBorder, (height-config.logoHeight)/2), imgLoader.GetImage());
             }
         }
         ShowSignalMeter();

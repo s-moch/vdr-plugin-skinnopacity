@@ -172,6 +172,8 @@ void cNopacityTimer::DrawLogo(void) {
         cImageLoader imgLoader;
         if (imgLoader.LoadLogo(Channel->Name(), logoWidth, logoHeight)) {
             pixmapLogo->DrawImage(cPoint((width - logoWidth)/2, 1), imgLoader.GetImage());
+        } else if (imgLoader.LoadLogo(*(Channel->GetChannelID().ToString()), logoWidth, logoHeight)) {
+            pixmapLogo->DrawImage(cPoint((width - logoWidth)/2, 1), imgLoader.GetImage());
         } else {
             cTextWrapper channel;
             channel.Set(Channel->Name(), fontLarge, width - 10);

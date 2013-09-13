@@ -445,6 +445,8 @@ void cNopacityMenuDetailEventView::DrawHeader(void) {
     cChannel *channel = Channels.GetByChannelID(event->ChannelID(), true);
     if (channel && channel->Name() && imgLoader.LoadLogo(channel->Name(), logoWidth, config.detailViewLogoHeight)) {        
         pixmapLogo->DrawImage(cPoint(0, max((headerHeight - config.detailViewLogoHeight - border)/2, 0)), imgLoader.GetImage());
+    } else if (channel && imgLoader.LoadLogo(*(channel->GetChannelID().ToString()), logoWidth, config.detailViewLogoHeight)) {
+        pixmapLogo->DrawImage(cPoint(0, max((headerHeight - config.detailViewLogoHeight - border)/2, 0)), imgLoader.GetImage());
     }
     int widthTextHeader = width - 4 * border - logoWidth;
     if (imgLoader.LoadEPGImage(event->EventID())) {
