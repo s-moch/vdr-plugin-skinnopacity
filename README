@@ -83,7 +83,8 @@ Usage
 After installation first activate then skin in the VDR OSD menu. nOpacity scales to 
 every screen resolution, but in lower resolutions than 1920 * 1080 it may be necessary
 to change some default settings for dimensions and font sizes to achieve the best result
-(see "setup options" below).
+(see "setup options" below). In the folder "screenResSetup" in the plugin source directory
+exemplarily setup options for SD and HDReady resolutions are provided.
 
 nOpacity respects the OSD settings for OSD top, left, width and height. If these values
 are not set to top&left: 0, width&height: 100, you'll get a border around every displayed
