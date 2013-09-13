@@ -30,18 +30,23 @@ cNopacityDisplayMessage::~cNopacityDisplayMessage() {
 
 void cNopacityDisplayMessage::SetMessage(eMessageType Type, const char *Text) {
     tColor col = Theme.Color(clrMessageStatus);
+    tColor colFont = Theme.Color(clrMessageFontStatus);
     switch (Type) {
         case mtStatus: 
             col = Theme.Color(clrMessageStatus);
+            colFont = Theme.Color(clrMessageFontStatus);
             break;
         case mtInfo:
             col = Theme.Color(clrMessageInfo);
+            colFont = Theme.Color(clrMessageFontInfo);
             break;
         case mtWarning:
             col = Theme.Color(clrMessageWarning);
+            colFont = Theme.Color(clrMessageFontWarning);
             break;
         case mtError:
             col = Theme.Color(clrMessageError);
+            colFont = Theme.Color(clrMessageFontError);
             break;
     }
     pixmapBackground->Fill(clrBlack);
@@ -52,7 +57,7 @@ void cNopacityDisplayMessage::SetMessage(eMessageType Type, const char *Text) {
         pixmap->DrawImage(cPoint(1, 1), imgLoader.GetImage());
     }
     int textWidth = font->Width(Text);
-    pixmap->DrawText(cPoint((width - textWidth) / 2, (height - font->Height()) / 2), Text, Theme.Color(clrMessageFont), (config.doBlending)?clrTransparent:col, font);
+    pixmap->DrawText(cPoint((width - textWidth) / 2, (height - font->Height()) / 2), Text, colFont, (config.doBlending)?clrTransparent:col, font);
     if (config.messageFadeTime)
         Start();
 }

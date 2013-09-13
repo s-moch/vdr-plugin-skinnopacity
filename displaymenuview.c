@@ -694,7 +694,7 @@ void cNopacityDisplayMenuView::ShowDiskUsage(bool show) {
     }
 }
 
-void cNopacityDisplayMenuView::DrawButton(const char *text, int handleImage, tColor buttonColor, tColor borderColor, int num) {
+void cNopacityDisplayMenuView::DrawButton(const char *text, int handleImage, tColor buttonColor, tColor borderColor, tColor fontColor, int num) {
     if (num < 0)
         return;
     int top = 2*buttonsBorder;
@@ -725,7 +725,7 @@ void cNopacityDisplayMenuView::DrawButton(const char *text, int handleImage, tCo
     int textWidth = fontButtons->Width(text);
     int textHeight = fontButtons->Height();
     tColor clrFontBack = (config.doBlending)?(clrTransparent):buttonColor;
-    pixmapFooter->DrawText(cPoint(left + (buttonWidth-textWidth)/2, top + (buttonHeight-textHeight)/2), text, Theme.Color(clrMenuFontButton), clrFontBack, fontButtons);
+    pixmapFooter->DrawText(cPoint(left + (buttonWidth-textWidth)/2, top + (buttonHeight-textHeight)/2), text, fontColor, clrFontBack, fontButtons);
 }
 
 void cNopacityDisplayMenuView::ClearButton(int num) {

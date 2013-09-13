@@ -256,4 +256,7 @@ Version 0.1.4
   to allow theme dependend channel logos
 - if no channel logo is found for channel name, the ChannelID is used to allow
   logos for (feed) channels with changing names. Analog to the channel name
-  the ChannelID is also converted to lower case letters. 
+  the ChannelID is also converted to lower case letters.
+- added exemplarily setup options for SD and HDReady
+- introduced dedicated theme font colors for different message types and 
+  different buttons (closes Feature 1462)

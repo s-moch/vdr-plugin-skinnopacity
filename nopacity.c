@@ -107,7 +107,6 @@ THEME_CLR(Theme, clrDiskAlert,              CLR_DISKALERT);
 THEME_CLR(Theme, clrMenuFontHeader,         CLR_WHITE);
 THEME_CLR(Theme, clrMenuFontDate,           CLR_WHITE);
 THEME_CLR(Theme, clrMenuFontDiscUsage,      CLR_WHITE);
-THEME_CLR(Theme, clrMenuFontButton,         CLR_WHITE);
 THEME_CLR(Theme, clrMenuFontTimers,         CLR_WHITE);
 THEME_CLR(Theme, clrMenuFontTimersHeader,   CLR_WHITE);
 THEME_CLR(Theme, clrMenuFontMessages,       CLR_WHITE);
@@ -120,18 +119,24 @@ THEME_CLR(Theme, clrMenuFontMenuItemTitle,  CLR_BRIGHTBLUE);
 THEME_CLR(Theme, clrMenuFontMenuItemSep,    CLR_GRAY);
 THEME_CLR(Theme, clrMenuHeader,             CLR_MENUHEADER);
 THEME_CLR(Theme, clrMenuHeaderBlend,        CLR_MENUHEADERBLEND);
-
 //BUTTONS
 THEME_CLR(Theme, clrButtonRed,              CLR_BUTTONRED);
 THEME_CLR(Theme, clrButtonRedBorder,        CLR_BUTTONREDBORDER);
+THEME_CLR(Theme, clrButtonRedFont,          CLR_WHITE);
 THEME_CLR(Theme, clrButtonGreen,            CLR_BUTTONGREEN);
 THEME_CLR(Theme, clrButtonGreenBorder,      CLR_BUTTONGREENBORDER);
+THEME_CLR(Theme, clrButtonGreenFont,        CLR_WHITE);
 THEME_CLR(Theme, clrButtonYellow,           CLR_BUTTONYELLOW);
 THEME_CLR(Theme, clrButtonYellowBorder,     CLR_BUTTONYELLOWBORDER);
+THEME_CLR(Theme, clrButtonYellowFont,       CLR_WHITE);
 THEME_CLR(Theme, clrButtonBlue,             CLR_BUTTONBLUE);
 THEME_CLR(Theme, clrButtonBlueBorder,       CLR_BUTTONBLUEBORDER);
+THEME_CLR(Theme, clrButtonBlueFont,         CLR_WHITE);
 //MESSAGES
-THEME_CLR(Theme, clrMessageFont,            CLR_WHITE);
+THEME_CLR(Theme, clrMessageFontStatus,      CLR_WHITE);
+THEME_CLR(Theme, clrMessageFontInfo,        CLR_WHITE);
+THEME_CLR(Theme, clrMessageFontWarning,     CLR_WHITE);
+THEME_CLR(Theme, clrMessageFontError,       CLR_WHITE);
 THEME_CLR(Theme, clrMessageStatus,          CLR_MESSAGESTATUS);
 THEME_CLR(Theme, clrMessageInfo,            CLR_MESSAGEINFO);
 THEME_CLR(Theme, clrMessageWarning,         CLR_MESSAGEWARNING);
