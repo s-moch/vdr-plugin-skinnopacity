@@ -260,3 +260,5 @@ Version 0.1.4
 - added exemplarily setup options for SD and HDReady
 - introduced dedicated theme font colors for different message types and 
   different buttons (closes Feature 1462)
+- dedicated theme colors in display channel for current event, current event
+  info, next evet and next event info (closes Feature 1466)

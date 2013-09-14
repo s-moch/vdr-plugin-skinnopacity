@@ -1,10 +1,13 @@
 Description = Green
+#DO BLENDING
 clrDoBlending = FFFFFFFF
 clrChannelBackground = B0000000
 clrChannelBackBlend = DD006600
 clrChannelHead = FFFFCC00
 clrChannelEPG = FFFFFFFF
-clrChannelEPGInfo = FF858585
+clrChannelEPGInfo = FFFFFFFF
+clrChannelEPGNext = FF858585
+clrChannelEPGInfoNext = FF858585
 clrProgressBar = DDFFCC00
 clrProgressBarBack = DD858585
 clrProgressBarBlend = DD006600

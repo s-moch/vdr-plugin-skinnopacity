@@ -630,7 +630,7 @@ void cNopacityDisplayChannel::DrawChannelGroups(const cChannel *Channel, cString
             prevChannelSep = CutText(*prevChannelSep, xSymbol, fontChannelGroupSmall).c_str();
             xSepPrev = xSymbol - 10 - fontChannelGroupSmall->Width(prevChannelSep);
         }
-        infoPixmap->DrawText(cPoint(xSepPrev, ySepNextPrev), *prevChannelSep, Theme.Color(clrChannelEPGInfo), clrTransparent, fontChannelGroupSmall);
+        infoPixmap->DrawText(cPoint(xSepPrev, ySepNextPrev), *prevChannelSep, Theme.Color(clrChannelEPGInfoNext), clrTransparent, fontChannelGroupSmall);
     }
     if (nextAvailable) {
         int xSymbol = xSep + widthSep + 10;
@@ -642,7 +642,7 @@ void cNopacityDisplayChannel::DrawChannelGroups(const cChannel *Channel, cString
         if (fontChannelGroupSmall->Width(nextChannelSep) > spaceAvailable) {
             nextChannelSep = CutText(*nextChannelSep, spaceAvailable, fontChannelGroupSmall).c_str();
         }
-        infoPixmap->DrawText(cPoint(xSepNext, ySepNextPrev), *nextChannelSep, Theme.Color(clrChannelEPGInfo), clrTransparent, fontChannelGroupSmall);
+        infoPixmap->DrawText(cPoint(xSepNext, ySepNextPrev), *nextChannelSep, Theme.Color(clrChannelEPGInfoNext), clrTransparent, fontChannelGroupSmall);
     }
 }
 
@@ -713,7 +713,9 @@ void cNopacityDisplayChannel::SetEvents(const cEvent *Present, const cEvent *Fol
             if (spaceShort < epgWidthShort) {
                 strEPGShort = CutText(e->ShortText(), spaceShort, fontEPGSmall).c_str();
             }
-            tColor fontColor = (i==0)?Theme.Color(clrChannelEPG):Theme.Color(clrChannelEPGInfo);
+            tColor fontColor = (i==0)?Theme.Color(clrChannelEPG):Theme.Color(clrChannelEPGNext);
+            tColor fontColorInfo = (i==0)?Theme.Color(clrChannelEPGInfo):Theme.Color(clrChannelEPGInfoNext);
+            
             pixmapEPGInfo->DrawText(cPoint(indent, y * epgInfoLineHeight), *startTime, fontColor, clrTransparent, fontEPG);
             int xEPGInfo = 2 * indent + startTimeWidth;
             if (drawRecIcon) {
@@ -726,7 +728,7 @@ void cNopacityDisplayChannel::SetEvents(const cEvent *Present, const cEvent *Fol
                 xEPGInfo += widthRecIcon + indent/2;
             }
             pixmapEPGInfo->DrawText(cPoint(xEPGInfo, y * epgInfoLineHeight), *strEPG, fontColor, clrTransparent, fontEPG);
-            pixmapEPGInfo->DrawText(cPoint(2 * indent + startTimeWidth, (y+1) * epgInfoLineHeight + 3), *strEPGShort, fontColor, clrTransparent, fontEPGSmall);
+            pixmapEPGInfo->DrawText(cPoint(2 * indent + startTimeWidth, (y+1) * epgInfoLineHeight + 3), *strEPGShort, fontColorInfo, clrTransparent, fontEPGSmall);
             int x = infoWidth - indent - seenWidth - config.resolutionIconSize - indent;
             pixmapEPGInfo->DrawText(cPoint(x, y * epgInfoLineHeight), *strSeen, fontColor, clrTransparent, fontEPG);
         }

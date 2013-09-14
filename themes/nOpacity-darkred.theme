@@ -1,10 +1,13 @@
 Description = Dark Red
+#DO BLENDING
 clrDoBlending = FFFFFFFF
 clrChannelBackground = CC000000
 clrChannelBackBlend = CC333333
 clrChannelHead = FFEEEEEE
 clrChannelEPG = FFCCCCCC
-clrChannelEPGInfo = FF858585
+clrChannelEPGInfo = FFCCCCCC
+clrChannelEPGNext = FF858585
+clrChannelEPGInfoNext = FF858585
 clrProgressBar = DDBB0000
 clrProgressBarBack = DD222222
 clrProgressBarBlend = DD550000
