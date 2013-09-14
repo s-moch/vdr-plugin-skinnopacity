@@ -157,10 +157,10 @@ void cRssReader::drawText(void) {
     int currentX = 5;
     int textY = (height - font->Height()) / 2;
     cString text = cString::sprintf("%s: ", rssElements[currentElement].title.c_str());
-    pixmap->DrawText(cPoint(currentX, textY), *text, Theme.Color(clrMenuFontMenuItemHigh), clrTransparent, font);
+    pixmap->DrawText(cPoint(currentX, textY), *text, Theme.Color(clrRSSFeedTitle), clrTransparent, font);
     currentX += font->Width(*text);
     text = cString::sprintf("%s%s", rssElements[currentElement].content.c_str(), separator.c_str());
-    pixmap->DrawText(cPoint(currentX, textY), *text, Theme.Color(clrMenuFontMenuItem), clrTransparent, font);
+    pixmap->DrawText(cPoint(currentX, textY), *text, Theme.Color(clrRSSFeedText), clrTransparent, font);
 }
 
 void cRssReader::DoSleep(int duration) {
@@ -301,15 +301,18 @@ void cRssStandaloneTicker::SetFeed(std::string feedName) {
     
     int feedNameLength = font->Width(feedName.c_str());
     labelWidth = 2 + osdHeight + 2 + feedNameLength + 6;
-    pixmapFeed->Fill(Theme.Color(clrMenuBorder));
+    pixmapFeed->Fill(Theme.Color(clrRSSFeedBorder));
     cImageLoader imgLoader;
-    imgLoader.DrawBackground(Theme.Color(clrMenuItemHigh), Theme.Color(clrMenuItemHighBlend), labelWidth, osdHeight - 4);
-    pixmapFeed->DrawImage(cPoint(2,2), imgLoader.GetImage());
-
-    imgLoader.DrawBackground(Theme.Color(clrMenuItem), Theme.Color(clrMenuItemBlend), osdWidth - labelWidth - 2, osdHeight - 4);
-    pixmapFeed->DrawImage(cPoint(labelWidth,2), imgLoader.GetImage());
-    
-    pixmapFeed->DrawText(cPoint(osdHeight + 2, (osdHeight - font->Height()) / 2), feedName.c_str(), Theme.Color(clrMenuFontHeader), clrTransparent, font);
+    if (config.doBlending) {
+        imgLoader.DrawBackground(Theme.Color(clrRSSFeedHeaderBack), Theme.Color(clrRSSFeedHeaderBackBlend), labelWidth, osdHeight - 4);
+        pixmapFeed->DrawImage(cPoint(2,2), imgLoader.GetImage());
+        imgLoader.DrawBackground(Theme.Color(clrRSSFeedBack), Theme.Color(clrRSSFeedBackBlend), osdWidth - labelWidth - 2, osdHeight - 4);
+        pixmapFeed->DrawImage(cPoint(labelWidth,2), imgLoader.GetImage());
+    } else {
+        pixmapFeed->DrawRectangle(cRect(2, 2, labelWidth, osdHeight - 4), Theme.Color(clrRSSFeedHeaderBack));
+        pixmapFeed->DrawRectangle(cRect(labelWidth, 2, osdWidth - labelWidth - 2, osdHeight - 4), Theme.Color(clrRSSFeedBack));
+    }
+    pixmapFeed->DrawText(cPoint(osdHeight + 2, (osdHeight - font->Height()) / 2), feedName.c_str(), Theme.Color(clrRSSFeedHeaderText), clrTransparent, font);
     pixmapIcon->Fill(clrTransparent);
     if (imgLoader.LoadIcon("skinIcons/rss", osdHeight-4)) {
         cImage icon = imgLoader.GetImage();

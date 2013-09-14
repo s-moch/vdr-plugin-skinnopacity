@@ -136,6 +136,15 @@ THEME_CLR(Theme, clrButtonYellowFont,       CLR_WHITE);
 THEME_CLR(Theme, clrButtonBlue,             CLR_BUTTONBLUE);
 THEME_CLR(Theme, clrButtonBlueBorder,       CLR_BUTTONBLUEBORDER);
 THEME_CLR(Theme, clrButtonBlueFont,         CLR_WHITE);
+//RSS Feeds
+THEME_CLR(Theme, clrRSSFeedBorder,          CLR_DARKBLUE);
+THEME_CLR(Theme, clrRSSFeedTitle,           CLR_BRIGHTBLUE);
+THEME_CLR(Theme, clrRSSFeedText,            CLR_WHITE);
+THEME_CLR(Theme, clrRSSFeedHeaderText,      CLR_WHITE);
+THEME_CLR(Theme, clrRSSFeedHeaderBack,      CLR_TRANSBLACK);
+THEME_CLR(Theme, clrRSSFeedHeaderBackBlend, CLR_MENUITEMHIGHBLEND);
+THEME_CLR(Theme, clrRSSFeedBack,            CLR_MENUITEM);
+THEME_CLR(Theme, clrRSSFeedBackBlend,       CLR_MENUITEMBLEND);
 //MESSAGES
 THEME_CLR(Theme, clrMessageFontStatus,      CLR_WHITE);
 THEME_CLR(Theme, clrMessageFontInfo,        CLR_WHITE);

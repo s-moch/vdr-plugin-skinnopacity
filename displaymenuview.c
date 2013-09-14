@@ -854,15 +854,19 @@ void cNopacityDisplayMenuView::DrawRssFeed(std::string feedName) {
     pixmapRssFeed->Fill(clrTransparent);
     feedNameLength = fontRssFeed->Width(feedName.c_str());
     int labelWidth = 2 + rssFeedHeight + 2 + feedNameLength + 6;
-    pixmapRssFeed->Fill(Theme.Color(clrMenuBorder));
+    pixmapRssFeed->Fill(Theme.Color(clrRSSFeedBorder));
     cImageLoader imgLoader;
-    imgLoader.DrawBackground(Theme.Color(clrMenuItemHigh), Theme.Color(clrMenuItemHighBlend), labelWidth, rssFeedHeight - 4);
-    pixmapRssFeed->DrawImage(cPoint(2,2), imgLoader.GetImage());
+    if (config.doBlending) {
+        imgLoader.DrawBackground(Theme.Color(clrRSSFeedHeaderBack), Theme.Color(clrRSSFeedHeaderBackBlend), labelWidth, rssFeedHeight - 4);
+        pixmapRssFeed->DrawImage(cPoint(2,2), imgLoader.GetImage());
 
-    imgLoader.DrawBackground(Theme.Color(clrMenuItem), Theme.Color(clrMenuItemBlend), osdWidth - labelWidth - 2, rssFeedHeight - 4);
-    pixmapRssFeed->DrawImage(cPoint(labelWidth,2), imgLoader.GetImage());
-    
-    pixmapRssFeed->DrawText(cPoint(rssFeedHeight + 2, (rssFeedHeight - fontRssFeed->Height()) / 2), feedName.c_str(), Theme.Color(clrMenuFontHeader), clrTransparent, fontRssFeed);
+        imgLoader.DrawBackground(Theme.Color(clrRSSFeedBack), Theme.Color(clrRSSFeedBackBlend), osdWidth - labelWidth - 2, rssFeedHeight - 4);
+        pixmapRssFeed->DrawImage(cPoint(labelWidth,2), imgLoader.GetImage());
+    } else {
+        pixmapRssFeed->DrawRectangle(cRect(2, 2, labelWidth, rssFeedHeight - 4), Theme.Color(clrRSSFeedHeaderBack));
+        pixmapRssFeed->DrawRectangle(cRect(labelWidth, 2, osdWidth - labelWidth - 2, rssFeedHeight - 4), Theme.Color(clrRSSFeedBack));        
+    }
+    pixmapRssFeed->DrawText(cPoint(rssFeedHeight + 2, (rssFeedHeight - fontRssFeed->Height()) / 2), feedName.c_str(), Theme.Color(clrRSSFeedHeaderText), clrTransparent, fontRssFeed);
     pixmapRssFeedIcon->Fill(clrTransparent);
     if (imgLoader.LoadIcon("skinIcons/rss", rssFeedHeight-4)) {
         cImage icon = imgLoader.GetImage();
