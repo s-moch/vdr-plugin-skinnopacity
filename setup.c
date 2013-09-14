@@ -180,6 +180,8 @@ void cNopacitySetup::Store(void) {
     SetupStore("epgImageWidthLarge", config.epgImageWidthLarge);
     SetupStore("epgImageHeightLarge", config.epgImageHeightLarge);
     SetupStore("menuRecFolderSize", config.menuRecFolderSize);
+    SetupStore("borderDetailedEPG", config.borderDetailedEPG);
+    SetupStore("borderDetailedRecordings", config.borderDetailedRecordings);
     SetupStore("fontHeader", config.fontHeader);
     SetupStore("fontDate", config.fontDate);
     SetupStore("fontMenuitemLarge", config.fontMenuitemLarge);
@@ -371,6 +373,7 @@ void cNopacitySetupMenuDisplaySchedules::Set(void) {
     Add(new cMenuEditIntItem(tr("EPG Window Scroll Delay in s"), &tmpNopacityConfig->menuInfoScrollDelay, 0, 10));
     Add(new cMenuEditStraItem(tr("EPG Window Text Scrolling Speed"), &tmpNopacityConfig->menuInfoScrollSpeed, 4, scrollSpeed));
     Add(new cMenuEditIntItem(tr("Height of EPG Info Window (Percent of OSD Height)"), &tmpNopacityConfig->menuHeightInfoWindow, 10, 100));
+    Add(new cMenuEditIntItem(tr("Border around detailed EPG view"), &tmpNopacityConfig->borderDetailedEPG, 1, 300));
     Add(new cMenuEditBoolItem(tr("Display Reruns in detailed EPG View"), &tmpNopacityConfig->displayRerunsDetailEPGView));
     if (tmpNopacityConfig->displayRerunsDetailEPGView) {
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Number of reruns to display")), &tmpNopacityConfig->numReruns, 1, 10));
@@ -457,6 +460,7 @@ void cNopacitySetupMenuDisplayRecordings::Set(void) {
     Add(new cMenuEditBoolItem(tr("Use narrow menu"), &tmpNopacityConfig->narrowRecordingMenu));
     if (tmpNopacityConfig->narrowRecordingMenu)
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Width (Percent of OSD Width)")), &tmpNopacityConfig->menuWidthRecordings, 10, 97));
+    Add(new cMenuEditIntItem(tr("Border around detailed recording view"), &tmpNopacityConfig->borderDetailedRecordings, 1, 300));
     Add(new cMenuEditStraItem(tr("Display additional EPG Pictures in detailed recording View"), &tmpNopacityConfig->displayAdditionalRecEPGPictures, 3, displayEPGPictures));
     if (tmpNopacityConfig->displayAdditionalRecEPGPictures)
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Number of EPG pictures to display")), &tmpNopacityConfig->numAdditionalRecEPGPictures, 1, 9));

@@ -343,14 +343,14 @@ void cNopacityMenuDetailEventView::SetContentHeight(void) {
         heightEPGPics = HeightEPGPics();
     }
     
-    yBanner  = 0;
-    yEPGText = heightBanner;
-    yActors  = heightBanner + heightEPG;
-    yFanart  = heightBanner + heightEPG + heightActors;
-    yAddInf  = heightBanner + heightEPG + heightActors + heightFanart;
-    yEPGPics = heightBanner + heightEPG + heightActors + heightFanart + heightReruns;
+    yBanner  = border;
+    yEPGText = yBanner + heightBanner;
+    yAddInf  = yEPGText + heightEPG;
+    yActors  = yAddInf + heightReruns;
+    yFanart  = yActors + heightActors;
+    yEPGPics = yFanart + heightFanart;
     
-    int totalHeight = heightBanner + heightEPG + heightActors + heightFanart + heightReruns + heightEPGPics;
+    int totalHeight = 2 * border + heightBanner + heightEPG + heightActors + heightFanart + heightReruns + heightEPGPics;
     //check if pixmap content has to be scrollable
     if (totalHeight > contentHeight) {
         contentDrawPortHeight = totalHeight;
@@ -466,7 +466,13 @@ void cNopacityMenuDetailEventView::DrawHeader(void) {
     }
     int lineHeight = fontHeaderLarge->Height();
 
-    cString dateTime = cString::sprintf("%s  %s - %s", *event->GetDateString(), *event->GetTimeString(), *event->GetEndTimeString());
+    cString dateTime;
+    time_t vps = event->Vps();
+    if (vps) {
+        dateTime = cString::sprintf("%s  %s - %s (%d %s) VPS: %s", *event->GetDateString(), *event->GetTimeString(), *event->GetEndTimeString(), event->Duration()/60, tr("min"), *TimeString(vps));
+    } else {
+        dateTime = cString::sprintf("%s  %s - %s (%d %s)", *event->GetDateString(), *event->GetTimeString(), *event->GetEndTimeString(), event->Duration()/60, tr("min"));
+    }
     pixmapHeader->DrawText(cPoint(logoWidth + 2*border, (lineHeight - fontHeader->Height())/2), *dateTime, Theme.Color(clrMenuFontDetailViewHeader), clrTransparent, fontHeader);
 
     cTextWrapper title;
@@ -655,14 +661,14 @@ void cNopacityMenuDetailRecordingView::SetContentHeight(void) {
     //additional recording Info
     int heightAdditionalInfo = (additionalInfo.Lines() + 1) * lineHeight;
     
-    yBanner  = 0;
-    yEPGText = heightBanner;
-    yActors  = heightBanner + heightEPG;
-    yFanart  = heightBanner + heightEPG + heightActors;
-    yEPGPics = heightBanner + heightEPG + heightActors + heightFanart;
-    yAddInf  = heightBanner + heightEPG + heightActors + heightFanart + heightEPGPics;
+    yBanner  = border;
+    yEPGText = yBanner + heightBanner;
+    yActors  = yEPGText + heightEPG;
+    yFanart  = yActors + heightActors;
+    yEPGPics = yFanart + heightFanart;
+    yAddInf  = yEPGPics + heightEPGPics;
     
-    int totalHeight = heightBanner + heightEPG + heightActors + heightFanart + heightAdditionalInfo + heightEPGPics;
+    int totalHeight = 2*border + heightBanner + heightEPG + heightActors + heightFanart + heightAdditionalInfo + heightEPGPics;
     //check if pixmap content has to be scrollable
     if (totalHeight > contentHeight) {
         contentDrawPortHeight = totalHeight;
@@ -794,7 +800,7 @@ void cNopacityMenuDetailRecordingView::DrawEPGPictures(int height) {
 
 void cNopacityMenuDetailRecordingView::DrawHeader(void) {
     cImageLoader imgLoader;
-    int widthTextHeader = width - 4 * border;
+    int widthTextHeader = width - 2 * border;
     if (imgLoader.LoadRecordingImage(recording->FileName())) {
         pixmapHeader->DrawImage(cPoint(width - config.epgImageWidth - border, (headerHeight-config.epgImageHeight)/2), imgLoader.GetImage());
         if (config.roundedCorners) {
@@ -811,8 +817,10 @@ void cNopacityMenuDetailRecordingView::DrawHeader(void) {
         widthTextHeader -= config.epgImageWidth;
     }
     int lineHeight = fontHeaderLarge->Height();
-    cString dateTime = cString::sprintf("%s  %s", *DateString(recording->Start()), *TimeString(recording->Start()));
-	pixmapHeader->DrawText(cPoint(2*border, (lineHeight - fontHeader->Height())/2), *dateTime, Theme.Color(clrMenuFontDetailViewHeader), clrTransparent, fontHeader);
+    int recDuration = recording->LengthInSeconds();
+    recDuration = (recDuration>0)?(recDuration / 60):0;
+    cString dateTime = cString::sprintf("%s  %s (%d %s)", *DateString(recording->Start()), *TimeString(recording->Start()), recDuration, tr("min"));
+    pixmapHeader->DrawText(cPoint(border, (lineHeight - fontHeader->Height())/2), *dateTime, Theme.Color(clrMenuFontDetailViewHeader), clrTransparent, fontHeader);
     
     const char *Title = info->Title();
     if (isempty(Title))
@@ -821,7 +829,7 @@ void cNopacityMenuDetailRecordingView::DrawHeader(void) {
 	title.Set(Title, fontHeaderLarge, widthTextHeader);
     int currentLineHeight = lineHeight;
 	for (int i=0; i < title.Lines(); i++) {
-        pixmapHeader->DrawText(cPoint(2*border, currentLineHeight), title.GetLine(i), Theme.Color(clrMenuFontDetailViewHeaderTitle), clrTransparent, fontHeaderLarge);
+        pixmapHeader->DrawText(cPoint(border, currentLineHeight), title.GetLine(i), Theme.Color(clrMenuFontDetailViewHeaderTitle), clrTransparent, fontHeaderLarge);
         currentLineHeight += lineHeight;
     }
 	
@@ -830,7 +838,7 @@ void cNopacityMenuDetailRecordingView::DrawHeader(void) {
         shortText.Set(info->ShortText(), fontHeader, widthTextHeader);
         for (int i=0; i < shortText.Lines(); i++) {
             if ((currentLineHeight + fontHeader->Height()) < headerHeight) {
-                pixmapHeader->DrawText(cPoint(2*border, currentLineHeight), shortText.GetLine(i), Theme.Color(clrMenuFontDetailViewHeader), clrTransparent, fontHeader);
+                pixmapHeader->DrawText(cPoint(border, currentLineHeight), shortText.GetLine(i), Theme.Color(clrMenuFontDetailViewHeader), clrTransparent, fontHeader);
                 currentLineHeight += fontHeader->Height();
         } else
             break;

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: vdr-skinnopacity 0.0.6\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-09-09 17:46+0200\n"
+"POT-Creation-Date: 2013-09-14 15:23+0200\n"
 "PO-Revision-Date: 2013-03-12 15:59+0100\n"
 "Last-Translator: Milan Hrala <hrala.milan@gmail.com>\n"
 "Language-Team: \n"
@@ -28,6 +28,9 @@ msgstr "Hlasitos»"
 
 msgid "Actors"
 msgstr ""
+
+msgid "min"
+msgstr "min"
 
 msgid "RERUNS OF THIS SHOW"
 msgstr "Repríza"
@@ -58,9 +61,6 @@ msgstr ""
 
 msgid "Duration"
 msgstr "Då¾ka"
-
-msgid "min"
-msgstr "min"
 
 msgid "recording"
 msgstr "nahraté"
@@ -302,6 +302,9 @@ msgstr "Rýchlos» rolovania textu v okne EPG"
 msgid "Height of EPG Info Window (Percent of OSD Height)"
 msgstr "Vý¹ka informaèného EPG okna (Percent z OSD vý¹ky)"
 
+msgid "Border around detailed EPG view"
+msgstr ""
+
 msgid "Display Reruns in detailed EPG View"
 msgstr "Zobrazi» reprízy v podrobnostiach EPG"
 
@@ -360,6 +363,9 @@ msgid "Display schedules with time info"
 msgstr ""
 
 msgid "Number of EPG Entries in Schedules Info Window"
+msgstr ""
+
+msgid "Border around detailed recording view"
 msgstr ""
 
 msgid "Display additional EPG Pictures in detailed recording View"

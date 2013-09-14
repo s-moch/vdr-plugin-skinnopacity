@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-09-09 17:46+0200\n"
+"POT-Creation-Date: 2013-09-14 15:23+0200\n"
 "PO-Revision-Date: 2012-11-11 17:49+0200\n"
 "Last-Translator: louis\n"
 "Language-Team: \n"
@@ -25,6 +25,9 @@ msgstr "Lautstärke"
 
 msgid "Actors"
 msgstr "Schauspieler"
+
+msgid "min"
+msgstr "min"
 
 msgid "RERUNS OF THIS SHOW"
 msgstr "Wiederholungen dieser Sendung"
@@ -55,9 +58,6 @@ msgstr "Keine EPG Informationen verfügbar"
 
 msgid "Duration"
 msgstr "Dauer"
-
-msgid "min"
-msgstr "min"
 
 msgid "recording"
 msgstr "Aufnahme"
@@ -299,6 +299,9 @@ msgstr "Text Scroll Geschwindigkeit des EPG Fensters"
 msgid "Height of EPG Info Window (Percent of OSD Height)"
 msgstr "Höhe des EPG Info Fensters (% der OSD Höhe)"
 
+msgid "Border around detailed EPG view"
+msgstr "Rahmen um detailierte EPG Ansicht"
+
 msgid "Display Reruns in detailed EPG View"
 msgstr "Wiederholungen in der detailierten EPG Ansicht anzeigen"
 
@@ -358,6 +361,9 @@ msgstr "Programm mit Zeitinformation anzeigen"
 
 msgid "Number of EPG Entries in Schedules Info Window"
 msgstr "Anzahl der EPG Einträge im Programm Info Fenster"
+
+msgid "Border around detailed recording view"
+msgstr "Rahmen um detailierte Aufnahmeansicht"
 
 msgid "Display additional EPG Pictures in detailed recording View"
 msgstr "Weitere EPG Bilder in der detaillierten Aufnahmeansicht anzeigen"

@@ -265,3 +265,7 @@ Version 0.1.4
 - dedicated theme colors for timer backgrounds in main menu (closes Feature
   1463)
 - dedicated theme colors for RSS Feed (closes Feature 1485)
+- added event length in header in detailed EPG and recording view (closes
+  Feature 1469)
+- added separate configurable border around detailed epg view and detailed
+  recording view

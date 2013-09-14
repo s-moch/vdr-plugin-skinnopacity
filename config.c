@@ -125,6 +125,8 @@ cNopacityConfig::cNopacityConfig() {
     epgImageWidthLarge = 525;
     epgImageHeightLarge = 400;
     menuRecFolderSize = 128;
+    borderDetailedEPG = 30;
+    borderDetailedRecordings = 30;
     fontHeader = 0;
     fontDate = 0;
     fontMenuitemLarge = 0;
@@ -406,6 +408,8 @@ bool cNopacityConfig::SetupParse(const char *Name, const char *Value) {
     else if (strcmp(Name, "epgImageWidthLarge") == 0)      epgImageWidthLarge = atoi(Value);
     else if (strcmp(Name, "epgImageHeightLarge") == 0)     epgImageHeightLarge = atoi(Value);
     else if (strcmp(Name, "menuRecFolderSize") == 0)       menuRecFolderSize = atoi(Value);
+    else if (strcmp(Name, "borderDetailedEPG") == 0)       borderDetailedEPG = atoi(Value);
+    else if (strcmp(Name, "borderDetailedRecordings") == 0) borderDetailedRecordings = atoi(Value);
     else if (strcmp(Name, "fontHeader") == 0)              fontHeader = atoi(Value);
     else if (strcmp(Name, "fontDate") == 0)                fontDate = atoi(Value);
     else if (strcmp(Name, "fontMenuitemLarge") == 0)       fontMenuitemLarge = atoi(Value);
