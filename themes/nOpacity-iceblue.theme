@@ -38,6 +38,7 @@ clrMenuItem = FFB2B2C7
 clrMenuItemHigh = FF000044
 clrSeparatorBorder = EE444444
 clrDiskAlert = DDFF0000
+clrTimersBack = FFB2B2C7
 clrMenuFontHeader = FF000000
 clrMenuFontDate = FF000000
 clrMenuFontDiscUsage = FF000000

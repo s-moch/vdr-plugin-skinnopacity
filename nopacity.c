@@ -106,6 +106,8 @@ THEME_CLR(Theme, clrMenuItemHigh,           CLR_TRANSBLACK);
 THEME_CLR(Theme, clrMenuItemHighBlend,      CLR_MENUITEMHIGHBLEND);
 THEME_CLR(Theme, clrSeparatorBorder,        CLR_SEPARATORBORDER);
 THEME_CLR(Theme, clrDiskAlert,              CLR_DISKALERT);
+THEME_CLR(Theme, clrTimersBack,             CLR_MENUITEMHIGHBLEND);
+THEME_CLR(Theme, clrTimersBackBlend,        CLR_TRANSBLACK);
 THEME_CLR(Theme, clrMenuFontHeader,         CLR_WHITE);
 THEME_CLR(Theme, clrMenuFontDate,           CLR_WHITE);
 THEME_CLR(Theme, clrMenuFontDiscUsage,      CLR_WHITE);

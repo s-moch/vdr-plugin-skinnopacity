@@ -146,10 +146,10 @@ void cNopacityTimer::Render(void) {
         } else {
             pixmap->Fill(Theme.Color(clrMenuBorder));
             if (config.doBlending) {
-                imgLoader.DrawBackground(Theme.Color(clrMenuItemHighBlend), Theme.Color(clrMenuItemHigh), width-2, height-2);
+                imgLoader.DrawBackground(Theme.Color(clrTimersBack), Theme.Color(clrTimersBackBlend), width-2, height-2);
                 pixmap->DrawImage(cPoint(1,1), imgLoader.GetImage());
             } else {
-                pixmap->DrawRectangle(cRect(1, 1, width-2, height-2), Theme.Color(clrMenuItemHigh));
+                pixmap->DrawRectangle(cRect(1, 1, width-2, height-2), Theme.Color(clrTimersBack));
             } 
         }
 
