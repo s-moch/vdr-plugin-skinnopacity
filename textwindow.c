@@ -290,27 +290,46 @@ int cNopacityTextWindow::DrawTextWrapperFloat(const char *text, int widthSmall, 
                                               int top, int heightNarrow, int x, const cFont *font, 
                                               tColor color, int maxHeight) {
     int lineHeight = font->Height();
-    int numLinesNarrow = heightNarrow / lineHeight;
+    int numLinesNarrow = heightNarrow / lineHeight + 1;
+    
+    cTextWrapper test;
+    test.Set(text, font, widthSmall);
+    std::stringstream sstrTextTall;
+    std::stringstream sstrTextFull;
+    bool drawFull = false;
+    for (int line = 0; line < test.Lines(); line++) {
+        bool lineWrap = false;
+        if (font->Width(test.GetLine(line)) < (widthSmall - 100))
+            lineWrap = true;
+        if (line < numLinesNarrow) {
+            sstrTextTall << test.GetLine(line);
+            if (lineWrap)
+                sstrTextTall << "\n";
+            else
+                sstrTextTall << " ";
+        } else {
+            drawFull = true;
+            sstrTextFull << test.GetLine(line);
+            if (lineWrap)
+                sstrTextFull << "\n";
+            else
+                sstrTextFull << " ";
+        }
+    }
+    
     cTextWrapper wrapperNarrow;
-    wrapperNarrow.Set(text, font, widthSmall);
+    wrapperNarrow.Set(sstrTextTall.str().c_str(), font, widthSmall);
     int height = 2*font->Height();
     int y = top;
-    int numChars = 0;
     for (int i=0; i < wrapperNarrow.Lines(); i++) {
-        std::string line = wrapperNarrow.GetLine(i);
-        numChars += line.size();
         pixmap->DrawText(cPoint(x, y), wrapperNarrow.GetLine(i), color, clrTransparent, font);
         y += lineHeight;
         height += lineHeight;
-        if (i == numLinesNarrow)
-            break;
     }
-    std::string textRest = text;
-    if (textRest.size() > numChars) {
-        textRest = textRest.substr(numChars);
+    if (drawFull) {
         cTextWrapper wrapper;
-        wrapper.Set(textRest.c_str(), font, widthFull);
-        for (int i=1; i < wrapper.Lines(); i++) {
+        wrapper.Set(sstrTextFull.str().c_str(), font, widthFull);
+        for (int i=0; i < wrapper.Lines(); i++) {
             if (maxHeight && (height > maxHeight)) {
                 pixmap->DrawText(cPoint(x, y), "...", color, clrTransparent, font);
                 break;
