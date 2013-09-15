@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: vdr-skinnopacity 0.0.6\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-09-14 15:23+0200\n"
+"POT-Creation-Date: 2013-09-14 17:27+0200\n"
 "PO-Revision-Date: 2013-03-12 15:59+0100\n"
 "Last-Translator: Milan Hrala <hrala.milan@gmail.com>\n"
 "Language-Team: \n"
@@ -284,8 +284,17 @@ msgstr "v¾dy"
 msgid "only if no tvscraper media available"
 msgstr ""
 
+msgid "window"
+msgstr ""
+
+msgid "full screen"
+msgstr ""
+
 msgid "Use narrow menu"
 msgstr "Pou¾i» úzku ponuku"
+
+msgid "Mode of EPG Window"
+msgstr ""
 
 msgid "EPG Window Fade-In Time in ms (Zero for switching off fading)"
 msgstr "Èas efektu zmiznutia EPG okna v ms (nula vypne efekt)"
@@ -347,6 +356,9 @@ msgstr "Nastavenie veµkos»i písma - Malé polo¾ky ponuky"
 msgid "Adjust Font Size - EPG Info Window"
 msgstr "Nastavenie veµkos»i písma - EPG informaèné okno"
 
+msgid "Adjust Font Size - EPG Info Window Header"
+msgstr ""
+
 msgid "Transponder Information"
 msgstr ""
 
@@ -363,6 +375,9 @@ msgid "Display schedules with time info"
 msgstr ""
 
 msgid "Number of EPG Entries in Schedules Info Window"
+msgstr ""
+
+msgid "Mode of recording Window"
 msgstr ""
 
 msgid "Border around detailed recording view"

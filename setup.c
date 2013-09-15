@@ -182,6 +182,8 @@ void cNopacitySetup::Store(void) {
     SetupStore("menuRecFolderSize", config.menuRecFolderSize);
     SetupStore("borderDetailedEPG", config.borderDetailedEPG);
     SetupStore("borderDetailedRecordings", config.borderDetailedRecordings);
+    SetupStore("menuSchedulesWindowMode", config.menuSchedulesWindowMode);
+    SetupStore("menuRecordingsWindowMode", config.menuRecordingsWindowMode);
     SetupStore("fontHeader", config.fontHeader);
     SetupStore("fontDate", config.fontDate);
     SetupStore("fontMenuitemLarge", config.fontMenuitemLarge);
@@ -205,6 +207,7 @@ void cNopacitySetup::Store(void) {
     SetupStore("fontDetailViewHeader", config.fontDetailViewHeader);
     SetupStore("fontDetailViewHeaderLarge", config.fontDetailViewHeaderLarge);
     SetupStore("fontEPGInfoWindow", config.fontEPGInfoWindow);
+    SetupStore("fontEPGInfoWindowLarge", config.fontEPGInfoWindowLarge);
     SetupStore("displayRSSFeed", config.displayRSSFeed);
     SetupStore("rssFeedHeight", config.rssFeedHeight);
     SetupStore("rssFeed[0]", config.rssFeed[0]);
@@ -356,6 +359,8 @@ cNopacitySetupMenuDisplaySchedules::cNopacitySetupMenuDisplaySchedules(cNopacity
     displayEPGPictures[0] = tr("never");
     displayEPGPictures[1] = tr("always");
     displayEPGPictures[2] = tr("only if no tvscraper media available");
+    windowMode[0] = tr("window");
+    windowMode[1] = tr("full screen");
     Set();
 }
 
@@ -368,6 +373,7 @@ void cNopacitySetupMenuDisplaySchedules::Set(void) {
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Width (Percent of OSD Width)")), &tmpNopacityConfig->menuWidthSchedules, 10, 97));
     Add(new cMenuEditIntItem(tr("Channel Logo Width"), &tmpNopacityConfig->menuItemLogoWidth, 30, 200));
     Add(new cMenuEditIntItem(tr("Channel Logo Height"), &tmpNopacityConfig->menuItemLogoHeight, 30, 200));
+    Add(new cMenuEditStraItem(tr("Mode of EPG Window"), &tmpNopacityConfig->menuSchedulesWindowMode, 2, windowMode));
     Add(new cMenuEditIntItem(tr("EPG Window Fade-In Time in ms (Zero for switching off fading)"), &tmpNopacityConfig->menuEPGWindowFadeTime, 0, 1000));
     Add(new cMenuEditIntItem(tr("EPG Window Display Delay in s"), &tmpNopacityConfig->menuInfoTextDelay, 0, 10));
     Add(new cMenuEditIntItem(tr("EPG Window Scroll Delay in s"), &tmpNopacityConfig->menuInfoScrollDelay, 0, 10));
@@ -391,6 +397,7 @@ void cNopacitySetupMenuDisplaySchedules::Set(void) {
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Menu Item"), &tmpNopacityConfig->fontMenuitemSchedule, -20, 20));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Menu Item Small"), &tmpNopacityConfig->fontMenuitemScheduleSmall, -20, 20));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - EPG Info Window"), &tmpNopacityConfig->fontEPGInfoWindow, -20, 20));
+    Add(new cMenuEditIntItem(tr("Adjust Font Size - EPG Info Window Header"), &tmpNopacityConfig->fontEPGInfoWindowLarge, -20, 20));
     
     SetCurrent(Get(currentItem));
     Display();
@@ -450,6 +457,8 @@ cNopacitySetupMenuDisplayRecordings::cNopacitySetupMenuDisplayRecordings(cNopaci
     displayEPGPictures[0] = tr("never");
     displayEPGPictures[1] = tr("always");
     displayEPGPictures[2] = tr("only if no tvscraper media available");
+    windowMode[0] = tr("window");
+    windowMode[1] = tr("full screen");
     Set();
 }
 
@@ -460,6 +469,7 @@ void cNopacitySetupMenuDisplayRecordings::Set(void) {
     Add(new cMenuEditBoolItem(tr("Use narrow menu"), &tmpNopacityConfig->narrowRecordingMenu));
     if (tmpNopacityConfig->narrowRecordingMenu)
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Width (Percent of OSD Width)")), &tmpNopacityConfig->menuWidthRecordings, 10, 97));
+    Add(new cMenuEditStraItem(tr("Mode of recording Window"), &tmpNopacityConfig->menuRecordingsWindowMode, 2, windowMode));
     Add(new cMenuEditIntItem(tr("Border around detailed recording view"), &tmpNopacityConfig->borderDetailedRecordings, 1, 300));
     Add(new cMenuEditStraItem(tr("Display additional EPG Pictures in detailed recording View"), &tmpNopacityConfig->displayAdditionalRecEPGPictures, 3, displayEPGPictures));
     if (tmpNopacityConfig->displayAdditionalRecEPGPictures)

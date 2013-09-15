@@ -17,6 +17,7 @@ protected:
     cFont *font;
     cFont *fontSmall;
     cFont *fontEPGWindow;
+    cFont *fontEPGWindowLarge;
     int width, height;
     int top, left;
     int spaceMenu;
@@ -43,6 +44,7 @@ public:
     void SetFont(cFont *font) {this->font = font;}
     void SetFontSmall(cFont *fontSmall) {this->fontSmall = fontSmall;}
     void SetFontEPGWindow(cFont *font) {this->fontEPGWindow = font;}
+    void SetFontEPGWindowLarge(cFont *font) {this->fontEPGWindowLarge = font;}
     void SetCurrent(bool cur); 
     void SetAlpha(int alpha) {this->pixmap->SetAlpha(alpha);}
     void SetAlphaIcon(int alpha) {if (pixmapIcon) this->pixmapIcon->SetAlpha(alpha);}

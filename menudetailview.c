@@ -825,8 +825,8 @@ void cNopacityMenuDetailRecordingView::DrawHeader(void) {
     const char *Title = info->Title();
     if (isempty(Title))
         Title = recording->Name();
-	cTextWrapper title;
-	title.Set(Title, fontHeaderLarge, widthTextHeader);
+    cTextWrapper title;
+    title.Set(Title, fontHeaderLarge, widthTextHeader);
     int currentLineHeight = lineHeight;
 	for (int i=0; i < title.Lines(); i++) {
         pixmapHeader->DrawText(cPoint(border, currentLineHeight), title.GetLine(i), Theme.Color(clrMenuFontDetailViewHeaderTitle), clrTransparent, fontHeaderLarge);

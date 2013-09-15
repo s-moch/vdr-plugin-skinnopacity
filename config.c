@@ -127,6 +127,8 @@ cNopacityConfig::cNopacityConfig() {
     menuRecFolderSize = 128;
     borderDetailedEPG = 30;
     borderDetailedRecordings = 30;
+    menuSchedulesWindowMode = 0;
+    menuRecordingsWindowMode = 0;
     fontHeader = 0;
     fontDate = 0;
     fontMenuitemLarge = 0;
@@ -150,6 +152,7 @@ cNopacityConfig::cNopacityConfig() {
     fontDetailViewHeader = 0;
     fontDetailViewHeaderLarge = 0;
     fontEPGInfoWindow = 0;
+    fontEPGInfoWindowLarge = 0;
     //RSS Feeds
     displayRSSFeed = 0;
     rssFeedHeight = 5;
@@ -410,6 +413,8 @@ bool cNopacityConfig::SetupParse(const char *Name, const char *Value) {
     else if (strcmp(Name, "menuRecFolderSize") == 0)       menuRecFolderSize = atoi(Value);
     else if (strcmp(Name, "borderDetailedEPG") == 0)       borderDetailedEPG = atoi(Value);
     else if (strcmp(Name, "borderDetailedRecordings") == 0) borderDetailedRecordings = atoi(Value);
+    else if (strcmp(Name, "menuSchedulesWindowMode") == 0) menuSchedulesWindowMode = atoi(Value);
+    else if (strcmp(Name, "menuRecordingsWindowMode") == 0) menuRecordingsWindowMode = atoi(Value);
     else if (strcmp(Name, "fontHeader") == 0)              fontHeader = atoi(Value);
     else if (strcmp(Name, "fontDate") == 0)                fontDate = atoi(Value);
     else if (strcmp(Name, "fontMenuitemLarge") == 0)       fontMenuitemLarge = atoi(Value);
@@ -433,6 +438,7 @@ bool cNopacityConfig::SetupParse(const char *Name, const char *Value) {
     else if (strcmp(Name, "fontDetailViewHeader") == 0)    fontDetailViewHeader = atoi(Value);
     else if (strcmp(Name, "fontDetailViewHeaderLarge") == 0) fontDetailViewHeaderLarge = atoi(Value);
     else if (strcmp(Name, "fontEPGInfoWindow") == 0)       fontEPGInfoWindow = atoi(Value);
+    else if (strcmp(Name, "fontEPGInfoWindowLarge") == 0)  fontEPGInfoWindowLarge = atoi(Value);
     else if (strcmp(Name, "displayRSSFeed") == 0)          displayRSSFeed = atoi(Value);
     else if (strcmp(Name, "rssFeedHeight") == 0)           rssFeedHeight = atoi(Value);
     else if (strcmp(Name, "fontRssFeed") == 0)             fontRssFeed = atoi(Value);

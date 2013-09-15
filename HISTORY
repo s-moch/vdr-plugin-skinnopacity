@@ -269,3 +269,7 @@ Version 0.1.4
   Feature 1469)
 - added separate configurable border around detailed epg view and detailed
   recording view
+- new "fullscreen" display mode in narrow schedules and recordings view. If
+  fullscreen mode is configured in plugin setup, the right area next to the
+  list of events /recordings is completely used to display immeditately the
+  detailed information of the selected event / recording.

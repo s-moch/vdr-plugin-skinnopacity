@@ -51,6 +51,7 @@ class cNopacitySetupMenuDisplaySchedules : public cMenuSetupSubMenu {
         const char *useSubtitleRerunTexts[3];
         const char *scrollSpeed[4];
         const char *displayEPGPictures[3];
+        const char *windowMode[2];
         void Set(void);
     public:
         cNopacitySetupMenuDisplaySchedules(cNopacityConfig *data);
@@ -74,6 +75,7 @@ class cNopacitySetupMenuDisplayTimers : public cMenuSetupSubMenu {
 class cNopacitySetupMenuDisplayRecordings : public cMenuSetupSubMenu {
     protected:
         const char *displayEPGPictures[3];
+        const char *windowMode[2];
         void Set(void);
     public:
         cNopacitySetupMenuDisplayRecordings(cNopacityConfig *data);

@@ -44,6 +44,7 @@ cNopacityDisplayMenuView::~cNopacityDisplayMenuView(void) {
     delete fontButtons;
     delete fontMessage;
     delete fontEPGInfoWindow;
+    delete fontEPGInfoWindowLarge;
     delete fontRssFeed;
 }
 
@@ -102,13 +103,23 @@ void cNopacityDisplayMenuView::SetDescriptionTextWindowSize(void) {
     int xSchedules =  (config.menuAdjustLeft) ? (2 * spaceMenu + contentWidthSchedules + widthScrollbar)  : (spaceMenu);
     int xRecordings = (config.menuAdjustLeft) ? (2 * spaceMenu + contentWidthRecordings + widthScrollbar) : (spaceMenu);
     int xChannels = (config.menuAdjustLeft) ? (2 * spaceMenu + contentWidthChannels + widthScrollbar) : (spaceMenu);
-    int height = config.menuHeightInfoWindow * (contentHeight - 2*spaceMenu) / 100;
+    
+    int heightFull = contentHeight - 2*spaceMenu;
+    int height = config.menuHeightInfoWindow * heightFull / 100;
     int y = headerHeight + (contentHeight - height - spaceMenu);
+    int yFullScreen = headerHeight + spaceMenu;
+
     int widthSchedules = (config.menuAdjustLeft)  ? (osdWidth - xSchedules - spaceMenu)  : (osdWidth - contentWidthSchedules - widthScrollbar - 2 * spaceMenu);
     int widthRecordings = (config.menuAdjustLeft) ? (osdWidth - xRecordings - spaceMenu) : (osdWidth - contentWidthRecordings - widthScrollbar - 2 * spaceMenu);
     int widthChannels = (config.menuAdjustLeft) ? (osdWidth - xChannels - spaceMenu) : (osdWidth - contentWidthChannels - widthScrollbar - 2 * spaceMenu);
-    textWindowSizeSchedules = cRect(xSchedules,y,widthSchedules,height);
-    textWindowSizeRecordings = cRect(xRecordings,y,widthRecordings,height);
+    if (config.menuSchedulesWindowMode == 0)
+        textWindowSizeSchedules = cRect(xSchedules,y,widthSchedules,height);
+    else
+        textWindowSizeSchedules = cRect(xSchedules,yFullScreen,widthSchedules,heightFull);
+    if (config.menuRecordingsWindowMode == 0)
+        textWindowSizeRecordings = cRect(xRecordings,y,widthRecordings,height);
+    else
+        textWindowSizeRecordings = cRect(xRecordings,yFullScreen,widthRecordings,heightFull);
     textWindowSizeChannels = cRect(xChannels,y,widthChannels,height);
 }
 
@@ -247,6 +258,7 @@ void cNopacityDisplayMenuView::CreateFonts(void) {
     fontButtons = cFont::CreateFont(config.fontName, buttonHeight*0.8 + config.fontButtons);
     fontMessage = cFont::CreateFont(config.fontName, messageHeight / 3 + config.fontMessageMenu);
     fontEPGInfoWindow = cFont::CreateFont(config.fontName, contentHeight / 30 + config.fontEPGInfoWindow);
+    fontEPGInfoWindowLarge = cFont::CreateFont(config.fontName, contentHeight / 20 + config.fontEPGInfoWindowLarge);
     fontRssFeed = cFont::CreateFont(config.fontName, (rssFeedHeight / 2) + 3 + config.fontRssFeed);
 }
 
@@ -289,6 +301,10 @@ cFont *cNopacityDisplayMenuView::GetMenuItemFontSmall(eMenuCategory menuCat) {
 
 cFont *cNopacityDisplayMenuView::GetEPGWindowFont(void) {
     return fontEPGInfoWindow;
+}
+
+cFont *cNopacityDisplayMenuView::GetEPGWindowFontLarge(void) {
+    return fontEPGInfoWindowLarge;
 }
 
 void cNopacityDisplayMenuView::GetMenuItemSize(eMenuCategory menuCat, cPoint *itemSize) {

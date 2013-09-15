@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-09-14 15:23+0200\n"
+"POT-Creation-Date: 2013-09-14 17:27+0200\n"
 "PO-Revision-Date: 2013-03-19 22:56+0100\n"
 "Last-Translator: Gabychan <gbonich@gmail.com>\n"
 "Language-Team: \n"
@@ -284,8 +284,17 @@ msgstr "sempre"
 msgid "only if no tvscraper media available"
 msgstr ""
 
+msgid "window"
+msgstr ""
+
+msgid "full screen"
+msgstr ""
+
 msgid "Use narrow menu"
 msgstr "Utilitza menú limitat"
+
+msgid "Mode of EPG Window"
+msgstr ""
 
 msgid "EPG Window Fade-In Time in ms (Zero for switching off fading)"
 msgstr "Fosa d'entrada finestra EPG, temps en ms (0 per desactivació)"
@@ -347,6 +356,9 @@ msgstr "Ajusta mida de la Font - Element petit de menú"
 msgid "Adjust Font Size - EPG Info Window"
 msgstr "Ajusta mida de la Font - Finestra Info EPG"
 
+msgid "Adjust Font Size - EPG Info Window Header"
+msgstr ""
+
 msgid "Transponder Information"
 msgstr "Informació Transponedor"
 
@@ -364,6 +376,9 @@ msgstr ""
 
 msgid "Number of EPG Entries in Schedules Info Window"
 msgstr "Nombre d'entrades EPG a la Finestra de Programació"
+
+msgid "Mode of recording Window"
+msgstr ""
 
 msgid "Border around detailed recording view"
 msgstr ""

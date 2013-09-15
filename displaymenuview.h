@@ -42,6 +42,7 @@ class cNopacityDisplayMenuView {
         cFont *fontButtons;
         cFont *fontMessage;
         cFont *fontEPGInfoWindow;
+        cFont *fontEPGInfoWindowLarge;
         cFont *fontRssFeed;
         int osdWidth, osdHeight;
         int osdLeft, osdTop;
@@ -85,6 +86,7 @@ class cNopacityDisplayMenuView {
         cFont *GetMenuItemFont(eMenuCategory menuCat);
         cFont *GetMenuItemFontSmall(eMenuCategory menuCat);
         cFont *GetEPGWindowFont(void);
+        cFont *GetEPGWindowFontLarge(void);
         void GetMenuItemSize(eMenuCategory menuCat, cPoint *itemSize);
         int GetMaxItems(eMenuCategory menuCat);
         int GetMenuTop(int numItems, int itemHeight);

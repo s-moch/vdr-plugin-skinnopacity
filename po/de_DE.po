@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-09-14 15:23+0200\n"
+"POT-Creation-Date: 2013-09-14 17:27+0200\n"
 "PO-Revision-Date: 2012-11-11 17:49+0200\n"
 "Last-Translator: louis\n"
 "Language-Team: \n"
@@ -281,8 +281,17 @@ msgstr "immer"
 msgid "only if no tvscraper media available"
 msgstr "falls keine tvscraper medien verfügbar"
 
+msgid "window"
+msgstr "Fenster"
+
+msgid "full screen"
+msgstr "Vollbild"
+
 msgid "Use narrow menu"
 msgstr "Schmales Menü verwenden"
+
+msgid "Mode of EPG Window"
+msgstr "EPG Fenster Modus"
 
 msgid "EPG Window Fade-In Time in ms (Zero for switching off fading)"
 msgstr "Fade-In Zeit des EPG Fensters in ms (Null zum Abschalten)"
@@ -344,6 +353,9 @@ msgstr "Schriftgröße anpassen - Menüelement klein"
 msgid "Adjust Font Size - EPG Info Window"
 msgstr "Schriftgröße anpassen - EPG Infofenster"
 
+msgid "Adjust Font Size - EPG Info Window Header"
+msgstr ""
+
 msgid "Transponder Information"
 msgstr "Transponder Information"
 
@@ -361,6 +373,9 @@ msgstr "Programm mit Zeitinformation anzeigen"
 
 msgid "Number of EPG Entries in Schedules Info Window"
 msgstr "Anzahl der EPG Einträge im Programm Info Fenster"
+
+msgid "Mode of recording Window"
+msgstr "Aufnahme Fenster Modus"
 
 msgid "Border around detailed recording view"
 msgstr "Rahmen um detailierte Aufnahmeansicht"

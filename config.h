@@ -160,6 +160,8 @@ class cNopacityConfig {
         int menuRecFolderSize;
         int borderDetailedEPG;
         int borderDetailedRecordings;
+        int menuSchedulesWindowMode;
+        int menuRecordingsWindowMode;
         int fontHeader;
         int fontDate;
         int fontMenuitemLarge;
@@ -183,6 +185,7 @@ class cNopacityConfig {
         int fontDetailViewHeader;
         int fontDetailViewHeaderLarge;
         int fontEPGInfoWindow;
+        int fontEPGInfoWindowLarge;
         //RSS Feeds
         std::vector<RssFeed> rssFeeds;
         int displayRSSFeed;

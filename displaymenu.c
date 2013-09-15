@@ -402,6 +402,7 @@ bool cNopacityDisplayMenu::SetItemEvent(const cEvent *Event, int Index, bool Cur
         item->SetFont(menuView->GetMenuItemFont(mcSchedule));
         item->SetFontSmall(menuView->GetMenuItemFontSmall(mcSchedule));
         item->SetFontEPGWindow(menuView->GetEPGWindowFont());
+        item->SetFontEPGWindowLarge(menuView->GetEPGWindowFontLarge());
         int spaceTop = menuView->GetMenuTop(currentNumItems, itemSize.Y());
         item->SetGeometry(Index, spaceTop, menuView->GetMenuItemLeft(itemSize.X()), itemSize.X(), itemSize.Y(), menuView->spaceMenu);
         item->SetTextWindow(menuView->GetDescriptionTextWindowSize(mcSchedule));
@@ -518,6 +519,7 @@ bool cNopacityDisplayMenu::SetItemRecording(const cRecording *Recording, int Ind
         item->SetFont(menuView->GetMenuItemFont(mcRecording));
         item->SetFontSmall(menuView->GetMenuItemFontSmall(mcRecording));
         item->SetFontEPGWindow(menuView->GetEPGWindowFont());
+        item->SetFontEPGWindowLarge(menuView->GetEPGWindowFontLarge());
         int spaceTop = menuView->GetMenuTop(currentNumItems, itemSize.Y());
         item->SetGeometry(Index, spaceTop, menuView->GetMenuItemLeft(itemSize.X()), itemSize.X(), itemSize.Y(), menuView->spaceMenu);
         item->SetTextWindow(menuView->GetDescriptionTextWindowSize(mcRecording));

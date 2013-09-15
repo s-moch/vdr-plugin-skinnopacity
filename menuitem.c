@@ -477,11 +477,20 @@ void cNopacityScheduleMenuItem::Render() {
                 infoTextWindow = NULL;
             }
         if (current && Event) {
-            infoTextWindow = new cNopacityTextWindow(osd, fontEPGWindow, vidWin);
-            infoTextWindow->SetGeometry(textWindow);
-            infoTextWindow->SetText(Event->Description());
-            infoTextWindow->SetPoster(Event, false);
-            infoTextWindow->Start();
+            if (config.menuSchedulesWindowMode == 0) {
+                //window mode
+                infoTextWindow = new cNopacityTextWindow(osd, fontEPGWindow, vidWin);
+                infoTextWindow->SetGeometry(textWindow);
+                infoTextWindow->SetText(Event->Description());
+                infoTextWindow->SetPoster(Event, false);
+                infoTextWindow->Start();
+            } else {
+                //fullscreen mode
+                infoTextWindow = new cNopacityTextWindow(osd, fontEPGWindow, fontEPGWindowLarge);
+                infoTextWindow->SetGeometry(textWindow);
+                infoTextWindow->SetPoster(Event, false, true);
+                infoTextWindow->SetEvent(Event);
+            }
         }
     } else {
         if (Event) {
@@ -1268,11 +1277,20 @@ void cNopacityRecordingMenuItem::Render() {
                     infoTextWindow = NULL;
                 }
             if (current) {
-                infoTextWindow = new cNopacityTextWindow(osd, fontEPGWindow, vidWin);
-                infoTextWindow->SetGeometry(textWindow);
-                infoTextWindow->SetText(Recording->Info()->Description());
-                infoTextWindow->SetPoster(Recording->Info()->GetEvent(), true);
-                infoTextWindow->Start();
+                if (config.menuRecordingsWindowMode == 0) {
+                    //window mode
+                    infoTextWindow = new cNopacityTextWindow(osd, fontEPGWindow, vidWin);
+                    infoTextWindow->SetGeometry(textWindow);
+                    infoTextWindow->SetText(Recording->Info()->Description());
+                    infoTextWindow->SetPoster(Recording->Info()->GetEvent(), true);
+                    infoTextWindow->Start();
+                } else {
+                    //fullscreen mode
+                    infoTextWindow = new cNopacityTextWindow(osd, fontEPGWindow, fontEPGWindowLarge);
+                    infoTextWindow->SetGeometry(textWindow);
+                    infoTextWindow->SetPoster(Recording->Info()->GetEvent(), true, true);
+                    infoTextWindow->SetRecording(Recording);
+                }
             }
         }
     }
