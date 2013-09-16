@@ -125,6 +125,8 @@ cNopacityConfig::cNopacityConfig() {
     epgImageHeight = 160;
     epgImageWidthLarge = 525;
     epgImageHeightLarge = 400;
+    posterWidth = 500;
+    posterHeight = 750;
     menuRecFolderSize = 128;
     borderDetailedEPG = 30;
     borderDetailedRecordings = 30;
@@ -412,6 +414,8 @@ bool cNopacityConfig::SetupParse(const char *Name, const char *Value) {
     else if (strcmp(Name, "epgImageHeight") == 0)          epgImageHeight = atoi(Value);
     else if (strcmp(Name, "epgImageWidthLarge") == 0)      epgImageWidthLarge = atoi(Value);
     else if (strcmp(Name, "epgImageHeightLarge") == 0)     epgImageHeightLarge = atoi(Value);
+    else if (strcmp(Name, "posterWidth") == 0)             posterWidth = atoi(Value);
+    else if (strcmp(Name, "posterHeight") == 0)            posterHeight = atoi(Value);
     else if (strcmp(Name, "menuRecFolderSize") == 0)       menuRecFolderSize = atoi(Value);
     else if (strcmp(Name, "borderDetailedEPG") == 0)       borderDetailedEPG = atoi(Value);
     else if (strcmp(Name, "borderDetailedRecordings") == 0) borderDetailedRecordings = atoi(Value);

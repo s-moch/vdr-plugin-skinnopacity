@@ -8,6 +8,10 @@ cNopacityTextWindow::cNopacityTextWindow(cOsd *osd, cFont *font, cRect *vidWin) 
     pixmapBackground = NULL;
     pixmap = NULL;
     scaledWindow = false;
+    posterWidth = 0;
+    posterHeight = 0;
+    hasManualPoster = false;
+    manualPosterPath = "";
     hasPoster = false;
 }
 
@@ -19,6 +23,10 @@ cNopacityTextWindow::cNopacityTextWindow(cOsd *osd, cFont *font, cFont *fontHead
     pixmapBackground = NULL;
     pixmap = NULL;
     scaledWindow = false;
+    posterWidth = 0;
+    posterHeight = 0;
+    hasManualPoster = false;
+    manualPosterPath = "";
     hasPoster = false;
 }
 
@@ -45,6 +53,27 @@ cNopacityTextWindow::~cNopacityTextWindow(void) {
     }
 }
 
+bool cNopacityTextWindow::SetManualPoster(const cRecording *recording, bool fullscreen) {
+    cString posterFound;
+    cImageLoader imgLoader;
+    hasManualPoster = imgLoader.SearchRecordingPoster(recording->FileName(), posterFound);
+    if (hasManualPoster) {
+        manualPosterPath = posterFound;
+        int posterWidthOrig = config.posterWidth;
+        int posterHeightOrig = config.posterHeight;
+        if (!fullscreen) {
+            posterHeight = geometry->Height() - 5;
+            posterWidth = posterWidthOrig * ((double)posterHeight / (double)posterHeightOrig);
+            esyslog("nopacity: posterWidth %d posterHeight %d geoh %d", posterWidth, posterHeight, geometry->Height());
+        } else {
+            posterWidth = geometry->Width() / 4;
+            posterHeight = posterHeightOrig * ((double)posterWidth / (double)posterWidthOrig);
+        }
+        return true;
+    }
+    return false;
+}
+
 void cNopacityTextWindow::SetPoster(const cEvent *event, bool isRecording, bool fullscreen) {
     static cPlugin *pTVScraper = cPluginManager::GetPlugin("tvscraper");
     if (pTVScraper && event) {
@@ -57,6 +86,7 @@ void cNopacityTextWindow::SetPoster(const cEvent *event, bool isRecording, bool 
             if (!fullscreen) {
                 posterHeight = geometry->Height() - 5;
                 posterWidth = posterWidthOrig * ((double)posterHeight / (double)posterHeightOrig);
+            esyslog("nopacity: posterWidth %d posterHeight %d geoh %d", posterWidth, posterHeight, geometry->Height());
             } else {
                 posterWidth = geometry->Width() / 4;
                 posterHeight = posterHeightOrig * ((double)posterWidth / (double)posterWidthOrig);
@@ -73,7 +103,7 @@ bool cNopacityTextWindow::SetTextScroller(int border, int left) {
     int lineHeight = font->Height();
     bool scrolling = false;
     drawportHeight = geometry->Height();
-    if (!hasPoster) {
+    if (!(hasPoster || hasManualPoster)) {
         drawTextTall = false;
         drawTextFull = true;
         twTextTall.Set("", font, 5);
@@ -227,7 +257,13 @@ void cNopacityTextWindow::SetRecording(const cRecording *recording) {
     int y = border;
     cImageLoader imgLoader;
     bool recImageFound = false;
-    if (hasPoster) {
+    if (hasManualPoster) {
+        if (imgLoader.LoadPoster(*manualPosterPath, posterWidth, posterHeight)) {
+            int posterX = width - posterWidth - border;
+            pixmap->DrawImage(cPoint(posterX, border), imgLoader.GetImage());
+            widthTextHeader -= posterWidth;
+        }
+    } else if (hasPoster) {
         if (imgLoader.LoadPoster(poster.media.path.c_str(), posterWidth, posterHeight)) {
             int posterX = width - posterWidth - border;
             pixmap->DrawImage(cPoint(posterX, border), imgLoader.GetImage());
@@ -255,7 +291,7 @@ void cNopacityTextWindow::SetRecording(const cRecording *recording) {
     y += fontHeader->Height();
     //Description
     int maxHeight = height - y;
-    if (hasPoster && (y < (border + posterHeight))) {
+    if ((hasPoster || hasManualPoster) && (y < (border + posterHeight))) {
         int heightNarrow = border + posterHeight - y;
         DrawTextWrapperFloat(recording->Info()->Description(), 
                              widthTextHeader, widthText, y, heightNarrow,
@@ -344,7 +380,11 @@ int cNopacityTextWindow::DrawTextWrapperFloat(const char *text, int widthSmall, 
 
 void cNopacityTextWindow::DrawPoster(int border) {
     cImageLoader imgLoader;
-    if (imgLoader.LoadPoster(poster.media.path.c_str(), posterWidth, posterHeight)) {
+    if (hasManualPoster) {
+        if (imgLoader.LoadPoster(*manualPosterPath, posterWidth, posterHeight)) {
+            pixmap->DrawImage(cPoint(border, font->Height()), imgLoader.GetImage());
+        }
+    } else if (imgLoader.LoadPoster(poster.media.path.c_str(), posterWidth, posterHeight)) {
         pixmap->DrawImage(cPoint(border, font->Height()), imgLoader.GetImage());
     }
 }
@@ -383,7 +423,7 @@ void cNopacityTextWindow::Action(void) {
     
     int border = 5;
     int left = 0;
-    if (hasPoster)
+    if (hasPoster || hasManualPoster)
         left = 10 + posterWidth;
     bool scrolling = false;
     if (Running()) {
@@ -393,7 +433,7 @@ void cNopacityTextWindow::Action(void) {
     if (Running()) {
         DrawText(border, left);
     }
-    if (Running() && hasPoster) {
+    if (Running() && (hasPoster || hasManualPoster)) {
         DrawPoster(border);
     }
     //FadeIn

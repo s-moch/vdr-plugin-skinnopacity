@@ -157,6 +157,8 @@ class cNopacityRecordingMenuItem : public cNopacityMenuItem {
 private:
     const cRecording *Recording;
     bool isFolder;
+    bool hasManualPoster;
+    cString manualPosterPath;
     bool hasPoster;
     int posterWidth, posterHeight;
     TVScraperGetPoster poster;

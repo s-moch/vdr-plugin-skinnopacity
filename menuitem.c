@@ -973,6 +973,8 @@ cNopacityRecordingMenuItem::cNopacityRecordingMenuItem(cOsd *osd, const cRecordi
     this->vidWin = vidWin;
     posterWidth = 0;
     posterHeight = 0;
+    hasManualPoster = false;
+    manualPosterPath = "";
     hasPoster = false;
 }
 
@@ -983,17 +985,12 @@ void cNopacityRecordingMenuItem::CreatePixmapTextScroller(int totalWidth) {
     int pixmapLeft = 0;
     int pixmapWidth = 0;
     int drawPortWidth = totalWidth + 10;
-
     if (isFolder) {
         pixmapLeft = left + 10 + config.menuRecFolderSize;
         pixmapWidth = width - 10 - config.menuRecFolderSize;
     } else {
-        pixmapLeft = left + 10;
-        pixmapWidth = width - 10;
-        if (hasPoster) {
-            pixmapLeft += posterWidth+10;
-            pixmapWidth -= (posterWidth+10);
-        }
+        pixmapLeft = posterWidth + left + 20;
+        pixmapWidth = width - posterWidth - 20;
     }
     pixmapTextScroller = osd->CreatePixmap(4, cRect(pixmapLeft, top + index * (height + spaceMenu), pixmapWidth, height), cRect(0, 0, drawPortWidth, height));
     pixmapTextScroller->Fill(clrTransparent);
@@ -1018,6 +1015,15 @@ void cNopacityRecordingMenuItem::CreateText() {
 }
 
 void cNopacityRecordingMenuItem::SetPoster(void) {
+    posterHeight = height - 10;
+    posterWidth = config.posterWidth * ((double)posterHeight / (double)config.posterHeight);
+    //check first if manually set poster exists
+    cString posterFound;
+    cImageLoader imgLoader;
+    hasManualPoster = imgLoader.SearchRecordingPoster(Recording->FileName(), posterFound);
+    if (hasManualPoster)
+        manualPosterPath = posterFound;
+    //no manually set poster found, check tvscraper
     const cRecordingInfo *info = Recording->Info();
     if (info) {
         const cEvent *event = info->GetEvent();
@@ -1027,20 +1033,8 @@ void cNopacityRecordingMenuItem::SetPoster(void) {
             poster.isRecording = true;
             if (pTVScraper->Service("TVScraperGetPoster", &poster)) {
                 hasPoster = true;
-                int posterWidthOrig = poster.media.width;
-                int posterHeightOrig = poster.media.height;
-                if ((posterWidthOrig > 10) && (posterHeightOrig > 10)) {
-                    posterHeight = height - 10;
-                    posterWidth = posterWidthOrig * ((double)posterHeight / (double)posterHeightOrig);
-                } else {
-                    hasPoster = false;
-                    posterHeight = 0;
-                    posterWidth = 0;
-                }
             } else {
                 hasPoster = false;
-                posterHeight = 0;
-                posterWidth = 0;
             }
         }
     }
@@ -1056,9 +1050,7 @@ int cNopacityRecordingMenuItem::CheckScrollable(bool hasIcon) {
 }
 
 int cNopacityRecordingMenuItem::CheckScrollableRecording(void) {
-    int spaceLeft = spaceMenu;
-    if (hasPoster)
-        spaceLeft += posterWidth + 15;
+    int spaceLeft = spaceMenu + posterWidth + 15;
     int iconWidth = 0;
     if (Recording->IsNew())
         iconWidth += font->Height() + 10;
@@ -1110,7 +1102,7 @@ void cNopacityRecordingMenuItem::DrawBackground(void) {
 void cNopacityRecordingMenuItem::SetTextFullFolder(void) {
     tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
     pixmapTextScroller->Fill(clrTransparent);
-    if (hasPoster)
+    if (hasPoster || hasManualPoster)
         DrawPoster();
     else
         DrawFolderIcon();
@@ -1143,7 +1135,7 @@ void cNopacityRecordingMenuItem::SetTextShort(void) {
 void cNopacityRecordingMenuItem::SetTextShortFolder(void) {
     tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
     pixmapTextScroller->Fill(clrTransparent);
-    if (hasPoster)
+    if (hasPoster || hasManualPoster)
         DrawPoster();
     else
         DrawFolderIcon();
@@ -1194,20 +1186,8 @@ void cNopacityRecordingMenuItem::DrawFolderIcon(void) {
 }
 
 void cNopacityRecordingMenuItem::DrawRecDateTime(void) {
-    int iconDateTimeSize = config.menuRecFolderSize / 2;
-    int iconHeight = height/2 + (height/2 - iconDateTimeSize)/2;
-    int left = 10;
-    if (hasPoster) {
-        left += posterWidth + 10;
-    }
-    if (!drawn) {
-        cImageLoader imgLoader;
-        if (imgLoader.LoadIcon("skinIcons/recordingdatetime", iconDateTimeSize)) {
-            pixmapIcon->DrawImage(cPoint(left, iconHeight), imgLoader.GetImage());
-        }
-        drawn = true;
-    }
-    pixmapIcon->DrawRectangle(cRect(iconHeight+left, 0, width-iconHeight, height), clrTransparent);
+    int left = posterWidth + 20;
+    pixmapIcon->DrawRectangle(cRect(left, 0, width, height), clrTransparent);
     const cEvent *Event = NULL;
     Event = Recording->Info()->GetEvent();
     cString strDateTime("");
@@ -1229,10 +1209,9 @@ void cNopacityRecordingMenuItem::DrawRecDateTime(void) {
 
     int textHeight = height/2 + (height/4 - fontSmall->Height())/2;
     tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
-    pixmapIcon->DrawText(cPoint(iconDateTimeSize + 10 + left, textHeight), *strDateTime, clrFont, clrTransparent, fontSmall);
+    pixmapIcon->DrawText(cPoint(10 + left, textHeight), *strDateTime, clrFont, clrTransparent, fontSmall);
     textHeight += height/4;
-    pixmapIcon->DrawText(cPoint(iconDateTimeSize + 10 + left, textHeight), *strDuration, clrFont, clrTransparent, fontSmall);
-
+    pixmapIcon->DrawText(cPoint(10 + left, textHeight), *strDuration, clrFont, clrTransparent, fontSmall);
 }
 
 void cNopacityRecordingMenuItem::DrawFolderNewSeen(void) {
@@ -1244,8 +1223,18 @@ void cNopacityRecordingMenuItem::DrawFolderNewSeen(void) {
 
 void cNopacityRecordingMenuItem::DrawPoster(void) {
     cImageLoader imgLoader;
-    if (imgLoader.LoadPoster(poster.media.path.c_str(), posterWidth, posterHeight)) {
-        pixmapIcon->DrawImage(cPoint(10, 5), imgLoader.GetImage());
+    if (hasManualPoster) {
+        if (imgLoader.LoadPoster(*manualPosterPath, posterWidth, posterHeight)) {
+            pixmapIcon->DrawImage(cPoint(10, 5), imgLoader.GetImage());
+        }
+    } else if (hasPoster) {
+        if (imgLoader.LoadPoster(poster.media.path.c_str(), posterWidth, posterHeight)) {
+            pixmapIcon->DrawImage(cPoint(10, 5), imgLoader.GetImage());
+        }
+    } else {
+        if (imgLoader.LoadIcon("skinIcons/defaultPoster", posterWidth, posterHeight)) {
+            pixmapIcon->DrawImage(cPoint(10, 5), imgLoader.GetImage());
+        }
     }
 }
 
@@ -1256,9 +1245,7 @@ void cNopacityRecordingMenuItem::Render() {
             DrawFolderNewSeen();
             SetTextShort();
         } else {
-            if (hasPoster) {
-                DrawPoster();
-            }
+            DrawPoster();
             DrawRecDateTime();
             SetTextShort();
         }
@@ -1282,13 +1269,15 @@ void cNopacityRecordingMenuItem::Render() {
                     infoTextWindow = new cNopacityTextWindow(osd, fontEPGWindow, vidWin);
                     infoTextWindow->SetGeometry(textWindow);
                     infoTextWindow->SetText(Recording->Info()->Description());
-                    infoTextWindow->SetPoster(Recording->Info()->GetEvent(), true);
+                    if (!infoTextWindow->SetManualPoster(Recording))
+                        infoTextWindow->SetPoster(Recording->Info()->GetEvent(), true);
                     infoTextWindow->Start();
                 } else {
                     //fullscreen mode
                     infoTextWindow = new cNopacityTextWindow(osd, fontEPGWindow, fontEPGWindowLarge);
                     infoTextWindow->SetGeometry(textWindow);
-                    infoTextWindow->SetPoster(Recording->Info()->GetEvent(), true, true);
+                    if (!infoTextWindow->SetManualPoster(Recording, true))
+                        infoTextWindow->SetPoster(Recording->Info()->GetEvent(), true, true);
                     infoTextWindow->SetRecording(Recording);
                 }
             }

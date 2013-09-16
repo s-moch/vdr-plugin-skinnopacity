@@ -17,6 +17,8 @@ private:
     cTextWrapper twTextFull;
     bool drawTextTall;
     bool drawTextFull;
+    bool hasManualPoster;
+    cString manualPosterPath;
     bool hasPoster;
     TVScraperGetPoster poster;
     int posterWidth, posterHeight;
@@ -38,6 +40,7 @@ public:
     void SetEvent(const cEvent *event);
     void SetRecording(const cRecording *recording);
     void SetText(cString Text) {text = Text;};
+    bool SetManualPoster(const cRecording *recording, bool fullscreen = false);
     void SetPoster(const cEvent *event, bool isRecording, bool fullscreen = false);
 };
 

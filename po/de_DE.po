@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-09-16 10:09+0200\n"
+"POT-Creation-Date: 2013-09-16 11:10+0200\n"
 "PO-Revision-Date: 2012-11-11 17:49+0200\n"
 "Last-Translator: louis\n"
 "Language-Team: \n"
@@ -385,6 +385,12 @@ msgstr "Weitere EPG Bilder in der detaillierten Aufnahmeansicht anzeigen"
 
 msgid "Folder Icon Size"
 msgstr "Order Icon Größe"
+
+msgid "Width of manually set recording poster"
+msgstr ""
+
+msgid "Height of manually set recording poster"
+msgstr ""
 
 msgid "simple, one common image"
 msgstr "einfach, eine gemeinsame Graphik"

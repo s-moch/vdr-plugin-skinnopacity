@@ -199,6 +199,25 @@ void cImageLoader::DrawBackground2(tColor back, tColor blend, int width, int hei
     buffer = tmp;
 }
 
+bool cImageLoader::SearchRecordingPoster(cString recPath, cString &found) {
+    cString manualPoster = cString::sprintf("%s/cover_vdr.jpg", *recPath);
+    if (FileSize(*manualPoster) != -1) {
+        found = manualPoster;
+        return true;
+    }
+    manualPoster = cString::sprintf("%s/../../../cover_vdr.jpg", *recPath);
+    if (FileSize(*manualPoster) != -1) {
+        found = manualPoster;
+        return true;
+    }
+    manualPoster = cString::sprintf("%s/../../cover_vdr.jpg", *recPath);
+    if (FileSize(*manualPoster) != -1) {
+        found = manualPoster;
+        return true;
+    }
+    return false;    
+}
+
 cImage cImageLoader::GetImage() {
     int w, h;
     w = buffer.columns();
@@ -264,6 +283,8 @@ bool cImageLoader::FirstImageInFolder(cString Path, cString Extension, cString *
     while (file = readdir(folder)) {
         if (endswith(file->d_name, *Extension)) {
             std::string fileName = file->d_name;
+            if (!fileName.compare("cover_vdr.jpg"))
+                continue;
             if (fileName.length() > 4)
                 fileName = fileName.substr(0, fileName.length() - 4);
             else

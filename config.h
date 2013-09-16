@@ -158,6 +158,8 @@ class cNopacityConfig {
         int epgImageHeight;
         int epgImageWidthLarge;
         int epgImageHeightLarge;
+        int posterWidth;
+        int posterHeight;
         int menuRecFolderSize;
         int borderDetailedEPG;
         int borderDetailedRecordings;

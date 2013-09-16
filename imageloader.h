@@ -24,6 +24,7 @@ public:
     bool LoadPoster(const char *poster, int width, int height);
     void DrawBackground(tColor back, tColor blend, int width, int height, bool mirror = false);
     void DrawBackground2(tColor back, tColor blend, int width, int height);
+    bool SearchRecordingPoster(cString recPath, cString &found);
 private:
     Image buffer;
     Color Argb2Color(tColor col);

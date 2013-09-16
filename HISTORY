@@ -273,4 +273,12 @@ Version 0.1.4
   fullscreen mode is configured in plugin setup, the right area next to the
   list of events /recordings is completely used to display immeditately the
   detailed information of the selected event / recording.
-- added some rounded corners (if activated in setup)
+- added some rounded corners (if activated in setup) for posters and banners
+- added rounded corners for message display
+- fixed issue with gradient display for newer imagemagick versions
+- added setup option to display poster or fanart in channel display
+- possibility to set manual poster for recordings. This manual poster has to
+  be named as "cover_vdr.jpg" and has to be placed directly in the recording
+  folder. For series it is also possible to place a common poster for all
+  series in a folder two or three directories above the actual recording
+  folders. If a manual poster is found, all tvscraper information is ignored.

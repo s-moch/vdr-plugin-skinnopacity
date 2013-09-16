@@ -26,6 +26,8 @@ protected:
     cPixmap *pixmapLogo;
     cPixmap *pixmapContent;
     cPixmap *pixmapPoster;
+    bool hasManualPoster;
+    cString manualPosterPath;
     TVScraperGetFullInformation mediaInfo;
     bool hasAdditionalMedia;
     void DrawTextWrapper(cTextWrapper *wrapper, int top);
