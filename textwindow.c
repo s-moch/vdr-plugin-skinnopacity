@@ -64,7 +64,6 @@ bool cNopacityTextWindow::SetManualPoster(const cRecording *recording, bool full
         if (!fullscreen) {
             posterHeight = geometry->Height() - 5;
             posterWidth = posterWidthOrig * ((double)posterHeight / (double)posterHeightOrig);
-            esyslog("nopacity: posterWidth %d posterHeight %d geoh %d", posterWidth, posterHeight, geometry->Height());
         } else {
             posterWidth = geometry->Width() / 4;
             posterHeight = posterHeightOrig * ((double)posterWidth / (double)posterWidthOrig);
@@ -86,7 +85,6 @@ void cNopacityTextWindow::SetPoster(const cEvent *event, bool isRecording, bool 
             if (!fullscreen) {
                 posterHeight = geometry->Height() - 5;
                 posterWidth = posterWidthOrig * ((double)posterHeight / (double)posterHeightOrig);
-            esyslog("nopacity: posterWidth %d posterHeight %d geoh %d", posterWidth, posterHeight, geometry->Height());
             } else {
                 posterWidth = geometry->Width() / 4;
                 posterHeight = posterHeightOrig * ((double)posterWidth / (double)posterWidthOrig);
