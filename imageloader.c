@@ -192,7 +192,7 @@ void cImageLoader::DrawBackground2(tColor back, tColor blend, int width, int hei
     Color Back = Argb2Color(back);
     Color Blend = Argb2Color(blend);
     Image tmp(Geometry(width, height), Blend);
-    double arguments[9] = {0.0,(double)height,0.0,-0.5*(double)width,0.0,0.0,0.75*(double)width,0.0,1.0};
+    double arguments[9] = {0.0,(double)height,0.0,-0.5*(double)width,0.0,0.0,(double)width,0.0,1.0};
     tmp.sparseColor(MatteChannel, BarycentricColorInterpolate, 9, arguments);
     Image tmp2(Geometry(width, height), Back);
     tmp.composite(tmp2, 0, 0, OverlayCompositeOp);
