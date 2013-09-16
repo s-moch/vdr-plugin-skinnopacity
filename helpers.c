@@ -40,6 +40,15 @@ static void DrawBlendedBackground(cPixmap *pixmap, tColor color, tColor colorBle
     }
 }
 
+static void DrawRoundedCorners(cPixmap *p, int radius, int x, int y, int width, int height) {
+    if (radius > 2) {
+        p->DrawEllipse(cRect(x, y, radius, radius), clrTransparent, -2);
+        p->DrawEllipse(cRect(x + width - radius, y , radius, radius), clrTransparent, -1);
+        p->DrawEllipse(cRect(x, y + height - radius, radius, radius), clrTransparent, -3);
+        p->DrawEllipse(cRect(x + width - radius, y + height - radius, radius, radius), clrTransparent, -4);
+    }
+}
+
 static int Minimum(int a, int b, int c, int d, int e, int f) {
     int min = a;
     if (b < min) min = b;

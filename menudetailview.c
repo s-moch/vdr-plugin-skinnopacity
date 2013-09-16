@@ -112,6 +112,8 @@ void cNopacityMenuDetailView::DrawPoster(void) {
         int posterY = (contentHeight - posterHeight) / 2;
         if (Running() && pixmapPoster)
             pixmapPoster->DrawImage(cPoint(posterX, posterY), imgLoader.GetImage());
+        if (config.roundedCorners && Running() && pixmapPoster)
+            DrawRoundedCorners(pixmapPoster, config.cornerRadius, posterX, posterY, posterWidth, posterHeight);
     }        
 }
 
@@ -132,6 +134,8 @@ void cNopacityMenuDetailView::DrawBanner(int height) {
         int bannerX = (contentWidth - bannerWidth) / 2;
         if (Running() && pixmapContent)
             pixmapContent->DrawImage(cPoint(bannerX, height), imgLoader.GetImage());
+        if (config.roundedCorners && Running() && pixmapContent)
+            DrawRoundedCorners(pixmapContent, config.cornerRadius, bannerX, height, bannerWidth, bannerHeight);
     }
 }
 
@@ -163,6 +167,9 @@ void cNopacityMenuDetailView::DrawActors(int height) {
             if (imgLoader.LoadPoster(path.c_str(), actorThumbWidth, actorThumbHeight)) {
                 if (Running() && pixmapContent)
                     pixmapContent->DrawImage(cPoint(x + border, y), imgLoader.GetImage());
+                if (config.roundedCorners && Running() && pixmapContent)
+                    DrawRoundedCorners(pixmapContent, config.cornerRadius, x + border, y, actorThumbWidth, actorThumbHeight);
+
             }
             std::string name = mediaInfo.actors[actor].name;
             std::stringstream sstrRole;
@@ -205,6 +212,8 @@ void cNopacityMenuDetailView::DrawFanart(int height) {
         int fanartX = (contentWidth - fanartWidth) / 2;
         if (Running() && pixmapContent)
             pixmapContent->DrawImage(cPoint(fanartX, height), imgLoader.GetImage());
+        if (config.roundedCorners && Running() && pixmapContent)
+            DrawRoundedCorners(pixmapContent, config.cornerRadius, fanartX, height, fanartWidth, fanartHeight);
     }
 }
 
@@ -453,14 +462,9 @@ void cNopacityMenuDetailEventView::DrawHeader(void) {
         pixmapHeader->DrawImage(cPoint(width - config.epgImageWidth - border, (headerHeight-config.epgImageHeight)/2), imgLoader.GetImage());
         if (config.roundedCorners) {
             int radius = config.cornerRadius;
-            if (radius > 2) {
-                int x = width - config.epgImageWidth - border;
-                int y = (headerHeight-config.epgImageHeight)/2;
-                pixmapHeader->DrawEllipse(cRect(x,y,radius,radius), clrTransparent, -2);
-                pixmapHeader->DrawEllipse(cRect(x + config.epgImageWidth - radius,y,radius,radius), clrTransparent, -1);
-                pixmapHeader->DrawEllipse(cRect(x,y + config.epgImageHeight - radius,radius,radius), clrTransparent, -3);
-                pixmapHeader->DrawEllipse(cRect(x + config.epgImageWidth - radius,y + config.epgImageHeight - radius,radius,radius), clrTransparent, -4);
-            }
+            int x = width - config.epgImageWidth - border;
+            int y = (headerHeight-config.epgImageHeight)/2;
+            DrawRoundedCorners(pixmapHeader, radius, x, y, config.epgImageWidth, config.epgImageHeight);
         }
         widthTextHeader -= config.epgImageWidth;
     }
@@ -558,12 +562,7 @@ void cNopacityMenuDetailEventView::DrawEPGPictures(int height) {
             pixmapContent->DrawImage(cPoint(currentX, currentY), imgLoader.GetImage());
             if (config.roundedCorners) {
                 int radius = config.cornerRadius;
-                if (radius > 2) {
-                    pixmapContent->DrawEllipse(cRect(currentX,currentY,radius,radius), clrTransparent, -2);
-                    pixmapContent->DrawEllipse(cRect(currentX + config.epgImageWidthLarge - radius,currentY,radius,radius), clrTransparent, -1);
-                    pixmapContent->DrawEllipse(cRect(currentX,currentY + config.epgImageHeightLarge - radius,radius,radius), clrTransparent, -3);
-                    pixmapContent->DrawEllipse(cRect(currentX + config.epgImageWidthLarge - radius,currentY + config.epgImageHeightLarge - radius,radius,radius), clrTransparent, -4);
-                }
+                DrawRoundedCorners(pixmapContent, radius, currentX, currentY, config.epgImageWidthLarge, config.epgImageHeightLarge);
             }
             if (currentPicsPerLine < picsPerLine) {
                 currentX += config.epgImageWidthLarge + border;
@@ -777,12 +776,7 @@ void cNopacityMenuDetailRecordingView::DrawEPGPictures(int height) {
             pixmapContent->DrawImage(cPoint(currentX, currentY), imgLoader.GetImage());
             if (config.roundedCorners) {
                 int radius = config.cornerRadius;
-                if (radius > 2) {
-                    pixmapContent->DrawEllipse(cRect(currentX,currentY,radius,radius), clrTransparent, -2);
-                    pixmapContent->DrawEllipse(cRect(currentX + config.epgImageWidthLarge - radius,currentY,radius,radius), clrTransparent, -1);
-                    pixmapContent->DrawEllipse(cRect(currentX,currentY + config.epgImageHeightLarge - radius,radius,radius), clrTransparent, -3);
-                    pixmapContent->DrawEllipse(cRect(currentX + config.epgImageWidthLarge - radius,currentY + config.epgImageHeightLarge - radius,radius,radius), clrTransparent, -4);
-                }
+                DrawRoundedCorners(pixmapContent, radius, currentX, currentY, config.epgImageWidthLarge, config.epgImageHeightLarge);
             }
             if (currentPicsPerLine < picsPerLine) {
                 currentX += config.epgImageWidthLarge + border;
@@ -807,12 +801,7 @@ void cNopacityMenuDetailRecordingView::DrawHeader(void) {
             int radius = config.cornerRadius;
             int x = width - config.epgImageWidth - border;
             int y = (headerHeight-config.epgImageHeight)/2;
-            if (radius > 2) {
-                pixmapHeader->DrawEllipse(cRect(x,y,radius,radius), clrTransparent, -2);
-                pixmapHeader->DrawEllipse(cRect(x + config.epgImageWidth - radius,y,radius,radius), clrTransparent, -1);
-                pixmapHeader->DrawEllipse(cRect(x,y + config.epgImageHeight - radius,radius,radius), clrTransparent, -3);
-                pixmapHeader->DrawEllipse(cRect(x + config.epgImageWidth - radius,y + config.epgImageHeight - radius,radius,radius), clrTransparent, -4);
-            }
+            DrawRoundedCorners(pixmapHeader, radius, x, y, config.epgImageWidth, config.epgImageHeight);
         }
         widthTextHeader -= config.epgImageWidth;
     }
