@@ -826,6 +826,9 @@ void cNopacityDisplayMenuView::DrawMessage(eMessageType Type, const char *Text) 
         imgLoader.DrawBackground2(Theme.Color(clrMenuBack), col, messageWidth-2, messageHeight-2);
         pixmapStatus->DrawImage(cPoint(1, 1), imgLoader.GetImage());
     }
+    if (config.roundedCorners) {
+        DrawRoundedCornersWithBorder(pixmapStatus, col, config.cornerRadius, messageWidth, messageHeight);
+    }
     int textWidth = fontMessage->Width(Text);
     tColor clrFontBack = (config.doBlending)?(clrTransparent):col;
     pixmapStatus->DrawText(cPoint((messageWidth - textWidth) / 2, (messageHeight - fontMessage->Height()) / 2), Text, Theme.Color(clrMenuFontMessages), clrFontBack, fontMessage);
