@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-09-14 17:27+0200\n"
+"POT-Creation-Date: 2013-09-16 10:09+0200\n"
 "PO-Revision-Date: 2012-11-11 17:49+0200\n"
 "Last-Translator: louis\n"
 "Language-Team: \n"
@@ -354,7 +354,7 @@ msgid "Adjust Font Size - EPG Info Window"
 msgstr "Schriftgröße anpassen - EPG Infofenster"
 
 msgid "Adjust Font Size - EPG Info Window Header"
-msgstr ""
+msgstr "Schriftgröße anpassen - EPG Infofenster Header"
 
 msgid "Transponder Information"
 msgstr "Transponder Information"
@@ -436,6 +436,9 @@ msgstr "Signalstärke- und Qualität anzeigen"
 
 msgid "Display Channel Source information"
 msgstr "Quellinformationen für Kanal anzeigen"
+
+msgid "Display Poster or Fanart from TVScraper"
+msgstr "Poster bzw. Fanart von TVScraper anzeigen"
 
 msgid "Display previous and next Channel Group"
 msgstr "Vorherige und nächste Kanalgruppe anzeigen"

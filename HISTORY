@@ -273,3 +273,4 @@ Version 0.1.4
   fullscreen mode is configured in plugin setup, the right area next to the
   list of events /recordings is completely used to display immeditately the
   detailed information of the selected event / recording.
+- added some rounded corners (if activated in setup)

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-09-14 17:27+0200\n"
+"POT-Creation-Date: 2013-09-16 10:09+0200\n"
 "PO-Revision-Date: 2013-03-19 22:56+0100\n"
 "Last-Translator: Gabychan <gbonich@gmail.com>\n"
 "Language-Team: \n"
@@ -439,6 +439,9 @@ msgstr "Mostra qualitat i intensitat del senyal"
 
 msgid "Display Channel Source information"
 msgstr "Mostra informació del canal"
+
+msgid "Display Poster or Fanart from TVScraper"
+msgstr ""
 
 msgid "Display previous and next Channel Group"
 msgstr "Mostra grups de canals anterior i posterior"

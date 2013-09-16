@@ -691,7 +691,8 @@ void cNopacityDisplayChannel::SetEvents(const cEvent *Present, const cEvent *Fol
                     int remaining = (int)(e->EndTime() - time(NULL))/60;
                     strSeen = cString::sprintf("-%d/%dmin", remaining, e->Duration()/60);
                 }
-                DrawPoster(e);
+                if (config.displayPoster)
+                    DrawPoster(e);
             } else {
                 strSeen = cString::sprintf("%dmin", e->Duration()/60);
             }

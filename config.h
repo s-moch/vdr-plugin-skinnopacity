@@ -60,6 +60,7 @@ class cNopacityConfig {
         int resolutionIconSize;
         int statusIconSize;
         int progressCurrentSchedule;
+        int displayPoster;
         //DisplayReplay
         int replayHeight;
         int replayBorderVertical;

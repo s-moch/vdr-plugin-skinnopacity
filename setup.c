@@ -95,6 +95,7 @@ void cNopacitySetup::Store(void) {
     SetupStore("resolutionIconSize", config.resolutionIconSize);
     SetupStore("statusIconSize", config.statusIconSize);
     SetupStore("progressCurrentSchedule", config.progressCurrentSchedule);
+    SetupStore("displayPoster", config.displayPoster);
     SetupStore("replayHeight", config.replayHeight);
     SetupStore("replayBorderVertical", config.replayBorderVertical);
     SetupStore("replayBorderBottom", config.replayBorderBottom);
@@ -516,6 +517,7 @@ void cNopacitySetupChannelDisplay::Set(void) {
     Add(new cMenuEditStraItem(tr("Kind of time display for current schedule"), &tmpNopacityConfig->progressCurrentSchedule, 2, progressStyleCurrentSchedule));
     Add(new cMenuEditBoolItem(tr("Display Signal Strength & Quality"), &tmpNopacityConfig->displaySignalStrength));
     Add(new cMenuEditBoolItem(tr("Display Channel Source information"), &tmpNopacityConfig->displaySourceInfo));
+    Add(new cMenuEditBoolItem(tr("Display Poster or Fanart from TVScraper"), &tmpNopacityConfig->displayPoster));
     Add(new cMenuEditBoolItem(tr("Display previous and next Channel Group"), &tmpNopacityConfig->displayPrevNextChannelGroup));
     Add(new cMenuEditIntItem(tr("Screen Resolution Icon Size"), &tmpNopacityConfig->resolutionIconSize, 30, 200));
     Add(new cMenuEditIntItem(tr("Status Icons Size"), &tmpNopacityConfig->statusIconSize, 30, 150));

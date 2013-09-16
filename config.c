@@ -35,6 +35,7 @@ cNopacityConfig::cNopacityConfig() {
     resolutionIconSize = 100;
     statusIconSize = 64;
     progressCurrentSchedule = 0;
+    displayPoster = 1;
     //Display Replay 
     replayHeight = 25;
     replayBorderVertical = 15;
@@ -326,6 +327,7 @@ bool cNopacityConfig::SetupParse(const char *Name, const char *Value) {
     else if (strcmp(Name, "resolutionIconSize") == 0)      resolutionIconSize = atoi(Value);
     else if (strcmp(Name, "statusIconSize") == 0)          statusIconSize = atoi(Value);
     else if (strcmp(Name, "progressCurrentSchedule") == 0) progressCurrentSchedule = atoi(Value);
+    else if (strcmp(Name, "displayPoster") == 0)           displayPoster = atoi(Value);
     else if (strcmp(Name, "replayHeight") == 0)            replayHeight = atoi(Value);
     else if (strcmp(Name, "replayBorderVertical") == 0)    replayBorderVertical = atoi(Value);
     else if (strcmp(Name, "replayBorderBottom") == 0)      replayBorderBottom = atoi(Value);
