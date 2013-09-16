@@ -261,7 +261,7 @@ void cNopacityConfig::loadRssFeeds(void) {
         fclose(f);
     }
     if (foundEntries) {
-        dsyslog("nopacity: loaded %u rss feeds from %s", rssFeeds.size(), *rssconf);
+        dsyslog("nopacity: loaded %lu rss feeds from %s", (long unsigned)rssFeeds.size(), *rssconf);
         int i = 1;
         for (std::vector<RssFeed>::iterator it = rssFeeds.begin(); it != rssFeeds.end(); it++) {
             dsyslog("nopacity: RssFeed %d: name %s, URL: %s", i, it->name.c_str(), it->url.c_str());
