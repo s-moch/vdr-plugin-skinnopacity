@@ -60,7 +60,7 @@ msgid "Duration"
 msgstr "Dauer"
 
 msgid "recording"
-msgstr "Aufnahme"
+msgstr "Rec"
 
 msgid "recordings"
 msgstr "Aufnahmen"
@@ -387,10 +387,10 @@ msgid "Folder Icon Size"
 msgstr "Order Icon Größe"
 
 msgid "Width of manually set recording poster"
-msgstr ""
+msgstr "Breite der manuell gesetzen Poster"
 
 msgid "Height of manually set recording poster"
-msgstr ""
+msgstr "Höhe der manuell gesetzten Poster"
 
 msgid "simple, one common image"
 msgstr "einfach, eine gemeinsame Graphik"

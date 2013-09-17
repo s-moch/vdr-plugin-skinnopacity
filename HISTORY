@@ -282,3 +282,4 @@ Version 0.1.4
   folder. For series it is also possible to place a common poster for all
   series in a folder two or three directories above the actual recording
   folders. If a manual poster is found, all tvscraper information is ignored.
+- changed narrow recordings menu style

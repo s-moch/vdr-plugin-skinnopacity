@@ -173,8 +173,8 @@ private:
     void SetTextFullRecording(void);
     void SetTextShortRecording(void);
     void DrawBackground(void);
-    int DrawRecordingNewIcon(void);
-    int DrawRecordingEditedIcon(int startLeft);
+    void DrawRecordingNewIcon(void);
+    void DrawRecordingEditedIcon(void);
     void DrawFolderIcon(void);
     void DrawRecDateTime(void);
     void DrawFolderNewSeen(void);

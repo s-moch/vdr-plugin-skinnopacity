@@ -985,13 +985,8 @@ void cNopacityRecordingMenuItem::CreatePixmapTextScroller(int totalWidth) {
     int pixmapLeft = 0;
     int pixmapWidth = 0;
     int drawPortWidth = totalWidth + 10;
-    if (isFolder) {
-        pixmapLeft = left + 10 + config.menuRecFolderSize;
-        pixmapWidth = width - 10 - config.menuRecFolderSize;
-    } else {
-        pixmapLeft = posterWidth + left + 20;
-        pixmapWidth = width - posterWidth - 20;
-    }
+    pixmapLeft = posterWidth + left + 20;
+    pixmapWidth = width - posterWidth - 20;
     pixmapTextScroller = osd->CreatePixmap(4, cRect(pixmapLeft, top + index * (height + spaceMenu), pixmapWidth, height), cRect(0, 0, drawPortWidth, height));
     pixmapTextScroller->Fill(clrTransparent);
 }
@@ -1052,10 +1047,6 @@ int cNopacityRecordingMenuItem::CheckScrollable(bool hasIcon) {
 int cNopacityRecordingMenuItem::CheckScrollableRecording(void) {
     int spaceLeft = spaceMenu + posterWidth + 15;
     int iconWidth = 0;
-    if (Recording->IsNew())
-        iconWidth += font->Height() + 10;
-    if (Recording->IsEdited())
-        iconWidth += font->Height() + 5;
     int totalTextWidth = width - spaceLeft;
     strRecNameFull = strRecName.c_str();
     if (font->Width(strRecName.c_str()) + iconWidth > (width - spaceLeft)) {
@@ -1067,7 +1058,7 @@ int cNopacityRecordingMenuItem::CheckScrollableRecording(void) {
 }
 
 int cNopacityRecordingMenuItem::CheckScrollableFolder(void) {
-    int spaceLeft = spaceMenu + config.menuRecFolderSize;
+    int spaceLeft = spaceMenu + posterWidth + 15;
     int totalTextWidth = width - spaceLeft;
     strRecNameFull = strRecName.c_str();
     if (font->Width(strRecName.c_str()) > (width - spaceLeft)) {
@@ -1107,19 +1098,13 @@ void cNopacityRecordingMenuItem::SetTextFullFolder(void) {
     else
         DrawFolderIcon();
     int heightRecName = (2*height/3 - font->Height())/2 + 10;
-    pixmapTextScroller->DrawText(cPoint(0, heightRecName), strRecNameFull.c_str(), clrFont, clrTransparent, font);
+    pixmapTextScroller->DrawText(cPoint(5, heightRecName), strRecNameFull.c_str(), clrFont, clrTransparent, font);
 }
 
 void cNopacityRecordingMenuItem::SetTextFullRecording(void) {
     tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
     pixmapTextScroller->Fill(clrTransparent);
     int textLeft = 5;
-    if (Recording->IsNew()) {
-        textLeft += DrawRecordingNewIcon();
-    }
-    if (Recording->IsEdited()) {
-        textLeft += DrawRecordingEditedIcon(textLeft);
-    }
     int heightRecName = (height / 2 - font->Height())/2;
     pixmapTextScroller->DrawText(cPoint(textLeft, heightRecName), strRecNameFull.c_str(), clrFont, clrTransparent, font);
 }
@@ -1140,48 +1125,44 @@ void cNopacityRecordingMenuItem::SetTextShortFolder(void) {
     else
         DrawFolderIcon();
     int heightRecName = (2*height/3 - font->Height())/2 + 10;
-    pixmapTextScroller->DrawText(cPoint(0, heightRecName), strRecName.c_str(), clrFont, clrTransparent, font);
+    pixmapTextScroller->DrawText(cPoint(5, heightRecName), strRecName.c_str(), clrFont, clrTransparent, font);
 }
 
 void cNopacityRecordingMenuItem::SetTextShortRecording(void) {
     tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
     pixmapTextScroller->Fill(clrTransparent);
     int textLeft = 5;
-    if (Recording->IsNew()) {
-        textLeft += DrawRecordingNewIcon();
-    }
-    if (Recording->IsEdited()) {
-        textLeft += DrawRecordingEditedIcon(textLeft);
-    }
     int heightRecName = (height / 2 - font->Height())/2;
     pixmapTextScroller->DrawText(cPoint(textLeft, heightRecName), strRecName.c_str(), clrFont, clrTransparent, font);
 }
 
 
-int cNopacityRecordingMenuItem::DrawRecordingNewIcon(void) {
-    int iconNewSize = font->Height();
+void cNopacityRecordingMenuItem::DrawRecordingNewIcon(void) {
+    int iconNewSize = height/3;
     cImageLoader imgLoader;
     if (imgLoader.LoadIcon("skinIcons/newrecording", iconNewSize)) {
-        int iconHeight = (height/2 - iconNewSize)/2;
-        pixmapTextScroller->DrawImage(cPoint(1, iconHeight), imgLoader.GetImage());
+        int iconX = pixmapIcon->ViewPort().Width() - iconNewSize;
+        int iconY = height/2;
+        pixmapIcon->DrawImage(cPoint(iconX, iconY), imgLoader.GetImage());
     }
-    return iconNewSize;
 }
 
-int cNopacityRecordingMenuItem::DrawRecordingEditedIcon(int startLeft) {
-    int iconEditedSize = font->Height() - 10;
+void cNopacityRecordingMenuItem::DrawRecordingEditedIcon(void) {
+    int iconCutSize = height/3;
     cImageLoader imgLoader;
-    if (imgLoader.LoadIcon("skinIcons/recordingcutted", iconEditedSize)) {
-        int iconHeight = (height/2 - iconEditedSize)/2;
-        pixmapTextScroller->DrawImage(cPoint(startLeft + 5, iconHeight), imgLoader.GetImage());
+    if (imgLoader.LoadIcon("skinIcons/recordingcutted", iconCutSize)) {
+        int iconX = pixmapIcon->ViewPort().Width() - iconCutSize;
+        if (Recording->IsNew())
+            iconX -= iconCutSize;
+        int iconY = height/2;
+        pixmapIcon->DrawImage(cPoint(iconX, iconY), imgLoader.GetImage());
     }
-    return iconEditedSize + 5;
 }
 
 void cNopacityRecordingMenuItem::DrawFolderIcon(void) {
     cImageLoader imgLoader;
-    if (imgLoader.LoadIcon("skinIcons/recordingfolder", config.menuRecFolderSize)) {
-        pixmapIcon->DrawImage(cPoint(1, 1), imgLoader.GetImage());
+    if (imgLoader.LoadIcon("skinIcons/recfolder", posterWidth, posterHeight)) {
+        pixmapIcon->DrawImage(cPoint(10, 1), imgLoader.GetImage());
     }
 }
 
@@ -1218,7 +1199,7 @@ void cNopacityRecordingMenuItem::DrawFolderNewSeen(void) {
     int textHeight = 2*height/3 + (height/3 - fontSmall->Height())/2 - 10;
     cString strTotalNew = cString::sprintf("%d %s (%d %s)", Total, (Total > 1)?tr("recordings"):tr("recording"), New, tr("new"));
     tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
-    pixmapIcon->DrawText(cPoint(config.menuRecFolderSize + 10, textHeight), *strTotalNew, clrFont, clrTransparent, fontSmall);
+    pixmapIcon->DrawText(cPoint(posterWidth + 30, textHeight), *strTotalNew, clrFont, clrTransparent, fontSmall);
 }
 
 void cNopacityRecordingMenuItem::DrawPoster(void) {
@@ -1247,6 +1228,12 @@ void cNopacityRecordingMenuItem::Render() {
         } else {
             DrawPoster();
             DrawRecDateTime();
+            if (Recording->IsNew()) {
+                DrawRecordingNewIcon();
+            }
+            if (Recording->IsEdited()) {
+                DrawRecordingEditedIcon();
+            }
             SetTextShort();
         }
         if (current && scrollable && !Running() && config.menuScrollSpeed) {
