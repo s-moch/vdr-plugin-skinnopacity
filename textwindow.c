@@ -253,6 +253,7 @@ void cNopacityTextWindow::SetRecording(const cRecording *recording) {
     int widthTextHeader = width - 2 * border;
     int widthText = widthTextHeader;
     int y = border;
+    //Image
     cImageLoader imgLoader;
     bool recImageFound = false;
     if (hasManualPoster) {
@@ -291,7 +292,7 @@ void cNopacityTextWindow::SetRecording(const cRecording *recording) {
     int maxHeight = height - y;
     if ((hasPoster || hasManualPoster) && (y < (border + posterHeight))) {
         int heightNarrow = border + posterHeight - y;
-        DrawTextWrapperFloat(recording->Info()->Description(), 
+        DrawTextWrapperFloat(recording->Info()->Description(),
                              widthTextHeader, widthText, y, heightNarrow,
                              border, font, Theme.Color(clrMenuFontDetailViewText), maxHeight);
     } else if (recImageFound && (y < (border + config.epgImageHeight))) {
@@ -325,21 +326,22 @@ int cNopacityTextWindow::DrawTextWrapperFloat(const char *text, int widthSmall, 
                                               tColor color, int maxHeight) {
     int lineHeight = font->Height();
     int numLinesNarrow = heightNarrow / lineHeight + 1;
-    
     cTextWrapper test;
     test.Set(text, font, widthSmall);
     std::stringstream sstrTextTall;
     std::stringstream sstrTextFull;
     bool drawFull = false;
+    int numEmptyLinesAtEnd = 0;
     for (int line = 0; line < test.Lines(); line++) {
         bool lineWrap = false;
-        if (font->Width(test.GetLine(line)) < (widthSmall - 100))
+        if (font->Width(test.GetLine(line)) < (widthSmall - 100)) {
             lineWrap = true;
+        }
         if (line < numLinesNarrow) {
             sstrTextTall << test.GetLine(line);
-            if (lineWrap)
+            if (lineWrap) {
                 sstrTextTall << "\n";
-            else
+            } else
                 sstrTextTall << " ";
         } else {
             drawFull = true;
@@ -350,7 +352,6 @@ int cNopacityTextWindow::DrawTextWrapperFloat(const char *text, int widthSmall, 
                 sstrTextFull << " ";
         }
     }
-    
     cTextWrapper wrapperNarrow;
     wrapperNarrow.Set(sstrTextTall.str().c_str(), font, widthSmall);
     int height = 2*font->Height();

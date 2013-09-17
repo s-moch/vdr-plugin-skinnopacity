@@ -57,7 +57,7 @@ void cNopacityDisplayMessage::SetMessage(eMessageType Type, const char *Text) {
         pixmap->DrawImage(cPoint(1, 1), imgLoader.GetImage());
     }
     if (config.roundedCorners) {
-        DrawRoundedCornersWithBorder(pixmap, col, config.cornerRadius, width, height);
+        DrawRoundedCornersWithBorder(pixmap, col, config.cornerRadius, width, height, pixmapBackground);
     }
     int textWidth = font->Width(Text);
     pixmap->DrawText(cPoint((width - textWidth) / 2, (height - font->Height()) / 2), Text, colFont, (config.doBlending)?clrTransparent:col, font);
