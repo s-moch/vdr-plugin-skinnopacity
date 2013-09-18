@@ -215,12 +215,12 @@ void cNopacityTextWindow::SetEvent(const cEvent *event) {
         if (imgLoader.LoadPoster(poster.media.path.c_str(), posterWidth, posterHeight)) {
             int posterX = width - posterWidth - border;
             pixmap->DrawImage(cPoint(posterX, border), imgLoader.GetImage());
-            widthTextHeader -= posterWidth;
+            widthTextHeader -= posterWidth + border;
         }
     } else if (imgLoader.LoadEPGImage(event->EventID())) {
         epgImageFound = true;
         pixmap->DrawImage(cPoint(width - config.epgImageWidth - border, y), imgLoader.GetImage());
-        widthTextHeader -= config.epgImageWidth;
+        widthTextHeader -= config.epgImageWidth + border;
     }
     //Title
     y = DrawTextWrapper(event->Title(), widthTextHeader, y, border, fontHeader, Theme.Color(clrMenuFontDetailViewHeaderTitle), height);
@@ -259,17 +259,17 @@ void cNopacityTextWindow::SetRecording(const cRecording *recording) {
         if (imgLoader.LoadPoster(*manualPosterPath, posterWidth, posterHeight)) {
             int posterX = width - posterWidth - border;
             pixmap->DrawImage(cPoint(posterX, border), imgLoader.GetImage());
-            widthTextHeader -= posterWidth;
+            widthTextHeader -= posterWidth + border;
         }
     } else if (hasPoster) {
         if (imgLoader.LoadPoster(poster.media.path.c_str(), posterWidth, posterHeight)) {
             int posterX = width - posterWidth - border;
             pixmap->DrawImage(cPoint(posterX, border), imgLoader.GetImage());
-            widthTextHeader -= posterWidth;
+            widthTextHeader -= posterWidth + border;
         }
     } else if (imgLoader.LoadRecordingImage(recording->FileName())) {
         pixmap->DrawImage(cPoint(width - config.epgImageWidth - border, y), imgLoader.GetImage());
-        widthTextHeader -= config.epgImageWidth;
+        widthTextHeader -= config.epgImageWidth + border;
         recImageFound = true;
     }
     const cRecordingInfo *info = recording->Info();
@@ -373,13 +373,14 @@ void cNopacityTextWindow::DrawTextWrapperFloat(const char *text, int widthSmall,
 }
 
 void cNopacityTextWindow::DrawPoster(int border) {
+    int posterY = font->Height() / 2;
     cImageLoader imgLoader;
     if (hasManualPoster) {
         if (imgLoader.LoadPoster(*manualPosterPath, posterWidth, posterHeight)) {
-            pixmap->DrawImage(cPoint(border, font->Height()), imgLoader.GetImage());
+            pixmap->DrawImage(cPoint(border, posterY), imgLoader.GetImage());
         }
     } else if (imgLoader.LoadPoster(poster.media.path.c_str(), posterWidth, posterHeight)) {
-        pixmap->DrawImage(cPoint(border, font->Height()), imgLoader.GetImage());
+        pixmap->DrawImage(cPoint(border, posterY), imgLoader.GetImage());
     }
 }
 
