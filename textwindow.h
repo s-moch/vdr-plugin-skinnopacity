@@ -27,8 +27,8 @@ private:
     void CreatePixmapFullScreen(void);
     void DrawText(int border, int left);
     void DrawPoster(int border);
-    int DrawTextWrapper(const char *text, int width, int top, int x, const cFont *font, tColor color, int maxHeight = 0);
-    int DrawTextWrapperFloat(const char *text, int widthSmall, int widthFull, int top, int heightNarrow, int x, const cFont *font, tColor color, int maxHeight);
+    int DrawTextWrapper(const char *text, int width, int top, int x, const cFont *font, tColor color, int maxHeight);
+    void DrawTextWrapperFloat(const char *text, int widthSmall, int widthFull, int top, int heightNarrow, int x, const cFont *font, tColor color, int maxHeight);
     void DoSleep(int duration);
     virtual void Action(void);
     void ScaleVideoWindow(void);

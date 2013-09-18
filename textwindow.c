@@ -223,23 +223,22 @@ void cNopacityTextWindow::SetEvent(const cEvent *event) {
         widthTextHeader -= config.epgImageWidth;
     }
     //Title
-    y = DrawTextWrapper(event->Title(), widthTextHeader, y, border, fontHeader, Theme.Color(clrMenuFontDetailViewHeaderTitle));
+    y = DrawTextWrapper(event->Title(), widthTextHeader, y, border, fontHeader, Theme.Color(clrMenuFontDetailViewHeaderTitle), height);
     //Short Text
-    y = DrawTextWrapper(event->ShortText(), widthTextHeader, y, border, font, Theme.Color(clrMenuFontDetailViewHeader));
+    y = DrawTextWrapper(event->ShortText(), widthTextHeader, y, border, font, Theme.Color(clrMenuFontDetailViewHeader), height);
 
     y += fontHeader->Height();
     //Description
-    int maxHeight = height - y;
     if (hasPoster && (y < (border + posterHeight))) {
         int heightNarrow = border + posterHeight - y;
         DrawTextWrapperFloat(event->Description(), 
                              widthTextHeader, widthText, y, heightNarrow,
-                             border, font, Theme.Color(clrMenuFontDetailViewText), maxHeight);
+                             border, font, Theme.Color(clrMenuFontDetailViewText), height);
     } else if (epgImageFound && (y < (border + config.epgImageHeight))) {
         y = border + config.epgImageHeight;
-        DrawTextWrapper(event->Description(), widthText, y, border, font, Theme.Color(clrMenuFontDetailViewText), maxHeight);
+        DrawTextWrapper(event->Description(), widthText, y, border, font, Theme.Color(clrMenuFontDetailViewText), height);
     } else {
-        DrawTextWrapper(event->Description(), widthText, y, border, font, Theme.Color(clrMenuFontDetailViewText), maxHeight);
+        DrawTextWrapper(event->Description(), widthText, y, border, font, Theme.Color(clrMenuFontDetailViewText), height);
     }
 }
 
@@ -282,99 +281,95 @@ void cNopacityTextWindow::SetRecording(const cRecording *recording) {
     else    
         recTitle = recording->Name();
     //Title
-    y = DrawTextWrapper(*recTitle, widthTextHeader, y, border, fontHeader, Theme.Color(clrMenuFontDetailViewHeaderTitle));
+    y = DrawTextWrapper(*recTitle, widthTextHeader, y, border, fontHeader, Theme.Color(clrMenuFontDetailViewHeaderTitle), height);
     //Short Text
     if (!isempty(info->ShortText())) {
-        y = DrawTextWrapper(info->ShortText(), widthTextHeader, y, border, font, Theme.Color(clrMenuFontDetailViewHeader));
+        y = DrawTextWrapper(info->ShortText(), widthTextHeader, y, border, font, Theme.Color(clrMenuFontDetailViewHeader), height);
     }
     y += fontHeader->Height();
     //Description
-    int maxHeight = height - y;
     if ((hasPoster || hasManualPoster) && (y < (border + posterHeight))) {
         int heightNarrow = border + posterHeight - y;
         DrawTextWrapperFloat(recording->Info()->Description(),
                              widthTextHeader, widthText, y, heightNarrow,
-                             border, font, Theme.Color(clrMenuFontDetailViewText), maxHeight);
+                             border, font, Theme.Color(clrMenuFontDetailViewText), height);
     } else if (recImageFound && (y < (border + config.epgImageHeight))) {
         y = border + config.epgImageHeight;
-        DrawTextWrapper(recording->Info()->Description(), widthText, y, border, font, Theme.Color(clrMenuFontDetailViewText), maxHeight);
+        DrawTextWrapper(recording->Info()->Description(), widthText, y, border, font, Theme.Color(clrMenuFontDetailViewText), height);
     } else {
-        DrawTextWrapper(recording->Info()->Description(), widthText, y, border, font, Theme.Color(clrMenuFontDetailViewText), maxHeight);
+        DrawTextWrapper(recording->Info()->Description(), widthText, y, border, font, Theme.Color(clrMenuFontDetailViewText), height);
     }
 }
 
 int cNopacityTextWindow::DrawTextWrapper(const char *text, int width, int top, int x, 
                                          const cFont *font, tColor color, int maxHeight) {
     cTextWrapper wrapper;
+    int lineHeight = font->Height();
     wrapper.Set(text, font, width);
-    int height = 2*font->Height();
     int y = top;
     for (int i=0; i < wrapper.Lines(); i++) {
-        if (maxHeight && (height > maxHeight)) {
+        if (y + 2*lineHeight > maxHeight) {
             pixmap->DrawText(cPoint(x, y), "...", color, clrTransparent, font);
+            y += 2*lineHeight;
             break;
         }
         pixmap->DrawText(cPoint(x, y), wrapper.GetLine(i), color, clrTransparent, font);
-        y += font->Height();
-        height += font->Height();
+        y += lineHeight;
     }
     return y;
 }
 
-int cNopacityTextWindow::DrawTextWrapperFloat(const char *text, int widthSmall, int widthFull, 
+void cNopacityTextWindow::DrawTextWrapperFloat(const char *text, int widthSmall, int widthFull, 
                                               int top, int heightNarrow, int x, const cFont *font, 
                                               tColor color, int maxHeight) {
+    
+    if (!text)
+        return;
     int lineHeight = font->Height();
     int numLinesNarrow = heightNarrow / lineHeight + 1;
-    cTextWrapper test;
-    test.Set(text, font, widthSmall);
-    std::stringstream sstrTextTall;
-    std::stringstream sstrTextFull;
-    bool drawFull = false;
-    int numEmptyLinesAtEnd = 0;
-    for (int line = 0; line < test.Lines(); line++) {
-        bool lineWrap = false;
-        if (font->Width(test.GetLine(line)) < (widthSmall - 100)) {
-            lineWrap = true;
-        }
-        if (line < numLinesNarrow) {
-            sstrTextTall << test.GetLine(line);
-            if (lineWrap) {
-                sstrTextTall << "\n";
-            } else
-                sstrTextTall << " ";
-        } else {
-            drawFull = true;
-            sstrTextFull << test.GetLine(line);
-            if (lineWrap)
-                sstrTextFull << "\n";
-            else
-                sstrTextFull << " ";
-        }
-    }
-    cTextWrapper wrapperNarrow;
-    wrapperNarrow.Set(sstrTextTall.str().c_str(), font, widthSmall);
-    int height = 2*font->Height();
+    splitstring s(text);
+    std::vector<std::string> flds = s.split('\n', 1);
+    if (flds.size() < 1)
+        return;
     int y = top;
-    for (int i=0; i < wrapperNarrow.Lines(); i++) {
-        pixmap->DrawText(cPoint(x, y), wrapperNarrow.GetLine(i), color, clrTransparent, font);
-        y += lineHeight;
-        height += lineHeight;
-    }
-    if (drawFull) {
-        cTextWrapper wrapper;
-        wrapper.Set(sstrTextFull.str().c_str(), font, widthFull);
-        for (int i=0; i < wrapper.Lines(); i++) {
-            if (maxHeight && (height > maxHeight)) {
-                pixmap->DrawText(cPoint(x, y), "...", color, clrTransparent, font);
-                break;
-            }
-            pixmap->DrawText(cPoint(x, y), wrapper.GetLine(i), color, clrTransparent, font);
+    int linesDrawn = 0;
+    bool drawNarrow = true;
+    for (int i=0; i<flds.size(); i++) {
+        if (!flds[i].size()) {
+            //empty line
+            linesDrawn++;
             y += lineHeight;
-            height += lineHeight;
+        } else {
+            cTextWrapper wrapper;
+            if (drawNarrow) {
+                wrapper.Set((flds[i].c_str()), font, widthSmall);
+                int newLines = wrapper.Lines();
+                //check if wrapper fits completely into narrow area
+                if (linesDrawn + newLines < numLinesNarrow) {
+                    y = DrawTextWrapper(flds[i].c_str(), widthSmall, y, x, font, color, maxHeight);
+                    linesDrawn += newLines;
+                } else {
+                    //this wrapper has to be splitted
+                    std::stringstream sstrTextTall;
+                    std::stringstream sstrTextFull;
+                    for (int line = 0; line < wrapper.Lines(); line++) {
+                        if (line + linesDrawn < numLinesNarrow) {
+                            sstrTextTall << wrapper.GetLine(line) << " ";
+                        } else {
+                            sstrTextFull << wrapper.GetLine(line) << " ";
+                        }
+                    }
+                    y = DrawTextWrapper(sstrTextTall.str().c_str(), widthSmall, y, x, font, color, maxHeight);
+                    y = DrawTextWrapper(sstrTextFull.str().c_str(), widthFull, y, x, font, color, maxHeight);
+                    drawNarrow = false;
+                }
+            } else {
+                if (y > maxHeight)
+                    break;
+                y = DrawTextWrapper(flds[i].c_str(), widthFull, y, x, font, color, maxHeight);
+            }
         }
     }
-    return y;
 }
 
 void cNopacityTextWindow::DrawPoster(int border) {
