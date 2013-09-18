@@ -123,6 +123,7 @@ void cNopacityTimer::Render(void) {
             pixmap->DrawImage(cPoint(1,1), imgLoader.GetImage());
         } else {
             pixmap->DrawRectangle(cRect(1, 1, width-2, height-2), Theme.Color(clrDiskAlert));
+            clrFontBack = Theme.Color(clrDiskAlert);
         }        
         int numLines = showName.Lines();
         int textWidth = 0;
@@ -143,6 +144,7 @@ void cNopacityTimer::Render(void) {
                 pixmap->DrawImage(cPoint(1,1), imgLoader.GetImage());
             } else {
                 pixmap->DrawRectangle(cRect(1, 1, width-2, height-2), Theme.Color(clrDiskAlert));
+                clrFontBack = Theme.Color(clrDiskAlert);
             } 
         } else {
             pixmap->Fill(Theme.Color(clrMenuBorder));
