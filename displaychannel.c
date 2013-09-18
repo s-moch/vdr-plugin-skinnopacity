@@ -192,7 +192,7 @@ void cNopacityDisplayChannel::CreateFonts(void) {
 }
 
 void cNopacityDisplayChannel::DrawBackground(void){
-    if (config.doBlending) {
+    if (config.doBlending && (Theme.Color(clrChannelBackground) != Theme.Color(clrChannelBackBlend))) {
         DrawBlendedBackground(pixmapBackgroundTop, Theme.Color(clrChannelBackground), Theme.Color(clrChannelBackBlend), true);
         DrawBlendedBackground(pixmapBackgroundBottom, Theme.Color(clrChannelBackground), Theme.Color(clrChannelBackBlend), false);
     } else {
@@ -204,7 +204,7 @@ void cNopacityDisplayChannel::DrawBackground(void){
     
     if ((config.backgroundStyle == bsFull) && withInfo) {
         pixmapLogoBackground->Fill(Theme.Color(clrChannelBackground));
-        if (config.doBlending) {
+        if (config.doBlending && (Theme.Color(clrChannelBackground) != Theme.Color(clrChannelBackBlend))) {
             DrawBlendedBackground(pixmapLogoBackgroundTop, Theme.Color(clrChannelBackground), Theme.Color(clrChannelBackBlend), true);
             DrawBlendedBackground(pixmapLogoBackgroundBottom, Theme.Color(clrChannelBackground), Theme.Color(clrChannelBackBlend), false);
         } else {
@@ -777,7 +777,7 @@ void cNopacityDisplayChannel::DrawProgressBar(int Current, int Total) {
     if ((Current < currentLast + 3) && !channelChange)
         return;
     currentLast = Current;
-    if ((Current > 0) || (Total > 0)) {
+    if (((Current > 0) || (Total > 0)) && (Total >= Current)) {
         int barHeight = pixmapProgressBar->ViewPort().Height()-8;
         if (barHeight%2 != 0)
             barHeight++;

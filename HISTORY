@@ -288,3 +288,6 @@ Version 0.1.4
   main menu
 - optimized some theme colors in displaychannel and displaymessage
 - display of channel logo in main menu timer display configurable
+- fixed a bug that progress bar is too long for too long schedules
+- if background color and blending color in displayChannel and displayReplay
+  are the same, no blending effect is shown

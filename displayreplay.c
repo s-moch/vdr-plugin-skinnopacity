@@ -128,7 +128,7 @@ void cNopacityDisplayReplay::CreateFonts(void) {
 
 void cNopacityDisplayReplay::DrawBackground(void) {
     if (!modeOnly) {
-        if (config.doBlending) {
+        if (config.doBlending && (Theme.Color(clrReplayBackground) != Theme.Color(clrReplayBackBlend))) {
             DrawBlendedBackground(pixmapHeader, Theme.Color(clrReplayBackground), Theme.Color(clrReplayBackBlend), true);
             DrawBlendedBackground(pixmapFooter, Theme.Color(clrReplayBackground), Theme.Color(clrReplayBackBlend), false);
         } else {
