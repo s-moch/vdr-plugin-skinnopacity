@@ -168,14 +168,15 @@ void cNopacityTimer::Render(void) {
 
 void cNopacityTimer::DrawLogo(void) {
     pixmapLogo->Fill(clrTransparent);
+    int showTimerLogo = (config.showTimers < 2) ? 1 : 0;
     int logoWidth = config.timersLogoWidth;
     int logoHeight = config.timersLogoHeight;
     const cChannel *Channel = timer->Channel();
     if (Channel && Channel->Name()) {
         cImageLoader imgLoader;
-        if (imgLoader.LoadLogo(Channel->Name(), logoWidth, logoHeight)) {
+        if (showTimerLogo && imgLoader.LoadLogo(Channel->Name(), logoWidth, logoHeight)) {
             pixmapLogo->DrawImage(cPoint((width - logoWidth)/2, 1), imgLoader.GetImage());
-        } else if (imgLoader.LoadLogo(*(Channel->GetChannelID().ToString()), logoWidth, logoHeight)) {
+        } else if (showTimerLogo && imgLoader.LoadLogo(*(Channel->GetChannelID().ToString()), logoWidth, logoHeight)) {
             pixmapLogo->DrawImage(cPoint((width - logoWidth)/2, 1), imgLoader.GetImage());
         } else {
             cTextWrapper channel;

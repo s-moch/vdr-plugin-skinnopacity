@@ -307,6 +307,9 @@ cNopacitySetupMenuDisplayMain::cNopacitySetupMenuDisplayMain(cNopacityConfig* da
     titleStyle[2] = tr("no title");
     discUsageStyle[0] = tr("free time in hours");
     discUsageStyle[1] = tr("free space in GB");
+    showTimers[0] = trVDR("no");
+    showTimers[1] = trVDR("yes");
+    showTimers[2] = tr("small without logo");
     Set();
 }
 
@@ -331,7 +334,7 @@ void cNopacitySetupMenuDisplayMain::Set(void) {
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Adjust Font Size - free")), &tmpNopacityConfig->fontDiskUsage, -20, 20));
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Adjust Font Size - percent")), &tmpNopacityConfig->fontDiskUsagePercent, -20, 20));
     }
-    Add(new cMenuEditBoolItem(tr("Display Timers"), &tmpNopacityConfig->showTimers));
+    Add(new cMenuEditStraItem(tr("Display Timers"), &tmpNopacityConfig->showTimers, 3, showTimers));
     if (tmpNopacityConfig->showTimers) {
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Maximum number of Timers")), &tmpNopacityConfig->numberTimers, 1, 10));
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Width of Timers (Percent of OSD Width)")), &tmpNopacityConfig->menuWidthRightItems, 5, 30));

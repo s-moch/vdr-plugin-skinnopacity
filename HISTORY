@@ -287,3 +287,4 @@ Version 0.1.4
 - fixed nasty font pixelation with non blending themes for timer display in
   main menu
 - optimized some theme colors in displaychannel and displaymessage
+- display of channel logo in main menu timer display configurable

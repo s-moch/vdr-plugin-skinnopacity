@@ -41,6 +41,7 @@ class cNopacitySetupMenuDisplayMain : public cMenuSetupSubMenu {
     protected:
         const char *titleStyle[3];
         const char *discUsageStyle[2];
+        const char *showTimers[3];
         void Set(void);
     public:
         cNopacitySetupMenuDisplayMain(cNopacityConfig *data);

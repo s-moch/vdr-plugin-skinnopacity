@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-09-16 11:10+0200\n"
+"POT-Creation-Date: 2013-09-18 11:22+0200\n"
 "PO-Revision-Date: 2013-03-19 22:56+0100\n"
 "Last-Translator: Gabychan <gbonich@gmail.com>\n"
 "Language-Team: \n"
@@ -208,6 +208,9 @@ msgstr "temps lliure en hores"
 
 msgid "free space in GB"
 msgstr "espai lliure en GB"
+
+msgid "small without logo"
+msgstr ""
 
 msgid "Use narrow main menu"
 msgstr "Utilitza menú principal limitat"
