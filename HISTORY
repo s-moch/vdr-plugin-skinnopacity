@@ -284,3 +284,5 @@ Version 0.1.4
   folders. If a manual poster is found, all tvscraper information is ignored.
 - changed narrow recordings menu style
 - improved function to float text around poster in textwindow
+- fixed nasty font pixelation with non blending themes for timer display in
+  main menu
