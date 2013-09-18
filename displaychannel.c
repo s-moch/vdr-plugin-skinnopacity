@@ -720,7 +720,7 @@ void cNopacityDisplayChannel::SetEvents(const cEvent *Present, const cEvent *Fol
             pixmapEPGInfo->DrawText(cPoint(indent, y * epgInfoLineHeight), *startTime, fontColor, clrTransparent, fontEPG);
             int xEPGInfo = 2 * indent + startTimeWidth;
             if (drawRecIcon) {
-                tColor clrRecIcon = (i==0)?Theme.Color(clrChannelRecActive):Theme.Color(clrRecNext);
+                tColor clrRecIcon = (i==0)?Theme.Color(clrRecNow):Theme.Color(clrRecNext);
                 tColor clrRecIconText = (i==0)?Theme.Color(clrRecNowFont):Theme.Color(clrRecNextFont);
                 pixmapEPGInfo->DrawRectangle(cRect(xEPGInfo, y * epgInfoLineHeight , widthRecIcon, epgInfoLineHeight), clrRecIcon);
                 int xRecText = xEPGInfo + (widthRecIcon - fontEPGSmall->Width("REC"))/2;

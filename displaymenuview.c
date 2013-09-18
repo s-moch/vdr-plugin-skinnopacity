@@ -802,18 +802,23 @@ void cNopacityDisplayMenuView::ClearScrollbar(void) {
 
 void cNopacityDisplayMenuView::DrawMessage(eMessageType Type, const char *Text) {
     tColor col = Theme.Color(clrMessageStatus);
+    tColor colFont = Theme.Color(clrMessageFontStatus);
     switch (Type) {
         case mtStatus: 
             col = Theme.Color(clrMessageStatus);
+            colFont = Theme.Color(clrMessageFontStatus);
             break;
         case mtInfo:
             col = Theme.Color(clrMessageInfo);
+            colFont = Theme.Color(clrMessageFontInfo);
             break;
         case mtWarning:
             col = Theme.Color(clrMessageWarning);
+            colFont = Theme.Color(clrMessageFontWarning);
             break;
         case mtError:
             col = Theme.Color(clrMessageError);
+            colFont = Theme.Color(clrMessageFontError);
             break;
     }
     if (pixmapStatus) {
@@ -831,7 +836,7 @@ void cNopacityDisplayMenuView::DrawMessage(eMessageType Type, const char *Text) 
     }
     int textWidth = fontMessage->Width(Text);
     tColor clrFontBack = (config.doBlending)?(clrTransparent):col;
-    pixmapStatus->DrawText(cPoint((messageWidth - textWidth) / 2, (messageHeight - fontMessage->Height()) / 2), Text, Theme.Color(clrMenuFontMessages), clrFontBack, fontMessage);
+    pixmapStatus->DrawText(cPoint((messageWidth - textWidth) / 2, (messageHeight - fontMessage->Height()) / 2), Text, colFont, clrFontBack, fontMessage);
 }
 
 void cNopacityDisplayMenuView::ClearMessage(void) {
