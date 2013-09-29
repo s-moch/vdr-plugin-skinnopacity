@@ -58,13 +58,14 @@ private:
 
 class cRssStandaloneTicker {
     public:
-        cRssStandaloneTicker(void);
+        cRssStandaloneTicker(cImageCache *imgCache);
         ~cRssStandaloneTicker();
         void Start(void);
         void SetFeed(std::string feedName);
         void SwitchNextRssMessage(void);
         void SwitchNextRssFeed(void);
     private:
+        cImageCache *imgCache;
         int osdLeft;
         int osdTop;
         int osdWidth;

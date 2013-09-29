@@ -1,19 +1,17 @@
 #include "displaymessage.h"
 
-cNopacityDisplayMessage::cNopacityDisplayMessage(void) {
+cNopacityDisplayMessage::cNopacityDisplayMessage(cImageCache *imgCache) {
+    this->imgCache = imgCache;
     config.setDynamicValues();
-    height = cOsd::OsdHeight() * config.messageHeight / 100;
-    int top = cOsd::OsdTop() + cOsd::OsdHeight() - height - config.messageBorderBottom;
-    width = cOsd::OsdWidth() * config.messageWidth / 100;
-    int left = (cOsd::OsdLeft() + cOsd::OsdWidth() - width) / 2;
-    osd = CreateOsd(left, top, width, height);
-    pixmap = osd->CreatePixmap(2, cRect(0, 0, width, height));
-    pixmapBackground = osd->CreatePixmap(1, cRect(0, 0, width, height));
+    int top = geoManager->osdTop + geoManager->osdHeight - geoManager->messageHeight - config.messageBorderBottom;
+    int left = (geoManager->osdLeft + geoManager->osdWidth - geoManager->messageWidth) / 2;
+    osd = CreateOsd(left, top, geoManager->messageWidth, geoManager->messageHeight);
+    pixmap = osd->CreatePixmap(2, cRect(0, 0, geoManager->messageWidth, geoManager->messageHeight));
+    pixmapBackground = osd->CreatePixmap(1, cRect(0, 0, geoManager->messageWidth, geoManager->messageHeight));
     if (config.messageFadeTime) {
         pixmap->SetAlpha(0);
         pixmapBackground->SetAlpha(0);
     }
-    font = cFont::CreateFont(config.fontName, height / 4 + 15 + config.fontMessage);
     FrameTime = config.messageFrameTime;
     FadeTime = config.messageFadeTime;
 }
@@ -24,7 +22,6 @@ cNopacityDisplayMessage::~cNopacityDisplayMessage() {
         cCondWait::SleepMs(10);
     osd->DestroyPixmap(pixmap);
     osd->DestroyPixmap(pixmapBackground);
-    delete font;
     delete osd;
 }
 
@@ -52,15 +49,14 @@ void cNopacityDisplayMessage::SetMessage(eMessageType Type, const char *Text) {
     pixmapBackground->Fill(clrBlack);
     pixmap->Fill(col);
     if (config.doBlending) {
-        cImageLoader imgLoader;
-        imgLoader.DrawBackground2(Theme.Color(clrMessageBlend), col, width-2, height-2);
-        pixmap->DrawImage(cPoint(1, 1), imgLoader.GetImage());
+        cImage imgBack = imgCache->GetBackground(Theme.Color(clrMessageBlend), col, geoManager->messageWidth-2, geoManager->messageHeight-2, true);
+        pixmap->DrawImage(cPoint(1, 1), imgBack);
     }
     if (config.roundedCorners) {
-        DrawRoundedCornersWithBorder(pixmap, col, config.cornerRadius, width, height, pixmapBackground);
+        DrawRoundedCornersWithBorder(pixmap, col, config.cornerRadius, geoManager->messageWidth, geoManager->messageHeight, pixmapBackground);
     }
-    int textWidth = font->Width(Text);
-    pixmap->DrawText(cPoint((width - textWidth) / 2, (height - font->Height()) / 2), Text, colFont, (config.doBlending)?clrTransparent:col, font);
+    int textWidth = fontManager->messageText->Width(Text);
+    pixmap->DrawText(cPoint((geoManager->messageWidth - textWidth) / 2, (geoManager->messageHeight - fontManager->messageText->Height()) / 2), Text, colFont, (config.doBlending)?clrTransparent:col, fontManager->messageText);
     if (config.messageFadeTime)
         Start();
 }

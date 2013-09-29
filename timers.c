@@ -1,15 +1,17 @@
 #include "timers.h"
 
-cNopacityTimer::cNopacityTimer(cOsd *osd, const cTimer *timer, const cFont *font, const cFont *fontLarge) {
+cNopacityTimer::cNopacityTimer(cOsd *osd, cImageCache *imgCache, const cTimer *timer, const cFont *font, const cFont *fontLarge) {
     this->osd = osd;
+    this->imgCache = imgCache;
     this->timer = timer;
     this->font = font;
     this->fontLarge = fontLarge;
     isTimerConflict = false;
 }
 
-cNopacityTimer::cNopacityTimer(cOsd *osd, int numConflicts, const cFont *font, const cFont *fontLarge) {
+cNopacityTimer::cNopacityTimer(cOsd *osd, cImageCache *imgCache, int numConflicts, const cFont *font, const cFont *fontLarge) {
     this->osd = osd;
+    this->imgCache = imgCache;
     this->numConflicts = numConflicts;
     this->font = font;
     this->fontLarge = fontLarge;
@@ -113,14 +115,13 @@ void cNopacityTimer::CreatePixmaps(int x) {
 
 void cNopacityTimer::Render(void) {
     pixmapBackground->Fill(clrBlack);
-    cImageLoader imgLoader;
     tColor clrFontBack = (config.doBlending)?clrTransparent:Theme.Color(clrTimersBack);
     if (isTimerConflict) {
         pixmapLogo->Fill(clrTransparent);
         pixmap->Fill(Theme.Color(clrDiskAlert));
         if (config.doBlending) {
-            imgLoader.DrawBackground(Theme.Color(clrDiskAlert), Theme.Color(clrMenuItemHigh), width-2, height-2);
-            pixmap->DrawImage(cPoint(1,1), imgLoader.GetImage());
+            cImage imgBack = imgCache->GetBackground(Theme.Color(clrDiskAlert), Theme.Color(clrMenuItemHigh), width-2, height-2);
+            pixmap->DrawImage(cPoint(1,1), imgBack);
         } else {
             pixmap->DrawRectangle(cRect(1, 1, width-2, height-2), Theme.Color(clrDiskAlert));
             clrFontBack = Theme.Color(clrDiskAlert);
@@ -140,8 +141,8 @@ void cNopacityTimer::Render(void) {
         if (timer->Recording()) {
             pixmap->Fill(Theme.Color(clrDiskAlert));
             if (config.doBlending) {
-                imgLoader.DrawBackground(Theme.Color(clrDiskAlert), Theme.Color(clrMenuItemHigh), width-2, height-2);
-                pixmap->DrawImage(cPoint(1,1), imgLoader.GetImage());
+                cImage imgBack = imgCache->GetBackground(Theme.Color(clrDiskAlert), Theme.Color(clrMenuItemHigh), width-2, height-2);
+                pixmap->DrawImage(cPoint(1,1), imgBack);
             } else {
                 pixmap->DrawRectangle(cRect(1, 1, width-2, height-2), Theme.Color(clrDiskAlert));
                 clrFontBack = Theme.Color(clrDiskAlert);
@@ -149,8 +150,8 @@ void cNopacityTimer::Render(void) {
         } else {
             pixmap->Fill(Theme.Color(clrMenuBorder));
             if (config.doBlending) {
-                imgLoader.DrawBackground(Theme.Color(clrTimersBack), Theme.Color(clrTimersBackBlend), width-2, height-2);
-                pixmap->DrawImage(cPoint(1,1), imgLoader.GetImage());
+                cImage imgBack = imgCache->GetBackground(Theme.Color(clrTimersBack), Theme.Color(clrTimersBackBlend), width-2, height-2);
+                pixmap->DrawImage(cPoint(1,1), imgBack);
             } else {
                 pixmap->DrawRectangle(cRect(1, 1, width-2, height-2), Theme.Color(clrTimersBack));
             } 

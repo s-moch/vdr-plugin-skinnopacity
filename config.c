@@ -65,6 +65,8 @@ cNopacityConfig::cNopacityConfig() {
     volumeBorderBottom = 10;
     fontVolume = 0;
     //DisplayMenu
+    spaceMenu = 5;
+    widthScrollbar = 20;
     menuAdjustLeft = 1;
     scalePicture = 1;
     roundedCorners = 0;

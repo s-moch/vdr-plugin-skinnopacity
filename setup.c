@@ -1,6 +1,7 @@
 #include "setup.h"
 
-cNopacitySetup::cNopacitySetup() {
+cNopacitySetup::cNopacitySetup(cImageCache *imgCache) {
+    this->imgCache = imgCache;
     tmpNopacityConfig = config;
     cFont::GetAvailableFontNames(&fontNames);
     fontNames.Insert(strdup(config.fontDefaultName));
@@ -8,6 +9,11 @@ cNopacitySetup::cNopacitySetup() {
 }
 
 cNopacitySetup::~cNopacitySetup() {
+    config.setDynamicValues();
+    geoManager->SetGeometry();
+    fontManager->DeleteFonts();
+    fontManager->SetFonts();
+    imgCache->Reload();
 }
 
 
@@ -225,7 +231,7 @@ void cNopacitySetup::Store(void) {
     SetupStore("fontRssFeedStandalone", config.fontRssFeedStandalone);
     SetupStore("rssFeedStandalonePos", config.rssFeedStandalonePos);
 }
-
+    
 //------------------------------------------------------------------------------------------------------------------
 
 cMenuSetupSubMenu::cMenuSetupSubMenu(const char* Title, cNopacityConfig* data) : cOsdMenu(Title, 30) {

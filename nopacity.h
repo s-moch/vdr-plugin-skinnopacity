@@ -10,8 +10,10 @@ class cNopacity : public cSkin {
 private:
   cNopacityDisplayMenu *displayMenu;
   cRssStandaloneTicker *rssTicker;
+  cImageCache *imgCache;
+  void ReloadCaches(void);
 public:
-  cNopacity(void);
+  cNopacity(cImageCache *imgCache);
   virtual const char *Description(void);
   virtual cSkinDisplayChannel *DisplayChannel(bool WithInfo);
   virtual cSkinDisplayMenu *DisplayMenu(void);

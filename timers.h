@@ -4,6 +4,7 @@
 class cNopacityTimer : public cListObject {
     private:
         cOsd *osd;
+        cImageCache *imgCache;
         cPixmap *pixmapBackground;
         cPixmap *pixmap;
         cPixmap *pixmapLogo;
@@ -19,8 +20,8 @@ class cNopacityTimer : public cListObject {
         cTextWrapper showName;
         void DrawLogo(void);
     public:
-        cNopacityTimer(cOsd *osd, const cTimer *timer, const cFont *font, const cFont *fontLarge);
-        cNopacityTimer(cOsd *osd, int numConflicts, const cFont *font, const cFont *fontLarge);
+        cNopacityTimer(cOsd *osd, cImageCache *imgCache, const cTimer *timer, const cFont *font, const cFont *fontLarge);
+        cNopacityTimer(cOsd *osd, cImageCache *imgCache, int numConflicts, const cFont *font, const cFont *fontLarge);
         virtual ~cNopacityTimer(void);
         void SetGeometry(int width, int y);
         void CreateDate(void);

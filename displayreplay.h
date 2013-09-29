@@ -4,23 +4,10 @@
 class cNopacityDisplayReplay : public cSkinDisplayReplay , cThread{
 private:
     cOsd *osd;
+    cImageCache *imgCache;
     bool initial;
     bool modeOnly;
     cString lastDate;
-    int width;
-    int height;
-    int headerHeight;
-    int info2Height;
-    int progressBarHeight;
-    int currentHeight;
-    int controlsHeight;
-    int footerHeight;
-    int infoWidth;
-    int dateWidth;
-    int iconSize, iconBorder;
-    int resolutionX, resolutionY; 
-    int jumpX, jumpY; 
-    int jumpWidth, jumpHeight;
     int FrameTime;
     int FadeTime;
     cPixmap *pixmapHeader;
@@ -39,18 +26,15 @@ private:
     cPixmap *pixmapFwd;
     cPixmap *pixmapJump;
     cPixmap *pixmapFooter;
-    cFont *fontReplayHeader;
-    cFont *fontReplay;
     virtual void Action(void);
-    void SetGeometry(void);
+    void createOSD(void);
     void CreatePixmaps(void);
-    void CreateFonts(void);
     void DrawBackground(void);
     void DrawDate(void);
     void LoadControlIcons(void);
     void DrawScreenResolution(void);
 public:
-  cNopacityDisplayReplay(bool ModeOnly);
+  cNopacityDisplayReplay(cImageCache *imgCache, bool ModeOnly);
   virtual ~cNopacityDisplayReplay();
   virtual void SetRecording(const cRecording *Recording);
   virtual void SetTitle(const char *Title);

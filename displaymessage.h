@@ -3,16 +3,14 @@
 class cNopacityDisplayMessage : public cSkinDisplayMessage , cThread {
 private:
     cOsd *osd;
-    int width;
-    int height;
+    cImageCache *imgCache;
     cPixmap *pixmap;
     cPixmap *pixmapBackground;
-    cFont *font;
     int FrameTime;
     int FadeTime;
     virtual void Action(void);
 public:
-  cNopacityDisplayMessage(void);
+  cNopacityDisplayMessage(cImageCache *imgCache);
   virtual ~cNopacityDisplayMessage();
   virtual void SetMessage(eMessageType Type, const char *Text);
   virtual void Flush(void);

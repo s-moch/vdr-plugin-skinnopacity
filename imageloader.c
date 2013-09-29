@@ -6,32 +6,34 @@
 
 using namespace Magick;
 
-cImageLoader::cImageLoader() {
-    InitializeMagick(NULL);
+cImageLoader::cImageLoader() : cImageMagickWrapper() {
 }
 
 cImageLoader::~cImageLoader() {
 }
 
+cImage cImageLoader::GetImage() {
+    return CreateImageCopy();
+}
+
 bool cImageLoader::LoadLogo(const char *logo, int width = config.logoWidth, int height = config.logoHeight) {
     if ((width == 0)||(height==0))
         return false;
-    std::string logoLower = logo;
-    toLowerCase(logoLower);
+    std::string logoLower = StrToLowerCase(logo);
     bool success = false;
     if (config.logoPathSet) {
         //theme dependend logo
         cString logoPath = cString::sprintf("%s%s/", *config.logoPath, Setup.OSDTheme);
-        success = LoadImage(logoLower.c_str(), logoPath, config.logoExtension);
+        success = LoadImage(logoLower.c_str(), *logoPath, *config.logoExtension);
         if (!success)
-            success = LoadImage(logoLower.c_str(), config.logoPath, config.logoExtension);
+            success = LoadImage(logoLower.c_str(), *config.logoPath, *config.logoExtension);
     }
     if (!success) {
         //theme dependend logo
         cString logoPath = cString::sprintf("%s%s/", *config.logoPathDefault, Setup.OSDTheme);
-        success = LoadImage(logoLower.c_str(), logoPath, config.logoExtension);
+        success = LoadImage(logoLower.c_str(), *logoPath, *config.logoExtension);
         if (!success)
-            success = LoadImage(logoLower.c_str(), config.logoPathDefault, config.logoExtension);
+            success = LoadImage(logoLower.c_str(), *config.logoPathDefault, *config.logoExtension);
     }
     if (!success)
         return false;
@@ -41,64 +43,6 @@ bool cImageLoader::LoadLogo(const char *logo, int width = config.logoWidth, int 
     return true;
 }
 
-bool cImageLoader::LoadIcon(const char *cIcon, int size) {
-	if (size==0)
-        return false;
-    bool success = false;
-    if (config.iconPathSet) {
-        cString iconThemePath = cString::sprintf("%s%s/", *config.iconPath, Setup.OSDTheme);
-        success = LoadImage(cString(cIcon), iconThemePath, "png");
-        if (!success) {
-            success = LoadImage(cString(cIcon), config.iconPath, "png");
-        }
-    }
-    if (!success) {
-        cString iconThemePath = cString::sprintf("%s%s/", *config.iconPathDefault, Setup.OSDTheme);
-        success = LoadImage(cString(cIcon), iconThemePath, "png");
-        if (!success) {
-            success = LoadImage(cString(cIcon), config.iconPathDefault, "png");
-        }
-    }
-    if (!success)
-        return false;
-    buffer.sample(Geometry(size, size));
-    return true;
-}
-
-bool cImageLoader::LoadIcon(const char *cIcon, int width, int height, bool preserveAspect) {
-  try {
-    if ((width == 0)||(height==0))
-        return false;
-    bool success = false;
-    if (config.iconPathSet) {
-        cString iconThemePath = cString::sprintf("%s%s/", *config.iconPath, Setup.OSDTheme);
-        success = LoadImage(cString(cIcon), iconThemePath, "png");
-        if (!success) {
-            success = LoadImage(cString(cIcon), config.iconPath, "png");
-        }
-    }
-    if (!success) {
-        cString iconThemePath = cString::sprintf("%s%s/", *config.iconPathDefault, Setup.OSDTheme);
-        success = LoadImage(cString(cIcon), iconThemePath, "png");
-        if (!success) {
-            success = LoadImage(cString(cIcon), config.iconPathDefault, "png");
-        }
-    }
-    if (!success)
-        return false;
-    if (preserveAspect) {
-        buffer.sample(Geometry(width, height));
-    } else {
-        cString geometry = cString::sprintf("%dx%d!", width, height);
-        buffer.scale(Geometry(*geometry));
-    }
-    return true;
-  }
-  catch (...) {
-    return false;
-  }
-}
-
 bool cImageLoader::LoadEPGImage(int eventID) {
     int width = config.epgImageWidth;
     int height = config.epgImageHeight;
@@ -106,10 +50,10 @@ bool cImageLoader::LoadEPGImage(int eventID) {
         return false;
     bool success = false;
     if (config.epgImagePathSet) {
-        success = LoadImage(cString::sprintf("%d", eventID), config.epgImagePath, "jpg");
+        success = LoadImage(*cString::sprintf("%d", eventID), *config.epgImagePath, "jpg");
     }
     if (!success) {
-        success = LoadImage(cString::sprintf("%d", eventID), config.epgImagePathDefault, "jpg");
+        success = LoadImage(*cString::sprintf("%d", eventID), *config.epgImagePathDefault, "jpg");
     }
     if (!success)
         return false;
@@ -126,10 +70,10 @@ bool cImageLoader::LoadAdditionalEPGImage(cString name) {
         return false;
     bool success = false;
     if (config.epgImagePathSet) {
-        success = LoadImage(name, config.epgImagePath, "jpg");
+        success = LoadImage(*name, *config.epgImagePath, "jpg");
     }
     if (!success) {
-        success = LoadImage(name, config.epgImagePathDefault, "jpg");
+        success = LoadImage(*name, *config.epgImagePathDefault, "jpg");
     }
     if (!success)
         return false;
@@ -147,7 +91,7 @@ bool cImageLoader::LoadRecordingImage(cString Path) {
     cString recImage("");
     if (FirstImageInFolder(Path, "jpg", &recImage)) {
         recImage = cString::sprintf("/%s", *recImage);
-        if (!LoadImage(*recImage, Path, "jpg"))
+        if (!LoadImage(*recImage, *Path, "jpg"))
             return false;
         buffer.sample( Geometry(width, height));
         return true;
@@ -160,7 +104,7 @@ bool cImageLoader::LoadAdditionalRecordingImage(cString path, cString name) {
     int height = config.epgImageHeightLarge;
     if ((width == 0)||(height==0))
         return false;
-    if (LoadImage(name, path, "jpg")) {
+    if (LoadImage(*name, *path, "jpg")) {
         buffer.sample( Geometry(width, height));
         return true;
     }
@@ -173,30 +117,6 @@ bool cImageLoader::LoadPoster(const char *poster, int width, int height) {
         return true;
     }
     return false;
-}
-
-void cImageLoader::DrawBackground(tColor back, tColor blend, int width, int height, bool mirror) {
-    Color Back = Argb2Color(back);
-    Color Blend = Argb2Color(blend);
-    Image tmp(Geometry(width, height), Blend);
-    double arguments[9] = {0.0,(double)height,0.0,-1*(double)width,0.0,0.0,1.5*(double)width,0.0,1.0};
-    tmp.sparseColor(MatteChannel, BarycentricColorInterpolate, 9, arguments);
-    Image tmp2(Geometry(width, height), Back);
-    tmp.composite(tmp2, 0, 0, OverlayCompositeOp);
-    if (mirror)
-        tmp.flop();
-    buffer = tmp;
-}
-
-void cImageLoader::DrawBackground2(tColor back, tColor blend, int width, int height) {
-    Color Back = Argb2Color(back);
-    Color Blend = Argb2Color(blend);
-    Image tmp(Geometry(width, height), Blend);
-    double arguments[9] = {0.0,(double)height,0.0,-0.5*(double)width,0.0,0.0,(double)width,0.0,1.0};
-    tmp.sparseColor(MatteChannel, BarycentricColorInterpolate, 9, arguments);
-    Image tmp2(Geometry(width, height), Back);
-    tmp.composite(tmp2, 0, 0, OverlayCompositeOp);
-    buffer = tmp;
 }
 
 bool cImageLoader::SearchRecordingPoster(cString recPath, cString &found) {
@@ -216,64 +136,6 @@ bool cImageLoader::SearchRecordingPoster(cString recPath, cString &found) {
         return true;
     }
     return false;    
-}
-
-cImage cImageLoader::GetImage() {
-    int w, h;
-    w = buffer.columns();
-    h = buffer.rows();
-    cImage image (cSize(w, h));
-    const PixelPacket *pixels = buffer.getConstPixels(0, 0, w, h);
-    for (int iy = 0; iy < h; ++iy) {
-        for (int ix = 0; ix < w; ++ix) {
-            tColor col = (~int(pixels->opacity * 255 / MaxRGB) << 24) 
-            | (int(pixels->green * 255 / MaxRGB) << 8) 
-            | (int(pixels->red * 255 / MaxRGB) << 16) 
-            | (int(pixels->blue * 255 / MaxRGB) );
-            image.SetPixel(cPoint(ix, iy), col);
-            ++pixels;
-        }
-    }
-    return image;
-}
-
-Color cImageLoader::Argb2Color(tColor col) {
-    tIndex alpha = (col & 0xFF000000) >> 24;
-    tIndex red = (col & 0x00FF0000) >> 16;
-    tIndex green = (col & 0x0000FF00) >> 8;
-    tIndex blue = (col & 0x000000FF);
-    Color color(MaxRGB*red/255, MaxRGB*green/255, MaxRGB*blue/255, MaxRGB*(0xFF-alpha)/255);
-    return color;
-}
-
-void cImageLoader::toLowerCase(std::string &str) {
-    const int length = str.length();
-    for(int i=0; i < length; ++i) {
-        str[i] = std::tolower(str[i]);
-    }
-}
-
-bool cImageLoader::LoadImage(cString FileName, cString Path, cString Extension) {
-    try {
-        cString File = cString::sprintf("%s%s.%s", *Path, *FileName, *Extension);
-        dsyslog("nopacity: trying to load: %s", *File);
-        buffer.read(*File);
-        dsyslog("nopacity: %s sucessfully loaded", *File);
-    } catch (...) {     
-        return false;
-    }
-    return true;
-}
-
-bool cImageLoader::LoadImage(const char *fullpath) {
-    try {
-        dsyslog("nopacity: trying to load: %s", fullpath);
-        buffer.read(fullpath);
-        dsyslog("nopacity: %s sucessfully loaded", fullpath);
-    } catch (...) {     
-        return false;
-    }
-    return true;
 }
 
 bool cImageLoader::FirstImageInFolder(cString Path, cString Extension, cString *recImage) {

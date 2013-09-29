@@ -3,6 +3,7 @@
 
 class cNopacityDisplayMenu : public cSkinDisplayMenu , cThread {
 private:
+    cImageCache *imgCache;
     cNopacityDisplayMenuView *menuView;
     cNopacityMenuDetailView *detailView;
     cOsd *osd;
@@ -19,8 +20,6 @@ private:
     int currentNumItems;
     cList<cNopacityTimer> timers;
     cList<cNopacityMenuItem> menuItems;
-    int handleBackgrounds[14];
-    int handleButtons[4];
     int positionButtons[4];
     cRect videoWindowRect;
     cRssReader *rssReader;
@@ -35,7 +34,7 @@ private:
 protected:
     int Tab(int n);
 public:
-    cNopacityDisplayMenu(void);
+    cNopacityDisplayMenu(cImageCache *imgCache);
     virtual ~cNopacityDisplayMenu();
     virtual void Scroll(bool Up, bool Page);
     virtual int MaxItems(void);

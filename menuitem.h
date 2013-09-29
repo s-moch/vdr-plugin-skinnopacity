@@ -4,10 +4,10 @@
 class cNopacityMenuItem : public cListObject, public cThread {
 protected:
     cOsd *osd;
+    cImageCache *imgCache;
     cPixmap *pixmap;
     cPixmap *pixmapIcon;
     cPixmap *pixmapTextScroller;
-    int *handleBackgrounds;
     const char *Text;
     bool selectable;
     bool current;
@@ -30,12 +30,12 @@ protected:
     cNopacityTextWindow *infoTextWindow;
     virtual void SetTextFull(void) {};
     virtual void SetTextShort(void) {};
-    void DrawDelimiter(const char *del, const char *icon, int handleBgrd);
+    void DrawDelimiter(const char *del, const char *icon, eBackgroundType bgType);
     void DrawRoundedCorners(tColor borderColor);
     virtual void Action(void);
     void DoSleep(int duration);
 public:
-    cNopacityMenuItem(cOsd *osd, const char *text, bool sel);
+    cNopacityMenuItem(cOsd *osd, cImageCache *imgCache, const char *text, bool sel);
     virtual ~cNopacityMenuItem(void);
     void CreatePixmap();
     void CreatePixmapIcon(void);
@@ -50,7 +50,6 @@ public:
     void SetAlphaIcon(int alpha) {if (pixmapIcon) this->pixmapIcon->SetAlpha(alpha);}
     void SetAlphaText(int alpha) {if (pixmapTextScroller) this->pixmapTextScroller->SetAlpha(alpha);}
     void SetTabs(cString *tabs, int *tabWidths, int numtabs);
-    void SetBackgrounds(int *handleBackgrounds);
     void SetTextWindow(cRect *window) {textWindow = window;};
     virtual void CreateText(void) {};
     virtual void SetPoster(void) {};
@@ -71,7 +70,7 @@ private:
     void SetTextFull(void);
     void SetTextShort(void);
 public:
-    cNopacityMainMenuItem(cOsd *osd, const char *text, bool sel, bool setup);
+    cNopacityMainMenuItem(cOsd *osd, cImageCache *imgCache, const char *text, bool sel, bool setup);
     ~cNopacityMainMenuItem(void);
     void CreatePixmapTextScroller(int totalWidth);
     void CreateText(void);
@@ -100,7 +99,7 @@ private:
     void SetTextFull(void);
     void SetTextShort(void);
 public:
-    cNopacityScheduleMenuItem(cOsd *osd, const cEvent *Event, const cChannel *Channel, eTimerMatch TimerMatch, bool sel, eMenuCategory category, cRect *vidWin);
+    cNopacityScheduleMenuItem(cOsd *osd, cImageCache *imgCache, const cEvent *Event, const cChannel *Channel, eTimerMatch TimerMatch, bool sel, eMenuCategory category, cRect *vidWin);
     ~cNopacityScheduleMenuItem(void);
     void CreatePixmapTextScroller(int totalWidth);
     void CreateText(void);
@@ -125,7 +124,7 @@ private:
     void readCurrentEPG(void);
     std::string readEPG(void);
 public:
-    cNopacityChannelMenuItem(cOsd *osd, const cChannel *Channel, bool sel, cRect *vidWin);
+    cNopacityChannelMenuItem(cOsd *osd, cImageCache *imgCache, const cChannel *Channel, bool sel, cRect *vidWin);
     ~cNopacityChannelMenuItem(void);
     void CreatePixmapTextScroller(int totalWidth);
     void CreateText(void);
@@ -145,7 +144,7 @@ private:
     void DrawLogo(int logoWidth, int logoHeight);
     std::string CreateDate(void);
 public:
-    cNopacityTimerMenuItem(cOsd *osd, const cTimer *Timer, bool sel);
+    cNopacityTimerMenuItem(cOsd *osd, cImageCache *imgCache, const cTimer *Timer, bool sel);
     ~cNopacityTimerMenuItem(void);
     void CreatePixmapTextScroller(int totalWidth);
     void CreateText(void);
@@ -182,7 +181,7 @@ private:
     int CheckScrollableRecording(void);
     int CheckScrollableFolder(void);
 public:
-    cNopacityRecordingMenuItem(cOsd *osd, const cRecording *Recording, bool sel, bool isFolder, int Level, int Total, int New, cRect *vidWin);
+    cNopacityRecordingMenuItem(cOsd *osd, cImageCache *imgCache, const cRecording *Recording, bool sel, bool isFolder, int Level, int Total, int New, cRect *vidWin);
     ~cNopacityRecordingMenuItem(void);
     void CreatePixmapTextScroller(int totalWidth);
     void CreateText(void);
@@ -203,7 +202,7 @@ private:
     void SetTextFull(void);
     void SetTextShort(void);
 public:
-    cNopacityDefaultMenuItem(cOsd *osd, const char *text, bool sel);
+    cNopacityDefaultMenuItem(cOsd *osd, cImageCache *imgCache, const char *text, bool sel);
     ~cNopacityDefaultMenuItem(void);
     int CheckScrollable(bool hasIcon);
     void Render();
@@ -212,7 +211,7 @@ public:
 class cNopacityTrackMenuItem : public cNopacityMenuItem {
 private:
 public:
-    cNopacityTrackMenuItem(cOsd *osd, const char *text);
+    cNopacityTrackMenuItem(cOsd *osd, cImageCache *imgCache, const char *text);
     ~cNopacityTrackMenuItem(void);
     void Render();
 };

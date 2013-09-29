@@ -156,11 +156,17 @@ THEME_CLR(Theme, clrMessageWarning,         CLR_MESSAGEWARNING);
 THEME_CLR(Theme, clrMessageError,           CLR_MESSAGEERROR);
 THEME_CLR(Theme, clrMessageBlend,           CLR_TRANSBLACK);
 
+#include "helpers.c"
 #include "config.c"
 cNopacityConfig config;
-#include "setup.c"
+#include "geometrymanager.c"
+cGeometryManager *geoManager;
+#include "fontmanager.c"
+cFontManager *fontManager;
+#include "imagemagickwrapper.c"
+#include "imagecache.c"
 #include "imageloader.c"
-#include "helpers.c"
+#include "setup.c"
 #include "rssreader.c"
 #include "nopacity.h"
 #include "displaychannel.c"
@@ -177,11 +183,17 @@ cNopacityConfig config;
 
 
 
-cNopacity::cNopacity(void) : cSkin("nOpacity", &::Theme) {
+cNopacity::cNopacity(cImageCache *imgCache) : cSkin("nOpacity", &::Theme) {
     displayMenu = NULL;
     rssTicker = NULL;
     config.setDynamicValues();
     config.loadRssFeeds();
+    geoManager = new cGeometryManager();
+    geoManager->SetGeometry();
+    fontManager = new cFontManager();
+    fontManager->SetFonts();
+    this->imgCache = imgCache;
+    imgCache->CreateCache();
 }
 
 const char *cNopacity::Description(void) {
@@ -189,22 +201,25 @@ const char *cNopacity::Description(void) {
 }
 
 cSkinDisplayChannel *cNopacity::DisplayChannel(bool WithInfo) {
-  if (rssTicker) {
-    delete rssTicker;
-    rssTicker = NULL;
-  }
-  return new cNopacityDisplayChannel(WithInfo);
+    if (rssTicker) {
+        delete rssTicker;
+        rssTicker = NULL;
+    }
+    ReloadCaches();
+    return new cNopacityDisplayChannel(imgCache, WithInfo);
 }
 
 cSkinDisplayMenu *cNopacity::DisplayMenu(void) {
-  if (rssTicker) {
-    delete rssTicker;
-    rssTicker = NULL;
-  }
-  cNopacityDisplayMenu *menu = new cNopacityDisplayMenu;
-  displayMenu = menu;
-  menuActive = true;
-  return menu;
+    if (rssTicker) {
+        delete rssTicker;
+        rssTicker = NULL;
+    }
+    
+    ReloadCaches();
+    cNopacityDisplayMenu *menu = new cNopacityDisplayMenu(imgCache);
+    displayMenu = menu;
+    menuActive = true;
+    return menu;
 }
 
 cSkinDisplayReplay *cNopacity::DisplayReplay(bool ModeOnly) {
@@ -212,7 +227,8 @@ cSkinDisplayReplay *cNopacity::DisplayReplay(bool ModeOnly) {
     delete rssTicker;
     rssTicker = NULL;
   }
-  return new cNopacityDisplayReplay(ModeOnly);
+  ReloadCaches();
+  return new cNopacityDisplayReplay(imgCache, ModeOnly);
 }
 
 cSkinDisplayVolume *cNopacity::DisplayVolume(void) {
@@ -220,6 +236,7 @@ cSkinDisplayVolume *cNopacity::DisplayVolume(void) {
     delete rssTicker;
     rssTicker = NULL;
   }
+  ReloadCaches();
   return new cNopacityDisplayVolume;
 }
 
@@ -228,7 +245,8 @@ cSkinDisplayTracks *cNopacity::DisplayTracks(const char *Title, int NumTracks, c
     delete rssTicker;
     rssTicker = NULL;
   }
-  return new cNopacityDisplayTracks(Title, NumTracks, Tracks);
+  ReloadCaches();
+  return new cNopacityDisplayTracks(imgCache, Title, NumTracks, Tracks);
 }
 
 cSkinDisplayMessage *cNopacity::DisplayMessage(void) {
@@ -236,7 +254,8 @@ cSkinDisplayMessage *cNopacity::DisplayMessage(void) {
     delete rssTicker;
     rssTicker = NULL;
   }
-  return new cNopacityDisplayMessage;
+  ReloadCaches();
+  return new cNopacityDisplayMessage(imgCache);
 }
 
 void cNopacity::svdrpSwitchRss(void) {
@@ -260,7 +279,7 @@ bool cNopacity::svdrpToggleStandaloneRss(void) {
         return false;
         
     if (!rssTicker) {
-        rssTicker = new cRssStandaloneTicker();
+        rssTicker = new cRssStandaloneTicker(imgCache);
         rssTicker->SetFeed(config.rssFeeds[config.rssFeed[0]].name);
         rssTicker->Start();
         return true;
@@ -270,4 +289,25 @@ bool cNopacity::svdrpToggleStandaloneRss(void) {
         return false;
     }
     return false;
+}
+
+void cNopacity::ReloadCaches(void) {
+    int start = cTimeMs::Now();
+    bool change = false;
+    bool reloadImgCache = false;
+    if (geoManager->GeometryChanged()) {
+        geoManager->SetGeometry();
+        fontManager->DeleteFonts();
+        fontManager->SetFonts();
+        reloadImgCache = true;
+        change = true;
+    }
+    if (imgCache->ThemeChanged()) {
+        reloadImgCache = true;
+        change = true;
+    }
+    if (reloadImgCache)
+        imgCache->Reload();
+    if (change)
+        dsyslog("nopacity: Cache reloaded in %d ms", int(cTimeMs::Now()-start));
 }

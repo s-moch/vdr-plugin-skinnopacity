@@ -1,5 +1,6 @@
 #include <string>
 #include <sstream>
+#include <vector>
 
 static cOsd *CreateOsd(int Left, int Top, int Width, int Height) {
     cOsd *osd = cOsdProvider::NewOsd(Left, Top);
@@ -108,6 +109,15 @@ static std::string CutText(std::string text, int width, const cFont *font) {
         }
     }
     return cuttedText;
+}
+
+std::string StrToLowerCase(std::string str) {
+    std::string lowerCase = str;
+    const int length = lowerCase.length();
+    for(int i=0; i < length; ++i) {
+        lowerCase[i] = std::tolower(lowerCase[i]);
+    }
+    return lowerCase;
 }
 
 class splitstring : public std::string {

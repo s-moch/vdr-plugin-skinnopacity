@@ -1,13 +1,15 @@
 #include "displaychannel.h"
 #include "services/tvscraper.h"
 
-cNopacityDisplayChannel::cNopacityDisplayChannel(bool WithInfo) {
+cNopacityDisplayChannel::cNopacityDisplayChannel(cImageCache *imgCache, bool WithInfo) {
     if (firstDisplay) {
+        imgCache->CreateCache2();
         firstDisplay = false;
         doOutput = false;
         return;
     } else
-        doOutput = true;  
+        doOutput = true;
+    this->imgCache = imgCache;
     config.setDynamicValues();
     withInfo = WithInfo;
     groupSep = false;
@@ -25,9 +27,9 @@ cNopacityDisplayChannel::cNopacityDisplayChannel(bool WithInfo) {
     FrameTime = config.channelFrameTime; 
     FadeTime = config.channelFadeTime;
     lastDate = "";
-    SetGeometry();
+    signalX = 0;
+    createOsd();
     CreatePixmaps();
-    CreateFonts();
     DrawBackground();
     DrawSignalMeter();
 }
@@ -68,87 +70,53 @@ cNopacityDisplayChannel::~cNopacityDisplayChannel() {
     if (config.displaySignalStrength && showSignal) {
         delete fontInfoline;
     }
-    delete fontHeader;
-    delete fontDate;
-    delete fontEPG;
-    delete fontEPGSmall;
-    delete fontChannelGroup;
-    delete fontChannelGroupSmall;
     delete osd;
 }
 
-void cNopacityDisplayChannel::SetGeometry(void) {
-    height = cOsd::OsdHeight() * config.channelHeight / 100;
-    top = cOsd::OsdTop() + cOsd::OsdHeight() - height - config.channelBorderBottom;
-    osd = CreateOsd(cOsd::OsdLeft(), cOsd::OsdTop(), cOsd::OsdWidth(), cOsd::OsdHeight());
-    switch (config.logoPosition) {
-        case lpLeft:
-            infoWidth = osd->Width() - (config.logoWidth + 2 * config.channelBorderVertical + config.logoBorder);
-            infoX = config.logoWidth + config.channelBorderVertical + config.logoBorder;
-            break;
-        case lpRight:
-            infoWidth = osd->Width() - (config.logoWidth + 2 * config.channelBorderVertical + config.logoBorder);
-            infoX = config.channelBorderVertical;
-            break;
-        case lpNone:
-            infoWidth = osd->Width() - 2 * config.channelBorderVertical;
-            infoX = config.channelBorderVertical;
-            break;
-    }
-    channelInfoWidth = infoWidth * 0.7;
-    dateWidth = infoWidth - channelInfoWidth;   
-    channelInfoHeight = height * 0.2;
-    if (channelInfoHeight%2 != 0)
-        channelInfoHeight++;
-    progressBarHeight = height * 0.1;
-    streamInfoHeight = height * 0.2;
-    if (streamInfoHeight%2 != 0)
-        streamInfoHeight++;
-    epgInfoHeight = height - channelInfoHeight - streamInfoHeight - progressBarHeight;
-    epgInfoLineHeight = epgInfoHeight / 4;
-    streamInfoY = channelInfoHeight + progressBarHeight + epgInfoHeight;
-    iconSize = config.statusIconSize;
-    iconsWidth = 5*iconSize;
-    signalX = 0;
+void cNopacityDisplayChannel::createOsd(void) {
+    osd = CreateOsd(geoManager->osdLeft, 
+                    geoManager->osdTop, 
+                    geoManager->osdWidth, 
+                    geoManager->osdHeight);
 }
 
 void cNopacityDisplayChannel::CreatePixmaps(void) {
     int channelInfoY = 0;
     if (withInfo) {
-        pixmapProgressBar = osd->CreatePixmap(2, cRect(infoX, top + channelInfoHeight, infoWidth, progressBarHeight));
-        pixmapEPGInfo = osd->CreatePixmap(2, cRect(infoX, top + channelInfoHeight + progressBarHeight, infoWidth, epgInfoHeight));
-        pixmapBackgroundMiddle = osd->CreatePixmap(1, cRect(infoX, top + channelInfoHeight, infoWidth, progressBarHeight + epgInfoHeight));
+        pixmapProgressBar = osd->CreatePixmap(2, cRect(geoManager->channelX, geoManager->channelTop + geoManager->channelInfoHeight, geoManager->channelWidth, geoManager->channelProgressBarHeight));
+        pixmapEPGInfo = osd->CreatePixmap(2, cRect(geoManager->channelX, geoManager->channelTop + geoManager->channelInfoHeight + geoManager->channelProgressBarHeight, geoManager->channelWidth, geoManager->channelEpgInfoHeight));
+        pixmapBackgroundMiddle = osd->CreatePixmap(1, cRect(geoManager->channelX, geoManager->channelTop + geoManager->channelInfoHeight, geoManager->channelWidth, geoManager->channelProgressBarHeight + geoManager->channelEpgInfoHeight));
     } else {
-        channelInfoY = (height - channelInfoHeight) / 3;
-        streamInfoY = (height - channelInfoHeight) / 3 + channelInfoHeight;
+        channelInfoY = (geoManager->channelHeight - geoManager->channelInfoHeight) / 3;
+        geoManager->channelStreamInfoY = (geoManager->channelHeight - geoManager->channelInfoHeight) / 3 + geoManager->channelInfoHeight;
     }
-    pixmapBackgroundTop = osd->CreatePixmap(1, cRect(infoX, top + channelInfoY, infoWidth, channelInfoHeight));
-    pixmapBackgroundBottom = osd->CreatePixmap(1, cRect(infoX, top + streamInfoY, infoWidth, streamInfoHeight));
+    pixmapBackgroundTop = osd->CreatePixmap(1, cRect(geoManager->channelX, geoManager->channelTop + channelInfoY, geoManager->channelWidth, geoManager->channelInfoHeight));
+    pixmapBackgroundBottom = osd->CreatePixmap(1, cRect(geoManager->channelX, geoManager->channelTop + geoManager->channelStreamInfoY, geoManager->channelWidth, geoManager->channelStreamInfoHeight));
         
-    pixmapChannelInfo = osd->CreatePixmap(2, cRect(infoX, top + channelInfoY, channelInfoWidth, channelInfoHeight));
-    pixmapDate = osd->CreatePixmap(2, cRect(infoX + channelInfoWidth, top + channelInfoY, dateWidth, channelInfoHeight));
-    pixmapFooter  = osd->CreatePixmap(2, cRect(infoX, top + streamInfoY, infoWidth, streamInfoHeight));
-    pixmapStreamInfo =     osd->CreatePixmap(4, cRect(infoX + (infoWidth - iconsWidth - config.resolutionIconSize - 35), top + height - iconSize - 10, iconsWidth, iconSize));
-    pixmapStreamInfoBack = osd->CreatePixmap(3, cRect(infoX + (infoWidth - iconsWidth - config.resolutionIconSize - 35), top + height - iconSize - 10, iconsWidth, iconSize));
+    pixmapChannelInfo = osd->CreatePixmap(2, cRect(geoManager->channelX, geoManager->channelTop + channelInfoY, geoManager->channelInfoWidth, geoManager->channelInfoHeight));
+    pixmapDate = osd->CreatePixmap(2, cRect(geoManager->channelX + geoManager->channelInfoWidth, geoManager->channelTop + channelInfoY, geoManager->channelDateWidth, geoManager->channelInfoHeight));
+    pixmapFooter  = osd->CreatePixmap(2, cRect(geoManager->channelX, geoManager->channelTop + geoManager->channelStreamInfoY, geoManager->channelWidth, geoManager->channelStreamInfoHeight));
+    pixmapStreamInfo =     osd->CreatePixmap(4, cRect(geoManager->channelX + (geoManager->channelWidth - geoManager->channelIconsWidth - config.resolutionIconSize - 35), geoManager->channelTop + geoManager->channelHeight - geoManager->channelIconSize - 10, geoManager->channelIconsWidth, geoManager->channelIconSize));
+    pixmapStreamInfoBack = osd->CreatePixmap(3, cRect(geoManager->channelX + (geoManager->channelWidth - geoManager->channelIconsWidth - config.resolutionIconSize - 35), geoManager->channelTop + geoManager->channelHeight - geoManager->channelIconSize - 10, geoManager->channelIconsWidth, geoManager->channelIconSize));
     
     switch (config.logoPosition) {
         case lpLeft:
-            pixmapLogoBackgroundTop = osd->CreatePixmap(1, cRect(config.channelBorderVertical, top, infoX - config.channelBorderVertical, channelInfoHeight));
-            pixmapLogoBackground = osd->CreatePixmap(1, cRect(config.channelBorderVertical, top + channelInfoHeight, infoX - config.channelBorderVertical, progressBarHeight + epgInfoHeight));
-            pixmapLogoBackgroundBottom = osd->CreatePixmap(1, cRect(config.channelBorderVertical, top + streamInfoY, infoX - config.channelBorderVertical, streamInfoHeight));
-            pixmapLogo = osd->CreatePixmap(2, cRect(0, top, config.logoWidth + 2 * config.logoBorder, height));
+            pixmapLogoBackgroundTop = osd->CreatePixmap(1, cRect(config.channelBorderVertical, geoManager->channelTop, geoManager->channelX - config.channelBorderVertical, geoManager->channelInfoHeight));
+            pixmapLogoBackground = osd->CreatePixmap(1, cRect(config.channelBorderVertical, geoManager->channelTop + geoManager->channelInfoHeight, geoManager->channelX - config.channelBorderVertical, geoManager->channelProgressBarHeight + geoManager->channelEpgInfoHeight));
+            pixmapLogoBackgroundBottom = osd->CreatePixmap(1, cRect(config.channelBorderVertical, geoManager->channelTop + geoManager->channelStreamInfoY, geoManager->channelX - config.channelBorderVertical, geoManager->channelStreamInfoHeight));
+            pixmapLogo = osd->CreatePixmap(2, cRect(0, geoManager->channelTop, config.logoWidth + 2 * config.logoBorder, geoManager->channelHeight));
             break;
         case lpRight:
-            pixmapLogoBackgroundTop = osd->CreatePixmap(1, cRect(infoX + infoWidth, top, cOsd::OsdWidth() - 2*config.channelBorderVertical - infoWidth, channelInfoHeight));
-            pixmapLogoBackground = osd->CreatePixmap(1, cRect(infoX + infoWidth, top + channelInfoHeight, cOsd::OsdWidth() - 2*config.channelBorderVertical - infoWidth, progressBarHeight + epgInfoHeight));
-            pixmapLogoBackgroundBottom = osd->CreatePixmap(1, cRect(infoX + infoWidth, top + streamInfoY, cOsd::OsdWidth() - 2*config.channelBorderVertical - infoWidth, streamInfoHeight));
-            pixmapLogo = osd->CreatePixmap(2, cRect(infoX + infoWidth, top, config.logoWidth + 2 * config.logoBorder, height));
+            pixmapLogoBackgroundTop = osd->CreatePixmap(1, cRect(geoManager->channelX + geoManager->channelWidth, geoManager->channelTop, cOsd::OsdWidth() - 2*config.channelBorderVertical - geoManager->channelWidth, geoManager->channelInfoHeight));
+            pixmapLogoBackground = osd->CreatePixmap(1, cRect(geoManager->channelX + geoManager->channelWidth, geoManager->channelTop + geoManager->channelInfoHeight, cOsd::OsdWidth() - 2*config.channelBorderVertical - geoManager->channelWidth, geoManager->channelProgressBarHeight + geoManager->channelEpgInfoHeight));
+            pixmapLogoBackgroundBottom = osd->CreatePixmap(1, cRect(geoManager->channelX + geoManager->channelWidth, geoManager->channelTop + geoManager->channelStreamInfoY, cOsd::OsdWidth() - 2*config.channelBorderVertical - geoManager->channelWidth, geoManager->channelStreamInfoHeight));
+            pixmapLogo = osd->CreatePixmap(2, cRect(geoManager->channelX + geoManager->channelWidth, geoManager->channelTop, config.logoWidth + 2 * config.logoBorder, geoManager->channelHeight));
             break;
         case lpNone:
-            pixmapLogo = osd->CreatePixmap(-1, cRect(0, top, 1, 1));
-            pixmapLogoBackground = osd->CreatePixmap(-1, cRect(0, top, 1, 1));
-            pixmapLogoBackgroundTop = osd->CreatePixmap(-1, cRect(0, top, 1, 1));
-            pixmapLogoBackgroundBottom = osd->CreatePixmap(-1, cRect(0, top, 1, 1));
+            pixmapLogo = osd->CreatePixmap(-1, cRect(0, geoManager->channelTop, 1, 1));
+            pixmapLogoBackground = osd->CreatePixmap(-1, cRect(0, geoManager->channelTop, 1, 1));
+            pixmapLogoBackgroundTop = osd->CreatePixmap(-1, cRect(0, geoManager->channelTop, 1, 1));
+            pixmapLogoBackgroundBottom = osd->CreatePixmap(-1, cRect(0, geoManager->channelTop, 1, 1));
             break;
     }
     
@@ -182,15 +150,6 @@ void cNopacityDisplayChannel::CreatePixmaps(void) {
     pixmapPoster = NULL;
 }
 
-void cNopacityDisplayChannel::CreateFonts(void) {
-    fontHeader = cFont::CreateFont(config.fontName, channelInfoHeight - 8 + config.fontChannelHeaderSize);
-    fontDate = cFont::CreateFont(config.fontName, channelInfoHeight/2 + config.fontChannelDateSize);
-    fontEPG = cFont::CreateFont(config.fontName, epgInfoLineHeight + config.fontEPGSize);
-    fontEPGSmall = cFont::CreateFont(config.fontName, epgInfoLineHeight - 6 + config.fontEPGSmallSize);
-    fontChannelGroup = cFont::CreateFont(config.fontName,  epgInfoHeight/3 + config.fontChannelGroupSize);
-    fontChannelGroupSmall = cFont::CreateFont(config.fontName,  epgInfoHeight/3 - 5 + config.fontChannelGroupSmallSize);
-}
-
 void cNopacityDisplayChannel::DrawBackground(void){
     if (config.doBlending && (Theme.Color(clrChannelBackground) != Theme.Color(clrChannelBackBlend))) {
         DrawBlendedBackground(pixmapBackgroundTop, Theme.Color(clrChannelBackground), Theme.Color(clrChannelBackBlend), true);
@@ -217,19 +176,19 @@ void cNopacityDisplayChannel::DrawBackground(void){
         pixmapLogoBackgroundBottom->Fill(clrTransparent);
     }
     if (config.roundedCornersChannel) {
-        int cornerTopSize = channelInfoHeight/2;
-        int cornerBottomSize = streamInfoHeight/2;
+        int cornerTopSize = geoManager->channelInfoHeight/2;
+        int cornerBottomSize = geoManager->channelStreamInfoHeight/2;
         if ((cornerTopSize > 2)&&(cornerBottomSize > 2)) {
             if ((config.backgroundStyle == bsTrans) || ((config.logoPosition == lpNone))) {
                 pixmapBackgroundTop->DrawEllipse(cRect(0, 0, cornerTopSize, cornerTopSize), clrTransparent, -2);
-                pixmapBackgroundTop->DrawEllipse(cRect(infoWidth - cornerTopSize, 0, cornerTopSize, cornerTopSize), clrTransparent, -1);
+                pixmapBackgroundTop->DrawEllipse(cRect(geoManager->channelWidth - cornerTopSize, 0, cornerTopSize, cornerTopSize), clrTransparent, -1);
                 pixmapBackgroundBottom->DrawEllipse(cRect(0, cornerBottomSize, cornerBottomSize, cornerBottomSize), clrTransparent, -3);
-                pixmapBackgroundBottom->DrawEllipse(cRect(infoWidth - cornerBottomSize, cornerBottomSize, cornerBottomSize, cornerBottomSize), clrTransparent, -4);
+                pixmapBackgroundBottom->DrawEllipse(cRect(geoManager->channelWidth - cornerBottomSize, cornerBottomSize, cornerBottomSize, cornerBottomSize), clrTransparent, -4);
             } else if ((config.backgroundStyle == bsFull) && (config.logoPosition == lpLeft)){
                 pixmapLogoBackgroundTop->DrawEllipse(cRect(0, 0, cornerTopSize, cornerTopSize), clrTransparent, -2);
-                pixmapBackgroundTop->DrawEllipse(cRect(infoWidth - cornerTopSize, 0, cornerTopSize, cornerTopSize), clrTransparent, -1);
+                pixmapBackgroundTop->DrawEllipse(cRect(geoManager->channelWidth - cornerTopSize, 0, cornerTopSize, cornerTopSize), clrTransparent, -1);
                 pixmapLogoBackgroundBottom->DrawEllipse(cRect(0, cornerBottomSize, cornerBottomSize, cornerBottomSize), clrTransparent, -3);
-                pixmapBackgroundBottom->DrawEllipse(cRect(infoWidth - cornerBottomSize, cornerBottomSize, cornerBottomSize, cornerBottomSize), clrTransparent, -4);
+                pixmapBackgroundBottom->DrawEllipse(cRect(geoManager->channelWidth - cornerBottomSize, cornerBottomSize, cornerBottomSize, cornerBottomSize), clrTransparent, -4);
             } else if ((config.backgroundStyle == bsFull) && (config.logoPosition == lpRight)){
                 pixmapBackgroundTop->DrawEllipse(cRect(0, 0, cornerTopSize, cornerTopSize), clrTransparent, -2);
                 pixmapLogoBackgroundTop->DrawEllipse(cRect(pixmapLogoBackgroundTop->ViewPort().Width() - cornerTopSize, 0, cornerTopSize, cornerTopSize), clrTransparent, -1);
@@ -249,26 +208,26 @@ void cNopacityDisplayChannel::DrawBackground(void){
 void cNopacityDisplayChannel::DrawDate(void) {
     cString curDate = DayDateTime();
     if (initial || channelChange || strcmp(curDate, lastDate)) {
-        int strDateWidth = fontDate->Width(curDate);
-        int strDateHeight = fontDate->Height();
-        int x = dateWidth - strDateWidth - channelInfoHeight/2;
-        int y = (channelInfoHeight - strDateHeight) / 2;
+        int strDateWidth = fontManager->channelDate->Width(curDate);
+        int strDateHeight = fontManager->channelDate->Height();
+        int x = geoManager->channelDateWidth - strDateWidth - geoManager->channelInfoHeight/2;
+        int y = (geoManager->channelInfoHeight - strDateHeight) / 2;
         pixmapDate->Fill(clrTransparent);
-        pixmapDate->DrawText(cPoint(x, y), curDate, Theme.Color(clrChannelHead), clrTransparent, fontDate);
+        pixmapDate->DrawText(cPoint(x, y), curDate, Theme.Color(clrChannelHead), clrTransparent, fontManager->channelDate);
         lastDate = curDate;
     }
 }
 
 void cNopacityDisplayChannel::DrawIconMask(void) {
-    cImageLoader imgLoader;
-    if (imgLoader.LoadIcon("skinIcons/channelsymbols", iconsWidth, iconSize)) {
-        pixmapStreamInfo->DrawImage(cPoint(0, 0), imgLoader.GetImage());
-    }
+    cImage *imgIcon = imgCache->GetSkinIcon("skinIcons/channelsymbols");
+    if (imgIcon)
+        pixmapStreamInfo->DrawImage(cPoint(0,0), *imgIcon);
 }
 
 void cNopacityDisplayChannel::DrawIcons(const cChannel *Channel) {
     isRadioChannel = ((!Channel->Vpid())&&(Channel->Apid(0)))?true:false;
     
+    int iconSize = geoManager->channelIconSize;
     int backX = 5;
     int backY = 5;
     
@@ -310,65 +269,66 @@ void cNopacityDisplayChannel::DrawIcons(const cChannel *Channel) {
 void cNopacityDisplayChannel::DrawIconsSingle(const cChannel *Channel) {
     isRadioChannel = ((!Channel->Vpid())&&(Channel->Apid(0)))?true:false;
     pixmapStreamInfo->Fill(clrTransparent);
+    int iconSize = geoManager->channelIconSize;
     int iconX = 0;
     cImageLoader imgLoader;
 
     if (Channel->Vpid() && Channel->Tpid()) {
-        if (imgLoader.LoadIcon("skinIcons/txton", iconSize)) {
-            pixmapStreamInfo->DrawImage(cPoint(iconX, 0), imgLoader.GetImage());
-        }
+        cImage *imgIcon = imgCache->GetSkinIcon("skinIcons/txton", iconSize, iconSize);
+        if (imgIcon)
+            pixmapStreamInfo->DrawImage(cPoint(0,0), *imgIcon);
     } else {
-        if (imgLoader.LoadIcon("skinIcons/txtoff", iconSize)) {
-            pixmapStreamInfo->DrawImage(cPoint(iconX, 0), imgLoader.GetImage());
-        }
+        cImage *imgIcon = imgCache->GetSkinIcon("skinIcons/txtoff", iconSize, iconSize);
+        if (imgIcon)
+            pixmapStreamInfo->DrawImage(cPoint(0,0), *imgIcon);
     }
 
     iconX += iconSize;
 
     if (Channel->Apid(0)) {
-        if (imgLoader.LoadIcon("skinIcons/stereoon", iconSize)) {
-            pixmapStreamInfo->DrawImage(cPoint(iconX, 0), imgLoader.GetImage());
-        }
+        cImage *imgIcon = imgCache->GetSkinIcon("skinIcons/stereoon", iconSize, iconSize);
+        if (imgIcon)
+            pixmapStreamInfo->DrawImage(cPoint(iconX,0), *imgIcon);
     } else {
-        if (imgLoader.LoadIcon("skinIcons/stereooff", iconSize)) {
-            pixmapStreamInfo->DrawImage(cPoint(iconX, 0), imgLoader.GetImage());
-        }
+        cImage *imgIcon = imgCache->GetSkinIcon("skinIcons/stereooff", iconSize, iconSize);
+        if (imgIcon)
+            pixmapStreamInfo->DrawImage(cPoint(iconX,0), *imgIcon);
     }
 
     iconX += iconSize;
     
     if (Channel->Dpid(0)) {
-        if (imgLoader.LoadIcon("skinIcons/dolbyon", iconSize)) {
-            pixmapStreamInfo->DrawImage(cPoint(iconX, 0), imgLoader.GetImage());
-        }
+        cImage *imgIcon = imgCache->GetSkinIcon("skinIcons/dolbyon", iconSize, iconSize);
+        if (imgIcon)
+            pixmapStreamInfo->DrawImage(cPoint(iconX,0), *imgIcon);
     } else {
-        if (imgLoader.LoadIcon("skinIcons/dolbyoff", iconSize)) {
-            pixmapStreamInfo->DrawImage(cPoint(iconX, 0), imgLoader.GetImage());
-        }
+        cImage *imgIcon = imgCache->GetSkinIcon("skinIcons/dolbyoff", iconSize, iconSize);
+        if (imgIcon)
+            pixmapStreamInfo->DrawImage(cPoint(iconX,0), *imgIcon);
     }
 
     iconX += iconSize;
 
     if (Channel->Ca()) {
-        if (imgLoader.LoadIcon("skinIcons/crypted", iconSize)) {
-            pixmapStreamInfo->DrawImage(cPoint(iconX, 0), imgLoader.GetImage());
-        }
+        cImage *imgIcon = imgCache->GetSkinIcon("skinIcons/crypted", iconSize, iconSize);
+        if (imgIcon)
+            pixmapStreamInfo->DrawImage(cPoint(iconX,0), *imgIcon);
     } else {
-        if (imgLoader.LoadIcon("skinIcons/fta", iconSize)) {
-            pixmapStreamInfo->DrawImage(cPoint(iconX, 0), imgLoader.GetImage());
-        }
+        cImage *imgIcon = imgCache->GetSkinIcon("skinIcons/fta", iconSize, iconSize);
+        if (imgIcon)
+            pixmapStreamInfo->DrawImage(cPoint(iconX,0), *imgIcon);
     }
 
     iconX += iconSize;
     
     if (cRecordControls::Active()) {
-        if (imgLoader.LoadIcon("skinIcons/recon", iconSize)) {
-            pixmapStreamInfo->DrawImage(cPoint(iconX, 0), imgLoader.GetImage());
-        }
+        cImage *imgIcon = imgCache->GetSkinIcon("skinIcons/recon", iconSize, iconSize);
+        if (imgIcon)
+            pixmapStreamInfo->DrawImage(cPoint(iconX,0), *imgIcon);
     } else {
-        if (imgLoader.LoadIcon("skinIcons/recoff", iconSize)) {
-            pixmapStreamInfo->DrawImage(cPoint(iconX, 0), imgLoader.GetImage());
-        }
+        cImage *imgIcon = imgCache->GetSkinIcon("skinIcons/recoff", iconSize, iconSize);
+        if (imgIcon)
+            pixmapStreamInfo->DrawImage(cPoint(iconX,0), *imgIcon);
     }
 
 }
@@ -380,8 +340,8 @@ void cNopacityDisplayChannel::DrawScreenResolution(void) {
     double aspect = 0;
 
     if (!pixmapScreenResolution) {
-        int x = infoX + infoWidth - config.resolutionIconSize - 2*spacing;
-        int y = top + height - config.resolutionIconSize - 10;
+        int x = geoManager->channelX + geoManager->channelWidth - config.resolutionIconSize - 2*spacing;
+        int y = geoManager->channelTop + geoManager->channelHeight - config.resolutionIconSize - 10;
         pixmapScreenResolution = osd->CreatePixmap(3, cRect(x, y, config.resolutionIconSize, config.resolutionIconSize));
         pixmapScreenResolution->Fill(clrTransparent);
         if ((initial)&&(config.channelFadeTime))
@@ -391,9 +351,9 @@ void cNopacityDisplayChannel::DrawScreenResolution(void) {
     cImageLoader imgLoader;
     if (isRadioChannel) {
         if (!radioIconDrawn) {
-            if (imgLoader.LoadIcon("skinIcons/radio", config.resolutionIconSize)) {
-                    pixmapScreenResolution->DrawImage(cPoint(0,0), imgLoader.GetImage());
-            }
+            cImage *imgIcon = imgCache->GetSkinIcon("skinIcons/radio", config.resolutionIconSize, config.resolutionIconSize);
+            if (imgIcon)
+                pixmapScreenResolution->DrawImage(cPoint(0,0), *imgIcon);
             lastScreenWidth = 0;
             radioIconDrawn = true;
         }
@@ -419,9 +379,9 @@ void cNopacityDisplayChannel::DrawScreenResolution(void) {
                     iconName = "skinIcons/sd576i";
                     break;
             }
-            if (imgLoader.LoadIcon(*iconName, config.resolutionIconSize)) {
-                pixmapScreenResolution->DrawImage(cPoint(0,0), imgLoader.GetImage());
-            }
+            cImage *imgIcon = imgCache->GetSkinIcon(*iconName, config.resolutionIconSize, config.resolutionIconSize);
+            if (imgIcon)
+                pixmapScreenResolution->DrawImage(cPoint(0,0), *imgIcon);
             lastScreenWidth = screenWidth;
             radioIconDrawn = false;
         }
@@ -429,26 +389,25 @@ void cNopacityDisplayChannel::DrawScreenResolution(void) {
 }
 
 void cNopacityDisplayChannel::DrawSignalMeter(void) {
-    signalWidth = infoWidth * 0.15;
+    signalWidth = geoManager->channelWidth * 0.15;
     signalHeight = signalWidth *15 / 200;
     showSignal = false;
     if (config.displaySignalStrength) {
-        cImageLoader imgLoader;
         cString signalStrength = "STR";
         cString signalQuality = "SNR";
-        if (imgLoader.LoadIcon("skinIcons/signal", signalWidth, signalHeight, false)) {
-            cImage imgSignal = imgLoader.GetImage();
-            signalWidth = imgSignal.Width();
-            signalHeight = imgSignal.Height();
-            int signalMeterY = streamInfoY + (streamInfoHeight - 2*signalHeight - 5)/2;
+        cImage *imgSignal = imgCache->GetSkinIcon("skinIcons/signal", signalWidth, signalHeight, true);
+        if (imgSignal) {
+            signalWidth = imgSignal->Width();
+            signalHeight = imgSignal->Height();
+            int signalMeterY = geoManager->channelStreamInfoY + (geoManager->channelStreamInfoHeight - 2*signalHeight - 5)/2;
             fontInfoline = cFont::CreateFont(config.fontName, signalHeight - 2);
             int labelWidth = max(fontInfoline->Width(*signalStrength), fontInfoline->Width(*signalQuality)) + 2;
-            signalX = streamInfoHeight / 2 + labelWidth;
+            signalX = geoManager->channelStreamInfoHeight / 2 + labelWidth;
             showSignal = true;
-            pixmapSignalStrength = osd->CreatePixmap(3, cRect(infoX + signalX, top + signalMeterY + 2, signalWidth + 2, signalHeight + 2));
-            pixmapSignalQuality  = osd->CreatePixmap(3, cRect(infoX + signalX, top + signalMeterY + signalHeight + 5, signalWidth + 2, signalHeight + 2));
-            pixmapSignalMeter    = osd->CreatePixmap(4, cRect(infoX + signalX + 1, top + signalMeterY + 3, signalWidth, 2*signalHeight + 3));
-            pixmapSignalLabel    = osd->CreatePixmap(3, cRect(infoX + streamInfoHeight / 2, top + signalMeterY + 2, labelWidth, 2*signalHeight + 3));
+            pixmapSignalStrength = osd->CreatePixmap(3, cRect(geoManager->channelX + signalX, geoManager->channelTop + signalMeterY + 2, signalWidth + 2, signalHeight + 2));
+            pixmapSignalQuality  = osd->CreatePixmap(3, cRect(geoManager->channelX + signalX, geoManager->channelTop + signalMeterY + signalHeight + 5, signalWidth + 2, signalHeight + 2));
+            pixmapSignalMeter    = osd->CreatePixmap(4, cRect(geoManager->channelX + signalX + 1, geoManager->channelTop + signalMeterY + 3, signalWidth, 2*signalHeight + 3));
+            pixmapSignalLabel    = osd->CreatePixmap(3, cRect(geoManager->channelX + geoManager->channelStreamInfoHeight / 2, geoManager->channelTop + signalMeterY + 2, labelWidth, 2*signalHeight + 3));
             pixmapSignalStrength->Fill(Theme.Color(clrProgressBarBack));
             pixmapSignalQuality->Fill(Theme.Color(clrProgressBarBack));
             pixmapSignalMeter->Fill(clrTransparent);
@@ -459,8 +418,8 @@ void cNopacityDisplayChannel::DrawSignalMeter(void) {
                 pixmapSignalMeter->SetAlpha(0);
                 pixmapSignalLabel->SetAlpha(0);
             }
-            pixmapSignalStrength->DrawImage(cPoint(1,1), imgSignal);
-            pixmapSignalQuality->DrawImage(cPoint(1,1), imgSignal);
+            pixmapSignalStrength->DrawImage(cPoint(1,1), *imgSignal);
+            pixmapSignalQuality->DrawImage(cPoint(1,1), *imgSignal);
             pixmapSignalLabel->DrawText(cPoint(0, 2), *signalStrength, Theme.Color(clrChannelEPGInfo), clrTransparent, fontInfoline);
             pixmapSignalLabel->DrawText(cPoint(0, signalHeight + 4), *signalQuality, Theme.Color(clrChannelEPGInfo), clrTransparent, fontInfoline);
         }
@@ -516,7 +475,7 @@ void cNopacityDisplayChannel::DrawSourceInfo(const cChannel *Channel) {
     if (config.displaySignalStrength)
         x += signalWidth;
     pixmapFooter->Fill(clrTransparent);    
-    pixmapFooter->DrawText(cPoint(x, (streamInfoHeight - fontDate->Height())/2), channelInfo, Theme.Color(clrChannelHead), clrTransparent, fontDate);   
+    pixmapFooter->DrawText(cPoint(x, (geoManager->channelStreamInfoHeight - fontManager->channelDate->Height())/2), channelInfo, Theme.Color(clrChannelHead), clrTransparent, fontManager->channelDate);   
 }
 
 void cNopacityDisplayChannel::SetChannel(const cChannel *Channel, int Number) {
@@ -562,13 +521,13 @@ void cNopacityDisplayChannel::SetChannel(const cChannel *Channel, int Number) {
                 DrawSourceInfo(Channel);
         }
         cString channelString = cString::sprintf("%s %s", *ChannelNumber, *ChannelName);
-        pixmapChannelInfo->DrawText(cPoint(channelInfoHeight/2, (channelInfoHeight-fontHeader->Height())/2), channelString, Theme.Color(clrChannelHead), clrTransparent, fontHeader);
+        pixmapChannelInfo->DrawText(cPoint(geoManager->channelInfoHeight/2, (geoManager->channelInfoHeight-fontManager->channelHeader->Height())/2), channelString, Theme.Color(clrChannelHead), clrTransparent, fontManager->channelHeader);
         if (config.logoPosition != lpNone) {
             cImageLoader imgLoader;
             if (imgLoader.LoadLogo(*ChannelName)) {
-                pixmapLogo->DrawImage(cPoint(config.logoBorder, (height-config.logoHeight)/2), imgLoader.GetImage());
+                pixmapLogo->DrawImage(cPoint(config.logoBorder, (geoManager->channelHeight-config.logoHeight)/2), imgLoader.GetImage());
             } else if (Channel && imgLoader.LoadLogo(*(Channel->GetChannelID().ToString()))) {
-                pixmapLogo->DrawImage(cPoint(config.logoBorder, (height-config.logoHeight)/2), imgLoader.GetImage());
+                pixmapLogo->DrawImage(cPoint(config.logoBorder, (geoManager->channelHeight-config.logoHeight)/2), imgLoader.GetImage());
             }
         }
         ShowSignalMeter();
@@ -588,25 +547,27 @@ void cNopacityDisplayChannel::DrawChannelGroups(const cChannel *Channel, cString
     if (withInfo) {
         pixmapProgressBar->Fill(clrTransparent);
         pixmapEPGInfo->Fill(clrTransparent);
-        ySep = (epgInfoHeight-fontChannelGroup->Height())/2 - fontChannelGroup->Height()/2;
-        ySepNextPrevIcon = (epgInfoHeight - prevNextSize)/2 - fontChannelGroup->Height()/2;
+        ySep = (geoManager->channelEpgInfoHeight-fontManager->channelChannelGroup->Height())/2 - fontManager->channelChannelGroup->Height()/2;
+        ySepNextPrevIcon = (geoManager->channelEpgInfoHeight - prevNextSize)/2 - fontManager->channelChannelGroup->Height()/2;
         infoPixmap = pixmapEPGInfo;
     } else {
-        ySep = (channelInfoHeight - fontChannelGroup->Height())/2;
-        ySepNextPrevIcon = (channelInfoHeight - prevNextSize)/2;
+        ySep = (geoManager->channelInfoHeight - fontManager->channelChannelGroup->Height())/2;
+        ySepNextPrevIcon = (geoManager->channelInfoHeight - prevNextSize)/2;
         infoPixmap = pixmapChannelInfo;
     }
-    int widthSep = fontChannelGroup->Width(*ChannelName);
-    int xSep = (config.displayPrevNextChannelGroup)?(infoWidth * 2 / 5):0;
-    infoPixmap->DrawText(cPoint(xSep, ySep), *ChannelName, Theme.Color(clrChannelHead), clrTransparent, fontChannelGroup);
+    int widthSep = fontManager->channelChannelGroup->Width(*ChannelName);
+    int xSep = (config.displayPrevNextChannelGroup)?(geoManager->channelWidth * 2 / 5):0;
+    infoPixmap->DrawText(cPoint(xSep, ySep), *ChannelName, Theme.Color(clrChannelHead), clrTransparent, fontManager->channelChannelGroup);
 
     cImageLoader imgLoader;
     if (config.logoPosition != lpNone) {
         cString separator = cString::sprintf("separatorlogos/%s", *ChannelName);
         if (imgLoader.LoadLogo(*separator)) {
-            pixmapLogo->DrawImage(cPoint(config.logoBorder, (height-config.logoHeight)/2), imgLoader.GetImage());
-        } else if (imgLoader.LoadIcon("skinIcons/Channelseparator", config.logoWidth, config.logoHeight)) {
-            pixmapLogo->DrawImage(cPoint(config.logoBorder + (config.logoWidth - config.logoWidth)/2, (height-config.logoHeight)/2), imgLoader.GetImage());
+            pixmapLogo->DrawImage(cPoint(config.logoBorder, (geoManager->channelHeight-config.logoHeight)/2), imgLoader.GetImage());
+        } else {
+            cImage *imgIcon = imgCache->GetSkinIcon("skinIcons/Channelseparator", config.logoWidth, config.logoHeight);
+            if (imgIcon)
+                pixmapLogo->DrawImage(cPoint(config.logoBorder + (config.logoWidth - config.logoWidth)/2, (geoManager->channelHeight-config.logoHeight)/2), *imgIcon);
         }
     }
     
@@ -619,30 +580,30 @@ void cNopacityDisplayChannel::DrawChannelGroups(const cChannel *Channel, cString
     bool nextAvailable = (strlen(*nextChannelSep) > 0)?true:false;
 
 
-    int ySepNextPrev = ySep + (fontChannelGroup->Height() - fontChannelGroupSmall->Height())/2;
+    int ySepNextPrev = ySep + (fontManager->channelChannelGroup->Height() - fontManager->channelChannelGroupSmall->Height())/2;
     if (prevAvailable) {
         int xSymbol = xSep - prevNextSize - 10;
-        if (imgLoader.LoadIcon("skinIcons/arrowLeftChannelSep", prevNextSize)) {
-            infoPixmap->DrawImage(cPoint(xSymbol, ySepNextPrevIcon), imgLoader.GetImage());
-        }
-        int xSepPrev = xSymbol - 10 - fontChannelGroupSmall->Width(prevChannelSep);
+        cImage *imgIcon = imgCache->GetSkinIcon("skinIcons/arrowLeftChannelSep", prevNextSize, prevNextSize);
+        if (imgIcon)
+            infoPixmap->DrawImage(cPoint(xSymbol, ySepNextPrevIcon), *imgIcon);
+        int xSepPrev = xSymbol - 10 - fontManager->channelChannelGroupSmall->Width(prevChannelSep);
         if (xSepPrev < 0) {
-            prevChannelSep = CutText(*prevChannelSep, xSymbol, fontChannelGroupSmall).c_str();
-            xSepPrev = xSymbol - 10 - fontChannelGroupSmall->Width(prevChannelSep);
+            prevChannelSep = CutText(*prevChannelSep, xSymbol, fontManager->channelChannelGroupSmall).c_str();
+            xSepPrev = xSymbol - 10 - fontManager->channelChannelGroupSmall->Width(prevChannelSep);
         }
-        infoPixmap->DrawText(cPoint(xSepPrev, ySepNextPrev), *prevChannelSep, Theme.Color(clrChannelEPGInfoNext), clrTransparent, fontChannelGroupSmall);
+        infoPixmap->DrawText(cPoint(xSepPrev, ySepNextPrev), *prevChannelSep, Theme.Color(clrChannelEPGInfoNext), clrTransparent, fontManager->channelChannelGroupSmall);
     }
     if (nextAvailable) {
         int xSymbol = xSep + widthSep + 10;
-        if (imgLoader.LoadIcon("skinIcons/arrowRightChannelSep", prevNextSize)) {
-            infoPixmap->DrawImage(cPoint(xSymbol, ySepNextPrevIcon), imgLoader.GetImage());
-        }
+        cImage *imgIcon = imgCache->GetSkinIcon("skinIcons/arrowRightChannelSep", prevNextSize, prevNextSize);
+        if (imgIcon)
+            infoPixmap->DrawImage(cPoint(xSymbol, ySepNextPrevIcon), *imgIcon);
         int xSepNext = xSymbol + 10 + prevNextSize;
         int spaceAvailable = infoPixmap->DrawPort().Width() - xSepNext;
-        if (fontChannelGroupSmall->Width(nextChannelSep) > spaceAvailable) {
-            nextChannelSep = CutText(*nextChannelSep, spaceAvailable, fontChannelGroupSmall).c_str();
+        if (fontManager->channelChannelGroupSmall->Width(nextChannelSep) > spaceAvailable) {
+            nextChannelSep = CutText(*nextChannelSep, spaceAvailable, fontManager->channelChannelGroupSmall).c_str();
         }
-        infoPixmap->DrawText(cPoint(xSepNext, ySepNextPrev), *nextChannelSep, Theme.Color(clrChannelEPGInfoNext), clrTransparent, fontChannelGroupSmall);
+        infoPixmap->DrawText(cPoint(xSepNext, ySepNextPrev), *nextChannelSep, Theme.Color(clrChannelEPGInfoNext), clrTransparent, fontManager->channelChannelGroupSmall);
     }
 }
 
@@ -679,9 +640,9 @@ void cNopacityDisplayChannel::SetEvents(const cEvent *Present, const cEvent *Fol
         int y = !i ? 0 : 2;
         if (e) {
             cString startTime = e->GetTimeString();
-            int startTimeWidth = fontEPG->Width(*startTime);
-            int epgWidth = fontEPG->Width(e->Title());
-            int epgWidthShort = fontEPGSmall->Width(e->ShortText());
+            int startTimeWidth = fontManager->channelEPG->Width(*startTime);
+            int epgWidth = fontManager->channelEPG->Width(e->Title());
+            int epgWidthShort = fontManager->channelEPGSmall->Width(e->ShortText());
             cString strSeen("");
             if (i==0) {
                 if (config.progressCurrentSchedule == 0) {
@@ -696,42 +657,42 @@ void cNopacityDisplayChannel::SetEvents(const cEvent *Present, const cEvent *Fol
             } else {
                 strSeen = cString::sprintf("%dmin", e->Duration()/60);
             }
-            int seenWidth = fontEPG->Width(*strSeen);
-            int space = infoWidth - 9*indent - seenWidth - startTimeWidth - config.resolutionIconSize;
+            int seenWidth = fontManager->channelEPG->Width(*strSeen);
+            int space = geoManager->channelWidth - 9*indent - seenWidth - startTimeWidth - config.resolutionIconSize;
             bool drawRecIcon = false;
             int widthRecIcon = 0;
             if (e->HasTimer()) {
                 drawRecIcon = true;
-                widthRecIcon = fontEPGSmall->Width(" REC ");
+                widthRecIcon = fontManager->channelEPGSmall->Width(" REC ");
                 space -= widthRecIcon + indent/2;
             }
             cString strEPG = e->Title();
             if (space < epgWidth) {
-                strEPG = CutText(e->Title(), space, fontEPG).c_str();
+                strEPG = CutText(e->Title(), space, fontManager->channelEPG).c_str();
             }
             cString strEPGShort = e->ShortText();
-            int spaceShort = infoWidth - 6*indent - startTimeWidth - config.resolutionIconSize;
+            int spaceShort = geoManager->channelWidth - 6*indent - startTimeWidth - config.resolutionIconSize;
             if (spaceShort < epgWidthShort) {
-                strEPGShort = CutText(e->ShortText(), spaceShort, fontEPGSmall).c_str();
+                strEPGShort = CutText(e->ShortText(), spaceShort, fontManager->channelEPGSmall).c_str();
             }
             tColor fontColor = (i==0)?Theme.Color(clrChannelEPG):Theme.Color(clrChannelEPGNext);
             tColor fontColorInfo = (i==0)?Theme.Color(clrChannelEPGInfo):Theme.Color(clrChannelEPGInfoNext);
             
-            pixmapEPGInfo->DrawText(cPoint(indent, y * epgInfoLineHeight), *startTime, fontColor, clrTransparent, fontEPG);
+            pixmapEPGInfo->DrawText(cPoint(indent, y * geoManager->channelEpgInfoLineHeight), *startTime, fontColor, clrTransparent, fontManager->channelEPG);
             int xEPGInfo = 2 * indent + startTimeWidth;
             if (drawRecIcon) {
                 tColor clrRecIcon = (i==0)?Theme.Color(clrRecNow):Theme.Color(clrRecNext);
                 tColor clrRecIconText = (i==0)?Theme.Color(clrRecNowFont):Theme.Color(clrRecNextFont);
-                pixmapEPGInfo->DrawRectangle(cRect(xEPGInfo, y * epgInfoLineHeight , widthRecIcon, epgInfoLineHeight), clrRecIcon);
-                int xRecText = xEPGInfo + (widthRecIcon - fontEPGSmall->Width("REC"))/2;
-                int yRecText = y * epgInfoLineHeight + (epgInfoLineHeight - fontEPGSmall->Height())/2;
-                pixmapEPGInfo->DrawText(cPoint(xRecText, yRecText), "REC", clrRecIconText, clrRecIcon, fontEPGSmall);
+                pixmapEPGInfo->DrawRectangle(cRect(xEPGInfo, y * geoManager->channelEpgInfoLineHeight , widthRecIcon, geoManager->channelEpgInfoLineHeight), clrRecIcon);
+                int xRecText = xEPGInfo + (widthRecIcon - fontManager->channelEPGSmall->Width("REC"))/2;
+                int yRecText = y * geoManager->channelEpgInfoLineHeight + (geoManager->channelEpgInfoLineHeight - fontManager->channelEPGSmall->Height())/2;
+                pixmapEPGInfo->DrawText(cPoint(xRecText, yRecText), "REC", clrRecIconText, clrRecIcon, fontManager->channelEPGSmall);
                 xEPGInfo += widthRecIcon + indent/2;
             }
-            pixmapEPGInfo->DrawText(cPoint(xEPGInfo, y * epgInfoLineHeight), *strEPG, fontColor, clrTransparent, fontEPG);
-            pixmapEPGInfo->DrawText(cPoint(2 * indent + startTimeWidth, (y+1) * epgInfoLineHeight + 3), *strEPGShort, fontColorInfo, clrTransparent, fontEPGSmall);
-            int x = infoWidth - indent - seenWidth - config.resolutionIconSize - indent;
-            pixmapEPGInfo->DrawText(cPoint(x, y * epgInfoLineHeight), *strSeen, fontColor, clrTransparent, fontEPG);
+            pixmapEPGInfo->DrawText(cPoint(xEPGInfo, y * geoManager->channelEpgInfoLineHeight), *strEPG, fontColor, clrTransparent, fontManager->channelEPG);
+            pixmapEPGInfo->DrawText(cPoint(2 * indent + startTimeWidth, (y+1) * geoManager->channelEpgInfoLineHeight + 3), *strEPGShort, fontColorInfo, clrTransparent, fontManager->channelEPGSmall);
+            int x = geoManager->channelWidth - indent - seenWidth - config.resolutionIconSize - indent;
+            pixmapEPGInfo->DrawText(cPoint(x, y * geoManager->channelEpgInfoLineHeight), *strSeen, fontColor, clrTransparent, fontManager->channelEPG);
         }
     }
 }

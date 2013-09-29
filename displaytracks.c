@@ -1,6 +1,7 @@
 #include "displaytracks.h"
 
-cNopacityDisplayTracks::cNopacityDisplayTracks(const char *Title, int NumTracks, const char * const *Tracks) {
+cNopacityDisplayTracks::cNopacityDisplayTracks(cImageCache *imgCache, const char *Title, int NumTracks, const char * const *Tracks) {
+    this->imgCache = imgCache;
     config.setDynamicValues();
     initial = true;
     currentIndex = -1;
@@ -10,8 +11,6 @@ cNopacityDisplayTracks::cNopacityDisplayTracks(const char *Title, int NumTracks,
     FadeTime = config.tracksFadeTime;
     SetGeometry();
     CreatePixmaps();
-    CreateFonts();
-    CreateBackgroundImages();
     DrawHeader(Title);
     for (int i = 0; i < NumTracks; i++)
         SetItem(Tracks[i], i, false);
@@ -25,21 +24,15 @@ cNopacityDisplayTracks::~cNopacityDisplayTracks() {
     osd->DestroyPixmap(pixmapHeader);
     osd->DestroyPixmap(pixmapHeaderAudio);
     menuItems.Clear();
-    if (config.doBlending) {
-        for (int i=0; i<2; i++)
-            cOsdProvider::DropImage(handleBackgrounds[i]);
-    }
-    delete font;
-    delete fontHeader;
     delete osd;
 }
 
 void cNopacityDisplayTracks::SetGeometry(void) {
-    width = cOsd::OsdWidth() * config.tracksWidth / 100;
+    width = geoManager->trackWidth;
     height = (config.tracksItemHeight +4) * (numTracks+1);
 
-    menuItemWidth = width - 4;
-    menuItemHeight = config.tracksItemHeight;
+    menuItemWidth = geoManager->menuItemWidthTracks;
+    menuItemHeight = geoManager->menuItemHeightTracks;
 
     int top, left;
     switch(config.tracksPosition) {
@@ -94,48 +87,34 @@ void cNopacityDisplayTracks::CreatePixmaps(void) {
     }
 }
 
-void cNopacityDisplayTracks::CreateFonts(void) {
-    font = cFont::CreateFont(config.fontName, menuItemHeight/3 + config.fontTracks);
-    fontHeader = cFont::CreateFont(config.fontName, menuItemHeight/2 + config.fontTracksHeader);
-}
-
-void cNopacityDisplayTracks::CreateBackgroundImages(void) {
-    if (!config.doBlending)
-        return;
-    cImageLoader imgLoader;
-    imgLoader.DrawBackground(Theme.Color(clrMenuItem), Theme.Color(clrMenuItemBlend), menuItemWidth-2, menuItemHeight-2);
-    handleBackgrounds[0] = cOsdProvider::StoreImage(imgLoader.GetImage());
-    imgLoader.DrawBackground(Theme.Color(clrMenuItemHigh), Theme.Color(clrMenuItemHighBlend), menuItemWidth-2, menuItemHeight-2);
-    handleBackgrounds[1] = cOsdProvider::StoreImage(imgLoader.GetImage());
-}
-
 void cNopacityDisplayTracks::DrawHeader(const char *Title) {
     pixmapContainer->Fill(Theme.Color(clrMenuBorder));
     pixmapContainer->DrawRectangle(cRect(1, 1, width-2, height-2), Theme.Color(clrMenuBack));
     pixmapHeader->Fill(Theme.Color(clrMenuItem));
     if (config.doBlending) {
-        pixmapHeader->DrawImage(cPoint(1, 1), handleBackgrounds[0]);
+        cImage *back = imgCache->GetBackground(btTracks);
+        if (back)
+            pixmapHeader->DrawImage(cPoint(1, 1), *back);
     } else {
         pixmapHeader->DrawRectangle(cRect(1, 1, width-2, height-2), Theme.Color(clrMenuItemHigh));
     }
     pixmapIcon = osd->CreatePixmap(3, cRect(2, 2, menuItemHeight-2, menuItemHeight-2));
     pixmapIcon->Fill(clrTransparent);
-    cImageLoader imgLoader;
-    if (imgLoader.LoadIcon("skinIcons/tracks", menuItemHeight-6)) {
-        pixmapIcon->DrawImage(cPoint(3, 3), imgLoader.GetImage());
-    }
+    
+    cImage *imgTracks = imgCache->GetSkinIcon("skinIcons/tracks", menuItemHeight-6, menuItemHeight-6);
+    if (imgTracks)
+        pixmapIcon->DrawImage(cPoint(3,3), *imgTracks);
     int clrFontBack = (config.doBlending)?clrTransparent:Theme.Color(clrMenuItemHigh);
-    pixmapHeader->DrawText(cPoint((width - fontHeader->Width(Title)) / 2, (menuItemHeight - fontHeader->Height()) / 2), Title, Theme.Color(clrTracksFontHead), clrFontBack, fontHeader);
+    pixmapHeader->DrawText(cPoint((width - fontManager->trackHeader->Width(Title)) / 2, (menuItemHeight - fontManager->trackHeader->Height()) / 2), Title, Theme.Color(clrTracksFontHead), clrFontBack, fontManager->trackHeader);
 }
 
 void cNopacityDisplayTracks::SetItem(const char *Text, int Index, bool Current) {
     cNopacityMenuItem *item;
-    item = new cNopacityTrackMenuItem(osd, Text);
+    item = new cNopacityTrackMenuItem(osd, imgCache, Text);
     item->SetCurrent(Current);
-    item->SetFont(font);
+    item->SetFont(fontManager->trackText);
     item->SetGeometry(Index, menuItemHeight+4, 2, menuItemWidth, menuItemHeight, 4);
     item->CreatePixmap();
-    item->SetBackgrounds(handleBackgrounds);
     menuItems.Add(item);
     item->Render();
 }
@@ -169,10 +148,10 @@ void cNopacityDisplayTracks::SetAudioChannel(int AudioChannel) {
                 icon = "skinIcons/stereo"; 
                 break;
         }
-        cImageLoader imgLoader;
-        if (imgLoader.LoadIcon(icon, menuItemHeight-2)) {
-            pixmapHeaderAudio->DrawImage(cPoint(1, 1), imgLoader.GetImage());
-        }
+        cImage *imgIcon = imgCache->GetSkinIcon(*icon, menuItemHeight-2, menuItemHeight-2);
+        if (imgIcon)
+            pixmapHeaderAudio->DrawImage(cPoint(1,1), *imgIcon);
+
     }
 }
 

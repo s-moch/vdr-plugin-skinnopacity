@@ -3,9 +3,10 @@
 
 class cNopacitySetup : public cMenuSetupPage {
     public:
-        cNopacitySetup(void);
+        cNopacitySetup(cImageCache *imgCache);
         virtual ~cNopacitySetup();      
     private:
+        cImageCache *imgCache;
         cNopacityConfig tmpNopacityConfig;
         cStringList fontNames;
         void Setup(void);

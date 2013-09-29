@@ -8,16 +8,12 @@ cNopacityDisplayVolume::cNopacityDisplayVolume(void) {
     FrameTime = config.volumeFrameTime; 
     FadeTime = config.volumeFadeTime;
 
-    width = cOsd::OsdWidth() * config.volumeWidth / 100;
-    height = cOsd::OsdHeight() * config.volumeHeight / 100;
+    int top = (geoManager->osdHeight - geoManager->volumeHeight) - config.volumeBorderBottom;
+    int left = (geoManager->osdWidth - geoManager->volumeWidth) / 2;
+    osd = CreateOsd(left, top, geoManager->volumeWidth, geoManager->volumeHeight);
 
-    int top = (cOsd::OsdHeight() - height) - config.volumeBorderBottom;
-    int left = (cOsd::OsdWidth() - width) / 2;
-    
-    osd = CreateOsd(left, top, width, height);
-
-    pixmapBackgroundTop = osd->CreatePixmap(1, cRect(0, 0, width, height/2));
-    pixmapBackgroundBottom = osd->CreatePixmap(1, cRect(0, height/2, width, height/2));
+    pixmapBackgroundTop = osd->CreatePixmap(1, cRect(0, 0, geoManager->volumeWidth, geoManager->volumeHeight/2));
+    pixmapBackgroundBottom = osd->CreatePixmap(1, cRect(0, geoManager->volumeHeight/2, geoManager->volumeWidth, geoManager->volumeHeight/2));
     if (config.doBlending) {
         DrawBlendedBackground(pixmapBackgroundTop, Theme.Color(clrChannelBackground), Theme.Color(clrChannelBackBlend), true);
         DrawBlendedBackground(pixmapBackgroundBottom, Theme.Color(clrChannelBackground), Theme.Color(clrChannelBackBlend), false);
@@ -25,20 +21,16 @@ cNopacityDisplayVolume::cNopacityDisplayVolume(void) {
         pixmapBackgroundTop->Fill(Theme.Color(clrChannelBackground));
         pixmapBackgroundBottom->Fill(Theme.Color(clrChannelBackground));
     }
-    int cornerSize = height/4;
+    int cornerSize = geoManager->volumeHeight/4;
     if (cornerSize > 2) {
         pixmapBackgroundTop->DrawEllipse(cRect(0, 0, cornerSize, cornerSize), clrTransparent, -2);
-        pixmapBackgroundTop->DrawEllipse(cRect(width - cornerSize, 0, cornerSize, cornerSize), clrTransparent, -1);
+        pixmapBackgroundTop->DrawEllipse(cRect(geoManager->volumeWidth - cornerSize, 0, cornerSize, cornerSize), clrTransparent, -1);
         pixmapBackgroundBottom->DrawEllipse(cRect(0, cornerSize, cornerSize, cornerSize), clrTransparent, -3);
-        pixmapBackgroundBottom->DrawEllipse(cRect(width - cornerSize, cornerSize, cornerSize, cornerSize), clrTransparent, -4);
+        pixmapBackgroundBottom->DrawEllipse(cRect(geoManager->volumeWidth - cornerSize, cornerSize, cornerSize, cornerSize), clrTransparent, -4);
     }
-    labelHeight = height/3;
-    pixmapLabel = osd->CreatePixmap(2, cRect(0, 5, width, labelHeight));
-    progressBarWidth = 0.9 * width;
-    progressBarHeight = 0.3 * height;
-    if (progressBarHeight%2 != 0)
-        progressBarHeight++;
-    pixmapProgressBar = osd->CreatePixmap(2, cRect((width - progressBarWidth) / 2, (height - progressBarHeight)*2/3, progressBarWidth, progressBarHeight));
+    
+    pixmapLabel = osd->CreatePixmap(2, cRect(0, 5, geoManager->volumeWidth, geoManager->volumeLabelHeight));
+    pixmapProgressBar = osd->CreatePixmap(2, cRect((geoManager->volumeWidth - geoManager->volumeProgressBarWidth) / 2, (geoManager->volumeHeight - geoManager->volumeProgressBarHeight)*2/3, geoManager->volumeProgressBarWidth, geoManager->volumeProgressBarHeight));
 
     if (config.volumeFadeTime) {
         pixmapBackgroundTop->SetAlpha(0);
@@ -46,7 +38,6 @@ cNopacityDisplayVolume::cNopacityDisplayVolume(void) {
         pixmapProgressBar->SetAlpha(0);
         pixmapLabel->SetAlpha(0);
     }
-    font = cFont::CreateFont(config.fontName, labelHeight - 6 + config.fontVolume);
 }
 
 cNopacityDisplayVolume::~cNopacityDisplayVolume() {
@@ -57,36 +48,35 @@ cNopacityDisplayVolume::~cNopacityDisplayVolume() {
     osd->DestroyPixmap(pixmapBackgroundBottom);
     osd->DestroyPixmap(pixmapLabel);
     osd->DestroyPixmap(pixmapProgressBar);
-    delete font;
     delete osd;
 }
 
 void cNopacityDisplayVolume::SetVolume(int Current, int Total, bool Mute) {
     pixmapLabel->Fill(clrTransparent);
     cString label = cString::sprintf("%s: %d", tr("Volume"), Current);
-    pixmapLabel->DrawText(cPoint((width - font->Width(*label)) / 2, (labelHeight - font->Height()) / 2), *label, Theme.Color(clrVolumeFont), clrTransparent, font);
+    pixmapLabel->DrawText(cPoint((geoManager->volumeWidth - fontManager->volumeText->Width(*label)) / 2, (geoManager->volumeLabelHeight - fontManager->volumeText->Height()) / 2), *label, Theme.Color(clrVolumeFont), clrTransparent, fontManager->volumeText);
     if (Mute) {
         cBitmap bmMute(mute_xpm);
-        pixmapLabel->DrawBitmap(cPoint(width - 2*bmMute.Width(), (labelHeight - bmMute.Height()) / 2), bmMute, Theme.Color(clrDiskAlert), clrTransparent);
+        pixmapLabel->DrawBitmap(cPoint(geoManager->volumeWidth - 2*bmMute.Width(), (geoManager->volumeLabelHeight - bmMute.Height()) / 2), bmMute, Theme.Color(clrDiskAlert), clrTransparent);
     }
         DrawProgressBar(Current, Total);
 }
 
 void cNopacityDisplayVolume::DrawProgressBar(int Current, int Total) {
     pixmapProgressBar->Fill(clrTransparent);
-    if (progressBarHeight < 5)
+    if (geoManager->volumeProgressBarHeight < 5)
         return;
     double percent = ((double)Current) / (double)Total;
-    int barWidth = progressBarWidth - progressBarHeight;
+    int barWidth = geoManager->volumeProgressBarWidth - geoManager->volumeProgressBarHeight;
     if ((Current > 0) || (Total > 0)) {
-        pixmapProgressBar->DrawEllipse(cRect(0, 0, progressBarHeight, progressBarHeight), Theme.Color(clrProgressBarBack));
-        pixmapProgressBar->DrawEllipse(cRect(progressBarWidth - progressBarHeight, 0, progressBarHeight, progressBarHeight), Theme.Color(clrProgressBarBack));
-        pixmapProgressBar->DrawRectangle(cRect(progressBarHeight/2, 0, progressBarWidth - progressBarHeight, progressBarHeight), Theme.Color(clrProgressBarBack));
+        pixmapProgressBar->DrawEllipse(cRect(0, 0, geoManager->volumeProgressBarHeight, geoManager->volumeProgressBarHeight), Theme.Color(clrProgressBarBack));
+        pixmapProgressBar->DrawEllipse(cRect(geoManager->volumeProgressBarWidth - geoManager->volumeProgressBarHeight, 0, geoManager->volumeProgressBarHeight, geoManager->volumeProgressBarHeight), Theme.Color(clrProgressBarBack));
+        pixmapProgressBar->DrawRectangle(cRect(geoManager->volumeProgressBarHeight/2, 0, geoManager->volumeProgressBarWidth - geoManager->volumeProgressBarHeight, geoManager->volumeProgressBarHeight), Theme.Color(clrProgressBarBack));
 
-        pixmapProgressBar->DrawEllipse(cRect(1, 1, progressBarHeight-2, progressBarHeight-2), Theme.Color(clrProgressBarBlend));
+        pixmapProgressBar->DrawEllipse(cRect(1, 1, geoManager->volumeProgressBarHeight-2, geoManager->volumeProgressBarHeight-2), Theme.Color(clrProgressBarBlend));
         if (Current > 0) {
-            tColor colAct = DrawProgressbarBackground(progressBarHeight / 2 - 1, 1, barWidth * percent - 2, progressBarHeight - 2);
-            pixmapProgressBar->DrawEllipse(cRect(barWidth * percent, 1, progressBarHeight-2, progressBarHeight-2), colAct);
+            tColor colAct = DrawProgressbarBackground(geoManager->volumeProgressBarHeight / 2 - 1, 1, barWidth * percent - 2, geoManager->volumeProgressBarHeight - 2);
+            pixmapProgressBar->DrawEllipse(cRect(barWidth * percent, 1, geoManager->volumeProgressBarHeight-2, geoManager->volumeProgressBarHeight-2), colAct);
         }
     }
 }

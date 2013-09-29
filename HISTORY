@@ -292,3 +292,4 @@ Version 0.1.4
 - if background color and blending color in displayChannel and displayReplay
   are the same, no blending effect is shown
 - updated slovak translation
+- Added cache for images and fonts

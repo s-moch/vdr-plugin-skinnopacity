@@ -262,7 +262,8 @@ void cRssReader::debugRSS(void) {
     
 }
 
-cRssStandaloneTicker::cRssStandaloneTicker(void) {
+cRssStandaloneTicker::cRssStandaloneTicker(cImageCache *imgCache) {
+    this->imgCache = imgCache;
     osdLeft = cOsd::OsdLeft();
     osdWidth = cOsd::OsdWidth();
     osdHeight = config.rssFeedHeightStandalone * cOsd::OsdHeight() / 100;
@@ -302,23 +303,21 @@ void cRssStandaloneTicker::SetFeed(std::string feedName) {
     int feedNameLength = font->Width(feedName.c_str());
     labelWidth = 2 + osdHeight + 2 + feedNameLength + 6;
     pixmapFeed->Fill(Theme.Color(clrRSSFeedBorder));
-    cImageLoader imgLoader;
     if (config.doBlending) {
-        imgLoader.DrawBackground(Theme.Color(clrRSSFeedHeaderBack), Theme.Color(clrRSSFeedHeaderBackBlend), labelWidth, osdHeight - 4);
-        pixmapFeed->DrawImage(cPoint(2,2), imgLoader.GetImage());
-        imgLoader.DrawBackground(Theme.Color(clrRSSFeedBack), Theme.Color(clrRSSFeedBackBlend), osdWidth - labelWidth - 2, osdHeight - 4);
-        pixmapFeed->DrawImage(cPoint(labelWidth,2), imgLoader.GetImage());
+        cImage imgBack = imgCache->GetBackground(Theme.Color(clrRSSFeedHeaderBack), Theme.Color(clrRSSFeedHeaderBackBlend), labelWidth, osdHeight - 4);
+        pixmapFeed->DrawImage(cPoint(2,2), imgBack);
+        cImage imgBack2 = imgCache->GetBackground(Theme.Color(clrRSSFeedBack), Theme.Color(clrRSSFeedBackBlend), osdWidth - labelWidth - 2, osdHeight - 4);
+        pixmapFeed->DrawImage(cPoint(labelWidth,2), imgBack2);
     } else {
         pixmapFeed->DrawRectangle(cRect(2, 2, labelWidth, osdHeight - 4), Theme.Color(clrRSSFeedHeaderBack));
         pixmapFeed->DrawRectangle(cRect(labelWidth, 2, osdWidth - labelWidth - 2, osdHeight - 4), Theme.Color(clrRSSFeedBack));
     }
     pixmapFeed->DrawText(cPoint(osdHeight + 2, (osdHeight - font->Height()) / 2), feedName.c_str(), Theme.Color(clrRSSFeedHeaderText), clrTransparent, font);
     pixmapIcon->Fill(clrTransparent);
-    if (imgLoader.LoadIcon("skinIcons/rss", osdHeight-4)) {
-        cImage icon = imgLoader.GetImage();
-        pixmapIcon->DrawImage(cPoint(2,2), icon);
-    }
     
+    cImage *imgIcon = imgCache->GetSkinIcon("skinIcons/rssStandalone", osdHeight-4, osdHeight-4);
+    if (imgIcon)
+        pixmapIcon->DrawImage(cPoint(2,2), *imgIcon);
     osd->Flush();
 }
 

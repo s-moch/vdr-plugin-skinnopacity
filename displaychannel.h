@@ -1,7 +1,7 @@
 #ifndef __NOPACITY_DISPLAYCHANNEL_H
 #define __NOPACITY_DISPLAYCHANNEL_H
 
-enum eLogoPosition {lpNone = 0, lpLeft, lpRight};
+//enum eLogoPosition {lpNone = 0, lpLeft, lpRight};
 enum eBackgroundStyle {bsTrans = 0, bsFull};
 
 class cNopacityDisplayChannel : public cSkinDisplayChannel, cThread {
@@ -25,6 +25,7 @@ private:
     bool showSignal;
     const cEvent *present;
     cOsd *osd;
+    cImageCache *imgCache;
     cPixmap *pixmapBackgroundTop;
     cPixmap *pixmapBackgroundMiddle;
     cPixmap *pixmapBackgroundBottom;
@@ -45,31 +46,11 @@ private:
     cPixmap *pixmapSignalLabel;
     cPixmap *pixmapScreenResolution;
     cPixmap *pixmapPoster;
-    int top, height;
-    int infoWidth;
-    int infoX;
-    int channelInfoWidth;
-    int channelInfoHeight;
-    int dateWidth;
-    int progressBarHeight;
-    int epgInfoHeight;
-    int epgInfoLineHeight;
-    int streamInfoHeight;
-    int streamInfoY;
-    int iconSize;
-    int iconsWidth;
     int signalWidth, signalHeight, signalX;
-    cFont *fontHeader;
-    cFont *fontDate;
-    cFont *fontEPG;
-    cFont *fontEPGSmall;
     cFont *fontInfoline;
-    cFont *fontChannelGroup;
-    cFont *fontChannelGroupSmall;
     virtual void Action(void);
-    void SetGeometry(void);
+    void createOsd(void);
     void CreatePixmaps(void);
-    void CreateFonts(void);
     void DrawBackground(void);
     void DrawDate(void);
     void DrawProgressBar(int Current, int Total);
@@ -87,7 +68,7 @@ private:
     cString GetChannelSep(const cChannel *channel, bool prev);
     void DrawPoster(const cEvent *event);
 public:
-    cNopacityDisplayChannel(bool WithInfo);
+    cNopacityDisplayChannel(cImageCache *imgCache, bool WithInfo);
     virtual ~cNopacityDisplayChannel();
     virtual void SetChannel(const cChannel *Channel, int Number);
     virtual void SetEvents(const cEvent *Present, const cEvent *Following);
