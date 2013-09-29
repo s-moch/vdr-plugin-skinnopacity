@@ -162,7 +162,7 @@ void cGeometryManager::SetDisplayVolumeSizes(void) {
     volumeHeight = osdHeight * config.volumeHeight / 100;
     volumeLabelHeight = volumeHeight/3;
     volumeProgressBarWidth = 0.9 * volumeWidth;
-    volumeProgressBarHeight = 0.3 * volumeWidth;
+    volumeProgressBarHeight = 0.3 * volumeHeight;
     if (volumeProgressBarHeight%2 != 0)
         volumeProgressBarHeight++;
 }
