@@ -6,6 +6,7 @@
 using namespace Magick;
 
 cImageCache::cImageCache() : cImageMagickWrapper() {
+    initComplete = false;
     osdTheme = Setup.OSDTheme;
 }
 
@@ -83,6 +84,8 @@ cImage *cImageCache::GetSkinIcon(std::string name, int width, int height, bool p
 }
 
 cImage *cImageCache::GetBackground(eBackgroundType type) {
+    if (!initComplete)
+        return NULL;
     try {
         return backgroundImages[(int)type];
     } catch (...) {
@@ -289,6 +292,8 @@ void cImageCache::CreateBackgroundImages(void) {
     bool mirrorHeader = (config.menuAdjustLeft) ? false : true;
     CreateBackground(Theme.Color(clrMenuHeaderBlend), Theme.Color(clrMenuHeader), geoManager->osdWidth, geoManager->menuHeaderHeight, mirrorHeader);
     backgroundImages.push_back(CreateImage());
+    
+    initComplete = true;
 }
 
 void cImageCache::Clear(void) {

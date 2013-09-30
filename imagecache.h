@@ -57,6 +57,7 @@ public:
     cImage *GetBackground(eBackgroundType type);
     cImage GetBackground(tColor back, tColor blend, int width, int height, bool flip = false);
 private:
+    bool initComplete;
     std::string osdTheme;
     std::map<std::string, cImage*> menuIconCache;
     std::map<std::string, cImage*> skinIconCache;
