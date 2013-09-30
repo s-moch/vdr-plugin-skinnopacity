@@ -747,11 +747,11 @@ void cNopacityDisplayChannel::DrawProgressBar(int Current, int Total) {
         int barFullWidth = pixmapProgressBar->ViewPort().Width() - 20 - barHeight;
         double percentSeen = ((double)Current) / (double)Total;
 
-        pixmapProgressBar->DrawEllipse(cRect(9, 3, barHeight+2, barHeight+2), Theme.Color(clrProgressBarBack));
-        pixmapProgressBar->DrawEllipse(cRect(9 + barFullWidth, 3, barHeight+2, barHeight+2), Theme.Color(clrProgressBarBack));
-        pixmapProgressBar->DrawRectangle(cRect( 9 + barHeight/2, 3, barFullWidth, barHeight+1), Theme.Color(clrProgressBarBack));
-
-        pixmapProgressBar->DrawEllipse(cRect(10, 4, barHeight, barHeight), Theme.Color(clrProgressBarBlend));
+        pixmapProgressBar->DrawEllipse(cRect(9, 3, barHeight+2, barHeight+2), Theme.Color(clrChannelProgressBarBack));
+        pixmapProgressBar->DrawEllipse(cRect(9 + barFullWidth, 3, barHeight+2, barHeight+2), Theme.Color(clrChannelProgressBarBack));
+        pixmapProgressBar->DrawRectangle(cRect( 9 + barHeight/2, 3, barFullWidth, barHeight+1), Theme.Color(clrChannelProgressBarBack));
+        
+        pixmapProgressBar->DrawEllipse(cRect(10, 4, barHeight, barHeight), Theme.Color(clrChannelProgressBarBlend));
         if (Current > 0) {
             tColor colAct = DrawProgressbarBackground(10 + barHeight/2, 4, barFullWidth * percentSeen, barHeight-1);
             pixmapProgressBar->DrawEllipse(cRect(10 + barFullWidth * percentSeen, 4, barHeight, barHeight), colAct);
@@ -760,9 +760,8 @@ void cNopacityDisplayChannel::DrawProgressBar(int Current, int Total) {
 }
 
 tColor cNopacityDisplayChannel::DrawProgressbarBackground(int left, int top, int width, int height) {
-
-    tColor clr1 = Theme.Color(clrProgressBar);
-    tColor clr2 = Theme.Color(clrProgressBarBlend);
+    tColor clr1 = Theme.Color(clrChannelProgressBar);
+    tColor clr2 = Theme.Color(clrChannelProgressBarBlend);
     tColor clr = 0x00000000;
     width = (width==0)?1:width;
     int step = width / 256;

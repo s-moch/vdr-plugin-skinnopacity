@@ -130,6 +130,7 @@ cNopacityConfig::cNopacityConfig() {
     posterWidth = 500;
     posterHeight = 750;
     menuRecFolderSize = 128;
+    useFolderPoster = 1;
     borderDetailedEPG = 30;
     borderDetailedRecordings = 30;
     menuSchedulesWindowMode = 0;
@@ -419,6 +420,7 @@ bool cNopacityConfig::SetupParse(const char *Name, const char *Value) {
     else if (strcmp(Name, "posterWidth") == 0)             posterWidth = atoi(Value);
     else if (strcmp(Name, "posterHeight") == 0)            posterHeight = atoi(Value);
     else if (strcmp(Name, "menuRecFolderSize") == 0)       menuRecFolderSize = atoi(Value);
+    else if (strcmp(Name, "useFolderPoster") == 0)         useFolderPoster = atoi(Value);
     else if (strcmp(Name, "borderDetailedEPG") == 0)       borderDetailedEPG = atoi(Value);
     else if (strcmp(Name, "borderDetailedRecordings") == 0) borderDetailedRecordings = atoi(Value);
     else if (strcmp(Name, "menuSchedulesWindowMode") == 0) menuSchedulesWindowMode = atoi(Value);

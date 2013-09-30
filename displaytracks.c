@@ -96,7 +96,7 @@ void cNopacityDisplayTracks::DrawHeader(const char *Title) {
         if (back)
             pixmapHeader->DrawImage(cPoint(1, 1), *back);
     } else {
-        pixmapHeader->DrawRectangle(cRect(1, 1, width-2, height-2), Theme.Color(clrMenuItemHigh));
+        pixmapHeader->DrawRectangle(cRect(1, 1, width-2, height-2), Theme.Color(clrAudioMenuHeader));
     }
     pixmapIcon = osd->CreatePixmap(3, cRect(2, 2, menuItemHeight-2, menuItemHeight-2));
     pixmapIcon->Fill(clrTransparent);
@@ -104,7 +104,7 @@ void cNopacityDisplayTracks::DrawHeader(const char *Title) {
     cImage *imgTracks = imgCache->GetSkinIcon("skinIcons/tracks", menuItemHeight-6, menuItemHeight-6);
     if (imgTracks)
         pixmapIcon->DrawImage(cPoint(3,3), *imgTracks);
-    int clrFontBack = (config.doBlending)?clrTransparent:Theme.Color(clrMenuItemHigh);
+    int clrFontBack = (config.doBlending)?clrTransparent:Theme.Color(clrAudioMenuHeader);
     pixmapHeader->DrawText(cPoint((width - fontManager->trackHeader->Width(Title)) / 2, (menuItemHeight - fontManager->trackHeader->Height()) / 2), Title, Theme.Color(clrTracksFontHead), clrFontBack, fontManager->trackHeader);
 }
 

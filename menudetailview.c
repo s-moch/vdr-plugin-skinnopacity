@@ -811,7 +811,7 @@ void cNopacityMenuDetailRecordingView::DrawEPGPictures(int height) {
 void cNopacityMenuDetailRecordingView::DrawHeader(void) {
     cImageLoader imgLoader;
     int widthTextHeader = width - 2 * border;
-    if (imgLoader.LoadRecordingImage(recording->FileName())) {
+    if ((config.displayAdditionalRecEPGPictures == 1) && imgLoader.LoadRecordingImage(recording->FileName())) {
         pixmapHeader->DrawImage(cPoint(width - config.epgImageWidth - border, (headerHeight-config.epgImageHeight)/2), imgLoader.GetImage());
         if (config.roundedCorners) {
             int radius = config.cornerRadius;

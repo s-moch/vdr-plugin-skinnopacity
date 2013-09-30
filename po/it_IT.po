@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-09-18 11:22+0200\n"
+"POT-Creation-Date: 2013-09-30 19:08+0200\n"
 "PO-Revision-Date: 2013-03-19 22:56+0100\n"
 "Last-Translator: Diego Pierotto <vdr-italian@tiscali.it>\n"
 "Language-Team: \n"
@@ -391,6 +391,9 @@ msgstr "Mostra immagini EPG aggiuntivo nella vista dettagli registrazione"
 
 msgid "Folder Icon Size"
 msgstr "Dim. icona cartella"
+
+msgid "Use folder poster if available"
+msgstr ""
 
 msgid "Width of manually set recording poster"
 msgstr ""

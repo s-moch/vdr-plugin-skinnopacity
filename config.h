@@ -163,6 +163,7 @@ class cNopacityConfig {
         int posterWidth;
         int posterHeight;
         int menuRecFolderSize;
+        int useFolderPoster;
         int borderDetailedEPG;
         int borderDetailedRecordings;
         int menuSchedulesWindowMode;

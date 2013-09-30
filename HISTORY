@@ -293,3 +293,5 @@ Version 0.1.4
   are the same, no blending effect is shown
 - updated slovak translation
 - Added cache for images and fonts
+- Changed and added some color definitions
+- Added theme "Keep it light" (thanks @Saman for providing the theme)

@@ -389,6 +389,9 @@ msgstr "Weitere EPG Bilder in der detaillierten Aufnahmeansicht anzeigen"
 msgid "Folder Icon Size"
 msgstr "Order Icon Größe"
 
+msgid "Use folder poster if available"
+msgstr "Zeige Poster für Ordner falls verfügbar"
+
 msgid "Width of manually set recording poster"
 msgstr "Breite der manuell gesetzen Poster"
 

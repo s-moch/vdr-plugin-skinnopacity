@@ -15,6 +15,7 @@ class cNopacityDisplayMenuView {
         cPixmap *pixmapHeaderLabel;
         cPixmap *pixmapDate;
         cPixmap *pixmapFooter;
+        cPixmap *pixmapButtonsText;
         cPixmap *pixmapContent;
         cPixmap *pixmapScrollbar;   
         cPixmap *pixmapDiskUsage;

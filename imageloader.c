@@ -145,7 +145,7 @@ bool cImageLoader::FirstImageInFolder(cString Path, cString Extension, cString *
     while (file = readdir(folder)) {
         if (endswith(file->d_name, *Extension)) {
             std::string fileName = file->d_name;
-            if (!fileName.compare("cover_vdr.jpg"))
+            if (!fileName.compare(fileName.size()-8, 8, "_vdr.jpg"))
                 continue;
             if (fileName.length() > 4)
                 fileName = fileName.substr(0, fileName.length() - 4);

@@ -19,8 +19,9 @@ static bool firstDisplay = true;
 #define CLR_GRAY                0xFF858585
 
 //CHANNELS
-#define CLR_PROGRESSBARBACK     0xDD858585
-#define CLR_PROGRESSBARBLEND    0xDD80B3FF
+#define CLR_CHANNELPROGRESSBAR  0xDD003DF5
+#define CLR_CHANNELPROGRESSBARBACK 0xDD858585
+#define CLR_CHANNELPROGRESSBARBLEND 0xDD80B3FF
 #define CLR_CHANNELSYMBOLOFF    0xDD858585
 #define CLR_CHANNELRECACTIVE    0xDDFF0000
 #define CLR_RECNEXT             0xDDFFFF00
@@ -34,6 +35,7 @@ static bool firstDisplay = true;
 
 //MENU
 #define CLR_MENUSCROLLBARBACK   0x40003DF5
+#define CLR_MENUSCROLLBARBASE   0x00000000
 #define CLR_MENUITEM            0xEE444444
 #define CLR_MENUITEMBLEND       0x90000000
 #define CLR_MENUITEMHIGHBLEND   0xEE0033FF
@@ -41,6 +43,14 @@ static bool firstDisplay = true;
 #define CLR_DISKALERT           0xDDFF0000
 #define CLR_MENUHEADER          0xDD000000
 #define CLR_MENUHEADERBLEND     0xEE0033FF
+#define CLR_AUDIOMENUHEADER     0xDD000000
+#define CLR_PROGRESSBAR         0xDD003DF5
+#define CLR_PROGRESSBARBACK     0xDD858585
+#define CLR_PROGRESSBARBLEND    0xDD80B3FF
+#define CLR_PROGRESSBARHIGH     0xDD003DF5
+#define CLR_PROGRESSBARBACKHIGH 0xDD858585
+#define CLR_PROGRESSBARBLENDHIGH 0xDD80B3FF
+
 
 //BUTTONS
 #define CLR_BUTTONRED           0x99BB0000
@@ -69,9 +79,9 @@ THEME_CLR(Theme, clrChannelEPG,             CLR_WHITE);
 THEME_CLR(Theme, clrChannelEPGInfo,         CLR_WHITE);
 THEME_CLR(Theme, clrChannelEPGNext,         CLR_GRAY);
 THEME_CLR(Theme, clrChannelEPGInfoNext,     CLR_GRAY);
-THEME_CLR(Theme, clrProgressBar,            CLR_DARKBLUE);
-THEME_CLR(Theme, clrProgressBarBack,        CLR_PROGRESSBARBACK);
-THEME_CLR(Theme, clrProgressBarBlend,       CLR_PROGRESSBARBLEND);
+THEME_CLR(Theme, clrChannelProgressBar,     CLR_CHANNELPROGRESSBAR);
+THEME_CLR(Theme, clrChannelProgressBarBack, CLR_CHANNELPROGRESSBARBACK);
+THEME_CLR(Theme, clrChannelProgressBarBlend,CLR_CHANNELPROGRESSBARBLEND);
 THEME_CLR(Theme, clrChannelSymbolOn,        CLR_DARKBLUE);
 THEME_CLR(Theme, clrChannelSymbolOff,       CLR_CHANNELSYMBOLOFF);
 THEME_CLR(Theme, clrChannelRecActive,       CLR_CHANNELRECACTIVE);
@@ -101,6 +111,7 @@ THEME_CLR(Theme, clrMenuBack,               CLR_TRANSBLACK);
 THEME_CLR(Theme, clrMenuBorder,             CLR_DARKBLUE);
 THEME_CLR(Theme, clrMenuScrollBar,          CLR_DARKBLUE);
 THEME_CLR(Theme, clrMenuScrollBarBack,      CLR_MENUSCROLLBARBACK);
+THEME_CLR(Theme, clrMenuScrollBarBase,      CLR_MENUSCROLLBARBASE);
 THEME_CLR(Theme, clrMenuItem,               CLR_MENUITEM);
 THEME_CLR(Theme, clrMenuItemBlend,          CLR_MENUITEMBLEND);
 THEME_CLR(Theme, clrMenuItemHigh,           CLR_TRANSBLACK);
@@ -123,6 +134,13 @@ THEME_CLR(Theme, clrMenuFontMenuItemTitle,  CLR_BRIGHTBLUE);
 THEME_CLR(Theme, clrMenuFontMenuItemSep,    CLR_GRAY);
 THEME_CLR(Theme, clrMenuHeader,             CLR_MENUHEADER);
 THEME_CLR(Theme, clrMenuHeaderBlend,        CLR_MENUHEADERBLEND);
+THEME_CLR(Theme, clrAudioMenuHeader,        CLR_AUDIOMENUHEADER);
+THEME_CLR(Theme, clrProgressBar,            CLR_PROGRESSBAR);
+THEME_CLR(Theme, clrProgressBarBack,        CLR_PROGRESSBARBACK);
+THEME_CLR(Theme, clrProgressBarBlend,       CLR_PROGRESSBARBLEND);
+THEME_CLR(Theme, clrProgressBarHigh,        CLR_PROGRESSBARHIGH);
+THEME_CLR(Theme, clrProgressBarBackHigh,    CLR_PROGRESSBARBACKHIGH);
+THEME_CLR(Theme, clrProgressBarBlendHigh,   CLR_PROGRESSBARBLENDHIGH);
 //BUTTONS
 THEME_CLR(Theme, clrButtonRed,              CLR_BUTTONRED);
 THEME_CLR(Theme, clrButtonRedBorder,        CLR_BUTTONREDBORDER);

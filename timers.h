@@ -8,6 +8,7 @@ class cNopacityTimer : public cListObject {
         cPixmap *pixmapBackground;
         cPixmap *pixmap;
         cPixmap *pixmapLogo;
+        cPixmap *pixmapText;
         const cTimer *timer;
         int numConflicts;
         bool isTimerConflict;

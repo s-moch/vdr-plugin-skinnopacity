@@ -561,13 +561,17 @@ void cNopacityScheduleMenuItem::DrawRemaining(int x, int y, int width) {
     if (total == 0)
         return;
     double percentSeen = (double)seen/total;
-    pixmap->DrawEllipse(cRect(x, y, 7, 7), Theme.Color(clrProgressBarBack));
-    pixmap->DrawEllipse(cRect(x+width, y, 7, 7), Theme.Color(clrProgressBarBack));
-    pixmap->DrawRectangle(cRect(x+4, y, width-1, 7), Theme.Color(clrProgressBarBack));
-    pixmap->DrawEllipse(cRect(x+1, y+1, 5, 5), Theme.Color(clrProgressBar));
+    
+    tColor clrBack = (current)?Theme.Color(clrProgressBarBackHigh):Theme.Color(clrProgressBarBack);
+    tColor clrBar = (current)?Theme.Color(clrProgressBarHigh):Theme.Color(clrProgressBar);
+    pixmap->DrawEllipse(cRect(x, y, 7, 7), clrBack);
+    pixmap->DrawEllipse(cRect(x+width, y, 7, 7), clrBack);
+    pixmap->DrawRectangle(cRect(x+4, y, width-1, 7), clrBack);
+    pixmap->DrawEllipse(cRect(x+1, y+1, 5, 5), clrBar);
+    
     if (percentSeen > 0.0)
-        pixmap->DrawEllipse(cRect(x+(width*percentSeen), y+1, 5, 5), Theme.Color(clrProgressBar));
-    pixmap->DrawRectangle(cRect(x+4, y+1, (width-1)*percentSeen, 5), Theme.Color(clrProgressBar));
+        pixmap->DrawEllipse(cRect(x+(width*percentSeen), y+1, 5, 5), clrBar);
+    pixmap->DrawRectangle(cRect(x+4, y+1, (width-1)*percentSeen, 5), clrBar);
 }
 
 // cNopacityChannelMenuItem  -------------
@@ -1100,7 +1104,7 @@ void cNopacityRecordingMenuItem::DrawBackground(void) {
 void cNopacityRecordingMenuItem::SetTextFullFolder(void) {
     tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
     pixmapTextScroller->Fill(clrTransparent);
-    if (hasPoster || hasManualPoster)
+    if (config.useFolderPoster && (hasPoster || hasManualPoster))
         DrawPoster();
     else
         DrawFolderIcon();
@@ -1127,7 +1131,7 @@ void cNopacityRecordingMenuItem::SetTextShort(void) {
 void cNopacityRecordingMenuItem::SetTextShortFolder(void) {
     tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
     pixmapTextScroller->Fill(clrTransparent);
-    if (hasPoster || hasManualPoster)
+    if (config.useFolderPoster && (hasPoster || hasManualPoster))
         DrawPoster();
     else
         DrawFolderIcon();

@@ -189,6 +189,7 @@ void cNopacitySetup::Store(void) {
     SetupStore("posterWidth", config.posterWidth);
     SetupStore("posterHeight", config.posterHeight);
     SetupStore("menuRecFolderSize", config.menuRecFolderSize);
+    SetupStore("useFolderPoster", config.useFolderPoster);
     SetupStore("borderDetailedEPG", config.borderDetailedEPG);
     SetupStore("borderDetailedRecordings", config.borderDetailedRecordings);
     SetupStore("menuSchedulesWindowMode", config.menuSchedulesWindowMode);
@@ -487,6 +488,7 @@ void cNopacitySetupMenuDisplayRecordings::Set(void) {
     if (tmpNopacityConfig->displayAdditionalRecEPGPictures)
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Number of EPG pictures to display")), &tmpNopacityConfig->numAdditionalRecEPGPictures, 1, 9));
     Add(new cMenuEditIntItem(tr("Folder Icon Size"), &tmpNopacityConfig->menuRecFolderSize, 30, 300));
+    Add(new cMenuEditBoolItem(tr("Use folder poster if available"), &tmpNopacityConfig->useFolderPoster));
     Add(new cMenuEditIntItem(tr("Width of manually set recording poster"), &tmpNopacityConfig->posterWidth, 100, 1000));
     Add(new cMenuEditIntItem(tr("Height of manually set recording poster"), &tmpNopacityConfig->posterHeight, 100, 1000));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Menu Item"), &tmpNopacityConfig->fontMenuitemRecordings, -20, 20));

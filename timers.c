@@ -22,6 +22,7 @@ cNopacityTimer::~cNopacityTimer(void) {
     osd->DestroyPixmap(pixmapBackground);
     osd->DestroyPixmap(pixmap);
     osd->DestroyPixmap(pixmapLogo);
+    osd->DestroyPixmap(pixmapText);
 }
 
 void cNopacityTimer::SetGeometry(int width, int y) {
@@ -33,18 +34,21 @@ void cNopacityTimer::SetAlpha(int alpha) {
     pixmapBackground->SetAlpha(alpha);
     pixmap->SetAlpha(alpha);
     pixmapLogo->SetAlpha(alpha);
+    pixmapText->SetAlpha(alpha);
 }
 
 void cNopacityTimer::Show(void) {
     pixmapBackground->SetLayer(2);
     pixmap->SetLayer(3);
     pixmapLogo->SetLayer(4);
+    pixmapText->SetLayer(5);
 }
 
 void cNopacityTimer::Hide(void) {
     pixmapBackground->SetLayer(-1);
     pixmap->SetLayer(-1);
     pixmapLogo->SetLayer(-1);
+    pixmapText->SetLayer(-1);
 }
 
 void cNopacityTimer::CreateDate(void) {
@@ -111,11 +115,12 @@ void cNopacityTimer::CreatePixmaps(int x) {
     pixmapBackground = osd->CreatePixmap(2, cRect(x, y, width, height));
     pixmap = osd->CreatePixmap(3, cRect(x, y, width, height));
     pixmapLogo = osd->CreatePixmap(4, cRect(x, y, width, height));
+    pixmapText = osd->CreatePixmap(5, cRect(x, y, width, height));
 }
 
 void cNopacityTimer::Render(void) {
-    pixmapBackground->Fill(clrBlack);
-    tColor clrFontBack = (config.doBlending)?clrTransparent:Theme.Color(clrTimersBack);
+    pixmapBackground->Fill(clrTransparent);
+    pixmapText->Fill(clrTransparent);
     if (isTimerConflict) {
         pixmapLogo->Fill(clrTransparent);
         pixmap->Fill(Theme.Color(clrDiskAlert));
@@ -124,7 +129,6 @@ void cNopacityTimer::Render(void) {
             pixmap->DrawImage(cPoint(1,1), imgBack);
         } else {
             pixmap->DrawRectangle(cRect(1, 1, width-2, height-2), Theme.Color(clrDiskAlert));
-            clrFontBack = Theme.Color(clrDiskAlert);
         }        
         int numLines = showName.Lines();
         int textWidth = 0;
@@ -134,7 +138,7 @@ void cNopacityTimer::Render(void) {
             textWidth = fontLarge->Width(showName.GetLine(line));
             x = (width - textWidth)/2;
             y += line*fontLarge->Height();
-            pixmap->DrawText(cPoint(x, y), showName.GetLine(line), Theme.Color(clrMenuFontTimersHeader), clrFontBack, fontLarge);
+            pixmapText->DrawText(cPoint(x, y), showName.GetLine(line), Theme.Color(clrMenuFontTimersHeader), clrTransparent, fontLarge);
         }
     } else {
         DrawLogo();
@@ -145,7 +149,6 @@ void cNopacityTimer::Render(void) {
                 pixmap->DrawImage(cPoint(1,1), imgBack);
             } else {
                 pixmap->DrawRectangle(cRect(1, 1, width-2, height-2), Theme.Color(clrDiskAlert));
-                clrFontBack = Theme.Color(clrDiskAlert);
             } 
         } else {
             pixmap->Fill(Theme.Color(clrMenuBorder));
@@ -157,13 +160,13 @@ void cNopacityTimer::Render(void) {
             } 
         }
 
-        pixmap->DrawText(cPoint(5, config.timersLogoHeight), *Date, Theme.Color(clrMenuFontTimersHeader), clrFontBack, fontLarge);
+        pixmapText->DrawText(cPoint(5, config.timersLogoHeight), *Date, Theme.Color(clrMenuFontTimersHeader), clrTransparent, fontLarge);
         
         int lineHeight = font->Height();
         int yStart = config.timersLogoHeight + lineHeight + 3;
         int numLines = showName.Lines();
         for (int line=0; line<numLines; line++)
-            pixmap->DrawText(cPoint(5, yStart+line*(lineHeight-2)), showName.GetLine(line), Theme.Color(clrMenuFontTimers), clrFontBack, font);
+            pixmapText->DrawText(cPoint(5, yStart+line*(lineHeight-2)), showName.GetLine(line), Theme.Color(clrMenuFontTimers), clrTransparent, font);
     }   
 }
 

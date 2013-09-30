@@ -13,6 +13,7 @@ cNopacityDisplayMenuView::~cNopacityDisplayMenuView(void) {
     osd->DestroyPixmap(pixmapHeaderLabel);
     osd->DestroyPixmap(pixmapDate);
     osd->DestroyPixmap(pixmapFooter);
+    osd->DestroyPixmap(pixmapButtonsText);
     osd->DestroyPixmap(pixmapContent);
     osd->DestroyPixmap(pixmapScrollbar);    
     osd->DestroyPixmap(pixmapDiskUsage);
@@ -146,6 +147,7 @@ void cNopacityDisplayMenuView::CreatePixmaps(void) {
     int labelX = (config.menuAdjustLeft) ? 0 : geoManager->menuDateWidth;
     pixmapHeaderLabel = osd->CreatePixmap(2, cRect(labelX, 0, geoManager->osdWidth - geoManager->menuDateWidth, geoManager->menuHeaderHeight));
     pixmapFooter = osd->CreatePixmap(1, cRect(0, geoManager->osdHeight - geoManager->menuRssFeedHeight - geoManager->menuFooterHeight, geoManager->osdWidth, geoManager->menuFooterHeight));
+    pixmapButtonsText = osd->CreatePixmap(1, cRect(0, geoManager->osdHeight - geoManager->menuRssFeedHeight - geoManager->menuFooterHeight, geoManager->osdWidth, geoManager->menuFooterHeight));
     int drawPortWidth = geoManager->osdWidth + geoManager->menuContentWidthFull - geoManager->menuContentWidthMinimum;
     pixmapContent = osd->CreatePixmap(1, cRect(0, geoManager->menuHeaderHeight, geoManager->osdWidth, geoManager->menuContentHeight),
                                          cRect(0, 0, drawPortWidth, geoManager->menuContentHeight));
@@ -176,6 +178,7 @@ void cNopacityDisplayMenuView::CreatePixmaps(void) {
         pixmapHeaderLabel->SetAlpha(0);
         pixmapDate->SetAlpha(0);
         pixmapFooter->SetAlpha(0);
+        pixmapButtonsText->SetAlpha(0);
         pixmapContent->SetAlpha(0);
         pixmapScrollbar->SetAlpha(0);
         pixmapDiskUsage->SetAlpha(0);
@@ -191,6 +194,7 @@ void cNopacityDisplayMenuView::SetPixmapAlpha(int Alpha) {
     pixmapDate->SetAlpha(Alpha);
     pixmapContent->SetAlpha(Alpha);
     pixmapFooter->SetAlpha(Alpha);
+    pixmapButtonsText->SetAlpha(Alpha);
     pixmapScrollbar->SetAlpha(Alpha);
     pixmapDiskUsage->SetAlpha(Alpha);
     pixmapDiskUsageIcon->SetAlpha(Alpha);
@@ -312,6 +316,7 @@ void cNopacityDisplayMenuView::DrawBorderDecoration() {
     } else 
         pixmapHeader->Fill(Theme.Color(clrMenuBack));
     pixmapFooter->Fill(Theme.Color(clrMenuBack));
+    pixmapButtonsText->Fill(clrTransparent);
     
     int borderWidth = 2;
     int radius = 10;
@@ -321,6 +326,7 @@ void cNopacityDisplayMenuView::DrawBorderDecoration() {
     if (config.menuAdjustLeft) {
         //Background
         pixmapContent->DrawRectangle(cRect(0, 0, geoManager->menuContentWidthFull - radius, geoManager->menuContentHeight), Theme.Color(clrMenuBack));
+        pixmapContent->DrawRectangle(cRect(geoManager->menuContentWidthFull - radius, 0, geoManager->menuWidthScrollbar + geoManager->menuSpace + radius, geoManager->menuContentHeight), Theme.Color(clrMenuScrollBarBase));
         //Upper and lower Corner Square
         pixmapContent->DrawRectangle(cRect(geoManager->menuContentWidthFull - radius, 0, radius, radius), Theme.Color(clrMenuBack));
         pixmapContent->DrawRectangle(cRect(geoManager->menuContentWidthFull - radius, geoManager->menuContentHeight - radius, radius, radius), Theme.Color(clrMenuBack));
@@ -333,14 +339,15 @@ void cNopacityDisplayMenuView::DrawBorderDecoration() {
         if (radius-borderWidth > 2) {
             //Upper Ellipse
             pixmapContent->DrawEllipse(cRect(geoManager->menuContentWidthFull - radius, 0, radius, radius), Theme.Color(clrMenuBorder),2);
-            pixmapContent->DrawEllipse(cRect(geoManager->menuContentWidthFull - radius + borderWidth, borderWidth, radius-borderWidth, radius-borderWidth), clrTransparent, 2);
+            pixmapContent->DrawEllipse(cRect(geoManager->menuContentWidthFull - radius + borderWidth, borderWidth, radius-borderWidth, radius-borderWidth), Theme.Color(clrMenuScrollBarBase), 2);
             //Lower Ellipse
             pixmapContent->DrawEllipse(cRect(geoManager->menuContentWidthFull - radius, geoManager->menuContentHeight - radius, radius, radius), Theme.Color(clrMenuBorder),3);
-            pixmapContent->DrawEllipse(cRect(geoManager->menuContentWidthFull - radius + borderWidth, geoManager->menuContentHeight - radius, radius-borderWidth, radius-borderWidth), clrTransparent, 3);
+            pixmapContent->DrawEllipse(cRect(geoManager->menuContentWidthFull - radius + borderWidth, geoManager->menuContentHeight - radius, radius-borderWidth, radius-borderWidth), Theme.Color(clrMenuScrollBarBase), 3);
         }
     } else {
         //Background
         pixmapContent->DrawRectangle(cRect(geoManager->osdWidth - geoManager->menuContentWidthMinimum + radius, 0, geoManager->menuContentWidthFull - radius, geoManager->menuContentHeight), Theme.Color(clrMenuBack));
+        pixmapContent->DrawRectangle(cRect(0, 0, geoManager->menuWidthScrollbar + geoManager->menuSpace + radius, geoManager->menuContentHeight), Theme.Color(clrMenuScrollBarBase));
         //Upper and lower Corner Square
         pixmapContent->DrawRectangle(cRect(geoManager->osdWidth - geoManager->menuContentWidthMinimum, 0, radius, radius), Theme.Color(clrMenuBack));
         pixmapContent->DrawRectangle(cRect(geoManager->osdWidth - geoManager->menuContentWidthMinimum, geoManager->menuContentHeight - radius, radius, radius), Theme.Color(clrMenuBack));
@@ -353,10 +360,10 @@ void cNopacityDisplayMenuView::DrawBorderDecoration() {
         if (radius-borderWidth > 2) {
             //Upper Ellipse
             pixmapContent->DrawEllipse(cRect(geoManager->osdWidth - geoManager->menuContentWidthMinimum, 0, radius, radius), Theme.Color(clrMenuBorder),1);
-            pixmapContent->DrawEllipse(cRect(geoManager->osdWidth - geoManager->menuContentWidthMinimum, borderWidth, radius-borderWidth, radius-borderWidth), clrTransparent, 1);
+            pixmapContent->DrawEllipse(cRect(geoManager->osdWidth - geoManager->menuContentWidthMinimum, borderWidth, radius-borderWidth, radius-borderWidth), Theme.Color(clrMenuScrollBarBase), 1);
             //Lower Ellipse
             pixmapContent->DrawEllipse(cRect(geoManager->osdWidth - geoManager->menuContentWidthMinimum, geoManager->menuContentHeight - radius, radius, radius), Theme.Color(clrMenuBorder),4);
-            pixmapContent->DrawEllipse(cRect(geoManager->osdWidth - geoManager->menuContentWidthMinimum, geoManager->menuContentHeight - radius, radius-borderWidth, radius-borderWidth), clrTransparent, 4);
+            pixmapContent->DrawEllipse(cRect(geoManager->osdWidth - geoManager->menuContentWidthMinimum, geoManager->menuContentHeight - radius, radius-borderWidth, radius-borderWidth), Theme.Color(clrMenuScrollBarBase), 4);
         }
     }
 }
@@ -570,8 +577,8 @@ void cNopacityDisplayMenuView::DrawButton(const char *text, eBackgroundType bgBu
     
     int textWidth = fontManager->menuButtons->Width(text);
     int textHeight = fontManager->menuButtons->Height();
-    tColor clrFontBack = (config.doBlending)?(clrTransparent):buttonColor;
-    pixmapFooter->DrawText(cPoint(left + (geoManager->menuButtonWidth-textWidth)/2, top + (geoManager->menuButtonHeight-textHeight)/2), text, fontColor, clrFontBack, fontManager->menuButtons);
+    pixmapButtonsText->DrawRectangle(cRect(left, top, geoManager->menuButtonWidth, geoManager->menuButtonHeight), clrTransparent);
+    pixmapButtonsText->DrawText(cPoint(left + (geoManager->menuButtonWidth-textWidth)/2, top + (geoManager->menuButtonHeight-textHeight)/2), text, fontColor, clrTransparent, fontManager->menuButtons);
 }
 
 void cNopacityDisplayMenuView::ClearButton(int num) {
@@ -580,6 +587,7 @@ void cNopacityDisplayMenuView::ClearButton(int num) {
     int top = 2*geoManager->menuButtonsBorder;
     int left = num * geoManager->menuButtonWidth + (2*num + 1) * geoManager->menuButtonsBorder;
     pixmapFooter->DrawRectangle(cRect(left, top, geoManager->menuButtonWidth, geoManager->menuButtonHeight), Theme.Color(clrMenuBack));
+    pixmapButtonsText->DrawRectangle(cRect(left, top, geoManager->menuButtonWidth, geoManager->menuButtonHeight), clrTransparent);
 }
 
 int cNopacityDisplayMenuView::GetTimersInitHeight(void) {

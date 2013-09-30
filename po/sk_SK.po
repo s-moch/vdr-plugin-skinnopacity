@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: vdr-skinnopacity\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-09-18 11:50+0200\n"
+"POT-Creation-Date: 2013-09-30 19:08+0200\n"
 "PO-Revision-Date: 2013-09-16 19:34+0100\n"
 "Last-Translator: Milan Hrala <hrala.milan@gmail.com>\n"
 "Language-Team: \n"
@@ -388,6 +388,9 @@ msgstr "Zobrazi» ïal¹ie EPG obrázky v podrobnom zobrazení nahrávky"
 
 msgid "Folder Icon Size"
 msgstr "Veµkos» ikony prieèinku"
+
+msgid "Use folder poster if available"
+msgstr ""
 
 msgid "Width of manually set recording poster"
 msgstr "Ruène nastavi» ¹írku plagátov nahrávok"
