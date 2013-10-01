@@ -200,7 +200,8 @@ bool cImageCache::LoadIcon(eCacheType type, std::string name, int width, int hei
                 InsertIntoCache(type, name, width, height, preserveAspect);
             }
         }
-    } else if (!success) {
+    } 
+    if (!success) {
         cString iconPathTheme = cString::sprintf("%s%s/", *config.iconPathDefault, Setup.OSDTheme);
         success = LoadImage(name, *iconPathTheme, "png");
         if (success) {
