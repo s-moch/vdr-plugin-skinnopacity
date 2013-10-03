@@ -117,10 +117,10 @@ msgid "left"
 msgstr "links"
 
 msgid "Carriage Return"
-msgstr ""
+msgstr "Wagenrücklauf"
 
 msgid "Forward and Back again"
-msgstr ""
+msgstr "Vor- und wieder Rückwärts"
 
 msgid "off"
 msgstr "aus"
