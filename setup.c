@@ -131,6 +131,7 @@ void cNopacitySetup::Store(void) {
     SetupStore("volumeHeight", config.volumeHeight);
     SetupStore("volumeBorderBottom", config.volumeBorderBottom);
     SetupStore("fontVolume", config.fontVolume);
+    SetupStore("scrollMode", config.scrollMode);
     SetupStore("menuAdjustLeft", config.menuAdjustLeft);
     SetupStore("scalePicture", config.scalePicture);
     SetupStore("roundedCorners", config.roundedCorners);
@@ -273,6 +274,8 @@ eOSState cMenuSetupSubMenu::ProcessKey(eKeys Key) {
 cNopacitySetupMenuDisplay::cNopacitySetupMenuDisplay(cNopacityConfig* data)  : cMenuSetupSubMenu(tr("VDR Menu: Common Settings"), data) {
     adjustLeft[0] = tr("right");
     adjustLeft[1] = tr("left");
+    scrollMode[0] = tr("Carriage Return");
+    scrollMode[1] = tr("Forward and Back again");
     scrollSpeed[0] = tr("off");
     scrollSpeed[1] = tr("slow");
     scrollSpeed[2] = tr("medium");
@@ -297,6 +300,7 @@ void cNopacitySetupMenuDisplay::Set(void) {
     if (tmpNopacityConfig->roundedCorners)
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Radius of rounded corners")), &tmpNopacityConfig->cornerRadius, 5, 30));
     Add(new cMenuEditIntItem(tr("Fade-In Time in ms (Zero for switching off fading)"), &tmpNopacityConfig->menuFadeTime, 0, 1000));
+    Add(new cMenuEditStraItem(tr("Menu Items Scroll Style"), &tmpNopacityConfig->scrollMode, 2, scrollMode));
     Add(new cMenuEditStraItem(tr("Menu Items Scrolling Speed"), &tmpNopacityConfig->menuScrollSpeed, 4, scrollSpeed));
     Add(new cMenuEditIntItem(tr("Menu Items Scrolling Delay in s"), &tmpNopacityConfig->menuScrollDelay, 0, 3));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Header"), &tmpNopacityConfig->fontHeader, -20, 20));

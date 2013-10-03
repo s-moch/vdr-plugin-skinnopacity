@@ -95,6 +95,7 @@ class cNopacityConfig {
         int volumeBorderBottom;
         int fontVolume;
         //DisplayMenu
+        int scrollMode;
         int spaceMenu;
         int widthScrollbar;
         int menuAdjustLeft;

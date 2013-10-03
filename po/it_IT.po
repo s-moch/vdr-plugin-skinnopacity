@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-10-03 10:12+0200\n"
+"POT-Creation-Date: 2013-10-03 11:10+0200\n"
 "PO-Revision-Date: 2013-03-19 22:56+0100\n"
 "Last-Translator: Diego Pierotto <vdr-italian@tiscali.it>\n"
 "Language-Team: \n"
@@ -119,6 +119,12 @@ msgstr "destra"
 msgid "left"
 msgstr "sinistra"
 
+msgid "Carriage Return"
+msgstr ""
+
+msgid "Forward and Back again"
+msgstr ""
+
 msgid "off"
 msgstr "disattivo"
 
@@ -169,6 +175,9 @@ msgstr "Raggio angoli smussati"
 
 msgid "Fade-In Time in ms (Zero for switching off fading)"
 msgstr "Tempo comparsa in ms (0 per disattivazione)"
+
+msgid "Menu Items Scroll Style"
+msgstr ""
 
 msgid "Menu Items Scrolling Speed"
 msgstr "Velocità scorrimento voci menu"

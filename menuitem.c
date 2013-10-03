@@ -115,6 +115,8 @@ void cNopacityMenuItem::DrawDelimiter(const char *del, const char *icon, eBackgr
 }
 
 void cNopacityMenuItem::Action(void) {
+    bool carriageReturn = (config.scrollMode == 0) ? true : false;
+    int scrollDelta = 1;
     int scrollDelay = config.menuScrollDelay * 1000;
     DoSleep(scrollDelay);
     cPixmap::Lock();
@@ -133,11 +135,21 @@ void cNopacityMenuItem::Action(void) {
         uint64_t Now = cTimeMs::Now();
         cPixmap::Lock();
         drawPortX = pixmapTextScroller->DrawPort().X();
-        drawPortX -= 1;
+        drawPortX -= scrollDelta;
         cPixmap::Unlock();
+        
         if (abs(drawPortX) > maxX) {
             DoSleep(scrollDelay);
-            drawPortX = 0;
+            if (carriageReturn)
+                drawPortX = 0;
+            else {
+                scrollDelta *= -1;
+                drawPortX -= scrollDelta;
+            }
+            doSleep = true;
+        }
+        if (!carriageReturn && (drawPortX == 0)) {
+            scrollDelta *= -1;
             doSleep = true;
         }
         cPixmap::Lock();

@@ -298,3 +298,5 @@ Version 0.1.4
 - Added additional configurable channel logo cache
 - Fixed a bug that running instant recording is not displayed in 
   displayChannel
+- Configurable Menu Item Scroll Mode: "Carriage Return" or "Forward and
+  Back again"

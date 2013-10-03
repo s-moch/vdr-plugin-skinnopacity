@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: vdr-skinnopacity\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-10-03 10:12+0200\n"
+"POT-Creation-Date: 2013-10-03 11:10+0200\n"
 "PO-Revision-Date: 2013-09-16 19:34+0100\n"
 "Last-Translator: Milan Hrala <hrala.milan@gmail.com>\n"
 "Language-Team: \n"
@@ -116,6 +116,12 @@ msgstr "vpravo"
 msgid "left"
 msgstr "vµavo"
 
+msgid "Carriage Return"
+msgstr ""
+
+msgid "Forward and Back again"
+msgstr ""
+
 msgid "off"
 msgstr "vypnuté"
 
@@ -166,6 +172,9 @@ msgstr "Polomer zaoblenia rohov"
 
 msgid "Fade-In Time in ms (Zero for switching off fading)"
 msgstr "èas efektu zmiznutia v ms (nula vypnú»)"
+
+msgid "Menu Items Scroll Style"
+msgstr ""
 
 msgid "Menu Items Scrolling Speed"
 msgstr "Rýchlos» rolovania polo¾iek menu"
