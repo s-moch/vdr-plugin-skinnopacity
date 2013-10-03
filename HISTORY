@@ -296,3 +296,5 @@ Version 0.1.4
 - Changed and added some color definitions
 - Added theme "Keep it light" (thanks @Saman for providing the theme)
 - Added additional configurable channel logo cache
+- Fixed a bug that running instant recording is not displayed in 
+  displayChannel

@@ -659,8 +659,17 @@ void cNopacityDisplayChannel::SetEvents(const cEvent *Present, const cEvent *Fol
             int space = geoManager->channelWidth - 9*indent - seenWidth - startTimeWidth - config.resolutionIconSize;
             bool drawRecIcon = false;
             int widthRecIcon = 0;
-            if (e->HasTimer()) {
-                drawRecIcon = true;
+            //check for timers
+            if (i==0) {
+                eTimerMatch TimerMatch = tmNone;
+                const cTimer * Timer = Timers.GetMatch(e, &TimerMatch);
+                if (Timer && Timer->Recording()) {
+                    drawRecIcon = true;
+                }
+            } else {
+                drawRecIcon = e->HasTimer();
+            }
+            if (drawRecIcon) {
                 widthRecIcon = fontManager->channelEPGSmall->Width(" REC ");
                 space -= widthRecIcon + indent/2;
             }
