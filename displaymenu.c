@@ -666,7 +666,7 @@ void cNopacityDisplayMenu::SetEvent(const cEvent *Event) {
     if (!Event)
         return;
     menuView->AdjustContentBackground(this->MenuCategory(), menuCategoryLast, videoWindowRect);
-    detailView = new cNopacityMenuDetailEventView(osd, Event);
+    detailView = new cNopacityMenuDetailEventView(osd, imgCache, Event);
     menuView->SetDetailViewSize(dvEvent, detailView);
     detailView->SetFonts();
     detailView->SetContent();

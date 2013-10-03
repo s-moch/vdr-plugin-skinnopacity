@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-09-18 11:22+0200\n"
+"POT-Creation-Date: 2013-10-03 10:12+0200\n"
 "PO-Revision-Date: 2012-11-11 17:49+0200\n"
 "Last-Translator: louis\n"
 "Language-Team: \n"
@@ -22,6 +22,9 @@ msgstr "frei"
 
 msgid "Volume"
 msgstr "Lautstärke"
+
+msgid "images"
+msgstr "Bilder"
 
 msgid "Actors"
 msgstr "Schauspieler"
@@ -60,7 +63,7 @@ msgid "Duration"
 msgstr "Dauer"
 
 msgid "recording"
-msgstr "Rec"
+msgstr "Aufnahme"
 
 msgid "recordings"
 msgstr "Aufnahmen"
@@ -100,6 +103,9 @@ msgstr "Audio Spuren"
 
 msgid "Messages"
 msgstr "Nachrichten"
+
+msgid "Image Caching"
+msgstr "Bilder Cache"
 
 msgid "RSS Feeds"
 msgstr "RSS Feeds"
@@ -329,12 +335,6 @@ msgstr "Weitere EPG Bilder in der detaillierten EPG Ansicht anzeigen"
 msgid "Number of EPG pictures to display"
 msgstr "Anzahl der zusätzlichen EPG Bilder"
 
-msgid "Detail EPG View Logo Width"
-msgstr "Breite der Kanallogos in der EPG Detailanzeige"
-
-msgid "Detail EPG View Logo Height"
-msgstr "Höhe der Kanallogos in der EPG Detailanzeige"
-
 msgid "Detail EPG View EPG Image Width"
 msgstr "Breite der EPG Bilder in der EPG Detailanzeige"
 
@@ -518,6 +518,36 @@ msgstr "Breite der Lautstärken Anzeige (% der OSD Breite)"
 msgid "Height of Volume Display (Percent of OSD Height)"
 msgstr "Höhe der Lautstärken Anzeige (% der OSD Höhe)"
 
+msgid "Limit Logo Cache"
+msgstr "Logo Cache beschränken"
+
+msgid "Maximal number of logos to cache"
+msgstr "Maximale Anzahl Logos"
+
+msgid "Number of  logos to cache at start"
+msgstr "Anzahl der zu cachenden Logos beim Start"
+
+msgid "Cache Sizes"
+msgstr "Cache Größe"
+
+msgid "Menu Icon cache"
+msgstr "Menü Icon Cache"
+
+msgid "Skin Icon image cache"
+msgstr "Skin Icon Cache"
+
+msgid "Logo cache"
+msgstr "Logo Cache"
+
+msgid "Menu Item Logo cache"
+msgstr "Menüelement Logo Cache"
+
+msgid "Timer Logo cache"
+msgstr "Timer Logo Cache"
+
+msgid "Background Images cache"
+msgstr "Hintergrundbilder Cache"
+
 msgid "none"
 msgstr "keiner"
 
@@ -568,3 +598,9 @@ msgstr "Konflikt"
 
 msgid "conflicts"
 msgstr "Konflikte"
+
+#~ msgid "Detail EPG View Logo Width"
+#~ msgstr "Breite der Kanallogos in der EPG Detailanzeige"
+
+#~ msgid "Detail EPG View Logo Height"
+#~ msgstr "Höhe der Kanallogos in der EPG Detailanzeige"

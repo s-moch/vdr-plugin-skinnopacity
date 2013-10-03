@@ -295,3 +295,4 @@ Version 0.1.4
 - Added cache for images and fonts
 - Changed and added some color definitions
 - Added theme "Keep it light" (thanks @Saman for providing the theme)
+- Added additional configurable channel logo cache

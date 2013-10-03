@@ -22,6 +22,7 @@ class cNopacityConfig {
         cString logoPathDefault;
         cString iconPathDefault;
         cString epgImagePathDefault;
+        bool pathValuesSet;
         void setDynamicValues();
         void loadRssFeeds(void);
         //Theme Setting
@@ -152,8 +153,6 @@ class cNopacityConfig {
         int menuItemLogoHeight;
         int menuHeaderLogoWidth;
         int menuHeaderLogoHeight;
-        int detailViewLogoWidth;
-        int detailViewLogoHeight;
         int timersLogoWidth;
         int timersLogoHeight;
         int epgImageWidth;
@@ -204,6 +203,10 @@ class cNopacityConfig {
         int rssScrollSpeed;
         int rssScrollFrameTime;
         int rssFeed[5];
+        //Channel Logo Caching
+        int limitLogoCache;
+        int numLogosInitial;
+        int numLogosMax;
 };
 
 #endif //__NOPACITY_CONFIG_H

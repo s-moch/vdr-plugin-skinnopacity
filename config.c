@@ -6,6 +6,7 @@ cNopacityConfig::cNopacityConfig() {
     logoPathSet = false;
     epgImagePathSet = false;
     iconPathSet = false;
+    pathValuesSet = false;
     //Common
     mainMenuEntry = false;
     fontIndex = 0;
@@ -119,8 +120,6 @@ cNopacityConfig::cNopacityConfig() {
     menuHeaderLogoHeight = 70;
     menuItemLogoWidth = 130;
     menuItemLogoHeight = 100;
-    detailViewLogoWidth = 260;
-    detailViewLogoHeight = 200;
     timersLogoWidth = 90;
     timersLogoHeight = 70;
     epgImageWidth = 210;
@@ -173,6 +172,10 @@ cNopacityConfig::cNopacityConfig() {
     rssFeed[2] = 0;
     rssFeed[3] = 0;
     rssFeed[4] = 0;
+    //Channel Logo Caching
+    limitLogoCache = 1;
+    numLogosInitial = 30;
+    numLogosMax = 50;
 }
 
 cNopacityConfig::~cNopacityConfig() {
@@ -222,14 +225,16 @@ void cNopacityConfig::setDynamicValues() {
     else if (rssScrollSpeed == 2)
         rssScrollFrameTime = 5;
 
+    if (!pathValuesSet) {
+        pathValuesSet = true;
+        logoPathDefault = cString::sprintf("%s/logos/", cPlugin::ResourceDirectory(PLUGIN_NAME_I18N));
+        iconPathDefault = cString::sprintf("%s/icons/", cPlugin::ResourceDirectory(PLUGIN_NAME_I18N));
+        epgImagePathDefault = cString::sprintf("%s/epgimages/", cPlugin::CacheDirectory(PLUGIN_NAME_I18N));
         
-    logoPathDefault = cString::sprintf("%s/logos/", cPlugin::ResourceDirectory(PLUGIN_NAME_I18N));
-    iconPathDefault = cString::sprintf("%s/icons/", cPlugin::ResourceDirectory(PLUGIN_NAME_I18N));
-    epgImagePathDefault = cString::sprintf("%s/epgimages/", cPlugin::CacheDirectory(PLUGIN_NAME_I18N));
-    
-    dsyslog("nopacity: using Logo Directory %s", (logoPathSet)?(*logoPath):(*logoPathDefault)); 
-    dsyslog("nopacity: using Icon Directory %s", (iconPathSet)?(*iconPath):(*iconPathDefault)); 
-    dsyslog("nopacity: using EPG Images Directory %s", (epgImagePathSet)?(*epgImagePath):(*epgImagePathDefault)); 
+        dsyslog("nopacity: using Logo Directory %s", (logoPathSet)?(*logoPath):(*logoPathDefault)); 
+        dsyslog("nopacity: using Icon Directory %s", (iconPathSet)?(*iconPath):(*iconPathDefault)); 
+        dsyslog("nopacity: using EPG Images Directory %s", (epgImagePathSet)?(*epgImagePath):(*epgImagePathDefault)); 
+    }
 }
 
 void cNopacityConfig::loadRssFeeds(void) {
@@ -409,8 +414,6 @@ bool cNopacityConfig::SetupParse(const char *Name, const char *Value) {
     else if (strcmp(Name, "menuItemLogoHeight") == 0)      menuItemLogoHeight = atoi(Value);
     else if (strcmp(Name, "menuHeaderLogoWidth") == 0)     menuHeaderLogoWidth = atoi(Value);
     else if (strcmp(Name, "menuHeaderLogoHeight") == 0)    menuHeaderLogoHeight = atoi(Value);
-    else if (strcmp(Name, "detailViewLogoWidth") == 0)     detailViewLogoWidth = atoi(Value);
-    else if (strcmp(Name, "detailViewLogoHeight") == 0)    detailViewLogoHeight = atoi(Value);
     else if (strcmp(Name, "timersLogoWidth") == 0)         timersLogoWidth = atoi(Value);
     else if (strcmp(Name, "timersLogoHeight") == 0)        timersLogoHeight = atoi(Value);
     else if (strcmp(Name, "epgImageWidth") == 0)           epgImageWidth = atoi(Value);
@@ -462,6 +465,9 @@ bool cNopacityConfig::SetupParse(const char *Name, const char *Value) {
     else if (strcmp(Name, "rssFeedHeightStandalone") == 0) rssFeedHeightStandalone = atoi(Value);
     else if (strcmp(Name, "fontRssFeedStandalone") == 0)   fontRssFeedStandalone = atoi(Value);
     else if (strcmp(Name, "rssFeedStandalonePos") == 0)    rssFeedStandalonePos = atoi(Value);
+    else if (strcmp(Name, "limitLogoCache") == 0)          limitLogoCache = atoi(Value);
+    else if (strcmp(Name, "numLogosInitial") == 0)         numLogosInitial = atoi(Value);
+    else if (strcmp(Name, "numLogosMax") == 0)             numLogosMax = atoi(Value);
     else return false;
     return true;
     

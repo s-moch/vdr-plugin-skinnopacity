@@ -6,8 +6,8 @@ class cNopacitySetup : public cMenuSetupPage {
         cNopacitySetup(cImageCache *imgCache);
         virtual ~cNopacitySetup();      
     private:
-        cImageCache *imgCache;
         cNopacityConfig tmpNopacityConfig;
+        cImageCache *imgCache;
         cStringList fontNames;
         void Setup(void);
     protected:
@@ -121,6 +121,15 @@ class cNopacitySetupVolumeDisplay : public cMenuSetupSubMenu {
     public:
         cNopacitySetupVolumeDisplay(cNopacityConfig *data);
 };
+
+class cNopacitySetupCaching : public cMenuSetupSubMenu {
+    protected:
+        cImageCache *imgCache;
+        void Set(void);
+    public:
+        cNopacitySetupCaching(cNopacityConfig *data, cImageCache *imgCache);
+};
+
 class cNopacitySetupRssFeed : public cMenuSetupSubMenu {
     protected:
         const char *scrollSpeed[3];

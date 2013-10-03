@@ -531,11 +531,9 @@ void cNopacityScheduleMenuItem::DrawBackground(int textLeft) {
 
 void cNopacityScheduleMenuItem::DrawLogo(int logoWidth, int logoHeight) {
     if (Channel && Channel->Name()) {
-        cImageLoader imgLoader;
-        if (imgLoader.LoadLogo(Channel->Name(), logoWidth, logoHeight)) {
-            pixmapIcon->DrawImage(cPoint(1, 1), imgLoader.GetImage());
-        } else if (imgLoader.LoadLogo(*(Channel->GetChannelID().ToString()), logoWidth, logoHeight)) {
-            pixmapIcon->DrawImage(cPoint(1, 1), imgLoader.GetImage());
+        cImage *logo = imgCache->GetLogo(ctLogoMenuItem, Channel);
+        if (logo) {
+            pixmapIcon->DrawImage(cPoint(1,1), *logo);
         } else {
             cTextWrapper channel;
             channel.Set(Channel->Name(), font, logoWidth);
@@ -776,15 +774,11 @@ std::string cNopacityChannelMenuItem::readEPG(void) {
 void cNopacityChannelMenuItem::Render() {
     if (selectable) {                           //Channels
         DrawBackground();
-        int logoWidth = config.menuItemLogoWidth;
-        int logoHeight = config.menuItemLogoHeight;
         if (!drawn) {
-            cImageLoader imgLoader;
-            if (imgLoader.LoadLogo(Channel->Name(), logoWidth, logoHeight)) {
-                pixmapIcon->DrawImage(cPoint(1, 1), imgLoader.GetImage());
-            } else if (imgLoader.LoadLogo(*(Channel->GetChannelID().ToString()), logoWidth, logoHeight)) {
-                pixmapIcon->DrawImage(cPoint(1, 1), imgLoader.GetImage());
-            } 
+            cImage *logo = imgCache->GetLogo(ctLogoMenuItem, Channel);
+            if (logo) {
+                pixmapIcon->DrawImage(cPoint(1,1), *logo);
+            }
             drawn = true;
         }
         SetTextShort();
@@ -953,11 +947,9 @@ void cNopacityTimerMenuItem::Render() {
 
 void cNopacityTimerMenuItem::DrawLogo(int logoWidth, int logoHeight) {
     if (Timer && Timer->Channel() && Timer->Channel()->Name()) {
-        cImageLoader imgLoader;
-        if (imgLoader.LoadLogo(Timer->Channel()->Name(), logoWidth, logoHeight)) {
-            pixmapIcon->DrawImage(cPoint(1, 1), imgLoader.GetImage());
-        } else if (imgLoader.LoadLogo(*(Timer->Channel()->GetChannelID().ToString()), logoWidth, logoHeight)) {
-            pixmapIcon->DrawImage(cPoint(1, 1), imgLoader.GetImage());
+        cImage *logo = imgCache->GetLogo(ctLogoMenuItem, Timer->Channel());
+        if (logo) {
+            pixmapIcon->DrawImage(cPoint(1,1), *logo);
         } else {
             cTextWrapper channel;
             channel.Set(Timer->Channel()->Name(), font, logoWidth);

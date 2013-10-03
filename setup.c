@@ -10,10 +10,12 @@ cNopacitySetup::cNopacitySetup(cImageCache *imgCache) {
 
 cNopacitySetup::~cNopacitySetup() {
     config.setDynamicValues();
+    int start = cTimeMs::Now();
     geoManager->SetGeometry();
     fontManager->DeleteFonts();
     fontManager->SetFonts();
     imgCache->Reload();
+    dsyslog("nopacity: Cache reloaded in %d ms", int(cTimeMs::Now()-start));
 }
 
 
@@ -32,6 +34,7 @@ void cNopacitySetup::Setup(void) {
     Add(new cOsdItem(tr("Audio Tracks")));
     Add(new cOsdItem(tr("Messages")));
     Add(new cOsdItem(tr("Volume")));
+    Add(new cOsdItem(tr("Image Caching")));
     Add(new cOsdItem(tr("RSS Feeds")));
     
     SetCurrent(Get(currentItem));
@@ -68,6 +71,8 @@ eOSState cNopacitySetup::ProcessKey(eKeys Key) {
                 state = AddSubMenu(new cNopacitySetupMessageDisplay(&tmpNopacityConfig));
             if (strcmp(ItemText, tr("Volume")) == 0)
                 state = AddSubMenu(new cNopacitySetupVolumeDisplay(&tmpNopacityConfig));
+            if (strcmp(ItemText, tr("Image Caching")) == 0)
+                state = AddSubMenu(new cNopacitySetupCaching(&tmpNopacityConfig, imgCache));
             if (strcmp(ItemText, tr("RSS Feeds")) == 0)
                 state = AddSubMenu(new cNopacitySetupRssFeed(&tmpNopacityConfig));
         }
@@ -178,8 +183,6 @@ void cNopacitySetup::Store(void) {
     SetupStore("menuItemLogoHeight", config.menuItemLogoHeight);
     SetupStore("menuHeaderLogoWidth", config.menuHeaderLogoWidth);
     SetupStore("menuHeaderLogoHeight", config.menuHeaderLogoHeight);
-    SetupStore("detailViewLogoWidth", config.detailViewLogoWidth);
-    SetupStore("detailViewLogoHeight", config.detailViewLogoHeight);
     SetupStore("timersLogoWidth", config.timersLogoWidth);
     SetupStore("timersLogoHeight", config.timersLogoHeight);
     SetupStore("epgImageWidth", config.epgImageWidth);
@@ -231,6 +234,9 @@ void cNopacitySetup::Store(void) {
     SetupStore("rssFeedHeightStandalone", config.rssFeedHeightStandalone);
     SetupStore("fontRssFeedStandalone", config.fontRssFeedStandalone);
     SetupStore("rssFeedStandalonePos", config.rssFeedStandalonePos);
+    SetupStore("limitLogoCache", config.limitLogoCache);
+    SetupStore("numLogosInitial", config.numLogosInitial);
+    SetupStore("numLogosMax", config.numLogosMax);
 }
     
 //------------------------------------------------------------------------------------------------------------------
@@ -401,8 +407,6 @@ void cNopacitySetupMenuDisplaySchedules::Set(void) {
     Add(new cMenuEditStraItem(tr("Display additional EPG Pictures in detailed EPG View"), &tmpNopacityConfig->displayAdditionalEPGPictures, 3, displayEPGPictures));
     if (tmpNopacityConfig->displayAdditionalEPGPictures)
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Number of EPG pictures to display")), &tmpNopacityConfig->numAdditionalEPGPictures, 1, 9));
-    Add(new cMenuEditIntItem(tr("Detail EPG View Logo Width"), &tmpNopacityConfig->detailViewLogoWidth, 30, 500));
-    Add(new cMenuEditIntItem(tr("Detail EPG View Logo Height"), &tmpNopacityConfig->detailViewLogoHeight, 30, 500));
     Add(new cMenuEditIntItem(tr("Detail EPG View EPG Image Width"), &tmpNopacityConfig->epgImageWidth, 30, 500));
     Add(new cMenuEditIntItem(tr("Detail EPG View EPG Image Height"), &tmpNopacityConfig->epgImageHeight, 30, 500));
     Add(new cMenuEditIntItem(tr("Detail EPG View additional EPG Image Width"), &tmpNopacityConfig->epgImageWidthLarge, 100, 800));
@@ -626,6 +630,35 @@ void cNopacitySetupVolumeDisplay::Set(void) {
     Add(new cMenuEditIntItem(tr("Bottom Border Height"), &tmpNopacityConfig->volumeBorderBottom, 0, 1000));
     Add(new cMenuEditIntItem(tr("Adjust Font Size"), &tmpNopacityConfig->fontVolume, -30, 30));
 
+    SetCurrent(Get(currentItem));
+    Display();
+}
+
+//-----Image Caching-------------------------------------------------------------------------------------------------------------
+
+cNopacitySetupCaching::cNopacitySetupCaching(cNopacityConfig* data, cImageCache *imgCache)  : cMenuSetupSubMenu(tr("Image Caching"), data) {
+    this->imgCache = imgCache;
+    Set();
+}
+
+void cNopacitySetupCaching::Set(void) {
+    int currentItem = Current();
+    Clear();
+    
+    Add(new cMenuEditBoolItem(tr("Limit Logo Cache"), &tmpNopacityConfig->limitLogoCache));
+    if (tmpNopacityConfig->limitLogoCache) {
+        Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Maximal number of logos to cache")), &tmpNopacityConfig->numLogosMax, 1, 9999));
+    }
+    Add(new cMenuEditIntItem(tr("Number of  logos to cache at start"), &tmpNopacityConfig->numLogosInitial, 0, 9999));
+
+    Add(InfoItem(tr("Cache Sizes"), ""));
+    Add(InfoItem(tr("Menu Icon cache"), (imgCache->GetCacheSize(ctMenuIcon)).c_str()));
+    Add(InfoItem(tr("Skin Icon image cache"), (imgCache->GetCacheSize(ctSkinIcon)).c_str()));
+    Add(InfoItem(tr("Logo cache"), (imgCache->GetCacheSize(ctLogo)).c_str()));
+    Add(InfoItem(tr("Menu Item Logo cache"), (imgCache->GetCacheSize(ctLogoMenuItem)).c_str()));
+    Add(InfoItem(tr("Timer Logo cache"), (imgCache->GetCacheSize(ctLogoTimer)).c_str()));
+    Add(InfoItem(tr("Background Images cache"), (imgCache->GetCacheSize(ctBackground)).c_str()));
+    
     SetCurrent(Get(currentItem));
     Display();
 }

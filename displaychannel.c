@@ -3,7 +3,8 @@
 
 cNopacityDisplayChannel::cNopacityDisplayChannel(cImageCache *imgCache, bool WithInfo) {
     if (firstDisplay) {
-        imgCache->CreateCache2();
+        imgCache->CreateCacheDelayed();
+        std::string sizeBackgrCache = imgCache->GetCacheSize(ctBackground);
         firstDisplay = false;
         doOutput = false;
         return;
@@ -271,7 +272,6 @@ void cNopacityDisplayChannel::DrawIconsSingle(const cChannel *Channel) {
     pixmapStreamInfo->Fill(clrTransparent);
     int iconSize = geoManager->channelIconSize;
     int iconX = 0;
-    cImageLoader imgLoader;
 
     if (Channel->Vpid() && Channel->Tpid()) {
         cImage *imgIcon = imgCache->GetSkinIcon("skinIcons/txton", iconSize, iconSize);
@@ -522,12 +522,10 @@ void cNopacityDisplayChannel::SetChannel(const cChannel *Channel, int Number) {
         }
         cString channelString = cString::sprintf("%s %s", *ChannelNumber, *ChannelName);
         pixmapChannelInfo->DrawText(cPoint(geoManager->channelInfoHeight/2, (geoManager->channelInfoHeight-fontManager->channelHeader->Height())/2), channelString, Theme.Color(clrChannelHead), clrTransparent, fontManager->channelHeader);
-        if (config.logoPosition != lpNone) {
-            cImageLoader imgLoader;
-            if (imgLoader.LoadLogo(*ChannelName)) {
-                pixmapLogo->DrawImage(cPoint(config.logoBorder, (geoManager->channelHeight-config.logoHeight)/2), imgLoader.GetImage());
-            } else if (Channel && imgLoader.LoadLogo(*(Channel->GetChannelID().ToString()))) {
-                pixmapLogo->DrawImage(cPoint(config.logoBorder, (geoManager->channelHeight-config.logoHeight)/2), imgLoader.GetImage());
+        if (Channel && config.logoPosition != lpNone) {
+            cImage *logo = imgCache->GetLogo(ctLogo, Channel);
+            if (logo) {
+                pixmapLogo->DrawImage(cPoint(config.logoBorder, (geoManager->channelHeight-config.logoHeight)/2), *logo);
             }
         }
         ShowSignalMeter();

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: vdr-skinnopacity\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-09-30 19:08+0200\n"
+"POT-Creation-Date: 2013-10-03 10:12+0200\n"
 "PO-Revision-Date: 2013-09-16 19:34+0100\n"
 "Last-Translator: Milan Hrala <hrala.milan@gmail.com>\n"
 "Language-Team: \n"
@@ -22,6 +22,9 @@ msgstr "voµné"
 
 msgid "Volume"
 msgstr "Hlasitos»"
+
+msgid "images"
+msgstr ""
 
 msgid "Actors"
 msgstr "Herci"
@@ -100,6 +103,9 @@ msgstr "Zvuková stopa"
 
 msgid "Messages"
 msgstr "Správy"
+
+msgid "Image Caching"
+msgstr ""
 
 msgid "RSS Feeds"
 msgstr "RSS èítaèky"
@@ -329,12 +335,6 @@ msgstr "Zobrazi» viac obrázkov v podrobnostiach EPG"
 msgid "Number of EPG pictures to display"
 msgstr "Poèet EPG obrázkov na obrazovke"
 
-msgid "Detail EPG View Logo Width"
-msgstr "©írka loga v podrobnom zobrazení EPG"
-
-msgid "Detail EPG View Logo Height"
-msgstr "Vý¹ka loga v podrobnom zobrazení EPG"
-
 msgid "Detail EPG View EPG Image Width"
 msgstr "©írka obrázku v podrobnom zobrazení EPG"
 
@@ -518,6 +518,36 @@ msgstr "©írka zobrazenia hlasitosti (Percent z OSD ¹írky)"
 msgid "Height of Volume Display (Percent of OSD Height)"
 msgstr "Vý¹ka zobrazenia hlasitosti (Percento z OSD vý¹ky)"
 
+msgid "Limit Logo Cache"
+msgstr ""
+
+msgid "Maximal number of logos to cache"
+msgstr ""
+
+msgid "Number of  logos to cache at start"
+msgstr ""
+
+msgid "Cache Sizes"
+msgstr ""
+
+msgid "Menu Icon cache"
+msgstr ""
+
+msgid "Skin Icon image cache"
+msgstr ""
+
+msgid "Logo cache"
+msgstr ""
+
+msgid "Menu Item Logo cache"
+msgstr ""
+
+msgid "Timer Logo cache"
+msgstr ""
+
+msgid "Background Images cache"
+msgstr ""
+
 msgid "none"
 msgstr "¾iadny"
 
@@ -568,3 +598,9 @@ msgstr "konflikt"
 
 msgid "conflicts"
 msgstr "konflikty"
+
+#~ msgid "Detail EPG View Logo Width"
+#~ msgstr "©írka loga v podrobnom zobrazení EPG"
+
+#~ msgid "Detail EPG View Logo Height"
+#~ msgstr "Vý¹ka loga v podrobnom zobrazení EPG"

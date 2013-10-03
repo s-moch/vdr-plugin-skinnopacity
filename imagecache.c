@@ -7,11 +7,16 @@ using namespace Magick;
 
 cImageCache::cImageCache() : cImageMagickWrapper() {
     initComplete = false;
+    tempStaticLogo = NULL;
     osdTheme = Setup.OSDTheme;
 }
 
 cImageCache::~cImageCache() {
     Clear();
+    if (tempStaticLogo) {
+        delete tempStaticLogo;
+        tempStaticLogo = NULL;
+    }    
 }
 
 void cImageCache::CreateCache(void) {
@@ -29,9 +34,29 @@ void cImageCache::CreateCache(void) {
         sImgProperties iconProps = skinIcons[i].second;
         LoadIcon(ctSkinIcon, iconName, iconProps.width, iconProps.height, iconProps.preserveAspect);
     }
+    //Channel Logos
+    if (config.numLogosInitial > 0) {
+        int channelsCached = 0;
+        for (const cChannel *channel = Channels.First(); channel; channel = Channels.Next(channel)) {
+            if (channelsCached >= config.numLogosInitial)
+                break;
+            if (!channel->GroupSep()) {
+                bool success = LoadLogo(channel);
+                if (success) {
+                    channelsCached++;
+                    InsertIntoLogoCache(ctLogo, channel->Number());
+                }
+                success = LoadLogo(channel);
+                if (success) {
+                    InsertIntoLogoCache(ctLogoMenuItem, channel->Number());
+                }
+            }
+            
+        }
+    }
 }
 
-void cImageCache::CreateCache2(void) {
+void cImageCache::CreateCacheDelayed(void) {
     CreateBackgroundImages();
 }
 
@@ -46,7 +71,7 @@ bool cImageCache::ThemeChanged(void) {
 void cImageCache::Reload(void) {
     Clear();
     CreateCache();
-    CreateCache2();
+    CreateCacheDelayed();
 }
 
 cImage *cImageCache::GetMenuIcon(std::string name) {
@@ -83,6 +108,50 @@ cImage *cImageCache::GetSkinIcon(std::string name, int width, int height, bool p
     return NULL;
 }
 
+cImage *cImageCache::GetLogo(eCacheType type, const cChannel *channel) {
+    if (!channel)
+        return NULL;
+        
+    std::map<int, cImage*> *cache;
+    if (type == ctLogo)
+        cache = &logoCache;
+    else if (type == ctLogoMenuItem)
+        cache = &logoMenuItemCache;
+    else if (type == ctLogoTimer)
+        cache = &logoTimerCache;
+        
+    std::map<int, cImage*>::iterator hit = cache->find(channel->Number());
+    
+    if (hit != cache->end()) {
+        return (cImage*)hit->second;
+    } else {
+        bool success = LoadLogo(channel);
+        if (success) {
+            if (config.limitLogoCache && (cache->size() >= config.numLogosMax)) {
+            //logo cache is full, don't cache anymore
+                cPoint logoSize = LogoSize(type);
+                int width = logoSize.X();
+                int height = logoSize.Y();
+                buffer.sample(Geometry(width, height));
+                if (tempStaticLogo) {
+                    delete tempStaticLogo;
+                    tempStaticLogo = NULL;
+                }
+                tempStaticLogo = CreateImage();
+                return tempStaticLogo;
+            } else {
+            //add requested logo to cache
+                InsertIntoLogoCache(type, channel->Number());
+                hit = cache->find(channel->Number());
+                if (hit != cache->end()) {
+                    return (cImage*)hit->second;
+                }
+            }
+        }
+    }
+    return NULL;
+}
+
 cImage *cImageCache::GetBackground(eBackgroundType type) {
     if (!initComplete)
         return NULL;
@@ -102,7 +171,48 @@ cImage cImageCache::GetBackground(tColor back, tColor blend, int width, int heig
     return CreateImageCopy();
 }
 
+std::string cImageCache::GetCacheSize(eCacheType type) {
+    std::stringstream result;
+    int sizeByte = 0;
+    int numImages = 0;
+    if ((type == ctMenuIcon) || (type == ctSkinIcon)) {
+        std::map<std::string, cImage*> *cache;
+        if (type == ctMenuIcon)
+            cache = &menuIconCache;
+        else if (type == ctSkinIcon)
+            cache = &skinIconCache;
+        
+        for(std::map<std::string, cImage*>::const_iterator it = cache->begin(); it != cache->end(); it++) {
+            cImage *img = (cImage*)it->second;
+            sizeByte += img->Width() * img->Height() * sizeof(tColor);
+        }
+        numImages = cache->size();
+    } else if ((type == ctLogo) || (type == ctLogoMenuItem) || (type == ctLogoTimer)) {
+        std::map<int, cImage*> *cache;
+        if (type == ctLogo)
+            cache = &logoCache;
+        else if (type == ctLogoMenuItem)
+            cache = &logoMenuItemCache;
+        else if (type == ctLogoTimer)
+            cache = &logoTimerCache;
 
+        for(std::map<int, cImage*>::const_iterator it = cache->begin(); it != cache->end(); it++) {
+            cImage *img = (cImage*)it->second;
+            sizeByte += img->Width() * img->Height() * sizeof(tColor);
+        }
+        numImages = cache->size();
+    } else if (type == ctBackground) {
+        for(std::vector<cImage*>::const_iterator it = backgroundImages.begin(); it != backgroundImages.end(); it++) {
+            cImage *img = (cImage*)*it;
+            sizeByte += img->Width() * img->Height() * sizeof(tColor);
+        }
+        numImages = backgroundImages.size();
+    }
+
+    result << numImages << " " << tr("images") << " / " << sizeByte/1024 << " KByte";
+    return result.str();
+}
+    
 std::vector<std::pair<std::string, cPoint> > cImageCache::GetMenuIcons(void) {
     std::vector<std::pair<std::string, cPoint> > menuIcons;
     //MainMenuIcons
@@ -193,11 +303,11 @@ bool cImageCache::LoadIcon(eCacheType type, std::string name, int width, int hei
         cString iconPathTheme = cString::sprintf("%s%s/", *config.iconPath, Setup.OSDTheme);
         success = LoadImage(name, *iconPathTheme, "png");
         if (success) {
-            InsertIntoCache(type, name, width, height, preserveAspect);
+            InsertIntoIconCache(type, name, width, height, preserveAspect);
         } else {
             success = LoadImage(name, *config.iconPath, "png");
             if (success) {
-                InsertIntoCache(type, name, width, height, preserveAspect);
+                InsertIntoIconCache(type, name, width, height, preserveAspect);
             }
         }
     } 
@@ -205,18 +315,18 @@ bool cImageCache::LoadIcon(eCacheType type, std::string name, int width, int hei
         cString iconPathTheme = cString::sprintf("%s%s/", *config.iconPathDefault, Setup.OSDTheme);
         success = LoadImage(name, *iconPathTheme, "png");
         if (success) {
-            InsertIntoCache(type, name, width, height, preserveAspect);
+            InsertIntoIconCache(type, name, width, height, preserveAspect);
         } else {
             success = LoadImage(name, *config.iconPathDefault, "png");
             if (success) {
-                InsertIntoCache(type, name, width, height, preserveAspect);
+                InsertIntoIconCache(type, name, width, height, preserveAspect);
             }
         }
     }
     return success;
 }
 
-void cImageCache::InsertIntoCache(eCacheType type, std::string name, int width, int height, bool preserveAspect) {
+void cImageCache::InsertIntoIconCache(eCacheType type, std::string name, int width, int height, bool preserveAspect) {
     if (preserveAspect) {
         buffer.sample(Geometry(width, height));
     } else {
@@ -228,6 +338,80 @@ void cImageCache::InsertIntoCache(eCacheType type, std::string name, int width, 
         menuIconCache.insert(std::pair<std::string, cImage*>(name, image));
     else if (type == ctSkinIcon)
         skinIconCache.insert(std::pair<std::string, cImage*>(name, image));
+}
+
+bool cImageCache::LoadLogo(const cChannel *channel) {
+    if (!channel)
+        return false;
+    std::string channelID = StrToLowerCase(*(channel->GetChannelID().ToString()));
+    std::string logoLower = StrToLowerCase(channel->Name());
+    bool success = false;
+    if (config.logoPathSet) {
+        cString logoThemePath = cString::sprintf("%s%s/", *config.logoPath, Setup.OSDTheme);
+        success = LoadImage(channelID.c_str(), *logoThemePath, *config.logoExtension);
+        if (success)
+            return true;
+        success = LoadImage(logoLower.c_str(), *logoThemePath, *config.logoExtension);
+        if (success)
+            return true;
+        success = LoadImage(channelID.c_str(), *config.logoPath, *config.logoExtension);
+        if (success)
+            return true;
+        success = LoadImage(logoLower.c_str(), *config.logoPath, *config.logoExtension);
+        if (success)
+            return true;
+    }
+    cString logoThemePath = cString::sprintf("%s%s/", *config.logoPathDefault, Setup.OSDTheme);
+    success = LoadImage(channelID.c_str(), *logoThemePath, *config.logoExtension);
+    if (success)
+        return true;
+    success = LoadImage(logoLower.c_str(), *logoThemePath, *config.logoExtension);
+    if (success)
+        return true;
+    success = LoadImage(channelID.c_str(), *config.logoPathDefault, *config.logoExtension);
+    if (success)
+        return true;
+    success = LoadImage(logoLower.c_str(), *config.logoPathDefault, *config.logoExtension);
+    if (success)
+        return true;
+    
+    return false;
+}
+
+void cImageCache::InsertIntoLogoCache(eCacheType type, int channelNumber) {
+    cPoint logoSize = LogoSize(type);
+    int width = logoSize.X();
+    int height = logoSize.Y();
+    buffer.sample(Geometry(width, height));
+    cImage *image = CreateImage();
+    if (type == ctLogo)
+        logoCache.insert(std::pair<int, cImage*>(channelNumber, image));
+    else if (type == ctLogoMenuItem)
+        logoMenuItemCache.insert(std::pair<int, cImage*>(channelNumber, image));
+    else if (type == ctLogoTimer)
+        logoTimerCache.insert(std::pair<int, cImage*>(channelNumber, image));
+}
+
+cPoint cImageCache::LogoSize(eCacheType type) {
+    int width, height;
+    switch (type) {
+        case ctLogo:
+            width = config.logoWidth;
+            height = config.logoHeight;
+            break;
+        case ctLogoMenuItem:
+            width = config.menuItemLogoWidth;
+            height = config.menuItemLogoHeight;
+            break;
+        case ctLogoTimer:
+            width = config.timersLogoWidth;
+            height = config.timersLogoHeight;
+            break;
+        default:
+            width = 1;
+            height = 1;
+    }
+    return cPoint(width, height);
 }
 
 void cImageCache::CreateBackgroundImages(void) {
@@ -313,4 +497,19 @@ void cImageCache::Clear(void) {
         delete img;
     }
     backgroundImages.clear();
+    for(std::map<int, cImage*>::const_iterator it = logoCache.begin(); it != logoCache.end(); it++) {
+        cImage *img = (cImage*)it->second;
+        delete img;
+    }
+    logoCache.clear();
+    for(std::map<int, cImage*>::const_iterator it = logoMenuItemCache.begin(); it != logoMenuItemCache.end(); it++) {
+        cImage *img = (cImage*)it->second;
+        delete img;
+    }
+    logoMenuItemCache.clear();
+    for(std::map<int, cImage*>::const_iterator it = logoTimerCache.begin(); it != logoTimerCache.end(); it++) {
+        cImage *img = (cImage*)it->second;
+        delete img;
+    }
+    logoTimerCache.clear();
 }

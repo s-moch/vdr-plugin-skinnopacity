@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-09-30 19:08+0200\n"
+"POT-Creation-Date: 2013-10-03 10:12+0200\n"
 "PO-Revision-Date: 2013-03-19 22:56+0100\n"
 "Last-Translator: Diego Pierotto <vdr-italian@tiscali.it>\n"
 "Language-Team: \n"
@@ -25,6 +25,9 @@ msgstr "disponibili"
 
 msgid "Volume"
 msgstr "Volume"
+
+msgid "images"
+msgstr ""
 
 msgid "Actors"
 msgstr ""
@@ -103,6 +106,9 @@ msgstr "Tracce audio"
 
 msgid "Messages"
 msgstr "Messaggi"
+
+msgid "Image Caching"
+msgstr ""
 
 msgid "RSS Feeds"
 msgstr ""
@@ -332,12 +338,6 @@ msgstr "Mostra immagini EPG aggiuntivo in vista dettagli EPG"
 msgid "Number of EPG pictures to display"
 msgstr "Numero di immagini EPG da mostrare"
 
-msgid "Detail EPG View Logo Width"
-msgstr "Larghezza logo vista dettagli EPG"
-
-msgid "Detail EPG View Logo Height"
-msgstr "Altezza logo vista dettagli EPG"
-
 msgid "Detail EPG View EPG Image Width"
 msgstr "Larghezza immagine vista dettagli EPG"
 
@@ -521,6 +521,36 @@ msgstr "Larghezza di Mostra volume (% altezza OSD)"
 msgid "Height of Volume Display (Percent of OSD Height)"
 msgstr "Altezza di Mostra volume (% altezza OSD)"
 
+msgid "Limit Logo Cache"
+msgstr ""
+
+msgid "Maximal number of logos to cache"
+msgstr ""
+
+msgid "Number of  logos to cache at start"
+msgstr ""
+
+msgid "Cache Sizes"
+msgstr ""
+
+msgid "Menu Icon cache"
+msgstr ""
+
+msgid "Skin Icon image cache"
+msgstr ""
+
+msgid "Logo cache"
+msgstr ""
+
+msgid "Menu Item Logo cache"
+msgstr ""
+
+msgid "Timer Logo cache"
+msgstr ""
+
+msgid "Background Images cache"
+msgstr ""
+
 msgid "none"
 msgstr ""
 
@@ -571,3 +601,9 @@ msgstr "conflitto"
 
 msgid "conflicts"
 msgstr "conflitti"
+
+#~ msgid "Detail EPG View Logo Width"
+#~ msgstr "Larghezza logo vista dettagli EPG"
+
+#~ msgid "Detail EPG View Logo Height"
+#~ msgstr "Altezza logo vista dettagli EPG"

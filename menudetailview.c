@@ -5,8 +5,9 @@
 #include <dirent.h>
 #include <vector>
 
-cNopacityMenuDetailView::cNopacityMenuDetailView(cOsd *osd) {
+cNopacityMenuDetailView::cNopacityMenuDetailView(cOsd *osd, cImageCache *imgCache) {
     this->osd = osd;
+    this->imgCache = imgCache;
     hasScrollbar = false;
     hasManualPoster = false;
     manualPosterPath = "";
@@ -274,7 +275,7 @@ bool cNopacityMenuDetailView::Scroll(bool Up, bool Page) {
 
 //---------------cNopacityMenuDetailEventView---------------------
 
-cNopacityMenuDetailEventView::cNopacityMenuDetailEventView(cOsd *osd, const cEvent *Event) : cNopacityMenuDetailView(osd) {
+cNopacityMenuDetailEventView::cNopacityMenuDetailEventView(cOsd *osd, cImageCache *imgCache, const cEvent *Event) : cNopacityMenuDetailView(osd, imgCache) {
     event = Event;
     numEPGPics = 0;
 }
@@ -378,7 +379,7 @@ void cNopacityMenuDetailEventView::CreatePixmaps(void) {
     pixmapHeader =  osd->CreatePixmap(3, cRect(x, top, width, headerHeight));
     pixmapContent = osd->CreatePixmap(3, cRect(x + contentX, top + headerHeight, contentWidth, contentHeight),
                                       cRect(0, 0, contentWidth, contentDrawPortHeight));
-    pixmapLogo =    osd->CreatePixmap(4, cRect(x + border, top + max((headerHeight-config.logoHeight)/2,1), config.detailViewLogoWidth, config.detailViewLogoHeight));
+    pixmapLogo =    osd->CreatePixmap(4, cRect(x + border, top + max((headerHeight-config.logoHeight)/2,1), config.logoWidth, config.logoHeight));
 
     pixmapHeader->Fill(clrTransparent);
     pixmapHeader->DrawRectangle(cRect(0, headerHeight - 2, width, 2), Theme.Color(clrMenuBorder));
@@ -454,15 +455,16 @@ int cNopacityMenuDetailEventView::HeightEPGPics(void) {
 }
 
 void cNopacityMenuDetailEventView::DrawHeader(void) {
-    cImageLoader imgLoader;
-    int logoWidth = config.detailViewLogoWidth;
+    int logoWidth = config.logoWidth;
     cChannel *channel = Channels.GetByChannelID(event->ChannelID(), true);
-    if (channel && channel->Name() && imgLoader.LoadLogo(channel->Name(), logoWidth, config.detailViewLogoHeight)) {        
-        pixmapLogo->DrawImage(cPoint(0, max((headerHeight - config.detailViewLogoHeight - border)/2, 0)), imgLoader.GetImage());
-    } else if (channel && imgLoader.LoadLogo(*(channel->GetChannelID().ToString()), logoWidth, config.detailViewLogoHeight)) {
-        pixmapLogo->DrawImage(cPoint(0, max((headerHeight - config.detailViewLogoHeight - border)/2, 0)), imgLoader.GetImage());
+    if (channel) {
+        cImage *logo = imgCache->GetLogo(ctLogo, channel);
+        if (logo) {
+            pixmapLogo->DrawImage(cPoint(0, max((headerHeight - config.logoHeight - border)/2, 0)), *logo);
+        }
     }
     int widthTextHeader = width - 4 * border - logoWidth;
+    cImageLoader imgLoader;
     if (imgLoader.LoadEPGImage(event->EventID())) {
         pixmapHeader->DrawImage(cPoint(width - config.epgImageWidth - border, (headerHeight-config.epgImageHeight)/2), imgLoader.GetImage());
         if (config.roundedCorners) {
@@ -585,7 +587,7 @@ void cNopacityMenuDetailEventView::DrawEPGPictures(int height) {
 
 //------------------cNopacityMenuDetailRecordingView------------------
 
-cNopacityMenuDetailRecordingView::cNopacityMenuDetailRecordingView(cOsd *osd, const cRecording *Recording) : cNopacityMenuDetailView(osd) {
+cNopacityMenuDetailRecordingView::cNopacityMenuDetailRecordingView(cOsd *osd, const cRecording *Recording) : cNopacityMenuDetailView(osd, NULL) {
     recording = Recording;
     info = Recording->Info();
 }
@@ -1014,7 +1016,7 @@ int cNopacityMenuDetailRecordingView::ReadSizeVdr(const char *strPath) {
 
 //---------------cNopacityMenuDetailTextView---------------------
 
-cNopacityMenuDetailTextView::cNopacityMenuDetailTextView(cOsd *osd, const char *text) : cNopacityMenuDetailView(osd) {
+cNopacityMenuDetailTextView::cNopacityMenuDetailTextView(cOsd *osd, const char *text) : cNopacityMenuDetailView(osd, NULL) {
     this->text = text;
 }
 
