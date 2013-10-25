@@ -1,6 +1,4 @@
 Description = IceBlue 
-#DO BLENDING
-clrDoBlending = 00000000
 clrChannelBackground = B0FFFFFF
 clrChannelBackBlend = FFFFFFFF
 clrChannelHead = FF000000

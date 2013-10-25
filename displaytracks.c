@@ -2,13 +2,12 @@
 
 cNopacityDisplayTracks::cNopacityDisplayTracks(cImageCache *imgCache, const char *Title, int NumTracks, const char * const *Tracks) {
     this->imgCache = imgCache;
-    config.setDynamicValues();
     initial = true;
     currentIndex = -1;
     numTracks = NumTracks;
     audioChannelLast = -5;
-    FrameTime = config.tracksFrameTime; 
-    FadeTime = config.tracksFadeTime;
+    FadeTime = config.GetValue("tracksFadeTime");
+    FrameTime = FadeTime / 10; 
     SetGeometry();
     CreatePixmaps();
     DrawHeader(Title);
@@ -29,47 +28,47 @@ cNopacityDisplayTracks::~cNopacityDisplayTracks() {
 
 void cNopacityDisplayTracks::SetGeometry(void) {
     width = geoManager->trackWidth;
-    height = (config.tracksItemHeight +4) * (numTracks+1);
+    height = (config.GetValue("tracksItemHeight") +4) * (numTracks+1);
 
     menuItemWidth = geoManager->menuItemWidthTracks;
     menuItemHeight = geoManager->menuItemHeightTracks;
 
     int top, left;
-    switch(config.tracksPosition) {
+    switch(config.GetValue("tracksPosition")) {
         case 0:     //middle bottom
-            top = cOsd::OsdHeight() - cOsd::OsdTop() - height - config.tracksBorderHorizontal;
+            top = cOsd::OsdHeight() - cOsd::OsdTop() - height - config.GetValue("tracksBorderHorizontal");
             left = (cOsd::OsdWidth() - width) / 2;
             break;
         case 1:     //left bottom
-            top = cOsd::OsdHeight() - cOsd::OsdTop() - height - config.tracksBorderHorizontal;
+            top = cOsd::OsdHeight() - cOsd::OsdTop() - height - config.GetValue("tracksBorderHorizontal");
             left = cOsd::OsdLeft();
             break;
         case 2:     //left middle
             top = (cOsd::OsdHeight() - height) / 2;
-            left = cOsd::OsdLeft() + config.tracksBorderVertical;
+            left = cOsd::OsdLeft() + config.GetValue("tracksBorderVertical");
             break;
         case 3:     //left top
-            top = cOsd::OsdTop() + config.tracksBorderHorizontal;
-            left = cOsd::OsdLeft() + config.tracksBorderVertical;
+            top = cOsd::OsdTop() + config.GetValue("tracksBorderHorizontal");
+            left = cOsd::OsdLeft() + config.GetValue("tracksBorderVertical");
             break;
         case 4:     //top middle
-            top = cOsd::OsdTop() + config.tracksBorderHorizontal;
+            top = cOsd::OsdTop() + config.GetValue("tracksBorderHorizontal");
             left = (cOsd::OsdWidth() - width) / 2;
             break;
         case 5:     //top right
-            top = cOsd::OsdTop() + config.tracksBorderHorizontal;
-            left = cOsd::OsdWidth() - cOsd::OsdLeft() - width - config.tracksBorderVertical;
+            top = cOsd::OsdTop() + config.GetValue("tracksBorderHorizontal");
+            left = cOsd::OsdWidth() - cOsd::OsdLeft() - width - config.GetValue("tracksBorderVertical");
             break;
         case 6:     //right middle
             top = (cOsd::OsdHeight() - height) / 2;
-            left = cOsd::OsdWidth() - cOsd::OsdLeft() - width - config.tracksBorderVertical;
+            left = cOsd::OsdWidth() - cOsd::OsdLeft() - width - config.GetValue("tracksBorderVertical");
             break;
         case 7:     //right bottom
-            top = cOsd::OsdHeight() - cOsd::OsdTop() - height - config.tracksBorderHorizontal;
-            left = cOsd::OsdWidth() - cOsd::OsdLeft() - width - config.tracksBorderVertical;
+            top = cOsd::OsdHeight() - cOsd::OsdTop() - height - config.GetValue("tracksBorderHorizontal");
+            left = cOsd::OsdWidth() - cOsd::OsdLeft() - width - config.GetValue("tracksBorderVertical");
             break;
         default:    //middle bottom
-            top = cOsd::OsdHeight() - cOsd::OsdTop() - height - config.tracksBorderHorizontal;
+            top = cOsd::OsdHeight() - cOsd::OsdTop() - height - config.GetValue("tracksBorderHorizontal");
             left = (cOsd::OsdWidth() - width) / 2;
             break;
     }
@@ -80,7 +79,7 @@ void cNopacityDisplayTracks::CreatePixmaps(void) {
     pixmapContainer = osd->CreatePixmap(1, cRect(0, 0, width, height));
     pixmapHeader = osd->CreatePixmap(2, cRect(2, 2, menuItemWidth, menuItemHeight));
     pixmapHeaderAudio = osd->CreatePixmap(3, cRect(menuItemWidth - menuItemHeight, 2, menuItemHeight, menuItemHeight));
-    if (config.tracksFadeTime) {
+    if (FadeTime) {
         pixmapContainer->SetAlpha(0);
         pixmapHeader->SetAlpha(0);
         pixmapHeaderAudio->SetAlpha(0);
@@ -90,12 +89,17 @@ void cNopacityDisplayTracks::CreatePixmaps(void) {
 void cNopacityDisplayTracks::DrawHeader(const char *Title) {
     pixmapContainer->Fill(Theme.Color(clrMenuBorder));
     pixmapContainer->DrawRectangle(cRect(1, 1, width-2, height-2), Theme.Color(clrMenuBack));
-    pixmapHeader->Fill(Theme.Color(clrMenuItem));
-    if (config.doBlending) {
-        cImage *back = imgCache->GetBackground(btTracks);
+    if (config.GetValue("displayType") == dtBlending) {
+        pixmapHeader->Fill(Theme.Color(clrMenuItem));
+        cImage *back = imgCache->GetSkinElement(seTracks);
         if (back)
             pixmapHeader->DrawImage(cPoint(1, 1), *back);
+    } else if (config.GetValue("displayType") == dtGraphical) {
+        cImage *back = imgCache->GetSkinElement(seTracks);
+        if (back)
+            pixmapHeader->DrawImage(cPoint(0, 0), *back);
     } else {
+        pixmapHeader->Fill(Theme.Color(clrMenuItem));
         pixmapHeader->DrawRectangle(cRect(1, 1, width-2, height-2), Theme.Color(clrAudioMenuHeader));
     }
     pixmapIcon = osd->CreatePixmap(3, cRect(2, 2, menuItemHeight-2, menuItemHeight-2));
@@ -104,8 +108,7 @@ void cNopacityDisplayTracks::DrawHeader(const char *Title) {
     cImage *imgTracks = imgCache->GetSkinIcon("skinIcons/tracks", menuItemHeight-6, menuItemHeight-6);
     if (imgTracks)
         pixmapIcon->DrawImage(cPoint(3,3), *imgTracks);
-    int clrFontBack = (config.doBlending)?clrTransparent:Theme.Color(clrAudioMenuHeader);
-    pixmapHeader->DrawText(cPoint((width - fontManager->trackHeader->Width(Title)) / 2, (menuItemHeight - fontManager->trackHeader->Height()) / 2), Title, Theme.Color(clrTracksFontHead), clrFontBack, fontManager->trackHeader);
+    pixmapIcon->DrawText(cPoint((width - fontManager->trackHeader->Width(Title)) / 2, (menuItemHeight - fontManager->trackHeader->Height()) / 2), Title, Theme.Color(clrTracksFontHead), clrTransparent, fontManager->trackHeader);
 }
 
 void cNopacityDisplayTracks::SetItem(const char *Text, int Index, bool Current) {
@@ -115,6 +118,9 @@ void cNopacityDisplayTracks::SetItem(const char *Text, int Index, bool Current) 
     item->SetFont(fontManager->trackText);
     item->SetGeometry(Index, menuItemHeight+4, 2, menuItemWidth, menuItemHeight, 4);
     item->CreatePixmap();
+    item->CreatePixmapIcon();
+    if (config.GetValue("displayType") == dtGraphical)
+        item->CreatePixmapForeground();
     menuItems.Add(item);
     item->Render();
 }
@@ -157,7 +163,7 @@ void cNopacityDisplayTracks::SetAudioChannel(int AudioChannel) {
 
 void cNopacityDisplayTracks::Flush(void) {
     if (initial)
-        if (config.tracksFadeTime)
+        if (FadeTime)
             Start();
     initial = false;
     osd->Flush();

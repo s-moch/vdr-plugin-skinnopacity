@@ -22,7 +22,6 @@ private:
     cList<cNopacityMenuItem> menuItems;
     int positionButtons[4];
     cRect videoWindowRect;
-    cRssReader *rssReader;
     int currentFeed;
     void SetNextFeed(void);
     void DrawDisk(void);
@@ -56,8 +55,6 @@ public:
     virtual void SetTabs(int Tab1, int Tab2 = 0, int Tab3 = 0, int Tab4 = 0, int Tab5 = 0);
     virtual int GetTextAreaWidth(void) const;
     virtual const cFont *GetTextAreaFont(bool FixedFont) const;
-    void SwitchNextRssMessage(void);
-    void SwitchNextRssFeed(void);
 };
 
 #endif //__NOPACITY_DISPLAYMENU_H

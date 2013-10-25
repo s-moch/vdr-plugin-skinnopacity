@@ -9,7 +9,6 @@ class cNopacityDisplayMenu;
 class cNopacity : public cSkin {
 private:
   cNopacityDisplayMenu *displayMenu;
-  cRssStandaloneTicker *rssTicker;
   cImageCache *imgCache;
   void ReloadCaches(void);
 public:
@@ -21,8 +20,5 @@ public:
   virtual cSkinDisplayVolume *DisplayVolume(void);
   virtual cSkinDisplayTracks *DisplayTracks(const char *Title, int NumTracks, const char * const *Tracks);
   virtual cSkinDisplayMessage *DisplayMessage(void);
-  void svdrpSwitchRss(void);
-  void svdrpSwitchMessage(void);
-  bool svdrpToggleStandaloneRss(void);
   };
 #endif //__NOPACITY_H

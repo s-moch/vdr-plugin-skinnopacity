@@ -42,7 +42,7 @@ cNopacityTextWindow::~cNopacityTextWindow(void) {
         osd->DestroyPixmap(pixmap);
         pixmap = NULL;
     }
-    if ((config.scalePicture == 2) && scaledWindow) {
+    if ((config.GetValue("scalePicture") == 2) && scaledWindow) {
         cRect vidWinNew = cDevice::PrimaryDevice()->CanScaleVideo(oldVidWin);
         if (vidWinNew != cRect::Null) {
             vidWin->SetX(vidWinNew.X());
@@ -59,8 +59,8 @@ bool cNopacityTextWindow::SetManualPoster(const cRecording *recording, bool full
     hasManualPoster = imgLoader.SearchRecordingPoster(recording->FileName(), posterFound);
     if (hasManualPoster) {
         manualPosterPath = posterFound;
-        int posterWidthOrig = config.posterWidth;
-        int posterHeightOrig = config.posterHeight;
+        int posterWidthOrig = config.GetValue("posterWidth");
+        int posterHeightOrig = config.GetValue("posterHeight");
         if (!fullscreen) {
             posterHeight = geometry->Height() - 5;
             posterWidth = posterWidthOrig * ((double)posterHeight / (double)posterHeightOrig);
@@ -164,7 +164,7 @@ void cNopacityTextWindow::CreatePixmap(void) {
     pixmapBackground->Fill(Theme.Color(clrMenuBorder));
     pixmapBackground->DrawRectangle(cRect(1, 1, geometry->Width(), geometry->Height()), clrBlack);
     pixmap->Fill(Theme.Color(clrMenuBack));
-    if (config.menuEPGWindowFadeTime) {
+    if (config.GetValue("menuEPGWindowFadeTime")) {
         pixmap->SetAlpha(0);
         pixmapBackground->SetAlpha(0);
     }
@@ -175,14 +175,14 @@ void cNopacityTextWindow::CreatePixmapFullScreen(void) {
     pixmapBackground = osd->CreatePixmap(4, cRect(geometry->X()-1, geometry->Y()-1, geometry->Width()+2, geometry->Height()+2));
     pixmap = osd->CreatePixmap(5, cRect(geometry->X(), geometry->Y(), geometry->Width(), geometry->Height()));
     pixmapBackground->Fill(Theme.Color(clrMenuBorder));
-    pixmapBackground->DrawRectangle(cRect(1, 1, geometry->Width(), geometry->Height()), Theme.Color(clrMenuBack));
+    pixmapBackground->DrawRectangle(cRect(1, 1, geometry->Width(), geometry->Height()), Theme.Color(clrMenuTextWindow));
     pixmap->Fill(clrTransparent);
 }
 
 void cNopacityTextWindow::DrawText(int border, int left) {
     int lineHeight = font->Height();
     int currentLineHeight = lineHeight/2;
-    tColor clrFontBack = (config.doBlending)?(clrTransparent):(Theme.Color(clrMenuBack));
+    tColor clrFontBack = (config.GetValue("displayType") != dtFlat)?(clrTransparent):(Theme.Color(clrMenuBack));
     cPixmap::Lock();
     if (drawTextTall) {
         for (int i=0; (i < twTextTall.Lines()) && Running(); i++) {
@@ -203,7 +203,7 @@ void cNopacityTextWindow::SetEvent(const cEvent *event) {
     if (!event)
         return;
     CreatePixmapFullScreen();
-    int border = config.borderDetailedEPG;
+    int border = config.GetValue("borderDetailedEPG");
     int width = geometry->Width();
     int height = geometry->Height();
     int widthTextHeader = width - 2 * border;
@@ -219,8 +219,8 @@ void cNopacityTextWindow::SetEvent(const cEvent *event) {
         }
     } else if (imgLoader.LoadEPGImage(event->EventID())) {
         epgImageFound = true;
-        pixmap->DrawImage(cPoint(width - config.epgImageWidth - border, y), imgLoader.GetImage());
-        widthTextHeader -= config.epgImageWidth + border;
+        pixmap->DrawImage(cPoint(width - config.GetValue("epgImageWidth") - border, y), imgLoader.GetImage());
+        widthTextHeader -= config.GetValue("epgImageWidth") + border;
     }
     //Title
     y = DrawTextWrapper(event->Title(), widthTextHeader, y, border, fontHeader, Theme.Color(clrMenuFontDetailViewHeaderTitle), height);
@@ -234,8 +234,8 @@ void cNopacityTextWindow::SetEvent(const cEvent *event) {
         DrawTextWrapperFloat(event->Description(), 
                              widthTextHeader, widthText, y, heightNarrow,
                              border, font, Theme.Color(clrMenuFontDetailViewText), height);
-    } else if (epgImageFound && (y < (border + config.epgImageHeight))) {
-        y = border + config.epgImageHeight;
+    } else if (epgImageFound && (y < (border + config.GetValue("epgImageHeight")))) {
+        y = border + config.GetValue("epgImageHeight");
         DrawTextWrapper(event->Description(), widthText, y, border, font, Theme.Color(clrMenuFontDetailViewText), height);
     } else {
         DrawTextWrapper(event->Description(), widthText, y, border, font, Theme.Color(clrMenuFontDetailViewText), height);
@@ -246,7 +246,7 @@ void cNopacityTextWindow::SetRecording(const cRecording *recording) {
     if (!recording)
         return;
     CreatePixmapFullScreen();
-    int border = config.borderDetailedRecordings;
+    int border = config.GetValue("borderDetailedRecordings");
     int width = geometry->Width();
     int height = geometry->Height();
     int widthTextHeader = width - 2 * border;
@@ -268,8 +268,8 @@ void cNopacityTextWindow::SetRecording(const cRecording *recording) {
             widthTextHeader -= posterWidth + border;
         }
     } else if (imgLoader.LoadRecordingImage(recording->FileName())) {
-        pixmap->DrawImage(cPoint(width - config.epgImageWidth - border, y), imgLoader.GetImage());
-        widthTextHeader -= config.epgImageWidth + border;
+        pixmap->DrawImage(cPoint(width - config.GetValue("epgImageWidth") - border, y), imgLoader.GetImage());
+        widthTextHeader -= config.GetValue("epgImageWidth") + border;
         recImageFound = true;
     }
     const cRecordingInfo *info = recording->Info();
@@ -293,8 +293,8 @@ void cNopacityTextWindow::SetRecording(const cRecording *recording) {
         DrawTextWrapperFloat(recording->Info()->Description(),
                              widthTextHeader, widthText, y, heightNarrow,
                              border, font, Theme.Color(clrMenuFontDetailViewText), height);
-    } else if (recImageFound && (y < (border + config.epgImageHeight))) {
-        y = border + config.epgImageHeight;
+    } else if (recImageFound && (y < (border + config.GetValue("epgImageHeight")))) {
+        y = border + config.GetValue("epgImageHeight");
         DrawTextWrapper(recording->Info()->Description(), widthText, y, border, font, Theme.Color(clrMenuFontDetailViewText), height);
     } else {
         DrawTextWrapper(recording->Info()->Description(), widthText, y, border, font, Theme.Color(clrMenuFontDetailViewText), height);
@@ -410,9 +410,9 @@ void cNopacityTextWindow::Action(void) {
     if (! *text)
         return;
         
-    DoSleep(config.menuInfoTextDelay*1000);
+    DoSleep(config.GetValue("menuInfoTextDelay")*1000);
 
-    if (config.scalePicture == 2) {
+    if (config.GetValue("scalePicture") == 2) {
           ScaleVideoWindow();      
     }
     
@@ -432,10 +432,10 @@ void cNopacityTextWindow::Action(void) {
         DrawPoster(border);
     }
     //FadeIn
-    if (config.menuEPGWindowFadeTime) {
+    if (config.GetValue("menuEPGWindowFadeTime")) {
         uint64_t Start = cTimeMs::Now();
-        int FadeTime = config.menuEPGWindowFadeTime;
-        int FadeFrameTime = config.menuEPGWindowFrameTime;
+        int FadeTime = config.GetValue("menuEPGWindowFadeTime");
+        int FadeFrameTime = FadeTime / 10;
         while (Running()) {
             uint64_t Now = cTimeMs::Now();
             cPixmap::Lock();
@@ -455,10 +455,17 @@ void cNopacityTextWindow::Action(void) {
     }
     
     if (scrolling && Running()) {
-        int scrollDelay = config.menuInfoScrollDelay * 1000;
+        int scrollDelay = config.GetValue("menuInfoScrollDelay") * 1000;
         DoSleep(scrollDelay);
         int drawPortY;
-        int FrameTime = config.menuInfoScrollFrameTime;
+        int FrameTime = 0;
+        if (config.GetValue("menuInfoScrollSpeed") == 1)
+            FrameTime = 50;
+        else if (config.GetValue("menuInfoScrollSpeed") == 2)
+            FrameTime = 30;
+        else if (config.GetValue("menuInfoScrollSpeed") == 3)
+            FrameTime = 15;
+        
         int maxY = pixmap->DrawPort().Height() - pixmap->ViewPort().Height();
         bool doSleep = false;
         while (Running()) {

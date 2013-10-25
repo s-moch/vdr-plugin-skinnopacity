@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-10-03 11:10+0200\n"
+"POT-Creation-Date: 2013-10-20 11:15+0200\n"
 "PO-Revision-Date: 2013-03-19 22:56+0100\n"
 "Last-Translator: Gabychan <gbonich@gmail.com>\n"
 "Language-Team: \n"
@@ -109,9 +109,6 @@ msgstr "Missatges"
 
 msgid "Image Caching"
 msgstr ""
-
-msgid "RSS Feeds"
-msgstr "Feeds RSS"
 
 msgid "right"
 msgstr "dreta"
@@ -410,12 +407,6 @@ msgstr ""
 msgid "Height of manually set recording poster"
 msgstr ""
 
-msgid "simple, one common image"
-msgstr "simple, imatge genèrica"
-
-msgid "complex, dedicated images"
-msgstr "complex, imatges pròpies"
-
 msgid "transparent channel logo"
 msgstr "Logo del canal transparent"
 
@@ -449,8 +440,11 @@ msgstr "Cantells rodons"
 msgid "Channel Logo Position"
 msgstr "Posició Logo Canal"
 
-msgid "Channel Logo Border"
-msgstr "Vora Logo Canal"
+msgid "Channel Logo original Width"
+msgstr ""
+
+msgid "Channel Logo original Height"
+msgstr ""
 
 msgid "Kind of time display for current schedule"
 msgstr "Tipus de visualització per la programació actual"
@@ -467,20 +461,14 @@ msgstr ""
 msgid "Display previous and next Channel Group"
 msgstr "Mostra grups de canals anterior i posterior"
 
-msgid "Screen Resolution Icon Size"
-msgstr "Resolució de les Icones"
-
-msgid "Status Icons Size"
-msgstr "Estat de la mida de les icones"
-
-msgid "Status Icon Style"
-msgstr "Estat de l'estil de les icones"
-
 msgid "Adjust Font Size - EPG Text"
 msgstr "Ajusta mida de la Font - Text EPG"
 
 msgid "Adjust Font Size - EPG Infotext"
 msgstr "Ajusta mida de la Font - Infotext EPG"
+
+msgid "Adjust Font Size - Channel Source Info"
+msgstr ""
 
 msgid "Adjust Font Size - Channel Group"
 msgstr "Ajusta mida de la Font - Grup de canals"
@@ -560,59 +548,8 @@ msgstr ""
 msgid "Background Images cache"
 msgstr ""
 
-msgid "none"
-msgstr "cap"
-
-msgid "bottom"
-msgstr "inferior"
-
-msgid "top"
-msgstr "superior"
-
-msgid "Display RSS Feed in Skin"
-msgstr "Mostra Feed RSS"
-
-msgid "Height of RSS Feed Line (Percent of OSD Height)"
-msgstr "Alçada línia Feed RSS (% Alçada OSD)"
-
-msgid "Height of standalone RSS Feed (Percent of OSD Height)"
-msgstr "Alçada del Feed RSS (% Alçada OSD)"
-
-msgid "Adjust Font Size of standalone Feed"
-msgstr "Ajusta mida de la Font Feed"
-
-msgid "Standalone RSS Feed Position"
-msgstr "Posició Feed RSS"
-
-msgid "RSS Feed 1"
-msgstr "Feed RSS 1"
-
-msgid "RSS Feed 2"
-msgstr "Feed RSS 2"
-
-msgid "RSS Feed 3"
-msgstr "Feed RSS 3"
-
-msgid "RSS Feed 4"
-msgstr "Feed RSS 4"
-
-msgid "RSS Feed 5"
-msgstr "Feed RSS 5"
-
-msgid "Scrolling Speed"
-msgstr "Velocitat de desplaçament"
-
-msgid "Scrolling Delay in s"
-msgstr "Retard desplaçament en s"
-
 msgid "conflict"
 msgstr "conflicte"
 
 msgid "conflicts"
 msgstr "conflictes"
-
-#~ msgid "Detail EPG View Logo Width"
-#~ msgstr "Amplada logo a vista detallada EPG"
-
-#~ msgid "Detail EPG View Logo Height"
-#~ msgstr "Alçada logo a vista detallada EPG"

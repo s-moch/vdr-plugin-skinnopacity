@@ -6,7 +6,7 @@ class cNopacitySetup : public cMenuSetupPage {
         cNopacitySetup(cImageCache *imgCache);
         virtual ~cNopacitySetup();      
     private:
-        cNopacityConfig tmpNopacityConfig;
+        cNopacityConfig tmpConf;
         cImageCache *imgCache;
         cStringList fontNames;
         void Setup(void);
@@ -19,7 +19,7 @@ class cNopacitySetup : public cMenuSetupPage {
 
 class cMenuSetupSubMenu : public cOsdMenu {
     protected:
-        cNopacityConfig *tmpNopacityConfig;
+        cNopacityConfig *tmpConf;
         cString spacer;
         virtual eOSState ProcessKey(eKeys Key);
         virtual void Set(void) = 0;
@@ -88,7 +88,6 @@ class cNopacitySetupChannelDisplay : public cMenuSetupSubMenu {
     protected:
         const char *logoPos[3];
         const char *progressStyleCurrentSchedule[2];
-        const char *symStyle[2];
         const char *bgStyle[2];
         void Set(void);
     public:
@@ -129,16 +128,5 @@ class cNopacitySetupCaching : public cMenuSetupSubMenu {
         void Set(void);
     public:
         cNopacitySetupCaching(cNopacityConfig *data, cImageCache *imgCache);
-};
-
-class cNopacitySetupRssFeed : public cMenuSetupSubMenu {
-    protected:
-        const char *scrollSpeed[3];
-        const char *feeds[20];
-        const char *feedsWithNone[21];
-        const char *standalonePos[2];
-        void Set(void);
-    public:
-        cNopacitySetupRssFeed(cNopacityConfig *data);
 };
 #endif //__NOPACITY_SETUP_H

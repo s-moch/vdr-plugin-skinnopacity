@@ -1,5 +1,4 @@
 Description = Default
-clrDoBlending = FFFFFFFF
 clrChannelBackground = B0000000
 clrChannelBackBlend = B0003DF5
 clrChannelHead = FF0066FF
@@ -22,7 +21,7 @@ clrReplayBackBlend = B0003DF5
 clrReplayHead = FFFFFFFF
 clrReplayDescription = FF858585
 clrReplayCurrentTotal = FF003DF5
-clrReplayProgressSeen = DD003DF5
+clrReplayProgressSeen = DD80B3FF 
 clrReplayProgressRest = DD858585
 clrReplayProgressSelected = FF000000
 clrReplayProgressMark = FF000000

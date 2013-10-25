@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-10-03 11:10+0200\n"
+"POT-Creation-Date: 2013-10-20 11:15+0200\n"
 "PO-Revision-Date: 2013-03-19 22:56+0100\n"
 "Last-Translator: Diego Pierotto <vdr-italian@tiscali.it>\n"
 "Language-Team: \n"
@@ -108,9 +108,6 @@ msgid "Messages"
 msgstr "Messaggi"
 
 msgid "Image Caching"
-msgstr ""
-
-msgid "RSS Feeds"
 msgstr ""
 
 msgid "right"
@@ -410,12 +407,6 @@ msgstr ""
 msgid "Height of manually set recording poster"
 msgstr ""
 
-msgid "simple, one common image"
-msgstr ""
-
-msgid "complex, dedicated images"
-msgstr ""
-
 msgid "transparent channel logo"
 msgstr ""
 
@@ -449,8 +440,11 @@ msgstr ""
 msgid "Channel Logo Position"
 msgstr "Posizione logo canale"
 
-msgid "Channel Logo Border"
-msgstr "Bordo logo canale"
+msgid "Channel Logo original Width"
+msgstr ""
+
+msgid "Channel Logo original Height"
+msgstr ""
 
 msgid "Kind of time display for current schedule"
 msgstr ""
@@ -467,20 +461,14 @@ msgstr ""
 msgid "Display previous and next Channel Group"
 msgstr ""
 
-msgid "Screen Resolution Icon Size"
-msgstr "Dim. icona risoluzione schermo"
-
-msgid "Status Icons Size"
-msgstr "Dim. icone stato"
-
-msgid "Status Icon Style"
-msgstr ""
-
 msgid "Adjust Font Size - EPG Text"
 msgstr "Adatta dim. caratteri - Testo EPG"
 
 msgid "Adjust Font Size - EPG Infotext"
 msgstr "Adatta dim. caratteri - Info testo EPG"
+
+msgid "Adjust Font Size - Channel Source Info"
+msgstr ""
 
 msgid "Adjust Font Size - Channel Group"
 msgstr ""
@@ -560,59 +548,8 @@ msgstr ""
 msgid "Background Images cache"
 msgstr ""
 
-msgid "none"
-msgstr ""
-
-msgid "bottom"
-msgstr ""
-
-msgid "top"
-msgstr ""
-
-msgid "Display RSS Feed in Skin"
-msgstr ""
-
-msgid "Height of RSS Feed Line (Percent of OSD Height)"
-msgstr ""
-
-msgid "Height of standalone RSS Feed (Percent of OSD Height)"
-msgstr ""
-
-msgid "Adjust Font Size of standalone Feed"
-msgstr ""
-
-msgid "Standalone RSS Feed Position"
-msgstr ""
-
-msgid "RSS Feed 1"
-msgstr ""
-
-msgid "RSS Feed 2"
-msgstr ""
-
-msgid "RSS Feed 3"
-msgstr ""
-
-msgid "RSS Feed 4"
-msgstr ""
-
-msgid "RSS Feed 5"
-msgstr ""
-
-msgid "Scrolling Speed"
-msgstr ""
-
-msgid "Scrolling Delay in s"
-msgstr ""
-
 msgid "conflict"
 msgstr "conflitto"
 
 msgid "conflicts"
 msgstr "conflitti"
-
-#~ msgid "Detail EPG View Logo Width"
-#~ msgstr "Larghezza logo vista dettagli EPG"
-
-#~ msgid "Detail EPG View Logo Height"
-#~ msgstr "Altezza logo vista dettagli EPG"

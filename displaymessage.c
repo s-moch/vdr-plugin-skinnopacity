@@ -2,18 +2,17 @@
 
 cNopacityDisplayMessage::cNopacityDisplayMessage(cImageCache *imgCache) {
     this->imgCache = imgCache;
-    config.setDynamicValues();
-    int top = geoManager->osdTop + geoManager->osdHeight - geoManager->messageHeight - config.messageBorderBottom;
+    FadeTime = config.GetValue("messageFadeTime");
+    FrameTime = FadeTime / 10;
+    int top = geoManager->osdTop + geoManager->osdHeight - geoManager->messageHeight - config.GetValue("messageBorderBottom");
     int left = (geoManager->osdLeft + geoManager->osdWidth - geoManager->messageWidth) / 2;
     osd = CreateOsd(left, top, geoManager->messageWidth, geoManager->messageHeight);
     pixmap = osd->CreatePixmap(2, cRect(0, 0, geoManager->messageWidth, geoManager->messageHeight));
     pixmapBackground = osd->CreatePixmap(1, cRect(0, 0, geoManager->messageWidth, geoManager->messageHeight));
-    if (config.messageFadeTime) {
+    if (FadeTime) {
         pixmap->SetAlpha(0);
         pixmapBackground->SetAlpha(0);
     }
-    FrameTime = config.messageFrameTime;
-    FadeTime = config.messageFadeTime;
 }
 
 cNopacityDisplayMessage::~cNopacityDisplayMessage() {
@@ -28,36 +27,56 @@ cNopacityDisplayMessage::~cNopacityDisplayMessage() {
 void cNopacityDisplayMessage::SetMessage(eMessageType Type, const char *Text) {
     tColor col = Theme.Color(clrMessageStatus);
     tColor colFont = Theme.Color(clrMessageFontStatus);
+    eSkinElementType seType = seMessageStatus;
     switch (Type) {
-        case mtStatus: 
+        case mtStatus:
             col = Theme.Color(clrMessageStatus);
             colFont = Theme.Color(clrMessageFontStatus);
+            seType = seMessageStatus;
             break;
         case mtInfo:
             col = Theme.Color(clrMessageInfo);
             colFont = Theme.Color(clrMessageFontInfo);
+            seType = seMessageInfo;
             break;
         case mtWarning:
             col = Theme.Color(clrMessageWarning);
             colFont = Theme.Color(clrMessageFontWarning);
+            seType = seMessageWarning;
             break;
         case mtError:
             col = Theme.Color(clrMessageError);
             colFont = Theme.Color(clrMessageFontError);
+            seType = seMessageError;
             break;
     }
-    pixmapBackground->Fill(clrBlack);
-    pixmap->Fill(col);
-    if (config.doBlending) {
-        cImage imgBack = imgCache->GetBackground(Theme.Color(clrMessageBlend), col, geoManager->messageWidth-2, geoManager->messageHeight-2, true);
-        pixmap->DrawImage(cPoint(1, 1), imgBack);
-    }
-    if (config.roundedCorners) {
-        DrawRoundedCornersWithBorder(pixmap, col, config.cornerRadius, geoManager->messageWidth, geoManager->messageHeight, pixmapBackground);
+    
+    pixmapBackground->Fill(clrTransparent);
+    pixmap->Fill(clrTransparent);
+    if (config.GetValue("displayType") == dtGraphical) {
+        cImage *imgBack = imgCache->GetSkinElement(seType);
+        if (imgBack) {
+            pixmap->DrawImage(cPoint(0, 0), *imgBack);
+        }
+    } else {
+        if (config.GetValue("displayType") == dtBlending) {
+            cImage imgBack = imgCache->GetBackground(Theme.Color(clrMessageBlend), col, geoManager->messageWidth-2, geoManager->messageHeight-2, true);
+            pixmap->DrawImage(cPoint(1, 1), imgBack);
+        } else {
+            pixmap->Fill(clrTransparent);
+        }
+        if (config.GetValue("roundedCorners")) {
+            DrawRoundedCornersWithBorder(pixmap, col, config.GetValue("cornerRadius"), geoManager->messageWidth, geoManager->messageHeight, pixmapBackground);
+        }
     }
     int textWidth = fontManager->messageText->Width(Text);
-    pixmap->DrawText(cPoint((geoManager->messageWidth - textWidth) / 2, (geoManager->messageHeight - fontManager->messageText->Height()) / 2), Text, colFont, (config.doBlending)?clrTransparent:col, fontManager->messageText);
-    if (config.messageFadeTime)
+    pixmap->DrawText(cPoint((geoManager->messageWidth - textWidth) / 2, 
+                            (geoManager->messageHeight - fontManager->messageText->Height()) / 2), 
+                            Text, 
+                            colFont, 
+                            (config.GetValue("displayType") != dtFlat)?clrTransparent:col, 
+                            fontManager->messageText);
+    if (FadeTime)
         Start();
 }
 

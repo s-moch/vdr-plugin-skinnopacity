@@ -15,7 +15,7 @@
 #endif
 
 
-static const char *VERSION        = "0.1.4 dev";
+static const char *VERSION        = "0.9.0";
 static const char *DESCRIPTION    = "'nOpacity' Skin";
 static const char *MAINMENUENTRY  = "nOpacity";
 
@@ -144,37 +144,10 @@ bool cPluginNopacity::Service(const char *Id, void *Data) {
 }
 
 const char **cPluginNopacity::SVDRPHelpPages(void) {
-    static const char *HelpPages[] = {
-        "NEXTMESG\n"
-	"    Switches to next message in running RSS Feed\n",
-	"NEXTFEED\n"
-	"    Switches to next defined RSS Feed in Setup Menu\n",
-	"STANDALONEFEED\n"
-	"    Switches standalone RSS Feed on and off\n",
-	NULL
-    };
-    return HelpPages;
-
+    return NULL;
 }
 
 cString cPluginNopacity::SVDRPCommand(const char *Command, const char *Option, int &ReplyCode) {
-    if (!strcasecmp(Command, "NEXTMESG")) {
-        ReplyCode = 250;
-        nopacity->svdrpSwitchMessage();
-        return "Switched to next RSS Message";
-    } else if (!strcasecmp(Command, "NEXTFEED")) {
-        ReplyCode = 250;
-        nopacity->svdrpSwitchRss();
-        return "Switched to next RSS Feed";
-    } else if (!strcasecmp(Command, "STANDALONEFEED")) {
-        ReplyCode = 250;
-        bool onOff = nopacity->svdrpToggleStandaloneRss();
-        if (onOff)
-            return "Displaying standalone RSS Feed";
-        else
-            return "Closing standalone RSS Feed";
-    }
-    ReplyCode = 502;
     return NULL;
 }
 

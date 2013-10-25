@@ -86,8 +86,8 @@ void cNopacityMenuDetailView::DrawPoster(void) {
     int posterWidthOrig;
     int posterHeightOrig;
     if (hasManualPoster) {
-        posterWidthOrig = config.posterWidth;
-        posterHeightOrig = config.posterHeight;
+        posterWidthOrig = config.GetValue("posterWidth");
+        posterHeightOrig = config.GetValue("posterHeight");
     } else {
         if (mediaInfo.posters.size() < 1)
             return;
@@ -297,10 +297,10 @@ cNopacityMenuDetailEventView::~cNopacityMenuDetailEventView(void) {
 }
 
 void cNopacityMenuDetailEventView::SetFonts(void) {
-    font = cFont::CreateFont(config.fontName, contentHeight / 25 + 3 + config.fontDetailView);
-    fontSmall = cFont::CreateFont(config.fontName, contentHeight / 30 + config.fontDetailViewSmall);
-    fontHeaderLarge = cFont::CreateFont(config.fontName, headerHeight / 4 + config.fontDetailViewHeaderLarge);
-    fontHeader = cFont::CreateFont(config.fontName, headerHeight / 6 + config.fontDetailViewHeader);
+    font = cFont::CreateFont(config.fontName, contentHeight / 25 + 3 + config.GetValue("fontDetailView"));
+    fontSmall = cFont::CreateFont(config.fontName, contentHeight / 30 + config.GetValue("fontDetailViewSmall"));
+    fontHeaderLarge = cFont::CreateFont(config.fontName, headerHeight / 4 + config.GetValue("fontDetailViewHeaderLarge"));
+    fontHeader = cFont::CreateFont(config.fontName, headerHeight / 6 + config.GetValue("fontDetailViewHeader"));
 }
 
 void cNopacityMenuDetailEventView::SetContent(void) {
@@ -322,7 +322,7 @@ void cNopacityMenuDetailEventView::SetContent(void) {
             }
         }
         epgText.Set(event->Description(), font, contentWidth - 2 * border);
-        if (config.displayRerunsDetailEPGView) {
+        if (config.GetValue("displayRerunsDetailEPGView")) {
             LoadReruns();
         }
     }
@@ -339,7 +339,7 @@ void cNopacityMenuDetailEventView::SetContentHeight(void) {
     int heightEPG = (epgText.Lines()+1) * lineHeight;
     //Height of rerun information
     int heightReruns = 0;
-    if (config.displayRerunsDetailEPGView) {
+    if (config.GetValue("displayRerunsDetailEPGView")) {
         heightReruns = reruns.Lines() * lineHeight;
     }
     //Height of actor pictures
@@ -354,7 +354,7 @@ void cNopacityMenuDetailEventView::SetContentHeight(void) {
     }
     //Height of EPG Pictures
     int heightEPGPics = 0;
-    if ((config.displayAdditionalEPGPictures == 1) || ((config.displayAdditionalEPGPictures == 2) && !hasAdditionalMedia)) {
+    if ((config.GetValue("displayAdditionalEPGPictures") == 1) || ((config.GetValue("displayAdditionalEPGPictures") == 2) && !hasAdditionalMedia)) {
         heightEPGPics = HeightEPGPics();
     }
     
@@ -379,7 +379,7 @@ void cNopacityMenuDetailEventView::CreatePixmaps(void) {
     pixmapHeader =  osd->CreatePixmap(3, cRect(x, top, width, headerHeight));
     pixmapContent = osd->CreatePixmap(3, cRect(x + contentX, top + headerHeight, contentWidth, contentHeight),
                                       cRect(0, 0, contentWidth, contentDrawPortHeight));
-    pixmapLogo =    osd->CreatePixmap(4, cRect(x + border, top + max((headerHeight-config.logoHeight)/2,1), config.logoWidth, config.logoHeight));
+    pixmapLogo =    osd->CreatePixmap(4, cRect(x + border, top + max((headerHeight-config.GetValue("logoHeightOriginal"))/2,1), config.GetValue("logoWidthOriginal"), config.GetValue("logoHeightOriginal")));
 
     pixmapHeader->Fill(clrTransparent);
     pixmapHeader->DrawRectangle(cRect(0, headerHeight - 2, width, 2), Theme.Color(clrMenuBorder));
@@ -397,7 +397,7 @@ void cNopacityMenuDetailEventView::Render(void) {
     //draw EPG text
     DrawTextWrapper(&epgText, yEPGText);
     //draw reruns
-    if (config.displayRerunsDetailEPGView) {
+    if (config.GetValue("displayRerunsDetailEPGView")) {
         DrawTextWrapper(&reruns, yAddInf);
     }
 }
@@ -423,7 +423,7 @@ void cNopacityMenuDetailEventView::Action(void) {
         osd->Flush();
     }
     //draw additional EPG Pictures
-    if (((config.displayAdditionalEPGPictures == 1) || ((config.displayAdditionalEPGPictures == 2) && !hasAdditionalMedia)) && Running()) {
+    if (((config.GetValue("displayAdditionalEPGPictures") == 1) || ((config.GetValue("displayAdditionalEPGPictures") == 2) && !hasAdditionalMedia)) && Running()) {
         DrawEPGPictures(yEPGPics);
         osd->Flush();
     }
@@ -431,7 +431,7 @@ void cNopacityMenuDetailEventView::Action(void) {
 
 int cNopacityMenuDetailEventView::HeightEPGPics(void) {
     int numPicsAvailable = 0;
-    for (int i=1; i <= config.numAdditionalEPGPictures; i++) {
+    for (int i=1; i <= config.GetValue("numAdditionalEPGPictures"); i++) {
         cString epgimage;
         if (config.epgImagePathSet) {
             epgimage = cString::sprintf("%s%d_%d.jpg", *config.epgImagePath, event->EventID(), i);
@@ -447,33 +447,33 @@ int cNopacityMenuDetailEventView::HeightEPGPics(void) {
         }
     }
     numEPGPics = numPicsAvailable;
-    int picsPerLine = contentWidth / (config.epgImageWidthLarge + border);
+    int picsPerLine = contentWidth / (config.GetValue("epgImageWidthLarge") + border);
     int picLines = numPicsAvailable / picsPerLine;
     if (numPicsAvailable%picsPerLine != 0)
         picLines++;
-    return picLines * (config.epgImageHeightLarge + border) + 2*border;
+    return picLines * (config.GetValue("epgImageHeightLarge") + border) + 2*border;
 }
 
 void cNopacityMenuDetailEventView::DrawHeader(void) {
-    int logoWidth = config.logoWidth;
+    int logoWidth = config.GetValue("logoWidthOriginal");
     cChannel *channel = Channels.GetByChannelID(event->ChannelID(), true);
     if (channel) {
         cImage *logo = imgCache->GetLogo(ctLogo, channel);
         if (logo) {
-            pixmapLogo->DrawImage(cPoint(0, max((headerHeight - config.logoHeight - border)/2, 0)), *logo);
+            pixmapLogo->DrawImage(cPoint(0, max((headerHeight - config.GetValue("logoHeightOriginal") - border)/2, 0)), *logo);
         }
     }
     int widthTextHeader = width - 4 * border - logoWidth;
     cImageLoader imgLoader;
     if (imgLoader.LoadEPGImage(event->EventID())) {
-        pixmapHeader->DrawImage(cPoint(width - config.epgImageWidth - border, (headerHeight-config.epgImageHeight)/2), imgLoader.GetImage());
-        if (config.roundedCorners) {
-            int radius = config.cornerRadius;
-            int x = width - config.epgImageWidth - border;
-            int y = (headerHeight-config.epgImageHeight)/2;
-            DrawRoundedCorners(pixmapHeader, radius, x, y, config.epgImageWidth, config.epgImageHeight);
+        pixmapHeader->DrawImage(cPoint(width - config.GetValue("epgImageWidth") - border, (headerHeight-config.GetValue("epgImageHeight"))/2), imgLoader.GetImage());
+        if (config.GetValue("roundedCorners")) {
+            int radius = config.GetValue("cornerRadius");
+            int x = width - config.GetValue("epgImageWidth") - border;
+            int y = (headerHeight-config.GetValue("epgImageHeight"))/2;
+            DrawRoundedCorners(pixmapHeader, radius, x, y, config.GetValue("epgImageWidth"), config.GetValue("epgImageHeight"));
         }
-        widthTextHeader -= config.epgImageWidth;
+        widthTextHeader -= config.GetValue("epgImageWidth");
     }
     int lineHeight = fontHeaderLarge->Height();
 
@@ -513,8 +513,8 @@ void cNopacityMenuDetailEventView::LoadReruns(void) {
         std::stringstream sstrReruns;
         Epgsearch_searchresults_v1_0 data;
         std::string strQuery = event->Title();
-        if (config.useSubtitleRerun > 0) {
-            if (config.useSubtitleRerun == 2 || !isempty(event->ShortText()))
+        if (config.GetValue("useSubtitleRerun") > 0) {
+            if (config.GetValue("useSubtitleRerun") == 2 || !isempty(event->ShortText()))
                 strQuery += "~";
             if (!isempty(event->ShortText()))
                 strQuery += event->ShortText();
@@ -533,7 +533,7 @@ void cNopacityMenuDetailEventView::LoadReruns(void) {
             if (list && (list->Count() > 1)) {
                 sstrReruns << tr("RERUNS OF THIS SHOW") << ':' << std::endl;
                 int i = 0;
-                for (Epgsearch_searchresults_v1_0::cServiceSearchResult *r = list->First(); r && i < config.numReruns; r = list->Next(r)) {
+                for (Epgsearch_searchresults_v1_0::cServiceSearchResult *r = list->First(); r && i < config.GetValue("numReruns"); r = list->Next(r)) {
                     if ((event->ChannelID() == r->event->ChannelID()) && (event->StartTime() == r->event->StartTime()))
                         continue;
                     i++;
@@ -558,7 +558,7 @@ void cNopacityMenuDetailEventView::LoadReruns(void) {
 }
 
 void cNopacityMenuDetailEventView::DrawEPGPictures(int height) {
-    int picsPerLine = contentWidth / (config.epgImageWidthLarge + border);
+    int picsPerLine = contentWidth / (config.GetValue("epgImageWidthLarge") + border);
     int currentX = border;
     int currentY = height + border;
     int currentPicsPerLine = 1;
@@ -567,16 +567,16 @@ void cNopacityMenuDetailEventView::DrawEPGPictures(int height) {
         cString epgimage = cString::sprintf("%d_%d", event->EventID(), i);
         if (imgLoader.LoadAdditionalEPGImage(epgimage)) {
             pixmapContent->DrawImage(cPoint(currentX, currentY), imgLoader.GetImage());
-            if (config.roundedCorners) {
-                int radius = config.cornerRadius;
-                DrawRoundedCorners(pixmapContent, radius, currentX, currentY, config.epgImageWidthLarge, config.epgImageHeightLarge);
+            if (config.GetValue("roundedCorners")) {
+                int radius = config.GetValue("cornerRadius");
+                DrawRoundedCorners(pixmapContent, radius, currentX, currentY, config.GetValue("epgImageWidthLarge"), config.GetValue("epgImageHeightLarge"));
             }
             if (currentPicsPerLine < picsPerLine) {
-                currentX += config.epgImageWidthLarge + border;
+                currentX += config.GetValue("epgImageWidthLarge") + border;
                 currentPicsPerLine++;
             } else {
                 currentX = border;
-                currentY += config.epgImageHeightLarge + border;
+                currentY += config.GetValue("epgImageHeightLarge") + border;
                 currentPicsPerLine = 1;
             }
         } else {
@@ -607,10 +607,10 @@ cNopacityMenuDetailRecordingView::~cNopacityMenuDetailRecordingView(void) {
 }
 
 void cNopacityMenuDetailRecordingView::SetFonts(void) {
-    font = cFont::CreateFont(config.fontName, contentHeight / 25 + config.fontDetailView);
-    fontSmall = cFont::CreateFont(config.fontName, contentHeight / 30 + config.fontDetailViewSmall);
-    fontHeaderLarge = cFont::CreateFont(config.fontName, headerHeight / 4 + config.fontDetailViewHeaderLarge);
-    fontHeader = cFont::CreateFont(config.fontName, headerHeight / 6 + config.fontDetailViewHeader);
+    font = cFont::CreateFont(config.fontName, contentHeight / 25 + config.GetValue("fontDetailView"));
+    fontSmall = cFont::CreateFont(config.fontName, contentHeight / 30 + config.GetValue("fontDetailViewSmall"));
+    fontHeaderLarge = cFont::CreateFont(config.fontName, headerHeight / 4 + config.GetValue("fontDetailViewHeaderLarge"));
+    fontHeader = cFont::CreateFont(config.fontName, headerHeight / 6 + config.GetValue("fontDetailViewHeader"));
 }
 
 void cNopacityMenuDetailRecordingView::SetContent(void) {
@@ -669,7 +669,7 @@ void cNopacityMenuDetailRecordingView::SetContentHeight(void) {
     }
     //Height of EPG Pictures
     int heightEPGPics = 0;
-    if ((config.displayAdditionalRecEPGPictures == 1) || ((config.displayAdditionalRecEPGPictures == 2) && !hasAdditionalMedia)) {
+    if ((config.GetValue("displayAdditionalRecEPGPictures") == 1) || ((config.GetValue("displayAdditionalRecEPGPictures") == 2) && !hasAdditionalMedia)) {
         if (LoadEPGPics())
             heightEPGPics = HeightEPGPics();
     }
@@ -713,7 +713,7 @@ void cNopacityMenuDetailRecordingView::Render(void) {
     //draw Recording EPG text
     DrawTextWrapper(&recInfo, yEPGText);
     //draw additional Info
-    if (config.displayRerunsDetailEPGView) {
+    if (config.GetValue("displayRerunsDetailEPGView")) {
         DrawTextWrapper(&additionalInfo, yAddInf);
     }
 }
@@ -739,7 +739,7 @@ void cNopacityMenuDetailRecordingView::Action(void) {
         osd->Flush();
     }
     //draw additional EPG Pictures
-    if (((config.displayAdditionalRecEPGPictures == 1) || ((config.displayAdditionalRecEPGPictures == 2) && !hasAdditionalMedia)) && Running()) {
+    if (((config.GetValue("displayAdditionalRecEPGPictures") == 1) || ((config.GetValue("displayAdditionalRecEPGPictures") == 2) && !hasAdditionalMedia)) && Running()) {
         DrawEPGPictures(yEPGPics);
         osd->Flush();
     }
@@ -762,7 +762,7 @@ bool cNopacityMenuDetailRecordingView::LoadEPGPics(void) {
                     picsFound++;
                 }
             }
-            if (picsFound >= config.numAdditionalRecEPGPictures)
+            if (picsFound >= config.GetValue("numAdditionalRecEPGPictures"))
                 break;
         }
         closedir(dirHandle);
@@ -774,15 +774,15 @@ bool cNopacityMenuDetailRecordingView::LoadEPGPics(void) {
 
 int cNopacityMenuDetailRecordingView::HeightEPGPics(void) {
     int numPicsAvailable = epgpics.size();
-    int picsPerLine = contentWidth / (config.epgImageWidthLarge + border);
+    int picsPerLine = contentWidth / (config.GetValue("epgImageWidthLarge") + border);
     int picLines = numPicsAvailable / picsPerLine;
     if (numPicsAvailable%picsPerLine != 0)
         picLines++;
-    return picLines * (config.epgImageHeightLarge + border) + 2*border;
+    return picLines * (config.GetValue("epgImageHeightLarge") + border) + 2*border;
 }
 
 void cNopacityMenuDetailRecordingView::DrawEPGPictures(int height) {
-    int picsPerLine = contentWidth / (config.epgImageWidthLarge + border);
+    int picsPerLine = contentWidth / (config.GetValue("epgImageWidthLarge") + border);
     int currentX = border;
     int currentY = height + border;
     int currentPicsPerLine = 1;
@@ -792,16 +792,16 @@ void cNopacityMenuDetailRecordingView::DrawEPGPictures(int height) {
         cString epgimage = epgpics.at(i).c_str();
         if (imgLoader.LoadAdditionalRecordingImage(path, epgimage)) {
             pixmapContent->DrawImage(cPoint(currentX, currentY), imgLoader.GetImage());
-            if (config.roundedCorners) {
-                int radius = config.cornerRadius;
-                DrawRoundedCorners(pixmapContent, radius, currentX, currentY, config.epgImageWidthLarge, config.epgImageHeightLarge);
+            if (config.GetValue("roundedCorners")) {
+                int radius = config.GetValue("cornerRadius");
+                DrawRoundedCorners(pixmapContent, radius, currentX, currentY, config.GetValue("epgImageWidthLarge"), config.GetValue("epgImageHeightLarge"));
             }
             if (currentPicsPerLine < picsPerLine) {
-                currentX += config.epgImageWidthLarge + border;
+                currentX += config.GetValue("epgImageWidthLarge") + border;
                 currentPicsPerLine++;
             } else {
                 currentX = border;
-                currentY += config.epgImageHeightLarge + border;
+                currentY += config.GetValue("epgImageHeightLarge") + border;
                 currentPicsPerLine = 1;
             }
         } else {
@@ -813,15 +813,15 @@ void cNopacityMenuDetailRecordingView::DrawEPGPictures(int height) {
 void cNopacityMenuDetailRecordingView::DrawHeader(void) {
     cImageLoader imgLoader;
     int widthTextHeader = width - 2 * border;
-    if ((config.displayAdditionalRecEPGPictures == 1) && imgLoader.LoadRecordingImage(recording->FileName())) {
-        pixmapHeader->DrawImage(cPoint(width - config.epgImageWidth - border, (headerHeight-config.epgImageHeight)/2), imgLoader.GetImage());
-        if (config.roundedCorners) {
-            int radius = config.cornerRadius;
-            int x = width - config.epgImageWidth - border;
-            int y = (headerHeight-config.epgImageHeight)/2;
-            DrawRoundedCorners(pixmapHeader, radius, x, y, config.epgImageWidth, config.epgImageHeight);
+    if ((config.GetValue("displayAdditionalRecEPGPictures") == 1) && imgLoader.LoadRecordingImage(recording->FileName())) {
+        pixmapHeader->DrawImage(cPoint(width - config.GetValue("epgImageWidth") - border, (headerHeight-config.GetValue("epgImageHeight"))/2), imgLoader.GetImage());
+        if (config.GetValue("roundedCorners")) {
+            int radius = config.GetValue("cornerRadius");
+            int x = width - config.GetValue("epgImageWidth") - border;
+            int y = (headerHeight-config.GetValue("epgImageHeight"))/2;
+            DrawRoundedCorners(pixmapHeader, radius, x, y, config.GetValue("epgImageWidth"), config.GetValue("epgImageHeight"));
         }
-        widthTextHeader -= config.epgImageWidth;
+        widthTextHeader -= config.GetValue("epgImageWidth");
     }
     int lineHeight = fontHeaderLarge->Height();
     int recDuration = recording->LengthInSeconds();
@@ -1025,7 +1025,7 @@ cNopacityMenuDetailTextView::~cNopacityMenuDetailTextView(void) {
 }
 
 void cNopacityMenuDetailTextView::SetFonts(void) {
-    font = cFont::CreateFont(config.fontName, contentHeight / 25 + config.fontDetailView);
+    font = cFont::CreateFont(config.fontName, contentHeight / 25 + config.GetValue("fontDetailView"));
     fontSmall = NULL;
     fontHeaderLarge = NULL;
     fontHeader = NULL;

@@ -107,7 +107,7 @@ void cNopacityTimer::CalculateHeight(int space) {
         height = numLines * lineHeight + 2*space;    
     } else {
         int lineHeight = font->Height();
-        height = config.timersLogoHeight + (numLines +1)* lineHeight + 2*space;    
+        height = config.GetValue("timersLogoHeight") + (numLines +1)* lineHeight + 2*space;    
     }
 }
 
@@ -124,7 +124,7 @@ void cNopacityTimer::Render(void) {
     if (isTimerConflict) {
         pixmapLogo->Fill(clrTransparent);
         pixmap->Fill(Theme.Color(clrDiskAlert));
-        if (config.doBlending) {
+        if (config.GetValue("displayType") == dtBlending) {
             cImage imgBack = imgCache->GetBackground(Theme.Color(clrDiskAlert), Theme.Color(clrMenuItemHigh), width-2, height-2);
             pixmap->DrawImage(cPoint(1,1), imgBack);
         } else {
@@ -144,7 +144,7 @@ void cNopacityTimer::Render(void) {
         DrawLogo();
         if (timer->Recording()) {
             pixmap->Fill(Theme.Color(clrDiskAlert));
-            if (config.doBlending) {
+            if (config.GetValue("displayType") == dtBlending) {
                 cImage imgBack = imgCache->GetBackground(Theme.Color(clrDiskAlert), Theme.Color(clrMenuItemHigh), width-2, height-2);
                 pixmap->DrawImage(cPoint(1,1), imgBack);
             } else {
@@ -152,7 +152,7 @@ void cNopacityTimer::Render(void) {
             } 
         } else {
             pixmap->Fill(Theme.Color(clrMenuBorder));
-            if (config.doBlending) {
+            if (config.GetValue("displayType") == dtBlending) {
                 cImage imgBack = imgCache->GetBackground(Theme.Color(clrTimersBack), Theme.Color(clrTimersBackBlend), width-2, height-2);
                 pixmap->DrawImage(cPoint(1,1), imgBack);
             } else {
@@ -160,10 +160,10 @@ void cNopacityTimer::Render(void) {
             } 
         }
 
-        pixmapText->DrawText(cPoint(5, config.timersLogoHeight), *Date, Theme.Color(clrMenuFontTimersHeader), clrTransparent, fontLarge);
+        pixmapText->DrawText(cPoint(5, config.GetValue("timersLogoHeight")), *Date, Theme.Color(clrMenuFontTimersHeader), clrTransparent, fontLarge);
         
         int lineHeight = font->Height();
-        int yStart = config.timersLogoHeight + lineHeight + 3;
+        int yStart = config.GetValue("timersLogoHeight") + lineHeight + 3;
         int numLines = showName.Lines();
         for (int line=0; line<numLines; line++)
             pixmapText->DrawText(cPoint(5, yStart+line*(lineHeight-2)), showName.GetLine(line), Theme.Color(clrMenuFontTimers), clrTransparent, font);
@@ -172,9 +172,9 @@ void cNopacityTimer::Render(void) {
 
 void cNopacityTimer::DrawLogo(void) {
     pixmapLogo->Fill(clrTransparent);
-    int showTimerLogo = (config.showTimers < 2) ? 1 : 0;
-    int logoWidth = config.timersLogoWidth;
-    int logoHeight = config.timersLogoHeight;
+    int showTimerLogo = (config.GetValue("showTimers") < 2) ? 1 : 0;
+    int logoWidth = config.GetValue("timersLogoWidth");
+    int logoHeight = config.GetValue("timersLogoHeight");
     const cChannel *Channel = timer->Channel();
     if (Channel) {
         bool logoFound = false;

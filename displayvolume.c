@@ -1,40 +1,55 @@
 #include "symbols/mute.xpm"
 #include "displayvolume.h"
 
-cNopacityDisplayVolume::cNopacityDisplayVolume(void) {
-    config.setDynamicValues();
+cNopacityDisplayVolume::cNopacityDisplayVolume(cImageCache *imgCache) {
+    this->imgCache = imgCache;
     initial = true;
     muted = false;
-    FrameTime = config.volumeFrameTime; 
-    FadeTime = config.volumeFadeTime;
+    FadeTime = config.GetValue("volumeFadeTime");
+    FrameTime = FadeTime / 10;
 
-    int top = (geoManager->osdHeight - geoManager->volumeHeight) - config.volumeBorderBottom;
+    int top = (geoManager->osdHeight - geoManager->volumeHeight) - config.GetValue("volumeBorderBottom");
     int left = (geoManager->osdWidth - geoManager->volumeWidth) / 2;
     osd = CreateOsd(left, top, geoManager->volumeWidth, geoManager->volumeHeight);
 
-    pixmapBackgroundTop = osd->CreatePixmap(1, cRect(0, 0, geoManager->volumeWidth, geoManager->volumeHeight/2));
-    pixmapBackgroundBottom = osd->CreatePixmap(1, cRect(0, geoManager->volumeHeight/2, geoManager->volumeWidth, geoManager->volumeHeight/2));
-    if (config.doBlending) {
-        DrawBlendedBackground(pixmapBackgroundTop, Theme.Color(clrChannelBackground), Theme.Color(clrChannelBackBlend), true);
-        DrawBlendedBackground(pixmapBackgroundBottom, Theme.Color(clrChannelBackground), Theme.Color(clrChannelBackBlend), false);
-    } else {
-        pixmapBackgroundTop->Fill(Theme.Color(clrChannelBackground));
-        pixmapBackgroundBottom->Fill(Theme.Color(clrChannelBackground));
-    }
-    int cornerSize = geoManager->volumeHeight/4;
-    if (cornerSize > 2) {
-        pixmapBackgroundTop->DrawEllipse(cRect(0, 0, cornerSize, cornerSize), clrTransparent, -2);
-        pixmapBackgroundTop->DrawEllipse(cRect(geoManager->volumeWidth - cornerSize, 0, cornerSize, cornerSize), clrTransparent, -1);
-        pixmapBackgroundBottom->DrawEllipse(cRect(0, cornerSize, cornerSize, cornerSize), clrTransparent, -3);
-        pixmapBackgroundBottom->DrawEllipse(cRect(geoManager->volumeWidth - cornerSize, cornerSize, cornerSize, cornerSize), clrTransparent, -4);
-    }
+    pixmapBackground = osd->CreatePixmap(1, cRect(0, 0, geoManager->volumeWidth, geoManager->volumeHeight));
     
+    if (config.GetValue("displayType") == dtGraphical) {
+        cImage *imgBack = imgCache->GetSkinElement(seVolumeBackground);
+        if (imgBack) {
+            pixmapBackground->DrawImage(cPoint(0, 0), *imgBack);
+        }
+    } else {
+        pixmapBackground->Fill(Theme.Color(clrChannelBackground));
+        if (config.GetValue("displayType") == dtBlending) {
+            DrawBlendedBackground(pixmapBackground,
+                                  0,
+                                  geoManager->volumeWidth,
+                                  Theme.Color(clrChannelBackground), 
+                                  Theme.Color(clrChannelBackBlend), 
+                                  true);
+            DrawBlendedBackground(pixmapBackground, 
+                                  0,
+                                  geoManager->volumeWidth,
+                                  Theme.Color(clrChannelBackground), 
+                                  Theme.Color(clrChannelBackBlend), 
+                                  false);
+        }
+        int cornerRadius = geoManager->volumeHeight/4;
+        if (cornerRadius > 2) {
+            DrawRoundedCorners(pixmapBackground,
+                               cornerRadius,
+                               0,
+                               0,
+                               geoManager->volumeWidth,
+                               geoManager->volumeHeight);
+        }
+    }
     pixmapLabel = osd->CreatePixmap(2, cRect(0, 5, geoManager->volumeWidth, geoManager->volumeLabelHeight));
     pixmapProgressBar = osd->CreatePixmap(2, cRect((geoManager->volumeWidth - geoManager->volumeProgressBarWidth) / 2, (geoManager->volumeHeight - geoManager->volumeProgressBarHeight)*2/3, geoManager->volumeProgressBarWidth, geoManager->volumeProgressBarHeight));
 
-    if (config.volumeFadeTime) {
-        pixmapBackgroundTop->SetAlpha(0);
-        pixmapBackgroundBottom->SetAlpha(0);
+    if (FadeTime) {
+        pixmapBackground->SetAlpha(0);
         pixmapProgressBar->SetAlpha(0);
         pixmapLabel->SetAlpha(0);
     }
@@ -44,8 +59,7 @@ cNopacityDisplayVolume::~cNopacityDisplayVolume() {
     Cancel(-1);
     while (Active())
         cCondWait::SleepMs(10);
-    osd->DestroyPixmap(pixmapBackgroundTop);
-    osd->DestroyPixmap(pixmapBackgroundBottom);
+    osd->DestroyPixmap(pixmapBackground);
     osd->DestroyPixmap(pixmapLabel);
     osd->DestroyPixmap(pixmapProgressBar);
     delete osd;
@@ -114,7 +128,7 @@ tColor cNopacityDisplayVolume::DrawProgressbarBackground(int left, int top, int 
 
 void cNopacityDisplayVolume::Flush(void) {
     if (initial)
-        if (config.volumeFadeTime)
+        if (FadeTime)
             Start();
     initial = false;
     osd->Flush();
@@ -127,8 +141,7 @@ void cNopacityDisplayVolume::Action(void) {
         cPixmap::Lock();
         double t = min(double(Now - Start) / FadeTime, 1.0);
         int Alpha = t * ALPHA_OPAQUE;
-        pixmapBackgroundTop->SetAlpha(Alpha);
-        pixmapBackgroundBottom->SetAlpha(Alpha);
+        pixmapBackground->SetAlpha(Alpha);
         pixmapProgressBar->SetAlpha(Alpha);
         pixmapLabel->SetAlpha(Alpha);
         cPixmap::Unlock();

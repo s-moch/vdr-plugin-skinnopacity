@@ -10,10 +10,9 @@ namespace PluginRemoteTimers {
 
 cNopacityDisplayMenu::cNopacityDisplayMenu(cImageCache *imgCache) {
     this->imgCache = imgCache;
-    config.setDynamicValues();
     menuCategoryLast = mcUndefined;
-    FrameTime = config.menuFrameTime; 
-    FadeTime = config.menuFadeTime;
+    FadeTime = config.GetValue("menuFadeTime");
+    FrameTime = FadeTime / 10; 
     initial = true;
     initMenu = true;
     diskUsageDrawn = false;
@@ -32,26 +31,12 @@ cNopacityDisplayMenu::cNopacityDisplayMenu(cImageCache *imgCache) {
     menuView->DrawHeaderLogo();
     menuView->DrawBorderDecoration();
     currentFeed = 0;
-    if (config.displayRSSFeed) {
-        menuView->DrawRssFeed(config.rssFeeds[config.rssFeed[currentFeed]].name);
-        rssReader = new cRssReader(osd, fontManager->menuRssFeed, menuView->GetRssFeedPosition(), menuView->GetRssFeedSize());
-        rssReader->SetFeed(config.rssFeeds[config.rssFeed[currentFeed]].url);
-        rssReader->Start();
-    } else
-        rssReader = NULL;
 }
 
 cNopacityDisplayMenu::~cNopacityDisplayMenu() {
     Cancel(-1);
     while (Active())
         cCondWait::SleepMs(10);
-    if (rssReader) {
-        rssReader->Stop();
-        while (rssReader->Active())
-            cCondWait::SleepMs(10);
-        delete rssReader;
-        rssReader = NULL;
-    }
     delete menuView;
     menuItems.Clear();
     if (detailView) {
@@ -64,7 +49,7 @@ cNopacityDisplayMenu::~cNopacityDisplayMenu() {
 }
 
 void cNopacityDisplayMenu::DrawDisk(void) {
-    if (!config.narrowMainMenu)
+    if (!config.GetValue("narrowMainMenu"))
         return;
     if (initial || ((menuCategoryLast!=mcMain)&&(MenuCategory()==mcMain)&&!diskUsageDrawn)) {
         if (cVideoDiskUsage::HasChanged(lastDiskUsageState)) {
@@ -100,7 +85,7 @@ int cNopacityDisplayMenu::CheckTimerConflict(bool timersChanged) {
 }
 
 void cNopacityDisplayMenu::DrawTimers(bool timersChanged, int numConflicts) {
-    if (!config.narrowMainMenu)
+    if (!config.GetValue("narrowMainMenu"))
         return;
     int maxTimersHeight = menuView->GetTimersMaxHeight();
     if (initial || ((menuCategoryLast!=mcMain)&&(MenuCategory()==mcMain)&&!timersDrawn)) {
@@ -146,7 +131,7 @@ void cNopacityDisplayMenu::DrawTimers(bool timersChanged, int numConflicts) {
                         if (currentHeight < maxTimersHeight) {
                             timers.Add(t);
                         numTimersDisplayed++;
-                        if (numTimersDisplayed == config.numberTimers)
+                        if (numTimersDisplayed == config.GetValue("numberTimers"))
                             break;
                         } else {
                             delete t;
@@ -178,45 +163,45 @@ int cNopacityDisplayMenu::MaxItems(void) {
     int maxItems = 0;
     switch (MenuCategory()) {
         case mcMain:
-            if (config.narrowMainMenu)
+            if (config.GetValue("narrowMainMenu"))
                 maxItems = menuView->GetMaxItems(MenuCategory());
             else
-                maxItems = config.numDefaultMenuItems;
+                maxItems = config.GetValue("numDefaultMenuItems");
             break;
         case mcSetup:
-            if (config.narrowSetupMenu)
+            if (config.GetValue("narrowSetupMenu"))
                 maxItems = menuView->GetMaxItems(MenuCategory());
             else
-                maxItems = config.numDefaultMenuItems;
+                maxItems = config.GetValue("numDefaultMenuItems");
             break;
         case mcSchedule:
         case mcScheduleNow:
         case mcScheduleNext:
-            if (config.narrowScheduleMenu)
+            if (config.GetValue("narrowScheduleMenu"))
                 maxItems = menuView->GetMaxItems(MenuCategory());
             else
-                maxItems = config.numDefaultMenuItems;
+                maxItems = config.GetValue("numDefaultMenuItems");
             break;
         case mcChannel:
-            if (config.narrowChannelMenu)
+            if (config.GetValue("narrowChannelMenu"))
                 maxItems = menuView->GetMaxItems(MenuCategory());
             else
-                maxItems = config.numDefaultMenuItems;
+                maxItems = config.GetValue("numDefaultMenuItems");
             break;
         case mcTimer:
-            if (config.narrowTimerMenu)
+            if (config.GetValue("narrowTimerMenu"))
                 maxItems = menuView->GetMaxItems(MenuCategory());
             else
-                maxItems = config.numDefaultMenuItems;
+                maxItems = config.GetValue("numDefaultMenuItems");
             break;
         case mcRecording:
-            if (config.narrowRecordingMenu)
+            if (config.GetValue("narrowRecordingMenu"))
                 maxItems = menuView->GetMaxItems(MenuCategory());
             else
-                maxItems = config.numDefaultMenuItems;
+                maxItems = config.GetValue("numDefaultMenuItems");
             break;
         default:
-            maxItems = config.numDefaultMenuItems;      
+            maxItems = config.GetValue("numDefaultMenuItems");      
     }
     currentNumItems = maxItems;
     return maxItems;
@@ -267,11 +252,11 @@ void cNopacityDisplayMenu::SetMenuCategory(eMenuCategory MenuCategory) {
     menuCategoryLast = this->MenuCategory();
     cSkinDisplayMenu::SetMenuCategory(MenuCategory);
     if ((menuCategoryLast == mcMain) && (MenuCategory != mcMain)) {
-        if (config.showDiscUsage) {
+        if (config.GetValue("showDiscUsage")) {
             menuView->ShowDiskUsage(false);
             diskUsageDrawn = false;
         }
-        if (config.showTimers) {
+        if (config.GetValue("showTimers")) {
             for (cNopacityTimer *t = timers.First(); t; t = timers.Next(t)) {
                 t->Hide();
             } 
@@ -293,7 +278,7 @@ void cNopacityDisplayMenu::SetTitle(const char *Title) {
         cString title = Title;
         switch (MenuCategory()) {
             case mcMain:
-                switch (config.mainMenuTitleStyle) {
+                switch (config.GetValue("mainMenuTitleStyle")) {
                     case 0:
                         title = cString::sprintf("%s %s", Title, VDRVERSION);
                         break;
@@ -356,22 +341,22 @@ void cNopacityDisplayMenu::SetButtonPositions(void) {
 
 void cNopacityDisplayMenu::SetButtons(const char *Red, const char *Green, const char *Yellow, const char *Blue) {
     if (Red) {
-        menuView->DrawButton(Red, btButtonRed, Theme.Color(clrButtonRed), Theme.Color(clrButtonRedBorder), Theme.Color(clrButtonRedFont), positionButtons[0]);
+        menuView->DrawButton(Red, seButtonRed, Theme.Color(clrButtonRed), Theme.Color(clrButtonRedBorder), Theme.Color(clrButtonRedFont), positionButtons[0]);
     } else
         menuView->ClearButton(positionButtons[0]);
 
     if (Green) {
-        menuView->DrawButton(Green, btButtonGreen,Theme.Color(clrButtonGreen),  Theme.Color(clrButtonGreenBorder), Theme.Color(clrButtonGreenFont), positionButtons[1]);
+        menuView->DrawButton(Green, seButtonGreen,Theme.Color(clrButtonGreen),  Theme.Color(clrButtonGreenBorder), Theme.Color(clrButtonGreenFont), positionButtons[1]);
     } else
         menuView->ClearButton(positionButtons[1]);
 
     if (Yellow) {
-        menuView->DrawButton(Yellow, btButtonYellow, Theme.Color(clrButtonYellow), Theme.Color(clrButtonYellowBorder), Theme.Color(clrButtonYellowFont), positionButtons[2]);
+        menuView->DrawButton(Yellow, seButtonYellow, Theme.Color(clrButtonYellow), Theme.Color(clrButtonYellowBorder), Theme.Color(clrButtonYellowFont), positionButtons[2]);
     } else
         menuView->ClearButton(positionButtons[2]);
 
     if (Blue) {
-        menuView->DrawButton(Blue, btButtonBlue, Theme.Color(clrButtonBlue), Theme.Color(clrButtonBlueBorder), Theme.Color(clrButtonBlueFont), positionButtons[3]);
+        menuView->DrawButton(Blue, seButtonBlue, Theme.Color(clrButtonBlue), Theme.Color(clrButtonBlueBorder), Theme.Color(clrButtonBlueFont), positionButtons[3]);
     } else
         menuView->ClearButton(positionButtons[3]);
 }
@@ -386,7 +371,7 @@ void cNopacityDisplayMenu::SetMessage(eMessageType Type, const char *Text) {
 
 bool cNopacityDisplayMenu::SetItemEvent(const cEvent *Event, int Index, bool Current, 
                                         bool Selectable, const cChannel *Channel, bool WithDate, eTimerMatch TimerMatch) { 
-    if (!config.narrowScheduleMenu)
+    if (!config.GetValue("narrowScheduleMenu"))
         return false;
     if ((initMenu)&&(Index > menuItemIndexLast)) {
         cNopacityMenuItem *item = new cNopacityScheduleMenuItem(osd, imgCache, Event, Channel, TimerMatch, Selectable, MenuCategory(), &videoWindowRect);
@@ -403,6 +388,9 @@ bool cNopacityDisplayMenu::SetItemEvent(const cEvent *Event, int Index, bool Cur
         item->CreateText();
         int textWidth = item->CheckScrollable((Channel)?true:false);
         item->CreatePixmap();
+        if (config.GetValue("displayType") == dtGraphical) {
+            item->CreatePixmapForeground();
+        }
         item->CreatePixmapIcon();
         item->CreatePixmapTextScroller(textWidth);
         menuItems.Add(item);
@@ -424,7 +412,7 @@ bool cNopacityDisplayMenu::SetItemEvent(const cEvent *Event, int Index, bool Cur
 }
 
 bool cNopacityDisplayMenu::SetItemTimer(const cTimer *Timer, int Index, bool Current, bool Selectable) { 
-    if (!config.narrowTimerMenu)
+    if (!config.GetValue("narrowTimerMenu"))
         return false;
     if ((initMenu)&&(Index > menuItemIndexLast)) {
         cNopacityMenuItem *item = new cNopacityTimerMenuItem(osd, imgCache, Timer, Selectable);
@@ -438,6 +426,9 @@ bool cNopacityDisplayMenu::SetItemTimer(const cTimer *Timer, int Index, bool Cur
         item->CreateText();
         int textWidth = item->CheckScrollable(true);
         item->CreatePixmap();
+        if (config.GetValue("displayType") == dtGraphical) {
+            item->CreatePixmapForeground();
+        }
         item->CreatePixmapIcon();
         item->CreatePixmapTextScroller(textWidth);
         menuItems.Add(item);
@@ -459,7 +450,7 @@ bool cNopacityDisplayMenu::SetItemTimer(const cTimer *Timer, int Index, bool Cur
 }
 
 bool cNopacityDisplayMenu::SetItemChannel(const cChannel *Channel, int Index, bool Current, bool Selectable, bool WithProvider) { 
-    if (!config.narrowChannelMenu)
+    if (!config.GetValue("narrowChannelMenu"))
         return false;
     if ((initMenu)&&(Index > menuItemIndexLast)) {
         cNopacityMenuItem *item = new cNopacityChannelMenuItem(osd, imgCache, Channel, Selectable, &videoWindowRect);
@@ -477,6 +468,9 @@ bool cNopacityDisplayMenu::SetItemChannel(const cChannel *Channel, int Index, bo
         item->CreatePixmap();
         item->CreatePixmapIcon();
         item->CreatePixmapTextScroller(textWidth);
+        if (config.GetValue("displayType") == dtGraphical) {
+            item->CreatePixmapForeground();
+        }
         menuItems.Add(item);
         item->Render();
         menuItemIndexLast = Index;
@@ -497,7 +491,7 @@ bool cNopacityDisplayMenu::SetItemChannel(const cChannel *Channel, int Index, bo
 
 bool cNopacityDisplayMenu::SetItemRecording(const cRecording *Recording, int Index, bool Current, bool Selectable, 
                                             int Level, int Total, int New) {
-    if (!config.narrowRecordingMenu)
+    if (!config.GetValue("narrowRecordingMenu"))
         return false;
     if ((initMenu)&&(Index > menuItemIndexLast)) {
         bool isFolder = false;
@@ -520,6 +514,9 @@ bool cNopacityDisplayMenu::SetItemRecording(const cRecording *Recording, int Ind
         item->CreatePixmap();
         item->CreatePixmapIcon();
         item->CreatePixmapTextScroller(textWidth);
+        if (config.GetValue("displayType") == dtGraphical) {
+            item->CreatePixmapForeground();
+        }
         menuItems.Add(item);
         item->Render();
         menuItemIndexLast = Index;
@@ -540,8 +537,8 @@ bool cNopacityDisplayMenu::SetItemRecording(const cRecording *Recording, int Ind
 
 
 void cNopacityDisplayMenu::SetItem(const char *Text, int Index, bool Current, bool Selectable) {
-    //int start = cTimeMs::Now();
     bool hasIcons = false;
+    bool MainOrSetup = false;
     cString *strItems = new cString[MaxTabs];
     int *tabItems = new int[2*MaxTabs];
     for (int i=0; i<MaxTabs; i++) {
@@ -554,12 +551,13 @@ void cNopacityDisplayMenu::SetItem(const char *Text, int Index, bool Current, bo
         if (Index > menuItemIndexLast) {
             cNopacityMenuItem *item;
             cPoint itemSize;
-            if (((MenuCategory() == mcMain)&&(config.narrowMainMenu)) || ((MenuCategory() == mcSetup)&&(config.narrowSetupMenu))){
+            if (((MenuCategory() == mcMain)&&(config.GetValue("narrowMainMenu"))) || ((MenuCategory() == mcSetup)&&(config.GetValue("narrowSetupMenu")))){
+                MainOrSetup = true;
                 bool isSetup = (MenuCategory() == mcSetup)?true:false;
                 item = new cNopacityMainMenuItem(osd, imgCache, Text, Selectable, isSetup);
                 menuView->GetMenuItemSize(MenuCategory(), &itemSize);
                 item->SetFont(fontManager->menuItemLarge);
-                if (config.useMenuIcons)
+                if (config.GetValue("useMenuIcons"))
                     hasIcons = true;
             } else {
                 item = new cNopacityDefaultMenuItem(osd, imgCache, Text, Selectable);
@@ -573,6 +571,9 @@ void cNopacityDisplayMenu::SetItem(const char *Text, int Index, bool Current, bo
             item->CreateText();
             int textWidth = item->CheckScrollable(hasIcons);
             item->CreatePixmap();
+            if (config.GetValue("displayType") == dtGraphical && MainOrSetup) {
+                item->CreatePixmapForeground();
+            }
             if (hasIcons) {
                 item->CreatePixmapIcon();
             }
@@ -726,17 +727,17 @@ void cNopacityDisplayMenu::Flush(void) {
     //int start = cTimeMs::Now();
     menuView->DrawDate(initial);
     if (MenuCategory() == mcMain) {
-        if (config.showDiscUsage)
+        if (config.GetValue("showDiscUsage"))
             DrawDisk();
         bool timersChanged = Timers.Modified(lastTimersState);
         int numConflicts = 0;
-        if (config.checkTimerConflict)
+        if (config.GetValue("checkTimerConflict"))
             numConflicts = CheckTimerConflict(timersChanged);
-        if (config.showTimers)
+        if (config.GetValue("showTimers"))
             DrawTimers(timersChanged, numConflicts);
     }
     if (initial) {
-        if (config.menuFadeTime)
+        if (FadeTime)
             Start();
     }
     initMenu = false;
@@ -770,40 +771,3 @@ void cNopacityDisplayMenu::Action(void) {
             break;
     }
 }
-
-void cNopacityDisplayMenu::SwitchNextRssMessage(void) {
-    if (!config.displayRSSFeed)
-        return;
-    if (rssReader) {
-        rssReader->SwitchNextMessage();
-    }
-}
-
-void cNopacityDisplayMenu::SwitchNextRssFeed(void) {
-    if (!config.displayRSSFeed)
-        return;
-    if (rssReader) {
-        rssReader->Stop();
-        while (rssReader->Active())
-            cCondWait::SleepMs(10);
-        delete rssReader;
-        rssReader = NULL;
-    }
-    SetNextFeed();
-    int feedNum = (config.rssFeed[currentFeed]==0)?0:(config.rssFeed[currentFeed]-1);
-    menuView->DrawRssFeed(config.rssFeeds[feedNum].name);
-    rssReader = new cRssReader(osd, fontManager->menuRssFeed, menuView->GetRssFeedPosition(), menuView->GetRssFeedSize());
-    rssReader->SetFeed(config.rssFeeds[feedNum].url);
-    rssReader->Start();
-}
-
-void cNopacityDisplayMenu::SetNextFeed(void) {
-    int nextFeed = 0;
-    for (int i = 1; i<6; i++) {
-        nextFeed = (currentFeed + i)%5;
-        if ((nextFeed == 0)||(config.rssFeed[nextFeed] > 0)) {
-            currentFeed = nextFeed;
-            break;
-        }    
-    }
-} 

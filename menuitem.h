@@ -8,6 +8,7 @@ protected:
     cPixmap *pixmap;
     cPixmap *pixmapIcon;
     cPixmap *pixmapTextScroller;
+    cPixmap *pixmapForeground;
     const char *Text;
     bool selectable;
     bool current;
@@ -30,7 +31,7 @@ protected:
     cNopacityTextWindow *infoTextWindow;
     virtual void SetTextFull(void) {};
     virtual void SetTextShort(void) {};
-    void DrawDelimiter(const char *del, const char *icon, eBackgroundType bgType);
+    void DrawDelimiter(const char *del, const char *icon, eSkinElementType seType);
     void DrawRoundedCorners(tColor borderColor);
     virtual void Action(void);
     void DoSleep(int duration);
@@ -38,6 +39,7 @@ public:
     cNopacityMenuItem(cOsd *osd, cImageCache *imgCache, const char *text, bool sel);
     virtual ~cNopacityMenuItem(void);
     void CreatePixmap();
+    void CreatePixmapForeground();
     void CreatePixmapIcon(void);
     virtual void CreatePixmapTextScroller(int totalWidth);
     void SetGeometry(int index, int top, int left, int width, int height, int spaceMenu);

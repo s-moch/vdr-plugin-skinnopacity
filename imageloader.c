@@ -16,7 +16,7 @@ cImage cImageLoader::GetImage() {
     return CreateImageCopy();
 }
 
-bool cImageLoader::LoadLogo(const char *logo, int width = config.logoWidth, int height = config.logoHeight) {
+bool cImageLoader::LoadLogo(const char *logo, int width = config.GetValue("logoWidthOriginal"), int height = config.GetValue("logoHeightOriginal")) {
     if ((width == 0)||(height==0))
         return false;
     std::string logoLower = StrToLowerCase(logo);
@@ -44,8 +44,8 @@ bool cImageLoader::LoadLogo(const char *logo, int width = config.logoWidth, int 
 }
 
 bool cImageLoader::LoadEPGImage(int eventID) {
-    int width = config.epgImageWidth;
-    int height = config.epgImageHeight;
+    int width = config.GetValue("epgImageWidth");
+    int height = config.GetValue("epgImageHeight");
     if ((width == 0)||(height==0))
         return false;
     bool success = false;
@@ -64,8 +64,8 @@ bool cImageLoader::LoadEPGImage(int eventID) {
 }
 
 bool cImageLoader::LoadAdditionalEPGImage(cString name) {
-    int width = config.epgImageWidthLarge;
-    int height = config.epgImageHeightLarge;
+    int width = config.GetValue("epgImageWidthLarge");
+    int height = config.GetValue("epgImageHeightLarge");
     if ((width == 0)||(height==0))
         return false;
     bool success = false;
@@ -84,8 +84,8 @@ bool cImageLoader::LoadAdditionalEPGImage(cString name) {
 }
 
 bool cImageLoader::LoadRecordingImage(cString Path) {
-    int width = config.epgImageWidth;
-    int height = config.epgImageHeight;
+    int width = config.GetValue("epgImageWidth");
+    int height = config.GetValue("epgImageHeight");
     if ((width == 0)||(height==0))
         return false;
     cString recImage("");
@@ -100,8 +100,8 @@ bool cImageLoader::LoadRecordingImage(cString Path) {
 }
 
 bool cImageLoader::LoadAdditionalRecordingImage(cString path, cString name) {
-    int width = config.epgImageWidthLarge;
-    int height = config.epgImageHeightLarge;
+    int width = config.GetValue("epgImageWidthLarge");
+    int height = config.GetValue("epgImageHeightLarge");
     if ((width == 0)||(height==0))
         return false;
     if (LoadImage(*name, *path, "jpg")) {

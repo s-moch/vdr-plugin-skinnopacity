@@ -300,3 +300,28 @@ Version 0.1.4
   displayChannel
 - Configurable Menu Item Scroll Mode: "Carriage Return" or "Forward and
   Back again"
+- channel logo cache is built with channelID as key (not with channelNumber
+  anymore)
+- Removed RSS Feed support completely, maybe this will get a standalone
+  plugin in the future
+- Implemented theme dependend configuration. Each theme has now it's own
+  configuration. Default configurations for each theme can be set in the
+  appropriate conf/theme-themename.conf file. This file has to be placed 
+  in <PLGCONFDIR>/themeconfigs. With that each theme can be shipped with
+  its individual settings and the plugin settings can be changed 
+  individually for each theme without affecting other themes.
+- All skin background and button elements can now be individual PNGs. For
+  that the config value displayType has to be set to the value 2 in the
+  theme specific configuration.
+- Added new Theme "freestyle" with individual graphics for the different
+  skin elements.
+- Rewriting and cleanup of displayChannel:
+  - separated drawing code in dedicated class
+  - removed "simple" status icon bar, now only graphical icons are supported
+  - changed screen resolution icon to same height but 3 times larger width
+    as other status icons.
+  - status icons scale to size of footer height
+  - fixed bug that progress bar sometimes was not displayed when switching
+  - adapted the status icons for the different themes
+    the channel
+    

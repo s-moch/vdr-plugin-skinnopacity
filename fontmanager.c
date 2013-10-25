@@ -30,27 +30,26 @@ cFont *cFontManager::CreateFont(int size) {
 }
 
 void cFontManager::SetFontsMenu(void) {
-    menuHeader = CreateFont(geoManager->menuHeaderHeight / 2 + config.fontHeader);
-    menuDate = CreateFont(geoManager->menuHeaderHeight / 2 + config.fontDate);
-    menuItemLarge = CreateFont(geoManager->menuItemHeightMain/3 + 4 + config.fontMenuitemLarge);
-    menuItemSchedule = CreateFont(geoManager->menuItemHeightSchedule / 4 + 5 + config.fontMenuitemSchedule);
-    menuItemScheduleSmall = CreateFont(geoManager->menuItemHeightSchedule / 4 - 5 + config.fontMenuitemScheduleSmall);
-    menuItemChannel = CreateFont(geoManager->menuItemHeightSchedule / 3 + config.fontMenuitemChannel);
-    menuItemChannelSmall = CreateFont(geoManager->menuItemHeightSchedule / 5 - 2 + config.fontMenuitemChannelSmall);
-    menuItemRecordings = CreateFont(geoManager->menuItemHeightRecordings / 2 - 14 + config.fontMenuitemRecordings);
-    menuItemRecordingsSmall = CreateFont(geoManager->menuItemHeightRecordings / 4 - 3 + config.fontMenuitemRecordingsSmall);
-    menuItemTimers = CreateFont(geoManager->menuItemHeightSchedule / 3 + config.fontMenuitemTimers);
-    menuItemTimersSmall = CreateFont(geoManager->menuItemHeightSchedule / 4 - 3 + config.fontMenuitemTimersSmall);
-    menuItemDefault = CreateFont(geoManager->menuItemHeightDefault * 2 / 3 + config.fontMenuitemDefault);
-    menuDiskUsage = CreateFont(geoManager->menuDiskUsageHeight/6 - 2 + config.fontDiskUsage);
-    menuDiskUsagePercent = CreateFont(geoManager->menuDiskUsageHeight/5 - 4 + config.fontDiskUsagePercent);
-    menuTimersHead = CreateFont((geoManager->menuContentHeight - 3*geoManager->menuSpace - geoManager->menuDiskUsageHeight) / 25 + config.fontTimersHead);
-    menuTimers = CreateFont((geoManager->menuContentHeight - 3*geoManager->menuSpace - geoManager->menuDiskUsageHeight) / 25 - 6 + config.fontTimers);
-    menuButtons = CreateFont(geoManager->menuButtonHeight*0.8 + config.fontButtons);
-    menuMessage = CreateFont(geoManager->menuMessageHeight / 3 + config.fontMessageMenu);
-    menuEPGInfoWindow = CreateFont(geoManager->menuContentHeight / 30 + config.fontEPGInfoWindow);
-    menuEPGInfoWindowLarge = CreateFont(geoManager->menuContentHeight / 20 + config.fontEPGInfoWindowLarge);
-    menuRssFeed = CreateFont((geoManager->menuRssFeedHeight / 2) + 3 + config.fontRssFeed);
+    menuHeader = CreateFont(geoManager->menuHeaderHeight / 2 + config.GetValue("fontHeader"));
+    menuDate = CreateFont(geoManager->menuHeaderHeight / 2 + config.GetValue("fontDate"));
+    menuItemLarge = CreateFont(geoManager->menuItemHeightMain/3 + 4 + config.GetValue("fontMenuitemLarge"));
+    menuItemSchedule = CreateFont(geoManager->menuItemHeightSchedule / 4 + 5 + config.GetValue("fontMenuitemSchedule"));
+    menuItemScheduleSmall = CreateFont(geoManager->menuItemHeightSchedule / 4 - 5 + config.GetValue("fontMenuitemScheduleSmall"));
+    menuItemChannel = CreateFont(geoManager->menuItemHeightSchedule / 3 + config.GetValue("fontMenuitemChannel"));
+    menuItemChannelSmall = CreateFont(geoManager->menuItemHeightSchedule / 5 - 2 + config.GetValue("fontMenuitemChannelSmall"));
+    menuItemRecordings = CreateFont(geoManager->menuItemHeightRecordings / 2 - 14 + config.GetValue("fontMenuitemRecordings"));
+    menuItemRecordingsSmall = CreateFont(geoManager->menuItemHeightRecordings / 4 - 3 + config.GetValue("fontMenuitemRecordingsSmall"));
+    menuItemTimers = CreateFont(geoManager->menuItemHeightSchedule / 3 + config.GetValue("fontMenuitemTimers"));
+    menuItemTimersSmall = CreateFont(geoManager->menuItemHeightSchedule / 4 - 3 + config.GetValue("fontMenuitemTimersSmall"));
+    menuItemDefault = CreateFont(geoManager->menuItemHeightDefault * 2 / 3 + config.GetValue("fontMenuitemDefault"));
+    menuDiskUsage = CreateFont(geoManager->menuDiskUsageHeight/6 - 2 + config.GetValue("fontDiskUsage"));
+    menuDiskUsagePercent = CreateFont(geoManager->menuDiskUsageHeight/5 - 4 + config.GetValue("fontDiskUsagePercent"));
+    menuTimersHead = CreateFont((geoManager->menuContentHeight - 3*geoManager->menuSpace - geoManager->menuDiskUsageHeight) / 25 + config.GetValue("fontTimersHead"));
+    menuTimers = CreateFont((geoManager->menuContentHeight - 3*geoManager->menuSpace - geoManager->menuDiskUsageHeight) / 25 - 6 + config.GetValue("fontTimers"));
+    menuButtons = CreateFont(geoManager->menuButtonHeight*0.8 + config.GetValue("fontButtons"));
+    menuMessage = CreateFont(geoManager->menuMessageHeight / 3 + config.GetValue("fontMessageMenu"));
+    menuEPGInfoWindow = CreateFont(geoManager->menuContentHeight / 30 + config.GetValue("fontEPGInfoWindow"));
+    menuEPGInfoWindowLarge = CreateFont(geoManager->menuContentHeight / 20 + config.GetValue("fontEPGInfoWindowLarge"));
 }
 
 void cFontManager::DeleteFontsMenu(void) {
@@ -74,16 +73,16 @@ void cFontManager::DeleteFontsMenu(void) {
     delete menuMessage;
     delete menuEPGInfoWindow;
     delete menuEPGInfoWindowLarge;
-    delete menuRssFeed;
 }
 
 void cFontManager::SetFontsChannel(void) {
-    channelHeader = CreateFont(geoManager->channelInfoHeight - 8 + config.fontChannelHeaderSize);
-    channelDate = CreateFont(geoManager->channelInfoHeight/2 + config.fontChannelDateSize);
-    channelEPG = CreateFont(geoManager->channelEpgInfoLineHeight + config.fontEPGSize);
-    channelEPGSmall = CreateFont(geoManager->channelEpgInfoLineHeight - 6 + config.fontEPGSmallSize);
-    channelChannelGroup = CreateFont(geoManager->channelEpgInfoHeight/3 + config.fontChannelGroupSize);
-    channelChannelGroupSmall = CreateFont(geoManager->channelEpgInfoHeight/3 - 5 + config.fontChannelGroupSmallSize);
+    channelHeader = CreateFont(geoManager->channelHeaderHeight - 8 + config.GetValue("fontChannelHeaderSize"));
+    channelDate = CreateFont(geoManager->channelHeaderHeight/2 + config.GetValue("fontChannelDateSize"));
+    channelEPG = CreateFont(geoManager->channelEpgInfoLineHeight + config.GetValue("fontEPGSize"));
+    channelEPGSmall = CreateFont(geoManager->channelEpgInfoLineHeight - 6 + config.GetValue("fontEPGSmallSize"));
+    channelSourceInfo = CreateFont(geoManager->channelFooterHeight/2 + config.GetValue("fontChannelSourceInfoSize"));;
+    channelChannelGroup = CreateFont(geoManager->channelEpgInfoHeight/3 + config.GetValue("fontChannelGroupSize"));
+    channelChannelGroupSmall = CreateFont(geoManager->channelEpgInfoHeight/3 - 5 + config.GetValue("fontChannelGroupSmallSize"));
 }
 
 void cFontManager::DeleteFontsChannel(void) {
@@ -91,12 +90,13 @@ void cFontManager::DeleteFontsChannel(void) {
     delete channelDate;
     delete channelEPG;
     delete channelEPGSmall;
+    delete channelSourceInfo;
     delete channelChannelGroup;
     delete channelChannelGroupSmall;
 }
 
 void cFontManager::SetFontsReplay(void) {
-    replayHeader = CreateFont(geoManager->replayHeaderHeight - 8 + config.fontReplayHeader);
+    replayHeader = CreateFont(geoManager->replayHeaderHeight - 8 + config.GetValue("fontReplayHeader"));
     replayText = CreateFont(geoManager->replayCurrentHeight);
 }
 
@@ -106,7 +106,7 @@ void cFontManager::DeleteFontsReplay(void) {
 }
 
 void cFontManager::SetFontsMessage(void) {
-    messageText = CreateFont(geoManager->messageHeight / 4 + 15 + config.fontMessage);
+    messageText = CreateFont(geoManager->messageHeight / 4 + 15 + config.GetValue("fontMessage"));
 }
 
 void cFontManager::DeleteFontsMessage(void) {
@@ -114,8 +114,8 @@ void cFontManager::DeleteFontsMessage(void) {
 }
 
 void cFontManager::SetFontsTrack(void) {
-    trackText = CreateFont(geoManager->menuItemHeightTracks/3 + config.fontTracks);
-    trackHeader = CreateFont(geoManager->menuItemHeightTracks/2 + config.fontTracksHeader);
+    trackText = CreateFont(geoManager->menuItemHeightTracks/3 + config.GetValue("fontTracks"));
+    trackHeader = CreateFont(geoManager->menuItemHeightTracks/2 + config.GetValue("fontTracksHeader"));
 }
 
 void cFontManager::DeleteFontsTrack(void) {
@@ -124,7 +124,7 @@ void cFontManager::DeleteFontsTrack(void) {
 }
 
 void cFontManager::SetFontsVolume(void) {
-    volumeText = CreateFont(geoManager->volumeLabelHeight - 6 + config.fontVolume);
+    volumeText = CreateFont(geoManager->volumeLabelHeight - 6 + config.GetValue("fontVolume"));
 }
 
 void cFontManager::DeleteFontsVolume(void) {

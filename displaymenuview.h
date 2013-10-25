@@ -10,21 +10,21 @@ class cNopacityDisplayMenuView {
         cString lastDate;
         int diskUsageAlert;
         cPixmap *pixmapHeader;
+        cPixmap *pixmapHeaderForeground;
         cPixmap *pixmapHeaderLogo;
         cPixmap *pixmapHeaderIcon;
         cPixmap *pixmapHeaderLabel;
         cPixmap *pixmapDate;
         cPixmap *pixmapFooter;
+        cPixmap *pixmapFooterBack;
         cPixmap *pixmapButtonsText;
         cPixmap *pixmapContent;
-        cPixmap *pixmapScrollbar;   
+        cPixmap *pixmapScrollbar;
+        cPixmap *pixmapScrollbarBack;
         cPixmap *pixmapDiskUsage;
         cPixmap *pixmapDiskUsageIcon;
         cPixmap *pixmapDiskUsageLabel;
         cPixmap *pixmapStatus;
-        cPixmap *pixmapRssFeed;
-        cPixmap *pixmapRssFeedBackground;
-        cPixmap *pixmapRssFeedIcon;
         int feedNameLength;
         int avrgFontWidth;
         cRect textWindowSizeSchedules;
@@ -61,7 +61,7 @@ class cNopacityDisplayMenuView {
         void DrawDate(bool initial);
         void DrawDiskUsage(void);
         void ShowDiskUsage(bool show);
-        void DrawButton(const char *text, eBackgroundType bgButton, tColor buttonColor, tColor borderColor, tColor fontColor, int num);
+        void DrawButton(const char *text, eSkinElementType seButton, tColor buttonColor, tColor borderColor, tColor fontColor, int num);
         void ClearButton(int num);
         int GetTimersInitHeight(void);
         int GetTimersMaxHeight(void);
@@ -72,9 +72,6 @@ class cNopacityDisplayMenuView {
         void DrawMessage(eMessageType Type, const char *Text);
         void ClearMessage(void);
         void SetDetailViewSize(eDetailViewType detailViewType, cNopacityMenuDetailView *detailView);
-        void DrawRssFeed(std::string feedName);
-        cPoint GetRssFeedPosition(void);
-        cPoint GetRssFeedSize(void);
 };
 
 

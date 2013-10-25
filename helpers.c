@@ -13,15 +13,12 @@ static cOsd *CreateOsd(int Left, int Top, int Width, int Height) {
     return NULL;
 }
 
-static void DrawBlendedBackground(cPixmap *pixmap, tColor color, tColor colorBlending, bool fromTop) {
-    int width = pixmap->ViewPort().Width();
+static void DrawBlendedBackground(cPixmap *pixmap, int xStart, int width, tColor color, tColor colorBlending, bool fromTop) {
     int height = pixmap->ViewPort().Height();
-    pixmap->Fill(color);
     int numSteps = 16;
     int alphaStep = 0x0F;
     int alpha = 0x00;
     int step, begin, end;
-    bool cont = true;
     if (fromTop) {
         step = 1;
         begin = 0;
@@ -32,9 +29,10 @@ static void DrawBlendedBackground(cPixmap *pixmap, tColor color, tColor colorBle
         end = height - numSteps;
     }
     tColor clr;
+    bool cont = true;
     for (int i = begin; cont; i = i + step) {
         clr = AlphaBlend(color, colorBlending, alpha);
-        pixmap->DrawRectangle(cRect(0,i,width,1), clr);
+        pixmap->DrawRectangle(cRect(xStart,i,width,1), clr);
         alpha += alphaStep;
         if (i == end) 
             cont = false;
@@ -73,6 +71,33 @@ static void DrawRoundedCornersWithBorder(cPixmap *p, tColor borderColor, int rad
     if (pBack)
         pBack->DrawEllipse(cRect(width-radius+1,height-radius+1,radius,radius), clrTransparent, -4);
     
+}
+
+static cSize ScaleToFit(int widthMax, int heightMax, int widthOriginal, int heightOriginal) {
+    int width = 1;
+    int height = 1;
+
+    if ((widthMax == 0)||(heightMax==0)||(widthOriginal==0)||(heightOriginal==0))
+        return cSize(width, height);
+    
+    if ((widthOriginal <= widthMax) && (heightOriginal <= heightMax)) {
+        width = widthOriginal;
+        height = heightOriginal;
+    } else if ((widthOriginal > widthMax) && (heightOriginal <= heightMax)) {
+        width = widthMax;
+        height = (double)width/(double)widthOriginal * heightOriginal;
+    } else if ((widthOriginal <= widthMax) && (heightOriginal > heightMax)) {
+        height = heightMax;
+        width = (double)height/(double)heightOriginal * widthOriginal;
+    } else {
+        width = widthMax;
+        height = (double)width/(double)widthOriginal * heightOriginal;
+        if (height > heightMax) {
+            height = heightMax;
+            width = (double)height/(double)heightOriginal * widthOriginal;
+        }
+    }
+    return cSize(width, height);
 }
 
 static int Minimum(int a, int b, int c, int d, int e, int f) {

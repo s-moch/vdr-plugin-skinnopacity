@@ -5,10 +5,8 @@ static cTheme Theme;
 static bool menuActive = false;
 static bool firstDisplay = true;
 
-//ENABLE BLENDING
-#define CLR_BLENDING_ON         0xFFFFFFFF
-
 //COMMON
+#define CLR_BACKGROUND_BLUE     0xFF242A38
 #define CLR_TRANSBLACK          0xDD000000
 #define CLR_TRANSBLACK2         0xB0000000
 #define CLR_BLACK               0xFF000000
@@ -67,9 +65,6 @@ static bool firstDisplay = true;
 #define CLR_MESSAGEINFO         0x90009900
 #define CLR_MESSAGEWARNING      0x90BBBB00
 #define CLR_MESSAGEERROR        0x90BB0000
-
-//ENABLE BLENDING
-THEME_CLR(Theme, clrDoBlending,             CLR_BLENDING_ON);
 
 //CHANNELS
 THEME_CLR(Theme, clrChannelBackground,      CLR_TRANSBLACK2);
@@ -141,6 +136,7 @@ THEME_CLR(Theme, clrProgressBarBlend,       CLR_PROGRESSBARBLEND);
 THEME_CLR(Theme, clrProgressBarHigh,        CLR_PROGRESSBARHIGH);
 THEME_CLR(Theme, clrProgressBarBackHigh,    CLR_PROGRESSBARBACKHIGH);
 THEME_CLR(Theme, clrProgressBarBlendHigh,   CLR_PROGRESSBARBLENDHIGH);
+THEME_CLR(Theme, clrMenuTextWindow,         CLR_TRANSBLACK);
 //BUTTONS
 THEME_CLR(Theme, clrButtonRed,              CLR_BUTTONRED);
 THEME_CLR(Theme, clrButtonRedBorder,        CLR_BUTTONREDBORDER);
@@ -154,15 +150,6 @@ THEME_CLR(Theme, clrButtonYellowFont,       CLR_WHITE);
 THEME_CLR(Theme, clrButtonBlue,             CLR_BUTTONBLUE);
 THEME_CLR(Theme, clrButtonBlueBorder,       CLR_BUTTONBLUEBORDER);
 THEME_CLR(Theme, clrButtonBlueFont,         CLR_WHITE);
-//RSS Feeds
-THEME_CLR(Theme, clrRSSFeedBorder,          CLR_DARKBLUE);
-THEME_CLR(Theme, clrRSSFeedTitle,           CLR_BRIGHTBLUE);
-THEME_CLR(Theme, clrRSSFeedText,            CLR_WHITE);
-THEME_CLR(Theme, clrRSSFeedHeaderText,      CLR_WHITE);
-THEME_CLR(Theme, clrRSSFeedHeaderBack,      CLR_TRANSBLACK);
-THEME_CLR(Theme, clrRSSFeedHeaderBackBlend, CLR_MENUITEMHIGHBLEND);
-THEME_CLR(Theme, clrRSSFeedBack,            CLR_MENUITEM);
-THEME_CLR(Theme, clrRSSFeedBackBlend,       CLR_MENUITEMBLEND);
 //MESSAGES
 THEME_CLR(Theme, clrMessageFontStatus,      CLR_WHITE);
 THEME_CLR(Theme, clrMessageFontInfo,        CLR_WHITE);
@@ -185,8 +172,8 @@ cFontManager *fontManager;
 #include "imagecache.c"
 #include "imageloader.c"
 #include "setup.c"
-#include "rssreader.c"
 #include "nopacity.h"
+#include "displaychannelview.c"
 #include "displaychannel.c"
 #include "textwindow.c"
 #include "timers.c"
@@ -203,9 +190,11 @@ cFontManager *fontManager;
 
 cNopacity::cNopacity(cImageCache *imgCache) : cSkin("nOpacity", &::Theme) {
     displayMenu = NULL;
-    rssTicker = NULL;
-    config.setDynamicValues();
-    config.loadRssFeeds();
+    config.LoadThemeSpecificConfigs();
+    config.SetThemeSpecificDefaults();
+    config.SetThemeSetup();
+    config.SetPathes();
+    config.SetFontName();
     geoManager = new cGeometryManager();
     geoManager->SetGeometry();
     fontManager = new cFontManager();
@@ -219,20 +208,11 @@ const char *cNopacity::Description(void) {
 }
 
 cSkinDisplayChannel *cNopacity::DisplayChannel(bool WithInfo) {
-    if (rssTicker) {
-        delete rssTicker;
-        rssTicker = NULL;
-    }
     ReloadCaches();
     return new cNopacityDisplayChannel(imgCache, WithInfo);
 }
 
 cSkinDisplayMenu *cNopacity::DisplayMenu(void) {
-    if (rssTicker) {
-        delete rssTicker;
-        rssTicker = NULL;
-    }
-    
     ReloadCaches();
     cNopacityDisplayMenu *menu = new cNopacityDisplayMenu(imgCache);
     displayMenu = menu;
@@ -241,91 +221,36 @@ cSkinDisplayMenu *cNopacity::DisplayMenu(void) {
 }
 
 cSkinDisplayReplay *cNopacity::DisplayReplay(bool ModeOnly) {
-  if (rssTicker) {
-    delete rssTicker;
-    rssTicker = NULL;
-  }
   ReloadCaches();
   return new cNopacityDisplayReplay(imgCache, ModeOnly);
 }
 
 cSkinDisplayVolume *cNopacity::DisplayVolume(void) {
-  if (rssTicker) {
-    delete rssTicker;
-    rssTicker = NULL;
-  }
   ReloadCaches();
-  return new cNopacityDisplayVolume;
+  return new cNopacityDisplayVolume(imgCache);
 }
 
 cSkinDisplayTracks *cNopacity::DisplayTracks(const char *Title, int NumTracks, const char * const *Tracks) {
-  if (rssTicker) {
-    delete rssTicker;
-    rssTicker = NULL;
-  }
   ReloadCaches();
   return new cNopacityDisplayTracks(imgCache, Title, NumTracks, Tracks);
 }
 
 cSkinDisplayMessage *cNopacity::DisplayMessage(void) {
-  if (rssTicker) {
-    delete rssTicker;
-    rssTicker = NULL;
-  }
   ReloadCaches();
   return new cNopacityDisplayMessage(imgCache);
 }
 
-void cNopacity::svdrpSwitchRss(void) {
-    if (menuActive) {
-        displayMenu->SwitchNextRssFeed();
-    } else if (rssTicker) {
-        rssTicker->SwitchNextRssFeed();
-    }
-}
-
-void cNopacity::svdrpSwitchMessage(void) {
-    if (menuActive) {
-        displayMenu->SwitchNextRssMessage();
-    } else if (rssTicker) {
-        rssTicker->SwitchNextRssMessage();
-    }
-}
-
-bool cNopacity::svdrpToggleStandaloneRss(void) {
-    if (menuActive)
-        return false;
-        
-    if (!rssTicker) {
-        rssTicker = new cRssStandaloneTicker(imgCache);
-        rssTicker->SetFeed(config.rssFeeds[config.rssFeed[0]].name);
-        rssTicker->Start();
-        return true;
-    } else {
-        delete rssTicker;
-        rssTicker = NULL;
-        return false;
-    }
-    return false;
-}
-
 void cNopacity::ReloadCaches(void) {
-    int start = cTimeMs::Now();
-    bool change = false;
-    bool reloadImgCache = false;
-    if (geoManager->GeometryChanged()) {
+    if (geoManager->GeometryChanged() || imgCache->ThemeChanged()) {
+        int start = cTimeMs::Now();
+        config.LoadDefaults();
+        config.SetThemeSpecificDefaults();
+        config.SetThemeSetup();
+        config.SetFontName();
         geoManager->SetGeometry();
         fontManager->DeleteFonts();
         fontManager->SetFonts();
-        reloadImgCache = true;
-        change = true;
-    }
-    if (imgCache->ThemeChanged()) {
-        reloadImgCache = true;
-        change = true;
-    }
-    if (reloadImgCache)
         imgCache->Reload();
-    if (change)
         dsyslog("nopacity: Cache reloaded in %d ms", int(cTimeMs::Now()-start));
+    }
 }

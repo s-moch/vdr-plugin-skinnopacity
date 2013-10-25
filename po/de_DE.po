@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-10-03 11:10+0200\n"
+"POT-Creation-Date: 2013-10-20 11:15+0200\n"
 "PO-Revision-Date: 2012-11-11 17:49+0200\n"
 "Last-Translator: louis\n"
 "Language-Team: \n"
@@ -107,9 +107,6 @@ msgstr "Nachrichten"
 msgid "Image Caching"
 msgstr "Bilder Cache"
 
-msgid "RSS Feeds"
-msgstr "RSS Feeds"
-
 msgid "right"
 msgstr "rechts"
 
@@ -174,7 +171,7 @@ msgid "Fade-In Time in ms (Zero for switching off fading)"
 msgstr "Fade-In Zeit in ms (Null zum Abschalten)"
 
 msgid "Menu Items Scroll Style"
-msgstr ""
+msgstr "Scrollstil der Menüelemente"
 
 msgid "Menu Items Scrolling Speed"
 msgstr "Scroll Geschwindigkeit der Menüelemente"
@@ -407,12 +404,6 @@ msgstr "Breite der manuell gesetzen Poster"
 msgid "Height of manually set recording poster"
 msgstr "Höhe der manuell gesetzten Poster"
 
-msgid "simple, one common image"
-msgstr "einfach, eine gemeinsame Graphik"
-
-msgid "complex, dedicated images"
-msgstr "aufwändig, einzelne Graphiken"
-
 msgid "transparent channel logo"
 msgstr "Kanallogo transparent"
 
@@ -446,8 +437,11 @@ msgstr "Abgerundete Ecken"
 msgid "Channel Logo Position"
 msgstr "Kanallogo Position"
 
-msgid "Channel Logo Border"
-msgstr "Rand um die Kanallogos"
+msgid "Channel Logo original Width"
+msgstr "Kanallogo original Breite"
+
+msgid "Channel Logo original Height"
+msgstr "Kanallogo original Höhe"
 
 msgid "Kind of time display for current schedule"
 msgstr "Art der Zeitanzeige für die laufende Sendung"
@@ -464,20 +458,14 @@ msgstr "Poster bzw. Fanart von TVScraper anzeigen"
 msgid "Display previous and next Channel Group"
 msgstr "Vorherige und nächste Kanalgruppe anzeigen"
 
-msgid "Screen Resolution Icon Size"
-msgstr "Größe des Icons zur Anzeige der Bildschirmauflösung"
-
-msgid "Status Icons Size"
-msgstr "Status Icon Größe"
-
-msgid "Status Icon Style"
-msgstr "Status Icon Stil"
-
 msgid "Adjust Font Size - EPG Text"
 msgstr "Schriftgröße anpassen - EPG Text"
 
 msgid "Adjust Font Size - EPG Infotext"
 msgstr "Schriftgröße anpassen - EPG Infotext"
+
+msgid "Adjust Font Size - Channel Source Info"
+msgstr "Schriftgröße anpassen - Kanalquelleninfo"
 
 msgid "Adjust Font Size - Channel Group"
 msgstr "Schriftgräße Anpassen - Kanalgruppen"
@@ -557,59 +545,8 @@ msgstr "Timer Logo Cache"
 msgid "Background Images cache"
 msgstr "Hintergrundbilder Cache"
 
-msgid "none"
-msgstr "keiner"
-
-msgid "bottom"
-msgstr "unten"
-
-msgid "top"
-msgstr "oben"
-
-msgid "Display RSS Feed in Skin"
-msgstr "RSS Feed im Skin anzeigen"
-
-msgid "Height of RSS Feed Line (Percent of OSD Height)"
-msgstr "Höhe des RSS Feeds (% der OSD Höhe)"
-
-msgid "Height of standalone RSS Feed (Percent of OSD Height)"
-msgstr "Höhe des Standalone RSS Feeds (% der OSD Höhe)"
-
-msgid "Adjust Font Size of standalone Feed"
-msgstr "Schriftgröße des standalone Feeds anpassen"
-
-msgid "Standalone RSS Feed Position"
-msgstr "Position des standalone Feeds"
-
-msgid "RSS Feed 1"
-msgstr "RSS Feed 1"
-
-msgid "RSS Feed 2"
-msgstr "RSS Feed 2"
-
-msgid "RSS Feed 3"
-msgstr "RSS Feed 3"
-
-msgid "RSS Feed 4"
-msgstr "RSS Feed 4"
-
-msgid "RSS Feed 5"
-msgstr "RSS Feed 5"
-
-msgid "Scrolling Speed"
-msgstr "Scroll Geschwindigkeit"
-
-msgid "Scrolling Delay in s"
-msgstr "Scroll Verzögerung in s"
-
 msgid "conflict"
 msgstr "Konflikt"
 
 msgid "conflicts"
 msgstr "Konflikte"
-
-#~ msgid "Detail EPG View Logo Width"
-#~ msgstr "Breite der Kanallogos in der EPG Detailanzeige"
-
-#~ msgid "Detail EPG View Logo Height"
-#~ msgstr "Höhe der Kanallogos in der EPG Detailanzeige"

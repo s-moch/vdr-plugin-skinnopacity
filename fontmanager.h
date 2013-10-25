@@ -42,12 +42,12 @@ class cFontManager {
         cFont *menuMessage;
         cFont *menuEPGInfoWindow;
         cFont *menuEPGInfoWindowLarge;
-        cFont *menuRssFeed;
         //Fonts DisplayChannel
         cFont *channelHeader;
         cFont *channelDate;
         cFont *channelEPG;
         cFont *channelEPGSmall;
+        cFont *channelSourceInfo;
         cFont *channelChannelGroup;
         cFont *channelChannelGroupSmall;
         //Fonts DisplayReplay

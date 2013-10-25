@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: vdr-skinnopacity\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-10-03 11:10+0200\n"
+"POT-Creation-Date: 2013-10-20 11:15+0200\n"
 "PO-Revision-Date: 2013-09-16 19:34+0100\n"
 "Last-Translator: Milan Hrala <hrala.milan@gmail.com>\n"
 "Language-Team: \n"
@@ -106,9 +106,6 @@ msgstr "Správy"
 
 msgid "Image Caching"
 msgstr ""
-
-msgid "RSS Feeds"
-msgstr "RSS èítaèky"
 
 msgid "right"
 msgstr "vpravo"
@@ -407,12 +404,6 @@ msgstr "Ruène nastavi» ¹írku plagátov nahrávok"
 msgid "Height of manually set recording poster"
 msgstr "Ruène nastavi» vý¹ku plagátov nahrávok"
 
-msgid "simple, one common image"
-msgstr "jednoduchý, jeden spoloèný obrázok"
-
-msgid "complex, dedicated images"
-msgstr "komplexné, ¹pecializované obrázky"
-
 msgid "transparent channel logo"
 msgstr "priesvitné logo kanálu"
 
@@ -446,8 +437,11 @@ msgstr "Zaoblené rohy"
 msgid "Channel Logo Position"
 msgstr "Pozícia loga kanálu"
 
-msgid "Channel Logo Border"
-msgstr "Okraj loga kanálu"
+msgid "Channel Logo original Width"
+msgstr ""
+
+msgid "Channel Logo original Height"
+msgstr ""
 
 msgid "Kind of time display for current schedule"
 msgstr "Druh zobrazenia èasu pre aktuálnu reláciu"
@@ -464,20 +458,14 @@ msgstr "Zobrazenie plagátu alebo Fanartu z TVScraper"
 msgid "Display previous and next Channel Group"
 msgstr "Zobrazi» predchádzajúcu a nasledujúcu skupinu kanálu"
 
-msgid "Screen Resolution Icon Size"
-msgstr "Veµkos» ikony rozlí¹enia obrazovky"
-
-msgid "Status Icons Size"
-msgstr "Veµkos» ikon panelu úloh"
-
-msgid "Status Icon Style"
-msgstr "©týl stavovej ikony"
-
 msgid "Adjust Font Size - EPG Text"
 msgstr "Nastavenie veµkosti písma - EPG text"
 
 msgid "Adjust Font Size - EPG Infotext"
 msgstr "Nastavenie veµkosti písma - EPG informaèný text"
+
+msgid "Adjust Font Size - Channel Source Info"
+msgstr ""
 
 msgid "Adjust Font Size - Channel Group"
 msgstr "Nastavenie veµkosti písma - Skupina kanálu"
@@ -557,59 +545,8 @@ msgstr ""
 msgid "Background Images cache"
 msgstr ""
 
-msgid "none"
-msgstr "¾iadny"
-
-msgid "bottom"
-msgstr "naspodku"
-
-msgid "top"
-msgstr "navrchu"
-
-msgid "Display RSS Feed in Skin"
-msgstr "Zobrazi» RSS èítaèku"
-
-msgid "Height of RSS Feed Line (Percent of OSD Height)"
-msgstr "Vý¹ka riadku RSS èítaèky (Percento z OSD vý¹ky)"
-
-msgid "Height of standalone RSS Feed (Percent of OSD Height)"
-msgstr "Vý¹ka RSS èítaèky (Percento z OSD vý¹ky)"
-
-msgid "Adjust Font Size of standalone Feed"
-msgstr "Prispôsobenie veµkosti písma èítaèky"
-
-msgid "Standalone RSS Feed Position"
-msgstr "Pozícia RSS èítaèky"
-
-msgid "RSS Feed 1"
-msgstr "RSS èítaèka 1"
-
-msgid "RSS Feed 2"
-msgstr "RSS èítaèka 2"
-
-msgid "RSS Feed 3"
-msgstr "RSS èítaèka 3"
-
-msgid "RSS Feed 4"
-msgstr "RSS èítaèka 4"
-
-msgid "RSS Feed 5"
-msgstr "RSS èítaèka 5"
-
-msgid "Scrolling Speed"
-msgstr "Rýchlos» rolovania"
-
-msgid "Scrolling Delay in s"
-msgstr "Preru¹enie rolovania v s"
-
 msgid "conflict"
 msgstr "konflikt"
 
 msgid "conflicts"
 msgstr "konflikty"
-
-#~ msgid "Detail EPG View Logo Width"
-#~ msgstr "©írka loga v podrobnom zobrazení EPG"
-
-#~ msgid "Detail EPG View Logo Height"
-#~ msgstr "Vý¹ka loga v podrobnom zobrazení EPG"

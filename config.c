@@ -1,293 +1,225 @@
 #include <string>
 #include <vector>
+#include <map>
 #include "config.h"
 
 cNopacityConfig::cNopacityConfig() {
     logoPathSet = false;
     epgImagePathSet = false;
     iconPathSet = false;
-    pathValuesSet = false;
     //Common
     mainMenuEntry = false;
-    fontIndex = 0;
+    fontName = NULL;
     fontDefaultName = "VDRSymbols Sans:Book";
-    //DisplayChannel
-    channelHeight = 25;
-    channelBorderVertical = 15;
-    channelBorderBottom = 15;
-    channelFadeTime = 300; // ms
-    logoPosition = 1;
-    logoWidth = 260;
-    logoHeight = 200;
     logoExtension = "png";
-    logoBorder = 15;
-    backgroundStyle = 0;
-    symbolStyle = 0;
-    roundedCornersChannel = 1;
-    displaySignalStrength = 1;
-    displaySourceInfo = 1;
-    displayPrevNextChannelGroup = 1;
-    fontChannelHeaderSize = 0;
-    fontChannelDateSize = 0;
-    fontEPGSize = 0;
-    fontEPGSmallSize = 0;
-    fontChannelGroupSize = 0;
-    fontChannelGroupSmallSize = 0;
-    resolutionIconSize = 100;
-    statusIconSize = 64;
-    progressCurrentSchedule = 0;
-    displayPoster = 1;
-    //Display Replay 
-    replayHeight = 25;
-    replayBorderVertical = 15;
-    replayBorderBottom = 15;
-    replayFadeTime = 300; // ms
-    fontReplayHeader = 0;
-    fontReplay = 0;
-    //DisplayMessage
-    messageWidth = 90;
-    messageHeight = 10;
-    messageBorderBottom = 10;
-    fontMessage = 0;
-    messageFadeTime = 300;
-    //DisplayTracks
-    tracksFadeTime = 300;
-    tracksWidth = 25;
-    tracksItemHeight = 80;
-    tracksPosition = 0;
-    tracksBorderHorizontal = 10;
-    tracksBorderVertical = 10;
-    fontTracksHeader = 0;
-    fontTracks = 0;
-    //DisplayVolume
-    volumeFadeTime = 300;
-    volumeWidth = 40;
-    volumeHeight = 10;
-    volumeBorderBottom = 10;
-    fontVolume = 0;
-    //DisplayMenu
-    scrollMode = 0;
-    spaceMenu = 5;
-    widthScrollbar = 20;
-    menuAdjustLeft = 1;
-    scalePicture = 1;
-    roundedCorners = 0;
-    cornerRadius = 12;
-    useMenuIcons = 1;
-    mainMenuTitleStyle = 0;
-    narrowMainMenu = 1;
-    narrowScheduleMenu = 1;
-    narrowChannelMenu = 1;
-    narrowTimerMenu = 1;
-    narrowRecordingMenu = 1;
-    narrowSetupMenu = 1;
-    displayRerunsDetailEPGView = 1;
-    numReruns = 5;
-    useSubtitleRerun = 1;
-    displayAdditionalEPGPictures = 1;
-    numAdditionalEPGPictures = 9;
-    displayAdditionalRecEPGPictures = 1;
-    numAdditionalRecEPGPictures = 9;
-    menuChannelDisplayMode = 0;
-    menuChannelDisplayTime = 1;
-    numEPGEntriesChannelsMenu = 15;
-    menuFadeTime = 0;
-    menuEPGWindowFadeTime = 300;
-    menuWidthMain = 30;
-    menuWidthSchedules = 30;
-    menuWidthChannels = 30;
-    menuWidthTimers = 30;
-    menuWidthRecordings = 30;
-    menuWidthSetup = 30;
-    menuHeightInfoWindow = 20;
-    menuScrollDelay = 1;
-    menuScrollSpeed = 2;
-    menuInfoTextDelay = 2;
-    menuInfoScrollDelay = 5;
-    menuInfoScrollSpeed = 2;
-    menuWidthRightItems = 12;
-    menuSizeDiskUsage = 12;
-    showDiscUsage = 1;
-    discUsageStyle = 0;
-    showTimers = 1;
-    numberTimers = 10;
-    checkTimerConflict = 1;
-    headerHeight = 7;
-    footerHeight = 7;
-    numDefaultMenuItems = 16;
-    iconHeight = 100;
-    headerIconHeight = 80;
-    menuHeaderLogoWidth = 160;
-    menuHeaderLogoHeight = 70;
-    menuItemLogoWidth = 130;
-    menuItemLogoHeight = 100;
-    timersLogoWidth = 90;
-    timersLogoHeight = 70;
-    epgImageWidth = 210;
-    epgImageHeight = 160;
-    epgImageWidthLarge = 525;
-    epgImageHeightLarge = 400;
-    posterWidth = 500;
-    posterHeight = 750;
-    menuRecFolderSize = 128;
-    useFolderPoster = 1;
-    borderDetailedEPG = 30;
-    borderDetailedRecordings = 30;
-    menuSchedulesWindowMode = 0;
-    menuRecordingsWindowMode = 0;
-    fontHeader = 0;
-    fontDate = 0;
-    fontMenuitemLarge = 0;
-    fontMenuitemSchedule = 0;
-    fontMenuitemScheduleSmall = 0;
-    fontMenuitemChannel = 0;
-    fontMenuitemChannelSmall = 0;
-    fontMenuitemRecordings = 0;
-    fontMenuitemRecordingsSmall = 0;
-    fontMenuitemTimers = 0;
-    fontMenuitemTimersSmall = 0;
-    fontMenuitemDefault = 0;
-    fontDiskUsage = 0;
-    fontDiskUsagePercent = 0;
-    fontTimersHead = 0;
-    fontTimers = 0;
-    fontButtons = 0;
-    fontMessageMenu = 0;
-    fontDetailView = 0;
-    fontDetailViewSmall = 0;
-    fontDetailViewHeader = 0;
-    fontDetailViewHeaderLarge = 0;
-    fontEPGInfoWindow = 0;
-    fontEPGInfoWindowLarge = 0;
-    //RSS Feeds
-    displayRSSFeed = 0;
-    rssFeedHeight = 5;
-    rssFeedHeightStandalone = 7;
-    fontRssFeed = 0;
-    fontRssFeedStandalone = 0;
-    rssFeedStandalonePos = 0;
-    rssScrollDelay = 2;
-    rssScrollSpeed = 1;
-    rssFeed[0] = 0;
-    rssFeed[1] = 0;
-    rssFeed[2] = 0;
-    rssFeed[3] = 0;
-    rssFeed[4] = 0;
-    //Channel Logo Caching
-    limitLogoCache = 1;
-    numLogosInitial = 30;
-    numLogosMax = 50;
+    LoadDefaults();
 }
 
 cNopacityConfig::~cNopacityConfig() {
 }
 
-void cNopacityConfig::setDynamicValues() {
-    doBlending = (Theme.Color(clrDoBlending) == CLR_BLENDING_ON)?true:false;
-    if (fontIndex == 0) {
+int cNopacityConfig::GetValue(std::string name) {
+    std::map<std::string, int>::iterator hit = conf.find(name);
+    if (hit != conf.end()) {
+        return (int)hit->second;
+    } else {
+        dsyslog("nopacity: ERROR: access to unknown config value %s", name.c_str());
+    }
+    return 0;
+}
+
+int *cNopacityConfig::GetValueRef(std::string name) {
+    int *ref = NULL;
+    std::map<std::string, int>::iterator hit = conf.find(name);
+    if (hit != conf.end()) {
+        ref = &hit->second;
+    } else {
+        dsyslog("nopacity: ERROR: access to unknown config value %s", name.c_str());
+    }
+    return ref;
+}
+
+void cNopacityConfig::LoadDefaults(void) {
+    conf.clear();
+    //Common Values
+    conf.insert(std::pair<std::string, int>("displayType", dtBlending));
+    conf.insert(std::pair<std::string, int>("fontIndex", 0));
+    //DisplayMenu
+    conf.insert(std::pair<std::string, int>("scrollMode", 0));
+    conf.insert(std::pair<std::string, int>("spaceMenu", 5));
+    conf.insert(std::pair<std::string, int>("widthScrollbar", 20));
+    conf.insert(std::pair<std::string, int>("menuAdjustLeft", 1));
+    conf.insert(std::pair<std::string, int>("scalePicture", 1));
+    conf.insert(std::pair<std::string, int>("roundedCorners", 1));
+    conf.insert(std::pair<std::string, int>("cornerRadius", 12));
+    conf.insert(std::pair<std::string, int>("useMenuIcons", 1));
+    conf.insert(std::pair<std::string, int>("mainMenuTitleStyle", 0));
+    conf.insert(std::pair<std::string, int>("narrowMainMenu", 1));
+    conf.insert(std::pair<std::string, int>("narrowScheduleMenu", 1));
+    conf.insert(std::pair<std::string, int>("narrowChannelMenu", 1));
+    conf.insert(std::pair<std::string, int>("narrowTimerMenu", 1));
+    conf.insert(std::pair<std::string, int>("narrowRecordingMenu", 1));
+    conf.insert(std::pair<std::string, int>("narrowSetupMenu", 1));
+    conf.insert(std::pair<std::string, int>("displayRerunsDetailEPGView", 1));
+    conf.insert(std::pair<std::string, int>("numReruns", 5));
+    conf.insert(std::pair<std::string, int>("useSubtitleRerun", 1));
+    conf.insert(std::pair<std::string, int>("displayAdditionalEPGPictures", 1));
+    conf.insert(std::pair<std::string, int>("numAdditionalEPGPictures", 9));
+    conf.insert(std::pair<std::string, int>("displayAdditionalRecEPGPictures", 1));
+    conf.insert(std::pair<std::string, int>("numAdditionalRecEPGPictures", 9));
+    conf.insert(std::pair<std::string, int>("menuChannelDisplayMode", 0));
+    conf.insert(std::pair<std::string, int>("menuChannelDisplayTime", 1));
+    conf.insert(std::pair<std::string, int>("numEPGEntriesChannelsMenu", 15));
+    conf.insert(std::pair<std::string, int>("menuFadeTime", 0));
+    conf.insert(std::pair<std::string, int>("menuEPGWindowFadeTime", 300));
+    conf.insert(std::pair<std::string, int>("menuWidthMain", 30));
+    conf.insert(std::pair<std::string, int>("menuWidthSchedules", 30));
+    conf.insert(std::pair<std::string, int>("menuWidthChannels", 30));
+    conf.insert(std::pair<std::string, int>("menuWidthTimers", 30));
+    conf.insert(std::pair<std::string, int>("menuWidthRecordings", 30));
+    conf.insert(std::pair<std::string, int>("menuWidthSetup", 30));
+    conf.insert(std::pair<std::string, int>("menuHeightInfoWindow", 20));
+    conf.insert(std::pair<std::string, int>("menuScrollDelay", 1));
+    conf.insert(std::pair<std::string, int>("menuScrollSpeed", 2));
+    conf.insert(std::pair<std::string, int>("menuInfoTextDelay", 2));
+    conf.insert(std::pair<std::string, int>("menuInfoScrollDelay", 5));
+    conf.insert(std::pair<std::string, int>("menuInfoScrollSpeed", 2));
+    conf.insert(std::pair<std::string, int>("menuWidthRightItems", 12));
+    conf.insert(std::pair<std::string, int>("menuSizeDiskUsage", 12));
+    conf.insert(std::pair<std::string, int>("showDiscUsage", 1));
+    conf.insert(std::pair<std::string, int>("discUsageStyle", 0));
+    conf.insert(std::pair<std::string, int>("showTimers", 1));
+    conf.insert(std::pair<std::string, int>("numberTimers", 10));
+    conf.insert(std::pair<std::string, int>("checkTimerConflict", 1));
+    conf.insert(std::pair<std::string, int>("headerHeight", 7));
+    conf.insert(std::pair<std::string, int>("footerHeight", 7));
+    conf.insert(std::pair<std::string, int>("numDefaultMenuItems", 16));
+    conf.insert(std::pair<std::string, int>("iconHeight", 100));
+    conf.insert(std::pair<std::string, int>("headerIconHeight", 80));
+    conf.insert(std::pair<std::string, int>("menuHeaderLogoWidth", 160));
+    conf.insert(std::pair<std::string, int>("menuHeaderLogoHeight", 70));
+    conf.insert(std::pair<std::string, int>("menuItemLogoWidth", 130));
+    conf.insert(std::pair<std::string, int>("menuItemLogoHeight", 100));
+    conf.insert(std::pair<std::string, int>("timersLogoWidth", 90));
+    conf.insert(std::pair<std::string, int>("timersLogoHeight", 70));
+    conf.insert(std::pair<std::string, int>("epgImageWidth", 210));
+    conf.insert(std::pair<std::string, int>("epgImageHeight", 160));
+    conf.insert(std::pair<std::string, int>("epgImageWidthLarge", 525));
+    conf.insert(std::pair<std::string, int>("epgImageHeightLarge", 400));
+    conf.insert(std::pair<std::string, int>("posterWidth", 500));
+    conf.insert(std::pair<std::string, int>("posterHeight", 750));
+    conf.insert(std::pair<std::string, int>("menuRecFolderSize", 128));
+    conf.insert(std::pair<std::string, int>("useFolderPoster", 1));
+    conf.insert(std::pair<std::string, int>("borderDetailedEPG", 30));
+    conf.insert(std::pair<std::string, int>("borderDetailedRecordings", 30));
+    conf.insert(std::pair<std::string, int>("menuSchedulesWindowMode", 1));
+    conf.insert(std::pair<std::string, int>("menuRecordingsWindowMode", 1));
+    conf.insert(std::pair<std::string, int>("fontHeader", 0));
+    conf.insert(std::pair<std::string, int>("fontDate", 0));
+    conf.insert(std::pair<std::string, int>("fontMenuitemLarge", 0));
+    conf.insert(std::pair<std::string, int>("fontMenuitemSchedule", 0));
+    conf.insert(std::pair<std::string, int>("fontMenuitemScheduleSmall", 0));
+    conf.insert(std::pair<std::string, int>("fontMenuitemChannel", 0));
+    conf.insert(std::pair<std::string, int>("fontMenuitemChannelSmall", 0));
+    conf.insert(std::pair<std::string, int>("fontMenuitemRecordings", 0));
+    conf.insert(std::pair<std::string, int>("fontMenuitemRecordingsSmall", 0));
+    conf.insert(std::pair<std::string, int>("fontMenuitemTimers", 0));
+    conf.insert(std::pair<std::string, int>("fontMenuitemTimersSmall", 0));
+    conf.insert(std::pair<std::string, int>("fontMenuitemDefault", 0));
+    conf.insert(std::pair<std::string, int>("fontDiskUsage", 0));
+    conf.insert(std::pair<std::string, int>("fontDiskUsagePercent", 0));
+    conf.insert(std::pair<std::string, int>("fontTimers", 0));
+    conf.insert(std::pair<std::string, int>("fontTimersHead", 0));
+    conf.insert(std::pair<std::string, int>("fontButtons", 0));
+    conf.insert(std::pair<std::string, int>("fontMessageMenu", 0));
+    conf.insert(std::pair<std::string, int>("fontDetailView", 0));
+    conf.insert(std::pair<std::string, int>("fontDetailViewSmall", 0));
+    conf.insert(std::pair<std::string, int>("fontDetailViewHeader", 0));
+    conf.insert(std::pair<std::string, int>("fontDetailViewHeaderLarge", 0));
+    conf.insert(std::pair<std::string, int>("fontEPGInfoWindow", 0));
+    conf.insert(std::pair<std::string, int>("fontEPGInfoWindowLarge", 0));
+    //DisplayChannel
+    conf.insert(std::pair<std::string, int>("channelHeight", 25));
+    conf.insert(std::pair<std::string, int>("channelBorderVertical", 15));
+    conf.insert(std::pair<std::string, int>("channelBorderBottom", 15));
+    conf.insert(std::pair<std::string, int>("channelFadeTime", 300));
+    conf.insert(std::pair<std::string, int>("logoPosition", 1));
+    conf.insert(std::pair<std::string, int>("logoWidth", 260));
+    conf.insert(std::pair<std::string, int>("logoHeight", 200));
+    conf.insert(std::pair<std::string, int>("logoWidthOriginal", 260));
+    conf.insert(std::pair<std::string, int>("logoHeightOriginal", 200));
+    conf.insert(std::pair<std::string, int>("backgroundStyle", 0));
+    conf.insert(std::pair<std::string, int>("roundedCornersChannel", 1));
+    conf.insert(std::pair<std::string, int>("displaySignalStrength", 1));
+    conf.insert(std::pair<std::string, int>("displaySourceInfo", 1));
+    conf.insert(std::pair<std::string, int>("displayPrevNextChannelGroup", 1));
+    conf.insert(std::pair<std::string, int>("fontChannelHeaderSize", 0));
+    conf.insert(std::pair<std::string, int>("fontChannelDateSize", 0));
+    conf.insert(std::pair<std::string, int>("fontEPGSize", 0));
+    conf.insert(std::pair<std::string, int>("fontEPGSmallSize", 0));
+    conf.insert(std::pair<std::string, int>("fontChannelSourceInfoSize", 0));
+    conf.insert(std::pair<std::string, int>("fontChannelGroupSize", 0));
+    conf.insert(std::pair<std::string, int>("fontChannelGroupSmallSize", 0));
+    conf.insert(std::pair<std::string, int>("progressCurrentSchedule", 0));
+    conf.insert(std::pair<std::string, int>("displayPoster", 1));
+    //Display Replay 
+    conf.insert(std::pair<std::string, int>("replayHeight", 25));
+    conf.insert(std::pair<std::string, int>("replayBorderVertical", 15));
+    conf.insert(std::pair<std::string, int>("replayBorderBottom", 15));
+    conf.insert(std::pair<std::string, int>("replayFadeTime", 300));
+    conf.insert(std::pair<std::string, int>("fontReplayHeader", 0));
+    conf.insert(std::pair<std::string, int>("fontReplay", 0));
+    //DisplayMessage
+    conf.insert(std::pair<std::string, int>("messageFadeTime", 300));
+    conf.insert(std::pair<std::string, int>("messageWidth", 90));
+    conf.insert(std::pair<std::string, int>("messageHeight", 10));
+    conf.insert(std::pair<std::string, int>("messageBorderBottom", 10));
+    conf.insert(std::pair<std::string, int>("fontMessage", 0));
+    //DisplayTracks
+    conf.insert(std::pair<std::string, int>("tracksFadeTime", 300));
+    conf.insert(std::pair<std::string, int>("tracksWidth", 25));
+    conf.insert(std::pair<std::string, int>("tracksItemHeight", 80));
+    conf.insert(std::pair<std::string, int>("tracksPosition", 0));
+    conf.insert(std::pair<std::string, int>("tracksBorderHorizontal", 10));
+    conf.insert(std::pair<std::string, int>("tracksBorderVertical", 10));
+    conf.insert(std::pair<std::string, int>("fontTracksHeader", 0));
+    conf.insert(std::pair<std::string, int>("fontTracks", 0));
+    //DisplayVolume
+    conf.insert(std::pair<std::string, int>("volumeFadeTime", 300));
+    conf.insert(std::pair<std::string, int>("volumeWidth", 40));
+    conf.insert(std::pair<std::string, int>("volumeHeight", 10));
+    conf.insert(std::pair<std::string, int>("volumeBorderBottom", 10));
+    conf.insert(std::pair<std::string, int>("fontVolume", 0));
+    //Channel Logo Caching
+    conf.insert(std::pair<std::string, int>("limitLogoCache", 1));
+    conf.insert(std::pair<std::string, int>("numLogosInitial", 30));
+    conf.insert(std::pair<std::string, int>("numLogosMax", 50));
+}
+
+void cNopacityConfig::SetFontName() {  
+    if (fontName)
+        free(fontName);
+    if (GetValue("fontIndex") == 0) {
         fontName = strdup(fontDefaultName);
     } else {
         cStringList availableFonts;
         cFont::GetAvailableFontNames(&availableFonts);
-        if (availableFonts[fontIndex-1]) {
-            fontName = strdup(availableFonts[fontIndex-1]);
+        if (availableFonts[GetValue("fontIndex")-1]) {
+            fontName = strdup(availableFonts[GetValue("fontIndex")-1]);
         } else 
             fontName = strdup(fontDefaultName);
     }
-    channelFrameTime = channelFadeTime / 10;
-    replayFrameTime = replayFadeTime / 10;
-    messageFrameTime = messageFadeTime / 10;
-    tracksFrameTime = tracksFadeTime / 10;
-    volumeFrameTime = volumeFadeTime / 10;
-    menuFrameTime = menuFadeTime / 10;
-    menuEPGWindowFrameTime = menuEPGWindowFadeTime / 10;
-    
-    menuScrollFrameTime = 0;
-    if (menuScrollSpeed == 1)
-        menuScrollFrameTime = 50;
-    else if (menuScrollSpeed == 2)
-        menuScrollFrameTime = 30;
-    else if (menuScrollSpeed == 3)
-        menuScrollFrameTime = 15;
-        
-    menuInfoScrollFrameTime = 0;
-    if (menuInfoScrollSpeed == 1)
-        menuInfoScrollFrameTime = 50;
-    else if (menuInfoScrollSpeed == 2)
-        menuInfoScrollFrameTime = 30;
-    else if (menuInfoScrollSpeed == 3)
-        menuInfoScrollFrameTime = 15;
-
-    rssScrollFrameTime = 0;
-    if (rssScrollSpeed == 0)
-        rssScrollFrameTime = 30;
-    else if (rssScrollSpeed == 1)
-        rssScrollFrameTime = 15;
-    else if (rssScrollSpeed == 2)
-        rssScrollFrameTime = 5;
-
-    if (!pathValuesSet) {
-        pathValuesSet = true;
-        logoPathDefault = cString::sprintf("%s/logos/", cPlugin::ResourceDirectory(PLUGIN_NAME_I18N));
-        iconPathDefault = cString::sprintf("%s/icons/", cPlugin::ResourceDirectory(PLUGIN_NAME_I18N));
-        epgImagePathDefault = cString::sprintf("%s/epgimages/", cPlugin::CacheDirectory(PLUGIN_NAME_I18N));
-        
-        dsyslog("nopacity: using Logo Directory %s", (logoPathSet)?(*logoPath):(*logoPathDefault)); 
-        dsyslog("nopacity: using Icon Directory %s", (iconPathSet)?(*iconPath):(*iconPathDefault)); 
-        dsyslog("nopacity: using EPG Images Directory %s", (epgImagePathSet)?(*epgImagePath):(*epgImagePathDefault)); 
-    }
 }
 
-void cNopacityConfig::loadRssFeeds(void) {
-    cString rssconf = cString::sprintf("%s/rssfeeds.conf", cPlugin::ConfigDirectory(PLUGIN_NAME_I18N));
-    dsyslog("nopacity: trying to load rss feeds from %s", *rssconf);
-    FILE *f = fopen(*rssconf, "r");
-    bool foundEntries = false;
-    if (f) {
-        char *line;
-        cReadLine ReadLine;
-        while ((line = ReadLine.Read(f)) != NULL) {
-            try {
-                std::string currentLine = line;
-                size_t startTag = currentLine.find_first_of('[') + 1;
-                size_t endTag = currentLine.find_first_of(']');
-                if (endTag != std::string::npos) {
-                    std::string rssName = currentLine.substr(startTag, endTag - 1);
-                    std::string rssUrl = currentLine.substr(endTag + 1);
-                    size_t startUrl = rssUrl.find_first_of("http");
-                    if (startUrl != std::string::npos) {
-                        rssUrl = rssUrl.substr(startUrl);
-                        size_t whitespaces = rssUrl.find_first_of(" ");
-                        if (whitespaces != std::string::npos) {
-                            rssUrl = rssUrl.substr(0, whitespaces);
-                        }
-                        RssFeed feed;
-                        feed.name = rssName;
-                        feed.url = rssUrl;
-                        rssFeeds.push_back(feed);
-                        foundEntries = true;
-                    }
-                }
-            } catch (...) {}
-        }
-        fclose(f);
-    }
-    if (foundEntries) {
-        dsyslog("nopacity: loaded %lu rss feeds from %s", (long unsigned)rssFeeds.size(), *rssconf);
-        int i = 1;
-        for (std::vector<RssFeed>::iterator it = rssFeeds.begin(); it != rssFeeds.end(); it++) {
-            dsyslog("nopacity: RssFeed %d: name %s, URL: %s", i, it->name.c_str(), it->url.c_str());
-            i++;
-        }
-    } else {
-        dsyslog("nopacity: no valid rss config found, using default rss feed");
-        RssFeed feed;
-        feed.name = "Tagesschau";
-        feed.url = "http://www.tagesschau.de/xml/rss2";
-        rssFeeds.push_back(feed);
-    }
+void cNopacityConfig::SetPathes(void) {
+    logoPathDefault = cString::sprintf("%s/logos/", cPlugin::ResourceDirectory(PLUGIN_NAME_I18N));
+    iconPathDefault = cString::sprintf("%s/icons/", cPlugin::ResourceDirectory(PLUGIN_NAME_I18N));
+    epgImagePathDefault = cString::sprintf("%s/epgimages/", cPlugin::CacheDirectory(PLUGIN_NAME_I18N));
+        
+    dsyslog("nopacity: using Logo Directory %s", (logoPathSet)?(*logoPath):(*logoPathDefault)); 
+    dsyslog("nopacity: using Icon Directory %s", (iconPathSet)?(*iconPath):(*iconPathDefault)); 
+    dsyslog("nopacity: using EPG Images Directory %s", (epgImagePathSet)?(*epgImagePath):(*epgImagePathDefault)); 
 }
-
 
 void cNopacityConfig::SetLogoPath(cString path) {
     logoPath = checkSlashAtEnd(*path);
@@ -312,165 +244,144 @@ cString cNopacityConfig::checkSlashAtEnd(std::string path) {
     return path.c_str();
 }
 
+void cNopacityConfig::LoadThemeSpecificConfigs(void) {
+    cThemes themes;
+    themes.Load("nOpacity");
+    int numThemes = themes.NumThemes();
+    dsyslog("nopacity: %d themes available", numThemes);
+    for (int theme = 0; theme < numThemes; theme++) {
+        cString confFile = cString::sprintf("%s/themeconfigs/theme-%s.conf", cPlugin::ConfigDirectory(PLUGIN_NAME_I18N), themes.Name(theme));
+        dsyslog("nopacity: trying to load theme config %s", *confFile);
+        LoadThemeConfig(confFile, themes.Name(theme));   
+    }
+}
+
+void cNopacityConfig::LoadThemeConfig(cString confFile, cString theme) {
+    FILE *f = fopen(*confFile, "r");
+    if (f) {
+        dsyslog("nopacity: %s successfully loaded", *confFile);
+        std::map<std::string, int> themeConf;
+        char *line;
+        cReadLine ReadLine;
+        bool insertConf = false;
+        while ((line = ReadLine.Read(f)) != NULL) {
+            std::pair<std::string, int> themeConfLine = ReadThemeConfigLine(line);
+            std::string name = (std::string)themeConfLine.first;
+            if (name.compare("undefined") != 0) {
+                themeConf.insert(themeConfLine);
+                insertConf = true;
+            }
+        }
+        if (insertConf)
+            themeConfigDefaults.insert(std::pair<std::string, std::map<std::string, int> >(*theme, themeConf));
+    }
+}
+
+std::pair<std::string, int> cNopacityConfig::ReadThemeConfigLine(const char *line) {
+    std::pair<std::string, int> themeConf;
+    try {
+        splitstring s(line);
+        std::vector<std::string> flds = s.split('=', 0);
+        if (flds.size() == 2) {
+            std::string name = flds[0];
+            name.erase(name.find_last_not_of(" ")+1);
+            name.erase(0, name.find_first_not_of(" "));
+            int value = atoi(flds[1].c_str());
+            themeConf = std::make_pair (name,value);
+        } else {
+            themeConf = std::make_pair ("undefined",0);
+        }
+    } catch (...) {
+        themeConf = std::make_pair ("undefined",0);
+    }
+    return themeConf;
+}
+
+void cNopacityConfig::SetThemeSpecificDefaults(void) {
+    std::map<std::string, std::map<std::string, int> >::iterator themeConfHit = themeConfigDefaults.find(Setup.OSDTheme);
+    if (themeConfHit != themeConfigDefaults.end()) {
+        std::map<std::string, int> themeConf =  (std::map<std::string, int>)themeConfHit->second;
+        for(std::map<std::string, int>::const_iterator it = themeConf.begin(); it != themeConf.end(); it++) {
+            std::string name = (std::string)it->first;
+            int value = (int)it->second;
+            std::map<std::string, int>::iterator origVal = conf.find(name);
+            if (origVal != conf.end()) {
+                conf.erase(origVal);
+                conf.insert(std::pair<std::string, int>(name, value));
+            } else {
+                dsyslog("nopacity: ERROR: unknown config parameter %s in default config for theme %s", name.c_str(), Setup.OSDTheme);
+            }
+        }
+    }
+}
+
+void cNopacityConfig::SetThemeSetup(void) {
+    std::map<std::string, std::map<std::string, int> >::iterator themeSetupHit = themeConfigSetup.find(Setup.OSDTheme);
+    if (themeSetupHit != themeConfigSetup.end()) {
+        std::map<std::string, int> themeSetup =  (std::map<std::string, int>)themeSetupHit->second;
+        for(std::map<std::string, int>::const_iterator it = themeSetup.begin(); it != themeSetup.end(); it++) {
+            std::string name = (std::string)it->first;
+            int value = (int)it->second;
+            std::map<std::string, int>::iterator origVal = conf.find(name);
+            if (origVal != conf.end()) {
+                conf.erase(origVal);
+                conf.insert(std::pair<std::string, int>(name, value));
+            }
+        }
+    }
+}
 
 bool cNopacityConfig::SetupParse(const char *Name, const char *Value) {
-    if      (strcmp(Name, "fontIndex") == 0)               fontIndex = atoi(Value);
-    else if (strcmp(Name, "channelFadeTime") == 0)         channelFadeTime = atoi(Value);
-    else if (strcmp(Name, "channelHeight") == 0)           channelHeight = atoi(Value);
-    else if (strcmp(Name, "channelBorderVertical") == 0)   channelBorderVertical = atoi(Value);
-    else if (strcmp(Name, "channelBorderBottom") == 0)     channelBorderBottom = atoi(Value);
-    else if (strcmp(Name, "logoPosition") == 0)            logoPosition = atoi(Value);
-    else if (strcmp(Name, "logoWidth") == 0)               logoWidth = atoi(Value);
-    else if (strcmp(Name, "logoHeight") == 0)              logoHeight = atoi(Value);
-    else if (strcmp(Name, "logoBorder") == 0)              logoBorder = atoi(Value);
-    else if (strcmp(Name, "backgroundStyle") == 0)         backgroundStyle = atoi(Value);
-    else if (strcmp(Name, "symbolStyle") == 0)              symbolStyle = atoi(Value);
-    else if (strcmp(Name, "roundedCornersChannel") == 0)   roundedCornersChannel = atoi(Value);
-    else if (strcmp(Name, "displaySignalStrength") == 0)   displaySignalStrength = atoi(Value);
-    else if (strcmp(Name, "displaySourceInfo") == 0)       displaySourceInfo = atoi(Value);
-    else if (strcmp(Name, "displayPrevNextChannelGroup") == 0) displayPrevNextChannelGroup = atoi(Value);
-    else if (strcmp(Name, "fontChannelHeaderSize") == 0)   fontChannelHeaderSize = atoi(Value);
-    else if (strcmp(Name, "fontChannelDateSize") == 0)     fontChannelDateSize = atoi(Value);
-    else if (strcmp(Name, "fontEPGSize") == 0)             fontEPGSize = atoi(Value);
-    else if (strcmp(Name, "fontEPGSmallSize") == 0)        fontEPGSmallSize = atoi(Value);
-    else if (strcmp(Name, "fontChannelGroupSize") == 0)    fontChannelGroupSize = atoi(Value);
-    else if (strcmp(Name, "fontChannelGroupSmallSize") == 0) fontChannelGroupSmallSize = atoi(Value);
-    else if (strcmp(Name, "resolutionIconSize") == 0)      resolutionIconSize = atoi(Value);
-    else if (strcmp(Name, "statusIconSize") == 0)          statusIconSize = atoi(Value);
-    else if (strcmp(Name, "progressCurrentSchedule") == 0) progressCurrentSchedule = atoi(Value);
-    else if (strcmp(Name, "displayPoster") == 0)           displayPoster = atoi(Value);
-    else if (strcmp(Name, "replayHeight") == 0)            replayHeight = atoi(Value);
-    else if (strcmp(Name, "replayBorderVertical") == 0)    replayBorderVertical = atoi(Value);
-    else if (strcmp(Name, "replayBorderBottom") == 0)      replayBorderBottom = atoi(Value);
-    else if (strcmp(Name, "replayFadeTime") == 0)          replayFadeTime = atoi(Value);
-    else if (strcmp(Name, "fontReplayHeader") == 0)        fontReplayHeader = atoi(Value);
-    else if (strcmp(Name, "fontReplay") == 0)              fontReplay = atoi(Value);
-    else if (strcmp(Name, "messageWidth") == 0)            messageWidth = atoi(Value);
-    else if (strcmp(Name, "messageHeight") == 0)           messageHeight = atoi(Value);
-    else if (strcmp(Name, "messageBorderBottom") == 0)     messageBorderBottom = atoi(Value);
-    else if (strcmp(Name, "fontMessage") == 0)             fontMessage = atoi(Value);
-    else if (strcmp(Name, "messageFadeTime") == 0)         messageFadeTime = atoi(Value);
-    else if (strcmp(Name, "tracksFadeTime") == 0)          tracksFadeTime = atoi(Value);
-    else if (strcmp(Name, "tracksWidth") == 0)             tracksWidth = atoi(Value);
-    else if (strcmp(Name, "tracksItemHeight") == 0)        tracksItemHeight = atoi(Value);
-    else if (strcmp(Name, "tracksPosition") == 0)          tracksPosition = atoi(Value);
-    else if (strcmp(Name, "tracksBorderHorizontal") == 0)  tracksBorderHorizontal = atoi(Value);
-    else if (strcmp(Name, "tracksBorderVertical") == 0)    tracksBorderVertical = atoi(Value);
-    else if (strcmp(Name, "fontTracksHeader") == 0)        fontTracksHeader = atoi(Value);
-    else if (strcmp(Name, "fontTracks") == 0)              fontTracks = atoi(Value);
-    else if (strcmp(Name, "volumeFadeTime") == 0)          volumeFadeTime = atoi(Value);
-    else if (strcmp(Name, "volumeWidth") == 0)             volumeWidth = atoi(Value);
-    else if (strcmp(Name, "volumeHeight") == 0)            volumeHeight = atoi(Value);
-    else if (strcmp(Name, "volumeBorderBottom") == 0)      volumeBorderBottom = atoi(Value);
-    else if (strcmp(Name, "fontVolume") == 0)              fontVolume = atoi(Value);
-    else if (strcmp(Name, "menuFadeTime") == 0)            menuFadeTime = atoi(Value);
-    else if (strcmp(Name, "menuEPGWindowFadeTime") == 0)   menuEPGWindowFadeTime = atoi(Value);
-    else if (strcmp(Name, "menuScrollDelay") == 0)         menuScrollDelay = atoi(Value);
-    else if (strcmp(Name, "menuScrollSpeed") == 0)         menuScrollSpeed = atoi(Value);
-    else if (strcmp(Name, "menuInfoTextDelay") == 0)       menuInfoTextDelay = atoi(Value);
-    else if (strcmp(Name, "menuInfoScrollDelay") == 0)     menuInfoScrollDelay = atoi(Value);
-    else if (strcmp(Name, "menuInfoScrollSpeed") == 0)     menuInfoScrollSpeed = atoi(Value);
-    else if (strcmp(Name, "scrollMode") == 0)              scrollMode = atoi(Value);
-    else if (strcmp(Name, "menuAdjustLeft") == 0)          menuAdjustLeft = atoi(Value);
-    else if (strcmp(Name, "scalePicture") == 0)            scalePicture = atoi(Value);
-    else if (strcmp(Name, "roundedCorners") == 0)          roundedCorners = atoi(Value);
-    else if (strcmp(Name, "cornerRadius") == 0)            cornerRadius = atoi(Value);
-    else if (strcmp(Name, "useMenuIcons") == 0)            useMenuIcons = atoi(Value);
-    else if (strcmp(Name, "mainMenuTitleStyle") == 0)      mainMenuTitleStyle = atoi(Value);
-    else if (strcmp(Name, "narrowMainMenu") == 0)          narrowMainMenu = atoi(Value);
-    else if (strcmp(Name, "narrowScheduleMenu") == 0)      narrowScheduleMenu = atoi(Value);
-    else if (strcmp(Name, "narrowChannelMenu") == 0)       narrowChannelMenu = atoi(Value);
-    else if (strcmp(Name, "narrowTimerMenu") == 0)         narrowTimerMenu = atoi(Value);
-    else if (strcmp(Name, "narrowRecordingMenu") == 0)     narrowRecordingMenu = atoi(Value);
-    else if (strcmp(Name, "narrowSetupMenu") == 0)         narrowSetupMenu = atoi(Value);
-    else if (strcmp(Name, "displayRerunsDetailEPGView") == 0) displayRerunsDetailEPGView = atoi(Value);
-    else if (strcmp(Name, "numReruns") == 0)               numReruns = atoi(Value);
-    else if (strcmp(Name, "useSubtitleRerun") == 0)        useSubtitleRerun = atoi(Value);
-    else if (strcmp(Name, "displayAdditionalEPGPictures") == 0) displayAdditionalEPGPictures = atoi(Value);
-    else if (strcmp(Name, "numAdditionalEPGPictures") == 0) numAdditionalEPGPictures = atoi(Value);
-    else if (strcmp(Name, "displayAdditionalRecEPGPictures") == 0) displayAdditionalRecEPGPictures = atoi(Value);
-    else if (strcmp(Name, "numAdditionalRecEPGPictures") == 0) numAdditionalRecEPGPictures = atoi(Value);
-    else if (strcmp(Name, "menuChannelDisplayMode") == 0)  menuChannelDisplayMode = atoi(Value);
-    else if (strcmp(Name, "menuChannelDisplayTime") == 0)  menuChannelDisplayTime= atoi(Value);
-    else if (strcmp(Name, "numEPGEntriesChannelsMenu") == 0) numEPGEntriesChannelsMenu = atoi(Value);
-    else if (strcmp(Name, "menuWidthMain") == 0)           menuWidthMain = atoi(Value);
-    else if (strcmp(Name, "menuWidthSchedules") == 0)      menuWidthSchedules = atoi(Value);
-    else if (strcmp(Name, "menuWidthChannels") == 0)       menuWidthChannels = atoi(Value);
-    else if (strcmp(Name, "menuWidthTimers") == 0)         menuWidthTimers = atoi(Value);
-    else if (strcmp(Name, "menuWidthRecordings") == 0)     menuWidthRecordings = atoi(Value);
-    else if (strcmp(Name, "menuWidthSetup") == 0)          menuWidthSetup = atoi(Value);
-    else if (strcmp(Name, "menuWidthRightItems") == 0)     menuWidthRightItems = atoi(Value);
-    else if (strcmp(Name, "menuSizeDiskUsage") == 0)       menuSizeDiskUsage = atoi(Value);
-    else if (strcmp(Name, "menuHeightInfoWindow") == 0)    menuHeightInfoWindow = atoi(Value);
-    else if (strcmp(Name, "showDiscUsage") == 0)           showDiscUsage = atoi(Value);
-    else if (strcmp(Name, "discUsageStyle") == 0)          discUsageStyle = atoi(Value);
-    else if (strcmp(Name, "showTimers") == 0)              showTimers = atoi(Value);
-    else if (strcmp(Name, "numberTimers") == 0)            numberTimers = atoi(Value);
-    else if (strcmp(Name, "checkTimerConflict") == 0)      checkTimerConflict = atoi(Value);
-    else if (strcmp(Name, "headerHeight") == 0)            headerHeight = atoi(Value);
-    else if (strcmp(Name, "footerHeight") == 0)            footerHeight = atoi(Value);
-    else if (strcmp(Name, "numDefaultMenuItems") == 0)     numDefaultMenuItems = atoi(Value);
-    else if (strcmp(Name, "iconHeight") == 0)              iconHeight = atoi(Value);
-    else if (strcmp(Name, "headerIconHeight") == 0)        headerIconHeight = atoi(Value);
-    else if (strcmp(Name, "menuItemLogoWidth") == 0)       menuItemLogoWidth = atoi(Value);
-    else if (strcmp(Name, "menuItemLogoHeight") == 0)      menuItemLogoHeight = atoi(Value);
-    else if (strcmp(Name, "menuHeaderLogoWidth") == 0)     menuHeaderLogoWidth = atoi(Value);
-    else if (strcmp(Name, "menuHeaderLogoHeight") == 0)    menuHeaderLogoHeight = atoi(Value);
-    else if (strcmp(Name, "timersLogoWidth") == 0)         timersLogoWidth = atoi(Value);
-    else if (strcmp(Name, "timersLogoHeight") == 0)        timersLogoHeight = atoi(Value);
-    else if (strcmp(Name, "epgImageWidth") == 0)           epgImageWidth = atoi(Value);
-    else if (strcmp(Name, "epgImageHeight") == 0)          epgImageHeight = atoi(Value);
-    else if (strcmp(Name, "epgImageWidthLarge") == 0)      epgImageWidthLarge = atoi(Value);
-    else if (strcmp(Name, "epgImageHeightLarge") == 0)     epgImageHeightLarge = atoi(Value);
-    else if (strcmp(Name, "posterWidth") == 0)             posterWidth = atoi(Value);
-    else if (strcmp(Name, "posterHeight") == 0)            posterHeight = atoi(Value);
-    else if (strcmp(Name, "menuRecFolderSize") == 0)       menuRecFolderSize = atoi(Value);
-    else if (strcmp(Name, "useFolderPoster") == 0)         useFolderPoster = atoi(Value);
-    else if (strcmp(Name, "borderDetailedEPG") == 0)       borderDetailedEPG = atoi(Value);
-    else if (strcmp(Name, "borderDetailedRecordings") == 0) borderDetailedRecordings = atoi(Value);
-    else if (strcmp(Name, "menuSchedulesWindowMode") == 0) menuSchedulesWindowMode = atoi(Value);
-    else if (strcmp(Name, "menuRecordingsWindowMode") == 0) menuRecordingsWindowMode = atoi(Value);
-    else if (strcmp(Name, "fontHeader") == 0)              fontHeader = atoi(Value);
-    else if (strcmp(Name, "fontDate") == 0)                fontDate = atoi(Value);
-    else if (strcmp(Name, "fontMenuitemLarge") == 0)       fontMenuitemLarge = atoi(Value);
-    else if (strcmp(Name, "fontMenuitemSchedule") == 0)    fontMenuitemSchedule = atoi(Value);
-    else if (strcmp(Name, "fontMenuitemScheduleSmall") == 0) fontMenuitemScheduleSmall = atoi(Value);
-    else if (strcmp(Name, "fontMenuitemChannel") == 0)     fontMenuitemChannel = atoi(Value);
-    else if (strcmp(Name, "fontMenuitemChannelSmall") == 0) fontMenuitemChannelSmall = atoi(Value);
-    else if (strcmp(Name, "fontMenuitemRecordings") == 0)    fontMenuitemRecordings = atoi(Value);
-    else if (strcmp(Name, "fontMenuitemRecordingsSmall") == 0) fontMenuitemRecordingsSmall = atoi(Value);
-    else if (strcmp(Name, "fontMenuitemTimers") == 0)      fontMenuitemTimers = atoi(Value);
-    else if (strcmp(Name, "fontMenuitemTimersSmall") == 0) fontMenuitemTimersSmall = atoi(Value);
-    else if (strcmp(Name, "fontMenuitemDefault") == 0)     fontMenuitemDefault = atoi(Value);
-    else if (strcmp(Name, "fontDiskUsage") == 0)           fontDiskUsage = atoi(Value);
-    else if (strcmp(Name, "fontDiskUsagePercent") == 0)    fontDiskUsagePercent = atoi(Value);
-    else if (strcmp(Name, "fontTimersHead") == 0)          fontTimersHead = atoi(Value);
-    else if (strcmp(Name, "fontTimers") == 0)              fontTimers = atoi(Value);
-    else if (strcmp(Name, "fontButtons") == 0)             fontButtons = atoi(Value);
-    else if (strcmp(Name, "fontMessageMenu") == 0)         fontMessageMenu = atoi(Value);
-    else if (strcmp(Name, "fontDetailView") == 0)          fontDetailView = atoi(Value);
-    else if (strcmp(Name, "fontDetailViewSmall") == 0)     fontDetailViewSmall = atoi(Value);
-    else if (strcmp(Name, "fontDetailViewHeader") == 0)    fontDetailViewHeader = atoi(Value);
-    else if (strcmp(Name, "fontDetailViewHeaderLarge") == 0) fontDetailViewHeaderLarge = atoi(Value);
-    else if (strcmp(Name, "fontEPGInfoWindow") == 0)       fontEPGInfoWindow = atoi(Value);
-    else if (strcmp(Name, "fontEPGInfoWindowLarge") == 0)  fontEPGInfoWindowLarge = atoi(Value);
-    else if (strcmp(Name, "displayRSSFeed") == 0)          displayRSSFeed = atoi(Value);
-    else if (strcmp(Name, "rssFeedHeight") == 0)           rssFeedHeight = atoi(Value);
-    else if (strcmp(Name, "fontRssFeed") == 0)             fontRssFeed = atoi(Value);
-    else if (strcmp(Name, "rssScrollDelay") == 0)          rssScrollDelay = atoi(Value);
-    else if (strcmp(Name, "rssScrollSpeed") == 0)          rssScrollSpeed = atoi(Value);
-    else if (strcmp(Name, "rssFeed[0]") == 0)              rssFeed[0] = atoi(Value);
-    else if (strcmp(Name, "rssFeed[1]") == 0)              rssFeed[1] = atoi(Value);
-    else if (strcmp(Name, "rssFeed[2]") == 0)              rssFeed[2] = atoi(Value);
-    else if (strcmp(Name, "rssFeed[3]") == 0)              rssFeed[3] = atoi(Value);
-    else if (strcmp(Name, "rssFeed[4]") == 0)              rssFeed[4] = atoi(Value);
-    else if (strcmp(Name, "rssFeedHeightStandalone") == 0) rssFeedHeightStandalone = atoi(Value);
-    else if (strcmp(Name, "fontRssFeedStandalone") == 0)   fontRssFeedStandalone = atoi(Value);
-    else if (strcmp(Name, "rssFeedStandalonePos") == 0)    rssFeedStandalonePos = atoi(Value);
-    else if (strcmp(Name, "limitLogoCache") == 0)          limitLogoCache = atoi(Value);
-    else if (strcmp(Name, "numLogosInitial") == 0)         numLogosInitial = atoi(Value);
-    else if (strcmp(Name, "numLogosMax") == 0)             numLogosMax = atoi(Value);
-    else return false;
+    splitstring s(Name);
+    std::vector<std::string> flds = s.split('.', 0);
+    if (flds.size() == 2) {
+        std::string theme = flds[0];
+        std::string name = flds[1];
+        //check if valid value
+        std::map<std::string, int>::iterator hit = conf.find(name);
+        if (hit == conf.end())
+            return false;
+        //check if theme already in map
+        std::map<std::string, std::map<std::string, int> >::iterator hit2 = themeConfigSetup.find(theme);
+        if (hit2 != themeConfigSetup.end()) {
+            std::map<std::string, int> existingValues = (std::map<std::string, int>)hit2->second;
+            existingValues.insert(std::pair<std::string, int>(name, atoi(Value)));
+            themeConfigSetup.erase(theme);
+            themeConfigSetup.insert(std::pair<std::string, std::map<std::string, int> >(theme, existingValues));
+        } else {
+            std::map<std::string, int> themeConf;
+            themeConf.insert(std::pair<std::string, int>(name, atoi(Value)));
+            themeConfigSetup.insert(std::pair<std::string, std::map<std::string, int> >(theme, themeConf));
+        }
+    } else {
+        return false;
+    }
     return true;
-    
+}
+
+void cNopacityConfig::DumpConfig(void) {
+   esyslog("nopacity: current config -----------------");
+   for(std::map<std::string, int>::const_iterator it = conf.begin(); it != conf.end(); it++) {
+        esyslog("nopacity: %s: %d", (std::string(it->first)).c_str(), (int)it->second);
+   }
+   esyslog("nopacity: --------------------------------");
+}
+
+void cNopacityConfig::DumpThemeConfig(void) {
+    for (std::map<std::string, std::map<std::string, int> >::const_iterator it = themeConfigDefaults.begin(); it != themeConfigDefaults.end(); it++) {
+        esyslog("nopacity: Default Config for theme %s -----------------", (std::string(it->first)).c_str());
+        std::map<std::string, int> themeValues = (std::map<std::string, int>)it->second;
+        for (std::map<std::string, int>::const_iterator it2 = themeValues.begin(); it2 != themeValues.end(); it2++) {
+            esyslog("nopacity: %s: %d", (std::string(it2->first)).c_str(), (int)it2->second);
+        }
+    }
+    esyslog("nopacity: --------------------------------");
+    for (std::map<std::string, std::map<std::string, int> >::const_iterator it3 = themeConfigSetup.begin(); it3 != themeConfigSetup.end(); it3++) {
+        esyslog("nopacity: Setup for theme %s -----------------", (std::string(it3->first)).c_str());
+        std::map<std::string, int> themeValues = (std::map<std::string, int>)it3->second;
+        for (std::map<std::string, int>::const_iterator it4 = themeValues.begin(); it4 != themeValues.end(); it4++) {
+            esyslog("nopacity: %s: %d", (std::string(it4->first)).c_str(), (int)it4->second);
+        }
+    }
+    esyslog("nopacity: --------------------------------");
 }

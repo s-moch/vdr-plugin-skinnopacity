@@ -2,6 +2,7 @@
 #define __NOPACITY_GEOMETRYMANAGER_H
 
 enum eLogoPosition {lpNone = 0, lpLeft, lpRight};
+enum eBackgroundStyle {bsTrans = 0, bsFull};
 
 class cGeometryManager {
     private:
@@ -27,7 +28,6 @@ class cGeometryManager {
         int menuDateWidth;
         int menuHeaderHeight;
         int menuFooterHeight;
-        int menuRssFeedHeight;
         int menuContentHeight;
         int menuContentWidthMain;
         int menuContentWidthSchedules;
@@ -59,20 +59,21 @@ class cGeometryManager {
         int menuMessageWidth;
         int menuMessageHeight;
         //DisplayChannel Sizes
-        int channelTop, channelHeight;
-        int channelWidth;
-        int channelX;
-        int channelInfoWidth;
-        int channelInfoHeight;
+        int channelX, channelTop;
+        int channelWidth, channelHeight;
+        int channelHeaderHeight;
+        int channelFooterHeight;
+        int channelContentHeight;
+        int channelContentX, channelContentWidth;
+        int channelLogoWidthTotal;
+        int channelLogoX, channelLogoY;
+        int channelLogoWidth, channelLogoHeight;
+        int channelChannelNameWidth;
         int channelDateWidth;
+        int channelFooterY;
         int channelProgressBarHeight;
         int channelEpgInfoHeight;
         int channelEpgInfoLineHeight;
-        int channelStreamInfoHeight;
-        int channelStreamInfoY;
-        int channelIconSize;
-        int channelIconsWidth;
-        int channelSignalWidth, channelSignalHeight, channelSignalX;
         //DisplayReplay Sizes
         int replayWidth;
         int replayHeight;
@@ -85,6 +86,7 @@ class cGeometryManager {
         int replayInfoWidth;
         int replayDateWidth;
         int replayIconSize, replayIconBorder;
+        int replayResolutionSize;
         int replayResolutionX, replayResolutionY; 
         int replayJumpX, replayJumpY; 
         int replayJumpWidth, replayJumpHeight;

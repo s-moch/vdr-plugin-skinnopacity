@@ -1,6 +1,4 @@
 Description = Keep it Light
-#DO BLENDING
-clrDoBlending = 00000000
 clrChannelBackground = AA000000
 clrChannelBackBlend = AA000000
 clrChannelHead = FFEEEEEE
