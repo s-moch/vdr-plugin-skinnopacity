@@ -122,8 +122,8 @@ install-icons:
 	cp -r icons/* $(DESTDIR)$(PLGRESDIR)/icons
 
 install-themeconfigs:
-	mkdir -p $(DESTDIR)$(PLGRESDIR)/themeconfigs
-	cp conf/theme-* $(DESTDIR)$(PLGRESDIR)/themeconfigs
+	mkdir -p $(DESTDIR)$(VDRCONFDIR)/plugins/$(PLUGIN)/themeconfigs
+	cp conf/theme-* $(DESTDIR)$(VDRCONFDIR)/plugins/$(PLUGIN)/themeconfigs
 
 install: install-lib install-i18n install-themes install-icons install-themeconfigs
 
