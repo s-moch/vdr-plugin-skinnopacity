@@ -522,12 +522,12 @@ cString cNopacityDisplayChannelView::GetScreenResolutionIcon(void) {
             else
                 iconName = "skinIcons/hd1080i";
             break;
-            case 720:
-                iconName = "skinIcons/sd576i";
-                break;
-            default:
-                iconName = "skinIcons/sd576i";
-                break;
+        case 720:
+            iconName = "skinIcons/sd576i";
+            break;
+        default:
+            iconName = "skinIcons/sd576i";
+            break;
     }
     return iconName;
 }

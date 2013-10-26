@@ -250,19 +250,19 @@ void cNopacityDisplayReplay::DrawScreenResolution(void) {
     switch (screenWidth) {
         case 1920:
         case 1440:
-            iconName = "skinIcons/hd1080i";
+            iconName = "skinIcons/hd1080i_rec";
             break;
         case 1280:
             if (screenHeight == 720)
-                iconName = "skinIcons/hd720p";
+                iconName = "skinIcons/hd720p_rec";
             else
-                iconName = "skinIcons/hd1080i";
+                iconName = "skinIcons/hd1080i_rec";
             break;
         case 720:
-            iconName = "skinIcons/sd576i";
+            iconName = "skinIcons/sd576i_rec";
             break;
         default:
-            iconName = "skinIcons/sd576i";
+            iconName = "skinIcons/sd576i_rec";
             break;
     }
     int replaySize = geoManager->replayResolutionSize;
