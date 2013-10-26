@@ -25,8 +25,6 @@ Requirements
 - epgsearch Git since commit ba7c6277 (2013-01-03) to correctly replace the schedules
   menu with epgsearch
 
-- Installed libCurl and libXML2 for displaying RSS Feeds
-
 Description
 -----------
 
@@ -121,48 +119,6 @@ with fancy backgrounds from the transparent logos. Before running the script, ju
 config variables in the header of the script according to your needs. If you place the newly 
 created logos in a subfolder of your logo directory named exactly as the used Theme name, 
 nOpacity uses these logos only for the appropriate theme automatically.
-
-RSS Feeds
----------
-
-nOpacity supports the display of RSS Feeds in the VDR menu and standalone. Displaying the
-RSS Feed in the VDR menu is disabled per default because on slow machines it could slow down
-the VDR menu. If you like, enable it in the RSS Feed setup. 
-On VDR startup nOpacity tries to load the RSS config file "rssfeeds.conf" from the plugin 
-config directory. In this file rss feeds can be set up per line in the following format:
-
-[rssfeedname1]   rssfeedurl1
-[rssfeedname2]   rssfeedurl2
-...              ...
-
-An example for this file is located in the plugin source directory under "conf". This file is
-not automatically copied to the plugin config directory by a "make install", it has to be
-copied manually, because otherwise an update of the plugin would destroy your customizations.
-
-If no rssfeeds.conf can be located during startup, only one default rss feed ("Tagesschau") 
-will be used.
-
-Each rss feed configured in this file can be selected in the plugin setup for the values
-"RSS Feed 1" to "RSS Feed 5". Per default "RSS Feed 1" points to the first feed from the
-config file, "RSS Feed 2" up to "RSS Feed 5" are empty.
-
-The standalone RSS Feed can be activated (and if active dectivated) with the svdrp command:
-
-svdrpsend plug skinnopacity STANDALONEFEED
-
-RSS Feed 1 is displayed at startup. If one or more of the fields "RSS Feed 2" to "RSS Feed 5" 
-are activated, it can be toggled through these feeds via svdrp with the command:
-
-svdrpsend plug skinnopacity NEXTFEED
-
-With the command
-
-svdrpsend plug skinnopacity NEXTMESG
-
-you can switch to the next message in the current feed.
-
-Just configure this commands for one of your remote control buttons to easily toggle between
-the different feeds or switch to the next message inside a feed.
 
 Themes and theme specific Icons
 -------------------------------
@@ -366,16 +322,3 @@ Customizing, Skin Setup Options
   Remark: the volume display is always positioned in the center of the screen,
   with bottom border it can be moved to the top.
 - Adjust Font Size
-
-* RSS Feeds:
-
-- Display RSS Feed
-  - Height of RSS Feed Line (Percent of OSD Height): Default 5%
-  - Adjust Font Size
-- Height of standalone RSS Feed (Percent of OSD Height): Default 7%
-- Standalone RSS Feed Position: bottom / top
-- Adjust Font Size of standalone Feed
-- RSS Feed 1: First feed in rssfeeds.conf
-- RSS Feed 2 - 5: Optional feeds which can be selected via svdrp
-- Scrolling Speed: slow / medium / fast
-- Scrolling Delay in s: Default 3 s

@@ -51,11 +51,8 @@ SOFILE = libvdr-$(PLUGIN).so
 INCLUDES += $(shell pkg-config --cflags Magick++)
 
 DEFINES += -DPLUGIN_NAME_I18N='"$(PLUGIN)"'
-DEFINES += $(shell xml2-config --cflags)
 
 LIBS += $(shell pkg-config --libs Magick++)
-LIBS += $(shell pkg-config --libs libcurl)
-LIBS += $(shell xml2-config --libs)
 
 ### The object files (add further files here):
 
