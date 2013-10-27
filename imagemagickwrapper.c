@@ -62,6 +62,8 @@ bool cImageMagickWrapper::LoadImage(std::string FileName, std::string Path, std:
 }
 
 bool cImageMagickWrapper::LoadImage(const char *fullpath) {
+    if ((fullpath == NULL) || (strlen(fullpath) < 5))
+        return false;
     try {
         //dsyslog("nopacity: trying to load: %s", fullpath);
         buffer.read(fullpath);
