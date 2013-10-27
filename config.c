@@ -341,22 +341,26 @@ bool cNopacityConfig::SetupParse(const char *Name, const char *Value) {
         std::map<std::string, int>::iterator hit = conf.find(name);
         if (hit == conf.end())
             return false;
-        //check if theme already in map
-        std::map<std::string, std::map<std::string, int> >::iterator hit2 = themeConfigSetup.find(theme);
-        if (hit2 != themeConfigSetup.end()) {
-            std::map<std::string, int> existingValues = (std::map<std::string, int>)hit2->second;
-            existingValues.insert(std::pair<std::string, int>(name, atoi(Value)));
-            themeConfigSetup.erase(theme);
-            themeConfigSetup.insert(std::pair<std::string, std::map<std::string, int> >(theme, existingValues));
-        } else {
-            std::map<std::string, int> themeConf;
-            themeConf.insert(std::pair<std::string, int>(name, atoi(Value)));
-            themeConfigSetup.insert(std::pair<std::string, std::map<std::string, int> >(theme, themeConf));
-        }
+        SetThemeConfigSetupValue(theme, name, atoi(Value));
     } else {
         return false;
     }
     return true;
+}
+
+void cNopacityConfig::SetThemeConfigSetupValue(std::string themeName, std::string key, int value) {
+    //check if theme already in map
+    std::map<std::string, std::map<std::string, int> >::iterator hit = themeConfigSetup.find(themeName);
+    if (hit != themeConfigSetup.end()) {
+        std::map<std::string, int> existingValues = (std::map<std::string, int>)hit->second;
+        existingValues.insert(std::pair<std::string, int>(key, value));
+        themeConfigSetup.erase(themeName);
+        themeConfigSetup.insert(std::pair<std::string, std::map<std::string, int> >(themeName, existingValues));
+    } else {
+        std::map<std::string, int> themeConf;
+        themeConf.insert(std::pair<std::string, int>(key, value));
+        themeConfigSetup.insert(std::pair<std::string, std::map<std::string, int> >(themeName, themeConf));
+    }
 }
 
 void cNopacityConfig::DumpConfig(void) {

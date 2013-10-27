@@ -23,6 +23,7 @@ class cNopacityConfig {
         std::map<std::string, int>::const_iterator GetStart(void) { return conf.begin(); };
         std::map<std::string, int>::const_iterator GetEnd(void) { return conf.end(); };
         bool SetupParse(const char *Name, const char *Value);
+        void SetThemeConfigSetupValue(std::string themeName, std::string key, int value);
         void SetLogoPath(cString path);
         void SetIconPath(cString path);
         void SetEpgImagePath(cString path);

@@ -84,7 +84,10 @@ void cNopacitySetup::Store(void) {
         int value = (int)it->second;
         int origValue = config.GetValue(name);
         if (value != origValue) {
+            //Save changed value in setup.conf
             SetupStore(*cString::sprintf("%s.%s", themeName, name.c_str()), value);
+            //Save changed value also in cConfig::themeConfigSetup
+            tmpConf.SetThemeConfigSetupValue(themeName, name, value);
         }
     }
     config = tmpConf;
