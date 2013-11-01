@@ -329,3 +329,4 @@ Version 0.1.4
 - Searching for epgimages named eventID.jpg and eventID_0.jpg in detailed
   epg view
 - Fixed clearing pixmap in displaychannel if no epg is available
+- Changed display of channel groups in displaychannel

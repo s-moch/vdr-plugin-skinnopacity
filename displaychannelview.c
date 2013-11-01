@@ -668,16 +668,8 @@ void cNopacityDisplayChannelView::HideSignalMeter(void) {
 }
 
 void cNopacityDisplayChannelView::DrawChannelGroups(const cChannel *Channel, cString ChannelName) {
-    int ySep;
-    int ySepNextPrevIcon;
-    int prevNextSize = 64;
-
-    ySep = (geoManager->channelContentHeight-fontManager->channelChannelGroup->Height())/2 - fontManager->channelChannelGroup->Height()/2;
-    ySepNextPrevIcon = (geoManager->channelContentHeight - prevNextSize)/2 - fontManager->channelChannelGroup->Height()/2;
-    
-    int widthSep = fontManager->channelChannelGroup->Width(*ChannelName);
-    int xSep = (config.GetValue("displayPrevNextChannelGroup"))?(geoManager->channelWidth * 2 / 5):0;
-    pixmapEPGInfo->DrawText(cPoint(xSep, ySep), *ChannelName, Theme.Color(clrChannelHead), clrTransparent, fontManager->channelChannelGroup);
+    int xSep, ySep;
+    int prevNextIconSize = 64;
 
     cImageLoader imgLoader;
     if (config.GetValue("logoPosition") != lpNone) {
@@ -690,45 +682,59 @@ void cNopacityDisplayChannelView::DrawChannelGroups(const cChannel *Channel, cSt
                 pixmapLogo->DrawImage(cPoint(0, 0), *imgIcon);
         }
     }
-    
-    if (!config.GetValue("displayPrevNextChannelGroup"))
-        return;
-    
-    cString prevChannelSep = GetChannelSep(Channel, true);
-    cString nextChannelSep = GetChannelSep(Channel, false);
-    bool prevAvailable = (strlen(*prevChannelSep) > 0)?true:false;
-    bool nextAvailable = (strlen(*nextChannelSep) > 0)?true:false;
 
+    ySep = (geoManager->channelContentHeight-fontManager->channelChannelGroup->Height())/2 - fontManager->channelChannelGroup->Height()/2;
+    int widthSep = fontManager->channelChannelGroup->Width(*ChannelName);
+    
+    if (!config.GetValue("displayPrevNextChannelGroup")) {
+        xSep = (geoManager->channelContentWidth - widthSep)/2;
+        pixmapEPGInfo->DrawText(cPoint(xSep, ySep), *ChannelName, Theme.Color(clrChannelHead), clrTransparent, fontManager->channelChannelGroup);
+        return;
+    }
+    
+    int spaceSep = 4 * geoManager->channelContentWidth / 10;
+    int spaceNextPrev = (geoManager->channelContentWidth - spaceSep - 2*prevNextIconSize - 10) / 2;
+    
+    int xPrev = 0;
+    int xPrevIcon = spaceNextPrev;
+    xSep = xPrevIcon + prevNextIconSize;
+    int xNextIcon = xSep + spaceSep;
+    int xNext = xNextIcon + prevNextIconSize + 10;
+    
+    std::string strSep = *ChannelName;
+    if (widthSep > spaceSep)
+        strSep = CutText(strSep, spaceSep, fontManager->channelChannelGroup);
+    widthSep = fontManager->channelChannelGroup->Width(strSep.c_str());
+    pixmapEPGInfo->DrawText(cPoint(xSep + (spaceSep - widthSep)/2, ySep), strSep.c_str(), Theme.Color(clrChannelHead), clrTransparent, fontManager->channelChannelGroup);
+
+    std::string prevChannelSep = GetChannelSep(Channel, true);
+    std::string nextChannelSep = GetChannelSep(Channel, false);
+    bool prevAvailable = (prevChannelSep.size() > 0)?true:false;
+    bool nextAvailable = (nextChannelSep.size() > 0)?true:false;
+
+    int ySepNextPrevIcon = (geoManager->channelContentHeight - prevNextIconSize)/2 - fontManager->channelChannelGroup->Height()/2;
 
     int ySepNextPrev = ySep + (fontManager->channelChannelGroup->Height() - fontManager->channelChannelGroupSmall->Height())/2;
     if (prevAvailable) {
-        int xSymbol = xSep - prevNextSize - 10;
-        cImage *imgIcon = imgCache->GetSkinIcon("skinIcons/arrowLeftChannelSep", prevNextSize, prevNextSize);
+        cImage *imgIcon = imgCache->GetSkinIcon("skinIcons/arrowLeftChannelSep", prevNextIconSize, prevNextIconSize);
         if (imgIcon)
-            pixmapEPGInfo->DrawImage(cPoint(xSymbol, ySepNextPrevIcon), *imgIcon);
-        int xSepPrev = xSymbol - 10 - fontManager->channelChannelGroupSmall->Width(prevChannelSep);
-        if (xSepPrev < 0) {
-            prevChannelSep = CutText(*prevChannelSep, xSymbol, fontManager->channelChannelGroupSmall).c_str();
-            xSepPrev = xSymbol - 10 - fontManager->channelChannelGroupSmall->Width(prevChannelSep);
-        }
-        pixmapEPGInfo->DrawText(cPoint(xSepPrev, ySepNextPrev), *prevChannelSep, Theme.Color(clrChannelEPGInfoNext), clrTransparent, fontManager->channelChannelGroupSmall);
+            pixmapEPGInfo->DrawImage(cPoint(xPrevIcon, ySepNextPrevIcon), *imgIcon);
+        if (fontManager->channelChannelGroupSmall->Width(prevChannelSep.c_str()) > spaceNextPrev)
+            prevChannelSep = CutText(prevChannelSep, spaceNextPrev, fontManager->channelChannelGroupSmall);
+        pixmapEPGInfo->DrawText(cPoint(xPrev, ySepNextPrev), prevChannelSep.c_str(), Theme.Color(clrChannelEPGInfoNext), clrTransparent, fontManager->channelChannelGroupSmall);
     }
     if (nextAvailable) {
-        int xSymbol = xSep + widthSep + 10;
-        cImage *imgIcon = imgCache->GetSkinIcon("skinIcons/arrowRightChannelSep", prevNextSize, prevNextSize);
+        cImage *imgIcon = imgCache->GetSkinIcon("skinIcons/arrowRightChannelSep", prevNextIconSize, prevNextIconSize);
         if (imgIcon)
-            pixmapEPGInfo->DrawImage(cPoint(xSymbol, ySepNextPrevIcon), *imgIcon);
-        int xSepNext = xSymbol + 10 + prevNextSize;
-        int spaceAvailable = pixmapEPGInfo->DrawPort().Width() - xSepNext;
-        if (fontManager->channelChannelGroupSmall->Width(nextChannelSep) > spaceAvailable) {
-            nextChannelSep = CutText(*nextChannelSep, spaceAvailable, fontManager->channelChannelGroupSmall).c_str();
-        }
-        pixmapEPGInfo->DrawText(cPoint(xSepNext, ySepNextPrev), *nextChannelSep, Theme.Color(clrChannelEPGInfoNext), clrTransparent, fontManager->channelChannelGroupSmall);
+            pixmapEPGInfo->DrawImage(cPoint(xNextIcon, ySepNextPrevIcon), *imgIcon);
+        if (fontManager->channelChannelGroupSmall->Width(nextChannelSep.c_str()) > (spaceNextPrev-10))
+            nextChannelSep = CutText(nextChannelSep, spaceNextPrev-10, fontManager->channelChannelGroupSmall);
+        pixmapEPGInfo->DrawText(cPoint(xNext, ySepNextPrev), nextChannelSep.c_str(), Theme.Color(clrChannelEPGInfoNext), clrTransparent, fontManager->channelChannelGroupSmall);
     }
 }
 
-cString cNopacityDisplayChannelView::GetChannelSep(const cChannel *channel, bool prev) {
-    cString sepName("");
+std::string cNopacityDisplayChannelView::GetChannelSep(const cChannel *channel, bool prev) {
+    std::string sepName = "";
     const cChannel *sep = prev ? Channels.Prev(channel) : 
                                  Channels.Next(channel);
     for (; sep; (prev)?(sep = Channels.Prev(sep)):(sep = Channels.Next(sep))) {
