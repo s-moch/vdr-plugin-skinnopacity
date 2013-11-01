@@ -59,6 +59,7 @@ void cNopacityDisplayChannel::SetChannel(const cChannel *Channel, int Number) {
     
     channelView->ClearChannelLogo();
     channelView->ClearChannelName();
+    channelView->ClearEPGInfo();
     channelView->ClearStatusIcons();
     channelView->ClearSourceInfo();
     if (!groupSep) {
@@ -72,7 +73,6 @@ void cNopacityDisplayChannel::SetChannel(const cChannel *Channel, int Number) {
     } else {
         channelView->HideSignalMeter();
         channelView->ClearProgressBar();
-        channelView->ClearEPGInfo();
         if (Channel)
             channelView->DrawChannelGroups(Channel, ChannelName);
     }

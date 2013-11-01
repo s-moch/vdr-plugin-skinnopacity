@@ -328,3 +328,4 @@ Version 0.1.4
 - Avoided font pixelation on default menu items
 - Searching for epgimages named eventID.jpg and eventID_0.jpg in detailed
   epg view
+- Fixed clearing pixmap in displaychannel if no epg is available
