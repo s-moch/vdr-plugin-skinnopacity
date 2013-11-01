@@ -55,6 +55,12 @@ bool cImageLoader::LoadEPGImage(int eventID) {
     if (!success) {
         success = LoadImage(*cString::sprintf("%d", eventID), *config.epgImagePathDefault, "jpg");
     }
+    if (!success && config.epgImagePathSet) {
+        success = LoadImage(*cString::sprintf("%d_0", eventID), *config.epgImagePath, "jpg");
+    }
+    if (!success) {
+        success = LoadImage(*cString::sprintf("%d_0", eventID), *config.epgImagePathDefault, "jpg");
+    }
     if (!success)
         return false;
     if (height != 0 || width != 0) {
