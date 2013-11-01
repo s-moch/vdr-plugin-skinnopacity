@@ -18,7 +18,7 @@ cNopacityMenuItem::cNopacityMenuItem(cOsd *osd, cImageCache *imgCache, const cha
     scrollable = false;
     itemTabs = NULL;
     tabWidth = NULL;
-    pixmapIcon = NULL;
+    pixmapStatic = NULL;
     pixmapTextScroller = NULL;
     pixmapForeground = NULL;
     infoTextWindow = NULL;
@@ -30,9 +30,9 @@ cNopacityMenuItem::~cNopacityMenuItem(void) {
         cCondWait::SleepMs(10);
     delete [] itemTabs;
     delete [] tabWidth;
-    osd->DestroyPixmap(pixmap);
-    if (pixmapIcon) {
-        osd->DestroyPixmap(pixmapIcon);
+    osd->DestroyPixmap(pixmapBackground);
+    if (pixmapStatic) {
+        osd->DestroyPixmap(pixmapStatic);
     }
     if (pixmapTextScroller) {
         osd->DestroyPixmap(pixmapTextScroller);
@@ -59,17 +59,17 @@ void cNopacityMenuItem::SetGeometry(int index, int top, int left, int width, int
     this->spaceMenu = spaceMenu;
 }
 
-void cNopacityMenuItem::CreatePixmap() {
-    pixmap = osd->CreatePixmap(3, cRect(left, top + index * (height + spaceMenu), width, height));
+void cNopacityMenuItem::CreatePixmapBackground() {
+    pixmapBackground = osd->CreatePixmap(3, cRect(left, top + index * (height + spaceMenu), width, height));
 }
 
 void cNopacityMenuItem::CreatePixmapForeground() {
     pixmapForeground = osd->CreatePixmap(6, cRect(left, top + index * (height + spaceMenu), width, height));
 }
 
-void cNopacityMenuItem::CreatePixmapIcon(void) {
-    pixmapIcon = osd->CreatePixmap(5, cRect(left, top + index * (height + spaceMenu), width, height));
-    pixmapIcon->Fill(clrTransparent);
+void cNopacityMenuItem::CreatePixmapStatic(void) {
+    pixmapStatic = osd->CreatePixmap(5, cRect(left, top + index * (height + spaceMenu), width, height));
+    pixmapStatic->Fill(clrTransparent);
 }
 
 void cNopacityMenuItem::CreatePixmapTextScroller(int totalWidth) {
@@ -89,33 +89,33 @@ void cNopacityMenuItem::SetTabs(cString *tabs, int *tabWidths, int numtabs) {
 
 void cNopacityMenuItem::DrawDelimiter(const char *del, const char *icon, eSkinElementType seType) {
     if ((config.GetValue("displayType") == dtBlending) && (seType != seNone)) {
-        pixmap->Fill(Theme.Color(clrSeparatorBorder));
+        pixmapBackground->Fill(Theme.Color(clrSeparatorBorder));
         cImage *back = imgCache->GetSkinElement(seType);
         if (back)
-            pixmap->DrawImage(cPoint(1, 1), *back);
+            pixmapBackground->DrawImage(cPoint(1, 1), *back);
         if (config.GetValue("roundedCorners"))
             DrawRoundedCorners(Theme.Color(clrSeparatorBorder));
     } else if ((config.GetValue("displayType") == dtGraphical) && (seType != seNone)) {
         cImage *back = imgCache->GetSkinElement(seType);
         if (back)
-            pixmap->DrawImage(cPoint(0, 0), *back);
+            pixmapBackground->DrawImage(cPoint(0, 0), *back);
         else
-            pixmap->Fill(clrTransparent);
+            pixmapBackground->Fill(clrTransparent);
         pixmapForeground->Fill(clrTransparent);
     } else {
-        pixmap->Fill(Theme.Color(clrSeparatorBorder));
-        pixmap->DrawRectangle(cRect(1, 1, width-2, height-2), Theme.Color(clrMenuItem));
+        pixmapBackground->Fill(Theme.Color(clrSeparatorBorder));
+        pixmapBackground->DrawRectangle(cRect(1, 1, width-2, height-2), Theme.Color(clrMenuItem));
         if (config.GetValue("roundedCorners"))
             DrawRoundedCorners(Theme.Color(clrSeparatorBorder));
     }
     if (!drawn) {
         cImage *imgIcon = imgCache->GetSkinIcon(icon, config.GetValue("iconHeight"), config.GetValue("iconHeight"));
         if (imgIcon) {
-            if (pixmapIcon == NULL) {
-                pixmapIcon = osd->CreatePixmap(5, cRect(left, top + index * (height + spaceMenu), config.GetValue("menuItemLogoWidth"), config.GetValue("menuItemLogoWidth")));
-                pixmapIcon->Fill(clrTransparent);
+            if (pixmapStatic == NULL) {
+                pixmapStatic = osd->CreatePixmap(5, cRect(left, top + index * (height + spaceMenu), config.GetValue("menuItemLogoWidth"), config.GetValue("menuItemLogoWidth")));
+                pixmapStatic->Fill(clrTransparent);
             }
-            pixmapIcon->DrawImage(cPoint(1, (height - config.GetValue("iconHeight")) / 2), *imgIcon);
+            pixmapStatic->DrawImage(cPoint(1, (height - config.GetValue("iconHeight")) / 2), *imgIcon);
         }
         drawn = true;
     }
@@ -128,7 +128,7 @@ void cNopacityMenuItem::DrawDelimiter(const char *del, const char *icon, eSkinEl
     } catch (...) {}
     int x = config.GetValue("iconHeight") + 3;
     int y = (height - font->Height()) / 2;
-    pixmapIcon->DrawText(cPoint(x, y), delimiter.c_str(), Theme.Color(clrMenuFontMenuItemSep), clrTransparent, font);
+    pixmapStatic->DrawText(cPoint(x, y), delimiter.c_str(), Theme.Color(clrMenuFontMenuItemSep), clrTransparent, font);
 }
 
 void cNopacityMenuItem::Action(void) {
@@ -198,17 +198,17 @@ void cNopacityMenuItem::DrawRoundedCorners(tColor borderColor) {
     int radius = config.GetValue("cornerRadius");
     if (radius < 3)
         return;
-    pixmap->DrawEllipse(cRect(0,0,radius,radius), borderColor, -2);
-    pixmap->DrawEllipse(cRect(-1,-1,radius,radius), clrTransparent, -2);
+    pixmapBackground->DrawEllipse(cRect(0,0,radius,radius), borderColor, -2);
+    pixmapBackground->DrawEllipse(cRect(-1,-1,radius,radius), clrTransparent, -2);
 
-    pixmap->DrawEllipse(cRect(width-radius,0,radius,radius), borderColor, -1);
-    pixmap->DrawEllipse(cRect(width-radius+1,-1,radius,radius), clrTransparent, -1);
+    pixmapBackground->DrawEllipse(cRect(width-radius,0,radius,radius), borderColor, -1);
+    pixmapBackground->DrawEllipse(cRect(width-radius+1,-1,radius,radius), clrTransparent, -1);
 
-    pixmap->DrawEllipse(cRect(0,height-radius,radius,radius), borderColor, -3);
-    pixmap->DrawEllipse(cRect(-1,height-radius+1,radius,radius), clrTransparent, -3);
+    pixmapBackground->DrawEllipse(cRect(0,height-radius,radius,radius), borderColor, -3);
+    pixmapBackground->DrawEllipse(cRect(-1,height-radius+1,radius,radius), clrTransparent, -3);
 
-    pixmap->DrawEllipse(cRect(width-radius,height-radius,radius,radius), borderColor, -4);
-    pixmap->DrawEllipse(cRect(width-radius+1,height-radius+1,radius,radius), clrTransparent, -4);
+    pixmapBackground->DrawEllipse(cRect(width-radius,height-radius,radius,radius), borderColor, -4);
+    pixmapBackground->DrawEllipse(cRect(width-radius+1,height-radius+1,radius,radius), clrTransparent, -4);
 }
 
 // cNopacityMainMenuItem  -------------
@@ -229,21 +229,21 @@ void cNopacityMainMenuItem::DrawBackground(void) {
             type = (current)?seSetupHigh:seSetup;
         back = imgCache->GetSkinElement(type);
         if (back) {
-            pixmap->DrawImage(cPoint(1, 1), *back);
+            pixmapBackground->DrawImage(cPoint(1, 1), *back);
         }
     }
     if (config.GetValue("displayType") == dtBlending) {
-        pixmap->Fill(Theme.Color(clrMenuBorder));
+        pixmapBackground->Fill(Theme.Color(clrMenuBorder));
         if (back) {
-            pixmap->DrawImage(cPoint(1, 1), *back);
+            pixmapBackground->DrawImage(cPoint(1, 1), *back);
         }
         if (config.GetValue("roundedCorners"))
             DrawRoundedCorners(Theme.Color(clrMenuBorder));
     } else if (config.GetValue("displayType") == dtGraphical) {
         if (back) {
-            pixmap->DrawImage(cPoint(0, 0), *back);
+            pixmapBackground->DrawImage(cPoint(0, 0), *back);
         } else {
-            pixmap->Fill(clrTransparent);
+            pixmapBackground->Fill(clrTransparent);
         }
         eSkinElementType menuButtonTop;
         if (!isSetup)
@@ -257,9 +257,9 @@ void cNopacityMainMenuItem::DrawBackground(void) {
             pixmapForeground->Fill(clrTransparent);
         }
     } else {
-        pixmap->Fill(Theme.Color(clrMenuBorder));
+        pixmapBackground->Fill(Theme.Color(clrMenuBorder));
         tColor col = (current)?Theme.Color(clrMenuItemHigh):Theme.Color(clrMenuItem);
-        pixmap->DrawRectangle(cRect(1, 1, width-2, height-2), col);
+        pixmapBackground->DrawRectangle(cRect(1, 1, width-2, height-2), col);
         if (config.GetValue("roundedCorners"))
             DrawRoundedCorners(Theme.Color(clrMenuBorder));
     }
@@ -401,7 +401,7 @@ void cNopacityMainMenuItem::Render() {
                 cImage *imgIcon = imgCache->GetMenuIcon(*cIcon);
                 if (imgIcon)
                     //TODO 
-                    pixmapIcon->DrawImage(cPoint(5,5), *imgIcon);
+                    pixmapStatic->DrawImage(cPoint(5,5), *imgIcon);
                 drawn = true;
             }
         }
@@ -571,18 +571,18 @@ void cNopacityScheduleMenuItem::Render() {
 void cNopacityScheduleMenuItem::DrawBackground(int textLeft) {
     eSkinElementType type = (current)?seSchedulesHigh:seSchedules;
     if (config.GetValue("displayType") == dtBlending) {
-        pixmap->Fill(Theme.Color(clrMenuBorder));
+        pixmapBackground->Fill(Theme.Color(clrMenuBorder));
         cImage *back = imgCache->GetSkinElement(type);
         if (back)
-            pixmap->DrawImage(cPoint(1, 1), *back);
+            pixmapBackground->DrawImage(cPoint(1, 1), *back);
         if (config.GetValue("roundedCorners"))
             DrawRoundedCorners(Theme.Color(clrMenuBorder));
     } else if (config.GetValue("displayType") == dtGraphical) {
         cImage *back = imgCache->GetSkinElement(type);
         if (back) {
-            pixmap->DrawImage(cPoint(0, 0), *back);
+            pixmapBackground->DrawImage(cPoint(0, 0), *back);
         } else {
-            pixmap->Fill(clrTransparent);
+            pixmapBackground->Fill(clrTransparent);
         }
         cImage *fore = imgCache->GetSkinElement(seSchedulesTop);
         if (fore) {
@@ -591,9 +591,9 @@ void cNopacityScheduleMenuItem::DrawBackground(int textLeft) {
             pixmapForeground->Fill(clrTransparent);
         }
     } else {
-        pixmap->Fill(Theme.Color(clrMenuBorder));
+        pixmapBackground->Fill(Theme.Color(clrMenuBorder));
         tColor col = (current)?Theme.Color(clrMenuItemHigh):Theme.Color(clrMenuItem);
-        pixmap->DrawRectangle(cRect(1, 1, width-2, height-2), col);
+        pixmapBackground->DrawRectangle(cRect(1, 1, width-2, height-2), col);
         if (config.GetValue("roundedCorners"))
             DrawRoundedCorners(Theme.Color(clrMenuBorder));
     }
@@ -601,22 +601,22 @@ void cNopacityScheduleMenuItem::DrawBackground(int textLeft) {
     if (TimerMatch == tmFull) {
         cImage *imgIcon = imgCache->GetSkinIcon("skinIcons/activetimer", 64, 64);
         if (imgIcon)
-            pixmapIcon->DrawImage(cPoint(width - 66, 2), *imgIcon);
+            pixmapStatic->DrawImage(cPoint(width - 66, 2), *imgIcon);
     } else if (TimerMatch == tmPartial) {
         cImage *imgIcon = imgCache->GetSkinIcon("skinIcons/activetimersmall", 32, 32);
         if (imgIcon)
-            pixmapIcon->DrawImage(cPoint(width - 34, 2), *imgIcon);
+            pixmapStatic->DrawImage(cPoint(width - 34, 2), *imgIcon);
 
     }
     tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
-    pixmapIcon->DrawText(cPoint(textLeft, 3), strDateTime.c_str(), clrFont, clrTransparent, font);
+    pixmapStatic->DrawText(cPoint(textLeft, 3), strDateTime.c_str(), clrFont, clrTransparent, font);
 }
 
 void cNopacityScheduleMenuItem::DrawLogo(int logoWidth, int logoHeight) {
     if (Channel && Channel->Name()) {
         cImage *logo = imgCache->GetLogo(ctLogoMenuItem, Channel);
         if (logo) {
-            pixmapIcon->DrawImage(cPoint(1,1), *logo);
+            pixmapStatic->DrawImage(cPoint(1,1), *logo);
         } else {
             cTextWrapper channel;
             channel.Set(Channel->Name(), font, logoWidth);
@@ -625,7 +625,7 @@ void cNopacityScheduleMenuItem::DrawLogo(int logoWidth, int logoHeight) {
             int heightChannel = lines * lineHeight;
             int y = (heightChannel>height)?0:(height-heightChannel)/2;
             for (int line = 0; line < lines; line++) {
-                pixmapIcon->DrawText(cPoint((logoWidth - font->Width(channel.GetLine(line)))/2, y+lineHeight*line), channel.GetLine(line), Theme.Color(clrMenuFontMenuItemHigh), clrTransparent, font);
+                pixmapStatic->DrawText(cPoint((logoWidth - font->Width(channel.GetLine(line)))/2, y+lineHeight*line), channel.GetLine(line), Theme.Color(clrMenuFontMenuItemHigh), clrTransparent, font);
             }   
         }
     }
@@ -645,14 +645,14 @@ void cNopacityScheduleMenuItem::DrawRemaining(int x, int y, int width) {
     
     tColor clrBack = (current)?Theme.Color(clrProgressBarBackHigh):Theme.Color(clrProgressBarBack);
     tColor clrBar = (current)?Theme.Color(clrProgressBarHigh):Theme.Color(clrProgressBar);
-    pixmap->DrawEllipse(cRect(x, y, 7, 7), clrBack);
-    pixmap->DrawEllipse(cRect(x+width, y, 7, 7), clrBack);
-    pixmap->DrawRectangle(cRect(x+4, y, width-1, 7), clrBack);
-    pixmap->DrawEllipse(cRect(x+1, y+1, 5, 5), clrBar);
+    pixmapBackground->DrawEllipse(cRect(x, y, 7, 7), clrBack);
+    pixmapBackground->DrawEllipse(cRect(x+width, y, 7, 7), clrBack);
+    pixmapBackground->DrawRectangle(cRect(x+4, y, width-1, 7), clrBack);
+    pixmapBackground->DrawEllipse(cRect(x+1, y+1, 5, 5), clrBar);
     
     if (percentSeen > 0.0)
-        pixmap->DrawEllipse(cRect(x+(width*percentSeen), y+1, 5, 5), clrBar);
-    pixmap->DrawRectangle(cRect(x+4, y+1, (width-1)*percentSeen, 5), clrBar);
+        pixmapBackground->DrawEllipse(cRect(x+(width*percentSeen), y+1, 5, 5), clrBar);
+    pixmapBackground->DrawRectangle(cRect(x+4, y+1, (width-1)*percentSeen, 5), clrBar);
 }
 
 // cNopacityChannelMenuItem  -------------
@@ -773,18 +773,18 @@ void cNopacityChannelMenuItem::SetTextShort(void) {
 void cNopacityChannelMenuItem::DrawBackground(void) {
     eSkinElementType type = (current)?seChannelsHigh:seChannels;
     if (config.GetValue("displayType") == dtBlending) {
-        pixmap->Fill(Theme.Color(clrMenuBorder));
+        pixmapBackground->Fill(Theme.Color(clrMenuBorder));
         cImage *back = imgCache->GetSkinElement(type);
         if (back)
-            pixmap->DrawImage(cPoint(1, 1), *back);
+            pixmapBackground->DrawImage(cPoint(1, 1), *back);
         if (config.GetValue("roundedCorners"))
             DrawRoundedCorners(Theme.Color(clrMenuBorder));
     } else if (config.GetValue("displayType") == dtGraphical) {
         cImage *back = imgCache->GetSkinElement(type);
         if (back) {
-            pixmap->DrawImage(cPoint(0, 0), *back);
+            pixmapBackground->DrawImage(cPoint(0, 0), *back);
         } else {
-            pixmap->Fill(clrTransparent);
+            pixmapBackground->Fill(clrTransparent);
         }
         cImage *fore = imgCache->GetSkinElement(seChannelsTop);
         if (fore) {
@@ -793,9 +793,9 @@ void cNopacityChannelMenuItem::DrawBackground(void) {
             pixmapForeground->Fill(clrTransparent);
         }
     } else {
-        pixmap->Fill(Theme.Color(clrMenuBorder));
+        pixmapBackground->Fill(Theme.Color(clrMenuBorder));
         tColor col = (current)?Theme.Color(clrMenuItemHigh):Theme.Color(clrMenuItem);
-        pixmap->DrawRectangle(cRect(1, 1, width-2, height-2), col);
+        pixmapBackground->DrawRectangle(cRect(1, 1, width-2, height-2), col);
         if (config.GetValue("roundedCorners"))
             DrawRoundedCorners(Theme.Color(clrMenuBorder));
     }
@@ -804,15 +804,15 @@ void cNopacityChannelMenuItem::DrawBackground(void) {
         int encryptedSize = height/4-2;
         int sourceX = config.GetValue("menuItemLogoWidth") + 15;
         tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
-        pixmapIcon->DrawText(cPoint(sourceX, 3*height/4 + (height/4 - fontSmall->Height())/2), *strChannelInfo, clrFont, clrTransparent, fontSmall);
+        pixmapStatic->DrawText(cPoint(sourceX, 3*height/4 + (height/4 - fontSmall->Height())/2), *strChannelInfo, clrFont, clrTransparent, fontSmall);
         if (Channel->Ca()) {
             cImage *imgIcon = imgCache->GetSkinIcon("skinIcons/encrypted", encryptedSize, encryptedSize);
             if (imgIcon) {
-                pixmapIcon->DrawImage(cPoint(sourceX, height/2+1), *imgIcon);
+                pixmapStatic->DrawImage(cPoint(sourceX, height/2+1), *imgIcon);
                 sourceX += encryptedSize + 10;
             }
         }
-        pixmapIcon->DrawText(cPoint(sourceX, height/2 + (height/4 - fontSmall->Height())/2), *strChannelSource, clrFont, clrTransparent, fontSmall);
+        pixmapStatic->DrawText(cPoint(sourceX, height/2 + (height/4 - fontSmall->Height())/2), *strChannelSource, clrFont, clrTransparent, fontSmall);
     }
 }
 
@@ -875,7 +875,7 @@ void cNopacityChannelMenuItem::Render() {
         if (!drawn) {
             cImage *logo = imgCache->GetLogo(ctLogoMenuItem, Channel);
             if (logo) {
-                pixmapIcon->DrawImage(cPoint(1,1), *logo);
+                pixmapStatic->DrawImage(cPoint(1,1), *logo);
             }
             drawn = true;
         }
@@ -983,18 +983,18 @@ void cNopacityTimerMenuItem::SetTextShort(void) {
 void cNopacityTimerMenuItem::DrawBackground(int textLeft) {
     eSkinElementType type = (current)?seTimersHigh:seTimers;
     if (config.GetValue("displayType") == dtBlending) {
-        pixmap->Fill(Theme.Color(clrMenuBorder));
+        pixmapBackground->Fill(Theme.Color(clrMenuBorder));
         cImage *back = imgCache->GetSkinElement(type);
         if (back)
-            pixmap->DrawImage(cPoint(1, 1), *back);
+            pixmapBackground->DrawImage(cPoint(1, 1), *back);
         if (config.GetValue("roundedCorners"))
             DrawRoundedCorners(Theme.Color(clrMenuBorder));
     } else if (config.GetValue("displayType") == dtGraphical) {
         cImage *back = imgCache->GetSkinElement(type);
         if (back) {
-            pixmap->DrawImage(cPoint(0, 0), *back);
+            pixmapBackground->DrawImage(cPoint(0, 0), *back);
         } else {
-            pixmap->Fill(clrTransparent);
+            pixmapBackground->Fill(clrTransparent);
         }
         cImage *fore = imgCache->GetSkinElement(seTimersTop);
         if (fore) {
@@ -1003,9 +1003,9 @@ void cNopacityTimerMenuItem::DrawBackground(int textLeft) {
             pixmapForeground->Fill(clrTransparent);
         }
     } else {
-        pixmap->Fill(Theme.Color(clrMenuBorder));
+        pixmapBackground->Fill(Theme.Color(clrMenuBorder));
         tColor col = (current)?Theme.Color(clrMenuItemHigh):Theme.Color(clrMenuItem);
-        pixmap->DrawRectangle(cRect(1, 1, width-2, height-2), col);
+        pixmapBackground->DrawRectangle(cRect(1, 1, width-2, height-2), col);
         if (config.GetValue("roundedCorners"))
             DrawRoundedCorners(Theme.Color(clrMenuBorder));
     }
@@ -1024,7 +1024,7 @@ void cNopacityTimerMenuItem::DrawBackground(int textLeft) {
     
     cImage *imgIcon = imgCache->GetSkinIcon(*iconName, iconSize, iconSize);
     if (imgIcon)
-        pixmapIcon->DrawImage(cPoint(textLeft, 0), *imgIcon);
+        pixmapStatic->DrawImage(cPoint(textLeft, 0), *imgIcon);
 
     cString dateTime("");
     if (firstDay)
@@ -1032,7 +1032,7 @@ void cNopacityTimerMenuItem::DrawBackground(int textLeft) {
     else
         dateTime = strDateTime.c_str();
     tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
-    pixmapIcon->DrawText(cPoint(textLeft + iconSize, (height/2 - fontSmall->Height())/2), *dateTime, clrFont, clrTransparent, fontSmall);
+    pixmapStatic->DrawText(cPoint(textLeft + iconSize, (height/2 - fontSmall->Height())/2), *dateTime, clrFont, clrTransparent, fontSmall);
 }
 
 void cNopacityTimerMenuItem::Render() {
@@ -1062,7 +1062,7 @@ void cNopacityTimerMenuItem::DrawLogo(int logoWidth, int logoHeight) {
     if (Timer && Timer->Channel() && Timer->Channel()->Name()) {
         cImage *logo = imgCache->GetLogo(ctLogoMenuItem, Timer->Channel());
         if (logo) {
-            pixmapIcon->DrawImage(cPoint(1,1), *logo);
+            pixmapStatic->DrawImage(cPoint(1,1), *logo);
         } else {
             cTextWrapper channel;
             channel.Set(Timer->Channel()->Name(), font, logoWidth);
@@ -1071,7 +1071,7 @@ void cNopacityTimerMenuItem::DrawLogo(int logoWidth, int logoHeight) {
             int heightChannel = lines * lineHeight;
             int y = (heightChannel>height)?0:(height-heightChannel)/2;
             for (int line = 0; line < lines; line++) {
-                pixmapIcon->DrawText(cPoint((logoWidth - font->Width(channel.GetLine(line)))/2, y+lineHeight*line), channel.GetLine(line), Theme.Color(clrMenuFontMenuItemHigh), clrTransparent, font);
+                pixmapStatic->DrawText(cPoint((logoWidth - font->Width(channel.GetLine(line)))/2, y+lineHeight*line), channel.GetLine(line), Theme.Color(clrMenuFontMenuItemHigh), clrTransparent, font);
             }   
         }
     }
@@ -1194,18 +1194,18 @@ void cNopacityRecordingMenuItem::SetTextFull(void) {
 void cNopacityRecordingMenuItem::DrawBackground(void) {
     eSkinElementType type = (current)?seRecordingsHigh:seRecordings;
     if (config.GetValue("displayType") == dtBlending) {
-        pixmap->Fill(Theme.Color(clrMenuBorder));
+        pixmapBackground->Fill(Theme.Color(clrMenuBorder));
         cImage *back = imgCache->GetSkinElement(type);
         if (back)
-            pixmap->DrawImage(cPoint(1, 1), *back);
+            pixmapBackground->DrawImage(cPoint(1, 1), *back);
         if (config.GetValue("roundedCorners"))
             DrawRoundedCorners(Theme.Color(clrMenuBorder));
     } else if (config.GetValue("displayType") == dtGraphical) {
         cImage *back = imgCache->GetSkinElement(type);
         if (back) {
-            pixmap->DrawImage(cPoint(0, 0), *back);
+            pixmapBackground->DrawImage(cPoint(0, 0), *back);
         } else {
-            pixmap->Fill(clrTransparent);
+            pixmapBackground->Fill(clrTransparent);
         }
         cImage *fore = imgCache->GetSkinElement(seRecordingsTop);
         if (fore) {
@@ -1215,9 +1215,9 @@ void cNopacityRecordingMenuItem::DrawBackground(void) {
         }
 
     } else {
-        pixmap->Fill(Theme.Color(clrMenuBorder));
+        pixmapBackground->Fill(Theme.Color(clrMenuBorder));
         tColor col = (current)?Theme.Color(clrMenuItemHigh):Theme.Color(clrMenuItem);
-        pixmap->DrawRectangle(cRect(1, 1, width-2, height-2), col);
+        pixmapBackground->DrawRectangle(cRect(1, 1, width-2, height-2), col);
         if (config.GetValue("roundedCorners"))
             DrawRoundedCorners(Theme.Color(clrMenuBorder));
     }
@@ -1275,9 +1275,9 @@ void cNopacityRecordingMenuItem::DrawRecordingNewIcon(void) {
     
     cImage *imgIcon = imgCache->GetSkinIcon("skinIcons/newrecording", iconNewSize, iconNewSize);
     if (imgIcon) {
-        int iconX = pixmapIcon->ViewPort().Width() - iconNewSize;
+        int iconX = pixmapStatic->ViewPort().Width() - iconNewSize;
         int iconY = height/2;
-        pixmapIcon->DrawImage(cPoint(iconX, iconY), *imgIcon);
+        pixmapStatic->DrawImage(cPoint(iconX, iconY), *imgIcon);
     }
 }
 
@@ -1285,24 +1285,24 @@ void cNopacityRecordingMenuItem::DrawRecordingEditedIcon(void) {
     int iconCutSize = height/3;
     cImage *imgIcon = imgCache->GetSkinIcon("skinIcons/recordingcutted", iconCutSize, iconCutSize);
     if (imgIcon) {
-        int iconX = pixmapIcon->ViewPort().Width() - iconCutSize;
+        int iconX = pixmapStatic->ViewPort().Width() - iconCutSize;
         if (Recording->IsNew())
             iconX -= iconCutSize;
         int iconY = height/2;
-        pixmapIcon->DrawImage(cPoint(iconX, iconY), *imgIcon);
+        pixmapStatic->DrawImage(cPoint(iconX, iconY), *imgIcon);
     }
 }
 
 void cNopacityRecordingMenuItem::DrawFolderIcon(void) {
     cImage *imgIcon = imgCache->GetSkinIcon("skinIcons/recfolder", posterWidth, posterHeight);
     if (imgIcon) {
-        pixmapIcon->DrawImage(cPoint(10, 1), *imgIcon);
+        pixmapStatic->DrawImage(cPoint(10, 1), *imgIcon);
     }
 }
 
 void cNopacityRecordingMenuItem::DrawRecDateTime(void) {
     int left = posterWidth + 20;
-    pixmapIcon->DrawRectangle(cRect(left, 0, width, height), clrTransparent);
+    pixmapStatic->DrawRectangle(cRect(left, 0, width, height), clrTransparent);
     const cEvent *Event = NULL;
     Event = Recording->Info()->GetEvent();
     cString strDateTime("");
@@ -1324,33 +1324,33 @@ void cNopacityRecordingMenuItem::DrawRecDateTime(void) {
 
     int textHeight = height/2 + (height/4 - fontSmall->Height())/2;
     tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
-    pixmapIcon->DrawText(cPoint(10 + left, textHeight), *strDateTime, clrFont, clrTransparent, fontSmall);
+    pixmapStatic->DrawText(cPoint(10 + left, textHeight), *strDateTime, clrFont, clrTransparent, fontSmall);
     textHeight += height/4;
-    pixmapIcon->DrawText(cPoint(10 + left, textHeight), *strDuration, clrFont, clrTransparent, fontSmall);
+    pixmapStatic->DrawText(cPoint(10 + left, textHeight), *strDuration, clrFont, clrTransparent, fontSmall);
 }
 
 void cNopacityRecordingMenuItem::DrawFolderNewSeen(void) {
     int textHeight = 2*height/3 + (height/3 - fontSmall->Height())/2 - 10;
     cString strTotalNew = cString::sprintf("%d %s (%d %s)", Total, (Total > 1)?tr("recordings"):tr("recording"), New, tr("new"));
     tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
-    pixmapIcon->DrawText(cPoint(posterWidth + 30, textHeight), *strTotalNew, clrFont, clrTransparent, fontSmall);
+    pixmapStatic->DrawText(cPoint(posterWidth + 30, textHeight), *strTotalNew, clrFont, clrTransparent, fontSmall);
 }
 
 void cNopacityRecordingMenuItem::DrawPoster(void) {
     cImageLoader imgLoader;
     if (hasManualPoster) {
         if (imgLoader.LoadPoster(*manualPosterPath, posterWidth, posterHeight)) {
-            pixmapIcon->DrawImage(cPoint(10, 5), imgLoader.GetImage());
+            pixmapStatic->DrawImage(cPoint(10, 5), imgLoader.GetImage());
         }
     } else if (hasPoster) {
         if (imgLoader.LoadPoster(poster.media.path.c_str(), posterWidth, posterHeight)) {
-            pixmapIcon->DrawImage(cPoint(10, 5), imgLoader.GetImage());
+            pixmapStatic->DrawImage(cPoint(10, 5), imgLoader.GetImage());
         }
     } else {
         
         cImage *imgIcon = imgCache->GetSkinIcon("skinIcons/defaultPoster", posterWidth, posterHeight);
         if (imgIcon)
-            pixmapIcon->DrawImage(cPoint(10,5), *imgIcon);
+            pixmapStatic->DrawImage(cPoint(10,5), *imgIcon);
     }
 }
 
@@ -1430,23 +1430,23 @@ bool cNopacityDefaultMenuItem::CheckProgressBar(const char *text) {
 void cNopacityDefaultMenuItem::DrawBackground(void) {
     eSkinElementType type = (current)?seDefaultHigh:seDefault;
     if (config.GetValue("displayType") == dtBlending) {
-        pixmap->Fill(Theme.Color(clrMenuBorder));
+        pixmapBackground->Fill(Theme.Color(clrMenuBorder));
         cImage *back = imgCache->GetSkinElement(type);
         if (back)
-            pixmap->DrawImage(cPoint(1, 1), *back);
+            pixmapBackground->DrawImage(cPoint(1, 1), *back);
         if (config.GetValue("roundedCorners"))
             DrawRoundedCorners(Theme.Color(clrMenuBorder));
     } else if (config.GetValue("displayType") == dtGraphical) {
         cImage *back = imgCache->GetSkinElement(type);
         if (back) {
-            pixmap->DrawImage(cPoint(0, 0), *back);
+            pixmapBackground->DrawImage(cPoint(0, 0), *back);
         } else {
-            pixmap->Fill(clrTransparent);
+            pixmapBackground->Fill(clrTransparent);
         }
     } else {
-        pixmap->Fill(Theme.Color(clrMenuBorder));
+        pixmapBackground->Fill(Theme.Color(clrMenuBorder));
         tColor col = (current)?Theme.Color(clrMenuItemHigh):Theme.Color(clrMenuItem);
-        pixmap->DrawRectangle(cRect(1, 1, width-2, height-2), col);
+        pixmapBackground->DrawRectangle(cRect(1, 1, width-2, height-2), col);
         if (config.GetValue("roundedCorners"))
             DrawRoundedCorners(Theme.Color(clrMenuBorder));
     }
@@ -1468,10 +1468,10 @@ void cNopacityDefaultMenuItem::DrawProgressBar(int x, int width, const char *bar
         }
     }
     if (isProgressbar) {
-        pixmap->DrawRectangle(cRect(x+5, height/4, width-10, height/2), color);
-        pixmap->DrawRectangle(cRect(x+7, height/4+2, width-14, height/2-4), Theme.Color(clrMenuItemBlend));
+        pixmapBackground->DrawRectangle(cRect(x+5, height/4, width-10, height/2), color);
+        pixmapBackground->DrawRectangle(cRect(x+7, height/4+2, width-14, height/2-4), Theme.Color(clrMenuItemBlend));
         double progress = (double)now/(double)total;
-        pixmap->DrawRectangle(cRect(x+8, height/4+3, (width-16)*progress, height/2-6), color);
+        pixmapBackground->DrawRectangle(cRect(x+8, height/4+3, (width-16)*progress, height/2-6), color);
         
     }
 }
@@ -1539,7 +1539,7 @@ bool cNopacityDefaultMenuItem::DrawHeaderElement(void) {
 
         int left = 5 + tabWidth[0];
         tColor clrFontBack = (config.GetValue("displayType") != dtFlat)?(clrTransparent):((current)?Theme.Color(clrMenuItemHigh):Theme.Color(clrMenuItem));
-	pixmap->DrawText(cPoint(left, (height - font->Height()) / 2), c, Theme.Color(clrMenuFontMenuItemSep), clrFontBack, font);
+	pixmapStatic->DrawText(cPoint(left, (height - font->Height()) / 2), c, Theme.Color(clrMenuFontMenuItemSep), clrFontBack, font);
         return true;
     }
     return false;
@@ -1547,8 +1547,8 @@ bool cNopacityDefaultMenuItem::DrawHeaderElement(void) {
 
 void cNopacityDefaultMenuItem::Render() {
     DrawBackground();
+    pixmapStatic->Fill(clrTransparent);
     tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
-    tColor clrFontBack = (config.GetValue("displayType") != dtFlat)?(clrTransparent):((current)?Theme.Color(clrMenuItemHigh):Theme.Color(clrMenuItem));
     if (!selectable && (strncmp(Text, "---", 3) == 0)) {
         if (DrawHeaderElement())
             return;
@@ -1577,7 +1577,7 @@ void cNopacityDefaultMenuItem::Render() {
                     itemText = itemTabs[i];
                 }
                 if (i==0) posX += 5;
-                pixmap->DrawText(cPoint(posX, (height - font->Height()) / 2), *itemText, clrFont, clrFontBack, font);
+                pixmapStatic->DrawText(cPoint(posX, (height - font->Height()) / 2), *itemText, clrFont, clrTransparent, font);
             } else {
                 if (!Running())
                     SetTextShort();
@@ -1607,18 +1607,18 @@ cNopacityTrackMenuItem::~cNopacityTrackMenuItem(void) {
 void cNopacityTrackMenuItem::Render() {
     eSkinElementType type = (current)?seTracksHigh:seTracks;
     if (config.GetValue("displayType") == dtBlending) {
-        pixmap->Fill(Theme.Color(clrMenuBorder));
+        pixmapBackground->Fill(Theme.Color(clrMenuBorder));
         cImage *back = imgCache->GetSkinElement(type);
         if (back)
-            pixmap->DrawImage(cPoint(1, 1), *back);
+            pixmapBackground->DrawImage(cPoint(1, 1), *back);
         if (config.GetValue("roundedCorners"))
             DrawRoundedCorners(Theme.Color(clrMenuBorder));
     } else if (config.GetValue("displayType") == dtGraphical) {
         cImage *back = imgCache->GetSkinElement(type);
         if (back) {
-            pixmap->DrawImage(cPoint(0, 0), *back);
+            pixmapBackground->DrawImage(cPoint(0, 0), *back);
         } else {
-            pixmap->Fill(clrTransparent);
+            pixmapBackground->Fill(clrTransparent);
         }
         cImage *fore = imgCache->GetSkinElement(seTracksTop);
         if (fore) {
@@ -1627,12 +1627,12 @@ void cNopacityTrackMenuItem::Render() {
             pixmapForeground->Fill(clrTransparent);
         }
     } else {
-        pixmap->Fill(Theme.Color(clrMenuBorder));
+        pixmapBackground->Fill(Theme.Color(clrMenuBorder));
         tColor col = (current)?Theme.Color(clrMenuItemHigh):Theme.Color(clrMenuItem);
-        pixmap->DrawRectangle(cRect(1, 1, width-2, height-2), col);
+        pixmapBackground->DrawRectangle(cRect(1, 1, width-2, height-2), col);
         if (config.GetValue("roundedCorners"))
             DrawRoundedCorners(Theme.Color(clrMenuBorder));
     }
     tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrTracksFontButtons);
-    pixmapIcon->DrawText(cPoint(5, (height - font->Height())/2), Text, clrFont, clrTransparent, font);
+    pixmapStatic->DrawText(cPoint(5, (height - font->Height())/2), Text, clrFont, clrTransparent, font);
 }

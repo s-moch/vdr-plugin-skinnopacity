@@ -5,8 +5,8 @@ class cNopacityMenuItem : public cListObject, public cThread {
 protected:
     cOsd *osd;
     cImageCache *imgCache;
-    cPixmap *pixmap;
-    cPixmap *pixmapIcon;
+    cPixmap *pixmapBackground;
+    cPixmap *pixmapStatic;
     cPixmap *pixmapTextScroller;
     cPixmap *pixmapForeground;
     const char *Text;
@@ -38,9 +38,9 @@ protected:
 public:
     cNopacityMenuItem(cOsd *osd, cImageCache *imgCache, const char *text, bool sel);
     virtual ~cNopacityMenuItem(void);
-    void CreatePixmap();
+    void CreatePixmapBackground();
     void CreatePixmapForeground();
-    void CreatePixmapIcon(void);
+    void CreatePixmapStatic(void);
     virtual void CreatePixmapTextScroller(int totalWidth);
     void SetGeometry(int index, int top, int left, int width, int height, int spaceMenu);
     void SetFont(cFont *font) {this->font = font;}
@@ -48,8 +48,8 @@ public:
     void SetFontEPGWindow(cFont *font) {this->fontEPGWindow = font;}
     void SetFontEPGWindowLarge(cFont *font) {this->fontEPGWindowLarge = font;}
     void SetCurrent(bool cur); 
-    void SetAlpha(int alpha) {this->pixmap->SetAlpha(alpha);}
-    void SetAlphaIcon(int alpha) {if (pixmapIcon) this->pixmapIcon->SetAlpha(alpha);}
+    void SetAlpha(int alpha) {this->pixmapBackground->SetAlpha(alpha);}
+    void SetAlphaIcon(int alpha) {if (pixmapStatic) this->pixmapStatic->SetAlpha(alpha);}
     void SetAlphaText(int alpha) {if (pixmapTextScroller) this->pixmapTextScroller->SetAlpha(alpha);}
     void SetTabs(cString *tabs, int *tabWidths, int numtabs);
     void SetTextWindow(cRect *window) {textWindow = window;};

@@ -117,8 +117,8 @@ void cNopacityDisplayTracks::SetItem(const char *Text, int Index, bool Current) 
     item->SetCurrent(Current);
     item->SetFont(fontManager->trackText);
     item->SetGeometry(Index, menuItemHeight+4, 2, menuItemWidth, menuItemHeight, 4);
-    item->CreatePixmap();
-    item->CreatePixmapIcon();
+    item->CreatePixmapBackground();
+    item->CreatePixmapStatic();
     if (config.GetValue("displayType") == dtGraphical)
         item->CreatePixmapForeground();
     menuItems.Add(item);
