@@ -700,11 +700,10 @@ void cNopacityDisplayMenuView::DrawMessage(eMessageType Type, const char *Text) 
             pixmapStatus->DrawImage(cPoint(0, 0), *imgBack);
         }
     } else {
+        pixmapStatus->Fill(col);
         if (config.GetValue("displayType") == dtBlending) {
             cImage imgBack = imgCache->GetBackground(Theme.Color(clrMenuBack), col, geoManager->menuMessageWidth-2, geoManager->menuMessageHeight-2, true);
             pixmapStatus->DrawImage(cPoint(1, 1), imgBack);
-        } else {
-            pixmapStatus->Fill(col);
         }
         if (config.GetValue("roundedCorners")) {
             DrawRoundedCornersWithBorder(pixmapStatus, col, config.GetValue("cornerRadius"), geoManager->menuMessageWidth, geoManager->menuMessageHeight);

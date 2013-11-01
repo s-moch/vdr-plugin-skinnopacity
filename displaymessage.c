@@ -51,22 +51,21 @@ void cNopacityDisplayMessage::SetMessage(eMessageType Type, const char *Text) {
             break;
     }
     
-    pixmapBackground->Fill(clrTransparent);
     pixmap->Fill(clrTransparent);
     if (config.GetValue("displayType") == dtGraphical) {
+        pixmapBackground->Fill(clrTransparent);
         cImage *imgBack = imgCache->GetSkinElement(seType);
         if (imgBack) {
-            pixmap->DrawImage(cPoint(0, 0), *imgBack);
+            pixmapBackground->DrawImage(cPoint(0, 0), *imgBack);
         }
     } else {
+        pixmapBackground->Fill(col);
         if (config.GetValue("displayType") == dtBlending) {
             cImage imgBack = imgCache->GetBackground(Theme.Color(clrMessageBlend), col, geoManager->messageWidth-2, geoManager->messageHeight-2, true);
-            pixmap->DrawImage(cPoint(1, 1), imgBack);
-        } else {
-            pixmap->Fill(clrTransparent);
+            pixmapBackground->DrawImage(cPoint(1, 1), imgBack);
         }
         if (config.GetValue("roundedCorners")) {
-            DrawRoundedCornersWithBorder(pixmap, col, config.GetValue("cornerRadius"), geoManager->messageWidth, geoManager->messageHeight, pixmapBackground);
+            DrawRoundedCornersWithBorder(pixmapBackground, col, config.GetValue("cornerRadius"), geoManager->messageWidth, geoManager->messageHeight);
         }
     }
     int textWidth = fontManager->messageText->Width(Text);
@@ -74,7 +73,7 @@ void cNopacityDisplayMessage::SetMessage(eMessageType Type, const char *Text) {
                             (geoManager->messageHeight - fontManager->messageText->Height()) / 2), 
                             Text, 
                             colFont, 
-                            (config.GetValue("displayType") != dtFlat)?clrTransparent:col, 
+                            clrTransparent, 
                             fontManager->messageText);
     if (FadeTime)
         Start();

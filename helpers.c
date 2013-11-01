@@ -48,29 +48,20 @@ static void DrawRoundedCorners(cPixmap *p, int radius, int x, int y, int width, 
     }
 }
 
-static void DrawRoundedCornersWithBorder(cPixmap *p, tColor borderColor, int radius, int width, int height, cPixmap *pBack = NULL) {
+static void DrawRoundedCornersWithBorder(cPixmap *p, tColor borderColor, int radius, int width, int height) {
     if (radius < 3)
         return;
     p->DrawEllipse(cRect(0,0,radius,radius), borderColor, -2);
     p->DrawEllipse(cRect(-1,-1,radius,radius), clrTransparent, -2);
-    if (pBack)
-        pBack->DrawEllipse(cRect(-1,-1,radius,radius), clrTransparent, -2);
 
     p->DrawEllipse(cRect(width-radius,0,radius,radius), borderColor, -1);
     p->DrawEllipse(cRect(width-radius+1,-1,radius,radius), clrTransparent, -1);
-    if (pBack)
-        pBack->DrawEllipse(cRect(width-radius+1,-1,radius,radius), clrTransparent, -1);
-
+    
     p->DrawEllipse(cRect(0,height-radius,radius,radius), borderColor, -3);
     p->DrawEllipse(cRect(-1,height-radius+1,radius,radius), clrTransparent, -3);
-    if (pBack)
-        pBack->DrawEllipse(cRect(-1,height-radius+1,radius,radius), clrTransparent, -3);
-
+    
     p->DrawEllipse(cRect(width-radius,height-radius,radius,radius), borderColor, -4);
     p->DrawEllipse(cRect(width-radius+1,height-radius+1,radius,radius), clrTransparent, -4);
-    if (pBack)
-        pBack->DrawEllipse(cRect(width-radius+1,height-radius+1,radius,radius), clrTransparent, -4);
-    
 }
 
 static cSize ScaleToFit(int widthMax, int heightMax, int widthOriginal, int heightOriginal) {

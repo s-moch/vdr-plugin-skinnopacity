@@ -324,4 +324,5 @@ Version 0.1.4
   - fixed bug that progress bar sometimes was not displayed when switching
   - adapted the status icons for the different themes
     the channel
-    
+- Cleaned up pixmaps in menuitems
+- Avoided font pixelation on default menu items
