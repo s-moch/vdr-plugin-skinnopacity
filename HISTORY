@@ -336,3 +336,4 @@ Version 0.1.4
 - Added background with dedicated theme color for channel logos in menus
 - Improved Display of Poster or Banner in displaychannel
 - implemented cDisplayChannel::SetMessage()
+- display not selectable menu elements with dedicated font color

@@ -1547,8 +1547,7 @@ bool cNopacityDefaultMenuItem::DrawHeaderElement(void) {
         *(c2 + 1) = 0;
 
         int left = 5 + tabWidth[0];
-        tColor clrFontBack = (config.GetValue("displayType") != dtFlat)?(clrTransparent):((current)?Theme.Color(clrMenuItemHigh):Theme.Color(clrMenuItem));
-	pixmapStatic->DrawText(cPoint(left, (height - font->Height()) / 2), c, Theme.Color(clrMenuFontMenuItemSep), clrFontBack, font);
+        pixmapStatic->DrawText(cPoint(left, (height - font->Height()) / 2), c, Theme.Color(clrMenuFontMenuItemSep), clrTransparent, font);
         return true;
     }
     return false;
@@ -1557,7 +1556,15 @@ bool cNopacityDefaultMenuItem::DrawHeaderElement(void) {
 void cNopacityDefaultMenuItem::Render() {
     DrawBackground();
     pixmapStatic->Fill(clrTransparent);
-    tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
+    
+    tColor clrFont;
+    if (current)
+        clrFont = Theme.Color(clrMenuFontMenuItemHigh);
+    else if (!selectable)
+        clrFont = Theme.Color(clrMenuFontMenuItemSep);
+    else
+        clrFont = Theme.Color(clrMenuFontMenuItem);
+
     if (!selectable && (strncmp(Text, "---", 3) == 0)) {
         if (DrawHeaderElement())
             return;
