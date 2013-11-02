@@ -332,4 +332,5 @@ Version 0.1.4
 - Changed display of channel groups in displaychannel
 - Added configurable transparency for channeldisplay background
 - Added background with dedicated theme color for status icons in 
-  displaychannel. 
+  displaychannel
+- Added background with dedicated theme color for channel logos in menus 

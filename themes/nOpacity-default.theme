@@ -63,6 +63,7 @@ clrProgressBarHigh = DD003DF5
 clrProgressBarBackHigh = DD858585
 clrProgressBarBlendHigh = DD80B3FF
 clrMenuTextWindow = DD000000
+clrMenuChannelLogoBack = DD858585
 clrButtonRed = 99BB0000
 clrButtonRedBorder = FFBB0000
 clrButtonRedFont = FFFFFFFF

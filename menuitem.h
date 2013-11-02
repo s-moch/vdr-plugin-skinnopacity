@@ -33,6 +33,7 @@ protected:
     virtual void SetTextShort(void) {};
     void DrawDelimiter(const char *del, const char *icon, eSkinElementType seType);
     void DrawRoundedCorners(tColor borderColor);
+    void DrawChannelLogoBackground(void);
     virtual void Action(void);
     void DoSleep(int duration);
 public:

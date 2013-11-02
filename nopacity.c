@@ -49,6 +49,7 @@ static bool firstDisplay = true;
 #define CLR_PROGRESSBARHIGH     0xDD003DF5
 #define CLR_PROGRESSBARBACKHIGH 0xDD858585
 #define CLR_PROGRESSBARBLENDHIGH 0xDD80B3FF
+#define CLR_CHANNELLOGOBACK     0xDD858585
 
 //BUTTONS
 #define CLR_BUTTONRED           0x99BB0000
@@ -135,6 +136,7 @@ THEME_CLR(Theme, clrProgressBarHigh,        CLR_PROGRESSBARHIGH);
 THEME_CLR(Theme, clrProgressBarBackHigh,    CLR_PROGRESSBARBACKHIGH);
 THEME_CLR(Theme, clrProgressBarBlendHigh,   CLR_PROGRESSBARBLENDHIGH);
 THEME_CLR(Theme, clrMenuTextWindow,         CLR_TRANSBLACK);
+THEME_CLR(Theme, clrMenuChannelLogoBack,    CLR_CHANNELLOGOBACK);
 //BUTTONS
 THEME_CLR(Theme, clrButtonRed,              CLR_BUTTONRED);
 THEME_CLR(Theme, clrButtonRedBorder,        CLR_BUTTONREDBORDER);

@@ -211,6 +211,11 @@ void cNopacityMenuItem::DrawRoundedCorners(tColor borderColor) {
     pixmapBackground->DrawEllipse(cRect(width-radius+1,height-radius+1,radius,radius), clrTransparent, -4);
 }
 
+void cNopacityMenuItem::DrawChannelLogoBackground(void) {
+    int logoWidth = config.GetValue("menuItemLogoWidth");
+    pixmapBackground->DrawRectangle(cRect(5,7,logoWidth-5, height-14), Theme.Color(clrMenuChannelLogoBack));
+}    
+
 // cNopacityMainMenuItem  -------------
 cNopacityMainMenuItem::cNopacityMainMenuItem(cOsd *osd, cImageCache *imgCache, const char *text, bool sel, bool setup) : cNopacityMenuItem (osd, imgCache, text, sel) {
     this->isSetup = setup;
@@ -521,6 +526,8 @@ void cNopacityScheduleMenuItem::Render() {
     if (selectable) {
         titleY = (height - font->Height())/2 - 2;
         DrawBackground(textLeft);
+        if (Channel && Channel->Name())
+            DrawChannelLogoBackground();
         int progressBarDelta = 0;
         if (config.GetValue("displayType") == dtGraphical && textLeft < 20)
             progressBarDelta = 10;
@@ -872,6 +879,7 @@ std::string cNopacityChannelMenuItem::readEPG(void) {
 void cNopacityChannelMenuItem::Render() {
     if (selectable) {                           //Channels
         DrawBackground();
+        DrawChannelLogoBackground();
         if (!drawn) {
             cImage *logo = imgCache->GetLogo(ctLogoMenuItem, Channel);
             if (logo) {
@@ -1039,6 +1047,7 @@ void cNopacityTimerMenuItem::Render() {
     textLeft = config.GetValue("menuItemLogoWidth") + 10;
     if (selectable) {                           
         DrawBackground(textLeft);
+        DrawChannelLogoBackground();
         int logoWidth = config.GetValue("menuItemLogoWidth");
         int logoHeight = config.GetValue("menuItemLogoHeight");
         if (!drawn) {
