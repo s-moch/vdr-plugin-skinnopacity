@@ -143,6 +143,7 @@ void cNopacityConfig::LoadDefaults(void) {
     conf.insert(std::pair<std::string, int>("channelBorderVertical", 15));
     conf.insert(std::pair<std::string, int>("channelBorderBottom", 15));
     conf.insert(std::pair<std::string, int>("channelFadeTime", 300));
+    conf.insert(std::pair<std::string, int>("channelBackgroundTransparency", 0));
     conf.insert(std::pair<std::string, int>("logoPosition", 1));
     conf.insert(std::pair<std::string, int>("logoWidth", 260));
     conf.insert(std::pair<std::string, int>("logoHeight", 200));

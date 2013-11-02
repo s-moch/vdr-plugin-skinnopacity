@@ -379,6 +379,7 @@ void cNopacitySetupChannelDisplay::Set(void) {
     Add(new cMenuEditIntItem(tr("Height of Channel Display (Percent of OSD Height)"), tmpConf->GetValueRef("channelHeight"), 15, 80));
     Add(new cMenuEditIntItem(tr("Left & Right Border Width"), tmpConf->GetValueRef("channelBorderVertical"), 0, 300));
     Add(new cMenuEditIntItem(tr("Bottom Border Height"), tmpConf->GetValueRef("channelBorderBottom"), 0, 300));
+    Add(new cMenuEditIntItem(tr("Background Transparency in Percent"), tmpConf->GetValueRef("channelBackgroundTransparency"), 0, 80));
     if (config.GetValue("displayType") != dtGraphical) {
         Add(new cMenuEditStraItem(tr("Background Style"), tmpConf->GetValueRef("backgroundStyle"), 2, bgStyle));
         Add(new cMenuEditBoolItem(tr("Rounded Corners"), tmpConf->GetValueRef("roundedCornersChannel")));

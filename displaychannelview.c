@@ -142,11 +142,15 @@ void cNopacityDisplayChannelView::CreatePixmaps(void) {
         pixmapEPGInfo->SetAlpha(0);
         pixmapStatusIcons->SetAlpha(0);
         pixmapSourceInfo->SetAlpha(0);
+    } else {
+        int alphaBack = (100 - config.GetValue("channelBackgroundTransparency"))*255/100;
+        pixmapBackground->SetAlpha(alphaBack);
     }
 }
 
 void cNopacityDisplayChannelView::SetAlpha(int alpha) {
-    pixmapBackground->SetAlpha(alpha);
+    int alphaBack = (100 - config.GetValue("channelBackgroundTransparency"))*alpha/100;
+    pixmapBackground->SetAlpha(alphaBack);
     pixmapTop->SetAlpha(alpha);
     pixmapLogo->SetAlpha(alpha);
     pixmapLogoBackground->SetAlpha(alpha);

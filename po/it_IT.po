@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-10-20 11:15+0200\n"
+"POT-Creation-Date: 2013-11-02 09:35+0100\n"
 "PO-Revision-Date: 2013-03-19 22:56+0100\n"
 "Last-Translator: Diego Pierotto <vdr-italian@tiscali.it>\n"
 "Language-Team: \n"
@@ -430,6 +430,9 @@ msgstr "Larghezza bordi sinistro e destro"
 
 msgid "Bottom Border Height"
 msgstr "Altezza bordo inferiore"
+
+msgid "Background Transparency in Percent"
+msgstr ""
 
 msgid "Background Style"
 msgstr ""
