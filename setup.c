@@ -393,6 +393,9 @@ void cNopacitySetupChannelDisplay::Set(void) {
     Add(new cMenuEditBoolItem(tr("Display Signal Strength & Quality"), tmpConf->GetValueRef("displaySignalStrength")));
     Add(new cMenuEditBoolItem(tr("Display Channel Source information"), tmpConf->GetValueRef("displaySourceInfo")));
     Add(new cMenuEditBoolItem(tr("Display Poster or Fanart from TVScraper"), tmpConf->GetValueRef("displayPoster")));
+    if (tmpConf->GetValue("displayPoster")) {
+        Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Border in Pixel")), tmpConf->GetValueRef("channelPosterBorder"), 0, 200));
+    }
     Add(new cMenuEditBoolItem(tr("Display previous and next Channel Group"), tmpConf->GetValueRef("displayPrevNextChannelGroup")));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Header"), tmpConf->GetValueRef("fontChannelHeaderSize"), -20, 20));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Date"), tmpConf->GetValueRef("fontChannelDateSize"), -20, 20));

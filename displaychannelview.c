@@ -581,16 +581,18 @@ void cNopacityDisplayChannelView::DrawPoster(const cEvent *event, bool initial) 
                 mediaWidth = ratio * call.media.width;
                 mediaHeight = ratio * call.media.height;
             }
+            int border = config.GetValue("channelPosterBorder");
             pixmapPoster = osd->CreatePixmap(1, cRect(config.GetValue("channelBorderVertical"),
                                                       config.GetValue("channelBorderBottom"), 
-                                                      mediaWidth + 2*config.GetValue("channelBorderVertical"), 
-                                                      mediaHeight + 2*config.GetValue("channelBorderBottom")));
+                                                      mediaWidth + 2 * border, 
+                                                      mediaHeight + 2 * border));
             if (initial && config.GetValue("channelFadeTime"))
                 pixmapPoster->SetAlpha(0);
             cImageLoader imgLoader;
             if (imgLoader.LoadPoster(call.media.path.c_str(), mediaWidth, mediaHeight)) {
                 pixmapPoster->Fill(Theme.Color(clrChannelBackground));
-                pixmapPoster->DrawImage(cPoint(config.GetValue("channelBorderVertical"), config.GetValue("channelBorderBottom")), imgLoader.GetImage());
+                pixmapPoster->DrawImage(cPoint(border, border), imgLoader.GetImage());
+                DrawRoundedCorners(pixmapPoster, border, 0, 0, pixmapPoster->ViewPort().Width(), pixmapPoster->ViewPort().Height());
             } else {
                 pixmapPoster->Fill(clrTransparent);                            
             }

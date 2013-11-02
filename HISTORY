@@ -333,4 +333,5 @@ Version 0.1.4
 - Added configurable transparency for channeldisplay background
 - Added background with dedicated theme color for status icons in 
   displaychannel
-- Added background with dedicated theme color for channel logos in menus 
+- Added background with dedicated theme color for channel logos in menus
+- Improved Display of Poster or Banner in displaychannel

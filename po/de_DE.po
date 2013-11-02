@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-11-02 09:35+0100\n"
+"POT-Creation-Date: 2013-11-02 15:27+0100\n"
 "PO-Revision-Date: 2012-11-11 17:49+0200\n"
 "Last-Translator: louis\n"
 "Language-Team: \n"
@@ -457,6 +457,9 @@ msgstr "Quellinformationen für Kanal anzeigen"
 
 msgid "Display Poster or Fanart from TVScraper"
 msgstr "Poster bzw. Fanart von TVScraper anzeigen"
+
+msgid "Border in Pixel"
+msgstr "Rahmen in Pixel"
 
 msgid "Display previous and next Channel Group"
 msgstr "Vorherige und nächste Kanalgruppe anzeigen"

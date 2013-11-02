@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: vdr-skinnopacity\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-11-02 09:35+0100\n"
+"POT-Creation-Date: 2013-11-02 15:27+0100\n"
 "PO-Revision-Date: 2013-09-16 19:34+0100\n"
 "Last-Translator: Milan Hrala <hrala.milan@gmail.com>\n"
 "Language-Team: \n"
@@ -457,6 +457,9 @@ msgstr "Zobrazi» zdroj kanálu"
 
 msgid "Display Poster or Fanart from TVScraper"
 msgstr "Zobrazenie plagátu alebo Fanartu z TVScraper"
+
+msgid "Border in Pixel"
+msgstr ""
 
 msgid "Display previous and next Channel Group"
 msgstr "Zobrazi» predchádzajúcu a nasledujúcu skupinu kanálu"
