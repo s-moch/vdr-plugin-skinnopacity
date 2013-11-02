@@ -6,6 +6,7 @@ static bool menuActive = false;
 static bool firstDisplay = true;
 
 //COMMON
+#define CLR_TRANSPARENT         0x00000000
 #define CLR_BACKGROUND_BLUE     0xFF242A38
 #define CLR_TRANSBLACK          0xDD000000
 #define CLR_TRANSBLACK2         0xB0000000
@@ -76,9 +77,7 @@ THEME_CLR(Theme, clrChannelEPGInfoNext,     CLR_GRAY);
 THEME_CLR(Theme, clrChannelProgressBar,     CLR_CHANNELPROGRESSBAR);
 THEME_CLR(Theme, clrChannelProgressBarBack, CLR_CHANNELPROGRESSBARBACK);
 THEME_CLR(Theme, clrChannelProgressBarBlend,CLR_CHANNELPROGRESSBARBLEND);
-THEME_CLR(Theme, clrChannelSymbolOn,        CLR_DARKBLUE);
-THEME_CLR(Theme, clrChannelSymbolOff,       CLR_CHANNELSYMBOLOFF);
-THEME_CLR(Theme, clrChannelRecActive,       CLR_CHANNELRECACTIVE);
+THEME_CLR(Theme, clrStatusIconsBack,        CLR_TRANSPARENT);
 THEME_CLR(Theme, clrRecNow,                 CLR_CHANNELRECACTIVE);
 THEME_CLR(Theme, clrRecNowFont,             CLR_WHITE);
 THEME_CLR(Theme, clrRecNext,                CLR_RECNEXT);

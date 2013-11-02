@@ -331,3 +331,5 @@ Version 0.1.4
 - Fixed clearing pixmap in displaychannel if no epg is available
 - Changed display of channel groups in displaychannel
 - Added configurable transparency for channeldisplay background
+- Added background with dedicated theme color for status icons in 
+  displaychannel. 

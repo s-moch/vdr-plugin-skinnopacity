@@ -31,6 +31,7 @@ cNopacityDisplayChannelView::~cNopacityDisplayChannelView() {
     osd->DestroyPixmap(pixmapProgressBar);
     osd->DestroyPixmap(pixmapEPGInfo);
     osd->DestroyPixmap(pixmapStatusIcons);
+    osd->DestroyPixmap(pixmapStatusIconsBackground);
     osd->DestroyPixmap(pixmapSourceInfo);
     if (pixmapSignalStrength)
         osd->DestroyPixmap(pixmapSignalStrength);
@@ -107,17 +108,25 @@ void cNopacityDisplayChannelView::CreatePixmaps(void) {
     int statusIconX = geoManager->osdWidth 
                       - config.GetValue("channelBorderVertical") 
                       - statusIconsWidth 
-                      - 2*statusIconBorder;
+                      - 3*statusIconBorder;
     if (config.GetValue("logoPosition") == lpRight)
         statusIconX -= geoManager->channelLogoWidthTotal;
         
-    pixmapStatusIcons  = osd->CreatePixmap(2, 
+    pixmapStatusIcons  = osd->CreatePixmap(3, 
                               cRect(statusIconX, 
                                     geoManager->channelTop + geoManager->channelHeaderHeight +
                                     geoManager->channelProgressBarHeight + 
                                     geoManager->channelEpgInfoHeight,
                                     statusIconsWidth,
                                     geoManager->channelFooterHeight)
+                            );
+    pixmapStatusIconsBackground = osd->CreatePixmap(2, 
+                              cRect(statusIconX - 2*statusIconBorder, 
+                                    geoManager->channelTop + geoManager->channelHeaderHeight +
+                                    geoManager->channelProgressBarHeight + 
+                                    geoManager->channelEpgInfoHeight + 1,
+                                    statusIconsWidth + 3*statusIconBorder,
+                                    geoManager->channelFooterHeight - 2)
                             );
     int sourceInfoX = geoManager->channelContentX + 2 * statusIconBorder;
     if (config.GetValue("displaySignalStrength"))
@@ -141,6 +150,7 @@ void cNopacityDisplayChannelView::CreatePixmaps(void) {
         pixmapProgressBar->SetAlpha(0);
         pixmapEPGInfo->SetAlpha(0);
         pixmapStatusIcons->SetAlpha(0);
+        pixmapStatusIconsBackground->SetAlpha(0);
         pixmapSourceInfo->SetAlpha(0);
     } else {
         int alphaBack = (100 - config.GetValue("channelBackgroundTransparency"))*255/100;
@@ -159,6 +169,7 @@ void cNopacityDisplayChannelView::SetAlpha(int alpha) {
     pixmapProgressBar->SetAlpha(alpha);
     pixmapEPGInfo->SetAlpha(alpha);
     pixmapStatusIcons->SetAlpha(alpha);
+    pixmapStatusIconsBackground->SetAlpha(alpha);
     pixmapSourceInfo->SetAlpha(alpha);
     if (pixmapSignalStrength)
         pixmapSignalStrength->SetAlpha(alpha);
@@ -429,6 +440,15 @@ void cNopacityDisplayChannelView::ClearEPGInfo(void) {
 }
 
 void cNopacityDisplayChannelView::DrawStatusIcons(const cChannel *Channel) {
+    pixmapStatusIconsBackground->Fill(Theme.Color(clrStatusIconsBack));
+    DrawRoundedCorners(pixmapStatusIconsBackground,
+                       5,
+                       0, 
+                       0, 
+                       pixmapStatusIconsBackground->ViewPort().Width(),
+                       pixmapStatusIconsBackground->ViewPort().Height()
+                      );
+    
     isRadioChannel = ((!Channel->Vpid())&&(Channel->Apid(0)))?true:false;
     int iconX = 0;
 
@@ -538,6 +558,7 @@ cString cNopacityDisplayChannelView::GetScreenResolutionIcon(void) {
 
 void cNopacityDisplayChannelView::ClearStatusIcons(void) {
     pixmapStatusIcons->Fill(clrTransparent);    
+    pixmapStatusIconsBackground->Fill(clrTransparent);    
 }
 
 void cNopacityDisplayChannelView::DrawPoster(const cEvent *event, bool initial) {

@@ -23,6 +23,7 @@ private:
     cPixmap *pixmapProgressBar;
     cPixmap *pixmapEPGInfo;
     cPixmap *pixmapStatusIcons;
+    cPixmap *pixmapStatusIconsBackground;
     cPixmap *pixmapSignalStrength;
     cPixmap *pixmapSignalQuality;
     cPixmap *pixmapSignalMeter;
