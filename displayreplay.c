@@ -151,6 +151,9 @@ void cNopacityDisplayReplay::CreatePixmaps(void) {
         pixmapPause->SetAlpha(0);   
         pixmapPlay->SetAlpha(0);    
         pixmapFwd->SetAlpha(0);
+    } else if (!modeOnly) {
+        int alphaBack = (100 - config.GetValue("channelBackgroundTransparency"))*255/100;
+        pixmapBackground->SetAlpha(alphaBack);
     }
 }
 
@@ -449,7 +452,8 @@ void cNopacityDisplayReplay::Action(void) {
         double t = min(double(Now - Start) / FadeTime, 1.0);
         int Alpha = t * ALPHA_OPAQUE;
         if (!modeOnly) {
-            pixmapBackground->SetAlpha(Alpha);
+            int alphaBack = (100 - config.GetValue("channelBackgroundTransparency"))*Alpha/100;
+            pixmapBackground->SetAlpha(alphaBack);
             pixmapTop->SetAlpha(Alpha);
             pixmapInfo->SetAlpha(Alpha);
             pixmapDate->SetAlpha(Alpha);
