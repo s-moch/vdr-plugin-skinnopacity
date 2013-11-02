@@ -240,29 +240,6 @@ void cNopacityDisplayMenuView::GetMenuItemSize(eMenuCategory menuCat, cPoint *it
     itemSize->Set(itemWidth, itemHeight);
 }
 
-int cNopacityDisplayMenuView::GetMaxItems(eMenuCategory menuCat) {
-    int maxItems = 0;
-    switch (menuCat) {
-        case mcMain:
-        case mcSetup:
-            maxItems = geoManager->menuContentHeight / (geoManager->menuItemHeightMain + geoManager->menuSpace);
-            break;
-        case mcSchedule:
-        case mcScheduleNow:
-        case mcScheduleNext:
-        case mcChannel:
-        case mcTimer:
-            maxItems = geoManager->menuContentHeight / (geoManager->menuItemHeightSchedule + geoManager->menuSpace);
-            break;
-        case mcRecording:
-            maxItems = geoManager->menuContentHeight / (geoManager->menuItemHeightRecordings + geoManager->menuSpace);
-            break;
-        default:
-            maxItems = config.GetValue("numDefaultMenuItems");      
-    }
-    return maxItems;
-}
-
 int cNopacityDisplayMenuView::GetMenuTop(int numItems, int itemHeight) {
     return geoManager->menuHeaderHeight + (geoManager->menuContentHeight - numItems*(itemHeight + geoManager->menuSpace))/2;
 }
@@ -473,8 +450,8 @@ int cNopacityDisplayMenuView::DrawHeaderIcon(eMenuCategory menuCat) {
 
 int cNopacityDisplayMenuView::ShowHeaderIconChannelLogo(const char *Title) {
     int left = 0;
-    int iconX = (config.GetValue("menuAdjustLeft")) ? 0 : (geoManager->osdWidth - config.GetValue("menuItemLogoWidth"));
-    pixmapHeaderIcon = osd->CreatePixmap(2, cRect(iconX, 0, config.GetValue("menuItemLogoWidth"), config.GetValue("menuItemLogoHeight")));
+    int iconX = (config.GetValue("menuAdjustLeft")) ? 0 : (geoManager->osdWidth - geoManager->menuLogoWidth);
+    pixmapHeaderIcon = osd->CreatePixmap(2, cRect(iconX, 0, geoManager->menuLogoWidth, geoManager->menuLogoHeight));
     pixmapHeaderIcon->Fill(clrTransparent);
     std::string channel = Title;
     if (channel.length() == 0)
@@ -485,9 +462,9 @@ int cNopacityDisplayMenuView::ShowHeaderIconChannelLogo(const char *Title) {
         channel.erase(0, remove.length());
     } catch (...) {}
     cImageLoader imgLoader;
-    if (imgLoader.LoadLogo(channel.c_str(), config.GetValue("menuItemLogoWidth"), config.GetValue("menuItemLogoHeight"))) {
+    if (imgLoader.LoadLogo(channel.c_str(), geoManager->menuLogoWidth, geoManager->menuLogoHeight)) {
         pixmapHeaderIcon->DrawImage(cPoint(0, 0), imgLoader.GetImage());
-        left =  config.GetValue("menuItemLogoWidth") + geoManager->menuSpace;
+        left =  geoManager->menuLogoWidth + geoManager->menuSpace;
     }
     return left;
 }

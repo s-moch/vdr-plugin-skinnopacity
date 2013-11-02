@@ -69,12 +69,20 @@ void cGeometryManager::SetDisplayMenuSizes() {
     menuItemWidthRecording = menuContentWidthRecordings - 4 * config.GetValue("spaceMenu");
     menuItemWidthSetup = menuContentWidthSetup - 4 * config.GetValue("spaceMenu");
     menuItemWidthTracks = osdWidth * config.GetValue("tracksWidth") / 100 - 4;
-    menuItemHeightMain = config.GetValue("iconHeight") + 2;
-    menuItemHeightSchedule = config.GetValue("menuItemLogoHeight") + 2;
+    menuItemHeightMain = menuContentHeight / config.GetValue("numMainMenuItems") - config.GetValue("spaceMenu");
+    menuItemHeightSchedule = menuContentHeight / config.GetValue("numSchedulesMenuItems") - config.GetValue("spaceMenu");;
     menuItemHeightDefault = menuContentHeight / config.GetValue("numDefaultMenuItems") - config.GetValue("spaceMenu");
-    menuItemHeightRecordings = config.GetValue("menuRecFolderSize") + 2;
+    menuItemHeightRecordings = menuContentHeight / config.GetValue("numRecordingsMenuItems") - config.GetValue("spaceMenu");
     menuItemHeightTracks = config.GetValue("tracksItemHeight");
 
+    menuMainMenuIconSize = menuItemHeightMain - 2 * menuSpace;
+    cSize logoSize = ScaleToFit(1000, 
+                                menuItemHeightSchedule - 2, 
+                                config.GetValue("logoWidthOriginal"), 
+                                config.GetValue("logoHeightOriginal"));
+    menuLogoWidth = logoSize.Width();
+    menuLogoHeight = logoSize.Height();
+    
     menuButtonsBorder = menuFooterHeight / 6;
     menuButtonWidth = (osdWidth / 4) - 2 * menuButtonsBorder;
     menuButtonHeight = menuFooterHeight - 3 * menuButtonsBorder;

@@ -337,3 +337,8 @@ Version 0.1.4
 - Improved Display of Poster or Banner in displaychannel
 - implemented cDisplayChannel::SetMessage()
 - display not selectable menu elements with dedicated font color
+- changed way of calculating number of menu items in narrow menus. This
+  value is not calculated by icon sizes anymore, these values are now
+  configurable via plugin setup menu. The number of menu items in 
+  schedules menu also sets the number of menu items in channels and
+  timers menu.

@@ -164,13 +164,13 @@ int cNopacityDisplayMenu::MaxItems(void) {
     switch (MenuCategory()) {
         case mcMain:
             if (config.GetValue("narrowMainMenu"))
-                maxItems = menuView->GetMaxItems(MenuCategory());
+                maxItems = config.GetValue("numMainMenuItems");
             else
                 maxItems = config.GetValue("numDefaultMenuItems");
             break;
         case mcSetup:
             if (config.GetValue("narrowSetupMenu"))
-                maxItems = menuView->GetMaxItems(MenuCategory());
+                maxItems = config.GetValue("numMainMenuItems");
             else
                 maxItems = config.GetValue("numDefaultMenuItems");
             break;
@@ -178,25 +178,25 @@ int cNopacityDisplayMenu::MaxItems(void) {
         case mcScheduleNow:
         case mcScheduleNext:
             if (config.GetValue("narrowScheduleMenu"))
-                maxItems = menuView->GetMaxItems(MenuCategory());
+                maxItems = config.GetValue("numSchedulesMenuItems");
             else
                 maxItems = config.GetValue("numDefaultMenuItems");
             break;
         case mcChannel:
             if (config.GetValue("narrowChannelMenu"))
-                maxItems = menuView->GetMaxItems(MenuCategory());
+                maxItems = config.GetValue("numSchedulesMenuItems");
             else
                 maxItems = config.GetValue("numDefaultMenuItems");
             break;
         case mcTimer:
             if (config.GetValue("narrowTimerMenu"))
-                maxItems = menuView->GetMaxItems(MenuCategory());
+                maxItems = config.GetValue("numSchedulesMenuItems");
             else
                 maxItems = config.GetValue("numDefaultMenuItems");
             break;
         case mcRecording:
             if (config.GetValue("narrowRecordingMenu"))
-                maxItems = menuView->GetMaxItems(MenuCategory());
+                maxItems = config.GetValue("numRecordingsMenuItems");
             else
                 maxItems = config.GetValue("numDefaultMenuItems");
             break;

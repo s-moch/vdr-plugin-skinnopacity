@@ -109,13 +109,13 @@ void cNopacityMenuItem::DrawDelimiter(const char *del, const char *icon, eSkinEl
             DrawRoundedCorners(Theme.Color(clrSeparatorBorder));
     }
     if (!drawn) {
-        cImage *imgIcon = imgCache->GetSkinIcon(icon, config.GetValue("iconHeight"), config.GetValue("iconHeight"));
+        cImage *imgIcon = imgCache->GetSkinIcon(icon, height-2*geoManager->menuSpace, height-2*geoManager->menuSpace);
         if (imgIcon) {
             if (pixmapStatic == NULL) {
-                pixmapStatic = osd->CreatePixmap(5, cRect(left, top + index * (height + spaceMenu), config.GetValue("menuItemLogoWidth"), config.GetValue("menuItemLogoWidth")));
+                pixmapStatic = osd->CreatePixmap(5, cRect(left, top + index * (height + spaceMenu), width, height));
                 pixmapStatic->Fill(clrTransparent);
             }
-            pixmapStatic->DrawImage(cPoint(1, (height - config.GetValue("iconHeight")) / 2), *imgIcon);
+            pixmapStatic->DrawImage(cPoint(geoManager->menuSpace, geoManager->menuSpace), *imgIcon);
         }
         drawn = true;
     }
@@ -126,7 +126,7 @@ void cNopacityMenuItem::DrawDelimiter(const char *del, const char *icon, eSkinEl
         if (delimiter.find_last_not_of("-") != std::string::npos)
             delimiter.erase(delimiter.find_last_not_of("-")+1);
     } catch (...) {}
-    int x = config.GetValue("iconHeight") + 3;
+    int x = height + 3;
     int y = (height - font->Height()) / 2;
     pixmapStatic->DrawText(cPoint(x, y), delimiter.c_str(), Theme.Color(clrMenuFontMenuItemSep), clrTransparent, font);
 }
@@ -212,8 +212,8 @@ void cNopacityMenuItem::DrawRoundedCorners(tColor borderColor) {
 }
 
 void cNopacityMenuItem::DrawChannelLogoBackground(void) {
-    int logoWidth = config.GetValue("menuItemLogoWidth");
-    pixmapBackground->DrawRectangle(cRect(5,7,logoWidth-5, height-14), Theme.Color(clrMenuChannelLogoBack));
+    int logoWidth = geoManager->menuLogoWidth;
+    pixmapBackground->DrawRectangle(cRect(4,6,logoWidth-4, height-12), Theme.Color(clrMenuChannelLogoBack));
 }    
 
 // cNopacityMainMenuItem  -------------
@@ -314,10 +314,10 @@ cString cNopacityMainMenuItem::GetIconName() {
 void cNopacityMainMenuItem::CreatePixmapTextScroller(int totalWidth) {
     int pixmapLeft = left + 10;
     if (config.GetValue("useMenuIcons"))
-        pixmapLeft += config.GetValue("iconHeight");
+        pixmapLeft += geoManager->menuMainMenuIconSize;
     int pixmapWidth = width - 10;
     if (config.GetValue("useMenuIcons"))
-        pixmapWidth -= config.GetValue("iconHeight");
+        pixmapWidth -= geoManager->menuMainMenuIconSize;
     int drawPortWidth = totalWidth + 10;
     pixmapTextScroller = osd->CreatePixmap(4, cRect(pixmapLeft, top + index * (height + spaceMenu), pixmapWidth, height), cRect(0, 0, drawPortWidth, height));
     pixmapTextScroller->Fill(clrTransparent);
@@ -362,7 +362,7 @@ void cNopacityMainMenuItem::CreateText() {
 int cNopacityMainMenuItem::CheckScrollable(bool hasIcon) {
     int spaceLeft = spaceMenu;
     if (hasIcon)
-        spaceLeft += config.GetValue("iconHeight");
+        spaceLeft += geoManager->menuMainMenuIconSize;
     int totalTextWidth = width - spaceLeft;
     int numberWidth = font->Width("xxx");
     int textWidth = font->Width(*menuEntry);
@@ -405,8 +405,7 @@ void cNopacityMainMenuItem::Render() {
             if (!drawn) {
                 cImage *imgIcon = imgCache->GetMenuIcon(*cIcon);
                 if (imgIcon)
-                    //TODO 
-                    pixmapStatic->DrawImage(cPoint(5,5), *imgIcon);
+                    pixmapStatic->DrawImage(cPoint(geoManager->menuSpace, geoManager->menuSpace), *imgIcon);
                 drawn = true;
             }
         }
@@ -450,8 +449,8 @@ void cNopacityScheduleMenuItem::CreatePixmapTextScroller(int totalWidth) {
     int pixmapLeft = left;
     int pixmapWidth = width;
     if (Channel) {
-        pixmapLeft += config.GetValue("menuItemLogoWidth") + 5;
-        pixmapWidth = pixmapWidth - config.GetValue("menuItemLogoWidth") - 5;
+        pixmapLeft += geoManager->menuLogoWidth + geoManager->menuSpace;
+        pixmapWidth = pixmapWidth - geoManager->menuLogoWidth - geoManager->menuSpace;
     }
     pixmapTextScroller = osd->CreatePixmap(4, cRect(pixmapLeft, top + index * (height + spaceMenu), pixmapWidth, height), cRect(0, 0, drawPortWidth, height));
     pixmapTextScroller->Fill(clrTransparent);
@@ -478,7 +477,7 @@ void cNopacityScheduleMenuItem::CreateText() {
 int cNopacityScheduleMenuItem::CheckScrollable(bool hasIcon) {
     int spaceLeft = spaceMenu;
     if (hasIcon)
-        spaceLeft += config.GetValue("menuItemLogoWidth");
+        spaceLeft += geoManager->menuLogoWidth;
     int totalTextWidth = width - spaceLeft;
     if (font->Width(strTitle.c_str()) > (width - spaceLeft)) {
         scrollable = true;
@@ -517,8 +516,8 @@ void cNopacityScheduleMenuItem::SetTextShort(void) {
 }
 
 void cNopacityScheduleMenuItem::Render() {
-    int logoWidth = config.GetValue("menuItemLogoWidth");
-    int logoHeight = config.GetValue("menuItemLogoHeight");
+    int logoWidth = geoManager->menuLogoWidth;
+    int logoHeight = geoManager->menuLogoHeight;
     textLeft = 5;
     if (Channel && Channel->Name())
         textLeft = logoWidth + 10;
@@ -680,8 +679,8 @@ cNopacityChannelMenuItem::~cNopacityChannelMenuItem(void) {
 }
 
 void cNopacityChannelMenuItem::CreatePixmapTextScroller(int totalWidth) {
-    int pixmapLeft = left + config.GetValue("menuItemLogoWidth") + 10;
-    int pixmapWidth = width - config.GetValue("menuItemLogoWidth") - 10;
+    int pixmapLeft = left + geoManager->menuLogoWidth + geoManager->menuSpace;
+    int pixmapWidth = width - geoManager->menuLogoWidth - geoManager->menuSpace;
     int drawPortWidth = totalWidth + 10;
     pixmapTextScroller = osd->CreatePixmap(4, cRect(pixmapLeft, top + index * (height + spaceMenu), pixmapWidth, height), cRect(0, 0, drawPortWidth, height));
     pixmapTextScroller->Fill(clrTransparent);
@@ -704,7 +703,7 @@ void cNopacityChannelMenuItem::CreateText() {
 int cNopacityChannelMenuItem::CheckScrollable(bool hasIcon) {
     int spaceLeft = spaceMenu;
     if (hasIcon)
-        spaceLeft += config.GetValue("menuItemLogoWidth");
+        spaceLeft += geoManager->menuLogoWidth;
     int totalTextWidth = width - spaceLeft;
     if (font->Width(strEntry.c_str()) > (width - spaceLeft)) {
         scrollable = true;
@@ -809,7 +808,7 @@ void cNopacityChannelMenuItem::DrawBackground(void) {
     
     if (config.GetValue("menuChannelDisplayMode") == 0) {
         int encryptedSize = height/4-2;
-        int sourceX = config.GetValue("menuItemLogoWidth") + 15;
+        int sourceX = geoManager->menuLogoWidth + 15;
         tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
         pixmapStatic->DrawText(cPoint(sourceX, 3*height/4 + (height/4 - fontSmall->Height())/2), *strChannelInfo, clrFont, clrTransparent, fontSmall);
         if (Channel->Ca()) {
@@ -922,8 +921,8 @@ cNopacityTimerMenuItem::~cNopacityTimerMenuItem(void) {
 }
 
 void cNopacityTimerMenuItem::CreatePixmapTextScroller(int totalWidth) {
-    int pixmapLeft = left + config.GetValue("menuItemLogoWidth") + 10;
-    int pixmapWidth = width - config.GetValue("menuItemLogoWidth") - 10;
+    int pixmapLeft = left + geoManager->menuLogoWidth + geoManager->menuSpace;
+    int pixmapWidth = width - geoManager->menuLogoWidth - geoManager->menuSpace;
     int drawPortWidth = totalWidth + 10;
     pixmapTextScroller = osd->CreatePixmap(4, cRect(pixmapLeft, top + index * (height + spaceMenu), pixmapWidth, height), cRect(0, 0, drawPortWidth, height));
     pixmapTextScroller->Fill(clrTransparent);
@@ -965,7 +964,7 @@ std::string cNopacityTimerMenuItem::CreateDate(void) {
 int cNopacityTimerMenuItem::CheckScrollable(bool hasIcon) {
     int spaceLeft = spaceMenu;
     if (hasIcon)
-        spaceLeft += config.GetValue("menuItemLogoWidth");
+        spaceLeft += geoManager->menuLogoWidth;
     int totalTextWidth = width - spaceLeft;
     if (font->Width(strEntry.c_str()) > (width - spaceLeft)) {
         scrollable = true;
@@ -1044,12 +1043,12 @@ void cNopacityTimerMenuItem::DrawBackground(int textLeft) {
 }
 
 void cNopacityTimerMenuItem::Render() {
-    textLeft = config.GetValue("menuItemLogoWidth") + 10;
+    textLeft = geoManager->menuLogoWidth + geoManager->menuSpace;
     if (selectable) {                           
         DrawBackground(textLeft);
         DrawChannelLogoBackground();
-        int logoWidth = config.GetValue("menuItemLogoWidth");
-        int logoHeight = config.GetValue("menuItemLogoHeight");
+        int logoWidth = geoManager->menuLogoWidth;
+        int logoHeight = geoManager->menuLogoHeight;
         if (!drawn) {
             DrawLogo(logoWidth, logoHeight);
             drawn = true;

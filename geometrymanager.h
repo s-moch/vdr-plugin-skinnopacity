@@ -50,6 +50,9 @@ class cGeometryManager {
         int menuItemHeightDefault;
         int menuItemHeightRecordings;
         int menuItemHeightTracks;
+        int menuMainMenuIconSize;
+        int menuLogoWidth;
+        int menuLogoHeight;
         int menuButtonsBorder;
         int menuButtonWidth;
         int menuButtonHeight;

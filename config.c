@@ -94,12 +94,12 @@ void cNopacityConfig::LoadDefaults(void) {
     conf.insert(std::pair<std::string, int>("headerHeight", 7));
     conf.insert(std::pair<std::string, int>("footerHeight", 7));
     conf.insert(std::pair<std::string, int>("numDefaultMenuItems", 16));
-    conf.insert(std::pair<std::string, int>("iconHeight", 100));
+    conf.insert(std::pair<std::string, int>("numMainMenuItems", 10));
+    conf.insert(std::pair<std::string, int>("numSchedulesMenuItems", 10));
+    conf.insert(std::pair<std::string, int>("numRecordingsMenuItems", 10));
     conf.insert(std::pair<std::string, int>("headerIconHeight", 80));
     conf.insert(std::pair<std::string, int>("menuHeaderLogoWidth", 160));
     conf.insert(std::pair<std::string, int>("menuHeaderLogoHeight", 70));
-    conf.insert(std::pair<std::string, int>("menuItemLogoWidth", 130));
-    conf.insert(std::pair<std::string, int>("menuItemLogoHeight", 100));
     conf.insert(std::pair<std::string, int>("timersLogoWidth", 90));
     conf.insert(std::pair<std::string, int>("timersLogoHeight", 70));
     conf.insert(std::pair<std::string, int>("epgImageWidth", 210));
@@ -108,7 +108,6 @@ void cNopacityConfig::LoadDefaults(void) {
     conf.insert(std::pair<std::string, int>("epgImageHeightLarge", 400));
     conf.insert(std::pair<std::string, int>("posterWidth", 500));
     conf.insert(std::pair<std::string, int>("posterHeight", 750));
-    conf.insert(std::pair<std::string, int>("menuRecFolderSize", 128));
     conf.insert(std::pair<std::string, int>("useFolderPoster", 1));
     conf.insert(std::pair<std::string, int>("borderDetailedEPG", 30));
     conf.insert(std::pair<std::string, int>("borderDetailedRecordings", 30));

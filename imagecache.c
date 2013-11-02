@@ -86,8 +86,8 @@ cImage *cImageCache::GetMenuIcon(std::string name) {
     if (hit != menuIconCache.end()) {
         return (cImage*)hit->second;
     } else {
-        int iconWidth = config.GetValue("iconHeight");
-        int iconHeight = config.GetValue("iconHeight");
+        int iconWidth = geoManager->menuMainMenuIconSize;
+        int iconHeight = geoManager->menuMainMenuIconSize;
         bool success = LoadIcon(ctMenuIcon, name);
         if (success) {
             InsertIntoIconCache(ctMenuIcon, name, iconWidth, iconHeight);
@@ -239,7 +239,7 @@ std::vector<std::pair<std::string, cPoint> > cImageCache::GetMenuIcons(void) {
     mainMenuIcons.push_back("menuIcons/Miscellaneous");
     mainMenuIcons.push_back("menuIcons/Plugins");
     mainMenuIcons.push_back("menuIcons/Restart");
-    int mainMenuIconSize = config.GetValue("iconHeight") - 10;
+    int mainMenuIconSize = geoManager->menuMainMenuIconSize;
     for (int i=0; i<mainMenuIcons.size(); i++) {
         menuIcons.push_back(std::pair<std::string, cPoint>(mainMenuIcons[i], cPoint(mainMenuIconSize, mainMenuIconSize)));
     }
@@ -394,8 +394,8 @@ cPoint cImageCache::LogoSize(eCacheType type) {
             height = geoManager->channelLogoHeight;
             break;
         case ctLogoMenuItem:
-            width = config.GetValue("menuItemLogoWidth");
-            height = config.GetValue("menuItemLogoHeight");
+            width = geoManager->menuLogoWidth;
+            height = geoManager->menuLogoHeight;
             break;
         case ctLogoTimer:
             width = config.GetValue("timersLogoWidth");

@@ -39,7 +39,6 @@ class cNopacityDisplayMenuView {
         void CreatePixmaps(void);
         void SetPixmapAlpha(int Alpha);
         void GetMenuItemSize(eMenuCategory menuCat, cPoint *itemSize);
-        int GetMaxItems(eMenuCategory menuCat);
         int GetMenuTop(int numItems, int itemHeight);
         int GetMenuItemLeft(int itemWidth);
         void SetAvrgFontWidth(void);

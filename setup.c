@@ -192,10 +192,8 @@ void cNopacitySetupMenuDisplayMain::Set(void) {
     Add(new cMenuEditBoolItem(tr("Use narrow setup menu"), tmpConf->GetValueRef("narrowSetupMenu")));
     if (tmpConf->GetValue("narrowSetupMenu"))
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Width (Percent of OSD Width)")), tmpConf->GetValueRef("menuWidthSetup"), 10, 97));
-
+    Add(new cMenuEditIntItem(tr("Number of entires per page"), tmpConf->GetValueRef("numMainMenuItems"), 3, 20));
     Add(new cMenuEditBoolItem(tr("Use menu icons"), tmpConf->GetValueRef("useMenuIcons")));
-    if (tmpConf->GetValue("useMenuIcons"))
-        Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Icon Size (Square)")), tmpConf->GetValueRef("iconHeight"), 30, 200));
     Add(new cMenuEditStraItem(tr("Main menu title style"), tmpConf->GetValueRef("mainMenuTitleStyle"), 3, titleStyle));
     Add(new cMenuEditBoolItem(tr("Display Disk Usage"), tmpConf->GetValueRef("showDiscUsage")));
     if (tmpConf->GetValue("showDiscUsage")) {
@@ -247,8 +245,7 @@ void cNopacitySetupMenuDisplaySchedules::Set(void) {
     Add(new cMenuEditBoolItem(tr("Use narrow menu"), tmpConf->GetValueRef("narrowScheduleMenu")));
     if (tmpConf->GetValue("narrowScheduleMenu"))
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Width (Percent of OSD Width)")), tmpConf->GetValueRef("menuWidthSchedules"), 10, 97));
-    Add(new cMenuEditIntItem(tr("Channel Logo Width"), tmpConf->GetValueRef("menuItemLogoWidth"), 30, 200));
-    Add(new cMenuEditIntItem(tr("Channel Logo Height"), tmpConf->GetValueRef("menuItemLogoHeight"), 30, 200));
+    Add(new cMenuEditIntItem(tr("Number of entires per page"), tmpConf->GetValueRef("numSchedulesMenuItems"), 3, 20));
     Add(new cMenuEditStraItem(tr("Mode of EPG Window"), tmpConf->GetValueRef("menuSchedulesWindowMode"), 2, windowMode));
     Add(new cMenuEditIntItem(tr("EPG Window Fade-In Time in ms (Zero for switching off fading)"), tmpConf->GetValueRef("menuEPGWindowFadeTime"), 0, 1000));
     Add(new cMenuEditIntItem(tr("EPG Window Display Delay in s"), tmpConf->GetValueRef("menuInfoTextDelay"), 0, 10));
@@ -343,12 +340,12 @@ void cNopacitySetupMenuDisplayRecordings::Set(void) {
     Add(new cMenuEditBoolItem(tr("Use narrow menu"), tmpConf->GetValueRef("narrowRecordingMenu")));
     if (tmpConf->GetValue("narrowRecordingMenu"))
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Width (Percent of OSD Width)")), tmpConf->GetValueRef("menuWidthRecordings"), 10, 97));
+    Add(new cMenuEditIntItem(tr("Number of entires per page"), tmpConf->GetValueRef("numRecordingsMenuItems"), 3, 20));
     Add(new cMenuEditStraItem(tr("Mode of recording Window"), tmpConf->GetValueRef("menuRecordingsWindowMode"), 2, windowMode));
     Add(new cMenuEditIntItem(tr("Border around detailed recording view"), tmpConf->GetValueRef("borderDetailedRecordings"), 1, 300));
     Add(new cMenuEditStraItem(tr("Display additional EPG Pictures in detailed recording View"), tmpConf->GetValueRef("displayAdditionalRecEPGPictures"), 3, displayEPGPictures));
     if (tmpConf->GetValue("displayAdditionalRecEPGPictures"))
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Number of EPG pictures to display")), tmpConf->GetValueRef("numAdditionalRecEPGPictures"), 1, 9));
-    Add(new cMenuEditIntItem(tr("Folder Icon Size"), tmpConf->GetValueRef("menuRecFolderSize"), 30, 300));
     Add(new cMenuEditBoolItem(tr("Use folder poster if available"), tmpConf->GetValueRef("useFolderPoster")));
     Add(new cMenuEditIntItem(tr("Width of manually set recording poster"), tmpConf->GetValueRef("posterWidth"), 100, 1000));
     Add(new cMenuEditIntItem(tr("Height of manually set recording poster"), tmpConf->GetValueRef("posterHeight"), 100, 1000));

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: vdr-skinnopacity\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-11-02 15:27+0100\n"
+"POT-Creation-Date: 2013-11-02 17:41+0100\n"
 "PO-Revision-Date: 2013-09-16 19:34+0100\n"
 "Last-Translator: Milan Hrala <hrala.milan@gmail.com>\n"
 "Language-Team: \n"
@@ -230,11 +230,11 @@ msgstr "©írka (Percent z OSD ¹írky)"
 msgid "Use narrow setup menu"
 msgstr "Úzke menu nastavenia"
 
+msgid "Number of entires per page"
+msgstr ""
+
 msgid "Use menu icons"
 msgstr "Pou¾i» ikony ponuky"
-
-msgid "Icon Size (Square)"
-msgstr "Veµkos» ikony (do ¹tvorca)"
 
 msgid "Main menu title style"
 msgstr "©týl názvu hlavného menu"
@@ -391,9 +391,6 @@ msgstr "Okraj okolo podrobného zobrazenia nahrávky"
 
 msgid "Display additional EPG Pictures in detailed recording View"
 msgstr "Zobrazi» ïal¹ie EPG obrázky v podrobnom zobrazení nahrávky"
-
-msgid "Folder Icon Size"
-msgstr "Veµkos» ikony prieèinku"
 
 msgid "Use folder poster if available"
 msgstr ""
@@ -556,3 +553,9 @@ msgstr "konflikt"
 
 msgid "conflicts"
 msgstr "konflikty"
+
+#~ msgid "Folder Icon Size"
+#~ msgstr "Veµkos» ikony prieèinku"
+
+#~ msgid "Icon Size (Square)"
+#~ msgstr "Veµkos» ikony (do ¹tvorca)"

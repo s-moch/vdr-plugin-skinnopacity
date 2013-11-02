@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-11-02 15:27+0100\n"
+"POT-Creation-Date: 2013-11-02 17:41+0100\n"
 "PO-Revision-Date: 2012-11-11 17:49+0200\n"
 "Last-Translator: louis\n"
 "Language-Team: \n"
@@ -230,11 +230,11 @@ msgstr "Breite (% der OSD Breite)"
 msgid "Use narrow setup menu"
 msgstr "Schmales Setup Menü verwenden"
 
+msgid "Number of entires per page"
+msgstr "Menüelemente pro Seite"
+
 msgid "Use menu icons"
 msgstr "Menü Icons benutzen"
-
-msgid "Icon Size (Square)"
-msgstr "Icon Größe (quadratisch)"
 
 msgid "Main menu title style"
 msgstr "Titel Stil im Hauptmenü"
@@ -391,9 +391,6 @@ msgstr "Rahmen um detailierte Aufnahmeansicht"
 
 msgid "Display additional EPG Pictures in detailed recording View"
 msgstr "Weitere EPG Bilder in der detaillierten Aufnahmeansicht anzeigen"
-
-msgid "Folder Icon Size"
-msgstr "Order Icon Größe"
 
 msgid "Use folder poster if available"
 msgstr "Zeige Poster für Ordner falls verfügbar"
@@ -556,3 +553,9 @@ msgstr "Konflikt"
 
 msgid "conflicts"
 msgstr "Konflikte"
+
+#~ msgid "Folder Icon Size"
+#~ msgstr "Order Icon Größe"
+
+#~ msgid "Icon Size (Square)"
+#~ msgstr "Icon Größe (quadratisch)"
