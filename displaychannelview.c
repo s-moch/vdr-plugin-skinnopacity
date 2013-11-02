@@ -785,3 +785,12 @@ void cNopacityDisplayChannelView::DrawSourceInfo(const cChannel *Channel) {
 void cNopacityDisplayChannelView::ClearSourceInfo(void) {
     pixmapSourceInfo->Fill(clrTransparent);
 }
+
+void cNopacityDisplayChannelView::DisplayMessage(const char *Text) {
+    if (!Text)
+        return;
+    int textWidth = fontManager->channelEPG->Width(Text);
+    int x = (geoManager->channelContentWidth - textWidth)/2;
+    int y = (geoManager->channelEpgInfoHeight - fontManager->channelEPG->Height())/2;
+    pixmapEPGInfo->DrawText(cPoint(x, y), Text, Theme.Color(clrChannelEPG), clrTransparent, fontManager->channelEPG);
+}

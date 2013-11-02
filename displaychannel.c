@@ -123,6 +123,15 @@ void cNopacityDisplayChannel::SetProgressBar(const cEvent *present) {
 
 
 void cNopacityDisplayChannel::SetMessage(eMessageType Type, const char *Text) {
+    channelView->ClearChannelLogo();
+    channelView->ClearChannelName();
+    channelView->ClearEPGInfo();
+    channelView->ClearStatusIcons();
+    channelView->ClearSourceInfo();
+    channelView->ClearProgressBar();
+    channelView->HideSignalMeter();
+    channelView->DisplayMessage(Text);
+    groupSep = true;
 }
 
 void cNopacityDisplayChannel::Flush(void) {
@@ -133,7 +142,8 @@ void cNopacityDisplayChannel::Flush(void) {
 
     if (present) {
         SetProgressBar(present);
-    }
+    } else
+        channelView->ClearProgressBar();
     
     if (!groupSep)
         channelView->DrawScreenResolution();

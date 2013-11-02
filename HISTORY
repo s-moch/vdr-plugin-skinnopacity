@@ -335,3 +335,4 @@ Version 0.1.4
   displaychannel
 - Added background with dedicated theme color for channel logos in menus
 - Improved Display of Poster or Banner in displaychannel
+- implemented cDisplayChannel::SetMessage()

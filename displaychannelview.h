@@ -61,6 +61,7 @@ public:
     void DrawChannelGroups(const cChannel *Channel, cString ChannelName);
     void DrawSourceInfo(const cChannel *Channel);
     void ClearSourceInfo(void);
+    void DisplayMessage(const char *Text);
     void Flush(void) { osd->Flush(); };
 };
 #endif //__NOPACITY_DISPLAYCHANNELVIEW_H
