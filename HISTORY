@@ -344,3 +344,5 @@ Version 0.1.4
   timers menu.
 - improved display of text progress bar in wide menus
 - changed header icons to scale automatically
+- Added Setup Option to generate log messages when trying to load
+  pictures (VDR Menu -> Common Settings)

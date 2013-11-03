@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: vdr-skinnopacity\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-11-03 14:03+0100\n"
+"POT-Creation-Date: 2013-11-03 14:34+0100\n"
 "PO-Revision-Date: 2013-09-16 19:34+0100\n"
 "Last-Translator: Milan Hrala <hrala.milan@gmail.com>\n"
 "Language-Team: \n"
@@ -139,6 +139,9 @@ msgstr "áno"
 
 msgid "auto"
 msgstr "automaticky"
+
+msgid "Create Log Messages for image loading"
+msgstr ""
 
 msgid "Number of Default Menu Entries per Page"
 msgstr "Poèet polo¾iek základného menu na stránke"

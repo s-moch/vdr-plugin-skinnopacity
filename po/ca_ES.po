@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-11-03 14:03+0100\n"
+"POT-Creation-Date: 2013-11-03 14:34+0100\n"
 "PO-Revision-Date: 2013-03-19 22:56+0100\n"
 "Last-Translator: Gabychan <gbonich@gmail.com>\n"
 "Language-Team: \n"
@@ -142,6 +142,9 @@ msgstr "sí"
 
 msgid "auto"
 msgstr "auto"
+
+msgid "Create Log Messages for image loading"
+msgstr ""
 
 msgid "Number of Default Menu Entries per Page"
 msgstr "Nombre d'entrades de menú per pàgina"

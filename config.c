@@ -44,6 +44,7 @@ void cNopacityConfig::LoadDefaults(void) {
     //Common Values
     conf.insert(std::pair<std::string, int>("displayType", dtBlending));
     conf.insert(std::pair<std::string, int>("fontIndex", 0));
+    conf.insert(std::pair<std::string, int>("debugImageLoading", 0));
     //DisplayMenu
     conf.insert(std::pair<std::string, int>("scrollMode", 0));
     conf.insert(std::pair<std::string, int>("spaceMenu", 5));

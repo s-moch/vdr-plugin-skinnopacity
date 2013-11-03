@@ -52,9 +52,11 @@ bool cImageMagickWrapper::LoadImage(std::string FileName, std::string Path, std:
         std::stringstream sstrImgFile;
         sstrImgFile << Path << FileName << "." << Extension;
         std::string imgFile = sstrImgFile.str();
-        //dsyslog("nopacity: trying to load: %s", imgFile.c_str());
+        if (config.GetValue("debugImageLoading"))
+            dsyslog("nopacity: trying to load: %s", imgFile.c_str());
         buffer.read(imgFile.c_str());
-        //dsyslog("nopacity: %s sucessfully loaded", imgFile.c_str());
+        if (config.GetValue("debugImageLoading"))
+            dsyslog("nopacity: %s sucessfully loaded", imgFile.c_str());
     } catch (...) {     
         return false;
     }
@@ -65,9 +67,11 @@ bool cImageMagickWrapper::LoadImage(const char *fullpath) {
     if ((fullpath == NULL) || (strlen(fullpath) < 5))
         return false;
     try {
-        //dsyslog("nopacity: trying to load: %s", fullpath);
+        if (config.GetValue("debugImageLoading"))
+            dsyslog("nopacity: trying to load: %s", fullpath);
         buffer.read(fullpath);
-        //dsyslog("nopacity: %s sucessfully loaded", fullpath);
+        if (config.GetValue("debugImageLoading"))
+            dsyslog("nopacity: %s sucessfully loaded", fullpath);
     } catch (...) {     
         return false;
     }

@@ -35,7 +35,6 @@ void cNopacitySetup::Setup(void) {
     Add(new cOsdItem(tr("Messages")));
     Add(new cOsdItem(tr("Volume")));
     Add(new cOsdItem(tr("Image Caching")));
-   
     SetCurrent(Get(currentItem));
     Display();
 }
@@ -142,6 +141,7 @@ cNopacitySetupMenuDisplay::cNopacitySetupMenuDisplay(cNopacityConfig* data)  : c
 void cNopacitySetupMenuDisplay::Set(void) {
     int currentItem = Current();
     Clear();
+    Add(new cMenuEditBoolItem(tr("Create Log Messages for image loading"), tmpConf->GetValueRef("debugImageLoading")));
     Add(new cMenuEditIntItem(tr("Number of Default Menu Entries per Page"), tmpConf->GetValueRef("numDefaultMenuItems"), 10, 40));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Default Menu Item"), tmpConf->GetValueRef("fontMenuitemDefault"), -20, 20));
     Add(new cMenuEditStraItem(tr("Adjustment of narrow menus"), tmpConf->GetValueRef("menuAdjustLeft"), 2, adjustLeft));
