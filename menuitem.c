@@ -464,7 +464,7 @@ void cNopacityScheduleMenuItem::CreateText() {
     std::string dayNow = *WeekDayName(now);
     std::string dayEvent = *WeekDayName(Event->StartTime());
     if ((Event->StartTime() - now > 86400) || (dayNow != dayEvent))
-        sstrDateTime << dayEvent << " ";
+        sstrDateTime << dayEvent << " " << *ShortDateString(Event->StartTime()) << " ";
     sstrDateTime << *Event->GetTimeString();
     sstrDateTime << " - " << *Event->GetEndTimeString();
     strDateTime = sstrDateTime.str();
