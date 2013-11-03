@@ -343,3 +343,4 @@ Version 0.1.4
   schedules menu also sets the number of menu items in channels and
   timers menu.
 - improved display of text progress bar in wide menus
+- changed header icons to scale automatically

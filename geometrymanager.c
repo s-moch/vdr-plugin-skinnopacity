@@ -83,6 +83,12 @@ void cGeometryManager::SetDisplayMenuSizes() {
     menuLogoWidth = logoSize.Width();
     menuLogoHeight = logoSize.Height();
     
+    cSize logoSizeVDRHeader = ScaleToFit(1000, 
+                                menuHeaderHeight - 4, 
+                                config.GetValue("menuHeaderLogoWidth"), 
+                                config.GetValue("menuHeaderLogoHeight"));
+    menuHeaderVDRLogoWidth = logoSizeVDRHeader.Width();
+    
     menuButtonsBorder = menuFooterHeight / 6;
     menuButtonWidth = (osdWidth / 4) - 2 * menuButtonsBorder;
     menuButtonHeight = menuFooterHeight - 3 * menuButtonsBorder;

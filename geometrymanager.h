@@ -53,6 +53,7 @@ class cGeometryManager {
         int menuMainMenuIconSize;
         int menuLogoWidth;
         int menuLogoHeight;
+        int menuHeaderVDRLogoWidth;
         int menuButtonsBorder;
         int menuButtonWidth;
         int menuButtonHeight;

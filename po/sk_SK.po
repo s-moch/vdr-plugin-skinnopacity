@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: vdr-skinnopacity\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-11-02 17:41+0100\n"
+"POT-Creation-Date: 2013-11-03 14:03+0100\n"
 "PO-Revision-Date: 2013-09-16 19:34+0100\n"
 "Last-Translator: Milan Hrala <hrala.milan@gmail.com>\n"
 "Language-Team: \n"
@@ -154,9 +154,6 @@ msgstr "Zmeni» veµkos» videa, aby sa zmestil do okna ponuky"
 
 msgid "Header Height (Percent of OSD Height)"
 msgstr "Vý¹ka hlavièky (percento z èasti OSD vý¹ky)"
-
-msgid "Header Icon Size (Square Header Menu Icons)"
-msgstr "Veµkos» ikony hlavièky (ikona hlavièky do ¹tvorca)"
 
 msgid "Footer Height (Percent of OSD Height)"
 msgstr "Vý¹ka zápätia (percento z èasti OSD vý¹ky)"
@@ -553,6 +550,9 @@ msgstr "konflikt"
 
 msgid "conflicts"
 msgstr "konflikty"
+
+#~ msgid "Header Icon Size (Square Header Menu Icons)"
+#~ msgstr "Veµkos» ikony hlavièky (ikona hlavièky do ¹tvorca)"
 
 #~ msgid "Folder Icon Size"
 #~ msgstr "Veµkos» ikony prieèinku"

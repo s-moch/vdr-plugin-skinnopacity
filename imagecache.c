@@ -243,6 +243,7 @@ std::vector<std::pair<std::string, cPoint> > cImageCache::GetMenuIcons(void) {
     for (int i=0; i<mainMenuIcons.size(); i++) {
         menuIcons.push_back(std::pair<std::string, cPoint>(mainMenuIcons[i], cPoint(mainMenuIconSize, mainMenuIconSize)));
     }
+    
     //Plugin Icons
     for (int i = 0; ; i++) {
         cPlugin *p = cPluginManager::GetPlugin(i);
@@ -260,8 +261,8 @@ std::vector<std::pair<std::string, sImgProperties> > cImageCache::GetSkinIcons(v
     std::vector<std::pair<std::string, sImgProperties> > skinIcons;
     //VDR Logo
     sImgProperties props;
-    props.width = config.GetValue("menuHeaderLogoWidth");
-    props.height = config.GetValue("menuHeaderLogoWidth");
+    props.width = geoManager->menuHeaderVDRLogoWidth;
+    props.height = geoManager->menuHeaderHeight;
     props.preserveAspect = true;
     skinIcons.push_back(std::pair<std::string, sImgProperties>("skinIcons/vdrlogo", props));
     //DiskUsage
@@ -281,8 +282,8 @@ std::vector<std::pair<std::string, sImgProperties> > cImageCache::GetSkinIcons(v
     menuHeaderIcons.push_back("menuIcons/Recordings");
     menuHeaderIcons.push_back("menuIcons/Setup");
     menuHeaderIcons.push_back("menuIcons/Commands");
-    props.width = config.GetValue("headerIconHeight");
-    props.height = config.GetValue("headerIconHeight");
+    props.width = geoManager->menuHeaderHeight-2;
+    props.height = geoManager->menuHeaderHeight-2;
     props.preserveAspect = true;
     for (int i=0; i<menuHeaderIcons.size(); i++) {
         skinIcons.push_back(std::pair<std::string, sImgProperties>(menuHeaderIcons[i], props));

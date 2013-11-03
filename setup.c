@@ -147,7 +147,6 @@ void cNopacitySetupMenuDisplay::Set(void) {
     Add(new cMenuEditStraItem(tr("Adjustment of narrow menus"), tmpConf->GetValueRef("menuAdjustLeft"), 2, adjustLeft));
     Add(new cMenuEditStraItem(tr("Scale Video size to fit into menu window"), tmpConf->GetValueRef("scalePicture"), 3, scalePic));
     Add(new cMenuEditIntItem(tr("Header Height (Percent of OSD Height)"), tmpConf->GetValueRef("headerHeight"), 5, 30));
-    Add(new cMenuEditIntItem(tr("Header Icon Size (Square Header Menu Icons)"), tmpConf->GetValueRef("headerIconHeight"), 30, 200));
     Add(new cMenuEditIntItem(tr("Footer Height (Percent of OSD Height)"), tmpConf->GetValueRef("footerHeight"), 5, 30));
     Add(new cMenuEditBoolItem(tr("Rounded Corners for menu items and buttons"), tmpConf->GetValueRef("roundedCorners")));
     if (tmpConf->GetValue("roundedCorners"))

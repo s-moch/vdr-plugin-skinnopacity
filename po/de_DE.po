@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-11-02 17:41+0100\n"
+"POT-Creation-Date: 2013-11-03 14:03+0100\n"
 "PO-Revision-Date: 2012-11-11 17:49+0200\n"
 "Last-Translator: louis\n"
 "Language-Team: \n"
@@ -154,9 +154,6 @@ msgstr "TV-Bildgröße in Menüfenster einpassen"
 
 msgid "Header Height (Percent of OSD Height)"
 msgstr "Header Höhe (in % der OSD Höhe)"
-
-msgid "Header Icon Size (Square Header Menu Icons)"
-msgstr "Größe der quadratischen Headericons"
 
 msgid "Footer Height (Percent of OSD Height)"
 msgstr "Footer Höhe (in % der OSD Höhe)"
@@ -553,6 +550,9 @@ msgstr "Konflikt"
 
 msgid "conflicts"
 msgstr "Konflikte"
+
+#~ msgid "Header Icon Size (Square Header Menu Icons)"
+#~ msgstr "Größe der quadratischen Headericons"
 
 #~ msgid "Folder Icon Size"
 #~ msgstr "Order Icon Größe"

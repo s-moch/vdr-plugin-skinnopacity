@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-11-02 17:41+0100\n"
+"POT-Creation-Date: 2013-11-03 14:03+0100\n"
 "PO-Revision-Date: 2013-03-19 22:56+0100\n"
 "Last-Translator: Diego Pierotto <vdr-italian@tiscali.it>\n"
 "Language-Team: \n"
@@ -157,9 +157,6 @@ msgstr "Scala dimensione video nel menu finestra"
 
 msgid "Header Height (Percent of OSD Height)"
 msgstr "Altezza intestazione (% altezza OSD)"
-
-msgid "Header Icon Size (Square Header Menu Icons)"
-msgstr "Dim. icona intestazione (icone menu intestazione quadrato)"
 
 msgid "Footer Height (Percent of OSD Height)"
 msgstr "Altezza piè pagina (% altezza OSD)"
@@ -556,6 +553,9 @@ msgstr "conflitto"
 
 msgid "conflicts"
 msgstr "conflitti"
+
+#~ msgid "Header Icon Size (Square Header Menu Icons)"
+#~ msgstr "Dim. icona intestazione (icone menu intestazione quadrato)"
 
 #~ msgid "Folder Icon Size"
 #~ msgstr "Dim. icona cartella"

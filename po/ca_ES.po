@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-11-02 17:41+0100\n"
+"POT-Creation-Date: 2013-11-03 14:03+0100\n"
 "PO-Revision-Date: 2013-03-19 22:56+0100\n"
 "Last-Translator: Gabychan <gbonich@gmail.com>\n"
 "Language-Team: \n"
@@ -157,9 +157,6 @@ msgstr "Ajust de la mida de video a la finestra del menú"
 
 msgid "Header Height (Percent of OSD Height)"
 msgstr "Alçada de la capçalera (% Alçada OSD)"
-
-msgid "Header Icon Size (Square Header Menu Icons)"
-msgstr "Mida icona capçalera (Icones del Quadre)"
 
 msgid "Footer Height (Percent of OSD Height)"
 msgstr "Alçada del peu de pàgina (% Alçada OSD)"
@@ -556,6 +553,9 @@ msgstr "conflicte"
 
 msgid "conflicts"
 msgstr "conflictes"
+
+#~ msgid "Header Icon Size (Square Header Menu Icons)"
+#~ msgstr "Mida icona capçalera (Icones del Quadre)"
 
 #~ msgid "Folder Icon Size"
 #~ msgstr "Mida Carpeta Icones"
