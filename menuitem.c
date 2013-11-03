@@ -1476,10 +1476,10 @@ void cNopacityDefaultMenuItem::DrawProgressBar(int x, int width, const char *bar
         }
     }
     if (isProgressbar) {
-        pixmapBackground->DrawRectangle(cRect(x+5, height/4, width-10, height/2), color);
-        pixmapBackground->DrawRectangle(cRect(x+7, height/4+2, width-14, height/2-4), Theme.Color(clrMenuItemBlend));
+        pixmapStatic->DrawRectangle(cRect(x+5, height/4, width-10, height/2), color);
+        pixmapStatic->DrawRectangle(cRect(x+7, height/4+2, width-14, height/2-4), clrTransparent);
         double progress = (double)now/(double)total;
-        pixmapBackground->DrawRectangle(cRect(x+8, height/4+3, (width-16)*progress, height/2-6), color);
+        pixmapStatic->DrawRectangle(cRect(x+8, height/4+3, (width-16)*progress, height/2-6), color);
         
     }
 }

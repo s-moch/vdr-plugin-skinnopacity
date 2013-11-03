@@ -342,3 +342,4 @@ Version 0.1.4
   configurable via plugin setup menu. The number of menu items in 
   schedules menu also sets the number of menu items in channels and
   timers menu.
+- improved display of text progress bar in wide menus
