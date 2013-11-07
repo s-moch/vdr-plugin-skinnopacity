@@ -352,3 +352,5 @@ Version 0.1.4
   (thanks @Helmut Auer)
 - changed channel logos in main menu timers display to scale 
   automatically
+- fixed a bug that rounded corners of color buttons in menus were
+  not drawn correctly

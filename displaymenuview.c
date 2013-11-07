@@ -563,22 +563,23 @@ void cNopacityDisplayMenuView::DrawButton(const char *text, eSkinElementType seB
         if (image)
             pixmapFooter->DrawImage(cPoint(left, top), *image);
     } else {
-        pixmapFooter->DrawRectangle(cRect(left, top, geoManager->menuButtonWidth, geoManager->menuButtonHeight), buttonColor);
+        pixmapFooter->DrawRectangle(cRect(left, top, geoManager->menuButtonWidth, geoManager->menuButtonHeight), borderColor);
+        pixmapFooter->DrawRectangle(cRect(left+1, top+1, geoManager->menuButtonWidth-2, geoManager->menuButtonHeight-2), buttonColor);
     }
     if (config.GetValue("roundedCorners") && (config.GetValue("displayType") != dtGraphical)) {
         int radius = config.GetValue("cornerRadius");
         if (radius > 2) {
             pixmapFooter->DrawEllipse(cRect(left,top,radius,radius), borderColor, -2);
-            pixmapFooter->DrawEllipse(cRect(left-2,top-2,radius,radius), clrTransparent, -2);
+            pixmapFooter->DrawEllipse(cRect(left-1,top-1,radius,radius), clrTransparent, -2);
 
             pixmapFooter->DrawEllipse(cRect(left + geoManager->menuButtonWidth -radius, top,radius,radius), borderColor, -1);
-            pixmapFooter->DrawEllipse(cRect(left + geoManager->menuButtonWidth -radius+2,top-2,radius,radius), clrTransparent, -1);
+            pixmapFooter->DrawEllipse(cRect(left + geoManager->menuButtonWidth -radius+1,top-1,radius,radius), clrTransparent, -1);
 
             pixmapFooter->DrawEllipse(cRect(left,top + geoManager->menuButtonHeight -radius,radius,radius), borderColor, -3);
-            pixmapFooter->DrawEllipse(cRect(left - 2, top + geoManager->menuButtonHeight - radius + 2,radius,radius), clrTransparent, -3);
+            pixmapFooter->DrawEllipse(cRect(left - 1, top + geoManager->menuButtonHeight - radius + 1,radius,radius), clrTransparent, -3);
 
             pixmapFooter->DrawEllipse(cRect(left + geoManager->menuButtonWidth -radius, top + geoManager->menuButtonHeight -radius,radius,radius), borderColor, -4);
-            pixmapFooter->DrawEllipse(cRect(left + geoManager->menuButtonWidth -radius + 2, top + geoManager->menuButtonHeight -radius + 2,radius,radius), clrTransparent, -4);
+            pixmapFooter->DrawEllipse(cRect(left + geoManager->menuButtonWidth -radius + 1, top + geoManager->menuButtonHeight -radius + 1,radius,radius), clrTransparent, -4);
         }
     }
     int textWidth = fontManager->menuButtons->Width(text);
