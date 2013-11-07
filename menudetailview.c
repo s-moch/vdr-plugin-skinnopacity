@@ -4,6 +4,10 @@
 #include <iostream>
 #include <dirent.h>
 #include <vector>
+#include "config.h"
+#include "helpers.h"
+#include "imageloader.h"
+
 
 cNopacityMenuDetailView::cNopacityMenuDetailView(cOsd *osd, cImageCache *imgCache) {
     this->osd = osd;
@@ -96,7 +100,7 @@ void cNopacityMenuDetailView::DrawPoster(void) {
     }
     int posterWidth = posterWidthOrig;
     int posterHeight = posterHeightOrig;
-        
+
     if ((posterWidthOrig > widthPoster) && (posterHeightOrig < contentHeight)) {
         posterWidth = widthPoster - 2*border;
         posterHeight = posterHeightOrig * ((double)posterWidth / (double)posterWidthOrig);
@@ -135,7 +139,7 @@ void cNopacityMenuDetailView::DrawBanner(int height) {
     int bannerHeightOrig = mediaInfo.banner.height;
     int bannerWidth = bannerWidthOrig;
     int bannerHeight = bannerHeightOrig;
-    
+
     if (bannerWidthOrig > contentWidth - 2*border) {
         bannerWidth = contentWidth - 2*border;
         bannerHeight = bannerHeightOrig * ((double)bannerWidth / (double)bannerWidthOrig);
@@ -208,7 +212,7 @@ void cNopacityMenuDetailView::DrawFanart(int height) {
     int fanartHeightOrig = mediaInfo.fanart[0].height;
     int fanartWidth = fanartWidthOrig;
     int fanartHeight = fanartHeightOrig;
-    
+
     if (fanartWidthOrig > contentWidth - 2*border) {
         fanartWidth = contentWidth - 2*border;
         fanartHeight = fanartHeightOrig * ((double)fanartWidth / (double)fanartWidthOrig);
@@ -357,21 +361,21 @@ void cNopacityMenuDetailEventView::SetContentHeight(void) {
     if ((config.GetValue("displayAdditionalEPGPictures") == 1) || ((config.GetValue("displayAdditionalEPGPictures") == 2) && !hasAdditionalMedia)) {
         heightEPGPics = HeightEPGPics();
     }
-    
+
     yBanner  = border;
     yEPGText = yBanner + heightBanner;
     yAddInf  = yEPGText + heightEPG;
     yActors  = yAddInf + heightReruns;
     yFanart  = yActors + heightActors;
     yEPGPics = yFanart + heightFanart;
-    
+
     int totalHeight = 2 * border + heightBanner + heightEPG + heightActors + heightFanart + heightReruns + heightEPGPics;
     //check if pixmap content has to be scrollable
     if (totalHeight > contentHeight) {
         contentDrawPortHeight = totalHeight;
         hasScrollbar = true;
     } else {
-        contentDrawPortHeight = contentHeight;  
+        contentDrawPortHeight = contentHeight;
     }
 }
 
@@ -385,7 +389,7 @@ void cNopacityMenuDetailEventView::CreatePixmaps(void) {
     pixmapHeader->DrawRectangle(cRect(0, headerHeight - 2, width, 2), Theme.Color(clrMenuBorder));
     pixmapContent->Fill(clrTransparent);
     pixmapLogo->Fill(clrTransparent);
-    
+
     if (hasAdditionalMedia) {
         pixmapPoster = osd->CreatePixmap(4, cRect(x, top + headerHeight, widthPoster, contentHeight));
         pixmapPoster->Fill(clrTransparent);
@@ -527,7 +531,7 @@ void cNopacityMenuDetailEventView::LoadReruns(void) {
         data.channelNr = 0;
         data.useTitle = true;
         data.useDescription = false;
-        
+
         if (epgSearchPlugin->Service("Epgsearch-searchresults-v1.0", &data)) {
             cList<Epgsearch_searchresults_v1_0::cServiceSearchResult>* list = data.pResultList;
             if (list && (list->Count() > 1)) {
@@ -675,23 +679,23 @@ void cNopacityMenuDetailRecordingView::SetContentHeight(void) {
     }
     //additional recording Info
     int heightAdditionalInfo = (additionalInfo.Lines() + 1) * lineHeight;
-    
+
     yBanner  = border;
     yEPGText = yBanner + heightBanner;
     yActors  = yEPGText + heightEPG;
     yFanart  = yActors + heightActors;
     yEPGPics = yFanart + heightFanart;
     yAddInf  = yEPGPics + heightEPGPics;
-    
+
     int totalHeight = 2*border + heightBanner + heightEPG + heightActors + heightFanart + heightAdditionalInfo + heightEPGPics;
     //check if pixmap content has to be scrollable
     if (totalHeight > contentHeight) {
         contentDrawPortHeight = totalHeight;
         hasScrollbar = true;
     } else {
-        contentDrawPortHeight = contentHeight;  
+        contentDrawPortHeight = contentHeight;
     }
-    
+
 }
 
 void cNopacityMenuDetailRecordingView::CreatePixmaps(void) {
@@ -752,7 +756,7 @@ bool cNopacityMenuDetailRecordingView::LoadEPGPics(void) {
     int picsFound = 0;
     if (dirHandle != NULL) {
         while ( 0 != (dirEntry = readdir(dirHandle))) {
-            if (endswith(dirEntry->d_name, "jpg")) { 
+            if (endswith(dirEntry->d_name, "jpg")) {
                 std::string fileName = dirEntry->d_name;
                 if (!fileName.compare("cover_vdr.jpg"))
                     continue;
@@ -828,7 +832,7 @@ void cNopacityMenuDetailRecordingView::DrawHeader(void) {
     recDuration = (recDuration>0)?(recDuration / 60):0;
     cString dateTime = cString::sprintf("%s  %s (%d %s)", *DateString(recording->Start()), *TimeString(recording->Start()), recDuration, tr("min"));
     pixmapHeader->DrawText(cPoint(border, (lineHeight - fontHeader->Height())/2), *dateTime, Theme.Color(clrMenuFontDetailViewHeader), clrTransparent, fontHeader);
-    
+
     const char *Title = info->Title();
     if (isempty(Title))
         Title = recording->Name();
@@ -942,7 +946,7 @@ void cNopacityMenuDetailRecordingView::LoadRecordingInformation(void) {
         }
         sstrInfo << (const char*)strRecSize << std::endl;
     }
-    
+
     if (index) {
         int nLastIndex = index->Last();
         if (nLastIndex) {
@@ -958,7 +962,7 @@ void cNopacityMenuDetailRecordingView::LoadRecordingInformation(void) {
         }
     }
     delete index;
-    
+
     if (Info) {
         const char *aux = NULL;
         aux = Info->Aux();
@@ -968,12 +972,12 @@ void cNopacityMenuDetailRecordingView::LoadRecordingInformation(void) {
             if (!auxEpgsearch.empty()) {
                 std::string searchTimer = StripXmlTag(auxEpgsearch, "searchtimer");
                 if (!searchTimer.empty()) {
-                    sstrInfo << tr("Search timer") << ": " << searchTimer << std::endl; 
+                    sstrInfo << tr("Search timer") << ": " << searchTimer << std::endl;
                 }
             }
         }
     }
-    
+
     additionalInfo.Set(sstrInfo.str().c_str(), font, width - 4 * border);
 }
 
@@ -1044,7 +1048,7 @@ void cNopacityMenuDetailTextView::SetContentHeight(void) {
         contentDrawPortHeight = heightContentText;
         hasScrollbar = true;
     } else {
-        contentDrawPortHeight = contentHeight;  
+        contentDrawPortHeight = contentHeight;
     }
 }
 

@@ -1,6 +1,8 @@
 #ifndef __NOPACITY_FONTMANAGER_H
 #define __NOPACITY_FONTMANAGER_H
 
+#include <vdr/skins.h>
+
 class cFontManager {
     private:
         void SetFontsMenu(void);

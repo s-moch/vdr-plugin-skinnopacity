@@ -2,6 +2,8 @@
 #include <sstream>
 #include <map>
 #include "imagecache.h"
+#include "config.h"
+#include "helpers.h"
 
 using namespace Magick;
 
@@ -15,7 +17,7 @@ cImageCache::~cImageCache() {
     if (tempStaticLogo) {
         delete tempStaticLogo;
         tempStaticLogo = NULL;
-    }    
+    }
 }
 
 void cImageCache::CreateCache(void) {
@@ -55,7 +57,7 @@ void cImageCache::CreateCache(void) {
                     InsertIntoLogoCache(ctLogoMenuItem, *channel->GetChannelID().ToString());
                 }
             }
-            
+
         }
     }
 }
@@ -128,7 +130,7 @@ cImage *cImageCache::GetSkinElement(eSkinElementType type) {
 cImage *cImageCache::GetLogo(eCacheType type, const cChannel *channel) {
     if (!channel)
         return NULL;
-        
+
     std::map<std::string, cImage*> *cache;
     if (type == ctLogo)
         cache = &logoCache;
@@ -136,9 +138,9 @@ cImage *cImageCache::GetLogo(eCacheType type, const cChannel *channel) {
         cache = &logoMenuItemCache;
     else if (type == ctLogoTimer)
         cache = &logoTimerCache;
-        
+
     std::map<std::string, cImage*>::iterator hit = cache->find(*channel->GetChannelID().ToString());
-    
+
     if (hit != cache->end()) {
         return (cImage*)hit->second;
     } else {
@@ -187,7 +189,7 @@ std::string cImageCache::GetCacheSize(eCacheType type) {
             cache = &menuIconCache;
         else if (type == ctSkinIcon)
             cache = &skinIconCache;
-        
+
         for(std::map<std::string, cImage*>::const_iterator it = cache->begin(); it != cache->end(); it++) {
             cImage *img = (cImage*)it->second;
             sizeByte += img->Width() * img->Height() * sizeof(tColor);
@@ -218,7 +220,7 @@ std::string cImageCache::GetCacheSize(eCacheType type) {
     result << numImages << " " << tr("images") << " / " << sizeByte/1024 << " KByte";
     return result.str();
 }
-    
+
 std::vector<std::pair<std::string, cPoint> > cImageCache::GetMenuIcons(void) {
     std::vector<std::pair<std::string, cPoint> > menuIcons;
     //MainMenuIcons
@@ -243,7 +245,7 @@ std::vector<std::pair<std::string, cPoint> > cImageCache::GetMenuIcons(void) {
     for (int i=0; i<mainMenuIcons.size(); i++) {
         menuIcons.push_back(std::pair<std::string, cPoint>(mainMenuIcons[i], cPoint(mainMenuIconSize, mainMenuIconSize)));
     }
-    
+
     //Plugin Icons
     for (int i = 0; ; i++) {
         cPlugin *p = cPluginManager::GetPlugin(i);
@@ -305,7 +307,7 @@ bool cImageCache::LoadIcon(eCacheType type, std::string name) {
                 return true;
             }
         }
-    } 
+    }
     if (!success) {
         cString iconPathTheme = cString::sprintf("%s%s/", *config.iconPathDefault, Setup.OSDTheme);
         success = LoadImage(name, *iconPathTheme, "png");
@@ -369,7 +371,7 @@ bool cImageCache::LoadLogo(const cChannel *channel) {
     success = LoadImage(logoLower.c_str(), *config.logoPathDefault, *config.logoExtension);
     if (success)
         return true;
-    
+
     return false;
 }
 
@@ -415,49 +417,49 @@ void cImageCache::CreateSkinElementsBlended(void) {
     InsertIntoSkinElementCache(seDefault);
     CreateBackground(Theme.Color(clrMenuItemHigh), Theme.Color(clrMenuItemHighBlend), geoManager->menuItemWidthDefault-2, geoManager->menuItemHeightDefault-2);
     InsertIntoSkinElementCache(seDefaultHigh);
-    
+
     //Main Menu
     CreateBackground(Theme.Color(clrMenuItem), Theme.Color(clrMenuItemBlend), geoManager->menuItemWidthMain-2, geoManager->menuItemHeightMain-2);
     InsertIntoSkinElementCache(seMain);
     CreateBackground(Theme.Color(clrMenuItemHigh), Theme.Color(clrMenuItemHighBlend), geoManager->menuItemWidthMain-2, geoManager->menuItemHeightMain-2);
     InsertIntoSkinElementCache(seMainHigh);
-    
+
     //Schedules Menu
     CreateBackground(Theme.Color(clrMenuItem), Theme.Color(clrMenuItemBlend), geoManager->menuItemWidthSchedule-2, geoManager->menuItemHeightSchedule-2);
     InsertIntoSkinElementCache(seSchedules);
     CreateBackground(Theme.Color(clrMenuItemHigh), Theme.Color(clrMenuItemHighBlend), geoManager->menuItemWidthSchedule-2, geoManager->menuItemHeightSchedule-2);
     InsertIntoSkinElementCache(seSchedulesHigh);
-    
+
     //Channels Menu
     CreateBackground(Theme.Color(clrMenuItem), Theme.Color(clrMenuItemBlend), geoManager->menuItemWidthChannel-2, geoManager->menuItemHeightSchedule-2);
     InsertIntoSkinElementCache(seChannels);
     CreateBackground(Theme.Color(clrMenuItemHigh), Theme.Color(clrMenuItemHighBlend), geoManager->menuItemWidthChannel-2, geoManager->menuItemHeightSchedule-2);
     InsertIntoSkinElementCache(seChannelsHigh);
-    
+
     //Recordings Menu
     CreateBackground(Theme.Color(clrMenuItem), Theme.Color(clrMenuItemBlend), geoManager->menuItemWidthRecording-2, geoManager->menuItemHeightRecordings-2);
     InsertIntoSkinElementCache(seRecordings);
     CreateBackground(Theme.Color(clrMenuItemHigh), Theme.Color(clrMenuItemHighBlend), geoManager->menuItemWidthRecording-2, geoManager->menuItemHeightRecordings-2);
     InsertIntoSkinElementCache(seRecordingsHigh);
-    
+
     //Timers Menu
     CreateBackground(Theme.Color(clrMenuItem), Theme.Color(clrMenuItemBlend), geoManager->menuItemWidthTimer-2, geoManager->menuItemHeightSchedule-2);
     InsertIntoSkinElementCache(seTimers);
     CreateBackground(Theme.Color(clrMenuItemHigh), Theme.Color(clrMenuItemHighBlend), geoManager->menuItemWidthTimer-2, geoManager->menuItemHeightSchedule-2);
     InsertIntoSkinElementCache(seTimersHigh);
-    
+
     //Setup Menu
     CreateBackground(Theme.Color(clrMenuItem), Theme.Color(clrMenuItemBlend), geoManager->menuItemWidthSetup-2, geoManager->menuItemHeightMain-2);
     InsertIntoSkinElementCache(seSetup);
     CreateBackground(Theme.Color(clrMenuItemHigh), Theme.Color(clrMenuItemHighBlend), geoManager->menuItemWidthSetup-2, geoManager->menuItemHeightMain-2);
     InsertIntoSkinElementCache(seSetupHigh);
-    
+
     //DisplayTracks
     CreateBackground(Theme.Color(clrMenuItem), Theme.Color(clrMenuItemBlend), geoManager->menuItemWidthTracks-2, geoManager->menuItemHeightTracks-2);
     InsertIntoSkinElementCache(seTracks);
     CreateBackground(Theme.Color(clrMenuItemHigh), Theme.Color(clrMenuItemHighBlend), geoManager->menuItemWidthTracks-2, geoManager->menuItemHeightTracks-2);
     InsertIntoSkinElementCache(seTracksHigh);
-    
+
     //Color Buttons
     CreateBackground(Theme.Color(clrMenuBack), Theme.Color(clrButtonRed), geoManager->menuButtonWidth-4, geoManager->menuButtonHeight-4);
     InsertIntoSkinElementCache(seButtonRed);
@@ -467,7 +469,7 @@ void cImageCache::CreateSkinElementsBlended(void) {
     InsertIntoSkinElementCache(seButtonYellow);
     CreateBackground(Theme.Color(clrMenuBack), Theme.Color(clrButtonBlue), geoManager->menuButtonWidth-4, geoManager->menuButtonHeight-4);
     InsertIntoSkinElementCache(seButtonBlue);
-    
+
     //Menu Header
     bool mirrorHeader = (config.GetValue("menuAdjustLeft")) ? false : true;
     CreateBackground(Theme.Color(clrMenuHeaderBlend), Theme.Color(clrMenuHeader), geoManager->osdWidth, geoManager->menuHeaderHeight, mirrorHeader);
@@ -476,7 +478,7 @@ void cImageCache::CreateSkinElementsBlended(void) {
 
 void cImageCache::CreateSkinElementsGraphics(void) {
     bool success = false;
-    
+
     //Default Menus
     std::string imgDefaultMenuItem = "skinElements/menubuttondefault";
     std::string imgDefaultMenuItemActive = "skinElements/menubuttondefaultactive";
@@ -511,7 +513,7 @@ void cImageCache::CreateSkinElementsGraphics(void) {
     success = LoadIcon(ctSkinElement, imgMenuItemTop);
     if (success)
         InsertIntoSkinElementCache(seSetupTop, geoManager->menuItemWidthSetup, geoManager->menuItemHeightMain);
-    
+
     //Schedules Menu
     success = LoadIcon(ctSkinElement, imgMenuItem);
     if (success)
@@ -533,7 +535,7 @@ void cImageCache::CreateSkinElementsGraphics(void) {
     success = LoadIcon(ctSkinElement, imgMenuItemTop);
     if (success)
         InsertIntoSkinElementCache(seChannelsTop, geoManager->menuItemWidthChannel, geoManager->menuItemHeightSchedule);
-    
+
     //Recordings Menu
     success = LoadIcon(ctSkinElement, imgMenuItem);
     if (success)
@@ -544,7 +546,7 @@ void cImageCache::CreateSkinElementsGraphics(void) {
     success = LoadIcon(ctSkinElement, imgMenuItemTop);
     if (success)
         InsertIntoSkinElementCache(seRecordingsTop, geoManager->menuItemWidthRecording, geoManager->menuItemHeightRecordings);
-    
+
     //Timers Menu
     success = LoadIcon(ctSkinElement, imgMenuItem);
     if (success)
@@ -555,7 +557,7 @@ void cImageCache::CreateSkinElementsGraphics(void) {
     success = LoadIcon(ctSkinElement, imgMenuItemTop);
     if (success)
         InsertIntoSkinElementCache(seTimersTop, geoManager->menuItemWidthTimer, geoManager->menuItemHeightSchedule);
-     
+
     //Tracks Menu
     success = LoadIcon(ctSkinElement, imgMenuItem);
     if (success)
@@ -566,7 +568,7 @@ void cImageCache::CreateSkinElementsGraphics(void) {
     success = LoadIcon(ctSkinElement, imgMenuItemTop);
     if (success)
         InsertIntoSkinElementCache(seTracksTop, geoManager->menuItemWidthTracks, geoManager->menuItemHeightTracks);
-    
+
     //Color Buttons
     std::string imgButtonRed = "skinElements/buttonred";
     std::string imgButtonGreen = "skinElements/buttongreen";
@@ -584,7 +586,7 @@ void cImageCache::CreateSkinElementsGraphics(void) {
     success = LoadIcon(ctSkinElement, imgButtonBlue);
     if (success)
         InsertIntoSkinElementCache(seButtonBlue, geoManager->menuButtonWidth, geoManager->menuButtonHeight);
-    
+
     //Menu Header
     std::string imgHeader = "skinElements/header";
     success = LoadIcon(ctSkinElement, imgHeader);
@@ -643,7 +645,7 @@ void cImageCache::CreateSkinElementsGraphics(void) {
     success = LoadIcon(ctSkinElement, imgChannelBackground);
     if (success)
         InsertIntoSkinElementCache(seChannelBackground, geoManager->channelWidth, geoManager->channelHeight);
-    
+
     success = LoadIcon(ctSkinElement, imgChannelTop);
     if (success)
         InsertIntoSkinElementCache(seChannelTop, geoManager->channelWidth, geoManager->channelHeight);
@@ -663,13 +665,13 @@ void cImageCache::CreateSkinElementsGraphics(void) {
     success = LoadIcon(ctSkinElement, imgReplayTop);
     if (success)
         InsertIntoSkinElementCache(seReplayTop, geoManager->replayWidth, geoManager->replayHeight);
-    
+
     //DisplayVolume Background
     std::string imgVolumeBackground = "skinElements/displayvolume";
     success = LoadIcon(ctSkinElement, imgVolumeBackground);
     if (success)
         InsertIntoSkinElementCache(seVolumeBackground, geoManager->volumeWidth, geoManager->volumeHeight);
-        
+
     //Scrolllbar
     std::string imgScrollbar = "skinElements/scrollbar";
     success = LoadIcon(ctSkinElement, imgScrollbar);
@@ -692,13 +694,13 @@ void cImageCache::Clear(void) {
         delete img;
     }
     menuIconCache.clear();
-    
+
     for(std::map<std::string, cImage*>::const_iterator it = skinIconCache.begin(); it != skinIconCache.end(); it++) {
         cImage *img = (cImage*)it->second;
         delete img;
     }
     skinIconCache.clear();
-    
+
     for(std::map<eSkinElementType, cImage*>::const_iterator it = skinElementCache.begin(); it != skinElementCache.end(); it++) {
         cImage *img = (cImage*)it->second;
         delete img;
@@ -710,13 +712,13 @@ void cImageCache::Clear(void) {
         delete img;
     }
     logoCache.clear();
-    
+
     for(std::map<std::string, cImage*>::const_iterator it = logoMenuItemCache.begin(); it != logoMenuItemCache.end(); it++) {
         cImage *img = (cImage*)it->second;
         delete img;
     }
     logoMenuItemCache.clear();
-    
+
     for(std::map<std::string, cImage*>::const_iterator it = logoTimerCache.begin(); it != logoTimerCache.end(); it++) {
         cImage *img = (cImage*)it->second;
         delete img;

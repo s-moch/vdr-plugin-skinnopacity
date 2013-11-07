@@ -1,6 +1,14 @@
 #ifndef __NOPACITY_MENUDETAILVIEW_H
 #define __NOPACITY_MENUDETAILVIEW_H
 
+#include <vdr/recording.h>
+#include <vdr/skins.h>
+
+#include <vector>
+#include <string>
+#include "services/tvscraper.h"
+#include "imagecache.h"
+
 class cNopacityMenuDetailView : public cThread {
 protected:
     cOsd *osd;

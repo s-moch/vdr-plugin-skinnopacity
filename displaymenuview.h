@@ -1,6 +1,15 @@
 #ifndef __NOPACITY_DISPLAYMENUVIEW_H
 #define __NOPACITY_DISPLAYMENUVIEW_H
 
+#include "timers.h"
+#include "menudetailview.h"
+#include <vdr/skins.h>
+#include <vdr/videodir.h>
+#include "config.h"
+#include "helpers.h"
+#include "imageloader.h"
+
+
 enum eDetailViewType {dvEvent = 0, dvRecording, dvText};
 
 class cNopacityDisplayMenuView {

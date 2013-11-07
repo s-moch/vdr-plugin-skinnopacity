@@ -1,6 +1,8 @@
 #ifndef __NOPACITY_DISPLAYCHANNELVIEW_H
 #define __NOPACITY_DISPLAYCHANNELVIEW_H
 
+#include "imagecache.h"
+#include <vdr/osd.h>
 
 class cNopacityDisplayChannelView {
 private:

@@ -1,6 +1,10 @@
 #ifndef __NOPACITY_MENUITEM_H
 #define __NOPACITY_MENUITEM_H
 
+#include "textwindow.h"
+#include <string>
+#include "imagecache.h"
+
 class cNopacityMenuItem : public cListObject, public cThread {
 protected:
     cOsd *osd;
@@ -48,7 +52,7 @@ public:
     void SetFontSmall(cFont *fontSmall) {this->fontSmall = fontSmall;}
     void SetFontEPGWindow(cFont *font) {this->fontEPGWindow = font;}
     void SetFontEPGWindowLarge(cFont *font) {this->fontEPGWindowLarge = font;}
-    void SetCurrent(bool cur); 
+    void SetCurrent(bool cur);
     void SetAlpha(int alpha) {this->pixmapBackground->SetAlpha(alpha);}
     void SetAlphaIcon(int alpha) {if (pixmapStatic) this->pixmapStatic->SetAlpha(alpha);}
     void SetAlphaText(int alpha) {if (pixmapTextScroller) this->pixmapTextScroller->SetAlpha(alpha);}

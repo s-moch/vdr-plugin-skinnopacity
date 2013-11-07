@@ -35,14 +35,14 @@ void cNopacityDisplayMenuView::SetDescriptionTextWindowSize(void) {
     int xSchedules, xRecordings, xChannels;
     int widthSchedules, widthRecordings, widthChannels;
     if (config.GetValue("menuAdjustLeft")) {
-        xSchedules =    2 * geoManager->menuSpace 
-                        + geoManager->menuContentWidthSchedules 
+        xSchedules =    2 * geoManager->menuSpace
+                        + geoManager->menuContentWidthSchedules
                         + geoManager->menuWidthScrollbar;
-        xRecordings =   2 * geoManager->menuSpace 
-                        + geoManager->menuContentWidthRecordings 
+        xRecordings =   2 * geoManager->menuSpace
+                        + geoManager->menuContentWidthRecordings
                         + geoManager->menuWidthScrollbar;
-        xChannels =     2 * geoManager->menuSpace 
-                        + geoManager->menuContentWidthChannels 
+        xChannels =     2 * geoManager->menuSpace
+                        + geoManager->menuContentWidthChannels
                         + geoManager->menuWidthScrollbar;
         widthSchedules = geoManager->osdWidth - xSchedules - geoManager->menuSpace;
         widthRecordings = geoManager->osdWidth - xRecordings - geoManager->menuSpace;
@@ -51,17 +51,17 @@ void cNopacityDisplayMenuView::SetDescriptionTextWindowSize(void) {
         xSchedules = geoManager->menuSpace;
         xRecordings = geoManager->menuSpace;
         xChannels = geoManager->menuSpace;
-        widthSchedules =  geoManager->osdWidth 
-                          - geoManager->menuContentWidthSchedules 
-                          - geoManager->menuWidthScrollbar 
+        widthSchedules =  geoManager->osdWidth
+                          - geoManager->menuContentWidthSchedules
+                          - geoManager->menuWidthScrollbar
                           - 2 * geoManager->menuSpace;
-        widthRecordings = geoManager->osdWidth 
-                          - geoManager->menuContentWidthRecordings 
-                          - geoManager->menuWidthScrollbar 
+        widthRecordings = geoManager->osdWidth
+                          - geoManager->menuContentWidthRecordings
+                          - geoManager->menuWidthScrollbar
                           - 2 * geoManager->menuSpace;
-        widthChannels =   geoManager->osdWidth 
-                          - geoManager->menuContentWidthChannels 
-                          - geoManager->menuWidthScrollbar 
+        widthChannels =   geoManager->osdWidth
+                          - geoManager->menuContentWidthChannels
+                          - geoManager->menuWidthScrollbar
                           - 2 * geoManager->menuSpace;
     }
     int heightFull = geoManager->menuContentHeight - 2*geoManager->menuSpace;
@@ -129,7 +129,7 @@ int cNopacityDisplayMenuView::GetContentWidth(eMenuCategory menuCat) {
             else
                 return geoManager->menuContentWidthFull;
         default:
-            return geoManager->menuContentWidthFull;     
+            return geoManager->menuContentWidthFull;
     }
     return geoManager->menuContentWidthFull;
 }
@@ -304,7 +304,7 @@ void cNopacityDisplayMenuView::DrawBorderDecoration() {
     pixmapFooter->Fill(clrTransparent);
     pixmapFooterBack->Fill(Theme.Color(clrMenuBack));
     pixmapButtonsText->Fill(clrTransparent);
-    
+
     int borderWidth = 2;
     int radius = 10;
 
@@ -433,7 +433,7 @@ int cNopacityDisplayMenuView::DrawHeaderIcon(eMenuCategory menuCat) {
         default:
             drawIcon = false;
     }
-    
+
     int left = 0;
     if (drawIcon) {
         int iconSize = geoManager->menuHeaderHeight - 4;
@@ -452,9 +452,9 @@ int cNopacityDisplayMenuView::DrawHeaderIcon(eMenuCategory menuCat) {
 int cNopacityDisplayMenuView::ShowHeaderIconChannelLogo(const char *Title) {
     int left = 0;
     int logoHeight = geoManager->menuHeaderHeight - 4;
-    cSize logoSize = ScaleToFit(1000, 
-                                logoHeight, 
-                                config.GetValue("logoWidth"), 
+    cSize logoSize = ScaleToFit(1000,
+                                logoHeight,
+                                config.GetValue("logoWidth"),
                                 config.GetValue("logoHeight"));
     int logoWidth = logoSize.Width();
     int iconX = (config.GetValue("menuAdjustLeft")) ? 0 : (geoManager->osdWidth - logoWidth);
@@ -486,13 +486,13 @@ void cNopacityDisplayMenuView::DestroyHeaderIcon(void) {
 void cNopacityDisplayMenuView::DrawHeaderLabel(int left, cString label) {
     pixmapHeaderLabel->Fill(clrTransparent);
     int labelW = fontManager->menuHeader->Width(label);
-    int labelX = (config.GetValue("menuAdjustLeft")) ? (left) 
+    int labelX = (config.GetValue("menuAdjustLeft")) ? (left)
                 : (geoManager->osdWidth - geoManager->menuDateWidth - labelW - left - 2*geoManager->menuSpace);
     int labelY = (geoManager->menuHeaderHeight - fontManager->menuHeader->Height())/2;
     pixmapHeaderLabel->DrawText(cPoint(labelX, labelY),
-                                *label, 
-                                Theme.Color(clrMenuFontHeader), 
-                                clrTransparent, 
+                                *label,
+                                Theme.Color(clrMenuFontHeader),
+                                clrTransparent,
                                 fontManager->menuHeader);
 }
 
@@ -682,7 +682,7 @@ void cNopacityDisplayMenuView::DrawMessage(eMessageType Type, const char *Text) 
         ClearMessage();
     }
     pixmapStatus = osd->CreatePixmap(7, cRect(0.1*geoManager->osdWidth, 0.8*geoManager->osdHeight, geoManager->menuMessageWidth, geoManager->menuMessageHeight));
-    
+
     pixmapStatus->Fill(clrTransparent);
     if (config.GetValue("displayType") == dtGraphical) {
         cImage *imgBack = imgCache->GetSkinElement(seType);
@@ -701,11 +701,11 @@ void cNopacityDisplayMenuView::DrawMessage(eMessageType Type, const char *Text) 
     }
     int textWidth = fontManager->menuMessage->Width(Text);
     tColor clrFontBack = (config.GetValue("displayType") != dtFlat)?(clrTransparent):col;
-    pixmapStatus->DrawText(cPoint((geoManager->menuMessageWidth - textWidth) / 2, 
-                                  (geoManager->menuMessageHeight - fontManager->menuMessage->Height()) / 2), 
-                                  Text, 
-                                  colFont, 
-                                  clrFontBack, 
+    pixmapStatus->DrawText(cPoint((geoManager->menuMessageWidth - textWidth) / 2,
+                                  (geoManager->menuMessageHeight - fontManager->menuMessage->Height()) / 2),
+                                  Text,
+                                  colFont,
+                                  clrFontBack,
                                   fontManager->menuMessage);
 }
 
@@ -723,7 +723,7 @@ void cNopacityDisplayMenuView::SetDetailViewSize(eDetailViewType detailViewType,
     int top = 0;
     int contentBorder = 30;
     int detailHeaderHeight = 0;
-    
+
     switch (detailViewType) {
         case dvEvent:
             detailHeaderHeight = max(config.GetValue("logoHeightOriginal"), config.GetValue("epgImageHeight"))+4;
@@ -734,7 +734,7 @@ void cNopacityDisplayMenuView::SetDetailViewSize(eDetailViewType detailViewType,
             contentBorder = config.GetValue("borderDetailedRecordings");
             break;
         case dvText:
-            detailHeaderHeight = 0;         
+            detailHeaderHeight = 0;
             break;
         default:
             break;

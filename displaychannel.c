@@ -1,4 +1,11 @@
+#include "config.h"
+#include "nopacity.h"
 #include "displaychannel.h"
+#include "imageloader.h"
+#include "helpers.h"
+
+#include <vdr/osd.h>
+#include <vdr/menu.h>
 
 cNopacityDisplayChannel::cNopacityDisplayChannel(cImageCache *imgCache, bool WithInfo) {
     if (firstDisplay) {
@@ -15,7 +22,7 @@ cNopacityDisplayChannel::cNopacityDisplayChannel(cImageCache *imgCache, bool Wit
     initial = true;
     FadeTime = config.GetValue("channelFadeTime");
     FrameTime = FadeTime / 10;
-    
+
     channelView = new cNopacityDisplayChannelView(imgCache);
     channelView->createOsd();
     channelView->CreatePixmaps();
@@ -37,13 +44,13 @@ cNopacityDisplayChannel::~cNopacityDisplayChannel() {
 void cNopacityDisplayChannel::SetChannel(const cChannel *Channel, int Number) {
     if (!doOutput)
         return;
-    
+
     channelChange = true;
     groupSep = false;
-    
+
     cString ChannelNumber("");
     cString ChannelName("");
-    
+
     if (Channel) {
         ChannelName = Channel->Name();
         if (!Channel->GroupSep()) {
@@ -56,7 +63,7 @@ void cNopacityDisplayChannel::SetChannel(const cChannel *Channel, int Number) {
     } else {
         ChannelName = ChannelString(NULL, 0);
     }
-    
+
     channelView->ClearChannelLogo();
     channelView->ClearChannelName();
     channelView->ClearEPGInfo();
@@ -144,18 +151,18 @@ void cNopacityDisplayChannel::Flush(void) {
         SetProgressBar(present);
     } else
         channelView->ClearProgressBar();
-    
+
     if (!groupSep)
         channelView->DrawScreenResolution();
-    else 
+    else
         channelView->ClearStatusIcons();
-    
+
     if (config.GetValue("displaySignalStrength") && !groupSep) {
         channelView->ShowSignalMeter();
         channelView->DrawSignal();
     } else
         channelView->HideSignalMeter();
-    
+
     if (initial) {
         if (config.GetValue("channelFadeTime"))
             Start();

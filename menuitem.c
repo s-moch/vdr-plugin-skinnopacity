@@ -4,6 +4,9 @@
 #include <algorithm>
 #include <iostream>
 #include <vector>
+#include "config.h"
+#include "helpers.h"
+#include "imageloader.h"
 
 // cNopacityMenuItem  -------------
 
@@ -48,7 +51,7 @@ cNopacityMenuItem::~cNopacityMenuItem(void) {
 void cNopacityMenuItem::SetCurrent(bool cur) {
     wasCurrent = current;
     current = cur;
-} 
+}
 
 void cNopacityMenuItem::SetGeometry(int index, int top, int left, int width, int height, int spaceMenu) {
     this->index = index;
@@ -141,7 +144,7 @@ void cNopacityMenuItem::Action(void) {
         SetTextFull();
     cPixmap::Unlock();
     int drawPortX;
-    
+
     int FrameTime = 0;
     if (config.GetValue("menuScrollSpeed") == 1)
         FrameTime = 50;
@@ -161,7 +164,7 @@ void cNopacityMenuItem::Action(void) {
         drawPortX = pixmapTextScroller->DrawPort().X();
         drawPortX -= scrollDelta;
         cPixmap::Unlock();
-        
+
         if (abs(drawPortX) > maxX) {
             DoSleep(scrollDelay);
             if (carriageReturn)
@@ -214,7 +217,7 @@ void cNopacityMenuItem::DrawRoundedCorners(tColor borderColor) {
 void cNopacityMenuItem::DrawChannelLogoBackground(void) {
     int logoWidth = geoManager->menuLogoWidth;
     pixmapBackground->DrawRectangle(cRect(4,6,logoWidth-4, height-12), Theme.Color(clrMenuChannelLogoBack));
-}    
+}
 
 // cNopacityMainMenuItem  -------------
 cNopacityMainMenuItem::cNopacityMainMenuItem(cOsd *osd, cImageCache *imgCache, const char *text, bool sel, bool setup) : cNopacityMenuItem (osd, imgCache, text, sel) {
@@ -304,7 +307,7 @@ cString cNopacityMainMenuItem::GetIconName() {
                         return cString::sprintf("pluginIcons/%s", p->Name());
                     }
                 } catch (...) {}
-            } 
+            }
         } else
             break;
     }
@@ -339,7 +342,7 @@ void cNopacityMainMenuItem::CreateText() {
         if (found) {
             if (!(s >= '0' && s <= '9')) {
                 doBreak = true;
-            }           
+            }
         }
         if (s >= '0' && s <= '9') {
             found = true;
@@ -354,7 +357,7 @@ void cNopacityMainMenuItem::CreateText() {
         menuEntry = skipspace(text.substr(i).c_str());
     } else {
         menuNumber = "";
-        menuEntry = text.c_str();       
+        menuEntry = text.c_str();
     }
     strEntry = *menuEntry;
 }
@@ -425,7 +428,7 @@ void cNopacityMainMenuItem::Render() {
 
 // cNopacityScheduleMenuItem  -------------
 
-cNopacityScheduleMenuItem::cNopacityScheduleMenuItem(cOsd *osd, cImageCache *imgCache, const cEvent *Event, const cChannel *Channel, eTimerMatch TimerMatch, bool sel, eMenuCategory category, cRect *vidWin) 
+cNopacityScheduleMenuItem::cNopacityScheduleMenuItem(cOsd *osd, cImageCache *imgCache, const cEvent *Event, const cChannel *Channel, eTimerMatch TimerMatch, bool sel, eMenuCategory category, cRect *vidWin)
                             : cNopacityMenuItem (osd, imgCache, "", sel) {
     this->category = category;
     this->Event = Event;
@@ -521,7 +524,7 @@ void cNopacityScheduleMenuItem::Render() {
     textLeft = 5;
     if (Channel && Channel->Name())
         textLeft = logoWidth + 10;
-    
+
     if (selectable) {
         titleY = (height - font->Height())/2 - 2;
         DrawBackground(textLeft);
@@ -603,7 +606,7 @@ void cNopacityScheduleMenuItem::DrawBackground(int textLeft) {
         if (config.GetValue("roundedCorners"))
             DrawRoundedCorners(Theme.Color(clrMenuBorder));
     }
-    
+
     if (TimerMatch == tmFull) {
         cImage *imgIcon = imgCache->GetSkinIcon("skinIcons/activetimer", 64, 64);
         if (imgIcon)
@@ -632,7 +635,7 @@ void cNopacityScheduleMenuItem::DrawLogo(int logoWidth, int logoHeight) {
             int y = (heightChannel>height)?0:(height-heightChannel)/2;
             for (int line = 0; line < lines; line++) {
                 pixmapStatic->DrawText(cPoint((logoWidth - font->Width(channel.GetLine(line)))/2, y+lineHeight*line), channel.GetLine(line), Theme.Color(clrMenuFontMenuItemHigh), clrTransparent, font);
-            }   
+            }
         }
     }
 }
@@ -648,14 +651,14 @@ void cNopacityScheduleMenuItem::DrawRemaining(int x, int y, int width) {
     if (total == 0)
         return;
     double percentSeen = (double)seen/total;
-    
+
     tColor clrBack = (current)?Theme.Color(clrProgressBarBackHigh):Theme.Color(clrProgressBarBack);
     tColor clrBar = (current)?Theme.Color(clrProgressBarHigh):Theme.Color(clrProgressBar);
     pixmapBackground->DrawEllipse(cRect(x, y, 7, 7), clrBack);
     pixmapBackground->DrawEllipse(cRect(x+width, y, 7, 7), clrBack);
     pixmapBackground->DrawRectangle(cRect(x+4, y, width-1, 7), clrBack);
     pixmapBackground->DrawEllipse(cRect(x+1, y+1, 5, 5), clrBar);
-    
+
     if (percentSeen > 0.0)
         pixmapBackground->DrawEllipse(cRect(x+(width*percentSeen), y+1, 5, 5), clrBar);
     pixmapBackground->DrawRectangle(cRect(x+4, y+1, (width-1)*percentSeen, 5), clrBar);
@@ -710,9 +713,9 @@ int cNopacityChannelMenuItem::CheckScrollable(bool hasIcon) {
         totalTextWidth = max(font->Width(strEntry.c_str()), totalTextWidth);
         strEntryFull = strEntry.c_str();
         strEntry = CutText(strEntry, width - spaceLeft, font);
-    } else 
+    } else
         strEntryFull = strEntry;
-        
+
     if (fontSmall->Width(strEpgInfo.c_str()) > (width - spaceLeft)) {
         scrollable = true;
         totalTextWidth = max(fontSmall->Width(strEpgInfo.c_str()), totalTextWidth);
@@ -720,7 +723,7 @@ int cNopacityChannelMenuItem::CheckScrollable(bool hasIcon) {
         strEpgInfo = CutText(strEpgInfo, width - spaceLeft, fontSmall);
     } else
         strEpgInfoFull = strEpgInfo;
-    
+
     return totalTextWidth;
 }
 
@@ -805,7 +808,7 @@ void cNopacityChannelMenuItem::DrawBackground(void) {
         if (config.GetValue("roundedCorners"))
             DrawRoundedCorners(Theme.Color(clrMenuBorder));
     }
-    
+
     if (config.GetValue("menuChannelDisplayMode") == 0) {
         int encryptedSize = height/4-2;
         int sourceX = geoManager->menuLogoWidth + 15;
@@ -1026,9 +1029,9 @@ void cNopacityTimerMenuItem::DrawBackground(int textLeft) {
         firstDay = true;
     } else if (Timer->Recording())
         iconName = "skinIcons/timerRecording";
-    else 
+    else
         iconName = "skinIcons/timerActive";
-    
+
     cImage *imgIcon = imgCache->GetSkinIcon(*iconName, iconSize, iconSize);
     if (imgIcon)
         pixmapStatic->DrawImage(cPoint(textLeft, 0), *imgIcon);
@@ -1044,7 +1047,7 @@ void cNopacityTimerMenuItem::DrawBackground(int textLeft) {
 
 void cNopacityTimerMenuItem::Render() {
     textLeft = geoManager->menuLogoWidth + geoManager->menuSpace;
-    if (selectable) {                           
+    if (selectable) {
         DrawBackground(textLeft);
         DrawChannelLogoBackground();
         int logoWidth = geoManager->menuLogoWidth;
@@ -1080,7 +1083,7 @@ void cNopacityTimerMenuItem::DrawLogo(int logoWidth, int logoHeight) {
             int y = (heightChannel>height)?0:(height-heightChannel)/2;
             for (int line = 0; line < lines; line++) {
                 pixmapStatic->DrawText(cPoint((logoWidth - font->Width(channel.GetLine(line)))/2, y+lineHeight*line), channel.GetLine(line), Theme.Color(clrMenuFontMenuItemHigh), clrTransparent, font);
-            }   
+            }
         }
     }
 }
@@ -1118,7 +1121,7 @@ void cNopacityRecordingMenuItem::CreateText() {
     try {
         std::vector<std::string> tokens;
         std::istringstream f(recName.c_str());
-        std::string s;    
+        std::string s;
         while (std::getline(f, s, FOLDERDELIMCHAR)) {
             tokens.push_back(s);
         }
@@ -1280,7 +1283,7 @@ void cNopacityRecordingMenuItem::SetTextShortRecording(void) {
 
 void cNopacityRecordingMenuItem::DrawRecordingNewIcon(void) {
     int iconNewSize = height/3;
-    
+
     cImage *imgIcon = imgCache->GetSkinIcon("skinIcons/newrecording", iconNewSize, iconNewSize);
     if (imgIcon) {
         int iconX = pixmapStatic->ViewPort().Width() - iconNewSize;
@@ -1355,7 +1358,7 @@ void cNopacityRecordingMenuItem::DrawPoster(void) {
             pixmapStatic->DrawImage(cPoint(10, 5), imgLoader.GetImage());
         }
     } else {
-        
+
         cImage *imgIcon = imgCache->GetSkinIcon("skinIcons/defaultPoster", posterWidth, posterHeight);
         if (imgIcon)
             pixmapStatic->DrawImage(cPoint(10,5), *imgIcon);
@@ -1363,7 +1366,7 @@ void cNopacityRecordingMenuItem::DrawPoster(void) {
 }
 
 void cNopacityRecordingMenuItem::Render() {
-    if (selectable) {                           
+    if (selectable) {
         DrawBackground();
         if (isFolder) {
             DrawFolderNewSeen();
@@ -1426,10 +1429,10 @@ cNopacityDefaultMenuItem::~cNopacityDefaultMenuItem(void) {
 }
 
 bool cNopacityDefaultMenuItem::CheckProgressBar(const char *text) {
-    if (strlen(text) > 5 
-        && text[0] == '[' 
-        && ((text[1] == '|')||(text[1] == ' ')) 
-        && ((text[2] == '|')||(text[2] == ' ')) 
+    if (strlen(text) > 5
+        && text[0] == '['
+        && ((text[1] == '|')||(text[1] == ' '))
+        && ((text[2] == '|')||(text[2] == ' '))
         && text[strlen(text) - 1] == ']')
         return true;
     return false;
@@ -1480,7 +1483,7 @@ void cNopacityDefaultMenuItem::DrawProgressBar(int x, int width, const char *bar
         pixmapStatic->DrawRectangle(cRect(x+7, height/4+2, width-14, height/2-4), clrTransparent);
         double progress = (double)now/(double)total;
         pixmapStatic->DrawRectangle(cRect(x+8, height/4+3, (width-16)*progress, height/2-6), color);
-        
+
     }
 }
 
@@ -1502,7 +1505,7 @@ int cNopacityDefaultMenuItem::CheckScrollable(bool hasIcon) {
     if (!selectable)
         return 0;
     int colWidth = 0;
-    int colTextWidth = 0; 
+    int colTextWidth = 0;
     for (int i=0; i<numTabs; i++) {
         if (tabWidth[i] > 0) {
             if (CheckProgressBar(*itemTabs[i]))
@@ -1555,7 +1558,7 @@ bool cNopacityDefaultMenuItem::DrawHeaderElement(void) {
 void cNopacityDefaultMenuItem::Render() {
     DrawBackground();
     pixmapStatic->Fill(clrTransparent);
-    
+
     tColor clrFont;
     if (current)
         clrFont = Theme.Color(clrMenuFontMenuItemHigh);
@@ -1569,7 +1572,7 @@ void cNopacityDefaultMenuItem::Render() {
             return;
     }
     int colWidth = 0;
-    int colTextWidth = 0; 
+    int colTextWidth = 0;
     cString itemText("");
     for (int i=0; i<numTabs; i++) {
         if (tabWidth[i] > 0) {

@@ -1,3 +1,5 @@
+#include "config.h"
+#include "helpers.h"
 #include "imageloader.h"
 #include <math.h>
 #include <string>
@@ -16,7 +18,7 @@ cImage cImageLoader::GetImage() {
     return CreateImageCopy();
 }
 
-bool cImageLoader::LoadLogo(const char *logo, int width = config.GetValue("logoWidthOriginal"), int height = config.GetValue("logoHeightOriginal")) {
+bool cImageLoader::LoadLogo(const char *logo, int width, int height ) {
     if ((width == 0)||(height==0))
         return false;
     std::string logoLower = StrToLowerCase(logo);
@@ -141,7 +143,7 @@ bool cImageLoader::SearchRecordingPoster(cString recPath, cString &found) {
         found = manualPoster;
         return true;
     }
-    return false;    
+    return false;
 }
 
 bool cImageLoader::FirstImageInFolder(cString Path, cString Extension, cString *recImage) {

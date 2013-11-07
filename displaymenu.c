@@ -5,14 +5,17 @@ namespace PluginRemoteTimers {
     }
 }
 
+#include "displaymenuview.h"
 #include "displaymenu.h"
+#include "config.h"
 #include <string>
+#include "services/epgsearch.h"
 
 cNopacityDisplayMenu::cNopacityDisplayMenu(cImageCache *imgCache) {
     this->imgCache = imgCache;
     menuCategoryLast = mcUndefined;
     FadeTime = config.GetValue("menuFadeTime");
-    FrameTime = FadeTime / 10; 
+    FrameTime = FadeTime / 10;
     initial = true;
     initMenu = true;
     diskUsageDrawn = false;
@@ -45,7 +48,6 @@ cNopacityDisplayMenu::~cNopacityDisplayMenu() {
     timers.Clear();
     delete osd;
     cDevice::PrimaryDevice()->ScaleVideo(cRect::Null);
-    menuActive = false;
 }
 
 void cNopacityDisplayMenu::DrawDisk(void) {
@@ -98,7 +100,7 @@ void cNopacityDisplayMenu::DrawTimers(bool timersChanged, int numConflicts) {
                 drawRemoteTimers = pRemoteTimers->Service("RemoteTimers::RefreshTimers-v1.0", &errorMsg);
             }
             timers.Clear();
-            cSortedTimers SortedTimers; 
+            cSortedTimers SortedTimers;
             //if remotetimers plugin is available, take timers also from him
             if (drawRemoteTimers) {
                 cTimer* remoteTimer = NULL;
@@ -143,7 +145,7 @@ void cNopacityDisplayMenu::DrawTimers(bool timersChanged, int numConflicts) {
         } else {
             for (cNopacityTimer *t = timers.First(); t; t = timers.Next(t)) {
                 t->Show();
-            } 
+            }
         }
         timersDrawn = true;
     }
@@ -201,7 +203,7 @@ int cNopacityDisplayMenu::MaxItems(void) {
                 maxItems = config.GetValue("numDefaultMenuItems");
             break;
         default:
-            maxItems = config.GetValue("numDefaultMenuItems");      
+            maxItems = config.GetValue("numDefaultMenuItems");
     }
     currentNumItems = maxItems;
     return maxItems;
@@ -259,7 +261,7 @@ void cNopacityDisplayMenu::SetMenuCategory(eMenuCategory MenuCategory) {
         if (config.GetValue("showTimers")) {
             for (cNopacityTimer *t = timers.First(); t; t = timers.Next(t)) {
                 t->Hide();
-            } 
+            }
             timersDrawn = false;
         }
     }
@@ -369,8 +371,8 @@ void cNopacityDisplayMenu::SetMessage(eMessageType Type, const char *Text) {
     }
 }
 
-bool cNopacityDisplayMenu::SetItemEvent(const cEvent *Event, int Index, bool Current, 
-                                        bool Selectable, const cChannel *Channel, bool WithDate, eTimerMatch TimerMatch) { 
+bool cNopacityDisplayMenu::SetItemEvent(const cEvent *Event, int Index, bool Current,
+                                        bool Selectable, const cChannel *Channel, bool WithDate, eTimerMatch TimerMatch) {
     if (!config.GetValue("narrowScheduleMenu"))
         return false;
     if ((initMenu)&&(Index > menuItemIndexLast)) {
@@ -411,7 +413,7 @@ bool cNopacityDisplayMenu::SetItemEvent(const cEvent *Event, int Index, bool Cur
     return true;
 }
 
-bool cNopacityDisplayMenu::SetItemTimer(const cTimer *Timer, int Index, bool Current, bool Selectable) { 
+bool cNopacityDisplayMenu::SetItemTimer(const cTimer *Timer, int Index, bool Current, bool Selectable) {
     if (!config.GetValue("narrowTimerMenu"))
         return false;
     if ((initMenu)&&(Index > menuItemIndexLast)) {
@@ -449,7 +451,7 @@ bool cNopacityDisplayMenu::SetItemTimer(const cTimer *Timer, int Index, bool Cur
     return true;
 }
 
-bool cNopacityDisplayMenu::SetItemChannel(const cChannel *Channel, int Index, bool Current, bool Selectable, bool WithProvider) { 
+bool cNopacityDisplayMenu::SetItemChannel(const cChannel *Channel, int Index, bool Current, bool Selectable, bool WithProvider) {
     if (!config.GetValue("narrowChannelMenu"))
         return false;
     if ((initMenu)&&(Index > menuItemIndexLast)) {
@@ -489,7 +491,7 @@ bool cNopacityDisplayMenu::SetItemChannel(const cChannel *Channel, int Index, bo
     return true;
 }
 
-bool cNopacityDisplayMenu::SetItemRecording(const cRecording *Recording, int Index, bool Current, bool Selectable, 
+bool cNopacityDisplayMenu::SetItemRecording(const cRecording *Recording, int Index, bool Current, bool Selectable,
                                             int Level, int Total, int New) {
     if (!config.GetValue("narrowRecordingMenu"))
         return false;
@@ -634,8 +636,8 @@ void cNopacityDisplayMenu::SplitItem(const char *Text, cString *strItems, int *t
     }
 }
 
-int cNopacityDisplayMenu::Tab(int n) { 
-    return (n >= 0 && n < MaxTabs) ? menuView->mytabs[n] : 0; 
+int cNopacityDisplayMenu::Tab(int n) {
+    return (n >= 0 && n < MaxTabs) ? menuView->mytabs[n] : 0;
 }
 
 void cNopacityDisplayMenu::SetTabs(int Tab1, int Tab2, int Tab3, int Tab4, int Tab5) {
@@ -657,7 +659,7 @@ void cNopacityDisplayMenu::SetScrollbar(int Total, int Offset) {
     }
     double height = (double)MaxItems()/(double)Total;
     double offset = (double)Offset/(double)Total;
-    
+
     menuView->DrawScrollbar(height, offset);
 }
 

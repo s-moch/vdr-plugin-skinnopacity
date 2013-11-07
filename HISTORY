@@ -348,3 +348,5 @@ Version 0.1.4
   pictures (VDR Menu -> Common Settings)
 - Added complete date for events longer than one day in the future 
   in schedules menu
+- changed build environment that every class is build seperately
+  (thanks @Helmut Auer)

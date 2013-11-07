@@ -1,4 +1,8 @@
 #include "displaytracks.h"
+#include "config.h"
+#include "helpers.h"
+#include "imageloader.h"
+
 
 cNopacityDisplayTracks::cNopacityDisplayTracks(cImageCache *imgCache, const char *Title, int NumTracks, const char * const *Tracks) {
     this->imgCache = imgCache;
@@ -7,7 +11,7 @@ cNopacityDisplayTracks::cNopacityDisplayTracks(cImageCache *imgCache, const char
     numTracks = NumTracks;
     audioChannelLast = -5;
     FadeTime = config.GetValue("tracksFadeTime");
-    FrameTime = FadeTime / 10; 
+    FrameTime = FadeTime / 10;
     SetGeometry();
     CreatePixmaps();
     DrawHeader(Title);
@@ -104,7 +108,7 @@ void cNopacityDisplayTracks::DrawHeader(const char *Title) {
     }
     pixmapIcon = osd->CreatePixmap(3, cRect(2, 2, menuItemHeight-2, menuItemHeight-2));
     pixmapIcon->Fill(clrTransparent);
-    
+
     cImage *imgTracks = imgCache->GetSkinIcon("skinIcons/tracks", menuItemHeight-6, menuItemHeight-6);
     if (imgTracks)
         pixmapIcon->DrawImage(cPoint(3,3), *imgTracks);
@@ -144,14 +148,14 @@ void cNopacityDisplayTracks::SetAudioChannel(int AudioChannel) {
         pixmapHeaderAudio->Fill(clrTransparent);
         cString icon("");
         switch (AudioChannel) {
-            case -1: 
+            case -1:
                 icon = "skinIcons/ac3";
                 break;
-            case 0: 
-                icon = "skinIcons/stereo"; 
+            case 0:
+                icon = "skinIcons/stereo";
                 break;
             default:
-                icon = "skinIcons/stereo"; 
+                icon = "skinIcons/stereo";
                 break;
         }
         cImage *imgIcon = imgCache->GetSkinIcon(*icon, menuItemHeight-2, menuItemHeight-2);

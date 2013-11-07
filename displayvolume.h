@@ -1,6 +1,10 @@
 #ifndef __NOPACITY_DISPLAYVOLUME_H
 #define __NOPACITY_DISPLAYVOLUME_H
 
+#include <vdr/skins.h>
+#include <vdr/thread.h>
+#include "imagecache.h"
+
 class cNopacityDisplayVolume : public cSkinDisplayVolume, cThread {
 private:
     int FrameTime;
@@ -21,5 +25,5 @@ public:
   virtual void SetVolume(int Current, int Total, bool Mute);
   virtual void Flush(void);
   };
-  
+
 #endif //__NOPACITY_DISPLAYVOLUME_H

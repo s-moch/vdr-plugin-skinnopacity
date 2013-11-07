@@ -3,6 +3,7 @@
 
 #include <vdr/skins.h>
 #include <vdr/videodir.h>
+#include "imagecache.h"
 
 class cNopacityDisplayMenu;
 
@@ -21,4 +22,5 @@ public:
   virtual cSkinDisplayTracks *DisplayTracks(const char *Title, int NumTracks, const char * const *Tracks);
   virtual cSkinDisplayMessage *DisplayMessage(void);
   };
+
 #endif //__NOPACITY_H

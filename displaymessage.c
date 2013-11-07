@@ -1,4 +1,7 @@
 #include "displaymessage.h"
+#include "config.h"
+#include "imageloader.h"
+#include "helpers.h"
 
 cNopacityDisplayMessage::cNopacityDisplayMessage(cImageCache *imgCache) {
     this->imgCache = imgCache;
@@ -50,7 +53,7 @@ void cNopacityDisplayMessage::SetMessage(eMessageType Type, const char *Text) {
             seType = seMessageError;
             break;
     }
-    
+
     pixmap->Fill(clrTransparent);
     if (config.GetValue("displayType") == dtGraphical) {
         pixmapBackground->Fill(clrTransparent);
@@ -69,11 +72,11 @@ void cNopacityDisplayMessage::SetMessage(eMessageType Type, const char *Text) {
         }
     }
     int textWidth = fontManager->messageText->Width(Text);
-    pixmap->DrawText(cPoint((geoManager->messageWidth - textWidth) / 2, 
-                            (geoManager->messageHeight - fontManager->messageText->Height()) / 2), 
-                            Text, 
-                            colFont, 
-                            clrTransparent, 
+    pixmap->DrawText(cPoint((geoManager->messageWidth - textWidth) / 2,
+                            (geoManager->messageHeight - fontManager->messageText->Height()) / 2),
+                            Text,
+                            colFont,
+                            clrTransparent,
                             fontManager->messageText);
     if (FadeTime)
         Start();

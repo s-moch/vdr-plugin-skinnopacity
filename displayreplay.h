@@ -1,6 +1,10 @@
 #ifndef __NOPACITY_DISPLAYREPLAY_H
 #define __NOPACITY_DISPLAYREPLAY_H
 
+#include <vdr/skins.h>
+#include <vdr/thread.h>
+#include "imagecache.h"
+
 class cNopacityDisplayReplay : public cSkinDisplayReplay , cThread{
 private:
     cOsd *osd;
@@ -47,5 +51,5 @@ public:
   virtual void SetMessage(eMessageType Type, const char *Text);
   virtual void Flush(void);
   };
-  
+
 #endif //__NOPACITY_DISPLAYREPLAY_H

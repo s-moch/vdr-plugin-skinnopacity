@@ -6,15 +6,16 @@
 #include <vdr/osd.h>
 #include <vdr/skins.h>
 #include <Magick++.h>
+#include "imagemagickwrapper.h"
 
 using namespace Magick;
- 
+
 class cImageLoader : public cImageMagickWrapper {
 public:
     cImageLoader();
     ~cImageLoader();
     cImage GetImage();
-    bool LoadLogo(const char *logo, int width, int height);
+    bool LoadLogo(const char *logo, int width = config.GetValue("logoWidthOriginal"), int height = config.GetValue("logoHeightOriginal"));
     bool LoadEPGImage(int eventID);
     bool LoadAdditionalEPGImage(cString name);
     bool LoadRecordingImage(cString Path);

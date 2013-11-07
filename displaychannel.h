@@ -1,6 +1,9 @@
 #ifndef __NOPACITY_DISPLAYCHANNEL_H
 #define __NOPACITY_DISPLAYCHANNEL_H
 
+#include <vdr/thread.h>
+#include "displaychannelview.h"
+
 class cNopacityDisplayChannel : public cSkinDisplayChannel, cThread {
 private:
     cNopacityDisplayChannelView *channelView;

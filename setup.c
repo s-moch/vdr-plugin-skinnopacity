@@ -40,7 +40,7 @@ void cNopacitySetup::Setup(void) {
 }
 
 eOSState cNopacitySetup::ProcessKey(eKeys Key) {
-    bool hadSubMenu = HasSubMenu();   
+    bool hadSubMenu = HasSubMenu();
     eOSState state = cMenuSetupPage::ProcessKey(Key);
     if (hadSubMenu && Key == kOk)
         Store();
@@ -72,7 +72,7 @@ eOSState cNopacitySetup::ProcessKey(eKeys Key) {
             if (strcmp(ItemText, tr("Image Caching")) == 0)
                 state = AddSubMenu(new cNopacitySetupCaching(&tmpConf, imgCache));
         }
-    }   
+    }
     return state;
 }
 
@@ -91,7 +91,7 @@ void cNopacitySetup::Store(void) {
     }
     config = tmpConf;
 }
-    
+
 //------------------------------------------------------------------------------------------------------------------
 
 cMenuSetupSubMenu::cMenuSetupSubMenu(const char* Title, cNopacityConfig* data) : cOsdMenu(Title, 30) {
@@ -214,7 +214,7 @@ void cNopacitySetupMenuDisplayMain::Set(void) {
     Add(new cMenuEditIntItem(tr("Header Logo Width"), tmpConf->GetValueRef("menuHeaderLogoWidth"), 30, 500));
     Add(new cMenuEditIntItem(tr("Header Logo Height"), tmpConf->GetValueRef("menuHeaderLogoHeight"), 30, 500));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Menu Items"), tmpConf->GetValueRef("fontMenuitemLarge"), -20, 20));
-    
+
     SetCurrent(Get(currentItem));
     Display();
 }
@@ -268,7 +268,7 @@ void cNopacitySetupMenuDisplaySchedules::Set(void) {
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Menu Item Small"), tmpConf->GetValueRef("fontMenuitemScheduleSmall"), -20, 20));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - EPG Info Window"), tmpConf->GetValueRef("fontEPGInfoWindow"), -20, 20));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - EPG Info Window Header"), tmpConf->GetValueRef("fontEPGInfoWindowLarge"), -20, 20));
-    
+
     SetCurrent(Get(currentItem));
     Display();
 }
@@ -285,7 +285,7 @@ cNopacitySetupMenuDisplayChannels::cNopacitySetupMenuDisplayChannels(cNopacityCo
 void cNopacitySetupMenuDisplayChannels::Set(void) {
     int currentItem = Current();
     Clear();
-    
+
     Add(new cMenuEditBoolItem(tr("Use narrow menu"), tmpConf->GetValueRef("narrowChannelMenu")));
     if (tmpConf->GetValue("narrowChannelMenu"))
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Width (Percent of OSD Width)")), tmpConf->GetValueRef("menuWidthChannels"), 10, 97));
@@ -296,7 +296,7 @@ void cNopacitySetupMenuDisplayChannels::Set(void) {
     Add(new cMenuEditIntItem(tr("Number of EPG Entries in Schedules Info Window"), tmpConf->GetValueRef("numEPGEntriesChannelsMenu"), 1, 100));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Menu Item"), tmpConf->GetValueRef("fontMenuitemChannel"), -20, 20));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Menu Item Small"), tmpConf->GetValueRef("fontMenuitemChannelSmall"), -20, 20));
-   
+
     SetCurrent(Get(currentItem));
     Display();
 }
@@ -310,13 +310,13 @@ cNopacitySetupMenuDisplayTimers::cNopacitySetupMenuDisplayTimers(cNopacityConfig
 void cNopacitySetupMenuDisplayTimers::Set(void) {
     int currentItem = Current();
     Clear();
-    
+
     Add(new cMenuEditBoolItem(tr("Use narrow menu"), tmpConf->GetValueRef("narrowTimerMenu")));
     if (tmpConf->GetValue("narrowTimerMenu"))
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Width (Percent of OSD Width)")), tmpConf->GetValueRef("menuWidthTimers"), 10, 97));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Menu Item"), tmpConf->GetValueRef("fontMenuitemTimers"), -20, 20));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Menu Item Small"), tmpConf->GetValueRef("fontMenuitemTimersSmall"), -20, 20));
-   
+
     SetCurrent(Get(currentItem));
     Display();
 }
@@ -335,7 +335,7 @@ cNopacitySetupMenuDisplayRecordings::cNopacitySetupMenuDisplayRecordings(cNopaci
 void cNopacitySetupMenuDisplayRecordings::Set(void) {
     int currentItem = Current();
     Clear();
-    
+
     Add(new cMenuEditBoolItem(tr("Use narrow menu"), tmpConf->GetValueRef("narrowRecordingMenu")));
     if (tmpConf->GetValue("narrowRecordingMenu"))
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Width (Percent of OSD Width)")), tmpConf->GetValueRef("menuWidthRecordings"), 10, 97));
@@ -496,7 +496,7 @@ cNopacitySetupCaching::cNopacitySetupCaching(cNopacityConfig* data, cImageCache 
 void cNopacitySetupCaching::Set(void) {
     int currentItem = Current();
     Clear();
-    
+
     Add(new cMenuEditBoolItem(tr("Limit Logo Cache"), tmpConf->GetValueRef("limitLogoCache")));
     if (tmpConf->GetValue("limitLogoCache")) {
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Maximal number of logos to cache")), tmpConf->GetValueRef("numLogosMax"), 1, 9999));
@@ -510,7 +510,7 @@ void cNopacitySetupCaching::Set(void) {
     Add(InfoItem(tr("Menu Item Logo cache"), (imgCache->GetCacheSize(ctLogoMenuItem)).c_str()));
     Add(InfoItem(tr("Timer Logo cache"), (imgCache->GetCacheSize(ctLogoTimer)).c_str()));
     Add(InfoItem(tr("Background Images cache"), (imgCache->GetCacheSize(ctSkinElement)).c_str()));
-    
+
     SetCurrent(Get(currentItem));
     Display();
 }

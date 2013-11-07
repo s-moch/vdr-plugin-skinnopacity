@@ -6,11 +6,13 @@
 #include <vdr/osd.h>
 #include <vdr/skins.h>
 #include <Magick++.h>
+#include <vector>
+#include "imagemagickwrapper.h"
 
 using namespace Magick;
 
-enum eCacheType {   
-    ctMenuIcon = 0, 
+enum eCacheType {
+    ctMenuIcon = 0,
     ctSkinIcon,
     ctLogo,
     ctLogoMenuItem,
@@ -20,7 +22,7 @@ enum eCacheType {
 
 enum eSkinElementType {
     seNone = -1,
-    seDefault = 0, 
+    seDefault = 0,
     seDefaultHigh,
     seMain,
     seMainHigh,

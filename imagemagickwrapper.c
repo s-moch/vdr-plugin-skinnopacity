@@ -1,6 +1,7 @@
 #include <string>
 #include <sstream>
 #include "imagemagickwrapper.h"
+#include "config.h"
 
 cImageMagickWrapper::cImageMagickWrapper() {
     InitializeMagick(NULL);
@@ -17,9 +18,9 @@ cImage *cImageMagickWrapper::CreateImage() {
     const PixelPacket *pixels = buffer.getConstPixels(0, 0, w, h);
     for (int iy = 0; iy < h; ++iy) {
         for (int ix = 0; ix < w; ++ix) {
-            tColor col = (~int(pixels->opacity * 255 / MaxRGB) << 24) 
-            | (int(pixels->green * 255 / MaxRGB) << 8) 
-            | (int(pixels->red * 255 / MaxRGB) << 16) 
+            tColor col = (~int(pixels->opacity * 255 / MaxRGB) << 24)
+            | (int(pixels->green * 255 / MaxRGB) << 8)
+            | (int(pixels->red * 255 / MaxRGB) << 16)
             | (int(pixels->blue * 255 / MaxRGB) );
             image->SetPixel(cPoint(ix, iy), col);
             ++pixels;
@@ -36,9 +37,9 @@ cImage cImageMagickWrapper::CreateImageCopy() {
     const PixelPacket *pixels = buffer.getConstPixels(0, 0, w, h);
     for (int iy = 0; iy < h; ++iy) {
         for (int ix = 0; ix < w; ++ix) {
-            tColor col = (~int(pixels->opacity * 255 / MaxRGB) << 24) 
-            | (int(pixels->green * 255 / MaxRGB) << 8) 
-            | (int(pixels->red * 255 / MaxRGB) << 16) 
+            tColor col = (~int(pixels->opacity * 255 / MaxRGB) << 24)
+            | (int(pixels->green * 255 / MaxRGB) << 8)
+            | (int(pixels->red * 255 / MaxRGB) << 16)
             | (int(pixels->blue * 255 / MaxRGB) );
             image.SetPixel(cPoint(ix, iy), col);
             ++pixels;
@@ -57,7 +58,7 @@ bool cImageMagickWrapper::LoadImage(std::string FileName, std::string Path, std:
         buffer.read(imgFile.c_str());
         if (config.GetValue("debugImageLoading"))
             dsyslog("nopacity: %s sucessfully loaded", imgFile.c_str());
-    } catch (...) {     
+    } catch (...) {
         return false;
     }
     return true;
@@ -72,7 +73,7 @@ bool cImageMagickWrapper::LoadImage(const char *fullpath) {
         buffer.read(fullpath);
         if (config.GetValue("debugImageLoading"))
             dsyslog("nopacity: %s sucessfully loaded", fullpath);
-    } catch (...) {     
+    } catch (...) {
         return false;
     }
     return true;

@@ -1,10 +1,13 @@
 #ifndef __NOPACITY_SETUP_H
 #define __NOPACITY_SETUP_H
 
+#include "config.h"
+#include "imagecache.h"
+
 class cNopacitySetup : public cMenuSetupPage {
     public:
         cNopacitySetup(cImageCache *imgCache);
-        virtual ~cNopacitySetup();      
+        virtual ~cNopacitySetup();
     private:
         cNopacityConfig tmpConf;
         cImageCache *imgCache;

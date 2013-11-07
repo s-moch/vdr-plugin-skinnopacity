@@ -1,4 +1,9 @@
 #include "textwindow.h"
+#include "config.h"
+#include "imagecache.h"
+#include "imageloader.h"
+#include "helpers.h"
+#include <sstream>
 
 cNopacityTextWindow::cNopacityTextWindow(cOsd *osd, cFont *font, cRect *vidWin) {
     this->osd = osd;
@@ -196,7 +201,7 @@ void cNopacityTextWindow::DrawText(int border, int left) {
             currentLineHeight += lineHeight;
         }
     }
-    cPixmap::Unlock();        
+    cPixmap::Unlock();
 }
 
 void cNopacityTextWindow::SetEvent(const cEvent *event) {
@@ -231,7 +236,7 @@ void cNopacityTextWindow::SetEvent(const cEvent *event) {
     //Description
     if (hasPoster && (y < (border + posterHeight))) {
         int heightNarrow = border + posterHeight - y;
-        DrawTextWrapperFloat(event->Description(), 
+        DrawTextWrapperFloat(event->Description(),
                              widthTextHeader, widthText, y, heightNarrow,
                              border, font, Theme.Color(clrMenuFontDetailViewText), height);
     } else if (epgImageFound && (y < (border + config.GetValue("epgImageHeight")))) {
@@ -278,7 +283,7 @@ void cNopacityTextWindow::SetRecording(const cRecording *recording) {
     cString recTitle;
     if (info->Title())
         recTitle = info->Title();
-    else    
+    else
         recTitle = recording->Name();
     //Title
     y = DrawTextWrapper(*recTitle, widthTextHeader, y, border, fontHeader, Theme.Color(clrMenuFontDetailViewHeaderTitle), height);
@@ -301,7 +306,7 @@ void cNopacityTextWindow::SetRecording(const cRecording *recording) {
     }
 }
 
-int cNopacityTextWindow::DrawTextWrapper(const char *text, int width, int top, int x, 
+int cNopacityTextWindow::DrawTextWrapper(const char *text, int width, int top, int x,
                                          const cFont *font, tColor color, int maxHeight) {
     cTextWrapper wrapper;
     int lineHeight = font->Height();
@@ -319,10 +324,10 @@ int cNopacityTextWindow::DrawTextWrapper(const char *text, int width, int top, i
     return y;
 }
 
-void cNopacityTextWindow::DrawTextWrapperFloat(const char *text, int widthSmall, int widthFull, 
-                                              int top, int heightNarrow, int x, const cFont *font, 
+void cNopacityTextWindow::DrawTextWrapperFloat(const char *text, int widthSmall, int widthFull,
+                                              int top, int heightNarrow, int x, const cFont *font,
                                               tColor color, int maxHeight) {
-    
+
     if (!text)
         return;
     int lineHeight = font->Height();
@@ -409,13 +414,13 @@ void cNopacityTextWindow::ScaleVideoWindow(void) {
 void cNopacityTextWindow::Action(void) {
     if (! *text)
         return;
-        
+
     DoSleep(config.GetValue("menuInfoTextDelay")*1000);
 
     if (config.GetValue("scalePicture") == 2) {
-          ScaleVideoWindow();      
+          ScaleVideoWindow();
     }
-    
+
     int border = 5;
     int left = 0;
     if (hasPoster || hasManualPoster)
@@ -453,7 +458,7 @@ void cNopacityTextWindow::Action(void) {
                 break;
         }
     }
-    
+
     if (scrolling && Running()) {
         int scrollDelay = config.GetValue("menuInfoScrollDelay") * 1000;
         DoSleep(scrollDelay);
@@ -465,7 +470,7 @@ void cNopacityTextWindow::Action(void) {
             FrameTime = 30;
         else if (config.GetValue("menuInfoScrollSpeed") == 3)
             FrameTime = 15;
-        
+
         int maxY = pixmap->DrawPort().Height() - pixmap->ViewPort().Height();
         bool doSleep = false;
         while (Running()) {

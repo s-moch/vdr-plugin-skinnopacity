@@ -1,4 +1,7 @@
 #include "fontmanager.h"
+#include "geometrymanager.h"
+#include "config.h"
+
 
 cFontManager::cFontManager() {
 }

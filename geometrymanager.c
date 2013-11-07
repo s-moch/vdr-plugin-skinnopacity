@@ -1,4 +1,7 @@
 #include "geometrymanager.h"
+#include "config.h"
+#include "helpers.h"
+#include <vdr/osd.h>
 
 cGeometryManager::cGeometryManager() {
     SetOSDSize();
@@ -24,7 +27,7 @@ void cGeometryManager::SetGeometry(void) {
 }
 
 bool cGeometryManager::GeometryChanged(void) {
-    if ((osdWidth != cOsd::OsdWidth()) || 
+    if ((osdWidth != cOsd::OsdWidth()) ||
         (osdHeight != cOsd::OsdHeight()) ||
         (osdLeft != cOsd::OsdLeft()) ||
         (osdTop != cOsd::OsdTop())) {
@@ -39,10 +42,10 @@ bool cGeometryManager::GeometryChanged(void) {
 
 void cGeometryManager::SetDisplayMenuSizes() {
     menuSpace = config.GetValue("spaceMenu");
-    
+
     menuWidthScrollbar = config.GetValue("widthScrollbar");
     menuDateWidth = osdWidth * 0.3;
-    
+
     menuHeaderHeight = osdHeight * config.GetValue("headerHeight") / 100;
     menuFooterHeight = osdHeight * config.GetValue("footerHeight") / 100;
     menuContentHeight = osdHeight - menuHeaderHeight - menuFooterHeight;
@@ -54,8 +57,8 @@ void cGeometryManager::SetDisplayMenuSizes() {
     menuContentWidthRecordings = osdWidth * config.GetValue("menuWidthRecordings") / 100;
     menuContentWidthSetup = osdWidth * config.GetValue("menuWidthSetup") / 100;
     menuContentWidthFull = osdWidth - config.GetValue("widthScrollbar") - config.GetValue("spaceMenu");
-    menuContentWidthMinimum = Minimum(menuContentWidthMain, 
-                                  menuContentWidthSchedules, 
+    menuContentWidthMinimum = Minimum(menuContentWidthMain,
+                                  menuContentWidthSchedules,
                                   menuContentWidthChannels,
                                   menuContentWidthTimers,
                                   menuContentWidthRecordings,
@@ -76,23 +79,23 @@ void cGeometryManager::SetDisplayMenuSizes() {
     menuItemHeightTracks = config.GetValue("tracksItemHeight");
 
     menuMainMenuIconSize = menuItemHeightMain - 2 * menuSpace;
-    cSize logoSize = ScaleToFit(1000, 
-                                menuItemHeightSchedule - 2, 
-                                config.GetValue("logoWidthOriginal"), 
+    cSize logoSize = ScaleToFit(1000,
+                                menuItemHeightSchedule - 2,
+                                config.GetValue("logoWidthOriginal"),
                                 config.GetValue("logoHeightOriginal"));
     menuLogoWidth = logoSize.Width();
     menuLogoHeight = logoSize.Height();
-    
-    cSize logoSizeVDRHeader = ScaleToFit(1000, 
-                                menuHeaderHeight - 4, 
-                                config.GetValue("menuHeaderLogoWidth"), 
+
+    cSize logoSizeVDRHeader = ScaleToFit(1000,
+                                menuHeaderHeight - 4,
+                                config.GetValue("menuHeaderLogoWidth"),
                                 config.GetValue("menuHeaderLogoHeight"));
     menuHeaderVDRLogoWidth = logoSizeVDRHeader.Width();
-    
+
     menuButtonsBorder = menuFooterHeight / 6;
     menuButtonWidth = (osdWidth / 4) - 2 * menuButtonsBorder;
     menuButtonHeight = menuFooterHeight - 3 * menuButtonsBorder;
-    
+
     menuDiskUsageWidth = menuDiskUsageHeight = osdWidth  * config.GetValue("menuSizeDiskUsage") / 100;
     menuTimersWidth = osdWidth  * config.GetValue("menuWidthRightItems") / 100;
     menuMessageWidth = 0.8 * osdWidth;
@@ -104,14 +107,14 @@ void cGeometryManager::SetDisplayChannelSizes(void) {
     channelWidth = osdWidth - 2 * config.GetValue("channelBorderVertical");
     channelHeight = osdHeight * config.GetValue("channelHeight") / 100;
     channelTop = osdTop + osdHeight - channelHeight - config.GetValue("channelBorderBottom");
-    
+
     channelHeaderHeight = 0.2 * channelHeight;
     channelFooterHeight = 0.2 * channelHeight;
     channelContentHeight = channelHeight - channelHeaderHeight - channelFooterHeight;
-    
+
     int logoWidthTotalPercent = 16;
     channelLogoWidthTotal = logoWidthTotalPercent * channelWidth /100;
-    
+
     int logoMaxWidth = logoMaxWidth = channelLogoWidthTotal - 10;
     int logoMaxHeight;
     if (config.GetValue("displayType") == dtGraphical) {
@@ -119,21 +122,21 @@ void cGeometryManager::SetDisplayChannelSizes(void) {
     } else {
         logoMaxHeight = channelHeight - 2;
     }
-    cSize logoSize = ScaleToFit(logoMaxWidth, 
-                                logoMaxHeight, 
-                                config.GetValue("logoWidthOriginal"), 
+    cSize logoSize = ScaleToFit(logoMaxWidth,
+                                logoMaxHeight,
+                                config.GetValue("logoWidthOriginal"),
                                 config.GetValue("logoHeightOriginal"));
     channelLogoWidth = logoSize.Width();
     channelLogoHeight = logoSize.Height();
     channelLogoX = (channelLogoWidthTotal - channelLogoWidth) / 2;
-    
+
     if (config.GetValue("displayType") == dtGraphical) {
-        channelLogoY = (channelTop + channelHeaderHeight) 
+        channelLogoY = (channelTop + channelHeaderHeight)
                         + (channelHeight - channelHeaderHeight - channelLogoHeight)/2;
     } else {
         channelLogoY = channelTop + (channelHeight - channelLogoHeight)/2;
     }
-    
+
     switch (config.GetValue("logoPosition")) {
         case lpLeft:
             channelContentX = channelLogoWidthTotal;
@@ -153,7 +156,7 @@ void cGeometryManager::SetDisplayChannelSizes(void) {
     channelChannelNameWidth = channelContentWidth * 70 / 100;
     channelDateWidth = channelContentWidth - channelChannelNameWidth;
     channelProgressBarHeight = channelHeight * 0.1;
-    channelEpgInfoHeight = channelContentHeight - channelProgressBarHeight; 
+    channelEpgInfoHeight = channelContentHeight - channelProgressBarHeight;
     channelEpgInfoLineHeight = channelEpgInfoHeight / 4;
     channelFooterY = channelTop + channelHeaderHeight + channelContentHeight;
 }
@@ -185,7 +188,7 @@ void cGeometryManager::SetDisplayReplaySizes(void) {
     replayJumpHeight = replayControlsHeight;
 
     replayIconBorder = 5;
-    replayIconSize = min(replayControlsHeight - 2*replayIconBorder, 128);    
+    replayIconSize = min(replayControlsHeight - 2*replayIconBorder, 128);
 }
 
 void cGeometryManager::SetDisplayMessageSizes(void) {

@@ -2,6 +2,8 @@
 #include <vector>
 #include <map>
 #include "config.h"
+#include "helpers.h"
+#include <vdr/skins.h>
 
 cNopacityConfig::cNopacityConfig() {
     logoPathSet = false;
@@ -163,7 +165,7 @@ void cNopacityConfig::LoadDefaults(void) {
     conf.insert(std::pair<std::string, int>("progressCurrentSchedule", 0));
     conf.insert(std::pair<std::string, int>("displayPoster", 1));
     conf.insert(std::pair<std::string, int>("channelPosterBorder", 10));
-    //Display Replay 
+    //Display Replay
     conf.insert(std::pair<std::string, int>("replayHeight", 25));
     conf.insert(std::pair<std::string, int>("replayBorderVertical", 15));
     conf.insert(std::pair<std::string, int>("replayBorderBottom", 15));
@@ -197,7 +199,7 @@ void cNopacityConfig::LoadDefaults(void) {
     conf.insert(std::pair<std::string, int>("numLogosMax", 50));
 }
 
-void cNopacityConfig::SetFontName() {  
+void cNopacityConfig::SetFontName() {
     if (fontName)
         free(fontName);
     if (GetValue("fontIndex") == 0) {
@@ -207,7 +209,7 @@ void cNopacityConfig::SetFontName() {
         cFont::GetAvailableFontNames(&availableFonts);
         if (availableFonts[GetValue("fontIndex")-1]) {
             fontName = strdup(availableFonts[GetValue("fontIndex")-1]);
-        } else 
+        } else
             fontName = strdup(fontDefaultName);
     }
 }
@@ -216,10 +218,10 @@ void cNopacityConfig::SetPathes(void) {
     logoPathDefault = cString::sprintf("%s/logos/", cPlugin::ResourceDirectory(PLUGIN_NAME_I18N));
     iconPathDefault = cString::sprintf("%s/icons/", cPlugin::ResourceDirectory(PLUGIN_NAME_I18N));
     epgImagePathDefault = cString::sprintf("%s/epgimages/", cPlugin::CacheDirectory(PLUGIN_NAME_I18N));
-        
-    dsyslog("nopacity: using Logo Directory %s", (logoPathSet)?(*logoPath):(*logoPathDefault)); 
-    dsyslog("nopacity: using Icon Directory %s", (iconPathSet)?(*iconPath):(*iconPathDefault)); 
-    dsyslog("nopacity: using EPG Images Directory %s", (epgImagePathSet)?(*epgImagePath):(*epgImagePathDefault)); 
+
+    dsyslog("nopacity: using Logo Directory %s", (logoPathSet)?(*logoPath):(*logoPathDefault));
+    dsyslog("nopacity: using Icon Directory %s", (iconPathSet)?(*iconPath):(*iconPathDefault));
+    dsyslog("nopacity: using EPG Images Directory %s", (epgImagePathSet)?(*epgImagePath):(*epgImagePathDefault));
 }
 
 void cNopacityConfig::SetLogoPath(cString path) {
@@ -253,7 +255,7 @@ void cNopacityConfig::LoadThemeSpecificConfigs(void) {
     for (int theme = 0; theme < numThemes; theme++) {
         cString confFile = cString::sprintf("%s/themeconfigs/theme-%s.conf", cPlugin::ConfigDirectory(PLUGIN_NAME_I18N), themes.Name(theme));
         dsyslog("nopacity: trying to load theme config %s", *confFile);
-        LoadThemeConfig(confFile, themes.Name(theme));   
+        LoadThemeConfig(confFile, themes.Name(theme));
     }
 }
 

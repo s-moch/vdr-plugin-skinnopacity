@@ -1,5 +1,10 @@
 #ifndef __NOPACITY_TEXTWINDOW_H
 #define __NOPACITY_TEXTWINDOW_H
+
+#include <vdr/skins.h>
+#include <vdr/thread.h>
+#include "services/tvscraper.h"
+
 class cNopacityTextWindow : public cThread {
 private:
     cOsd *osd;

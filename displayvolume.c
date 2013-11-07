@@ -1,6 +1,9 @@
 #include "symbols/mute.xpm"
 #include "displayvolume.h"
 
+#include "config.h"
+#include "helpers.h"
+
 cNopacityDisplayVolume::cNopacityDisplayVolume(cImageCache *imgCache) {
     this->imgCache = imgCache;
     initial = true;
@@ -13,7 +16,7 @@ cNopacityDisplayVolume::cNopacityDisplayVolume(cImageCache *imgCache) {
     osd = CreateOsd(left, top, geoManager->volumeWidth, geoManager->volumeHeight);
 
     pixmapBackground = osd->CreatePixmap(1, cRect(0, 0, geoManager->volumeWidth, geoManager->volumeHeight));
-    
+
     if (config.GetValue("displayType") == dtGraphical) {
         cImage *imgBack = imgCache->GetSkinElement(seVolumeBackground);
         if (imgBack) {
@@ -25,14 +28,14 @@ cNopacityDisplayVolume::cNopacityDisplayVolume(cImageCache *imgCache) {
             DrawBlendedBackground(pixmapBackground,
                                   0,
                                   geoManager->volumeWidth,
-                                  Theme.Color(clrChannelBackground), 
-                                  Theme.Color(clrChannelBackBlend), 
+                                  Theme.Color(clrChannelBackground),
+                                  Theme.Color(clrChannelBackBlend),
                                   true);
-            DrawBlendedBackground(pixmapBackground, 
+            DrawBlendedBackground(pixmapBackground,
                                   0,
                                   geoManager->volumeWidth,
-                                  Theme.Color(clrChannelBackground), 
-                                  Theme.Color(clrChannelBackBlend), 
+                                  Theme.Color(clrChannelBackground),
+                                  Theme.Color(clrChannelBackBlend),
                                   false);
         }
         int cornerRadius = geoManager->volumeHeight/4;

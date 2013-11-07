@@ -8,7 +8,11 @@
 #include <getopt.h>
 #include <vdr/plugin.h>
 
-#include "nopacity.c"
+#define DEFINE_CONFIG 1
+#include "config.h"
+#include "nopacity.h"
+#include "setup.h"
+
 
 #if defined(APIVERSNUM) && APIVERSNUM < 10734
 #error "VDR-1.7.34 API version or greater is required!"
@@ -57,7 +61,7 @@ cPluginNopacity::~cPluginNopacity()
 
 const char *cPluginNopacity::CommandLineHelp(void)
 {
-  return 
+  return
          "  -e <EPGIMAGESPATH>, --epgimages=<IMAGESPATH> Set directory where epgimages are stored\n"
          "  -i <ICONSPATH>, --iconpath=<ICONSPATH> Set directory where Menu Icons are stored\n"
          "  -l <LOGOPATH>, --logopath=<LOGOPATH>       Set directory where Channel Logos are stored.\n";
@@ -101,7 +105,7 @@ bool cPluginNopacity::Start(void) {
         return false;
     } else
         dsyslog("nopacity: TrueColor OSD found");
-    
+
     imgCache = new cImageCache();
     nopacity = new cNopacity(imgCache);
     return nopacity;

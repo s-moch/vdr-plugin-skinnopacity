@@ -1,6 +1,10 @@
 #ifndef __NOPACITY_DISPLAYTRACKS_H
 #define __NOPACITY_DISPLAYTRACKS_H
 
+#include <vdr/skins.h>
+#include <vdr/thread.h>
+#include "menuitem.h"
+
 class cNopacityDisplayTracks : public cSkinDisplayTracks, cThread {
 private:
     cOsd *osd;

@@ -25,7 +25,7 @@
 #define _SERVICE__H
 
 #ifndef __TIMERS_H
-#include <vdr/timer.h>
+#include <vdr/timers.h>
 #include <vdr/epg.h>
 #endif
 

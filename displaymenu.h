@@ -1,6 +1,10 @@
 #ifndef __NOPACITY_DISPLAYMENU_H
 #define __NOPACITY_DISPLAYMENU_H
 
+#include "nopacity.h"
+#include "menuitem.h"
+#include <vdr/thread.h>
+
 class cNopacityDisplayMenu : public cSkinDisplayMenu , cThread {
 private:
     cImageCache *imgCache;

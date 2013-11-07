@@ -4,9 +4,10 @@
 #define X_DISPLAY_MISSING
 
 #include <Magick++.h>
+#include <vdr/osd.h>
 
 using namespace Magick;
- 
+
 class cImageMagickWrapper {
 public:
     cImageMagickWrapper();

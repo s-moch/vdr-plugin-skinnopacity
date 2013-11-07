@@ -1,6 +1,11 @@
 #ifndef __NOPACITY_TIMERS_H
 #define __NOPACITY_TIMERS_H
 
+#include <vdr/tools.h>
+#include <vdr/osd.h>
+#include <vdr/timers.h>
+#include "imagecache.h"
+
 class cNopacityTimer : public cListObject {
     private:
         cOsd *osd;
