@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: vdr-skinnopacity\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-11-03 14:34+0100\n"
+"POT-Creation-Date: 2013-11-07 17:08+0100\n"
 "PO-Revision-Date: 2013-09-16 19:34+0100\n"
 "Last-Translator: Milan Hrala <hrala.milan@gmail.com>\n"
 "Language-Team: \n"
@@ -262,12 +262,6 @@ msgstr "Maximálny poèet zobrazených plánov"
 
 msgid "Width of Timers (Percent of OSD Width)"
 msgstr "©írka zobrazeného plánu nahrávania (Percento s OSD ¹írky)"
-
-msgid "Channel Logo Width"
-msgstr "©írka loga kanálu"
-
-msgid "Channel Logo Height"
-msgstr "Vý¹ka loga kanálu"
 
 msgid "Adjust Font Size - Title"
 msgstr "Nastavenie veµkosti písma - Názov"
@@ -553,6 +547,12 @@ msgstr "konflikt"
 
 msgid "conflicts"
 msgstr "konflikty"
+
+#~ msgid "Channel Logo Width"
+#~ msgstr "©írka loga kanálu"
+
+#~ msgid "Channel Logo Height"
+#~ msgstr "Vý¹ka loga kanálu"
 
 #~ msgid "Header Icon Size (Square Header Menu Icons)"
 #~ msgstr "Veµkos» ikony hlavièky (ikona hlavièky do ¹tvorca)"

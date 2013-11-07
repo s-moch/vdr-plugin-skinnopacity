@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-11-03 14:34+0100\n"
+"POT-Creation-Date: 2013-11-07 17:08+0100\n"
 "PO-Revision-Date: 2013-03-19 22:56+0100\n"
 "Last-Translator: Diego Pierotto <vdr-italian@tiscali.it>\n"
 "Language-Team: \n"
@@ -265,12 +265,6 @@ msgstr ""
 
 msgid "Width of Timers (Percent of OSD Width)"
 msgstr "Larghezza di Timer (% larghezza OSD)"
-
-msgid "Channel Logo Width"
-msgstr "Larghezza logo canale"
-
-msgid "Channel Logo Height"
-msgstr "Altezza logo canale"
 
 msgid "Adjust Font Size - Title"
 msgstr "Adatta dim. caratteri - Titolo"
@@ -556,6 +550,12 @@ msgstr "conflitto"
 
 msgid "conflicts"
 msgstr "conflitti"
+
+#~ msgid "Channel Logo Width"
+#~ msgstr "Larghezza logo canale"
+
+#~ msgid "Channel Logo Height"
+#~ msgstr "Altezza logo canale"
 
 #~ msgid "Header Icon Size (Square Header Menu Icons)"
 #~ msgstr "Dim. icona intestazione (icone menu intestazione quadrato)"

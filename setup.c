@@ -205,8 +205,6 @@ void cNopacitySetupMenuDisplayMain::Set(void) {
     if (tmpConf->GetValue("showTimers")) {
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Maximum number of Timers")), tmpConf->GetValueRef("numberTimers"), 1, 10));
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Width of Timers (Percent of OSD Width)")), tmpConf->GetValueRef("menuWidthRightItems"), 5, 30));
-        Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Channel Logo Width")), tmpConf->GetValueRef("timersLogoWidth"), 30, 300));
-        Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Channel Logo Height")), tmpConf->GetValueRef("timersLogoHeight"), 30, 300));
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Adjust Font Size - Header")), tmpConf->GetValueRef("fontTimersHead"), -20, 20));
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Adjust Font Size - Title")), tmpConf->GetValueRef("fontTimers"), -20, 20));
     }

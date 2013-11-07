@@ -401,8 +401,8 @@ cPoint cImageCache::LogoSize(eCacheType type) {
             height = geoManager->menuLogoHeight;
             break;
         case ctLogoTimer:
-            width = config.GetValue("timersLogoWidth");
-            height = config.GetValue("timersLogoHeight");
+            width = geoManager->menuTimersLogoWidth;
+            height = geoManager->menuTimersLogoHeight;
             break;
         default:
             width = 1;

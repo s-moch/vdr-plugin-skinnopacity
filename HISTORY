@@ -350,3 +350,5 @@ Version 0.1.4
   in schedules menu
 - changed build environment that every class is build seperately
   (thanks @Helmut Auer)
+- changed channel logos in main menu timers display to scale 
+  automatically

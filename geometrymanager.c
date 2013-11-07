@@ -85,7 +85,7 @@ void cGeometryManager::SetDisplayMenuSizes() {
                                 config.GetValue("logoHeightOriginal"));
     menuLogoWidth = logoSize.Width();
     menuLogoHeight = logoSize.Height();
-
+    
     cSize logoSizeVDRHeader = ScaleToFit(1000,
                                 menuHeaderHeight - 4,
                                 config.GetValue("menuHeaderLogoWidth"),
@@ -98,6 +98,13 @@ void cGeometryManager::SetDisplayMenuSizes() {
 
     menuDiskUsageWidth = menuDiskUsageHeight = osdWidth  * config.GetValue("menuSizeDiskUsage") / 100;
     menuTimersWidth = osdWidth  * config.GetValue("menuWidthRightItems") / 100;
+    cSize timersLogoSize = ScaleToFit(menuTimersWidth - 8 * config.GetValue("spaceMenu"),
+                                1000,
+                                config.GetValue("logoWidthOriginal"),
+                                config.GetValue("logoHeightOriginal"));
+    menuTimersLogoWidth = timersLogoSize.Width();
+    menuTimersLogoHeight = timersLogoSize.Height();
+    
     menuMessageWidth = 0.8 * osdWidth;
     menuMessageHeight = 0.1 * osdHeight;
 }
