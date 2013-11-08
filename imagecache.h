@@ -50,6 +50,7 @@ enum eSkinElementType {
     seButtonYellow,
     seButtonBlue,
     seMenuHeader,
+    seMenuHeaderTop,
     seChannelBackground,
     seChannelTop,
     seChannelLogoBack,

@@ -354,3 +354,5 @@ Version 0.1.4
   automatically
 - fixed a bug that rounded corners of color buttons in menus were
   not drawn correctly
+- added possibility to add background image in freestyle themes
+  in displaymenu header (headerback.png, header_mirroredback.png)

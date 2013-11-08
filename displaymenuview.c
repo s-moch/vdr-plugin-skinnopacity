@@ -284,10 +284,14 @@ const cFont *cNopacityDisplayMenuView::GetTextAreaFont(bool FixedFont) {
 
 void cNopacityDisplayMenuView::DrawBorderDecoration() {
     if (config.GetValue("displayType") == dtGraphical) {
-        pixmapHeader->Fill(Theme.Color(clrMenuBack));
-        cImage *headerImage = imgCache->GetSkinElement(seMenuHeader);
-        if (headerImage)
-            pixmapHeaderForeground->DrawImage(cPoint(0, 0), *headerImage);
+        cImage *headerImageBack = imgCache->GetSkinElement(seMenuHeader);
+        if (headerImageBack)
+            pixmapHeader->DrawImage(cPoint(0, 0), *headerImageBack);
+        else
+            pixmapHeader->Fill(Theme.Color(clrMenuBack));
+        cImage *headerImageTop = imgCache->GetSkinElement(seMenuHeaderTop);
+        if (headerImageTop)
+            pixmapHeaderForeground->DrawImage(cPoint(0, 0), *headerImageTop);
         else
             pixmapHeaderForeground->Fill(clrTransparent);
     } else if (config.GetValue("displayType") == dtBlending) {

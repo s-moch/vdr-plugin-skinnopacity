@@ -588,8 +588,19 @@ void cImageCache::CreateSkinElementsGraphics(void) {
         InsertIntoSkinElementCache(seButtonBlue, geoManager->menuButtonWidth, geoManager->menuButtonHeight);
 
     //Menu Header
-    std::string imgHeader = "skinElements/header";
-    success = LoadIcon(ctSkinElement, imgHeader);
+    bool mirrorHeader = (config.GetValue("menuAdjustLeft")) ? false : true;
+    std::string imgHeaderTop, imgHeaderBack;
+    if (!mirrorHeader) {
+        imgHeaderTop = "skinElements/headertop";
+        imgHeaderBack = "skinElements/headerback";
+    } else {
+        imgHeaderTop = "skinElements/header_mirroredtop";
+        imgHeaderBack = "skinElements/header_mirroredback";
+    }
+    success = LoadIcon(ctSkinElement, imgHeaderTop);
+    if (success)
+        InsertIntoSkinElementCache(seMenuHeaderTop, geoManager->osdWidth, geoManager->menuHeaderHeight);
+    success = LoadIcon(ctSkinElement, imgHeaderBack);
     if (success)
         InsertIntoSkinElementCache(seMenuHeader, geoManager->osdWidth, geoManager->menuHeaderHeight);
 
