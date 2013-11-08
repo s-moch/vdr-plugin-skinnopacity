@@ -24,7 +24,7 @@ class cNopacityTimer : public cListObject {
         int y;
         cString Date;
         cTextWrapper showName;
-        void DrawLogo(void);
+        int DrawLogo(void);
     public:
         cNopacityTimer(cOsd *osd, cImageCache *imgCache, const cTimer *timer, const cFont *font, const cFont *fontLarge);
         cNopacityTimer(cOsd *osd, cImageCache *imgCache, int numConflicts, const cFont *font, const cFont *fontLarge);

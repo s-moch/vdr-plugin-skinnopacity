@@ -111,7 +111,17 @@ void cNopacityTimer::CalculateHeight(int space) {
         height = numLines * lineHeight + 2*space;
     } else {
         int lineHeight = font->Height();
-        height = geoManager->menuTimersLogoHeight + (numLines +1)* lineHeight + 2*space;
+        int channelLogoHeight = geoManager->menuTimersLogoHeight;
+        if (config.GetValue("showTimers") == 2) {
+            const cChannel *Channel = timer->Channel();
+            if (Channel) {
+                cTextWrapper channel;
+                channel.Set(Channel->Name(), fontLarge, width - 10);
+                int lines = channel.Lines();
+                channelLogoHeight = fontLarge->Height() * lines;
+            }
+        }
+        height = channelLogoHeight + (numLines +1)* lineHeight + 2*space;
     }
 }
 
@@ -145,7 +155,7 @@ void cNopacityTimer::Render(void) {
             pixmapText->DrawText(cPoint(x, y), showName.GetLine(line), Theme.Color(clrMenuFontTimersHeader), clrTransparent, fontLarge);
         }
     } else {
-        DrawLogo();
+        int logoHeight = DrawLogo();
         if (timer->Recording()) {
             pixmap->Fill(Theme.Color(clrDiskAlert));
             if (config.GetValue("displayType") == dtBlending) {
@@ -164,17 +174,18 @@ void cNopacityTimer::Render(void) {
             }
         }
 
-        pixmapText->DrawText(cPoint(5, geoManager->menuTimersLogoHeight), *Date, Theme.Color(clrMenuFontTimersHeader), clrTransparent, fontLarge);
+        pixmapText->DrawText(cPoint(5, logoHeight), *Date, Theme.Color(clrMenuFontTimersHeader), clrTransparent, fontLarge);
 
         int lineHeight = font->Height();
-        int yStart = geoManager->menuTimersLogoHeight + lineHeight + 3;
+        int yStart = logoHeight + lineHeight + 3;
         int numLines = showName.Lines();
         for (int line=0; line<numLines; line++)
             pixmapText->DrawText(cPoint(5, yStart+line*(lineHeight-2)), showName.GetLine(line), Theme.Color(clrMenuFontTimers), clrTransparent, font);
     }
 }
 
-void cNopacityTimer::DrawLogo(void) {
+int cNopacityTimer::DrawLogo(void) {
+    int totalHeight = 0;
     pixmapLogo->Fill(clrTransparent);
     int showTimerLogo = (config.GetValue("showTimers") < 2) ? 1 : 0;
     int logoWidth = geoManager->menuTimersLogoWidth;
@@ -198,6 +209,10 @@ void cNopacityTimer::DrawLogo(void) {
             for (int line = 0; line < lines; line++) {
                 pixmapLogo->DrawText(cPoint((width - fontLarge->Width(channel.GetLine(line)))/2, y+lineHeight*line), channel.GetLine(line), Theme.Color(clrMenuFontMenuItemHigh), clrTransparent, fontLarge);
             }
+            totalHeight = lineHeight * lines;
+        } else {
+            totalHeight = logoHeight;
         }
     }
+    return totalHeight;
 }

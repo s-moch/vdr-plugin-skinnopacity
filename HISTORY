@@ -356,3 +356,5 @@ Version 0.1.4
   not drawn correctly
 - added possibility to add background image in freestyle themes
   in displaymenu header (headerback.png, header_mirroredback.png)
+- fixed timer display in main menu so that setting "small without logo"
+  uses correct height
