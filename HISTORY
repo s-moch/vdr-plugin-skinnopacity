@@ -361,4 +361,5 @@ Version 0.1.4
 - size of channel logos in main menu timers display configurable as
   percent of timer width
 - Added theme dependend background for status icon in displayreplay
-- Fixed editing of text if text is scrolling (closes Bug 1572) 
+- Fixed editing of text if text is scrolling (closes Bug 1572)
+- Cutting too long recording name in displayreplay

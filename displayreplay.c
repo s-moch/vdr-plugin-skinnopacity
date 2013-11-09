@@ -316,8 +316,13 @@ void cNopacityDisplayReplay::SetRecording(const cRecording *Recording) {
 
 void cNopacityDisplayReplay::SetTitle(const char *Title) {
     pixmapInfo->Fill(clrTransparent);
+    int titleLength = fontManager->replayHeader->Width(Title);
+    int titleSpace = geoManager->replayInfoWidth - geoManager->replayHeaderHeight/2;
+    std::string strTitle = Title;
+    if (titleLength > titleSpace)
+        strTitle = CutText(strTitle, titleSpace, fontManager->replayHeader);
     pixmapInfo->DrawText(cPoint(geoManager->replayHeaderHeight/2, 0),
-                         Title,
+                         strTitle.c_str(),
                          Theme.Color(clrReplayHead),
                          clrTransparent,
                          fontManager->replayHeader);
