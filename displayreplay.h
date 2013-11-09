@@ -24,6 +24,7 @@ private:
     cPixmap *pixmapCurrent;
     cPixmap *pixmapTotal;
     cPixmap *pixmapScreenRes;
+    cPixmap *pixmapScreenResBackground;
     cPixmap *pixmapControls;
     cPixmap *pixmapRew;
     cPixmap *pixmapPause;

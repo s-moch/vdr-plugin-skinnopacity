@@ -28,6 +28,7 @@ cNopacityDisplayReplay::~cNopacityDisplayReplay() {
         osd->DestroyPixmap(pixmapProgressBar);
         osd->DestroyPixmap(pixmapCurrent);
         osd->DestroyPixmap(pixmapTotal);
+        osd->DestroyPixmap(pixmapScreenResBackground);
         osd->DestroyPixmap(pixmapScreenRes);
         osd->DestroyPixmap(pixmapJump);
     }
@@ -89,7 +90,11 @@ void cNopacityDisplayReplay::CreatePixmaps(void) {
                                                  + geoManager->replayProgressBarHeight,
                                                  geoManager->replayWidth/5,
                                                  geoManager->replayCurrentHeight));
-        pixmapScreenRes = osd->CreatePixmap(5, cRect(geoManager->replayResolutionX,
+        pixmapScreenResBackground = osd->CreatePixmap(5, cRect(geoManager->replayResolutionX - 10,
+                                                     geoManager->replayResolutionY - 5,
+                                                     geoManager->replayResolutionSize * 3 + 20,
+                                                     geoManager->replayResolutionSize + 10));
+        pixmapScreenRes = osd->CreatePixmap(6, cRect(geoManager->replayResolutionX,
                                                      geoManager->replayResolutionY,
                                                      geoManager->replayResolutionSize * 3,
                                                      geoManager->replayResolutionSize));
@@ -146,6 +151,7 @@ void cNopacityDisplayReplay::CreatePixmaps(void) {
             pixmapProgressBar->SetAlpha(0);
             pixmapCurrent->SetAlpha(0);
             pixmapTotal->SetAlpha(0);
+            pixmapScreenResBackground->SetAlpha(0);
             pixmapScreenRes->SetAlpha(0);
             pixmapJump->SetAlpha(0);
         }
@@ -201,6 +207,7 @@ void cNopacityDisplayReplay::DrawBackground(void) {
         }
         pixmapControls->Fill(clrTransparent);
         pixmapProgressBar->Fill(clrTransparent);
+        pixmapScreenResBackground->Fill(clrTransparent);
         pixmapScreenRes->Fill(clrTransparent);
         pixmapJump->Fill(clrTransparent);
     } else {
@@ -273,8 +280,17 @@ void cNopacityDisplayReplay::DrawScreenResolution(void) {
     }
     int replaySize = geoManager->replayResolutionSize;
     cImage *imgRes = imgCache->GetSkinIcon(*iconName, 3 * replaySize, replaySize);
-    if (imgRes)
+    if (imgRes) {
+        pixmapScreenResBackground->Fill(Theme.Color(clrStatusIconsBack));
+        DrawRoundedCorners(pixmapScreenResBackground,
+                       5,
+                       0,
+                       0,
+                       pixmapScreenResBackground->ViewPort().Width(),
+                       pixmapScreenResBackground->ViewPort().Height()
+                      );
         pixmapScreenRes->DrawImage(cPoint(0,0), *imgRes);
+    }
 }
 
 void cNopacityDisplayReplay::SetRecording(const cRecording *Recording) {
@@ -464,6 +480,7 @@ void cNopacityDisplayReplay::Action(void) {
             pixmapProgressBar->SetAlpha(Alpha);
             pixmapCurrent->SetAlpha(Alpha);
             pixmapTotal->SetAlpha(Alpha);
+            pixmapScreenResBackground->SetAlpha(Alpha);
             pixmapScreenRes->SetAlpha(Alpha);
             pixmapJump->SetAlpha(Alpha);
         }
