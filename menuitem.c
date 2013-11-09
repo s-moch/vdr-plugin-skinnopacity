@@ -152,6 +152,8 @@ void cNopacityMenuItem::Action(void) {
         FrameTime = 30;
     else if (config.GetValue("menuScrollSpeed") == 3)
         FrameTime = 15;
+    if (!Running())
+        return;
     int maxX = pixmapTextScroller->DrawPort().Width() - pixmapTextScroller->ViewPort().Width();
     bool doSleep = false;
     while (Running()) {
@@ -159,6 +161,8 @@ void cNopacityMenuItem::Action(void) {
             DoSleep(scrollDelay);
             doSleep = false;
         }
+        if (!Running())
+            return;
         uint64_t Now = cTimeMs::Now();
         cPixmap::Lock();
         drawPortX = pixmapTextScroller->DrawPort().X();
@@ -1504,6 +1508,7 @@ void cNopacityDefaultMenuItem::SetTextShort(void) {
 int cNopacityDefaultMenuItem::CheckScrollable(bool hasIcon) {
     if (!selectable)
         return 0;
+    scrollable = false;
     int colWidth = 0;
     int colTextWidth = 0;
     for (int i=0; i<numTabs; i++) {
@@ -1525,8 +1530,20 @@ int cNopacityDefaultMenuItem::CheckScrollable(bool hasIcon) {
             break;
     }
     if (scrollable) {
-        pixmapTextScroller = osd->CreatePixmap(4, cRect(left + tabWidth[scrollCol], top + index * (height + spaceMenu), tabWidth[scrollCol+numTabs], height), cRect(0, 0, colTextWidth+10, height));
-        pixmapTextScroller->Fill(clrTransparent);
+        if (!pixmapTextScroller) {
+            pixmapTextScroller = osd->CreatePixmap(4, cRect(left + tabWidth[scrollCol], top + index * (height + spaceMenu), tabWidth[scrollCol+numTabs], height), cRect(0, 0, colTextWidth+10, height));
+            pixmapTextScroller->Fill(clrTransparent);
+        }
+    } else {
+        if (pixmapTextScroller) {
+            while (Running()) {
+                Cancel(-1);
+                DoSleep(10);
+            }
+            osd->DestroyPixmap(pixmapTextScroller);
+            pixmapTextScroller = NULL;
+            scrollCol = -1;
+        }
     }
     return 0;
 }

@@ -601,6 +601,8 @@ void cNopacityDisplayMenu::SetItem(const char *Text, int Index, bool Current, bo
         if (item) {
             item->SetTabs(strItems, tabItems, MaxTabs);
             item->SetCurrent(Current);
+            if ((MenuCategory() != mcMain) && (MenuCategory() != mcSetup))
+                item->CheckScrollable(false);
             item->Render();
         }
     }
