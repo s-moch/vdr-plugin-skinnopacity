@@ -16,7 +16,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Language: Catalan\n"
+"X-Poedit-Language: Català\n"
 "X-Poedit-Country: Catalunya\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
@@ -27,10 +27,10 @@ msgid "Volume"
 msgstr "Volum"
 
 msgid "images"
-msgstr ""
+msgstr "imatges"
 
 msgid "Actors"
-msgstr ""
+msgstr "Actors"
 
 msgid "min"
 msgstr "min"
@@ -54,7 +54,7 @@ msgid "Est. bitrate"
 msgstr "Bitrate estimat"
 
 msgid "Search timer"
-msgstr ""
+msgstr "Cerca timer"
 
 msgid "Transp."
 msgstr "Transponedor"
@@ -108,7 +108,7 @@ msgid "Messages"
 msgstr "Missatges"
 
 msgid "Image Caching"
-msgstr ""
+msgstr "Cache d'imatge"
 
 msgid "right"
 msgstr "dreta"
@@ -117,10 +117,10 @@ msgid "left"
 msgstr "esquerra"
 
 msgid "Carriage Return"
-msgstr ""
+msgstr "Retorn"
 
 msgid "Forward and Back again"
-msgstr ""
+msgstr "Avançar i retrocedir de nou"
 
 msgid "off"
 msgstr "off"
@@ -144,7 +144,7 @@ msgid "auto"
 msgstr "auto"
 
 msgid "Create Log Messages for image loading"
-msgstr ""
+msgstr "Crea Log d'imatges"
 
 msgid "Number of Default Menu Entries per Page"
 msgstr "Nombre d'entrades de menú per pàgina"
@@ -174,7 +174,7 @@ msgid "Fade-In Time in ms (Zero for switching off fading)"
 msgstr "Fosa d'entrada, temps en ms (0 per desactivació)"
 
 msgid "Menu Items Scroll Style"
-msgstr ""
+msgstr "Estil del Menu desplaçament"
 
 msgid "Menu Items Scrolling Speed"
 msgstr "Velocitat desplaçament elements de menú"
@@ -198,7 +198,7 @@ msgid "Adjust Font Size - Detail View Text"
 msgstr "Ajusta mida de la Font - Vista detall del text"
 
 msgid "Adjust Font Size - Detail View Text Small"
-msgstr ""
+msgstr "Ajusta mida de la Font -  Vista detall text petit"
 
 msgid "Adjust Font Size - Detail View Header"
 msgstr "Ajusta mida de la Font - Vista detall capçalera"
@@ -222,7 +222,7 @@ msgid "free space in GB"
 msgstr "espai lliure en GB"
 
 msgid "small without logo"
-msgstr ""
+msgstr "petit sense logo"
 
 msgid "Use narrow main menu"
 msgstr "Utilitza menú principal limitat"
@@ -234,7 +234,7 @@ msgid "Use narrow setup menu"
 msgstr "Utilitza configuració limitada"
 
 msgid "Number of entires per page"
-msgstr ""
+msgstr "Nombre d'entrades per pàgina"
 
 msgid "Use menu icons"
 msgstr "Utilitza menú d'icones"
@@ -267,7 +267,7 @@ msgid "Width of Timers (Percent of OSD Width)"
 msgstr "Amplada dels timers (% amplada OSD)"
 
 msgid "Width of Channel Logos (Percent of Timer Width)"
-msgstr ""
+msgstr "Ample dels Logos Canal (% Amplada temporitzador)"
 
 msgid "Adjust Font Size - Title"
 msgstr "Ajusta mida de la Font - Títol"
@@ -276,7 +276,7 @@ msgid "Show Timer Conflicts"
 msgstr "Mostra conflictes timers"
 
 msgid "Header Logo Width"
-msgstr "Amplada logo capzçalera"
+msgstr "Amplada logo capçalera"
 
 msgid "Header Logo Height"
 msgstr "Alçada logo capçalera"
@@ -294,19 +294,19 @@ msgid "always"
 msgstr "sempre"
 
 msgid "only if no tvscraper media available"
-msgstr ""
+msgstr "Sols si tvscraper media no disponible"
 
 msgid "window"
-msgstr ""
+msgstr "finestre"
 
 msgid "full screen"
-msgstr ""
+msgstr "pantalla completa"
 
 msgid "Use narrow menu"
 msgstr "Utilitza menú limitat"
 
 msgid "Mode of EPG Window"
-msgstr ""
+msgstr "Mode pantalla EPG"
 
 msgid "EPG Window Fade-In Time in ms (Zero for switching off fading)"
 msgstr "Fosa d'entrada finestra EPG, temps en ms (0 per desactivació)"
@@ -324,7 +324,7 @@ msgid "Height of EPG Info Window (Percent of OSD Height)"
 msgstr "Alçada Finestra Info EPG (% alçada OSD)"
 
 msgid "Border around detailed EPG view"
-msgstr ""
+msgstr "Vora al voltant de vista detallada EPG"
 
 msgid "Display Reruns in detailed EPG View"
 msgstr "Mostra Reemissions a vista detallada EPG"
@@ -363,7 +363,7 @@ msgid "Adjust Font Size - EPG Info Window"
 msgstr "Ajusta mida de la Font - Finestra Info EPG"
 
 msgid "Adjust Font Size - EPG Info Window Header"
-msgstr ""
+msgstr "Ajusta mida de la Font - Finestra Info EPG encapçalament "
 
 msgid "Transponder Information"
 msgstr "Informació Transponedor"
@@ -372,34 +372,34 @@ msgid "Current Schedule"
 msgstr "Programació actual"
 
 msgid "Plain Channels"
-msgstr ""
+msgstr "Canals plans"
 
 msgid "Menu Items display mode"
 msgstr "Mode visualització Elements de menú"
 
 msgid "Display schedules with time info"
-msgstr ""
+msgstr "Veure horaris amb informació en temps"
 
 msgid "Number of EPG Entries in Schedules Info Window"
 msgstr "Nombre d'entrades EPG a la Finestra de Programació"
 
 msgid "Mode of recording Window"
-msgstr ""
+msgstr "Mode de gravació"
 
 msgid "Border around detailed recording view"
-msgstr ""
+msgstr "Vora al voltant de vista registre detallat"
 
 msgid "Display additional EPG Pictures in detailed recording View"
 msgstr "Mostra imatges EPG addicionals a vista detallada gravacions"
 
 msgid "Use folder poster if available"
-msgstr ""
+msgstr "Utilitzeu carpeta cartell si està disponible"
 
 msgid "Width of manually set recording poster"
-msgstr ""
+msgstr "Ample del cartell de gravació ajustat manualment"
 
 msgid "Height of manually set recording poster"
-msgstr ""
+msgstr "Alçada del cartell de gravació ajustat manualment"
 
 msgid "transparent channel logo"
 msgstr "Logo del canal transparent"
@@ -426,7 +426,7 @@ msgid "Bottom Border Height"
 msgstr "Alçada vora botó"
 
 msgid "Background Transparency in Percent"
-msgstr ""
+msgstr "Transparència de fons en percentatge"
 
 msgid "Background Style"
 msgstr "Estil del Fons"
@@ -438,10 +438,10 @@ msgid "Channel Logo Position"
 msgstr "Posició Logo Canal"
 
 msgid "Channel Logo original Width"
-msgstr ""
+msgstr "Amplada Original Logo del canal"
 
 msgid "Channel Logo original Height"
-msgstr ""
+msgstr "Alçada Original Logo del canal"
 
 msgid "Kind of time display for current schedule"
 msgstr "Tipus de visualització per la programació actual"
@@ -453,10 +453,10 @@ msgid "Display Channel Source information"
 msgstr "Mostra informació del canal"
 
 msgid "Display Poster or Fanart from TVScraper"
-msgstr ""
+msgstr "Mostra Poster o Fanart de TVScraper"
 
 msgid "Border in Pixel"
-msgstr ""
+msgstr "Final del Pixel"
 
 msgid "Display previous and next Channel Group"
 msgstr "Mostra grups de canals anterior i posterior"
@@ -468,7 +468,7 @@ msgid "Adjust Font Size - EPG Infotext"
 msgstr "Ajusta mida de la Font - Infotext EPG"
 
 msgid "Adjust Font Size - Channel Source Info"
-msgstr ""
+msgstr "Ajusta mide de la Font - Info del Canal"
 
 msgid "Adjust Font Size - Channel Group"
 msgstr "Ajusta mida de la Font - Grup de canals"
@@ -519,34 +519,34 @@ msgid "Height of Volume Display (Percent of OSD Height)"
 msgstr "Alçada Visualització volum (% Alçada OSD)"
 
 msgid "Limit Logo Cache"
-msgstr ""
+msgstr "Limit Cache Logo"
 
 msgid "Maximal number of logos to cache"
-msgstr ""
+msgstr "Màxim nombre de logos a la cache"
 
 msgid "Number of  logos to cache at start"
-msgstr ""
+msgstr "Nombre de logos a la cache al començar"
 
 msgid "Cache Sizes"
-msgstr ""
+msgstr "Mida cache"
 
 msgid "Menu Icon cache"
-msgstr ""
+msgstr "Menu cache icona"
 
 msgid "Skin Icon image cache"
-msgstr ""
+msgstr "Pell Icona imatger cache"
 
 msgid "Logo cache"
-msgstr ""
+msgstr "Cache Logo"
 
 msgid "Menu Item Logo cache"
-msgstr ""
+msgstr "Element Menu cache Logo"
 
 msgid "Timer Logo cache"
-msgstr ""
+msgstr "Cache Timer logo"
 
 msgid "Background Images cache"
-msgstr ""
+msgstr "Background Imatges cache"
 
 msgid "conflict"
 msgstr "conflicte"
