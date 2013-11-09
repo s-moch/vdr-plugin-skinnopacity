@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-11-07 17:08+0100\n"
+"POT-Creation-Date: 2013-11-09 08:50+0100\n"
 "PO-Revision-Date: 2013-03-19 22:56+0100\n"
 "Last-Translator: Gabychan <gbonich@gmail.com>\n"
 "Language-Team: \n"
@@ -265,6 +265,9 @@ msgstr "Nombre màxim de timers"
 
 msgid "Width of Timers (Percent of OSD Width)"
 msgstr "Amplada dels timers (% amplada OSD)"
+
+msgid "Width of Channel Logos (Percent of Timer Width)"
+msgstr ""
 
 msgid "Adjust Font Size - Title"
 msgstr "Ajusta mida de la Font - Títol"
@@ -550,18 +553,3 @@ msgstr "conflicte"
 
 msgid "conflicts"
 msgstr "conflictes"
-
-#~ msgid "Channel Logo Width"
-#~ msgstr "Amplada logo canal"
-
-#~ msgid "Channel Logo Height"
-#~ msgstr "Alçada logo canal"
-
-#~ msgid "Header Icon Size (Square Header Menu Icons)"
-#~ msgstr "Mida icona capçalera (Icones del Quadre)"
-
-#~ msgid "Folder Icon Size"
-#~ msgstr "Mida Carpeta Icones"
-
-#~ msgid "Icon Size (Square)"
-#~ msgstr "Mida icones (Quadrat)"

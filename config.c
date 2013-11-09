@@ -93,6 +93,7 @@ void cNopacityConfig::LoadDefaults(void) {
     conf.insert(std::pair<std::string, int>("discUsageStyle", 0));
     conf.insert(std::pair<std::string, int>("showTimers", 1));
     conf.insert(std::pair<std::string, int>("numberTimers", 10));
+    conf.insert(std::pair<std::string, int>("timersLogoWidth", 60));    
     conf.insert(std::pair<std::string, int>("checkTimerConflict", 1));
     conf.insert(std::pair<std::string, int>("headerHeight", 7));
     conf.insert(std::pair<std::string, int>("footerHeight", 7));

@@ -98,7 +98,7 @@ void cGeometryManager::SetDisplayMenuSizes() {
 
     menuDiskUsageWidth = menuDiskUsageHeight = osdWidth  * config.GetValue("menuSizeDiskUsage") / 100;
     menuTimersWidth = osdWidth  * config.GetValue("menuWidthRightItems") / 100;
-    cSize timersLogoSize = ScaleToFit(menuTimersWidth - 8 * config.GetValue("spaceMenu"),
+    cSize timersLogoSize = ScaleToFit(menuTimersWidth * config.GetValue("timersLogoWidth") / 100,
                                 1000,
                                 config.GetValue("logoWidthOriginal"),
                                 config.GetValue("logoHeightOriginal"));

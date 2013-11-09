@@ -358,3 +358,5 @@ Version 0.1.4
   in displaymenu header (headerback.png, header_mirroredback.png)
 - fixed timer display in main menu so that setting "small without logo"
   uses correct height
+- size of channel logos in main menu timers display configurable as
+  percent of timer width
