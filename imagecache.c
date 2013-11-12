@@ -324,12 +324,9 @@ bool cImageCache::LoadIcon(eCacheType type, std::string name) {
 }
 
 void cImageCache::InsertIntoIconCache(eCacheType type, std::string name, int width, int height, bool preserveAspect) {
-    if (preserveAspect) {
-        buffer.sample(Geometry(width, height));
-    } else {
-        cString geometry = cString::sprintf("%dx%d!", width, height);
-        buffer.resize(Geometry(*geometry));
-    }
+    Geometry size(width, height);
+    size.aspect(!preserveAspect);
+    buffer.sample(size);
     cImage *image = CreateImage();
     if (type == ctMenuIcon)
         menuIconCache.insert(std::pair<std::string, cImage*>(name, image));
@@ -692,8 +689,9 @@ void cImageCache::CreateSkinElementsGraphics(void) {
 
 void cImageCache::InsertIntoSkinElementCache(eSkinElementType type, int width, int height) {
     if (width>0 && height>0) {
-        cString geometry = cString::sprintf("%dx%d!", width, height);
-        buffer.resize(Geometry(*geometry));
+        Geometry size(width, height);
+        size.aspect(true);
+        buffer.sample(size);
     }
     cImage *image = CreateImage();
     skinElementCache.insert(std::pair<eSkinElementType, cImage*>(type, image));

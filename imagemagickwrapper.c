@@ -88,27 +88,36 @@ Color cImageMagickWrapper::Argb2Color(tColor col) {
     return color;
 }
 
+void cImageMagickWrapper::CreateGradient(tColor back, tColor blend, int width, int height, double wfactor, double hfactor) {
+    Color Back = Argb2Color(back);
+    Color Blend = Argb2Color(blend);
+    int maxw = MaxRGB * wfactor;
+    int maxh = MaxRGB * hfactor;
+
+    Image imgblend(Geometry(width, height), Blend);
+    imgblend.modifyImage();
+    imgblend.type(TrueColorMatteType);
+    PixelPacket *pixels = imgblend.getPixels(0, 0, width, height);
+    for (int x = 0; x < width; x++) {
+        for (int y = 0; y < height; y++) {
+            PixelPacket *pixel = pixels + y * width + x;
+            int opacity = (maxw / width * x + maxh - maxh / height * y) / 2;
+            pixel->opacity = (opacity <= MaxRGB) ? opacity : MaxRGB;
+        }
+    }
+    imgblend.syncPixels();
+
+    Image imgback(Geometry(width, height), Back);
+    imgback.composite(imgblend, 0, 0, OverCompositeOp);
+
+    buffer = imgback;
+}
+
 void cImageMagickWrapper::CreateBackground(tColor back, tColor blend, int width, int height, bool mirror) {
-    Color Back = Argb2Color(back);
-    Color Blend = Argb2Color(blend);
-    Image tmp(Geometry(width, height), Blend);
-    double arguments[9] = {0.0,(double)height,0.0,-1*(double)width,0.0,0.0,1.5*(double)width,0.0,1.0};
-    tmp.sparseColor(MatteChannel, BarycentricColorInterpolate, 9, arguments);
-    Image tmp2(Geometry(width, height), Back);
-    tmp.composite(tmp2, 0, 0, OverlayCompositeOp);
+    CreateGradient(back, blend, width, height, 0.8, 0.8);
     if (mirror)
-        tmp.flop();
-    buffer = tmp;
+        buffer.flop();
 }
-
 void cImageMagickWrapper::CreateBackgroundReverse(tColor back, tColor blend, int width, int height) {
-    Color Back = Argb2Color(back);
-    Color Blend = Argb2Color(blend);
-    Image tmp(Geometry(width, height), Blend);
-    double arguments[9] = {0.0,(double)height,0.0,-0.5*(double)width,0.0,0.0,(double)width,0.0,1.0};
-    tmp.sparseColor(MatteChannel, BarycentricColorInterpolate, 9, arguments);
-    Image tmp2(Geometry(width, height), Back);
-    tmp.composite(tmp2, 0, 0, OverlayCompositeOp);
-    buffer = tmp;
+    CreateGradient(back, blend, width, height, 1.3, 0.7);
 }
-

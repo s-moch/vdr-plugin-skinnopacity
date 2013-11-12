@@ -9,6 +9,8 @@
 using namespace Magick;
 
 class cImageMagickWrapper {
+private:
+    void CreateGradient(tColor back, tColor blend, int width, int height, double wfactor, double hfactor);
 public:
     cImageMagickWrapper();
     ~cImageMagickWrapper();
