@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: vdr-skinnopacity\n"
 "Report-Msgid-Bugs-To: <see README>\n"
 "POT-Creation-Date: 2013-11-09 08:50+0100\n"
-"PO-Revision-Date: 2013-09-16 19:34+0100\n"
+"PO-Revision-Date: 2013-11-11 20:52+0100\n"
 "Last-Translator: Milan Hrala <hrala.milan@gmail.com>\n"
 "Language-Team: \n"
 "Language: sk\n"
@@ -24,7 +24,7 @@ msgid "Volume"
 msgstr "Hlasitos»"
 
 msgid "images"
-msgstr ""
+msgstr "obrázkov"
 
 msgid "Actors"
 msgstr "Herci"
@@ -105,7 +105,7 @@ msgid "Messages"
 msgstr "Správy"
 
 msgid "Image Caching"
-msgstr ""
+msgstr "Vyrovnávacia pamä» obrázkov"
 
 msgid "right"
 msgstr "vpravo"
@@ -114,10 +114,10 @@ msgid "left"
 msgstr "vµavo"
 
 msgid "Carriage Return"
-msgstr ""
+msgstr "vpred a znova od zaèiatku"
 
 msgid "Forward and Back again"
-msgstr ""
+msgstr "vpred a zase spä»"
 
 msgid "off"
 msgstr "vypnuté"
@@ -141,7 +141,7 @@ msgid "auto"
 msgstr "automaticky"
 
 msgid "Create Log Messages for image loading"
-msgstr ""
+msgstr "Vytvori» protokolovanie správ pre naèítanie obrázka"
 
 msgid "Number of Default Menu Entries per Page"
 msgstr "Poèet polo¾iek základného menu na stránke"
@@ -171,7 +171,7 @@ msgid "Fade-In Time in ms (Zero for switching off fading)"
 msgstr "èas efektu zmiznutia v ms (nula vypnú»)"
 
 msgid "Menu Items Scroll Style"
-msgstr ""
+msgstr "©týl rolovania menu polo¾iek"
 
 msgid "Menu Items Scrolling Speed"
 msgstr "Rýchlos» rolovania polo¾iek menu"
@@ -219,7 +219,7 @@ msgid "free space in GB"
 msgstr "voµné miesto v GB"
 
 msgid "small without logo"
-msgstr ""
+msgstr "malá bez loga"
 
 msgid "Use narrow main menu"
 msgstr "Úzke hlavné menu"
@@ -231,7 +231,7 @@ msgid "Use narrow setup menu"
 msgstr "Úzke menu nastavenia"
 
 msgid "Number of entires per page"
-msgstr ""
+msgstr "Poèet polo¾iek na stranu"
 
 msgid "Use menu icons"
 msgstr "Pou¾i» ikony ponuky"
@@ -264,7 +264,7 @@ msgid "Width of Timers (Percent of OSD Width)"
 msgstr "©írka zobrazeného plánu nahrávania (Percento s OSD ¹írky)"
 
 msgid "Width of Channel Logos (Percent of Timer Width)"
-msgstr ""
+msgstr "©írka loga kanálov (Percento z ¹írky plánu)"
 
 msgid "Adjust Font Size - Title"
 msgstr "Nastavenie veµkosti písma - Názov"
@@ -390,7 +390,7 @@ msgid "Display additional EPG Pictures in detailed recording View"
 msgstr "Zobrazi» ïal¹ie EPG obrázky v podrobnom zobrazení nahrávky"
 
 msgid "Use folder poster if available"
-msgstr ""
+msgstr "Pou¾i» zlo¾ku plagát ak je k dispozícii"
 
 msgid "Width of manually set recording poster"
 msgstr "Ruène nastavi» ¹írku plagátov nahrávok"
@@ -423,7 +423,7 @@ msgid "Bottom Border Height"
 msgstr "Vý¹ka spodného okraja"
 
 msgid "Background Transparency in Percent"
-msgstr ""
+msgstr "Priehµadnos» pozadia v percentách"
 
 msgid "Background Style"
 msgstr "©týl pozadia"
@@ -435,10 +435,10 @@ msgid "Channel Logo Position"
 msgstr "Pozícia loga kanálu"
 
 msgid "Channel Logo original Width"
-msgstr ""
+msgstr "Pôvodná ¹írka loga kanála"
 
 msgid "Channel Logo original Height"
-msgstr ""
+msgstr "Pôvodná vý¹ka loga kanála"
 
 msgid "Kind of time display for current schedule"
 msgstr "Druh zobrazenia èasu pre aktuálnu reláciu"
@@ -453,7 +453,7 @@ msgid "Display Poster or Fanart from TVScraper"
 msgstr "Zobrazenie plagátu alebo Fanartu z TVScraper"
 
 msgid "Border in Pixel"
-msgstr ""
+msgstr "Okraj v pixeloch"
 
 msgid "Display previous and next Channel Group"
 msgstr "Zobrazi» predchádzajúcu a nasledujúcu skupinu kanálu"
@@ -465,7 +465,7 @@ msgid "Adjust Font Size - EPG Infotext"
 msgstr "Nastavenie veµkosti písma - EPG informaèný text"
 
 msgid "Adjust Font Size - Channel Source Info"
-msgstr ""
+msgstr "Nastavenie veµkosti písma - Info zdroja kanála"
 
 msgid "Adjust Font Size - Channel Group"
 msgstr "Nastavenie veµkosti písma - Skupina kanálu"
@@ -516,37 +516,38 @@ msgid "Height of Volume Display (Percent of OSD Height)"
 msgstr "Vý¹ka zobrazenia hlasitosti (Percento z OSD vý¹ky)"
 
 msgid "Limit Logo Cache"
-msgstr ""
+msgstr "Limit vyrovnávacej pamäte loga"
 
 msgid "Maximal number of logos to cache"
-msgstr ""
+msgstr "Maximálny poèet lóg do pamäte"
 
 msgid "Number of  logos to cache at start"
-msgstr ""
+msgstr "Poèet lóg do vyrovnávacej pamäte pri ¹tarte"
 
 msgid "Cache Sizes"
-msgstr ""
+msgstr "Veµkos» vyrovnávacej pamäte"
 
 msgid "Menu Icon cache"
-msgstr ""
+msgstr "Vyrovnávacia pamä» ikony menu"
 
 msgid "Skin Icon image cache"
-msgstr ""
+msgstr "Vyrovnávacia pamä» ikon vzhµadu"
 
 msgid "Logo cache"
-msgstr ""
+msgstr "Medzipamä» loga"
 
 msgid "Menu Item Logo cache"
-msgstr ""
+msgstr "Medzipamä» loga menu polo¾ky"
 
 msgid "Timer Logo cache"
-msgstr ""
+msgstr "Medzipamä» loga plánu nahrávania"
 
 msgid "Background Images cache"
-msgstr ""
+msgstr "Medzipamä» obrázkov pozadia"
 
 msgid "conflict"
 msgstr "konflikt"
 
 msgid "conflicts"
 msgstr "konflikty"
+
