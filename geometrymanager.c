@@ -53,7 +53,7 @@ void cGeometryManager::SetDisplayMenuSizes() {
     menuContentWidthMain = osdWidth * config.GetValue("menuWidthMain") / 100;
     menuContentWidthSchedules = osdWidth * config.GetValue("menuWidthSchedules") / 100;
     menuContentWidthChannels = osdWidth * config.GetValue("menuWidthChannels") / 100;
-    menuContentWidthTimers = osdWidth * config.GetValue("menuWidthChannels") / 100;
+    menuContentWidthTimers = osdWidth * config.GetValue("menuWidthTimers") / 100;
     menuContentWidthRecordings = osdWidth * config.GetValue("menuWidthRecordings") / 100;
     menuContentWidthSetup = osdWidth * config.GetValue("menuWidthSetup") / 100;
     menuContentWidthFull = osdWidth - config.GetValue("widthScrollbar") - config.GetValue("spaceMenu");

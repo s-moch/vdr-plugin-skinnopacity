@@ -145,13 +145,14 @@ private:
     std::string strEntry;
     std::string strEntryFull;
     std::string strDateTime;
+    cRect *vidWin;
     void SetTextFull(void);
     void SetTextShort(void);
     void DrawBackground(int textLeft);
     void DrawLogo(int logoWidth, int logoHeight);
     std::string CreateDate(void);
 public:
-    cNopacityTimerMenuItem(cOsd *osd, cImageCache *imgCache, const cTimer *Timer, bool sel);
+    cNopacityTimerMenuItem(cOsd *osd, cImageCache *imgCache, const cTimer *Timer, bool sel, cRect *vidWin);
     ~cNopacityTimerMenuItem(void);
     void CreatePixmapTextScroller(int totalWidth);
     void CreateText(void);

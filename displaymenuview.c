@@ -32,8 +32,8 @@ cOsd *cNopacityDisplayMenuView::createOsd(void) {
 }
 
 void cNopacityDisplayMenuView::SetDescriptionTextWindowSize(void) {
-    int xSchedules, xRecordings, xChannels;
-    int widthSchedules, widthRecordings, widthChannels;
+    int xSchedules, xRecordings, xChannels, xTimers;
+    int widthSchedules, widthRecordings, widthChannels, widthTimers;
     if (config.GetValue("menuAdjustLeft")) {
         xSchedules =    2 * geoManager->menuSpace
                         + geoManager->menuContentWidthSchedules
@@ -44,13 +44,18 @@ void cNopacityDisplayMenuView::SetDescriptionTextWindowSize(void) {
         xChannels =     2 * geoManager->menuSpace
                         + geoManager->menuContentWidthChannels
                         + geoManager->menuWidthScrollbar;
+        xTimers =       2 * geoManager->menuSpace
+                        + geoManager->menuContentWidthTimers
+                        + geoManager->menuWidthScrollbar;
         widthSchedules = geoManager->osdWidth - xSchedules - geoManager->menuSpace;
         widthRecordings = geoManager->osdWidth - xRecordings - geoManager->menuSpace;
         widthChannels = geoManager->osdWidth - xChannels - geoManager->menuSpace;
+        widthTimers = geoManager->osdWidth - xTimers - geoManager->menuSpace;
     } else {
         xSchedules = geoManager->menuSpace;
         xRecordings = geoManager->menuSpace;
         xChannels = geoManager->menuSpace;
+        xTimers = geoManager->menuSpace;
         widthSchedules =  geoManager->osdWidth
                           - geoManager->menuContentWidthSchedules
                           - geoManager->menuWidthScrollbar
@@ -61,6 +66,10 @@ void cNopacityDisplayMenuView::SetDescriptionTextWindowSize(void) {
                           - 2 * geoManager->menuSpace;
         widthChannels =   geoManager->osdWidth
                           - geoManager->menuContentWidthChannels
+                          - geoManager->menuWidthScrollbar
+                          - 2 * geoManager->menuSpace;
+        widthTimers =     geoManager->osdWidth
+                          - geoManager->menuContentWidthTimers
                           - geoManager->menuWidthScrollbar
                           - 2 * geoManager->menuSpace;
     }
@@ -77,6 +86,10 @@ void cNopacityDisplayMenuView::SetDescriptionTextWindowSize(void) {
         textWindowSizeRecordings = cRect(xRecordings,y,widthRecordings,height);
     else
         textWindowSizeRecordings = cRect(xRecordings,yFullScreen,widthRecordings,heightFull);
+    if (config.GetValue("menuTimersWindowMode") == 0)
+        textWindowSizeTimers = cRect(xTimers,y,widthTimers,height);
+    else
+        textWindowSizeTimers = cRect(xTimers,yFullScreen,widthTimers,heightFull);
     textWindowSizeChannels = cRect(xChannels,y,widthChannels,height);
 }
 
@@ -88,6 +101,8 @@ cRect *cNopacityDisplayMenuView::GetDescriptionTextWindowSize(eMenuCategory menu
             return &textWindowSizeRecordings;
         case mcChannel:
             return &textWindowSizeChannels;
+        case mcTimer:
+            return &textWindowSizeTimers;
         default:
             return NULL;
     }

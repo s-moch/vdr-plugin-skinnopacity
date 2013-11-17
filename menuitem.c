@@ -920,8 +920,9 @@ void cNopacityChannelMenuItem::Render() {
 
 // cNopacityTimerMenuItem  -------------
 
-cNopacityTimerMenuItem::cNopacityTimerMenuItem(cOsd *osd, cImageCache *imgCache, const cTimer *Timer, bool sel) : cNopacityMenuItem (osd, imgCache, "", sel) {
+cNopacityTimerMenuItem::cNopacityTimerMenuItem(cOsd *osd, cImageCache *imgCache, const cTimer *Timer, bool sel, cRect *vidWin) : cNopacityMenuItem (osd, imgCache, "", sel) {
     this->Timer = Timer;
+    this->vidWin = vidWin;
 }
 
 cNopacityTimerMenuItem::~cNopacityTimerMenuItem(void) {
@@ -1069,6 +1070,28 @@ void cNopacityTimerMenuItem::Render() {
             pixmapTextScroller->SetDrawPortPoint(cPoint(0, 0));
             SetTextShort();
             Cancel(-1);
+        }
+        if (wasCurrent)
+            if (infoTextWindow) {
+                delete infoTextWindow;
+                infoTextWindow = NULL;
+            }
+        const cEvent *Event = Timer->Event();
+        if (current && Event) {
+            if (config.GetValue("menuTimersWindowMode") == 0) {
+                //window mode
+                infoTextWindow = new cNopacityTextWindow(osd, fontEPGWindow, vidWin);
+                infoTextWindow->SetGeometry(textWindow);
+                infoTextWindow->SetText(Event->Description());
+                infoTextWindow->SetPoster(Event, false);
+                infoTextWindow->Start();
+            } else {
+                //fullscreen mode
+                infoTextWindow = new cNopacityTextWindow(osd, fontEPGWindow, fontEPGWindowLarge);
+                infoTextWindow->SetGeometry(textWindow);
+                infoTextWindow->SetPoster(Event, false, true);
+                infoTextWindow->SetEvent(Event);
+            }
         }
     }
 }

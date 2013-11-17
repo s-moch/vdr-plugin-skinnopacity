@@ -368,3 +368,4 @@ Version 0.1.4
 - changed Makefile to support both ImageMagick and GraphicsMagick
   (configurable in Makefile)
 - updated slovakian translation
+- Added EPG Info in narrow Timers Menu

@@ -303,6 +303,8 @@ void cNopacitySetupMenuDisplayChannels::Set(void) {
 //-----MenuDisplay Timers Menu -------------------------------------------------------------------------------------------------------------
 
 cNopacitySetupMenuDisplayTimers::cNopacitySetupMenuDisplayTimers(cNopacityConfig* data)  : cMenuSetupSubMenu(tr("VDR Menu: Timers Menu"), data) {
+    windowMode[0] = tr("window");
+    windowMode[1] = tr("full screen");
     Set();
 }
 
@@ -313,6 +315,7 @@ void cNopacitySetupMenuDisplayTimers::Set(void) {
     Add(new cMenuEditBoolItem(tr("Use narrow menu"), tmpConf->GetValueRef("narrowTimerMenu")));
     if (tmpConf->GetValue("narrowTimerMenu"))
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Width (Percent of OSD Width)")), tmpConf->GetValueRef("menuWidthTimers"), 10, 97));
+    Add(new cMenuEditStraItem(tr("Mode of EPG Window"), tmpConf->GetValueRef("menuTimersWindowMode"), 2, windowMode));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Menu Item"), tmpConf->GetValueRef("fontMenuitemTimers"), -20, 20));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Menu Item Small"), tmpConf->GetValueRef("fontMenuitemTimersSmall"), -20, 20));
 

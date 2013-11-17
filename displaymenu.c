@@ -417,13 +417,16 @@ bool cNopacityDisplayMenu::SetItemTimer(const cTimer *Timer, int Index, bool Cur
     if (!config.GetValue("narrowTimerMenu"))
         return false;
     if ((initMenu)&&(Index > menuItemIndexLast)) {
-        cNopacityMenuItem *item = new cNopacityTimerMenuItem(osd, imgCache, Timer, Selectable);
+        cNopacityMenuItem *item = new cNopacityTimerMenuItem(osd, imgCache, Timer, Selectable, &videoWindowRect);
         cPoint itemSize;
         menuView->GetMenuItemSize(MenuCategory(), &itemSize);
         item->SetFont(fontManager->menuItemTimers);
         item->SetFontSmall(fontManager->menuItemTimersSmall);
+        item->SetFontEPGWindow(fontManager->menuEPGInfoWindow);
+        item->SetFontEPGWindowLarge(fontManager->menuEPGInfoWindowLarge);
         int spaceTop = menuView->GetMenuTop(currentNumItems, itemSize.Y());
         item->SetGeometry(Index, spaceTop, menuView->GetMenuItemLeft(itemSize.X()), itemSize.X(), itemSize.Y(), geoManager->menuSpace);
+        item->SetTextWindow(menuView->GetDescriptionTextWindowSize(mcTimer));
         item->SetCurrent(Current);
         item->CreateText();
         int textWidth = item->CheckScrollable(true);

@@ -39,6 +39,7 @@ class cNopacityDisplayMenuView {
         cRect textWindowSizeSchedules;
         cRect textWindowSizeRecordings;
         cRect textWindowSizeChannels;
+        cRect textWindowSizeTimers;
         int GetContentWidth(eMenuCategory menuCat);
     public:
         cNopacityDisplayMenuView(cImageCache *imgCache);

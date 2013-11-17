@@ -114,6 +114,7 @@ void cNopacityConfig::LoadDefaults(void) {
     conf.insert(std::pair<std::string, int>("borderDetailedRecordings", 30));
     conf.insert(std::pair<std::string, int>("menuSchedulesWindowMode", 1));
     conf.insert(std::pair<std::string, int>("menuRecordingsWindowMode", 1));
+    conf.insert(std::pair<std::string, int>("menuTimersWindowMode", 1));
     conf.insert(std::pair<std::string, int>("fontHeader", 0));
     conf.insert(std::pair<std::string, int>("fontDate", 0));
     conf.insert(std::pair<std::string, int>("fontMenuitemLarge", 0));
