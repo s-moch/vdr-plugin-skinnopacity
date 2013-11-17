@@ -369,3 +369,4 @@ Version 0.1.4
   (configurable in Makefile)
 - updated slovakian translation
 - Added EPG Info in narrow Timers Menu
+- Freestyle Theme new default theme, old default renamed to "blue"
