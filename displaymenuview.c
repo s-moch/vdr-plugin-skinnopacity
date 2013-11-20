@@ -547,7 +547,7 @@ void cNopacityDisplayMenuView::DrawDiskUsage(void) {
     else
         rest = cString::sprintf("%d GB %s", cVideoDiskUsage::FreeMB() / 1024, tr("free"));
     pixmapDiskUsageLabel->DrawRectangle(cRect((geoManager->menuDiskUsageWidth - 4)*DiskUsage/100,4*geoManager->menuDiskUsageHeight/5, (geoManager->menuDiskUsageWidth - 4) - (geoManager->menuDiskUsageWidth - 4)*DiskUsage/100, geoManager->menuDiskUsageHeight/5), 0xDD000000);
-    pixmapDiskUsageLabel->DrawText(cPoint((geoManager->menuDiskUsageWidth - fontManager->menuDiskUsagePercent->Width(*usage))/2, 4*geoManager->menuDiskUsageHeight/5), *usage, Theme.Color(clrMenuFontDiscUsage), clrTransparent, fontManager->menuDiskUsagePercent);
+    pixmapDiskUsageLabel->DrawText(cPoint((geoManager->menuDiskUsageWidth - fontManager->menuDiskUsagePercent->Width(*usage))/2, 4*geoManager->menuDiskUsageHeight/5), *usage, Theme.Color(clrMenuFontDiscUsagePerc), clrTransparent, fontManager->menuDiskUsagePercent);
     pixmapDiskUsageLabel->DrawText(cPoint((geoManager->menuDiskUsageWidth - fontManager->menuDiskUsage->Width(*rest))/2, (geoManager->menuDiskUsageHeight - fontManager->menuDiskUsage->Height())/2), *rest, Theme.Color(clrMenuFontDiscUsage), clrTransparent, fontManager->menuDiskUsage);
 
     pixmapDiskUsage->SetLayer(2);

@@ -44,6 +44,7 @@ clrTimersBackBlend = DDBB0000
 clrMenuFontHeader = FFCCCCCC
 clrMenuFontDate = FFCCCCCC
 clrMenuFontDiscUsage = FFCCCCCC
+clrMenuFontDiscUsagePerc = FFCCCCCC
 clrMenuFontTimers = FFCCCCCC
 clrMenuFontTimersHeader = FFCCCCCC
 clrMenuFontDetailViewText = FFCCCCCC
