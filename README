@@ -17,7 +17,8 @@ Requirements
 
 - VDR version >= 1.7.34
 
-- Installed ImageMagick for displaying png/jpg Icons, Channel Logos and EPG Images
+- Installed ImageMagick or GraphicsMagick for displaying png/jpg Icons, Channel Logos 
+  and EPG Images
 
 - for scaling the video picture to fit into the VDR menu window please use 
   softhddevice plugin revision 87c1c7be (2013-01-01) or newer.
@@ -427,11 +428,6 @@ Customizing, Skin Setup Options
   with bottom border it can be moved to the top.
 - Adjust Font Size
 
-
-Changes: 
-- Main Menu: Original Header Icon size
-- Schedules: EPG Window Settings nur für modus "window", "full screen" als default
-- Gleiches bei Recording
 
 Legal Remark: some of the menu icons used in this skin are from http://icons8.com/
 Thanks @icons8.com for provide these icons for free.
