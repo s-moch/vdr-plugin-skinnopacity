@@ -18,9 +18,6 @@ cNopacity::cNopacity(cImageCache *imgCache) : cSkin("nOpacity", &::Theme) {
     config.SetThemeSetup();
     config.SetPathes();
     config.SetFontName();
-    config.DumpConfig();
-    config.DumpThemeConfig();
-    
     geoManager = new cGeometryManager();
     geoManager->SetGeometry();
     fontManager = new cFontManager();

@@ -358,7 +358,8 @@ void cNopacityConfig::SetThemeConfigSetupValue(std::string themeName, std::strin
     std::map<std::string, std::map<std::string, int> >::iterator hit = themeConfigSetup.find(themeName);
     if (hit != themeConfigSetup.end()) {
         std::map<std::string, int> existingValues = (std::map<std::string, int>)hit->second;
-        existingValues.insert(std::pair<std::string, int>(key, value));
+        existingValues.erase(key);
+	existingValues.insert(std::pair<std::string, int>(key, value));
         themeConfigSetup.erase(themeName);
         themeConfigSetup.insert(std::pair<std::string, std::map<std::string, int> >(themeName, existingValues));
     } else {
