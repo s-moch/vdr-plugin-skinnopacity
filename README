@@ -237,6 +237,8 @@ Customizing, Skin Setup Options
 - Footer Height (% of OSD Height): Default: 7%
 - Rounded Corners for menu items and buttons
   - Radius of rounded corners: if rounded corners are used, radius in px.
+- Use Channel Logo background: display theme specific background (clrMenuChannelLogoBack) for channel
+  logos in menus what's on now / next, channels, timers
 - Fade-In Time in ms (Zero for switching off fading): Default 0, active fading
   for main menu caused sometimes trouble in some special setups. Activate on
   own risk ;)
@@ -356,6 +358,8 @@ Customizing, Skin Setup Options
   the whole screen width is used for channel display.
   - Channel Logo original Width: Default 260px (used for correct scaling)
   - Channel Logo original Height: Default 200px (used for correct scaling)
+  - Use Channel Logo background: use theme specific image (skinElements/channellogoback.png)
+    as backgrond image for channel logos
 - Kind of time display for current schedule: elapsed or remaining time
 - Display Source Information: display Channel Source Information (used Satelite)
 - Display Signal Strength & Quality: Set this to Zero if you want to disable the
