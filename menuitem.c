@@ -219,6 +219,8 @@ void cNopacityMenuItem::DrawRoundedCorners(tColor borderColor) {
 }
 
 void cNopacityMenuItem::DrawChannelLogoBackground(void) {
+    if (!config.GetValue("menuChannelLogoBackground"))
+        return;
     int logoWidth = geoManager->menuLogoWidth;
     pixmapBackground->DrawRectangle(cRect(4,6,logoWidth-4, height-12), Theme.Color(clrMenuChannelLogoBack));
 }

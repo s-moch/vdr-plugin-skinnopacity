@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: vdr-skinnopacity\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-11-09 08:50+0100\n"
+"POT-Creation-Date: 2013-11-21 16:50+0100\n"
 "PO-Revision-Date: 2013-11-11 20:52+0100\n"
 "Last-Translator: Milan Hrala <hrala.milan@gmail.com>\n"
 "Language-Team: \n"
@@ -166,6 +166,9 @@ msgstr "Zaoblené rohy pre polo¾ky menu a tlaèidiel"
 
 msgid "Radius of rounded corners"
 msgstr "Polomer zaoblenia rohov"
+
+msgid "Use Channel Logo background"
+msgstr ""
 
 msgid "Fade-In Time in ms (Zero for switching off fading)"
 msgstr "èas efektu zmiznutia v ms (nula vypnú»)"
@@ -550,4 +553,3 @@ msgstr "konflikt"
 
 msgid "conflicts"
 msgstr "konflikty"
-

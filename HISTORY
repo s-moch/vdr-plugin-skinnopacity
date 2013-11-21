@@ -372,3 +372,5 @@ Version 0.1.4
 - Freestyle Theme new default theme, old default renamed to "blue"
 - Changed Disc Usage Icon for default theme
 - Added logo backgrounds in displaychannel also for blended themes
+- Usage of channel logo background in displaychannel and on 
+  menuelements configurable via plugin setup

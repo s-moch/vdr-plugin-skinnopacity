@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-11-09 08:50+0100\n"
+"POT-Creation-Date: 2013-11-21 16:50+0100\n"
 "PO-Revision-Date: 2012-11-11 17:49+0200\n"
 "Last-Translator: louis\n"
 "Language-Team: \n"
@@ -166,6 +166,9 @@ msgstr "Abgerundete Ecken für Menüelemente und Buttons"
 
 msgid "Radius of rounded corners"
 msgstr "Radius der abgerundeten Ecken"
+
+msgid "Use Channel Logo background"
+msgstr "Hintergrund für Kanallogos benutzen"
 
 msgid "Fade-In Time in ms (Zero for switching off fading)"
 msgstr "Fade-In Zeit in ms (Null zum Abschalten)"

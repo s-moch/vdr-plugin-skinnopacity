@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-11-09 08:50+0100\n"
+"POT-Creation-Date: 2013-11-21 16:50+0100\n"
 "PO-Revision-Date: 2013-03-19 22:56+0100\n"
 "Last-Translator: Diego Pierotto <vdr-italian@tiscali.it>\n"
 "Language-Team: \n"
@@ -169,6 +169,9 @@ msgstr "Angoli smussati per voci menu e tasti"
 
 msgid "Radius of rounded corners"
 msgstr "Raggio angoli smussati"
+
+msgid "Use Channel Logo background"
+msgstr ""
 
 msgid "Fade-In Time in ms (Zero for switching off fading)"
 msgstr "Tempo comparsa in ms (0 per disattivazione)"

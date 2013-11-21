@@ -110,6 +110,7 @@ void cNopacityConfig::LoadDefaults(void) {
     conf.insert(std::pair<std::string, int>("posterWidth", 500));
     conf.insert(std::pair<std::string, int>("posterHeight", 750));
     conf.insert(std::pair<std::string, int>("useFolderPoster", 1));
+    conf.insert(std::pair<std::string, int>("menuChannelLogoBackground", 1));
     conf.insert(std::pair<std::string, int>("borderDetailedEPG", 30));
     conf.insert(std::pair<std::string, int>("borderDetailedRecordings", 30));
     conf.insert(std::pair<std::string, int>("menuSchedulesWindowMode", 1));
@@ -145,6 +146,7 @@ void cNopacityConfig::LoadDefaults(void) {
     conf.insert(std::pair<std::string, int>("channelBorderBottom", 15));
     conf.insert(std::pair<std::string, int>("channelFadeTime", 300));
     conf.insert(std::pair<std::string, int>("channelBackgroundTransparency", 0));
+    conf.insert(std::pair<std::string, int>("channelUseLogoBackground", 1));
     conf.insert(std::pair<std::string, int>("logoPosition", 1));
     conf.insert(std::pair<std::string, int>("logoWidth", 260));
     conf.insert(std::pair<std::string, int>("logoHeight", 200));

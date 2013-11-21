@@ -151,6 +151,7 @@ void cNopacitySetupMenuDisplay::Set(void) {
     Add(new cMenuEditBoolItem(tr("Rounded Corners for menu items and buttons"), tmpConf->GetValueRef("roundedCorners")));
     if (tmpConf->GetValue("roundedCorners"))
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Radius of rounded corners")), tmpConf->GetValueRef("cornerRadius"), 5, 30));
+    Add(new cMenuEditBoolItem(tr("Use Channel Logo background"), tmpConf->GetValueRef("menuChannelLogoBackground")));
     Add(new cMenuEditIntItem(tr("Fade-In Time in ms (Zero for switching off fading)"), tmpConf->GetValueRef("menuFadeTime"), 0, 1000));
     Add(new cMenuEditStraItem(tr("Menu Items Scroll Style"), tmpConf->GetValueRef("scrollMode"), 2, scrollMode));
     Add(new cMenuEditStraItem(tr("Menu Items Scrolling Speed"), tmpConf->GetValueRef("menuScrollSpeed"), 4, scrollSpeed));
@@ -386,6 +387,7 @@ void cNopacitySetupChannelDisplay::Set(void) {
     if (tmpConf->GetValue("logoPosition")) {
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Channel Logo original Width")), tmpConf->GetValueRef("logoWidthOriginal"), 30, 500));
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Channel Logo original Height")), tmpConf->GetValueRef("logoHeightOriginal"), 30, 500));
+        Add(new cMenuEditBoolItem(cString::sprintf("%s%s", *spacer, tr("Use Channel Logo background")), tmpConf->GetValueRef("channelUseLogoBackground")));
     }
     Add(new cMenuEditStraItem(tr("Kind of time display for current schedule"), tmpConf->GetValueRef("progressCurrentSchedule"), 2, progressStyleCurrentSchedule));
     Add(new cMenuEditBoolItem(tr("Display Signal Strength & Quality"), tmpConf->GetValueRef("displaySignalStrength")));
