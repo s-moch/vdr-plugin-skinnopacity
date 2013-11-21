@@ -471,6 +471,13 @@ void cImageCache::CreateSkinElementsBlended(void) {
     bool mirrorHeader = (config.GetValue("menuAdjustLeft")) ? false : true;
     CreateBackground(Theme.Color(clrMenuHeaderBlend), Theme.Color(clrMenuHeader), geoManager->osdWidth, geoManager->menuHeaderHeight, mirrorHeader);
     InsertIntoSkinElementCache(seMenuHeader);
+    
+    //ChannelLogo Background
+    std::string imgChannelLogoBack = "skinElements/channellogoback";
+    bool success = LoadIcon(ctSkinElement, imgChannelLogoBack);
+    if (success)
+        InsertIntoSkinElementCache(seChannelLogoBack, geoManager->channelLogoWidth, geoManager->channelLogoHeight);
+
 }
 
 void cImageCache::CreateSkinElementsGraphics(void) {

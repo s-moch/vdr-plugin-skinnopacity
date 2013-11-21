@@ -241,7 +241,7 @@ void cNopacityDisplayChannelView::DrawBackground(void) {
 }
 
 void cNopacityDisplayChannelView::DrawChannelLogo(const cChannel *Channel) {
-    if (config.GetValue("displayType") == dtGraphical) {
+    if (config.GetValue("displayType") != dtFlat) {
         cImage *imgLogoBack = imgCache->GetSkinElement(seChannelLogoBack);
         if (imgLogoBack)
             pixmapLogoBackground->DrawImage(cPoint(0,0), *imgLogoBack);
