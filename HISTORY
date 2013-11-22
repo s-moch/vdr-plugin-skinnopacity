@@ -375,3 +375,5 @@ Version 0.1.4
 - Usage of channel logo background in displaychannel and on 
   menuelements configurable via plugin setup
 - Fixed a bug that setup values are not stored if theme is changed
+
+Version 1.0.0
