@@ -37,7 +37,7 @@ cImage *cImageMagickWrapper::CreateImage(int width, int height, bool preserveAsp
             scaler.PutSourcePixel(pixels->blue / ((MaxRGB + 1) / 256),
                                   pixels->green / ((MaxRGB + 1) / 256),
                                   pixels->red / ((MaxRGB + 1) / 256),
-                                  ~(pixels->opacity / ((MaxRGB + 1) / 256)));
+                                  ~((unsigned char)(pixels->opacity / ((MaxRGB + 1) / 256))));
         return image;
     }
     for (const void *pixels_end = &pixels[width*height]; pixels < pixels_end; ++pixels)
