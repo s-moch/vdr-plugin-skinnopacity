@@ -51,9 +51,6 @@ void cImageCache::CreateCache(void) {
                 if (success) {
                     channelsCached++;
                     InsertIntoLogoCache(ctLogo, *channel->GetChannelID().ToString());
-                }
-                success = LoadLogo(channel);
-                if (success) {
                     InsertIntoLogoCache(ctLogoMenuItem, *channel->GetChannelID().ToString());
                 }
             }
@@ -151,12 +148,11 @@ cImage *cImageCache::GetLogo(eCacheType type, const cChannel *channel) {
                 cPoint logoSize = LogoSize(type);
                 int width = logoSize.X();
                 int height = logoSize.Y();
-                buffer.sample(Geometry(width, height));
                 if (tempStaticLogo) {
                     delete tempStaticLogo;
                     tempStaticLogo = NULL;
                 }
-                tempStaticLogo = CreateImage();
+                tempStaticLogo = CreateImage(width, height);
                 return tempStaticLogo;
             } else {
             //add requested logo to cache
@@ -324,10 +320,7 @@ bool cImageCache::LoadIcon(eCacheType type, std::string name) {
 }
 
 void cImageCache::InsertIntoIconCache(eCacheType type, std::string name, int width, int height, bool preserveAspect) {
-    Geometry size(width, height);
-    size.aspect(!preserveAspect);
-    buffer.sample(size);
-    cImage *image = CreateImage();
+    cImage *image = CreateImage(width, height, preserveAspect);
     if (type == ctMenuIcon)
         menuIconCache.insert(std::pair<std::string, cImage*>(name, image));
     else if (type == ctSkinIcon)
@@ -376,8 +369,7 @@ void cImageCache::InsertIntoLogoCache(eCacheType type, std::string channelID) {
     cPoint logoSize = LogoSize(type);
     int width = logoSize.X();
     int height = logoSize.Y();
-    buffer.sample(Geometry(width, height));
-    cImage *image = CreateImage();
+    cImage *image = CreateImage(width, height);
     if (type == ctLogo)
         logoCache.insert(std::pair<std::string, cImage*>(channelID, image));
     else if (type == ctLogoMenuItem)
@@ -496,82 +488,37 @@ void cImageCache::CreateSkinElementsGraphics(void) {
     std::string imgMenuItem = "skinElements/menubutton";
     std::string imgMenuItemActive = "skinElements/menubuttonactive";
     std::string imgMenuItemTop = "skinElements/menubuttontop";
-    //Main Menu
+    //Main Menu + Setup Menu + Schedules Menu + Channels Menu + Recordings Menu + Timers Menu + Tracks Menu
     success = LoadIcon(ctSkinElement, imgMenuItem);
-    if (success)
+    if (success) {
         InsertIntoSkinElementCache(seMain, geoManager->menuItemWidthMain, geoManager->menuItemHeightMain);
-    success = LoadIcon(ctSkinElement, imgMenuItemActive);
-    if (success)
-        InsertIntoSkinElementCache(seMainHigh, geoManager->menuItemWidthMain, geoManager->menuItemHeightMain);
-    success = LoadIcon(ctSkinElement, imgMenuItemTop);
-    if (success)
-        InsertIntoSkinElementCache(seMainTop, geoManager->menuItemWidthMain, geoManager->menuItemHeightMain);
-
-    //Setup Menu
-    success = LoadIcon(ctSkinElement, imgMenuItem);
-    if (success)
         InsertIntoSkinElementCache(seSetup, geoManager->menuItemWidthSetup, geoManager->menuItemHeightMain);
-    success = LoadIcon(ctSkinElement, imgMenuItemActive);
-    if (success)
-        InsertIntoSkinElementCache(seSetupHigh, geoManager->menuItemWidthSetup, geoManager->menuItemHeightMain);
-    success = LoadIcon(ctSkinElement, imgMenuItemTop);
-    if (success)
-        InsertIntoSkinElementCache(seSetupTop, geoManager->menuItemWidthSetup, geoManager->menuItemHeightMain);
-
-    //Schedules Menu
-    success = LoadIcon(ctSkinElement, imgMenuItem);
-    if (success)
         InsertIntoSkinElementCache(seSchedules, geoManager->menuItemWidthSchedule, geoManager->menuItemHeightSchedule);
-    success = LoadIcon(ctSkinElement, imgMenuItemActive);
-    if (success)
-        InsertIntoSkinElementCache(seSchedulesHigh, geoManager->menuItemWidthSchedule, geoManager->menuItemHeightSchedule);
-    success = LoadIcon(ctSkinElement, imgMenuItemTop);
-    if (success)
-        InsertIntoSkinElementCache(seSchedulesTop, geoManager->menuItemWidthSchedule, geoManager->menuItemHeightSchedule);
-
-    //Channels Menu
-    success = LoadIcon(ctSkinElement, imgMenuItem);
-    if (success)
         InsertIntoSkinElementCache(seChannels, geoManager->menuItemWidthChannel, geoManager->menuItemHeightSchedule);
-    success = LoadIcon(ctSkinElement, imgMenuItemActive);
-    if (success)
-        InsertIntoSkinElementCache(seChannelsHigh, geoManager->menuItemWidthChannel, geoManager->menuItemHeightSchedule);
-    success = LoadIcon(ctSkinElement, imgMenuItemTop);
-    if (success)
-        InsertIntoSkinElementCache(seChannelsTop, geoManager->menuItemWidthChannel, geoManager->menuItemHeightSchedule);
-
-    //Recordings Menu
-    success = LoadIcon(ctSkinElement, imgMenuItem);
-    if (success)
         InsertIntoSkinElementCache(seRecordings, geoManager->menuItemWidthRecording, geoManager->menuItemHeightRecordings);
-    success = LoadIcon(ctSkinElement, imgMenuItemActive);
-    if (success)
-        InsertIntoSkinElementCache(seRecordingsHigh, geoManager->menuItemWidthRecording, geoManager->menuItemHeightRecordings);
-    success = LoadIcon(ctSkinElement, imgMenuItemTop);
-    if (success)
-        InsertIntoSkinElementCache(seRecordingsTop, geoManager->menuItemWidthRecording, geoManager->menuItemHeightRecordings);
-
-    //Timers Menu
-    success = LoadIcon(ctSkinElement, imgMenuItem);
-    if (success)
         InsertIntoSkinElementCache(seTimers, geoManager->menuItemWidthTimer, geoManager->menuItemHeightSchedule);
-    success = LoadIcon(ctSkinElement, imgMenuItemActive);
-    if (success)
-        InsertIntoSkinElementCache(seTimersHigh, geoManager->menuItemWidthTimer, geoManager->menuItemHeightSchedule);
-    success = LoadIcon(ctSkinElement, imgMenuItemTop);
-    if (success)
-        InsertIntoSkinElementCache(seTimersTop, geoManager->menuItemWidthTimer, geoManager->menuItemHeightSchedule);
-
-    //Tracks Menu
-    success = LoadIcon(ctSkinElement, imgMenuItem);
-    if (success)
         InsertIntoSkinElementCache(seTracks, geoManager->menuItemWidthTracks, geoManager->menuItemHeightTracks);
+    }
     success = LoadIcon(ctSkinElement, imgMenuItemActive);
-    if (success)
+    if (success) {
+        InsertIntoSkinElementCache(seMainHigh, geoManager->menuItemWidthMain, geoManager->menuItemHeightMain);
+        InsertIntoSkinElementCache(seSetupHigh, geoManager->menuItemWidthSetup, geoManager->menuItemHeightMain);
+        InsertIntoSkinElementCache(seSchedulesHigh, geoManager->menuItemWidthSchedule, geoManager->menuItemHeightSchedule);
+        InsertIntoSkinElementCache(seChannelsHigh, geoManager->menuItemWidthChannel, geoManager->menuItemHeightSchedule);
+        InsertIntoSkinElementCache(seRecordingsHigh, geoManager->menuItemWidthRecording, geoManager->menuItemHeightRecordings);
+        InsertIntoSkinElementCache(seTimersHigh, geoManager->menuItemWidthTimer, geoManager->menuItemHeightSchedule);
         InsertIntoSkinElementCache(seTracksHigh, geoManager->menuItemWidthTracks, geoManager->menuItemHeightTracks);
+    }
     success = LoadIcon(ctSkinElement, imgMenuItemTop);
-    if (success)
+    if (success) {
+        InsertIntoSkinElementCache(seMainTop, geoManager->menuItemWidthMain, geoManager->menuItemHeightMain);
+        InsertIntoSkinElementCache(seSetupTop, geoManager->menuItemWidthSetup, geoManager->menuItemHeightMain);
+        InsertIntoSkinElementCache(seSchedulesTop, geoManager->menuItemWidthSchedule, geoManager->menuItemHeightSchedule);
+        InsertIntoSkinElementCache(seChannelsTop, geoManager->menuItemWidthChannel, geoManager->menuItemHeightSchedule);
+        InsertIntoSkinElementCache(seRecordingsTop, geoManager->menuItemWidthRecording, geoManager->menuItemHeightRecordings);
+        InsertIntoSkinElementCache(seTimersTop, geoManager->menuItemWidthTimer, geoManager->menuItemHeightSchedule);
         InsertIntoSkinElementCache(seTracksTop, geoManager->menuItemWidthTracks, geoManager->menuItemHeightTracks);
+    }
 
     //Color Buttons
     std::string imgButtonRed = "skinElements/buttonred";
@@ -608,37 +555,31 @@ void cImageCache::CreateSkinElementsGraphics(void) {
     if (success)
         InsertIntoSkinElementCache(seMenuHeader, geoManager->osdWidth, geoManager->menuHeaderHeight);
 
-    //Menu Messages Background
+    //Messages Background + Menu Messages Background
     std::string msgStatus = "skinElements/messageStatus";
     std::string msgInfo = "skinElements/messageInfo";
     std::string msgWarning = "skinElements/messageWarning";
     std::string msgError = "skinElements/messageError";
     success = LoadIcon(ctSkinElement, msgStatus);
-    if (success)
-        InsertIntoSkinElementCache(seMessageMenuStatus, geoManager->menuMessageWidth, geoManager->menuMessageHeight);
-    success = LoadIcon(ctSkinElement, msgInfo);
-    if (success)
-        InsertIntoSkinElementCache(seMessageMenuInfo, geoManager->menuMessageWidth, geoManager->menuMessageHeight);
-    success = LoadIcon(ctSkinElement, msgWarning);
-    if (success)
-        InsertIntoSkinElementCache(seMessageMenuWarning, geoManager->menuMessageWidth, geoManager->menuMessageHeight);
-    success = LoadIcon(ctSkinElement, msgError);
-    if (success)
-        InsertIntoSkinElementCache(seMessageMenuError, geoManager->menuMessageWidth, geoManager->menuMessageHeight);
-    //Messages Background
-    success = LoadIcon(ctSkinElement, msgStatus);
-    if (success)
+    if (success) {
         InsertIntoSkinElementCache(seMessageStatus, geoManager->messageWidth, geoManager->messageHeight);
+        InsertIntoSkinElementCache(seMessageMenuStatus, geoManager->menuMessageWidth, geoManager->menuMessageHeight);
+    }
     success = LoadIcon(ctSkinElement, msgInfo);
-    if (success)
+    if (success) {
         InsertIntoSkinElementCache(seMessageInfo, geoManager->messageWidth, geoManager->messageHeight);
+        InsertIntoSkinElementCache(seMessageMenuInfo, geoManager->menuMessageWidth, geoManager->menuMessageHeight);
+    }
     success = LoadIcon(ctSkinElement, msgWarning);
-    if (success)
+    if (success) {
         InsertIntoSkinElementCache(seMessageWarning, geoManager->messageWidth, geoManager->messageHeight);
+        InsertIntoSkinElementCache(seMessageMenuWarning, geoManager->menuMessageWidth, geoManager->menuMessageHeight);
+    }
     success = LoadIcon(ctSkinElement, msgError);
-    if (success)
+    if (success) {
         InsertIntoSkinElementCache(seMessageError, geoManager->messageWidth, geoManager->messageHeight);
-
+        InsertIntoSkinElementCache(seMessageMenuError, geoManager->menuMessageWidth, geoManager->menuMessageHeight);
+    }
 
     //DisplayChannel Background and Foreground
     std::string imgChannelBackground;
@@ -695,12 +636,7 @@ void cImageCache::CreateSkinElementsGraphics(void) {
 }
 
 void cImageCache::InsertIntoSkinElementCache(eSkinElementType type, int width, int height) {
-    if (width>0 && height>0) {
-        Geometry size(width, height);
-        size.aspect(true);
-        buffer.sample(size);
-    }
-    cImage *image = CreateImage();
+    cImage *image = CreateImage(width, height, false);
     skinElementCache.insert(std::pair<eSkinElementType, cImage*>(type, image));
 }
 

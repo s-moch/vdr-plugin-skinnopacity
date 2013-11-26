@@ -377,3 +377,6 @@ Version 0.1.4
 - Fixed a bug that setup values are not stored if theme is changed
 
 Version 1.0.0
+
+- improved image scaling by using internal scaling libary from
+  Nikolaus Meine (thanks @Soeren Moch for providing the patch)

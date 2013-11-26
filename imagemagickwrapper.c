@@ -2,6 +2,7 @@
 #include <sstream>
 #include "imagemagickwrapper.h"
 #include "config.h"
+#include "imagescaler.h"
 
 cImageMagickWrapper::cImageMagickWrapper() {
     InitializeMagick(NULL);
@@ -10,22 +11,40 @@ cImageMagickWrapper::cImageMagickWrapper() {
 cImageMagickWrapper::~cImageMagickWrapper() {
 }
 
-cImage *cImageMagickWrapper::CreateImage() {
+cImage *cImageMagickWrapper::CreateImage(int width, int height, bool preserveAspect) {
     int w, h;
     w = buffer.columns();
     h = buffer.rows();
-    cImage *image = new cImage(cSize(w, h));
-    const PixelPacket *pixels = buffer.getConstPixels(0, 0, w, h);
-    for (int iy = 0; iy < h; ++iy) {
-        for (int ix = 0; ix < w; ++ix) {
-            tColor col = (~int(pixels->opacity * 255 / MaxRGB) << 24)
-            | (int(pixels->green * 255 / MaxRGB) << 8)
-            | (int(pixels->red * 255 / MaxRGB) << 16)
-            | (int(pixels->blue * 255 / MaxRGB) );
-            image->SetPixel(cPoint(ix, iy), col);
-            ++pixels;
-        }
+    if (width == 0)
+        width = w;
+    if (height == 0)
+        height = h;
+    if (preserveAspect) {
+        unsigned scale_w = 1000 * width / w;
+        unsigned scale_h = 1000 * height / h;
+        if (scale_w > scale_h)
+          width = w * height / h;
+        else
+          height = h * width / w;
     }
+    const PixelPacket *pixels = buffer.getConstPixels(0, 0, w, h);
+    cImage *image = new cImage(cSize(width, height));
+    tColor *imgData = (tColor *)image->Data();
+    if (w != width || h != height) {
+        ImageScaler scaler;
+        scaler.SetImageParameters(imgData, width, width, height, w, h);
+        for (const void *pixels_end = &pixels[w*h]; pixels < pixels_end; ++pixels)
+            scaler.PutSourcePixel(pixels->blue / ((MaxRGB + 1) / 256),
+                                  pixels->green / ((MaxRGB + 1) / 256),
+                                  pixels->red / ((MaxRGB + 1) / 256),
+                                  ~(pixels->opacity / ((MaxRGB + 1) / 256)));
+        return image;
+    }
+    for (const void *pixels_end = &pixels[width*height]; pixels < pixels_end; ++pixels)
+        *imgData++ = ((~int(pixels->opacity / ((MaxRGB + 1) / 256)) << 24) |
+                      (int(pixels->green / ((MaxRGB + 1) / 256)) << 8) |
+                      (int(pixels->red / ((MaxRGB + 1) / 256)) << 16) |
+                      (int(pixels->blue / ((MaxRGB + 1) / 256)) ));
     return image;
 }
 

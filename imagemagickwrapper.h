@@ -17,7 +17,7 @@ public:
 protected:
     Image buffer;
     Color Argb2Color(tColor col);
-    cImage *CreateImage(void);
+    cImage *CreateImage(int width, int height, bool preserveAspect = true);
     cImage CreateImageCopy(void);
     bool LoadImage(std::string FileName, std::string Path, std::string Extension);
     bool LoadImage(const char *fullpath);
