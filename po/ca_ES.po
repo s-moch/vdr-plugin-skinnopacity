@@ -144,7 +144,7 @@ msgid "auto"
 msgstr "auto"
 
 msgid "Create Log Messages for image loading"
-msgstr "Crea Log d'imatges"
+msgstr "Crea Log d'imatges carregades"
 
 msgid "Number of Default Menu Entries per Page"
 msgstr "Nombre d'entrades de menú per pàgina"
@@ -171,7 +171,7 @@ msgid "Radius of rounded corners"
 msgstr "Radi dels cantells rodons"
 
 msgid "Use Channel Logo background"
-msgstr ""
+msgstr "Utilitza logo del canal de fons"
 
 msgid "Fade-In Time in ms (Zero for switching off fading)"
 msgstr "Fosa d'entrada, temps en ms (0 per desactivació)"
@@ -537,7 +537,7 @@ msgid "Menu Icon cache"
 msgstr "Menu cache icona"
 
 msgid "Skin Icon image cache"
-msgstr "Pell Icona imatger cache"
+msgstr "Pell Icona imatge cache"
 
 msgid "Logo cache"
 msgstr "Cache Logo"
@@ -549,7 +549,7 @@ msgid "Timer Logo cache"
 msgstr "Cache Timer logo"
 
 msgid "Background Images cache"
-msgstr "Background Imatges cache"
+msgstr "Cache imatges de fons"
 
 msgid "conflict"
 msgstr "conflicte"
