@@ -380,3 +380,4 @@ Version 1.0.0
 
 - improved image scaling by using internal scaling libary from
   Nikolaus Meine (thanks @Soeren Moch for providing the patch)
+- fixed a crash with dvb cards which deliver negative signal values

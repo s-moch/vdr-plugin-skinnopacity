@@ -664,6 +664,8 @@ void cNopacityDisplayChannelView::DrawSignal(void) {
     if (Now != lastSignalDisplay) {
         int SignalStrength = cDevice::ActualDevice()->SignalStrength();
         int SignalQuality = cDevice::ActualDevice()->SignalQuality();
+        if (SignalStrength < 0) SignalStrength = 0;
+        if (SignalQuality < 0) SignalQuality = 0;
         if ((SignalStrength == 0)&&(SignalQuality==0))
             return;
         if ((lastSignalStrength != SignalStrength) || (lastSignalQuality != SignalQuality)) {
