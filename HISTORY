@@ -383,3 +383,8 @@ Version 1.0.0
 - fixed a crash with dvb cards which deliver negative signal values
 - added theme darkredNG
 - updated ca_es po file
+
+Version 1.0.1
+
+- fixed a bug in cImageLoader::FirstImageInFolder()
+
