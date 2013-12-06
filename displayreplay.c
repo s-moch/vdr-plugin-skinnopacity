@@ -175,6 +175,8 @@ void cNopacityDisplayReplay::DrawBackground(void) {
             cImage *imgTop = imgCache->GetSkinElement(seReplayTop);
             if (imgTop)
                 pixmapTop->DrawImage(cPoint(0,0), *imgTop);
+            else
+	        pixmapTop->Fill(clrTransparent);
         } else {
             pixmapBackground->Fill(Theme.Color(clrReplayBackground));
             pixmapTop->Fill(clrTransparent);
