@@ -295,7 +295,14 @@ void cNopacityDisplayReplay::DrawScreenResolution(void) {
 
 void cNopacityDisplayReplay::SetRecording(const cRecording *Recording) {
     const cRecordingInfo *RecordingInfo = Recording->Info();
-    SetTitle(RecordingInfo->Title());
+    const char *recName = RecordingInfo->Title();
+    if (!recName) {
+        recName = Recording->Name();
+    }
+    if (!recName) {
+        recName = *Recording->BaseName();
+    }
+    SetTitle(recName);
     cString info2;
     if (RecordingInfo->ShortText())
         info2 = cString::sprintf("%s - %s %s", RecordingInfo->ShortText(), *ShortDateString(Recording->Start()), *TimeString(Recording->Start()));
