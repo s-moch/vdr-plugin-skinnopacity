@@ -299,9 +299,6 @@ void cNopacityDisplayReplay::SetRecording(const cRecording *Recording) {
     if (!recName) {
         recName = Recording->Name();
     }
-    if (!recName) {
-        recName = *Recording->BaseName();
-    }
     SetTitle(recName);
     cString info2;
     if (RecordingInfo->ShortText())
@@ -323,6 +320,8 @@ void cNopacityDisplayReplay::SetRecording(const cRecording *Recording) {
 
 void cNopacityDisplayReplay::SetTitle(const char *Title) {
     pixmapInfo->Fill(clrTransparent);
+    if (!Title)
+        return;
     int titleLength = fontManager->replayHeader->Width(Title);
     int titleSpace = geoManager->replayInfoWidth - geoManager->replayHeaderHeight/2;
     std::string strTitle = Title;
