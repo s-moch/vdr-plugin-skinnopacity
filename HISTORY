@@ -387,4 +387,4 @@ Version 1.0.0
 Version 1.0.1
 
 - fixed a bug in cImageLoader::FirstImageInFolder()
-
+- added more Exception Handling for Image Loading
