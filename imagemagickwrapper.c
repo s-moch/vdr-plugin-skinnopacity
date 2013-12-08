@@ -78,13 +78,16 @@ bool cImageMagickWrapper::LoadImage(std::string FileName, std::string Path, std:
         if (config.GetValue("debugImageLoading"))
             dsyslog("nopacity: %s sucessfully loaded", imgFile.c_str());
     } catch( Magick::Warning &warning ) {
-        dsyslog("nopacity: Magick Warning: %s", warning.what());
+        if (config.GetValue("debugImageLoading"))
+            dsyslog("nopacity: Magick Warning: %s", warning.what());
         return true;
     } catch( Magick::Error &error ) {
-        dsyslog("nopacity: Magick Error: %s", error.what());
+        if (config.GetValue("debugImageLoading"))
+            dsyslog("nopacity: Magick Error: %s", error.what());
         return false;
     } catch(...) {
-        dsyslog("nopacity: an unknown Magick error occured during image loading");
+        if (config.GetValue("debugImageLoading"))
+            dsyslog("nopacity: an unknown Magick error occured during image loading");
         return false;
     }
     return true;
@@ -100,13 +103,16 @@ bool cImageMagickWrapper::LoadImage(const char *fullpath) {
         if (config.GetValue("debugImageLoading"))
             dsyslog("nopacity: %s sucessfully loaded", fullpath);
     } catch( Magick::Warning &warning ) {
-        dsyslog("nopacity: Magick Warning: %s", warning.what());
+        if (config.GetValue("debugImageLoading"))
+            dsyslog("nopacity: Magick Warning: %s", warning.what());
         return true;
     } catch( Magick::Error &error ) {
-        dsyslog("nopacity: Magick Error: %s", error.what());
+        if (config.GetValue("debugImageLoading"))
+            dsyslog("nopacity: Magick Error: %s", error.what());
         return false;
     } catch(...) {
-        dsyslog("nopacity: an unknown Magick error occured during image loading");
+        if (config.GetValue("debugImageLoading"))
+            dsyslog("nopacity: an unknown Magick error occured during image loading");
         return false;
     }
     return true;
