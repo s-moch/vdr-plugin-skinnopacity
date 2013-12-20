@@ -147,9 +147,11 @@ bool cImageLoader::SearchRecordingPoster(cString recPath, cString &found) {
 }
 
 bool cImageLoader::FirstImageInFolder(cString Path, cString Extension, cString *recImage) {
-    DIR *folder;
+    DIR *folder = NULL;
     struct dirent *file;
     folder = opendir(Path);
+    if (!folder)
+        return false;
     while (file = readdir(folder)) {
         if (endswith(file->d_name, *Extension)) {
             std::string fileName = file->d_name;

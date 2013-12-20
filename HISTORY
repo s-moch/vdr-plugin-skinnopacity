@@ -390,3 +390,10 @@ Version 1.0.1
 - added more Exception Handling for Image Loading
 - fixed a crash for recordings without valid title in info file
 - darkened borders of menubuttons and scrollbar in theme darkredNG
+
+Version 1.0.2
+
+- Extended image loading logging only if activated in setup
+- Fixed a possible crash if recording directory is no longer available
+
+Version 1.0.3
