@@ -14,7 +14,6 @@ private:
     cString lastDate;
     int FrameTime;
     int FadeTime;
-    //cPixmap *pixmapHeader;
     cPixmap *pixmapBackground;
     cPixmap *pixmapTop;
     cPixmap *pixmapInfo;
@@ -31,7 +30,7 @@ private:
     cPixmap *pixmapPlay;
     cPixmap *pixmapFwd;
     cPixmap *pixmapJump;
-    //cPixmap *pixmapFooter;
+    cPixmap *pixmapMessage;
     virtual void Action(void);
     void createOSD(void);
     void CreatePixmaps(void);

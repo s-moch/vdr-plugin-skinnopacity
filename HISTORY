@@ -403,3 +403,5 @@ Version 1.0.3
   DisplayMessages (closes Tickets 1659 and 1696)
 - Fixed a bug with xine as output plugin that VDR crashes if xine plugin
   gets closed (closes Ticket 1675)
+- Fixed bug that messages are not displayed during replay of a recording
+  if DisplayReplay is active (closes Ticket 1698)

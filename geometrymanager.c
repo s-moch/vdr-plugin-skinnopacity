@@ -196,6 +196,10 @@ void cGeometryManager::SetDisplayReplaySizes(void) {
 
     replayIconBorder = 5;
     replayIconSize = min(replayControlsHeight - 2*replayIconBorder, 128);
+
+    replayMessageY = replayHeight - replayFooterHeight;
+    replayMessageWidth = replayWidth * 75 / 100;
+    replayMessageHeight = replayFooterHeight;
 }
 
 void cGeometryManager::SetDisplayMessageSizes(void) {

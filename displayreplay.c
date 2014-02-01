@@ -31,6 +31,7 @@ cNopacityDisplayReplay::~cNopacityDisplayReplay() {
         osd->DestroyPixmap(pixmapScreenResBackground);
         osd->DestroyPixmap(pixmapScreenRes);
         osd->DestroyPixmap(pixmapJump);
+        osd->DestroyPixmap(pixmapMessage);
     }
     osd->DestroyPixmap(pixmapControls);
     osd->DestroyPixmap(pixmapRew);
@@ -102,6 +103,10 @@ void cNopacityDisplayReplay::CreatePixmaps(void) {
                                                 geoManager->replayJumpY,
                                                 geoManager->replayJumpWidth,
                                                 geoManager->replayJumpHeight));
+        pixmapMessage = osd->CreatePixmap(4, cRect(0,
+                                                   geoManager->replayMessageY,
+                                                   geoManager->replayMessageWidth,
+                                                   geoManager->replayMessageHeight));
     }
 
     int controlY = geoManager->replayHeaderHeight
@@ -154,6 +159,7 @@ void cNopacityDisplayReplay::CreatePixmaps(void) {
             pixmapScreenResBackground->SetAlpha(0);
             pixmapScreenRes->SetAlpha(0);
             pixmapJump->SetAlpha(0);
+            pixmapMessage->SetAlpha(0);
         }
         pixmapControls->SetAlpha(0);
         pixmapRew->SetAlpha(0);
@@ -212,6 +218,7 @@ void cNopacityDisplayReplay::DrawBackground(void) {
         pixmapScreenResBackground->Fill(clrTransparent);
         pixmapScreenRes->Fill(clrTransparent);
         pixmapJump->Fill(clrTransparent);
+        pixmapMessage->Fill(clrTransparent);
     } else {
         pixmapControls->Fill(Theme.Color(clrMenuBorder));
         pixmapControls->DrawRectangle(cRect(2, 2, pixmapControls->ViewPort().Width() - 4, pixmapControls->ViewPort().Height() - 4),Theme.Color(clrReplayBackground));
@@ -462,6 +469,14 @@ void cNopacityDisplayReplay::SetJump(const char *Jump) {
 }
 
 void cNopacityDisplayReplay::SetMessage(eMessageType Type, const char *Text) {
+    pixmapMessage->Fill(clrTransparent);
+    if (!Text)
+        return;
+    pixmapMessage->DrawText(cPoint(geoManager->replayMessageHeight/2, 0),
+                            Text,
+                            Theme.Color(clrReplayHead),
+                            clrTransparent,
+                            fontManager->replayHeader);
 }
 
 void cNopacityDisplayReplay::Flush(void) {
@@ -496,6 +511,8 @@ void cNopacityDisplayReplay::Action(void) {
             pixmapScreenResBackground->SetAlpha(Alpha);
             pixmapScreenRes->SetAlpha(Alpha);
             pixmapJump->SetAlpha(Alpha);
+            pixmapMessage->SetAlpha(Alpha);
+
         }
         pixmapControls->SetAlpha(Alpha);
         pixmapRew->SetAlpha(Alpha);

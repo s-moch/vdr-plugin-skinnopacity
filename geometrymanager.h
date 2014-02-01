@@ -96,6 +96,8 @@ class cGeometryManager {
         int replayResolutionX, replayResolutionY;
         int replayJumpX, replayJumpY;
         int replayJumpWidth, replayJumpHeight;
+        int replayMessageY;
+        int replayMessageWidth, replayMessageHeight;
         //DisplayMessage Sizes
         int messageWidth;
         int messageHeight;
