@@ -40,40 +40,40 @@ void cNopacityDisplayTracks::SetGeometry(void) {
     int top, left;
     switch(config.GetValue("tracksPosition")) {
         case 0:     //middle bottom
-            top = cOsd::OsdHeight() - cOsd::OsdTop() - height - config.GetValue("tracksBorderHorizontal");
-            left = (cOsd::OsdWidth() - width) / 2;
+            top = geoManager->osdTop  + geoManager->osdHeight - height - config.GetValue("tracksBorderVertical");
+            left = geoManager->osdLeft + (geoManager->osdWidth - width) / 2;
             break;
         case 1:     //left bottom
-            top = cOsd::OsdHeight() - cOsd::OsdTop() - height - config.GetValue("tracksBorderHorizontal");
-            left = cOsd::OsdLeft();
+            top = geoManager->osdTop + geoManager->osdHeight - height - config.GetValue("tracksBorderVertical");
+            left = geoManager->osdLeft + config.GetValue("tracksBorderHorizontal");
             break;
         case 2:     //left middle
-            top = (cOsd::OsdHeight() - height) / 2;
-            left = cOsd::OsdLeft() + config.GetValue("tracksBorderVertical");
+            top = geoManager->osdTop + (geoManager->osdHeight - height) / 2;
+            left = geoManager->osdLeft + config.GetValue("tracksBorderHorizontal");
             break;
         case 3:     //left top
-            top = cOsd::OsdTop() + config.GetValue("tracksBorderHorizontal");
-            left = cOsd::OsdLeft() + config.GetValue("tracksBorderVertical");
+            top = geoManager->osdTop + config.GetValue("tracksBorderVertical");
+            left = geoManager->osdLeft + config.GetValue("tracksBorderHorizontal");
             break;
         case 4:     //top middle
-            top = cOsd::OsdTop() + config.GetValue("tracksBorderHorizontal");
-            left = (cOsd::OsdWidth() - width) / 2;
+            top = geoManager->osdTop + config.GetValue("tracksBorderVertical");
+            left = geoManager->osdLeft + (geoManager->osdWidth - width) / 2;
             break;
         case 5:     //top right
-            top = cOsd::OsdTop() + config.GetValue("tracksBorderHorizontal");
-            left = cOsd::OsdWidth() - cOsd::OsdLeft() - width - config.GetValue("tracksBorderVertical");
+            top = geoManager->osdTop + config.GetValue("tracksBorderVertical");
+            left = geoManager->osdLeft + geoManager->osdWidth - width - config.GetValue("tracksBorderHorizontal");
             break;
         case 6:     //right middle
-            top = (cOsd::OsdHeight() - height) / 2;
-            left = cOsd::OsdWidth() - cOsd::OsdLeft() - width - config.GetValue("tracksBorderVertical");
+            top = geoManager->osdTop + (geoManager->osdHeight - height) / 2;
+            left = geoManager->osdLeft + geoManager->osdWidth - width - config.GetValue("tracksBorderHorizontal");
             break;
         case 7:     //right bottom
-            top = cOsd::OsdHeight() - cOsd::OsdTop() - height - config.GetValue("tracksBorderHorizontal");
-            left = cOsd::OsdWidth() - cOsd::OsdLeft() - width - config.GetValue("tracksBorderVertical");
+            top = geoManager->osdTop + geoManager->osdHeight - height - config.GetValue("tracksBorderVertical");
+            left = geoManager->osdLeft + geoManager->osdWidth - width - config.GetValue("tracksBorderHorizontal");
             break;
         default:    //middle bottom
-            top = cOsd::OsdHeight() - cOsd::OsdTop() - height - config.GetValue("tracksBorderHorizontal");
-            left = (cOsd::OsdWidth() - width) / 2;
+            top = geoManager->osdTop  + geoManager->osdHeight - height - config.GetValue("tracksBorderVertical");
+            left = geoManager->osdLeft + (geoManager->osdWidth - width) / 2;
             break;
     }
     osd = CreateOsd(left, top, width, height);

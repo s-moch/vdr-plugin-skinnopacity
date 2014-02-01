@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: vdr-skinnopacity\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-11-21 16:50+0100\n"
+"POT-Creation-Date: 2014-02-01 12:43+0100\n"
 "PO-Revision-Date: 2013-11-11 20:52+0100\n"
 "Last-Translator: Milan Hrala <hrala.milan@gmail.com>\n"
 "Language-Team: \n"
@@ -491,11 +491,11 @@ msgstr "Vý¹ka polo¾iek zvukových stôp (v pixeloch)"
 msgid "Position (0: bot. center, 1: bot. left, ... , 7: bot. right)"
 msgstr "Pozícia (0: dole uprostred, 1: vµavo dole, ... , 7: vpravo dole)"
 
-msgid "Border Top / Bottom"
-msgstr "okraje navrchu / na spodku"
-
 msgid "Border Left / Right"
 msgstr "Okraje vµavo / vpravo"
+
+msgid "Border Top / Bottom"
+msgstr "okraje navrchu / na spodku"
 
 msgid "Adjust Font Size - Buttons"
 msgstr "Nastavenie veµkosti písma - Tlaèítka"

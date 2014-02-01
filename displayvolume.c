@@ -11,8 +11,8 @@ cNopacityDisplayVolume::cNopacityDisplayVolume(cImageCache *imgCache) {
     FadeTime = config.GetValue("volumeFadeTime");
     FrameTime = FadeTime / 10;
 
-    int top = (geoManager->osdHeight - geoManager->volumeHeight) - config.GetValue("volumeBorderBottom");
-    int left = (geoManager->osdWidth - geoManager->volumeWidth) / 2;
+    int top = geoManager->osdTop + geoManager->osdHeight - geoManager->volumeHeight - config.GetValue("volumeBorderBottom");
+    int left = geoManager->osdLeft + (geoManager->osdWidth - geoManager->volumeWidth) / 2;
     osd = CreateOsd(left, top, geoManager->volumeWidth, geoManager->volumeHeight);
 
     pixmapBackground = osd->CreatePixmap(1, cRect(0, 0, geoManager->volumeWidth, geoManager->volumeHeight));

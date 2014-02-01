@@ -8,7 +8,7 @@ cNopacityDisplayMessage::cNopacityDisplayMessage(cImageCache *imgCache) {
     FadeTime = config.GetValue("messageFadeTime");
     FrameTime = FadeTime / 10;
     int top = geoManager->osdTop + geoManager->osdHeight - geoManager->messageHeight - config.GetValue("messageBorderBottom");
-    int left = (geoManager->osdLeft + geoManager->osdWidth - geoManager->messageWidth) / 2;
+    int left = geoManager->osdLeft + (geoManager->osdWidth - geoManager->messageWidth) / 2;
     osd = CreateOsd(left, top, geoManager->messageWidth, geoManager->messageHeight);
     pixmap = osd->CreatePixmap(2, cRect(0, 0, geoManager->messageWidth, geoManager->messageHeight));
     pixmapBackground = osd->CreatePixmap(1, cRect(0, 0, geoManager->messageWidth, geoManager->messageHeight));

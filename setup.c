@@ -442,8 +442,8 @@ void cNopacitySetupTrackDisplay::Set(void) {
     Add(new cMenuEditIntItem(tr("Width of Tracks Display (Percent of OSD Width)"), tmpConf->GetValueRef("tracksWidth"), 10, 100));
     Add(new cMenuEditIntItem(tr("Height of Track Items (in pixels)"), tmpConf->GetValueRef("tracksItemHeight"), 30, 200));
     Add(new cMenuEditIntItem(tr("Position (0: bot. center, 1: bot. left, ... , 7: bot. right)"), tmpConf->GetValueRef("tracksPosition"), 0, 7));
-    Add(new cMenuEditIntItem(tr("Border Top / Bottom"), tmpConf->GetValueRef("tracksBorderHorizontal"), 0, 100));
-    Add(new cMenuEditIntItem(tr("Border Left / Right"), tmpConf->GetValueRef("tracksBorderVertical"), 0, 100));
+    Add(new cMenuEditIntItem(tr("Border Left / Right"), tmpConf->GetValueRef("tracksBorderHorizontal"), 0, 100));
+    Add(new cMenuEditIntItem(tr("Border Top / Bottom"), tmpConf->GetValueRef("tracksBorderVertical"), 0, 100));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Header"), tmpConf->GetValueRef("fontTracksHeader"), -20, 20));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Buttons"), tmpConf->GetValueRef("fontTracks"), -20, 20));
 

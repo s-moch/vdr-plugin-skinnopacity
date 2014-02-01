@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-11-21 16:50+0100\n"
+"POT-Creation-Date: 2014-02-01 12:43+0100\n"
 "PO-Revision-Date: 2013-03-19 22:56+0100\n"
 "Last-Translator: Gabychan <gbonich@gmail.com>\n"
 "Language-Team: \n"
@@ -494,11 +494,11 @@ msgstr "Alçada Elements de Pistes (en píxels)"
 msgid "Position (0: bot. center, 1: bot. left, ... , 7: bot. right)"
 msgstr "Posició (0: bot. central, 1: bot. esq., ... , 7: bot. dret)"
 
-msgid "Border Top / Bottom"
-msgstr "Vora superior / inferior"
-
 msgid "Border Left / Right"
 msgstr "Vora esquerra / dreta"
+
+msgid "Border Top / Bottom"
+msgstr "Vora superior / inferior"
 
 msgid "Adjust Font Size - Buttons"
 msgstr "Ajusta mida de la Font - Botons"

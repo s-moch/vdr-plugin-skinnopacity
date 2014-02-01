@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2013-11-21 16:50+0100\n"
+"POT-Creation-Date: 2014-02-01 12:43+0100\n"
 "PO-Revision-Date: 2012-11-11 17:49+0200\n"
 "Last-Translator: louis\n"
 "Language-Team: \n"
@@ -491,11 +491,11 @@ msgstr "Höhe der Track Elemente (in Pixel)"
 msgid "Position (0: bot. center, 1: bot. left, ... , 7: bot. right)"
 msgstr "Position (0: unten mitte, 1: unten links, ... , 7: unten rechts)"
 
-msgid "Border Top / Bottom"
-msgstr "Rand oben und unten"
-
 msgid "Border Left / Right"
 msgstr "Rand links und rechts"
+
+msgid "Border Top / Bottom"
+msgstr "Rand oben und unten"
 
 msgid "Adjust Font Size - Buttons"
 msgstr "Schriftgröße anpassen - Buttons"

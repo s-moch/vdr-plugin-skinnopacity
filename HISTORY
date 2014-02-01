@@ -397,3 +397,7 @@ Version 1.0.2
 - Fixed a possible crash if recording directory is no longer available
 
 Version 1.0.3
+
+- Fixed bugs that configured OSD top and left values are not correctly
+  used in DisplayChannel, DisplayTracks, DisplayVolume and
+  DisplayMessages (closes Tickets 1659 and 1696)

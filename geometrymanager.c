@@ -113,7 +113,7 @@ void cGeometryManager::SetDisplayChannelSizes(void) {
     channelX = config.GetValue("channelBorderVertical");
     channelWidth = osdWidth - 2 * config.GetValue("channelBorderVertical");
     channelHeight = osdHeight * config.GetValue("channelHeight") / 100;
-    channelTop = osdTop + osdHeight - channelHeight - config.GetValue("channelBorderBottom");
+    channelTop = osdHeight - channelHeight - config.GetValue("channelBorderBottom");
 
     channelHeaderHeight = 0.2 * channelHeight;
     channelFooterHeight = 0.2 * channelHeight;
