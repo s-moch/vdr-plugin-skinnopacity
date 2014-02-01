@@ -38,7 +38,7 @@ private:
 public:
     cNopacityDisplayChannelView(cImageCache *imgCache);
     virtual ~cNopacityDisplayChannelView();
-    void createOsd(void);
+    bool createOsd(void);
     void CreatePixmaps(void);
     void SetAlpha(int alpha);
     void DrawBackground(void);

@@ -24,11 +24,14 @@ cNopacityDisplayChannel::cNopacityDisplayChannel(cImageCache *imgCache, bool Wit
     FrameTime = FadeTime / 10;
 
     channelView = new cNopacityDisplayChannelView(imgCache);
-    channelView->createOsd();
-    channelView->CreatePixmaps();
-    channelView->DrawBackground();
-    if (config.GetValue("displaySignalStrength")) {
-        channelView->DrawSignalMeter();
+    if (!channelView->createOsd()) {
+        doOutput = false;
+    } else {
+        channelView->CreatePixmaps();
+        channelView->DrawBackground();
+        if (config.GetValue("displaySignalStrength")) {
+            channelView->DrawSignalMeter();
+        }
     }
 }
 

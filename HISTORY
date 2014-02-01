@@ -401,3 +401,5 @@ Version 1.0.3
 - Fixed bugs that configured OSD top and left values are not correctly
   used in DisplayChannel, DisplayTracks, DisplayVolume and
   DisplayMessages (closes Tickets 1659 and 1696)
+- Fixed a bug with xine as output plugin that VDR crashes if xine plugin
+  gets closed (closes Ticket 1675)

@@ -52,11 +52,14 @@ cNopacityDisplayChannelView::~cNopacityDisplayChannelView() {
     delete osd;
 }
 
-void cNopacityDisplayChannelView::createOsd(void) {
+bool cNopacityDisplayChannelView::createOsd(void) {
     osd = CreateOsd(geoManager->osdLeft,
                     geoManager->osdTop,
                     geoManager->osdWidth,
                     geoManager->osdHeight);
+    if (!osd)
+        return false;
+    return true;
 }
 
 void cNopacityDisplayChannelView::CreatePixmaps(void) {
