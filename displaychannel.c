@@ -164,9 +164,10 @@ void cNopacityDisplayChannel::Flush(void) {
     } else
         channelView->HideSignalMeter();
 
-    if (config.GetValue("displaySourceInfo") && !groupSep)
-        channelView->DrawSourceInfo();
-    else
+    if (config.GetValue("displaySourceInfo") && !groupSep) {
+        channelView->ClearSourceInfo();
+	channelView->DrawSourceInfo();
+    } else
         channelView->ClearSourceInfo();
 
     if (initial) {
