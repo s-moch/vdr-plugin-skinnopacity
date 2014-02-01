@@ -137,15 +137,15 @@ void cNopacityDisplayChannelView::CreatePixmaps(void) {
                                     statusIconsWidth + 3*statusIconBorder,
                                     geoManager->channelFooterHeight - 2)
                             );
-    int sourceInfoX = geoManager->channelContentX + 2 * statusIconBorder;
-    if (config.GetValue("displaySignalStrength"))
+    int sourceInfoX = geoManager->channelX + geoManager->channelContentX + 10;
+    if (config.GetValue("displaySignalStrength")) 
         sourceInfoX +=geoManager->channelWidth * 0.2;
     pixmapSourceInfo  = osd->CreatePixmap(2,
                               cRect(sourceInfoX,
                                     geoManager->channelTop + geoManager->channelHeaderHeight +
                                     geoManager->channelProgressBarHeight +
                                     geoManager->channelEpgInfoHeight,
-                                    geoManager->channelContentWidth * 0.3,
+                                    statusIconX - sourceInfoX,
                                     geoManager->channelFooterHeight)
                             );
 
@@ -625,21 +625,21 @@ void cNopacityDisplayChannelView::DrawSignalMeter(void) {
                              fontInfoline->Width(*signalQuality)) + 2;
         signalX = geoManager->channelFooterHeight / 2 + labelWidth;
         pixmapSignalStrength = osd->CreatePixmap(3,
-                                                 cRect(geoManager->channelContentX + signalX,
+                                                 cRect(geoManager->channelContentX + 10 + signalX,
                                                        signalMeterY + 2,
                                                        signalWidth + 2,
                                                        signalHeight + 2));
         pixmapSignalQuality  = osd->CreatePixmap(3,
-                                                 cRect(geoManager->channelContentX + signalX,
+                                                 cRect(geoManager->channelContentX + 10 + signalX,
                                                        signalMeterY + signalHeight + 5,
                                                        signalWidth + 2,
                                                        signalHeight + 2));
         pixmapSignalMeter    = osd->CreatePixmap(4,
-                                                 cRect(geoManager->channelContentX + signalX + 1,
+                                                 cRect(geoManager->channelContentX + 10 + signalX + 1,
                                                        signalMeterY + 3, signalWidth,
                                                        2*signalHeight + 3));
         pixmapSignalLabel    = osd->CreatePixmap(3,
-                                                 cRect(geoManager->channelContentX
+                                                 cRect(geoManager->channelContentX + 10
                                                        + geoManager->channelFooterHeight / 2,
                                                        signalMeterY + 2,
                                                        labelWidth,
@@ -784,12 +784,42 @@ std::string cNopacityDisplayChannelView::GetChannelSep(const cChannel *channel, 
     return sepName;
 }
 
-void cNopacityDisplayChannelView::DrawSourceInfo(const cChannel *Channel) {
-    const cSource *source = Sources.Get(Channel->Source());
+void cNopacityDisplayChannelView::DrawSourceInfo(void) {
+    const cChannel *channel = cDevice::ActualDevice()->GetCurrentlyTunedTransponder();
+    const cSource *source = (channel) ? Sources.Get(channel->Source()) : NULL;
     cString channelInfo = "";
-    if (source)
-        channelInfo = cString::sprintf("%s - %s", *cSource::ToString(source->Code()),  source->Description());
+    if (source) {
+        channelInfo = cString::sprintf("%s #%d", source->Description(), cDevice::ActualDevice()->DeviceNumber());
+    }
+    if (cRecordControls::Active()) {
+        cSortedTimers SortedTimers;
+        bool first = true;
+        int truncPos = 0;
+        for (int i = 0; i < SortedTimers.Size(); i++)
+            if (const cTimer *Timer = SortedTimers[i])
+                if (Timer->Recording()) {
+                    if (cRecordControl *RecordControl = cRecordControls::GetRecordControl(Timer))
+                        if (const cDevice *Device = RecordControl->Device()) {
+                            cString name(Timer->File());
+                            if (first) {
+                                truncPos = strlen(*channelInfo) + 30;
+                            } else {
+                                name.Truncate(15);
+                                if (truncPos) {
+                                    channelInfo.Truncate(truncPos);
+                                    truncPos = 0;
+                                    ClearSourceInfo();
+                                }
+                            }
+                            channelInfo = cString::sprintf("%s%s #%i: %s", *channelInfo, (first)?" - Rec:":",", Device->DeviceNumber(), *name);
+                            first = false;
+                        }
+                } else if ((Timer->Flags() & tfActive) && !Timer->Pending())
+                break;
+    }
     int textY = (geoManager->channelFooterHeight - fontManager->channelSourceInfo->Height()) / 2;
+    if (fontManager->channelSourceInfo->Width(*channelInfo) > pixmapSourceInfo->ViewPort().Width())
+        channelInfo = CutText(*channelInfo, pixmapSourceInfo->ViewPort().Width(), fontManager->channelSourceInfo).c_str();
     pixmapSourceInfo->DrawText(cPoint(0, textY), channelInfo, Theme.Color(clrChannelHead), clrTransparent, fontManager->channelSourceInfo);
 }
 

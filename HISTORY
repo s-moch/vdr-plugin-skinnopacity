@@ -405,3 +405,5 @@ Version 1.0.3
   gets closed (closes Ticket 1675)
 - Fixed bug that messages are not displayed during replay of a recording
   if DisplayReplay is active (closes Ticket 1698)
+- Added information about running recordings in DisplayChannel (thanks
+  @Soeren Moch for providing a patch)

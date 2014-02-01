@@ -61,7 +61,7 @@ public:
     void ShowSignalMeter(void);
     void HideSignalMeter(void);
     void DrawChannelGroups(const cChannel *Channel, cString ChannelName);
-    void DrawSourceInfo(const cChannel *Channel);
+    void DrawSourceInfo(void);
     void ClearSourceInfo(void);
     void DisplayMessage(const char *Text);
     void Flush(void) { osd->Flush(); };
