@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2014-02-01 14:51+0100\n"
+"POT-Creation-Date: 2014-03-28 17:12+0100\n"
 "PO-Revision-Date: 2012-11-11 17:49+0200\n"
 "Last-Translator: louis\n"
 "Language-Team: \n"
@@ -25,6 +25,87 @@ msgstr "Lautstärke"
 
 msgid "images"
 msgstr "Bilder"
+
+msgid "TheTVDB Information"
+msgstr "TheTVDB Information"
+
+msgid "Series Overview"
+msgstr "Serienüberblick"
+
+msgid "First aired"
+msgstr "Erstausstrahlung"
+
+msgid "Genre"
+msgstr "Genre"
+
+msgid "Network"
+msgstr "Sendeanstalt"
+
+msgid "TheMovieDB Rating"
+msgstr "TheMovieDB Wertung"
+
+msgid "Status"
+msgstr "Status"
+
+msgid "Episode"
+msgstr "Episode"
+
+msgid "Season"
+msgstr "Staffel"
+
+msgid "Episode Overview"
+msgstr "Episodenüberblick"
+
+msgid "Guest Stars"
+msgstr "Gast Stars"
+
+msgid "TheMovieDB Information"
+msgstr "TheMovieDB Information"
+
+msgid "Original Title"
+msgstr "Original Titel"
+
+msgid "Tagline"
+msgstr "Zusammenfassung"
+
+msgid "Overview"
+msgstr "Überblick"
+
+msgid "yes"
+msgstr "ja"
+
+msgid "no"
+msgstr "nein"
+
+msgid "Adult"
+msgstr "Nur für Erwachsene"
+
+msgid "Collection"
+msgstr "Kollektion"
+
+msgid "Budget"
+msgstr "Budget"
+
+msgid "Revenue"
+msgstr "Einnahmen"
+
+msgid "Homepage"
+msgstr "Homepage"
+
+msgid "Release Date"
+msgstr "Veröffentlicht"
+
+msgid "Runtime"
+msgstr "Laufzeit"
+
+msgid "minutes"
+msgstr "Minuten"
+
+msgid "TheMovieDB Popularity"
+msgstr "TheMovieDB Popularität"
+
+msgid "TheMovieDB Vote Average"
+msgstr "TheMovieDB durchschnittliche Bewertung"
 
 msgid "Actors"
 msgstr "Schauspieler"
@@ -130,12 +211,6 @@ msgstr "mittel"
 
 msgid "fast"
 msgstr "schnell"
-
-msgid "no"
-msgstr "nein"
-
-msgid "yes"
-msgstr "ja"
 
 msgid "auto"
 msgstr "auto"

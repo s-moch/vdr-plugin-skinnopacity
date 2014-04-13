@@ -4,6 +4,7 @@
 #include <vdr/skins.h>
 #include <vdr/thread.h>
 #include "services/tvscraper.h"
+#include "services/scraper2vdr.h"
 
 class cNopacityTextWindow : public cThread {
 private:
@@ -26,6 +27,7 @@ private:
     cString manualPosterPath;
     bool hasPoster;
     TVScraperGetPoster poster;
+    ScraperGetPoster posterScraper2Vdr;
     int posterWidth, posterHeight;
     bool SetTextScroller(int border, int left);
     void CreatePixmap(void);
@@ -46,7 +48,7 @@ public:
     void SetRecording(const cRecording *recording);
     void SetText(cString Text) {text = Text;};
     bool SetManualPoster(const cRecording *recording, bool fullscreen = false);
-    void SetPoster(const cEvent *event, bool isRecording, bool fullscreen = false);
+    void SetPoster(const cEvent *event, const cRecording *recording, bool fullscreen = false);
 };
 
 #endif //__NOPACITY_TEXTWINDOW_H

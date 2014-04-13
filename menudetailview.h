@@ -6,6 +6,7 @@
 
 #include <vector>
 #include <string>
+#include "services/scraper2vdr.h"
 #include "services/tvscraper.h"
 #include "imagecache.h"
 
@@ -25,6 +26,7 @@ protected:
     int yBanner;
     int yEPGText;
     int yActors;
+    int yScrapInfo;
     int yFanart;
     int yAddInf;
     int yEPGPics;
@@ -37,13 +39,20 @@ protected:
     cPixmap *pixmapPoster;
     bool hasManualPoster;
     cString manualPosterPath;
+    cMovie movie;
+    cSeries series;
+    bool isMovie;
+    bool isSeries;
+    cTextWrapper scrapInfo;
     TVScraperGetFullInformation mediaInfo;
     bool hasAdditionalMedia;
     void DrawTextWrapper(cTextWrapper *wrapper, int top);
     int HeightActorPics(void);
+    int HeightScraperInfo(void);
     int HeightFanart(void);
     void DrawPoster(void);
     void DrawBanner(int height);
+    void DrawAdditionalBanners(int top, int bottom);
     void DrawActors(int height);
     void DrawFanart(int height);
     virtual void Action(void) {};

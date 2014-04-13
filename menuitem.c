@@ -564,13 +564,13 @@ void cNopacityScheduleMenuItem::Render() {
                 infoTextWindow = new cNopacityTextWindow(osd, fontEPGWindow, vidWin);
                 infoTextWindow->SetGeometry(textWindow);
                 infoTextWindow->SetText(Event->Description());
-                infoTextWindow->SetPoster(Event, false);
+                infoTextWindow->SetPoster(Event, NULL);
                 infoTextWindow->Start();
             } else {
                 //fullscreen mode
                 infoTextWindow = new cNopacityTextWindow(osd, fontEPGWindow, fontEPGWindowLarge);
                 infoTextWindow->SetGeometry(textWindow);
-                infoTextWindow->SetPoster(Event, false, true);
+                infoTextWindow->SetPoster(Event, NULL, true);
                 infoTextWindow->SetEvent(Event);
             }
         }
@@ -1085,13 +1085,13 @@ void cNopacityTimerMenuItem::Render() {
                 infoTextWindow = new cNopacityTextWindow(osd, fontEPGWindow, vidWin);
                 infoTextWindow->SetGeometry(textWindow);
                 infoTextWindow->SetText(Event->Description());
-                infoTextWindow->SetPoster(Event, false);
+                infoTextWindow->SetPoster(Event, NULL, false);
                 infoTextWindow->Start();
             } else {
                 //fullscreen mode
                 infoTextWindow = new cNopacityTextWindow(osd, fontEPGWindow, fontEPGWindowLarge);
                 infoTextWindow->SetGeometry(textWindow);
-                infoTextWindow->SetPoster(Event, false, true);
+                infoTextWindow->SetPoster(Event, NULL, true);
                 infoTextWindow->SetEvent(Event);
             }
         }
@@ -1130,6 +1130,7 @@ cNopacityRecordingMenuItem::cNopacityRecordingMenuItem(cOsd *osd, cImageCache *i
     hasManualPoster = false;
     manualPosterPath = "";
     hasPoster = false;
+    hasThumb = false;
 }
 
 cNopacityRecordingMenuItem::~cNopacityRecordingMenuItem(void) {
@@ -1172,7 +1173,17 @@ void cNopacityRecordingMenuItem::SetPoster(void) {
     hasManualPoster = imgLoader.SearchRecordingPoster(Recording->FileName(), posterFound);
     if (hasManualPoster)
         manualPosterPath = posterFound;
-    //no manually set poster found, check tvscraper
+    //no manually set poster found, check scraper
+    static cPlugin *pScraper2Vdr = cPluginManager::GetPlugin("scraper2vdr");
+    if (pScraper2Vdr) {
+        thumb.event = NULL;
+        thumb.recording = Recording;
+        if (pScraper2Vdr->Service("GetPosterThumb", &thumb)) {
+            hasThumb = true;
+        } else {
+            hasThumb = false;
+        }
+    }
     const cRecordingInfo *info = Recording->Info();
     if (info) {
         const cEvent *event = info->GetEvent();
@@ -1266,7 +1277,7 @@ void cNopacityRecordingMenuItem::DrawBackground(void) {
 void cNopacityRecordingMenuItem::SetTextFullFolder(void) {
     tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
     pixmapTextScroller->Fill(clrTransparent);
-    if (config.GetValue("useFolderPoster") && (hasPoster || hasManualPoster))
+    if (config.GetValue("useFolderPoster") && (hasPoster || hasThumb || hasManualPoster))
         DrawPoster();
     else
         DrawFolderIcon();
@@ -1293,7 +1304,7 @@ void cNopacityRecordingMenuItem::SetTextShort(void) {
 void cNopacityRecordingMenuItem::SetTextShortFolder(void) {
     tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
     pixmapTextScroller->Fill(clrTransparent);
-    if (config.GetValue("useFolderPoster") && (hasPoster || hasManualPoster))
+    if (config.GetValue("useFolderPoster") && (hasPoster || hasThumb || hasManualPoster))
         DrawPoster();
     else
         DrawFolderIcon();
@@ -1378,16 +1389,24 @@ void cNopacityRecordingMenuItem::DrawFolderNewSeen(void) {
 
 void cNopacityRecordingMenuItem::DrawPoster(void) {
     cImageLoader imgLoader;
+    bool posterDrawn = false;
     if (hasManualPoster) {
         if (imgLoader.LoadPoster(*manualPosterPath, posterWidth, posterHeight)) {
+            posterDrawn = true;
             pixmapStatic->DrawImage(cPoint(10, 5), imgLoader.GetImage());
         }
-    } else if (hasPoster) {
+    } else if (hasThumb) {
+        if (imgLoader.LoadPoster(thumb.poster.path.c_str(), posterWidth, posterHeight)) {
+            posterDrawn = true;
+            pixmapStatic->DrawImage(cPoint(10, 5), imgLoader.GetImage());
+        }
+    }  else if (hasPoster) {
         if (imgLoader.LoadPoster(poster.media.path.c_str(), posterWidth, posterHeight)) {
+            posterDrawn = true;
             pixmapStatic->DrawImage(cPoint(10, 5), imgLoader.GetImage());
         }
-    } else {
-
+    }
+    if (!posterDrawn) {
         cImage *imgIcon = imgCache->GetSkinIcon("skinIcons/defaultPoster", posterWidth, posterHeight);
         if (imgIcon)
             pixmapStatic->DrawImage(cPoint(10,5), *imgIcon);
@@ -1432,14 +1451,14 @@ void cNopacityRecordingMenuItem::Render() {
                     infoTextWindow->SetGeometry(textWindow);
                     infoTextWindow->SetText(Recording->Info()->Description());
                     if (!infoTextWindow->SetManualPoster(Recording))
-                        infoTextWindow->SetPoster(Recording->Info()->GetEvent(), true);
+                        infoTextWindow->SetPoster(NULL, Recording);
                     infoTextWindow->Start();
                 } else {
                     //fullscreen mode
                     infoTextWindow = new cNopacityTextWindow(osd, fontEPGWindow, fontEPGWindowLarge);
                     infoTextWindow->SetGeometry(textWindow);
                     if (!infoTextWindow->SetManualPoster(Recording, true))
-                        infoTextWindow->SetPoster(Recording->Info()->GetEvent(), true, true);
+                        infoTextWindow->SetPoster(NULL, Recording, true);
                     infoTextWindow->SetRecording(Recording);
                 }
             }

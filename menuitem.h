@@ -167,8 +167,10 @@ private:
     bool hasManualPoster;
     cString manualPosterPath;
     bool hasPoster;
+    bool hasThumb;
     int posterWidth, posterHeight;
     TVScraperGetPoster poster;
+    ScraperGetPosterThumb thumb;
     int Level, Total, New;
     cRect *vidWin;
     std::string strRecName;

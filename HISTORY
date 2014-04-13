@@ -408,4 +408,6 @@ Version 1.0.3
 - Added information about running recordings in DisplayChannel (thanks
   @Soeren Moch for providing a patch)
 
-Version 1.0.4
+Version 1.1.0
+
+- Added scraper2vdr support

@@ -1,4 +1,5 @@
 #include "services/tvscraper.h"
+#include "services/scraper2vdr.h"
 #include "displaychannelview.h"
 #include "config.h"
 #include "helpers.h"
@@ -575,6 +576,45 @@ void cNopacityDisplayChannelView::DrawPoster(const cEvent *event, bool initial) 
         osd->DestroyPixmap(pixmapPoster);
         pixmapPoster = NULL;
     }
+
+    static cPlugin *pScraper2Vdr = cPluginManager::GetPlugin("scraper2vdr");
+    if (pScraper2Vdr) {
+        ScraperGetPosterBanner call;
+        call.event = event;
+        if (pScraper2Vdr->Service("GetPosterBanner", &call)) {
+            int mediaWidth = 0;
+            int mediaHeight = 0;
+            std::string mediaPath = "";
+            if ((call.type == tSeries) && call.banner.path.size() > 0) {
+                mediaWidth = call.banner.width;
+                mediaHeight = call.banner.height;
+                mediaPath = call.banner.path;
+            } else if (call.type == tMovie && call.poster.path.size() > 0) {
+                double ratio = (double)(cOsd::OsdHeight()/3) / (double)call.poster.height;
+                mediaWidth = ratio * call.poster.width;
+                mediaHeight = ratio * call.poster.height;
+                mediaPath = call.poster.path;
+            } else
+                return;
+            int border = config.GetValue("channelPosterBorder");
+            pixmapPoster = osd->CreatePixmap(1, cRect(config.GetValue("channelBorderVertical"),
+                                                      config.GetValue("channelBorderBottom"),
+                                                      mediaWidth + 2 * border,
+                                                      mediaHeight + 2 * border));
+            if (initial && config.GetValue("channelFadeTime"))
+                pixmapPoster->SetAlpha(0);
+            cImageLoader imgLoader;
+            if (imgLoader.LoadPoster(mediaPath.c_str(), mediaWidth, mediaHeight)) {
+                pixmapPoster->Fill(Theme.Color(clrChannelBackground));
+                pixmapPoster->DrawImage(cPoint(border, border), imgLoader.GetImage());
+                DrawRoundedCorners(pixmapPoster, border, 0, 0, pixmapPoster->ViewPort().Width(), pixmapPoster->ViewPort().Height());
+            } else {
+                pixmapPoster->Fill(clrTransparent);
+            }
+        }
+        return;
+    }
+
     static cPlugin *pTVScraper = cPluginManager::GetPlugin("tvscraper");
     if (pTVScraper) {
         TVScraperGetPosterOrBanner call;

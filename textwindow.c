@@ -78,11 +78,41 @@ bool cNopacityTextWindow::SetManualPoster(const cRecording *recording, bool full
     return false;
 }
 
-void cNopacityTextWindow::SetPoster(const cEvent *event, bool isRecording, bool fullscreen) {
+void cNopacityTextWindow::SetPoster(const cEvent *event, const cRecording *recording, bool fullscreen) {
+    if (!event && !recording)
+        return;
+    static cPlugin *pScraper2Vdr = cPluginManager::GetPlugin("scraper2vdr");
+    if (pScraper2Vdr) {
+        posterScraper2Vdr.event = event;
+        posterScraper2Vdr.recording = recording;
+        if (pScraper2Vdr->Service("GetPoster", &posterScraper2Vdr)) {
+            hasPoster = true;
+            int posterWidthOrig = posterScraper2Vdr.poster.width;
+            int posterHeightOrig = posterScraper2Vdr.poster.height;
+            if (!fullscreen) {
+                posterHeight = geometry->Height() - 5;
+                posterWidth = posterWidthOrig * ((double)posterHeight / (double)posterHeightOrig);
+            } else {
+                posterWidth = geometry->Width() / 4;
+                posterHeight = posterHeightOrig * ((double)posterWidth / (double)posterWidthOrig);
+            }
+        } else {
+            hasPoster = false;
+            posterHeight = 0;
+            posterWidth = 0;
+        }
+        return;
+    }
     static cPlugin *pTVScraper = cPluginManager::GetPlugin("tvscraper");
+    if (recording && recording->Info()) {
+        event = recording->Info()->GetEvent();
+    }
     if (pTVScraper && event) {
         poster.event = event;
-        poster.isRecording = isRecording;
+        if (recording)
+            poster.isRecording = true;
+        else
+            poster.isRecording = false;
         if (pTVScraper->Service("TVScraperGetPoster", &poster)) {
             hasPoster = true;
             int posterWidthOrig = poster.media.width;
@@ -217,8 +247,11 @@ void cNopacityTextWindow::SetEvent(const cEvent *event) {
     cImageLoader imgLoader;
     bool epgImageFound = false;
     if (hasPoster) {
-        if (imgLoader.LoadPoster(poster.media.path.c_str(), posterWidth, posterHeight)) {
-            int posterX = width - posterWidth - border;
+        int posterX = width - posterWidth - border;
+        if (imgLoader.LoadPoster(posterScraper2Vdr.poster.path.c_str(), posterWidth, posterHeight)) {
+            pixmap->DrawImage(cPoint(posterX, border), imgLoader.GetImage());
+            widthTextHeader -= posterWidth + border;
+        } else if (imgLoader.LoadPoster(poster.media.path.c_str(), posterWidth, posterHeight)) {
             pixmap->DrawImage(cPoint(posterX, border), imgLoader.GetImage());
             widthTextHeader -= posterWidth + border;
         }
@@ -267,8 +300,11 @@ void cNopacityTextWindow::SetRecording(const cRecording *recording) {
             widthTextHeader -= posterWidth + border;
         }
     } else if (hasPoster) {
-        if (imgLoader.LoadPoster(poster.media.path.c_str(), posterWidth, posterHeight)) {
-            int posterX = width - posterWidth - border;
+        int posterX = width - posterWidth - border;
+        if (imgLoader.LoadPoster(posterScraper2Vdr.poster.path.c_str(), posterWidth, posterHeight)) {
+            pixmap->DrawImage(cPoint(posterX, border), imgLoader.GetImage());
+            widthTextHeader -= posterWidth + border;
+        } else if (imgLoader.LoadPoster(poster.media.path.c_str(), posterWidth, posterHeight)) {
             pixmap->DrawImage(cPoint(posterX, border), imgLoader.GetImage());
             widthTextHeader -= posterWidth + border;
         }
@@ -384,6 +420,8 @@ void cNopacityTextWindow::DrawPoster(int border) {
         if (imgLoader.LoadPoster(*manualPosterPath, posterWidth, posterHeight)) {
             pixmap->DrawImage(cPoint(border, posterY), imgLoader.GetImage());
         }
+    } else if (imgLoader.LoadPoster(posterScraper2Vdr.poster.path.c_str(), posterWidth, posterHeight)) {
+        pixmap->DrawImage(cPoint(border, posterY), imgLoader.GetImage());
     } else if (imgLoader.LoadPoster(poster.media.path.c_str(), posterWidth, posterHeight)) {
         pixmap->DrawImage(cPoint(border, posterY), imgLoader.GetImage());
     }
