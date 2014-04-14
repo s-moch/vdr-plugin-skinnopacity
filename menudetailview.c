@@ -1011,7 +1011,9 @@ void cNopacityMenuDetailRecordingView::SetContent(void) {
                 }
             }
             bool displayPoster = false;
-            if (isSeries || isMovie) {
+            if (isSeries && series.posters.size() > 0) {
+               displayPoster = true;
+            } else if (isMovie && (movie.poster.width > 0) && (movie.poster.height > 0) && (movie.poster.path.size() > 0)) {
                 displayPoster = true;
             } else if (hasAdditionalMedia) {
                 if (mediaInfo.posters.size() >= 1) {
