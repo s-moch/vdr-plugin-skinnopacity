@@ -189,6 +189,10 @@ int cNopacityMenuDetailView::HeightFanart(void) {
         fanartWidthOrig = mediaInfo.fanart[0].width;
         fanartHeightOrig = mediaInfo.fanart[0].height;
     }
+
+    if (fanartWidthOrig == 0)
+        return retVal;
+
     int fanartWidth = fanartWidthOrig;
     int fanartHeight = fanartHeightOrig;
     retVal = fanartHeight;
@@ -214,6 +218,8 @@ void cNopacityMenuDetailView::DrawPoster(void) {
         posterWidthOrig = config.GetValue("posterWidth");
         posterHeightOrig = config.GetValue("posterHeight");
     } else if (isMovie) {
+        if ((movie.poster.width == 0) || (movie.poster.height == 0) || (movie.poster.path.size() < 1))
+            return;
         posterWidthOrig = movie.poster.width;
         posterHeightOrig = movie.poster.height;
     } else if (isSeries) {
@@ -227,6 +233,10 @@ void cNopacityMenuDetailView::DrawPoster(void) {
         posterWidthOrig = mediaInfo.posters[0].width;
         posterHeightOrig = mediaInfo.posters[0].height;
     }
+
+    if (posterWidthOrig == 0)
+        return;
+
     int posterWidth = posterWidthOrig;
     int posterHeight = posterHeightOrig;
 
@@ -287,6 +297,10 @@ void cNopacityMenuDetailView::DrawBanner(int height) {
         bannerHeightOrig = mediaInfo.banner.height;
         bannerPath = mediaInfo.banner.path;
     }
+
+    if (bannerWidthOrig == 0)
+        return;
+
     int bannerWidth = bannerWidthOrig;
     int bannerHeight = bannerHeightOrig;
     int bannerX = (contentWidth - bannerWidth) / 2;
@@ -323,6 +337,10 @@ void cNopacityMenuDetailView::DrawAdditionalBanners(int top, int bottom) {
     int bannerHeightOrig = series.banners[1].height;
     int bannerWidth = bannerWidthOrig;
     int bannerHeight = bannerHeightOrig;
+    
+    if (bannerWidthOrig == 0)
+        return;
+
     if (bannerWidthOrig > contentWidth - 2*border) {
         bannerWidth = contentWidth - 2*border;
         bannerHeight = bannerHeightOrig * ((double)bannerWidth / (double)bannerWidthOrig);
@@ -434,6 +452,10 @@ void cNopacityMenuDetailView::DrawFanart(int height) {
         fanartHeightOrig = mediaInfo.fanart[0].height;
         fanartPath = mediaInfo.fanart[0].path;
     }
+
+    if (fanartWidthOrig == 0)
+        return;
+
     int fanartWidth = fanartWidthOrig;
     int fanartHeight = fanartHeightOrig;
 
