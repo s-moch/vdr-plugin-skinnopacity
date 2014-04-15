@@ -43,6 +43,8 @@ void cNopacityMenuDetailView::SetGeometry(int x, int width, int height, int top,
 }
 
 void cNopacityMenuDetailView::DrawTextWrapper(cTextWrapper *wrapper, int top) {
+    if (top > contentDrawPortHeight)
+        return;
     int linesText = wrapper->Lines();
     int textHeight = font->Height();
     int currentHeight = top;
@@ -76,6 +78,8 @@ int cNopacityMenuDetailView::HeightActorPics(void) {
         actorThumbHeight = mediaInfo.actors[0].thumb.height/2;
     }
     int picsPerLine = contentWidth / (actorThumbWidth + 2*border);
+    if (picsPerLine < 1)
+        return 0;
     int picLines = numActors / picsPerLine;
     if (numActors%picsPerLine != 0)
         picLines++;
@@ -164,14 +168,14 @@ int cNopacityMenuDetailView::HeightScraperInfo(void) {
     }
     scrapInfo.Set(info.str().c_str(), font, contentWidth - 2 * border);
     int lineHeight = font->Height();
-    int scrapInfoHeight = (scrapInfo.Lines() + 1) * lineHeight;
+    heightScraperInfo = (scrapInfo.Lines() + 1) * lineHeight;
     if (isSeries) {
         if (series.banners.size() == 2)
-            scrapInfoHeight += series.banners[1].height + lineHeight;
+            heightScraperInfo += (series.banners[1].height + lineHeight);
         else if (series.banners.size() == 3)
-            scrapInfoHeight += series.banners[1].height + series.banners[2].height + 2*lineHeight;
+            heightScraperInfo += (series.banners[1].height + series.banners[2].height + 2*lineHeight);
     } 
-    return scrapInfoHeight;
+    return heightScraperInfo;
 }
 
 int cNopacityMenuDetailView::HeightFanart(void) {
