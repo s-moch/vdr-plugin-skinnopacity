@@ -106,7 +106,7 @@ void cNopacityView::DrawTabs(void) {
     if (!pixmapTabs) {
         pixmapTabs = osd->CreatePixmap(4, cRect(0, y + height - tabHeight, width, tabHeight));
     }
-    tColor bgColor = Theme.Color(clrMenuDetailViewBack);
+    tColor bgColor = Theme.Color(clrMenuDetailViewTabs);
     pixmapTabs->Fill(clrTransparent);
     pixmapTabs->DrawRectangle(cRect(0, 0, width, 2), bgColor);
     int numTabs = tabs.size();
@@ -166,6 +166,10 @@ void cNopacityView::DrawFloatingContent(std::string *infoText, cTvMedia *img, cT
     cTextWrapper wTextFull;
     int imgWidth = img->width;
     int imgHeight = img->height;
+    if (imgHeight > (contentHeight - 2 * border)) {
+        imgHeight = contentHeight - 2 * border;
+        imgWidth = imgWidth * ((double)imgHeight / (double)img->height);
+    }
     if (img2) {
         imgWidth = max(img->width, img2->width);
         imgHeight += img2->height + border;
@@ -187,16 +191,16 @@ void cNopacityView::DrawFloatingContent(std::string *infoText, cTvMedia *img, cT
     }
     osd->Flush();
     cImageLoader imgLoader;
-    if (imgLoader.LoadPoster(img->path.c_str(), img->width, img->height)) {
+    if (imgLoader.LoadPoster(img->path.c_str(), imgWidth, imgHeight)) {
         if (Running() && pixmapContent)
-            pixmapContent->DrawImage(cPoint(width - img->width - border, border), imgLoader.GetImage());
+            pixmapContent->DrawImage(cPoint(width - imgWidth - border, border), imgLoader.GetImage());
     }
     if (!img2)
         return;
     osd->Flush();
     if (imgLoader.LoadPoster(img2->path.c_str(), img2->width, img2->height)) {
         if (Running() && pixmapContent)
-            pixmapContent->DrawImage(cPoint(width - img2->width - border, img->height + 2*border), imgLoader.GetImage());
+            pixmapContent->DrawImage(cPoint(width - img2->width - border, imgHeight + 2*border), imgLoader.GetImage());
     }
 }
 
@@ -350,7 +354,7 @@ void cNopacityView::DrawScrollbar(void) {
             pixmapScrollbarBack->DrawImage(cPoint(0, 0), *image);
     } else {
         pixmapScrollbarBack->Fill(Theme.Color(clrMenuScrollBar));
-        pixmapScrollbarBack->DrawRectangle(cRect(2,2,geoManager->menuWidthScrollbar-4,totalHeight+2), Theme.Color(clrMenuScrollBarBack));
+        pixmapScrollbarBack->DrawRectangle(cRect(2,2,geoManager->menuWidthScrollbar-4, pixmapScrollbarBack->ViewPort().Height() - 4), Theme.Color(clrMenuScrollBarBack));
     }
 
     pixmapScrollbar->DrawRectangle(cRect(3,3 + barTop,geoManager->menuWidthScrollbar-6,barHeight), Theme.Color(clrMenuScrollBar));
@@ -689,6 +693,11 @@ void cNopacitySeriesView::DrawImages(void) {
     int fanartHeight = 0;
     if (numFanarts > 0 && series.fanarts[0].width > 0) {
         fanartHeight = series.fanarts[0].height * ((double)fanartWidth / (double)series.fanarts[0].width);
+        if (fanartHeight > contentHeight - 2 * border) {
+            int fanartHeightOrig = fanartHeight;
+            fanartHeight = contentHeight - 2 * border;
+            fanartWidth = fanartWidth * ((double)fanartHeight / (double)fanartHeightOrig);
+        }
         totalHeight += series.fanarts.size() * (fanartHeight + border);
     }
     //Poster Height
@@ -718,7 +727,7 @@ void cNopacitySeriesView::DrawImages(void) {
             }
         }
         if (imgLoader.LoadPoster(series.fanarts[i].path.c_str(), fanartWidth, fanartHeight) && Running()) {
-            pixmapContent->DrawImage(cPoint(border, yPic), imgLoader.GetImage());
+            pixmapContent->DrawImage(cPoint((width - fanartWidth)/2, yPic), imgLoader.GetImage());
             yPic += fanartHeight + border;
             osd->Flush();
         }
@@ -923,6 +932,11 @@ void cNopacityMovieView::DrawImages(void) {
     int fanartHeight = 0;
     if (movie.fanart.width > 0 && movie.fanart.height > 0 && movie.fanart.path.size() > 0) {
         fanartHeight = movie.fanart.height * ((double)fanartWidth / (double)movie.fanart.width);
+        if (fanartHeight > contentHeight - 2 * border) {
+            int fanartHeightOrig = fanartHeight;
+            fanartHeight = contentHeight - 2 * border;
+            fanartWidth = fanartWidth * ((double)fanartHeight / (double)fanartHeightOrig);
+        }
         totalHeight += fanartHeight + border;
     }
     //Collection Fanart Height
@@ -930,6 +944,11 @@ void cNopacityMovieView::DrawImages(void) {
     int collectionFanartHeight = 0;
     if (movie.collectionFanart.width > 0 && movie.collectionFanart.height > 0 && movie.collectionFanart.path.size() > 0) {
         collectionFanartHeight = movie.collectionFanart.height * ((double)collectionFanartWidth / (double)movie.collectionFanart.width);
+        if (collectionFanartHeight > contentHeight - 2 * border) {
+            int fanartHeightOrig = collectionFanartHeight;
+            collectionFanartHeight = contentHeight - 2 * border;
+            collectionFanartWidth = collectionFanartWidth * ((double)collectionFanartHeight / (double)fanartHeightOrig);
+        }
         totalHeight += collectionFanartHeight + border;
     }
     //Poster Height
@@ -947,14 +966,14 @@ void cNopacityMovieView::DrawImages(void) {
     int yPic = border;
     if (movie.fanart.width > 0 && movie.fanart.height > 0 && movie.fanart.path.size() > 0) {
         if (imgLoader.LoadPoster(movie.fanart.path.c_str(), fanartWidth, fanartHeight) && Running()) {
-            pixmapContent->DrawImage(cPoint(border, yPic), imgLoader.GetImage());
+            pixmapContent->DrawImage(cPoint((width - fanartWidth)/2, yPic), imgLoader.GetImage());
             yPic += fanartHeight + border;
             osd->Flush();
         }
     }
     if (movie.collectionFanart.width > 0 && movie.collectionFanart.height > 0 && movie.collectionFanart.path.size() > 0) {
         if (imgLoader.LoadPoster(movie.collectionFanart.path.c_str(), collectionFanartWidth, collectionFanartHeight) && Running()) {
-            pixmapContent->DrawImage(cPoint(border, yPic), imgLoader.GetImage());
+            pixmapContent->DrawImage(cPoint((width - collectionFanartWidth)/2, yPic), imgLoader.GetImage());
             yPic += collectionFanartHeight + border;
             osd->Flush();
         }

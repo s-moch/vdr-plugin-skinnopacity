@@ -66,6 +66,7 @@ clrProgressBarBlendHigh = DD5A8998
 clrMenuTextWindow = DDFFFFFF
 clrMenuChannelLogoBack = 99C6C6C6
 clrMenuDetailViewBack = 99ABABB8
+clrMenuDetailViewTabs = 88B8B8E6
 clrButtonRed = FFCC0000
 clrButtonRedBorder = FF000000
 clrButtonRedFont = FFFFFFFF
