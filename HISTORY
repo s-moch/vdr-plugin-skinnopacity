@@ -411,3 +411,14 @@ Version 1.0.3
 Version 1.1.0
 
 - Added scraper2vdr support
+
+Version 1.1.1
+
+- Fixed a crash if no images exists for a movie
+- Only display poster in detailed EPG View if really available
+- Only display poster in detailed recordings view
+- fixed crash in detailed epg view
+
+Version 1.1.2
+
+- Restructured detailed EPG and recordings view

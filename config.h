@@ -110,6 +110,7 @@ class cNopacityConfig {
 #define CLR_CHANNELLOGOBACK     0x99C6C6C6
 #define CLR_FONTMENUITEMHIGH    0xFF363636
 #define CLR_TEXTWINDOW          0xB0000000
+#define CLR_DETAILVIEWBACK      0x50000000
 
 //CHANNELS
 THEME_CLR(Theme, clrChannelBackground,      CLR_MENUBACK);
@@ -186,6 +187,7 @@ THEME_CLR(Theme, clrProgressBarBackHigh,    CLR_PROGRESSBARBACKHIGH);
 THEME_CLR(Theme, clrProgressBarBlendHigh,   CLR_PROGRESSBARBLENDHIGH);
 THEME_CLR(Theme, clrMenuTextWindow,         CLR_TEXTWINDOW);
 THEME_CLR(Theme, clrMenuChannelLogoBack,    CLR_CHANNELLOGOBACK);
+THEME_CLR(Theme, clrMenuDetailViewBack,     CLR_DETAILVIEWBACK);
 
 //BUTTONS
 THEME_CLR(Theme, clrButtonRed,              CLR_TRANSPARENT);

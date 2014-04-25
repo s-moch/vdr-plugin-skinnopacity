@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2014-03-28 17:12+0100\n"
+"POT-Creation-Date: 2014-04-25 14:39+0200\n"
 "PO-Revision-Date: 2013-03-19 22:56+0100\n"
 "Last-Translator: Gabychan <gbonich@gmail.com>\n"
 "Language-Team: \n"
@@ -20,34 +20,28 @@ msgstr ""
 "X-Poedit-Country: Catalunya\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-msgid "free"
-msgstr "lliure"
+msgid "No Cast available"
+msgstr ""
 
-msgid "Volume"
-msgstr "Volum"
+msgid "Cast"
+msgstr ""
 
-msgid "images"
-msgstr "imatges"
+msgid "EPG Info"
+msgstr ""
+
+msgid "Reruns"
+msgstr ""
+
+msgid "Recording Information"
+msgstr ""
+
+msgid "Image Galery"
+msgstr ""
+
+msgid "TheTVDB Info"
+msgstr ""
 
 msgid "TheTVDB Information"
-msgstr ""
-
-msgid "Series Overview"
-msgstr ""
-
-msgid "First aired"
-msgstr ""
-
-msgid "Genre"
-msgstr ""
-
-msgid "Network"
-msgstr ""
-
-msgid "TheMovieDB Rating"
-msgstr ""
-
-msgid "Status"
 msgstr ""
 
 msgid "Episode"
@@ -59,7 +53,25 @@ msgstr ""
 msgid "Episode Overview"
 msgstr ""
 
+msgid "First aired"
+msgstr ""
+
 msgid "Guest Stars"
+msgstr ""
+
+msgid "TheMovieDB Rating"
+msgstr ""
+
+msgid "Series Overview"
+msgstr ""
+
+msgid "Genre"
+msgstr ""
+
+msgid "Network"
+msgstr ""
+
+msgid "Status"
 msgstr ""
 
 msgid "TheMovieDB Information"
@@ -110,14 +122,23 @@ msgstr ""
 msgid "TheMovieDB Vote Average"
 msgstr ""
 
-msgid "Actors"
-msgstr "Actors"
+msgid "free"
+msgstr "lliure"
+
+msgid "Volume"
+msgstr "Volum"
+
+msgid "images"
+msgstr "imatges"
 
 msgid "min"
 msgstr "min"
 
-msgid "RERUNS OF THIS SHOW"
-msgstr "REEMISSIONS"
+msgid "Reruns of "
+msgstr ""
+
+msgid "No reruns found"
+msgstr ""
 
 msgid "Size"
 msgstr "Mida"
@@ -404,6 +425,9 @@ msgstr "Alçada Finestra Info EPG (% alçada OSD)"
 msgid "Border around detailed EPG view"
 msgstr "Vora al voltant de vista detallada EPG"
 
+msgid "Header Height detailed EPG view (Perc. of OSD Height)"
+msgstr ""
+
 msgid "Display Reruns in detailed EPG View"
 msgstr "Mostra Reemissions a vista detallada EPG"
 
@@ -466,6 +490,9 @@ msgstr "Mode de gravació"
 
 msgid "Border around detailed recording view"
 msgstr "Vora al voltant de vista registre detallat"
+
+msgid "Header Height detailed recording view (Perc. of OSD Height)"
+msgstr ""
 
 msgid "Display additional EPG Pictures in detailed recording View"
 msgstr "Mostra imatges EPG addicionals a vista detallada gravacions"
@@ -631,6 +658,12 @@ msgstr "conflicte"
 
 msgid "conflicts"
 msgstr "conflictes"
+
+#~ msgid "RERUNS OF THIS SHOW"
+#~ msgstr "REEMISSIONS"
+
+#~ msgid "Actors"
+#~ msgstr "Actors"
 
 #~ msgid "Display Channel Source information"
 #~ msgstr "Mostra informació del canal"

@@ -9,7 +9,7 @@ class cNopacityDisplayMenu : public cSkinDisplayMenu , cThread {
 private:
     cImageCache *imgCache;
     cNopacityDisplayMenuView *menuView;
-    cNopacityMenuDetailView *detailView;
+    cNopacityDetailView *detailView;
     cOsd *osd;
     eMenuCategory menuCategoryLast;
     int FrameTime;

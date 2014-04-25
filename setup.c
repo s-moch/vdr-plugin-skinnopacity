@@ -252,6 +252,7 @@ void cNopacitySetupMenuDisplaySchedules::Set(void) {
     Add(new cMenuEditStraItem(tr("EPG Window Text Scrolling Speed"), tmpConf->GetValueRef("menuInfoScrollSpeed"), 4, scrollSpeed));
     Add(new cMenuEditIntItem(tr("Height of EPG Info Window (Percent of OSD Height)"), tmpConf->GetValueRef("menuHeightInfoWindow"), 10, 100));
     Add(new cMenuEditIntItem(tr("Border around detailed EPG view"), tmpConf->GetValueRef("borderDetailedEPG"), 1, 300));
+    Add(new cMenuEditIntItem(tr("Header Height detailed EPG view (Perc. of OSD Height)"), tmpConf->GetValueRef("headerDetailedEPG"), 10, 50));
     Add(new cMenuEditBoolItem(tr("Display Reruns in detailed EPG View"), tmpConf->GetValueRef("displayRerunsDetailEPGView")));
     if (tmpConf->GetValue("displayRerunsDetailEPGView")) {
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Number of reruns to display")), tmpConf->GetValueRef("numReruns"), 1, 10));
@@ -345,6 +346,7 @@ void cNopacitySetupMenuDisplayRecordings::Set(void) {
     Add(new cMenuEditIntItem(tr("Number of entires per page"), tmpConf->GetValueRef("numRecordingsMenuItems"), 3, 20));
     Add(new cMenuEditStraItem(tr("Mode of recording Window"), tmpConf->GetValueRef("menuRecordingsWindowMode"), 2, windowMode));
     Add(new cMenuEditIntItem(tr("Border around detailed recording view"), tmpConf->GetValueRef("borderDetailedRecordings"), 1, 300));
+    Add(new cMenuEditIntItem(tr("Header Height detailed recording view (Perc. of OSD Height)"), tmpConf->GetValueRef("headerDetailedRecordings"), 10, 50));
     Add(new cMenuEditStraItem(tr("Display additional EPG Pictures in detailed recording View"), tmpConf->GetValueRef("displayAdditionalRecEPGPictures"), 3, displayEPGPictures));
     if (tmpConf->GetValue("displayAdditionalRecEPGPictures"))
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Number of EPG pictures to display")), tmpConf->GetValueRef("numAdditionalRecEPGPictures"), 1, 9));

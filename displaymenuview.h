@@ -9,9 +9,6 @@
 #include "helpers.h"
 #include "imageloader.h"
 
-
-enum eDetailViewType {dvEvent = 0, dvRecording, dvText};
-
 class cNopacityDisplayMenuView {
     private:
         cOsd *osd;
@@ -80,7 +77,7 @@ class cNopacityDisplayMenuView {
         void ClearScrollbar(void);
         void DrawMessage(eMessageType Type, const char *Text);
         void ClearMessage(void);
-        void SetDetailViewSize(eDetailViewType detailViewType, cNopacityMenuDetailView *detailView);
+        void SetDetailViewSize(eDetailViewType detailViewType, cNopacityDetailView *detailView);
 };
 
 

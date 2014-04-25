@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2014-03-28 17:12+0100\n"
+"POT-Creation-Date: 2014-04-25 14:39+0200\n"
 "PO-Revision-Date: 2012-11-11 17:49+0200\n"
 "Last-Translator: louis\n"
 "Language-Team: \n"
@@ -17,35 +17,29 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-msgid "free"
-msgstr "frei"
+msgid "No Cast available"
+msgstr "Keine Besetzung vorhanden"
 
-msgid "Volume"
-msgstr "Lautstärke"
+msgid "Cast"
+msgstr "Besetzung"
 
-msgid "images"
-msgstr "Bilder"
+msgid "EPG Info"
+msgstr "EPG Info"
+
+msgid "Reruns"
+msgstr "Wiederholungen"
+
+msgid "Recording Information"
+msgstr "Aufnahme Infos"
+
+msgid "Image Galery"
+msgstr "Bildergalerie"
+
+msgid "TheTVDB Info"
+msgstr "TheTVDB Info"
 
 msgid "TheTVDB Information"
 msgstr "TheTVDB Information"
-
-msgid "Series Overview"
-msgstr "Serienüberblick"
-
-msgid "First aired"
-msgstr "Erstausstrahlung"
-
-msgid "Genre"
-msgstr "Genre"
-
-msgid "Network"
-msgstr "Sendeanstalt"
-
-msgid "TheMovieDB Rating"
-msgstr "TheMovieDB Wertung"
-
-msgid "Status"
-msgstr "Status"
 
 msgid "Episode"
 msgstr "Episode"
@@ -56,8 +50,26 @@ msgstr "Staffel"
 msgid "Episode Overview"
 msgstr "Episodenüberblick"
 
+msgid "First aired"
+msgstr "Erstausstrahlung"
+
 msgid "Guest Stars"
 msgstr "Gast Stars"
+
+msgid "TheMovieDB Rating"
+msgstr "TheMovieDB Wertung"
+
+msgid "Series Overview"
+msgstr "Serienüberblick"
+
+msgid "Genre"
+msgstr "Genre"
+
+msgid "Network"
+msgstr "Sendeanstalt"
+
+msgid "Status"
+msgstr "Status"
 
 msgid "TheMovieDB Information"
 msgstr "TheMovieDB Information"
@@ -107,14 +119,23 @@ msgstr "TheMovieDB Popularität"
 msgid "TheMovieDB Vote Average"
 msgstr "TheMovieDB durchschnittliche Bewertung"
 
-msgid "Actors"
-msgstr "Schauspieler"
+msgid "free"
+msgstr "frei"
+
+msgid "Volume"
+msgstr "Lautstärke"
+
+msgid "images"
+msgstr "Bilder"
 
 msgid "min"
 msgstr "min"
 
-msgid "RERUNS OF THIS SHOW"
-msgstr "Wiederholungen dieser Sendung"
+msgid "Reruns of "
+msgstr "Wiederholungen der Sendung "
+
+msgid "No reruns found"
+msgstr "Keine Wiederholungen gefunden"
 
 msgid "Size"
 msgstr "Größe"
@@ -401,6 +422,9 @@ msgstr "Höhe des EPG Info Fensters (% der OSD Höhe)"
 msgid "Border around detailed EPG view"
 msgstr "Rahmen um detailierte EPG Ansicht"
 
+msgid "Header Height detailed EPG view (Perc. of OSD Height)"
+msgstr "Header Höhe im det. EPG Ansicht (% OSD Höhe)"
+
 msgid "Display Reruns in detailed EPG View"
 msgstr "Wiederholungen in der detailierten EPG Ansicht anzeigen"
 
@@ -463,6 +487,9 @@ msgstr "Aufnahme Fenster Modus"
 
 msgid "Border around detailed recording view"
 msgstr "Rahmen um detailierte Aufnahmeansicht"
+
+msgid "Header Height detailed recording view (Perc. of OSD Height)"
+msgstr "Header Höhe in der det. Aufnahmeansicht (% der OSD Höhe)"
 
 msgid "Display additional EPG Pictures in detailed recording View"
 msgstr "Weitere EPG Bilder in der detaillierten Aufnahmeansicht anzeigen"
@@ -628,3 +655,9 @@ msgstr "Konflikt"
 
 msgid "conflicts"
 msgstr "Konflikte"
+
+#~ msgid "RERUNS OF THIS SHOW"
+#~ msgstr "Wiederholungen dieser Sendung"
+
+#~ msgid "Actors"
+#~ msgstr "Schauspieler"

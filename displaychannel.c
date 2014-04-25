@@ -66,7 +66,6 @@ void cNopacityDisplayChannel::SetChannel(const cChannel *Channel, int Number) {
     } else {
         ChannelName = ChannelString(NULL, 0);
     }
-
     channelView->ClearChannelLogo();
     channelView->ClearChannelName();
     channelView->ClearEPGInfo();
