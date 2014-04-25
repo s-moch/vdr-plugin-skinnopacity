@@ -166,15 +166,19 @@ void cNopacityView::DrawFloatingContent(std::string *infoText, cTvMedia *img, cT
     cTextWrapper wTextFull;
     int imgWidth = img->width;
     int imgHeight = img->height;
+    int imgWidth2 = 0;
+    int imgHeight2 = 0;
     if (imgHeight > (contentHeight - 2 * border)) {
         imgHeight = contentHeight - 2 * border;
         imgWidth = imgWidth * ((double)imgHeight / (double)img->height);
     }
+    int imgHeightTotal = imgHeight;
     if (img2) {
-        imgWidth = max(img->width, img2->width);
-        imgHeight += img2->height + border;
+        imgWidth2 = imgWidth;
+        imgHeight2 = img2->height * ((double)img2->width / (double)imgWidth2);
+        imgHeightTotal += img2->height + border;
     }
-    CreateFloatingTextWrapper(&wTextTall, &wTextFull, infoText, imgWidth, imgHeight);
+    CreateFloatingTextWrapper(&wTextTall, &wTextFull, infoText, imgWidth, imgHeightTotal);
     int lineHeight = font->Height();
     int textLinesTall = wTextTall.Lines();
     int textLinesFull = wTextFull.Lines();
@@ -198,9 +202,9 @@ void cNopacityView::DrawFloatingContent(std::string *infoText, cTvMedia *img, cT
     if (!img2)
         return;
     osd->Flush();
-    if (imgLoader.LoadPoster(img2->path.c_str(), img2->width, img2->height)) {
+    if (imgLoader.LoadPoster(img2->path.c_str(), imgWidth2, imgHeight2)) {
         if (Running() && pixmapContent)
-            pixmapContent->DrawImage(cPoint(width - img2->width - border, imgHeight + 2*border), imgLoader.GetImage());
+            pixmapContent->DrawImage(cPoint(width - imgWidth2 - border, imgHeight + 2*border), imgLoader.GetImage());
     }
 }
 
