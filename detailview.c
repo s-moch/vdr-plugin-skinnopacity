@@ -152,7 +152,7 @@ void cNopacityView::DrawContent(std::string *text) {
     wText.Set(text->c_str(), font, width - 2 * border);
     int lineHeight = font->Height();
     int textLines = wText.Lines();
-    int textHeight = lineHeight * textLines + border;
+    int textHeight = lineHeight * textLines + 2*border;
     int yText = border;
     CreateContent(textHeight);
     for (int i=0; i < textLines; i++) {
@@ -182,7 +182,7 @@ void cNopacityView::DrawFloatingContent(std::string *infoText, cTvMedia *img, cT
     int lineHeight = font->Height();
     int textLinesTall = wTextTall.Lines();
     int textLinesFull = wTextFull.Lines();
-    int textHeight = lineHeight * (textLinesTall + textLinesFull) + border;
+    int textHeight = lineHeight * (textLinesTall + textLinesFull) + 2*border;
     int yText = border;
     CreateContent(max(textHeight, imgHeight + 2*border));
     for (int i=0; i < textLinesTall; i++) {
@@ -255,9 +255,11 @@ void cNopacityView::CreateFloatingTextWrapper(cTextWrapper *twNarrow, cTextWrapp
                             sstrTextFull << wrapper.GetLine(line) << " ";
                         }
                     }
+                    sstrTextFull << "\n";
                     drawNarrow = false;
                 }
             } else {
+                wrapper.Set((flds[i].c_str()), font, width - 2*border);
                 for (int line = 0; line < wrapper.Lines(); line++) {
                     sstrTextFull << wrapper.GetLine(line) << " ";        
                 }
@@ -806,9 +808,9 @@ void cNopacitySeriesView::Action(void) {
     int randomPoster = GetRandomPoster();
     switch (activeView) {
         case mvtInfo:
-            if (randomPoster >= 0)
+            if (randomPoster >= 0) {
                 DrawFloatingContent(&infoText, &series.posters[randomPoster]);
-            else
+            } else
                 DrawContent(&infoText);
             break;
         case mvtAddInfo:

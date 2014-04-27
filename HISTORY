@@ -424,3 +424,4 @@ Version 1.1.2
 - Restructured detailed EPG and recordings view
 - fixed naming of reruns tab when displaying recordings
 - scroll speed with up / down configurable (lines per click)
+- fixed bug that floating text is not shown completely
