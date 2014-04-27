@@ -84,13 +84,13 @@ void cNopacityView::DrawHeader(void) {
     pixmapHeader->Fill(Theme.Color(clrMenuDetailViewBack));
     pixmapHeaderLogo->Fill(clrTransparent);
     //Channel Logo
-    int logoWidth = config.GetValue("logoWidthOriginal");
-    int xText = 0;
+    int logoWidth = geoManager->channelLogoWidth;
+    int xText = border;
     if (channel) {
         cImage *logo = imgCache->GetLogo(ctLogo, channel);
         if (logo) {
-            pixmapHeaderLogo->DrawImage(cPoint(border, max((headerHeight - config.GetValue("logoHeightOriginal") - border)/2, 0)), *logo);
-            xText = logoWidth + 2*border;
+            pixmapHeaderLogo->DrawImage(cPoint(border, max((headerHeight - geoManager->channelLogoHeight - border)/2, 0)), *logo);
+            xText += logoWidth + border;
         }
     }
     //Date and Time, Title, Subtitle
@@ -581,7 +581,6 @@ cNopacitySeriesView::cNopacitySeriesView(cOsd *osd, cImageCache *imgCache, int s
     tvdbInfo = "";
     pixmapHeaderBanner = NULL;
     tabbed = true;
-    SetTabs();
 }
 
 cNopacitySeriesView::~cNopacitySeriesView(void) {
@@ -603,7 +602,10 @@ void cNopacitySeriesView::LoadMedia(void) {
 
 void cNopacitySeriesView::SetTabs(void) {
     tabs.push_back(tr("EPG Info"));
-    tabs.push_back(tr("Reruns"));
+    if (eventID > 0)
+        tabs.push_back(tr("Reruns"));
+    else
+        tabs.push_back(tr("Recording Information"));
     tabs.push_back(tr("Cast"));
     tabs.push_back(tr("TheTVDB Info"));
     tabs.push_back(tr("Image Galery"));
@@ -789,6 +791,7 @@ void cNopacitySeriesView::Action(void) {
         osd->Flush();
         headerDrawn = true;
     }
+    SetTabs();
     DrawTabs();
     int randomPoster = GetRandomPoster();
     switch (activeView) {
@@ -836,7 +839,6 @@ cNopacityMovieView::cNopacityMovieView(cOsd *osd, cImageCache *imgCache, int mov
     this->movieId = movieId;
     pixmapHeaderPoster = NULL;
     tabbed = true;
-    SetTabs();
 }
 
 cNopacityMovieView::~cNopacityMovieView(void) {
@@ -857,7 +859,10 @@ void cNopacityMovieView::LoadMedia(void) {
 
 void cNopacityMovieView::SetTabs(void) {
     tabs.push_back(tr("EPG Info"));
-    tabs.push_back(tr("Reruns"));
+    if (eventID > 0)
+        tabs.push_back(tr("Reruns"));
+    else
+        tabs.push_back(tr("Recording Information"));
     tabs.push_back(tr("Cast"));
     tabs.push_back(tr("TheTVDB Info"));
     tabs.push_back(tr("Image Galery"));
@@ -1021,6 +1026,7 @@ void cNopacityMovieView::Action(void) {
         osd->Flush();
         headerDrawn = true;
     }
+    SetTabs();
     DrawTabs();
     bool posterAvailable = (movie.poster.path.size() > 0 && movie.poster.width > 0 && movie.poster.height > 0) ? true : false;
     switch (activeView) {

@@ -422,3 +422,5 @@ Version 1.1.1
 Version 1.1.2
 
 - Restructured detailed EPG and recordings view
+- fixed naming of reruns tab when displaying recordings
+
