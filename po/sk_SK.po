@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: vdr-skinnopacity\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2014-04-25 14:39+0200\n"
+"POT-Creation-Date: 2014-04-27 14:25+0200\n"
 "PO-Revision-Date: 2013-11-11 20:52+0100\n"
 "Last-Translator: Milan Hrala <hrala.milan@gmail.com>\n"
 "Language-Team: \n"
@@ -421,6 +421,9 @@ msgstr "Vý¹ka informaèného EPG okna (Percent z OSD vý¹ky)"
 
 msgid "Border around detailed EPG view"
 msgstr "Okraj okolo podrobného zobrazenia EPG"
+
+msgid "Detailed EPG view Scroll Speed (number of lines)"
+msgstr ""
 
 msgid "Header Height detailed EPG view (Perc. of OSD Height)"
 msgstr ""

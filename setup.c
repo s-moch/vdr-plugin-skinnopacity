@@ -252,6 +252,7 @@ void cNopacitySetupMenuDisplaySchedules::Set(void) {
     Add(new cMenuEditStraItem(tr("EPG Window Text Scrolling Speed"), tmpConf->GetValueRef("menuInfoScrollSpeed"), 4, scrollSpeed));
     Add(new cMenuEditIntItem(tr("Height of EPG Info Window (Percent of OSD Height)"), tmpConf->GetValueRef("menuHeightInfoWindow"), 10, 100));
     Add(new cMenuEditIntItem(tr("Border around detailed EPG view"), tmpConf->GetValueRef("borderDetailedEPG"), 1, 300));
+    Add(new cMenuEditIntItem(tr("Detailed EPG view Scroll Speed (number of lines)"), tmpConf->GetValueRef("detailedViewScrollStep"), 1, 30));
     Add(new cMenuEditIntItem(tr("Header Height detailed EPG view (Perc. of OSD Height)"), tmpConf->GetValueRef("headerDetailedEPG"), 10, 50));
     Add(new cMenuEditBoolItem(tr("Display Reruns in detailed EPG View"), tmpConf->GetValueRef("displayRerunsDetailEPGView")));
     if (tmpConf->GetValue("displayRerunsDetailEPGView")) {

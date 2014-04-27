@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2014-04-25 14:39+0200\n"
+"POT-Creation-Date: 2014-04-27 14:25+0200\n"
 "PO-Revision-Date: 2012-11-11 17:49+0200\n"
 "Last-Translator: louis\n"
 "Language-Team: \n"
@@ -421,6 +421,9 @@ msgstr "Höhe des EPG Info Fensters (% der OSD Höhe)"
 
 msgid "Border around detailed EPG view"
 msgstr "Rahmen um detailierte EPG Ansicht"
+
+msgid "Detailed EPG view Scroll Speed (number of lines)"
+msgstr ""
 
 msgid "Header Height detailed EPG view (Perc. of OSD Height)"
 msgstr "Header Höhe im det. EPG Ansicht (% OSD Höhe)"

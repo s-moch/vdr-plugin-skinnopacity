@@ -369,11 +369,15 @@ bool cNopacityView::KeyUp(void) {
         return false;
     int aktHeight = pixmapContent->DrawPort().Point().Y();
     int lineHeight = font->Height();
-    if (aktHeight < 0) {
-        pixmapContent->SetDrawPortPoint(cPoint(0, aktHeight + lineHeight));
-        return true;
+    if (aktHeight >= 0) {
+        return false;
     }
-    return false;
+    int step = config.GetValue("detailedViewScrollStep") * font->Height();
+    int newY = aktHeight + step;
+    if (newY > 0)
+        newY = 0;
+    pixmapContent->SetDrawPortPoint(cPoint(0, newY));
+    return true;
 }
 
 bool cNopacityView::KeyDown(void) { 
@@ -382,12 +386,16 @@ bool cNopacityView::KeyDown(void) {
     int aktHeight = pixmapContent->DrawPort().Point().Y();
     int totalHeight = pixmapContent->DrawPort().Height();
     int screenHeight = pixmapContent->ViewPort().Height();
-    int lineHeight = font->Height();
-    if (totalHeight - ((-1)*aktHeight) > screenHeight) {
-        pixmapContent->SetDrawPortPoint(cPoint(0, aktHeight - lineHeight));
-        return true;
-    }
-    return false;
+    
+    if (totalHeight - ((-1)*aktHeight) == screenHeight) {
+        return false;
+    } 
+    int step = config.GetValue("detailedViewScrollStep") * font->Height();
+    int newY = aktHeight - step;
+    if ((-1)*newY > totalHeight - screenHeight)
+        newY = (-1)*(totalHeight - screenHeight);
+    pixmapContent->SetDrawPortPoint(cPoint(0, newY));
+    return true;
 }
 
 /********************************************************************************************
@@ -791,7 +799,9 @@ void cNopacitySeriesView::Action(void) {
         osd->Flush();
         headerDrawn = true;
     }
-    SetTabs();
+    if (tabs.size() == 0) {
+        SetTabs();
+    }
     DrawTabs();
     int randomPoster = GetRandomPoster();
     switch (activeView) {
@@ -1026,7 +1036,9 @@ void cNopacityMovieView::Action(void) {
         osd->Flush();
         headerDrawn = true;
     }
-    SetTabs();
+    if (tabs.size() == 0) {
+        SetTabs();
+    }
     DrawTabs();
     bool posterAvailable = (movie.poster.path.size() > 0 && movie.poster.width > 0 && movie.poster.height > 0) ? true : false;
     switch (activeView) {
