@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2014-04-27 14:25+0200\n"
+"POT-Creation-Date: 2014-04-27 15:27+0200\n"
 "PO-Revision-Date: 2013-03-19 22:56+0100\n"
 "Last-Translator: Gabychan <gbonich@gmail.com>\n"
 "Language-Team: \n"
@@ -197,6 +197,9 @@ msgstr "Menu VDR: Menú timer"
 msgid "VDR Menu: Recordings Menu"
 msgstr "Menu VDR: Menu gravacions"
 
+msgid "VDR Menu: Detailed EPG & Recordings View"
+msgstr ""
+
 msgid "Channel Switching"
 msgstr "Canvi de canal"
 
@@ -383,18 +386,6 @@ msgstr "Alçada logo capçalera"
 msgid "Adjust Font Size - Menu Items"
 msgstr "Ajusta mida de la font - Elements de menú"
 
-msgid "never"
-msgstr "mai"
-
-msgid "if exists"
-msgstr "si existeix"
-
-msgid "always"
-msgstr "sempre"
-
-msgid "only if no tvscraper media available"
-msgstr "Sols si tvscraper media no disponible"
-
 msgid "window"
 msgstr "finestre"
 
@@ -421,42 +412,6 @@ msgstr "Velocitat desplaçament text finestra EPG"
 
 msgid "Height of EPG Info Window (Percent of OSD Height)"
 msgstr "Alçada Finestra Info EPG (% alçada OSD)"
-
-msgid "Border around detailed EPG view"
-msgstr "Vora al voltant de vista detallada EPG"
-
-msgid "Detailed EPG view Scroll Speed (number of lines)"
-msgstr ""
-
-msgid "Header Height detailed EPG view (Perc. of OSD Height)"
-msgstr ""
-
-msgid "Display Reruns in detailed EPG View"
-msgstr "Mostra Reemissions a vista detallada EPG"
-
-msgid "Number of reruns to display"
-msgstr "Nombre de reemissions a mostrar"
-
-msgid "Use Subtitle for reruns"
-msgstr "Utilitza subtítols a les reemissions"
-
-msgid "Display additional EPG Pictures in detailed EPG View"
-msgstr "Mostra imatges addicionals a vista detallada EPG"
-
-msgid "Number of EPG pictures to display"
-msgstr "Nombre d'imatges EPG a mostrar"
-
-msgid "Detail EPG View EPG Image Width"
-msgstr "Amplada imatges a vista detallada EPG"
-
-msgid "Detail EPG View EPG Image Height"
-msgstr "Alçada imatges a vista detallada EPG"
-
-msgid "Detail EPG View additional EPG Image Width"
-msgstr "Amplada imatges addicionals a vista detallada EPG"
-
-msgid "Detail EPG View additional EPG Image Height"
-msgstr "Alçada imatges addicionals a vista detallada EPG"
 
 msgid "Adjust Font Size - Menu Item"
 msgstr "Ajusta mida de la Font - Element de menú"
@@ -488,17 +443,20 @@ msgstr "Veure horaris amb informació en temps"
 msgid "Number of EPG Entries in Schedules Info Window"
 msgstr "Nombre d'entrades EPG a la Finestra de Programació"
 
+msgid "never"
+msgstr "mai"
+
+msgid "always"
+msgstr "sempre"
+
+msgid "only if no tvscraper media available"
+msgstr "Sols si tvscraper media no disponible"
+
 msgid "Mode of recording Window"
 msgstr "Mode de gravació"
 
 msgid "Border around detailed recording view"
 msgstr "Vora al voltant de vista registre detallat"
-
-msgid "Header Height detailed recording view (Perc. of OSD Height)"
-msgstr ""
-
-msgid "Display additional EPG Pictures in detailed recording View"
-msgstr "Mostra imatges EPG addicionals a vista detallada gravacions"
 
 msgid "Use folder poster if available"
 msgstr "Utilitzeu carpeta cartell si està disponible"
@@ -508,6 +466,39 @@ msgstr "Ample del cartell de gravació ajustat manualment"
 
 msgid "Height of manually set recording poster"
 msgstr "Alçada del cartell de gravació ajustat manualment"
+
+msgid "if exists"
+msgstr "si existeix"
+
+msgid "Border around view"
+msgstr ""
+
+msgid "Scroll Speed with up / down (number of lines)"
+msgstr ""
+
+msgid "Header Height detailed EPG view (Perc. of OSD Height)"
+msgstr ""
+
+msgid "Header Height detailed recording view (Perc. of OSD Height)"
+msgstr ""
+
+msgid "Number of reruns to display"
+msgstr "Nombre de reemissions a mostrar"
+
+msgid "Use Subtitle for reruns"
+msgstr "Utilitza subtítols a les reemissions"
+
+msgid "EPG Image Width"
+msgstr ""
+
+msgid "EPG Image Height"
+msgstr ""
+
+msgid "Large EPG Image Width"
+msgstr ""
+
+msgid "Large EPG Image Height"
+msgstr ""
 
 msgid "transparent channel logo"
 msgstr "Logo del canal transparent"
@@ -661,6 +652,33 @@ msgstr "conflicte"
 
 msgid "conflicts"
 msgstr "conflictes"
+
+#~ msgid "Display additional EPG Pictures in detailed recording View"
+#~ msgstr "Mostra imatges EPG addicionals a vista detallada gravacions"
+
+#~ msgid "Number of EPG pictures to display"
+#~ msgstr "Nombre d'imatges EPG a mostrar"
+
+#~ msgid "Border around detailed EPG view"
+#~ msgstr "Vora al voltant de vista detallada EPG"
+
+#~ msgid "Display Reruns in detailed EPG View"
+#~ msgstr "Mostra Reemissions a vista detallada EPG"
+
+#~ msgid "Display additional EPG Pictures in detailed EPG View"
+#~ msgstr "Mostra imatges addicionals a vista detallada EPG"
+
+#~ msgid "Detail EPG View EPG Image Width"
+#~ msgstr "Amplada imatges a vista detallada EPG"
+
+#~ msgid "Detail EPG View EPG Image Height"
+#~ msgstr "Alçada imatges a vista detallada EPG"
+
+#~ msgid "Detail EPG View additional EPG Image Width"
+#~ msgstr "Amplada imatges addicionals a vista detallada EPG"
+
+#~ msgid "Detail EPG View additional EPG Image Height"
+#~ msgstr "Alçada imatges addicionals a vista detallada EPG"
 
 #~ msgid "RERUNS OF THIS SHOW"
 #~ msgstr "REEMISSIONS"

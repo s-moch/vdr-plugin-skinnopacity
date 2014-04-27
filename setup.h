@@ -54,9 +54,7 @@ class cNopacitySetupMenuDisplayMain : public cMenuSetupSubMenu {
 
 class cNopacitySetupMenuDisplaySchedules : public cMenuSetupSubMenu {
     protected:
-        const char *useSubtitleRerunTexts[3];
         const char *scrollSpeed[4];
-        const char *displayEPGPictures[3];
         const char *windowMode[2];
         void Set(void);
     public:
@@ -86,6 +84,14 @@ class cNopacitySetupMenuDisplayRecordings : public cMenuSetupSubMenu {
         void Set(void);
     public:
         cNopacitySetupMenuDisplayRecordings(cNopacityConfig *data);
+};
+
+class cNopacitySetupDetailedView : public cMenuSetupSubMenu {
+    protected:
+        const char *useSubtitleRerunTexts[3];
+        void Set(void);
+    public:
+        cNopacitySetupDetailedView(cNopacityConfig *data);
 };
 
 class cNopacitySetupChannelDisplay : public cMenuSetupSubMenu {

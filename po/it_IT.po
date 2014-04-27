@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2014-04-27 14:25+0200\n"
+"POT-Creation-Date: 2014-04-27 15:27+0200\n"
 "PO-Revision-Date: 2013-03-19 22:56+0100\n"
 "Last-Translator: Diego Pierotto <vdr-italian@tiscali.it>\n"
 "Language-Team: \n"
@@ -197,6 +197,9 @@ msgstr "Menu VDR: Menu timer"
 msgid "VDR Menu: Recordings Menu"
 msgstr "Menu VDR: Menu registrazioni"
 
+msgid "VDR Menu: Detailed EPG & Recordings View"
+msgstr ""
+
 msgid "Channel Switching"
 msgstr "Cambio canale"
 
@@ -383,18 +386,6 @@ msgstr "Altezza logo intestazione"
 msgid "Adjust Font Size - Menu Items"
 msgstr "Adatta dim. caratteri - Voci menu"
 
-msgid "never"
-msgstr "mai"
-
-msgid "if exists"
-msgstr "se esiste"
-
-msgid "always"
-msgstr "sempre"
-
-msgid "only if no tvscraper media available"
-msgstr ""
-
 msgid "window"
 msgstr ""
 
@@ -421,42 +412,6 @@ msgstr "Velocità scorrimento testo finestra EPG"
 
 msgid "Height of EPG Info Window (Percent of OSD Height)"
 msgstr "Altezza di Finestra info EPG (% altezza OSD)"
-
-msgid "Border around detailed EPG view"
-msgstr ""
-
-msgid "Detailed EPG view Scroll Speed (number of lines)"
-msgstr ""
-
-msgid "Header Height detailed EPG view (Perc. of OSD Height)"
-msgstr ""
-
-msgid "Display Reruns in detailed EPG View"
-msgstr "Mostra repliche in vista dettagli EPG"
-
-msgid "Number of reruns to display"
-msgstr "Numero di repliche da mostrare"
-
-msgid "Use Subtitle for reruns"
-msgstr "Usa sottotitoli per repliche"
-
-msgid "Display additional EPG Pictures in detailed EPG View"
-msgstr "Mostra immagini EPG aggiuntivo in vista dettagli EPG"
-
-msgid "Number of EPG pictures to display"
-msgstr "Numero di immagini EPG da mostrare"
-
-msgid "Detail EPG View EPG Image Width"
-msgstr "Larghezza immagine vista dettagli EPG"
-
-msgid "Detail EPG View EPG Image Height"
-msgstr "Altezza immagine vista dettagli EPG"
-
-msgid "Detail EPG View additional EPG Image Width"
-msgstr "Larghezza immagine EPG aggiuntivo vista dettagli EPG"
-
-msgid "Detail EPG View additional EPG Image Height"
-msgstr "Altezza immagine EPG aggiuntivo vista dettagli EPG"
 
 msgid "Adjust Font Size - Menu Item"
 msgstr "Adatta dim. caratteri - Voce menu"
@@ -488,17 +443,20 @@ msgstr ""
 msgid "Number of EPG Entries in Schedules Info Window"
 msgstr ""
 
+msgid "never"
+msgstr "mai"
+
+msgid "always"
+msgstr "sempre"
+
+msgid "only if no tvscraper media available"
+msgstr ""
+
 msgid "Mode of recording Window"
 msgstr ""
 
 msgid "Border around detailed recording view"
 msgstr ""
-
-msgid "Header Height detailed recording view (Perc. of OSD Height)"
-msgstr ""
-
-msgid "Display additional EPG Pictures in detailed recording View"
-msgstr "Mostra immagini EPG aggiuntivo nella vista dettagli registrazione"
 
 msgid "Use folder poster if available"
 msgstr ""
@@ -507,6 +465,39 @@ msgid "Width of manually set recording poster"
 msgstr ""
 
 msgid "Height of manually set recording poster"
+msgstr ""
+
+msgid "if exists"
+msgstr "se esiste"
+
+msgid "Border around view"
+msgstr ""
+
+msgid "Scroll Speed with up / down (number of lines)"
+msgstr ""
+
+msgid "Header Height detailed EPG view (Perc. of OSD Height)"
+msgstr ""
+
+msgid "Header Height detailed recording view (Perc. of OSD Height)"
+msgstr ""
+
+msgid "Number of reruns to display"
+msgstr "Numero di repliche da mostrare"
+
+msgid "Use Subtitle for reruns"
+msgstr "Usa sottotitoli per repliche"
+
+msgid "EPG Image Width"
+msgstr ""
+
+msgid "EPG Image Height"
+msgstr ""
+
+msgid "Large EPG Image Width"
+msgstr ""
+
+msgid "Large EPG Image Height"
 msgstr ""
 
 msgid "transparent channel logo"
@@ -661,6 +652,30 @@ msgstr "conflitto"
 
 msgid "conflicts"
 msgstr "conflitti"
+
+#~ msgid "Display additional EPG Pictures in detailed recording View"
+#~ msgstr "Mostra immagini EPG aggiuntivo nella vista dettagli registrazione"
+
+#~ msgid "Number of EPG pictures to display"
+#~ msgstr "Numero di immagini EPG da mostrare"
+
+#~ msgid "Display Reruns in detailed EPG View"
+#~ msgstr "Mostra repliche in vista dettagli EPG"
+
+#~ msgid "Display additional EPG Pictures in detailed EPG View"
+#~ msgstr "Mostra immagini EPG aggiuntivo in vista dettagli EPG"
+
+#~ msgid "Detail EPG View EPG Image Width"
+#~ msgstr "Larghezza immagine vista dettagli EPG"
+
+#~ msgid "Detail EPG View EPG Image Height"
+#~ msgstr "Altezza immagine vista dettagli EPG"
+
+#~ msgid "Detail EPG View additional EPG Image Width"
+#~ msgstr "Larghezza immagine EPG aggiuntivo vista dettagli EPG"
+
+#~ msgid "Detail EPG View additional EPG Image Height"
+#~ msgstr "Altezza immagine EPG aggiuntivo vista dettagli EPG"
 
 #~ msgid "RERUNS OF THIS SHOW"
 #~ msgstr "REPLICHE DI QUESTO SPETTACOLO"

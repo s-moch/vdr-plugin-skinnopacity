@@ -425,3 +425,4 @@ Version 1.1.2
 - fixed naming of reruns tab when displaying recordings
 - scroll speed with up / down configurable (lines per click)
 - fixed bug that floating text is not shown completely
+- cleaned up and restructured setup menu

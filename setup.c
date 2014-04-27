@@ -29,6 +29,7 @@ void cNopacitySetup::Setup(void) {
     Add(new cOsdItem(tr("VDR Menu: Channels Menu")));
     Add(new cOsdItem(tr("VDR Menu: Timers Menu")));
     Add(new cOsdItem(tr("VDR Menu: Recordings Menu")));
+    Add(new cOsdItem(tr("VDR Menu: Detailed EPG & Recordings View")));
     Add(new cOsdItem(tr("Channel Switching")));
     Add(new cOsdItem(tr("Replay")));
     Add(new cOsdItem(tr("Audio Tracks")));
@@ -59,6 +60,8 @@ eOSState cNopacitySetup::ProcessKey(eKeys Key) {
                 state = AddSubMenu(new cNopacitySetupMenuDisplayTimers(&tmpConf));
             if (strcmp(ItemText, tr("VDR Menu: Recordings Menu")) == 0)
                 state = AddSubMenu(new cNopacitySetupMenuDisplayRecordings(&tmpConf));
+            if (strcmp(ItemText, tr("VDR Menu: Detailed EPG & Recordings View")) == 0)
+                state = AddSubMenu(new cNopacitySetupDetailedView(&tmpConf));
             if (strcmp(ItemText, tr("Channel Switching")) == 0)
                 state = AddSubMenu(new cNopacitySetupChannelDisplay(&tmpConf));
             if (strcmp(ItemText, tr("Replay")) == 0)
@@ -222,16 +225,10 @@ void cNopacitySetupMenuDisplayMain::Set(void) {
 //-----MenuDisplay Schedules Menu -------------------------------------------------------------------------------------------------------------
 
 cNopacitySetupMenuDisplaySchedules::cNopacitySetupMenuDisplaySchedules(cNopacityConfig* data)  : cMenuSetupSubMenu(tr("VDR Menu: Schedules Menu"), data) {
-    useSubtitleRerunTexts[0] = tr("never");
-    useSubtitleRerunTexts[1] = tr("if exists");
-    useSubtitleRerunTexts[2] = tr("always");
     scrollSpeed[0] = tr("off");
     scrollSpeed[1] = tr("slow");
     scrollSpeed[2] = tr("medium");
     scrollSpeed[3] = tr("fast");
-    displayEPGPictures[0] = tr("never");
-    displayEPGPictures[1] = tr("always");
-    displayEPGPictures[2] = tr("only if no tvscraper media available");
     windowMode[0] = tr("window");
     windowMode[1] = tr("full screen");
     Set();
@@ -251,21 +248,6 @@ void cNopacitySetupMenuDisplaySchedules::Set(void) {
     Add(new cMenuEditIntItem(tr("EPG Window Scroll Delay in s"), tmpConf->GetValueRef("menuInfoScrollDelay"), 0, 10));
     Add(new cMenuEditStraItem(tr("EPG Window Text Scrolling Speed"), tmpConf->GetValueRef("menuInfoScrollSpeed"), 4, scrollSpeed));
     Add(new cMenuEditIntItem(tr("Height of EPG Info Window (Percent of OSD Height)"), tmpConf->GetValueRef("menuHeightInfoWindow"), 10, 100));
-    Add(new cMenuEditIntItem(tr("Border around detailed EPG view"), tmpConf->GetValueRef("borderDetailedEPG"), 1, 300));
-    Add(new cMenuEditIntItem(tr("Detailed EPG view Scroll Speed (number of lines)"), tmpConf->GetValueRef("detailedViewScrollStep"), 1, 30));
-    Add(new cMenuEditIntItem(tr("Header Height detailed EPG view (Perc. of OSD Height)"), tmpConf->GetValueRef("headerDetailedEPG"), 10, 50));
-    Add(new cMenuEditBoolItem(tr("Display Reruns in detailed EPG View"), tmpConf->GetValueRef("displayRerunsDetailEPGView")));
-    if (tmpConf->GetValue("displayRerunsDetailEPGView")) {
-        Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Number of reruns to display")), tmpConf->GetValueRef("numReruns"), 1, 10));
-        Add(new cMenuEditStraItem(cString::sprintf("%s%s", *spacer, tr("Use Subtitle for reruns")), tmpConf->GetValueRef("useSubtitleRerun"), 3, useSubtitleRerunTexts));
-    }
-    Add(new cMenuEditStraItem(tr("Display additional EPG Pictures in detailed EPG View"), tmpConf->GetValueRef("displayAdditionalEPGPictures"), 3, displayEPGPictures));
-    if (tmpConf->GetValue("displayAdditionalEPGPictures"))
-        Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Number of EPG pictures to display")), tmpConf->GetValueRef("numAdditionalEPGPictures"), 1, 9));
-    Add(new cMenuEditIntItem(tr("Detail EPG View EPG Image Width"), tmpConf->GetValueRef("epgImageWidth"), 30, 500));
-    Add(new cMenuEditIntItem(tr("Detail EPG View EPG Image Height"), tmpConf->GetValueRef("epgImageHeight"), 30, 500));
-    Add(new cMenuEditIntItem(tr("Detail EPG View additional EPG Image Width"), tmpConf->GetValueRef("epgImageWidthLarge"), 100, 800));
-    Add(new cMenuEditIntItem(tr("Detail EPG View additional EPG Image Height"), tmpConf->GetValueRef("epgImageHeightLarge"), 100, 800));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Menu Item"), tmpConf->GetValueRef("fontMenuitemSchedule"), -20, 20));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Menu Item Small"), tmpConf->GetValueRef("fontMenuitemScheduleSmall"), -20, 20));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - EPG Info Window"), tmpConf->GetValueRef("fontEPGInfoWindow"), -20, 20));
@@ -347,15 +329,39 @@ void cNopacitySetupMenuDisplayRecordings::Set(void) {
     Add(new cMenuEditIntItem(tr("Number of entires per page"), tmpConf->GetValueRef("numRecordingsMenuItems"), 3, 20));
     Add(new cMenuEditStraItem(tr("Mode of recording Window"), tmpConf->GetValueRef("menuRecordingsWindowMode"), 2, windowMode));
     Add(new cMenuEditIntItem(tr("Border around detailed recording view"), tmpConf->GetValueRef("borderDetailedRecordings"), 1, 300));
-    Add(new cMenuEditIntItem(tr("Header Height detailed recording view (Perc. of OSD Height)"), tmpConf->GetValueRef("headerDetailedRecordings"), 10, 50));
-    Add(new cMenuEditStraItem(tr("Display additional EPG Pictures in detailed recording View"), tmpConf->GetValueRef("displayAdditionalRecEPGPictures"), 3, displayEPGPictures));
-    if (tmpConf->GetValue("displayAdditionalRecEPGPictures"))
-        Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Number of EPG pictures to display")), tmpConf->GetValueRef("numAdditionalRecEPGPictures"), 1, 9));
     Add(new cMenuEditBoolItem(tr("Use folder poster if available"), tmpConf->GetValueRef("useFolderPoster")));
     Add(new cMenuEditIntItem(tr("Width of manually set recording poster"), tmpConf->GetValueRef("posterWidth"), 100, 1000));
     Add(new cMenuEditIntItem(tr("Height of manually set recording poster"), tmpConf->GetValueRef("posterHeight"), 100, 1000));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Menu Item"), tmpConf->GetValueRef("fontMenuitemRecordings"), -20, 20));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Menu Item Small"), tmpConf->GetValueRef("fontMenuitemRecordingsSmall"), -20, 20));
+
+    SetCurrent(Get(currentItem));
+    Display();
+}
+
+//-----MenuDisplay Detailed EPG & Recordings View -------------------------------------------------------------------------------------------------------------
+
+cNopacitySetupDetailedView::cNopacitySetupDetailedView(cNopacityConfig* data)  : cMenuSetupSubMenu(tr("VDR Menu: Detailed EPG & Recordings View"), data) {
+    useSubtitleRerunTexts[0] = tr("never");
+    useSubtitleRerunTexts[1] = tr("if exists");
+    useSubtitleRerunTexts[2] = tr("always");
+    Set();
+}
+
+void cNopacitySetupDetailedView::Set(void) {
+    int currentItem = Current();
+    Clear();
+
+    Add(new cMenuEditIntItem(tr("Border around view"), tmpConf->GetValueRef("borderDetailedEPG"), 1, 300));
+    Add(new cMenuEditIntItem(tr("Scroll Speed with up / down (number of lines)"), tmpConf->GetValueRef("detailedViewScrollStep"), 1, 30));
+    Add(new cMenuEditIntItem(tr("Header Height detailed EPG view (Perc. of OSD Height)"), tmpConf->GetValueRef("headerDetailedEPG"), 10, 50));
+    Add(new cMenuEditIntItem(tr("Header Height detailed recording view (Perc. of OSD Height)"), tmpConf->GetValueRef("headerDetailedRecordings"), 10, 50));
+    Add(new cMenuEditIntItem(tr("Number of reruns to display"), tmpConf->GetValueRef("numReruns"), 1, 10));
+    Add(new cMenuEditStraItem(tr("Use Subtitle for reruns"), tmpConf->GetValueRef("useSubtitleRerun"), 3, useSubtitleRerunTexts));
+    Add(new cMenuEditIntItem(tr("EPG Image Width"), tmpConf->GetValueRef("epgImageWidth"), 30, 500));
+    Add(new cMenuEditIntItem(tr("EPG Image Height"), tmpConf->GetValueRef("epgImageHeight"), 30, 500));
+    Add(new cMenuEditIntItem(tr("Large EPG Image Width"), tmpConf->GetValueRef("epgImageWidthLarge"), 100, 800));
+    Add(new cMenuEditIntItem(tr("Large EPG Image Height"), tmpConf->GetValueRef("epgImageHeightLarge"), 100, 800));
 
     SetCurrent(Get(currentItem));
     Display();

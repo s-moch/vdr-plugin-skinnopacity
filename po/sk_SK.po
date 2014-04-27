@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: vdr-skinnopacity\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2014-04-27 14:25+0200\n"
+"POT-Creation-Date: 2014-04-27 15:27+0200\n"
 "PO-Revision-Date: 2013-11-11 20:52+0100\n"
 "Last-Translator: Milan Hrala <hrala.milan@gmail.com>\n"
 "Language-Team: \n"
@@ -193,6 +193,9 @@ msgstr "VDR ponuka: Plány nahrávania"
 
 msgid "VDR Menu: Recordings Menu"
 msgstr "VDR ponuka: Nahrávky"
+
+msgid "VDR Menu: Detailed EPG & Recordings View"
+msgstr ""
 
 msgid "Channel Switching"
 msgstr "Prepínanie kanálu"
@@ -380,18 +383,6 @@ msgstr "Vý¹ka loga hlavièky"
 msgid "Adjust Font Size - Menu Items"
 msgstr "Nastavenie veµkosti písma - Polo¾ky menu"
 
-msgid "never"
-msgstr "nikdy"
-
-msgid "if exists"
-msgstr "ak je k dispozícii"
-
-msgid "always"
-msgstr "v¾dy"
-
-msgid "only if no tvscraper media available"
-msgstr "iba ak je tvscraper dostupný"
-
 msgid "window"
 msgstr "v okienku"
 
@@ -418,42 +409,6 @@ msgstr "Rýchlos» rolovania textu v okne EPG"
 
 msgid "Height of EPG Info Window (Percent of OSD Height)"
 msgstr "Vý¹ka informaèného EPG okna (Percent z OSD vý¹ky)"
-
-msgid "Border around detailed EPG view"
-msgstr "Okraj okolo podrobného zobrazenia EPG"
-
-msgid "Detailed EPG view Scroll Speed (number of lines)"
-msgstr ""
-
-msgid "Header Height detailed EPG view (Perc. of OSD Height)"
-msgstr ""
-
-msgid "Display Reruns in detailed EPG View"
-msgstr "Zobrazi» reprízy v podrobnostiach EPG"
-
-msgid "Number of reruns to display"
-msgstr "Poèet repríz na zobrazenie"
-
-msgid "Use Subtitle for reruns"
-msgstr "Pou¾i» titulky pre reprízu"
-
-msgid "Display additional EPG Pictures in detailed EPG View"
-msgstr "Zobrazi» viac obrázkov v podrobnostiach EPG"
-
-msgid "Number of EPG pictures to display"
-msgstr "Poèet EPG obrázkov na obrazovke"
-
-msgid "Detail EPG View EPG Image Width"
-msgstr "©írka obrázku v podrobnom zobrazení EPG"
-
-msgid "Detail EPG View EPG Image Height"
-msgstr "Vý¹ka obrázku v podrobnom zobrazení EPG"
-
-msgid "Detail EPG View additional EPG Image Width"
-msgstr "©írka ïal¹ieho obrázku v podrobnom zobrazení EPG"
-
-msgid "Detail EPG View additional EPG Image Height"
-msgstr "Vý¹ka ïal¹ieho obrázku v podrobnom zobrazení EPG"
 
 msgid "Adjust Font Size - Menu Item"
 msgstr "Nastavenie veµkosti písma - polo¾ky ponuky"
@@ -485,17 +440,20 @@ msgstr "Zobrazi» reláciu s èasom vysielania"
 msgid "Number of EPG Entries in Schedules Info Window"
 msgstr "Poèet EPG polo¾iek v okne TV programu"
 
+msgid "never"
+msgstr "nikdy"
+
+msgid "always"
+msgstr "v¾dy"
+
+msgid "only if no tvscraper media available"
+msgstr "iba ak je tvscraper dostupný"
+
 msgid "Mode of recording Window"
 msgstr "Spôsob zobrazenia okna nahrávok"
 
 msgid "Border around detailed recording view"
 msgstr "Okraj okolo podrobného zobrazenia nahrávky"
-
-msgid "Header Height detailed recording view (Perc. of OSD Height)"
-msgstr ""
-
-msgid "Display additional EPG Pictures in detailed recording View"
-msgstr "Zobrazi» ïal¹ie EPG obrázky v podrobnom zobrazení nahrávky"
 
 msgid "Use folder poster if available"
 msgstr "Pou¾i» zlo¾ku plagát ak je k dispozícii"
@@ -505,6 +463,39 @@ msgstr "Ruène nastavi» ¹írku plagátov nahrávok"
 
 msgid "Height of manually set recording poster"
 msgstr "Ruène nastavi» vý¹ku plagátov nahrávok"
+
+msgid "if exists"
+msgstr "ak je k dispozícii"
+
+msgid "Border around view"
+msgstr ""
+
+msgid "Scroll Speed with up / down (number of lines)"
+msgstr ""
+
+msgid "Header Height detailed EPG view (Perc. of OSD Height)"
+msgstr ""
+
+msgid "Header Height detailed recording view (Perc. of OSD Height)"
+msgstr ""
+
+msgid "Number of reruns to display"
+msgstr "Poèet repríz na zobrazenie"
+
+msgid "Use Subtitle for reruns"
+msgstr "Pou¾i» titulky pre reprízu"
+
+msgid "EPG Image Width"
+msgstr ""
+
+msgid "EPG Image Height"
+msgstr ""
+
+msgid "Large EPG Image Width"
+msgstr ""
+
+msgid "Large EPG Image Height"
+msgstr ""
 
 msgid "transparent channel logo"
 msgstr "priesvitné logo kanálu"
@@ -658,6 +649,33 @@ msgstr "konflikt"
 
 msgid "conflicts"
 msgstr "konflikty"
+
+#~ msgid "Display additional EPG Pictures in detailed recording View"
+#~ msgstr "Zobrazi» ïal¹ie EPG obrázky v podrobnom zobrazení nahrávky"
+
+#~ msgid "Number of EPG pictures to display"
+#~ msgstr "Poèet EPG obrázkov na obrazovke"
+
+#~ msgid "Border around detailed EPG view"
+#~ msgstr "Okraj okolo podrobného zobrazenia EPG"
+
+#~ msgid "Display Reruns in detailed EPG View"
+#~ msgstr "Zobrazi» reprízy v podrobnostiach EPG"
+
+#~ msgid "Display additional EPG Pictures in detailed EPG View"
+#~ msgstr "Zobrazi» viac obrázkov v podrobnostiach EPG"
+
+#~ msgid "Detail EPG View EPG Image Width"
+#~ msgstr "©írka obrázku v podrobnom zobrazení EPG"
+
+#~ msgid "Detail EPG View EPG Image Height"
+#~ msgstr "Vý¹ka obrázku v podrobnom zobrazení EPG"
+
+#~ msgid "Detail EPG View additional EPG Image Width"
+#~ msgstr "©írka ïal¹ieho obrázku v podrobnom zobrazení EPG"
+
+#~ msgid "Detail EPG View additional EPG Image Height"
+#~ msgstr "Vý¹ka ïal¹ieho obrázku v podrobnom zobrazení EPG"
 
 #~ msgid "RERUNS OF THIS SHOW"
 #~ msgstr "Repríza"
