@@ -97,6 +97,7 @@ class cNopacitySetupDetailedView : public cMenuSetupSubMenu {
 class cNopacitySetupChannelDisplay : public cMenuSetupSubMenu {
     protected:
         const char *logoPos[3];
+        const char *logoVerticalPos[3];
         const char *progressStyleCurrentSchedule[2];
         const char *bgStyle[2];
         void Set(void);

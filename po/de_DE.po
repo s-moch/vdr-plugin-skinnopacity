@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2014-04-27 15:27+0200\n"
+"POT-Creation-Date: 2014-05-24 15:11+0200\n"
 "PO-Revision-Date: 2012-11-11 17:49+0200\n"
 "Last-Translator: louis\n"
 "Language-Team: \n"
@@ -506,6 +506,15 @@ msgstr "volle OSD Breite"
 msgid "do not display"
 msgstr "nicht anzeigen"
 
+msgid "top"
+msgstr "oben"
+
+msgid "middle"
+msgstr "mittig"
+
+msgid "bottom"
+msgstr "unten"
+
 msgid "show elapsed time"
 msgstr "vergangene Zeit anzeigen"
 
@@ -529,6 +538,9 @@ msgstr "Hintergrund Stil"
 
 msgid "Rounded Corners"
 msgstr "Abgerundete Ecken"
+
+msgid "Vertical Channel Logo Alignment"
+msgstr "Vertikale Ausrichtung des Kanallogos"
 
 msgid "Channel Logo Position"
 msgstr "Kanallogo Position"

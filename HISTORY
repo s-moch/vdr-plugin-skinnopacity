@@ -426,3 +426,7 @@ Version 1.1.2
 - scroll speed with up / down configurable (lines per click)
 - fixed bug that floating text is not shown completely
 - cleaned up and restructured setup menu
+
+Version 1.1.3
+
+- Vertical channel logo alignment configurable in displaychannel

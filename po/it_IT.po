@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2014-04-27 15:27+0200\n"
+"POT-Creation-Date: 2014-05-24 15:11+0200\n"
 "PO-Revision-Date: 2013-03-19 22:56+0100\n"
 "Last-Translator: Diego Pierotto <vdr-italian@tiscali.it>\n"
 "Language-Team: \n"
@@ -509,6 +509,15 @@ msgstr ""
 msgid "do not display"
 msgstr "non mostrare"
 
+msgid "top"
+msgstr ""
+
+msgid "middle"
+msgstr ""
+
+msgid "bottom"
+msgstr ""
+
 msgid "show elapsed time"
 msgstr ""
 
@@ -531,6 +540,9 @@ msgid "Background Style"
 msgstr ""
 
 msgid "Rounded Corners"
+msgstr ""
+
+msgid "Vertical Channel Logo Alignment"
 msgstr ""
 
 msgid "Channel Logo Position"

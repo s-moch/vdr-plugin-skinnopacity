@@ -137,11 +137,16 @@ void cGeometryManager::SetDisplayChannelSizes(void) {
     channelLogoHeight = logoSize.Height();
     channelLogoX = (channelLogoWidthTotal - channelLogoWidth) / 2;
 
-    if (config.GetValue("displayType") == dtGraphical) {
-        channelLogoY = (channelTop + channelHeaderHeight)
-                        + (channelHeight - channelHeaderHeight - channelLogoHeight)/2;
-    } else {
-        channelLogoY = channelTop + (channelHeight - channelLogoHeight)/2;
+    switch (config.GetValue("logoVerticalAlignment")) {
+        case lvTop:
+            channelLogoY = channelTop + (channelHeight - channelHeaderHeight - channelLogoHeight)/2;
+            break;
+        case lvMiddle:
+            channelLogoY = channelTop + (channelHeight - channelLogoHeight)/2;
+            break;
+        case lvBottom:
+            channelLogoY = (channelTop + channelHeaderHeight) + (channelHeight - channelHeaderHeight - channelLogoHeight)/2;
+            break;
     }
 
     switch (config.GetValue("logoPosition")) {

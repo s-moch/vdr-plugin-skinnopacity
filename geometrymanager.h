@@ -2,6 +2,7 @@
 #define __NOPACITY_GEOMETRYMANAGER_H
 
 enum eLogoPosition {lpNone = 0, lpLeft, lpRight};
+enum eLogoVerticalPosition {lvTop = 0, lvMiddle, lvBottom};
 enum eBackgroundStyle {bsTrans = 0, bsFull};
 
 class cGeometryManager {

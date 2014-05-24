@@ -375,6 +375,9 @@ cNopacitySetupChannelDisplay::cNopacitySetupChannelDisplay(cNopacityConfig* data
     logoPos[0] = tr("do not display");
     logoPos[1] = tr("left");
     logoPos[2] = tr("right");
+    logoVerticalPos[0] = tr("top");
+    logoVerticalPos[1] = tr("middle");
+    logoVerticalPos[2] = tr("bottom");
     progressStyleCurrentSchedule[0] = tr("show elapsed time");
     progressStyleCurrentSchedule[1] = tr("show remaining time");
     Set();
@@ -392,6 +395,7 @@ void cNopacitySetupChannelDisplay::Set(void) {
         Add(new cMenuEditStraItem(tr("Background Style"), tmpConf->GetValueRef("backgroundStyle"), 2, bgStyle));
         Add(new cMenuEditBoolItem(tr("Rounded Corners"), tmpConf->GetValueRef("roundedCornersChannel")));
     }
+    Add(new cMenuEditStraItem(tr("Vertical Channel Logo Alignment"), tmpConf->GetValueRef("logoVerticalAlignment"), 3, logoVerticalPos));
     Add(new cMenuEditStraItem(tr("Channel Logo Position"), tmpConf->GetValueRef("logoPosition"), 3, logoPos));
     if (tmpConf->GetValue("logoPosition")) {
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Channel Logo original Width")), tmpConf->GetValueRef("logoWidthOriginal"), 30, 500));

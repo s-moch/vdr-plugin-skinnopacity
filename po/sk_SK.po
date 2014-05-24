@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: vdr-skinnopacity\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2014-04-27 15:27+0200\n"
+"POT-Creation-Date: 2014-05-24 15:11+0200\n"
 "PO-Revision-Date: 2013-11-11 20:52+0100\n"
 "Last-Translator: Milan Hrala <hrala.milan@gmail.com>\n"
 "Language-Team: \n"
@@ -506,6 +506,15 @@ msgstr "celá OSD ¹írka"
 msgid "do not display"
 msgstr "nezobrazova»"
 
+msgid "top"
+msgstr ""
+
+msgid "middle"
+msgstr ""
+
+msgid "bottom"
+msgstr ""
+
 msgid "show elapsed time"
 msgstr "zobrazi» uplynulý èas"
 
@@ -529,6 +538,9 @@ msgstr "©týl pozadia"
 
 msgid "Rounded Corners"
 msgstr "Zaoblené rohy"
+
+msgid "Vertical Channel Logo Alignment"
+msgstr ""
 
 msgid "Channel Logo Position"
 msgstr "Pozícia loga kanálu"
