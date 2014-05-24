@@ -433,3 +433,4 @@ Version 1.1.3
 - added dedicated background pixmap in detailview
 - added support for tvscraper again, tvscraper Version 0.2.0 needed
 - fixed possible division by zero
+- updated theme darkred
