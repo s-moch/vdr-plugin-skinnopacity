@@ -8,7 +8,6 @@
 #include <string>
 #include <sstream>
 #include "services/scraper2vdr.h"
-#include "services/tvscraper.h"
 #include "services/epgsearch.h"
 #include "imagecache.h"
 #include "config.h"

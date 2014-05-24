@@ -431,3 +431,4 @@ Version 1.1.3
 
 - Vertical channel logo alignment configurable in displaychannel
 - added dedicated background pixmap in detailview
+- added support for tvscraper again, tvscraper Version 0.2.0 needed

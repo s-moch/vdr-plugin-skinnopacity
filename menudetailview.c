@@ -37,16 +37,16 @@ void cNopacityDetailView::SetGeometry(int x, int width, int height, int top, int
 }
 
 void cNopacityDetailView::InitiateViewType(void) {
-    static cPlugin *pScraper2Vdr = cPluginManager::GetPlugin("scraper2vdr");
+    static cPlugin *pScraper = GetScraperPlugin();
     ScraperGetEventType call;
     switch (type) {
         case dvEvent: {
             if (!ev)
                 break;
             call.event = ev;
-            if (!pScraper2Vdr) {
+            if (!pScraper) {
                 view = new cNopacityEPGView(osd, imgCache);
-            } else if (pScraper2Vdr->Service("GetEventType", &call)) {
+            } else if (pScraper->Service("GetEventType", &call)) {
                 if (call.type == tMovie) {
                     view = new cNopacityMovieView(osd, imgCache, call.movieId);
                 } else if (call.type == tSeries) {
@@ -73,9 +73,9 @@ void cNopacityDetailView::InitiateViewType(void) {
             if (!rec)
                 break;
             call.recording = rec;
-            if (!pScraper2Vdr) {
+            if (!pScraper) {
                 view = new cNopacityEPGView(osd, imgCache);
-            } else if (pScraper2Vdr->Service("GetEventType", &call)) {
+            } else if (pScraper->Service("GetEventType", &call)) {
                 if (call.type == tMovie) {
                     view = new cNopacityMovieView(osd, imgCache, call.movieId);
                 } else if (call.type == tSeries) {

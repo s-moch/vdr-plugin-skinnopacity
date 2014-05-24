@@ -161,3 +161,11 @@ std::vector<std::string>& splitstring::split(char delim, int rep) {
         flds.push_back(buf);
     return flds;
 }
+
+cPlugin *GetScraperPlugin(void) {
+    static cPlugin *pScraper = cPluginManager::GetPlugin("scraper2vdr");
+    if( !pScraper ) // if it doesn't exit, try tvscraper
+        pScraper = cPluginManager::GetPlugin("tvscraper");
+    return pScraper;
+}
+

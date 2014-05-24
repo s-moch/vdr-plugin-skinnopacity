@@ -2,6 +2,8 @@
 #define __HELPERS_H
 
 #include <vdr/osd.h>
+#include <vdr/plugin.h>
+
 cOsd *CreateOsd(int Left, int Top, int Width, int Height);
 void DrawBlendedBackground(cPixmap *pixmap, int xStart, int width, tColor color, tColor colorBlending, bool fromTop);
 void DrawRoundedCorners(cPixmap *p, int radius, int x, int y, int width, int height);
@@ -17,4 +19,6 @@ public:
     splitstring(const char *s) : std::string(s) { };
     std::vector<std::string>& split(char delim, int rep=0);
 };
+
+cPlugin *GetScraperPlugin(void);
 #endif // __HELPERS_H

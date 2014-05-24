@@ -3,7 +3,6 @@
 
 #include <vdr/skins.h>
 #include <vdr/thread.h>
-#include "services/tvscraper.h"
 #include "services/scraper2vdr.h"
 
 class cNopacityTextWindow : public cThread {
@@ -26,7 +25,6 @@ private:
     bool hasManualPoster;
     cString manualPosterPath;
     bool hasPoster;
-    TVScraperGetPoster poster;
     ScraperGetPoster posterScraper2Vdr;
     int posterWidth, posterHeight;
     bool SetTextScroller(int border, int left);

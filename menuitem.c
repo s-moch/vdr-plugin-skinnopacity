@@ -1174,28 +1174,14 @@ void cNopacityRecordingMenuItem::SetPoster(void) {
     if (hasManualPoster)
         manualPosterPath = posterFound;
     //no manually set poster found, check scraper
-    static cPlugin *pScraper2Vdr = cPluginManager::GetPlugin("scraper2vdr");
-    if (pScraper2Vdr) {
+    static cPlugin *pScraper = GetScraperPlugin();
+    if (pScraper) {
         thumb.event = NULL;
         thumb.recording = Recording;
-        if (pScraper2Vdr->Service("GetPosterThumb", &thumb)) {
+        if (pScraper->Service("GetPosterThumb", &thumb)) {
             hasThumb = true;
         } else {
             hasThumb = false;
-        }
-    }
-    const cRecordingInfo *info = Recording->Info();
-    if (info) {
-        const cEvent *event = info->GetEvent();
-        static cPlugin *pTVScraper = cPluginManager::GetPlugin("tvscraper");
-        if (pTVScraper && event) {
-            poster.event = event;
-            poster.isRecording = true;
-            if (pTVScraper->Service("TVScraperGetPoster", &poster)) {
-                hasPoster = true;
-            } else {
-                hasPoster = false;
-            }
         }
     }
 }
@@ -1397,11 +1383,6 @@ void cNopacityRecordingMenuItem::DrawPoster(void) {
         }
     } else if (hasThumb) {
         if (imgLoader.LoadPoster(thumb.poster.path.c_str(), posterWidth, posterHeight)) {
-            posterDrawn = true;
-            pixmapStatic->DrawImage(cPoint(10, 5), imgLoader.GetImage());
-        }
-    }  else if (hasPoster) {
-        if (imgLoader.LoadPoster(poster.media.path.c_str(), posterWidth, posterHeight)) {
             posterDrawn = true;
             pixmapStatic->DrawImage(cPoint(10, 5), imgLoader.GetImage());
         }
