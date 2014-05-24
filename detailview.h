@@ -35,6 +35,7 @@ protected:
     cPixmap *pixmapHeader;
     cPixmap *pixmapHeaderLogo;
     cPixmap *pixmapContent;
+    cPixmap *pixmapContentBack;
     cPixmap *pixmapScrollbar;
     cPixmap *pixmapScrollbarBack;
     cPixmap *pixmapTabs;

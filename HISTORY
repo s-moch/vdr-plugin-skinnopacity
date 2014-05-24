@@ -430,3 +430,4 @@ Version 1.1.2
 Version 1.1.3
 
 - Vertical channel logo alignment configurable in displaychannel
+- added dedicated background pixmap in detailview

@@ -17,6 +17,7 @@ cNopacityView::cNopacityView(cOsd *osd, cImageCache *imgCache) {
     pixmapHeader = NULL;
     pixmapHeaderLogo = NULL;
     pixmapContent = NULL;
+    pixmapContentBack = NULL;
     pixmapTabs = NULL;
     title = "";
     subTitle = "";
@@ -51,6 +52,8 @@ cNopacityView::~cNopacityView(void) {
         osd->DestroyPixmap(pixmapHeaderLogo);   
     if (pixmapContent)
         osd->DestroyPixmap(pixmapContent);
+    if (pixmapContentBack)
+        osd->DestroyPixmap(pixmapContentBack);
     if (pixmapTabs)
         osd->DestroyPixmap(pixmapTabs);
 }
@@ -142,6 +145,10 @@ void cNopacityView::CreateContent(int fullHeight) {
     if (fullHeight > contentHeight) {
         drawPortHeight = fullHeight;
         scrollable = true;
+    }
+    if (!pixmapContentBack) {
+        pixmapContentBack = osd->CreatePixmap(3, cRect(x, y + headerHeight, width, contentHeight + tabHeight));
+        pixmapContentBack->Fill(Theme.Color(clrMenuDetailViewBack));
     }
     pixmapContent = osd->CreatePixmap(4, cRect(x, y + headerHeight, width, contentHeight), cRect(0, 0, width, drawPortHeight));
     pixmapContent->Fill(clrTransparent);
