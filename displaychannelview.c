@@ -588,7 +588,7 @@ void cNopacityDisplayChannelView::DrawPoster(const cEvent *event, bool initial) 
                 mediaWidth = call.banner.width;
                 mediaHeight = call.banner.height;
                 mediaPath = call.banner.path;
-            } else if (call.type == tMovie && call.poster.path.size() > 0) {
+            } else if (call.type == tMovie && call.poster.path.size() > 0 && call.poster.height > 0) {
                 double ratio = (double)(cOsd::OsdHeight()/3) / (double)call.poster.height;
                 mediaWidth = ratio * call.poster.width;
                 mediaHeight = ratio * call.poster.height;
