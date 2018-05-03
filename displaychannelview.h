@@ -50,6 +50,7 @@ public:
     void DrawProgressbarBackground(void);
     void DrawProgressBar(int Current, int Total);
     void ClearProgressBar(void);
+    void DrawEvents(const cEvent *Present, const cEvent *Following);
     void DrawEPGInfo(const cEvent *e, bool present, bool recording);
     void ClearEPGInfo(void);
     void DrawStatusIcons(const cChannel *Channel);

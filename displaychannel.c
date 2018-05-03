@@ -90,30 +90,12 @@ void cNopacityDisplayChannel::SetEvents(const cEvent *Present, const cEvent *Fol
     if (!doOutput)
         return;
     present = Present;
+    following = Following;
     channelView->ClearProgressBar();
     if (!groupSep) {
         channelView->DrawProgressbarBackground();
         channelView->ClearEPGInfo();
     }
-    if (Present) {
-        if (!groupSep) {
-            SetProgressBar(Present);
-        }
-        bool recCurrent = false;
-        eTimerMatch TimerMatch = tmNone;
-        LOCK_TIMERS_READ;
-        const cTimer *Timer = Timers->GetMatch(Present, &TimerMatch);
-        if (Timer && Timer->Recording()) {
-            recCurrent = true;
-        }
-        channelView->DrawEPGInfo(Present, true, recCurrent);
-    }
-    if (Following) {
-        bool recFollowing = Following->HasTimer();
-        channelView->DrawEPGInfo(Following, false, recFollowing);
-    }
-    if (config.GetValue("displayPoster"))
-        channelView->DrawPoster(Present, initial);
 }
 
 void cNopacityDisplayChannel::SetProgressBar(const cEvent *present) {
@@ -148,10 +130,18 @@ void cNopacityDisplayChannel::Flush(void) {
     if (initial || channelChange)
         channelView->DrawDate();
 
-    if (present) {
+    if (present && !groupSep) {
         SetProgressBar(present);
     } else
         channelView->ClearProgressBar();
+
+    if (!groupSep) {
+       channelView->ClearEPGInfo();
+       channelView->DrawEvents(present, following);
+       }
+
+    if (config.GetValue("displayPoster"))
+       channelView->DrawPoster(present, initial);
 
     if (!groupSep)
         channelView->DrawScreenResolution();

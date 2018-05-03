@@ -20,6 +20,7 @@ private:
     int currentLast;
     bool showSignal;
     const cEvent *present;
+    const cEvent *following;
     virtual void Action(void);
     void SetProgressBar(const cEvent *present);
 public:
