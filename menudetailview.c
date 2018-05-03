@@ -66,7 +66,8 @@ void cNopacityDetailView::InitiateViewType(void) {
                 dateTime = cString::sprintf("%s  %s - %s (%d %s)", *ev->GetDateString(), *ev->GetTimeString(), *ev->GetEndTimeString(), ev->Duration()/60, tr("min"));
             }
             view->SetDateTime(*dateTime);
-            view->SetChannel(Channels.GetByChannelID(ev->ChannelID(), true));
+            LOCK_CHANNELS_READ;
+            view->SetChannel(Channels->GetByChannelID(ev->ChannelID(), true));
             view->SetEventID(ev->EventID());
             break; }
         case dvRecording: {
@@ -89,7 +90,8 @@ void cNopacityDetailView::InitiateViewType(void) {
                 view->SetTitle(info->Title());
                 view->SetSubTitle(info->ShortText());
                 view->SetInfoText(info->Description());
-                view->SetChannel(Channels.GetByChannelID(info->ChannelID(), true));
+                LOCK_CHANNELS_READ;
+                view->SetChannel(Channels->GetByChannelID(info->ChannelID(), true));
             } else {
                 view->SetTitle(rec->Name());
             }
@@ -176,7 +178,8 @@ std::string cNopacityDetailView::LoadReruns(void) {
                     continue;
                 i++;
                 sstrReruns  << *DayDateTime(r->event->StartTime());
-                cChannel *channel = Channels.GetByChannelID(r->event->ChannelID(), true, true);
+                LOCK_CHANNELS_READ;
+                const cChannel *channel = Channels->GetByChannelID(r->event->ChannelID(), true, true);
                 if (channel) {
                     sstrReruns << ", " << trVDR("Channel") << " " << channel->Number() << ":";
                     sstrReruns << " " << channel->ShortName(true);
@@ -262,7 +265,8 @@ std::string cNopacityDetailView::LoadRecordingInformation(void) {
 
     std::stringstream sstrInfo;
 
-    cChannel *channel = Channels.GetByChannelID(Info->ChannelID());
+    LOCK_CHANNELS_READ;
+    const cChannel *channel = Channels->GetByChannelID(Info->ChannelID());
     if (channel)
         sstrInfo << trVDR("Channel") << ": " << channel->Number() << " - " << channel->Name() << std::endl;
     if (nRecSize < 0) {

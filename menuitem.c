@@ -832,10 +832,8 @@ void cNopacityChannelMenuItem::DrawBackground(void) {
 }
 
 void cNopacityChannelMenuItem::readCurrentEPG(void) {
-    cSchedulesLock schedulesLock;
-    const cSchedules *schedules = cSchedules::Schedules(schedulesLock);
-    const cSchedule *Schedule = NULL;
-	Schedule = schedules->GetSchedule(Channel);
+    LOCK_SCHEDULES_READ;
+    const cSchedule *Schedule = Schedules->GetSchedule(Channel);
 	if (!Schedule) {
 		strEpgInfo = tr("No EPG Information found");
         strTimeInfo = "";
@@ -853,10 +851,8 @@ void cNopacityChannelMenuItem::readCurrentEPG(void) {
 
 std::string cNopacityChannelMenuItem::readEPG(void) {
     std::stringstream sstrText;
-    cSchedulesLock schedulesLock;
-    const cSchedules *schedules = cSchedules::Schedules(schedulesLock);
-    const cSchedule *Schedule = NULL;
-	Schedule = schedules->GetSchedule(Channel);
+    LOCK_SCHEDULES_READ;
+    const cSchedule *Schedule = Schedules->GetSchedule(Channel);
 	if (!Schedule) {
 		sstrText << tr("No EPG Information found");
 	} else {

@@ -101,7 +101,8 @@ void cNopacityDisplayChannel::SetEvents(const cEvent *Present, const cEvent *Fol
         }
         bool recCurrent = false;
         eTimerMatch TimerMatch = tmNone;
-        const cTimer *Timer = Timers.GetMatch(Present, &TimerMatch);
+        LOCK_TIMERS_READ;
+        const cTimer *Timer = Timers->GetMatch(Present, &TimerMatch);
         if (Timer && Timer->Recording()) {
             recCurrent = true;
         }

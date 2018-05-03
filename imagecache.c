@@ -43,7 +43,8 @@ void cImageCache::CreateCache(void) {
     //Channel Logos
     if (config.GetValue("numLogosInitial") > 0) {
         int channelsCached = 0;
-        for (const cChannel *channel = Channels.First(); channel; channel = Channels.Next(channel)) {
+        LOCK_CHANNELS_READ;
+        for (const cChannel *channel = Channels->First(); channel; channel = Channels->Next(channel)) {
             if (channelsCached >= config.GetValue("numLogosInitial"))
                 break;
             if (!channel->GroupSep()) {

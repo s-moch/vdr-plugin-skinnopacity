@@ -779,9 +779,10 @@ void cNopacityDisplayChannelView::DrawChannelGroups(const cChannel *Channel, cSt
 
 std::string cNopacityDisplayChannelView::GetChannelSep(const cChannel *channel, bool prev) {
     std::string sepName = "";
-    const cChannel *sep = prev ? Channels.Prev(channel) :
-                                 Channels.Next(channel);
-    for (; sep; (prev)?(sep = Channels.Prev(sep)):(sep = Channels.Next(sep))) {
+    LOCK_CHANNELS_READ;
+    const cChannel *sep = prev ? Channels->Prev(channel) :
+                                 Channels->Next(channel);
+    for (; sep; (prev)?(sep = Channels->Prev(sep)):(sep = Channels->Next(sep))) {
         if (sep->GroupSep()) {
             sepName = sep->Name();
             break;
@@ -798,7 +799,8 @@ void cNopacityDisplayChannelView::DrawSourceInfo(void) {
         channelInfo = cString::sprintf("%s #%d", source->Description(), cDevice::ActualDevice()->DeviceNumber());
     }
     if (cRecordControls::Active()) {
-        cSortedTimers SortedTimers;
+        LOCK_TIMERS_READ;
+        cSortedTimers SortedTimers(Timers);
         bool first = true;
         int truncPos = 0;
         for (int i = 0; i < SortedTimers.Size(); i++)
