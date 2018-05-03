@@ -92,7 +92,7 @@ void cNopacityView::DrawHeader(void) {
     if (channel) {
         cImage *logo = imgCache->GetLogo(ctLogo, channel);
         if (logo) {
-            pixmapHeaderLogo->DrawImage(cPoint(border, max((headerHeight - geoManager->channelLogoHeight - border)/2, 0)), *logo);
+            pixmapHeaderLogo->DrawImage(cPoint(border, std::max((headerHeight - geoManager->channelLogoHeight - border)/2, 0)), *logo);
             xText += logoWidth + border;
         }
     }
@@ -191,7 +191,7 @@ void cNopacityView::DrawFloatingContent(std::string *infoText, cTvMedia *img, cT
     int textLinesFull = wTextFull.Lines();
     int textHeight = lineHeight * (textLinesTall + textLinesFull) + 2*border;
     int yText = border;
-    CreateContent(max(textHeight, imgHeight + 2*border));
+    CreateContent(std::max(textHeight, imgHeight + 2*border));
     for (int i=0; i < textLinesTall; i++) {
         pixmapContent->DrawText(cPoint(border, yText), wTextTall.GetLine(i), Theme.Color(clrMenuFontDetailViewText), clrTransparent, font);
         yText += lineHeight;

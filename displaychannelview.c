@@ -627,7 +627,7 @@ void cNopacityDisplayChannelView::DrawSignalMeter(void) {
         signalHeight = imgSignal->Height();
         int signalMeterY = geoManager->channelFooterY +
                            (geoManager->channelFooterHeight - 2*signalHeight - 5)/2;
-        int labelWidth = max(fontInfoline->Width(*signalStrength),
+        int labelWidth = std::max(fontInfoline->Width(*signalStrength),
                              fontInfoline->Width(*signalQuality)) + 2;
         signalX = geoManager->channelFooterHeight / 2 + labelWidth;
         pixmapSignalStrength = osd->CreatePixmap(3,
