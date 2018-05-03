@@ -374,6 +374,25 @@ void cNopacityDisplayChannelView::ClearProgressBar(void) {
     pixmapProgressBar->Fill(clrTransparent);
 }
 
+void cNopacityDisplayChannelView::DrawEvents(const cEvent *Present, const cEvent *Following) {
+    if (Present) {
+       bool recCurrent = false;
+       eTimerMatch TimerMatch = tmNone;
+       const cTimer *Timer;
+       {
+       LOCK_TIMERS_READ;
+       Timer = Timers->GetMatch(Present, &TimerMatch);
+       }
+       if (Timer && Timer->Recording()) {
+          recCurrent = true;
+       }
+       DrawEPGInfo(Present, true, recCurrent);
+    }
+    if (Following) {
+       bool recFollowing = Following->HasTimer();
+       DrawEPGInfo(Following, false, recFollowing);
+    }
+}
 
 void cNopacityDisplayChannelView::DrawEPGInfo(const cEvent *e, bool present, bool recording) {
     int indent = 20;
