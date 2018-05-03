@@ -369,7 +369,7 @@ void cNopacityDisplayMenu::SetMessage(eMessageType Type, const char *Text) {
 }
 
 bool cNopacityDisplayMenu::SetItemEvent(const cEvent *Event, int Index, bool Current,
-                                        bool Selectable, const cChannel *Channel, bool WithDate, eTimerMatch TimerMatch) {
+                                        bool Selectable, const cChannel *Channel, bool WithDate, eTimerMatch TimerMatch, bool TimerActive) {
 
     if (!config.GetValue("narrowScheduleMenu"))
         return false;
