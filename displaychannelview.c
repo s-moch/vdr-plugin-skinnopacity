@@ -375,29 +375,18 @@ void cNopacityDisplayChannelView::ClearProgressBar(void) {
 }
 
 void cNopacityDisplayChannelView::DrawEvents(const cEvent *Present, const cEvent *Following) {
-    if (Present) {
-       bool recCurrent = false;
-       {
-       LOCK_TIMERS_READ;
-       eTimerMatch TimerMatch = tmNone;
-       const cTimer *Timer = Timers->GetMatch(Present, &TimerMatch);
-       if (Timer && Timer->Recording()) {
-          recCurrent = true;
-          }
+    for (int i = 0; i < 2; i++) {
+       bool rec = false;
+       bool present = !i ? true : false;
+       const cEvent *e = !i ? Present : Following;
+       if (e) {
+          LOCK_TIMERS_READ;
+          eTimerMatch TimerMatch = tmNone;
+          const cTimer *Timer = Timers->GetMatch(e, &TimerMatch);
+          if (Timer && Timer->HasFlags(tfActive) && TimerMatch == tmFull)
+             rec = true;
+       DrawEPGInfo(e, present, rec);
        }
-       DrawEPGInfo(Present, true, recCurrent);
-    }
-    if (Following) {
-       bool recFollowing = false;
-       {
-       LOCK_TIMERS_READ;
-       eTimerMatch TimerMatch = tmNone;
-       const cTimer *Timer = Timers->GetMatch(Following, &TimerMatch);
-       if (Timer && Timer->HasFlags(tfActive)) {
-          recFollowing = true;
-          }
-       }
-       DrawEPGInfo(Following, false, recFollowing);
     }
 }
 
