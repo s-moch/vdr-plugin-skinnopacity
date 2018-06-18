@@ -17,6 +17,7 @@ cNopacityDisplayChannel::cNopacityDisplayChannel(cImageCache *imgCache, bool Wit
         doOutput = true;
     groupSep = false;
     present = NULL;
+    following = NULL;
     currentLast = 0;
     channelChange = false;
     initial = true;
