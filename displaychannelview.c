@@ -585,7 +585,9 @@ void cNopacityDisplayChannelView::ClearStatusIcons(void) {
     pixmapStatusIconsBackground->Fill(clrTransparent);
 }
 
-void cNopacityDisplayChannelView::DrawPoster(const cEvent *event, bool initial) {
+void cNopacityDisplayChannelView::DrawPoster(const cEvent *event, bool initial, bool channelchange) {
+    if (!initial && !channelchange)
+        return;
     if (pixmapPoster) {
         osd->DestroyPixmap(pixmapPoster);
         pixmapPoster = NULL;

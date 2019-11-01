@@ -142,7 +142,7 @@ void cNopacityDisplayChannel::Flush(void) {
        }
 
     if (config.GetValue("displayPoster"))
-       channelView->DrawPoster(present, initial);
+       channelView->DrawPoster(present, initial, channelChange);
 
     if (!groupSep)
         channelView->DrawScreenResolution();

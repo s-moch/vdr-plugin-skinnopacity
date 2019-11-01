@@ -56,7 +56,7 @@ public:
     void DrawStatusIcons(const cChannel *Channel);
     void DrawScreenResolution(void);
     void ClearStatusIcons(void);
-    void DrawPoster(const cEvent *event, bool initial);
+    void DrawPoster(const cEvent *event, bool initial, bool channelchange);
     void DrawSignalMeter(void);
     void DrawSignal(void);
     void ShowSignalMeter(void);
