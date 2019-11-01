@@ -232,7 +232,7 @@ void cNopacityView::CreateFloatingTextWrapper(cTextWrapper *twNarrow, cTextWrapp
     std::stringstream sstrTextTall;
     std::stringstream sstrTextFull;
       
-    for (int i=0; i<flds.size(); i++) {
+    for (long unsigned int i = 0; i < flds.size(); i++) {
         if (!flds[i].size()) {
             //empty line
             linesDrawn++;
@@ -306,7 +306,7 @@ void cNopacityView::DrawActors(std::vector<cActor> *actors) {
     int y = 2 * border + fontHeaderLarge->Height();
     if (!Running())
         return;
-        cImageLoader imgLoader;
+    cImageLoader imgLoader;
     int actor = 0;
     for (int row = 0; row < picLines; row++) {
         for (int col = 0; col < picsPerLine; col++) {
@@ -377,7 +377,7 @@ bool cNopacityView::KeyUp(void) {
     if (!scrollable)
         return false;
     int aktHeight = pixmapContent->DrawPort().Point().Y();
-    int lineHeight = font->Height();
+//    int lineHeight = font->Height();
     if (aktHeight >= 0) {
         return false;
     }

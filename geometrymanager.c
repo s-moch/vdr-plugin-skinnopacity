@@ -122,7 +122,7 @@ void cGeometryManager::SetDisplayChannelSizes(void) {
     int logoWidthTotalPercent = 16;
     channelLogoWidthTotal = logoWidthTotalPercent * channelWidth /100;
 
-    int logoMaxWidth = logoMaxWidth = channelLogoWidthTotal - 10;
+    int logoMaxWidth = channelLogoWidthTotal - 10;
     int logoMaxHeight;
     if (config.GetValue("displayType") == dtGraphical) {
         logoMaxHeight = channelHeight - channelHeaderHeight - 2;
