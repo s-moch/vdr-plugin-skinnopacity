@@ -4,7 +4,8 @@
 # $Id$
 
 # External image lib to use: imagemagick, graphicsmagick
-IMAGELIB = imagemagick
+#IMAGELIB = imagemagick
+IMAGELIB = graphicsmagick
 
 # The official name of this plugin.
 # This name will be used in the '-P...' option of VDR to load the plugin.

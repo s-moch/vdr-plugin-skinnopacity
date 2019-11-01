@@ -19,7 +19,7 @@
 #endif
 
 
-static const char *VERSION        = "1.1.3";
+static const char *VERSION        = "1.1.4";
 static const char *DESCRIPTION    = "'nOpacity' Skin";
 static const char *MAINMENUENTRY  = "nOpacity";
 
@@ -93,6 +93,10 @@ bool cPluginNopacity::ProcessArgs(int argc, char *argv[]) {
     }
   }
   return true;
+}
+
+__attribute__((constructor)) static void init(void) {
+   Magick::InitializeMagick(NULL);
 }
 
 bool cPluginNopacity::Initialize(void) {
