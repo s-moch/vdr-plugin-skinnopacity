@@ -1,7 +1,7 @@
 /*
  * remotetimers.h: Public interface of the plugin's services
  *
- * Copyright (C) 2008-2011 Frank Schmirler <vdr@schmirler.de>
+ * Copyright (C) 2008-2013 Frank Schmirler <vdr@schmirler.de>
  *
  * This file is part of VDR Plugin remotetimers.
  *
@@ -24,10 +24,9 @@
 #ifndef _SERVICE__H
 #define _SERVICE__H
 
-#ifndef __TIMERS_H
 #include <vdr/timers.h>
 #include <vdr/epg.h>
-#endif
+#include <vdr/osdbase.h>
 
 /*
  * If the Data argument is NULL, all service calls return true.
@@ -61,6 +60,16 @@ struct RemoteTimers_InstantRecording_v1_0 {
 
 //out
 //	cString errorMsg;
+
+/*
+ * RemoteTimers::ForEachConflict-v1.0
+ * Iterates the list of remote timer conflicts.
+ * The service call always returns true.
+ * Data points to a const char* which must be NULL to return the first conflict. Pass the previously returned conflict to get the next one until const char* is NULL.
+ *
+ */
+//in+out
+//	const char* conflict;
 
 /*
  * RemoteTimers::ForEach-v1.0
@@ -138,4 +147,36 @@ struct RemoteTimers_Timer_v1_0 {
 	cString		errorMsg;
 };
 
+/*
+ * RemoteTimers::GetTimerById-v1.0
+ * Get a remote timer by its id (i.e. timer->Index()+1 on remote machine).
+ * The service call always returns true.
+ * Data must point to a RemoteTimers_Timer_v1_1 structure. errorMsg is unused.
+ * NULL is returned as timer if no remote timer exists for the given id locally.
+ * Note that a timer with this id may exist remotely. This can happen if the
+ * remote timer's channel doesn't exist on the local machine.
+ */
+
+struct RemoteTimers_Timer_v1_1 {
+//in+out
+	cTimer		*timer;
+	int		id;
+//out
+	cString		errorMsg;
+};
+
+/*
+ * RemoteTimers::Menu-v1.0
+ * Depending on the state parameter, open the Timers or Schedule menu.
+ * In case of an error, menu is NULL.
+ * Data points to a RemoteTimers_Menu_v1_0 struct.
+ */
+struct RemoteTimers_Menu_v1_0 {
+//in
+	const char	*serverIp;
+	unsigned short	serverPort;
+	eOSState	state;
+//out
+	cOsdMenu	*menu;
+};
 #endif //_SERVICE__H
