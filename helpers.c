@@ -5,7 +5,7 @@
 #include <vdr/skins.h>
 
 cOsd *CreateOsd(int Left, int Top, int Width, int Height) {
-    cOsd *osd = cOsdProvider::NewOsd(cOsd::OsdLeft() + Left,cOsd::OsdTop() + Top);
+    cOsd *osd = cOsdProvider::NewOsd(Left, Top);
     if (osd) {
         tArea Area = { 0, 0, Width - 1, Height - 1,  32 };
         if (osd->SetAreas(&Area, 1) == oeOk) {
