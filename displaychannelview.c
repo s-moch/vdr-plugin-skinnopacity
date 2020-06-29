@@ -380,12 +380,14 @@ void cNopacityDisplayChannelView::DrawEvents(const cEvent *Present, const cEvent
        bool present = !i ? true : false;
        const cEvent *e = !i ? Present : Following;
        if (e) {
+          {
           LOCK_TIMERS_READ;
           eTimerMatch TimerMatch = tmNone;
           const cTimer *Timer = Timers->GetMatch(e, &TimerMatch);
           if (Timer && Timer->HasFlags(tfActive) && TimerMatch == tmFull)
              rec = true;
-       DrawEPGInfo(e, present, rec);
+          }
+          DrawEPGInfo(e, present, rec);
        }
     }
 }
@@ -398,14 +400,14 @@ void cNopacityDisplayChannelView::DrawEPGInfo(const cEvent *e, bool present, boo
     cString strSeen("");
     if (present) {
         if (config.GetValue("progressCurrentSchedule") == 0) {
-            int seen = (int)(time(NULL) - e->StartTime())/60;
-            strSeen = cString::sprintf("%d/%dmin", seen, e->Duration()/60);
+            int seen = (int)(time(NULL) - e->StartTime()) / 60;
+            strSeen = cString::sprintf("%d/%dmin", seen, e->Duration() / 60);
         } else if (config.GetValue("progressCurrentSchedule") == 1) {
-            int remaining = (int)(e->EndTime() - time(NULL))/60;
-            strSeen = cString::sprintf("-%d/%dmin", remaining, e->Duration()/60);
+            int remaining = (int)(e->EndTime() - time(NULL)) / 60;
+            strSeen = cString::sprintf("-%d/%dmin", remaining, e->Duration() / 60);
         }
     } else {
-        strSeen = cString::sprintf("%dmin", e->Duration()/60);
+        strSeen = cString::sprintf("%dmin", e->Duration() / 60);
     }
 
     int startTimeWidth = fontManager->channelEPG->Width(*startTime);
@@ -415,7 +417,7 @@ void cNopacityDisplayChannelView::DrawEPGInfo(const cEvent *e, bool present, boo
 
     int widthRecIcon = 0;
     if (recording) {
-        widthRecIcon = fontManager->channelEPGSmall->Width(" REC ") + indent/2;
+        widthRecIcon = fontManager->channelEPGSmall->Width(" REC ") + indent / 2;
     }
     int spaceEPGText = geoManager->channelContentWidth - seenWidth
                        - startTimeWidth - 3 * indent - widthRecIcon
@@ -450,11 +452,13 @@ void cNopacityDisplayChannelView::DrawEPGInfo(const cEvent *e, bool present, boo
 
     //Recording Icon
     if (recording) {
-        tColor clrRecIcon = (present)?Theme.Color(clrRecNow):Theme.Color(clrRecNext);
-        tColor clrRecIconText = (present)?Theme.Color(clrRecNowFont):Theme.Color(clrRecNextFont);
-        pixmapEPGInfo->DrawRectangle(cRect(xEPG, yEPG, widthRecIcon - indent/2, lineHeight), clrRecIcon);
-        int xRecText = xEPG + (widthRecIcon - indent/2 - fontManager->channelEPGSmall->Width("REC"))/2;
-        int yRecText = yEPG + (lineHeight - fontManager->channelEPGSmall->Height())/2;
+        tColor clrRecIcon = (present) ? Theme.Color(clrRecNow)
+                                      : Theme.Color(clrRecNext);
+        tColor clrRecIconText = (present) ? Theme.Color(clrRecNowFont)
+                                          : Theme.Color(clrRecNextFont);
+        pixmapEPGInfo->DrawRectangle(cRect(xEPG, yEPG, widthRecIcon - indent / 2, lineHeight), clrRecIcon);
+        int xRecText = xEPG + (widthRecIcon - indent / 2 - fontManager->channelEPGSmall->Width("REC")) / 2;
+        int yRecText = yEPG + (lineHeight - fontManager->channelEPGSmall->Height()) / 2;
         pixmapEPGInfo->DrawText(cPoint(xRecText, yRecText), "REC", clrRecIconText, clrRecIcon, fontManager->channelEPGSmall);
     }
 }
