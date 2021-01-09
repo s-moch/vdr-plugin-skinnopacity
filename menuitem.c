@@ -377,7 +377,7 @@ int cNopacityMainMenuItem::CheckScrollable(bool hasIcon) {
     int textWidth = font->Width(*menuEntry);
     if ((numberWidth +  textWidth) > (width - spaceLeft)) {
         scrollable = true;
-        totalTextWidth = max(numberWidth + textWidth, totalTextWidth);
+        totalTextWidth = std::max(numberWidth + textWidth, totalTextWidth);
         strEntryFull = strEntry.c_str();
         strEntry = CutText(strEntry, width - spaceLeft - numberWidth, font);
     }
@@ -491,7 +491,7 @@ int cNopacityScheduleMenuItem::CheckScrollable(bool hasIcon) {
     if (font->Width(strTitle.c_str()) > (width - spaceLeft)) {
         scrollable = true;
         scrollTitle = true;
-        totalTextWidth = max(font->Width(strTitle.c_str()), totalTextWidth);
+        totalTextWidth = std::max(font->Width(strTitle.c_str()), totalTextWidth);
         strTitleFull = strTitle.c_str();
         strSubTitleFull = strSubTitle.c_str();
         strTitle = CutText(strTitle, width - spaceLeft, font);
@@ -503,7 +503,7 @@ int cNopacityScheduleMenuItem::CheckScrollable(bool hasIcon) {
             strSubTitleFull = strSubTitle.c_str();
         }
         scrollSubTitle = true;
-        totalTextWidth = max(fontSmall->Width(strSubTitle.c_str()), totalTextWidth);
+        totalTextWidth = std::max(fontSmall->Width(strSubTitle.c_str()), totalTextWidth);
         strSubTitle = CutText(strSubTitle, width - spaceLeft, fontSmall);
     }
     return totalTextWidth;
@@ -716,7 +716,7 @@ int cNopacityChannelMenuItem::CheckScrollable(bool hasIcon) {
     int totalTextWidth = width - spaceLeft;
     if (font->Width(strEntry.c_str()) > (width - spaceLeft)) {
         scrollable = true;
-        totalTextWidth = max(font->Width(strEntry.c_str()), totalTextWidth);
+        totalTextWidth = std::max(font->Width(strEntry.c_str()), totalTextWidth);
         strEntryFull = strEntry.c_str();
         strEntry = CutText(strEntry, width - spaceLeft, font);
     } else
@@ -724,7 +724,7 @@ int cNopacityChannelMenuItem::CheckScrollable(bool hasIcon) {
 
     if (fontSmall->Width(strEpgInfo.c_str()) > (width - spaceLeft)) {
         scrollable = true;
-        totalTextWidth = max(fontSmall->Width(strEpgInfo.c_str()), totalTextWidth);
+        totalTextWidth = std::max(fontSmall->Width(strEpgInfo.c_str()), totalTextWidth);
         strEpgInfoFull = strEpgInfo.c_str();
         strEpgInfo = CutText(strEpgInfo, width - spaceLeft, fontSmall);
     } else
@@ -974,7 +974,7 @@ int cNopacityTimerMenuItem::CheckScrollable(bool hasIcon) {
     int totalTextWidth = width - spaceLeft;
     if (font->Width(strEntry.c_str()) > (width - spaceLeft)) {
         scrollable = true;
-        totalTextWidth = max(font->Width(strEntry.c_str()), totalTextWidth);
+        totalTextWidth = std::max(font->Width(strEntry.c_str()), totalTextWidth);
         strEntryFull = strEntry.c_str();
         strEntry = CutText(strEntry, width - spaceLeft, font);
     }
@@ -1198,7 +1198,7 @@ int cNopacityRecordingMenuItem::CheckScrollableRecording(void) {
     strRecNameFull = strRecName.c_str();
     if (font->Width(strRecName.c_str()) + iconWidth > (width - spaceLeft)) {
         scrollable = true;
-        totalTextWidth = max(font->Width(strRecName.c_str()) + iconWidth, totalTextWidth);
+        totalTextWidth = std::max(font->Width(strRecName.c_str()) + iconWidth, totalTextWidth);
         strRecName = CutText(strRecName, width - spaceLeft - iconWidth, font);
     }
     return totalTextWidth;
@@ -1210,7 +1210,7 @@ int cNopacityRecordingMenuItem::CheckScrollableFolder(void) {
     strRecNameFull = strRecName.c_str();
     if (font->Width(strRecName.c_str()) > (width - spaceLeft)) {
         scrollable = true;
-        totalTextWidth = max(font->Width(strRecName.c_str()), totalTextWidth);
+        totalTextWidth = std::max(font->Width(strRecName.c_str()), totalTextWidth);
         strRecName = CutText(strRecName, width - spaceLeft, font);
     }
     return totalTextWidth;

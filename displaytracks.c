@@ -178,7 +178,7 @@ void cNopacityDisplayTracks::Action(void) {
     while (Running()) {
         uint64_t Now = cTimeMs::Now();
         cPixmap::Lock();
-        double t = min(double(Now - Start) / FadeTime, 1.0);
+        double t = std::min(double(Now - Start) / FadeTime, 1.0);
         int Alpha = t * ALPHA_OPAQUE;
         pixmapContainer->SetAlpha(Alpha);
         pixmapHeader->SetAlpha(Alpha);
