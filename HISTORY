@@ -441,3 +441,9 @@ Version 1.1.4
 - Update Makefile, epgsearch.h and remotetimers.h
 - Eliminate some warnings
 - Change IMAGELIB to graphicsmagick
+
+Version 1.1.5
+
+- softhdcuvid fix
+- Change Locking in cNopacityDisplayChannelView::DrawEvents
+- Fix for gcc11
