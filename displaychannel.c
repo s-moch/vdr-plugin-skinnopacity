@@ -115,6 +115,8 @@ void cNopacityDisplayChannel::SetProgressBar(const cEvent *present) {
 
 
 void cNopacityDisplayChannel::SetMessage(eMessageType Type, const char *Text) {
+    if (!doOutput)
+        return;
     channelView->ClearChannelLogo();
     channelView->ClearChannelName();
     channelView->ClearEPGInfo();
