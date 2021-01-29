@@ -24,6 +24,7 @@ cNopacity::cNopacity(cImageCache *imgCache) : cSkin("nOpacity", &::Theme) {
     fontManager->SetFonts();
     this->imgCache = imgCache;
     imgCache->CreateCache();
+    imgCache->CreateCacheDelayed();
 }
 
 const char *cNopacity::Description(void) {

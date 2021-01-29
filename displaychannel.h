@@ -7,7 +7,6 @@
 class cNopacityDisplayChannel : public cSkinDisplayChannel, cThread {
 private:
     cNopacityDisplayChannelView *channelView;
-    bool doOutput;
     int FrameTime;
     int FadeTime;
     bool initial;
