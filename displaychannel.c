@@ -8,13 +8,6 @@
 #include <vdr/menu.h>
 
 cNopacityDisplayChannel::cNopacityDisplayChannel(cImageCache *imgCache, bool WithInfo) {
-    if (firstDisplay) {
-        imgCache->CreateCacheDelayed();
-        firstDisplay = false;
-        doOutput = false;
-        return;
-    } else
-        doOutput = true;
     groupSep = false;
     present = NULL;
     following = NULL;
@@ -25,28 +18,24 @@ cNopacityDisplayChannel::cNopacityDisplayChannel(cImageCache *imgCache, bool Wit
     FrameTime = FadeTime / 10;
 
     channelView = new cNopacityDisplayChannelView(imgCache);
-    if (!channelView->createOsd()) {
-        doOutput = false;
-    } else {
-        channelView->CreatePixmaps();
-        channelView->DrawBackground();
-        if (config.GetValue("displaySignalStrength")) {
-            channelView->DrawSignalMeter();
-        }
+    channelView->createOsd();
+    channelView->CreatePixmaps();
+    channelView->DrawBackground();
+    if (config.GetValue("displaySignalStrength")) {
+        channelView->DrawSignalMeter();
     }
 }
 
 cNopacityDisplayChannel::~cNopacityDisplayChannel() {
-    if (!doOutput)
-        return;
     Cancel(-1);
     while (Active())
         cCondWait::SleepMs(10);
-    delete channelView;
+    if (channelView)
+        delete channelView;
 }
 
 void cNopacityDisplayChannel::SetChannel(const cChannel *Channel, int Number) {
-    if (!doOutput)
+    if (!channelView)
         return;
 
     channelChange = true;
@@ -89,7 +78,7 @@ void cNopacityDisplayChannel::SetChannel(const cChannel *Channel, int Number) {
 }
 
 void cNopacityDisplayChannel::SetEvents(const cEvent *Present, const cEvent *Following) {
-    if (!doOutput)
+    if (!channelView)
         return;
     present = Present;
     following = Following;
@@ -115,7 +104,7 @@ void cNopacityDisplayChannel::SetProgressBar(const cEvent *present) {
 
 
 void cNopacityDisplayChannel::SetMessage(eMessageType Type, const char *Text) {
-    if (!doOutput)
+    if (!channelView)
         return;
     channelView->ClearChannelLogo();
     channelView->ClearChannelName();
@@ -129,7 +118,7 @@ void cNopacityDisplayChannel::SetMessage(eMessageType Type, const char *Text) {
 }
 
 void cNopacityDisplayChannel::Flush(void) {
-    if (!doOutput)
+    if (!channelView)
         return;
     if (initial || channelChange)
         channelView->DrawDate();
