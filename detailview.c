@@ -200,7 +200,7 @@ void cNopacityView::DrawFloatingContent(std::string *infoText, cTvMedia *img, cT
         pixmapContent->DrawText(cPoint(border, yText), wTextFull.GetLine(i), Theme.Color(clrMenuFontDetailViewText), clrTransparent, font);
         yText += lineHeight;
     }
-    osd->Flush();
+//    osd->Flush();
     cImageLoader imgLoader;
     if (imgLoader.LoadPoster(img->path.c_str(), imgWidth, imgHeight)) {
         if (Running() && pixmapContent)
@@ -208,7 +208,7 @@ void cNopacityView::DrawFloatingContent(std::string *infoText, cTvMedia *img, cT
     }
     if (!img2)
         return;
-    osd->Flush();
+//    osd->Flush();
     if (imgLoader.LoadPoster(img2->path.c_str(), imgWidth2, imgHeight2)) {
         if (Running() && pixmapContent)
             pixmapContent->DrawImage(cPoint(width - imgWidth2 - border, imgHeight + 2*border), imgLoader.GetImage());
@@ -337,7 +337,7 @@ void cNopacityView::DrawActors(std::vector<cActor> *actors) {
             }
             actor++;
         }
-        osd->Flush();
+//        osd->Flush();
         x = 0;
         y += thumbHeight + 2 * fontSmall->Height() + border + border/2;
     }
@@ -540,7 +540,7 @@ void cNopacityEPGView::DrawImages(void) {
         if (drawPic) {
             pixmapContent->DrawImage(cPoint((width - imgWidth) / 2, yPic), imgLoader.GetImage());
             yPic += imgHeight + border;
-            osd->Flush();
+//            osd->Flush();
         }
     } 
 }
@@ -563,9 +563,9 @@ void cNopacityEPGView::Action(void) {
     ClearContent();
     if (!headerDrawn) {
         DrawHeader();
-        osd->Flush();
+//        osd->Flush();
         DrawHeaderEPGImage();
-        osd->Flush();
+//        osd->Flush();
         headerDrawn = true;
     }
     if (tabs.size() == 0) {
@@ -746,32 +746,32 @@ void cNopacitySeriesView::DrawImages(void) {
             if (imgLoader.LoadPoster(series.banners[i].path.c_str(), series.banners[i].width, series.banners[i].height) && Running()) {
                 pixmapContent->DrawImage(cPoint((width - series.banners[i].width) / 2, yPic), imgLoader.GetImage());
                 yPic += series.banners[i].height + border;
-                osd->Flush();
+//                osd->Flush();
             }
         }
         if (imgLoader.LoadPoster(series.fanarts[i].path.c_str(), fanartWidth, fanartHeight) && Running()) {
             pixmapContent->DrawImage(cPoint((width - fanartWidth)/2, yPic), imgLoader.GetImage());
             yPic += fanartHeight + border;
-            osd->Flush();
+//            osd->Flush();
         }
     }
     if (numPosters >= 1) {
         if (imgLoader.LoadPoster(series.posters[0].path.c_str(), posterWidth, posterHeight) && Running()) {
             pixmapContent->DrawImage(cPoint(border, yPic), imgLoader.GetImage());
-            osd->Flush();
+//            osd->Flush();
             yPic += posterHeight + border;
         }
     }
     if (numPosters >= 2) {
         if (imgLoader.LoadPoster(series.posters[1].path.c_str(), posterWidth, posterHeight) && Running()) {
             pixmapContent->DrawImage(cPoint(2 * border + posterWidth, yPic - posterHeight - border), imgLoader.GetImage());
-            osd->Flush();
+//            osd->Flush();
         }
     }
     if (numPosters == 3) {
         if (imgLoader.LoadPoster(series.posters[2].path.c_str(), posterWidth, posterHeight) && Running()) {
             pixmapContent->DrawImage(cPoint((width - posterWidth) / 2, yPic), imgLoader.GetImage());
-            osd->Flush();
+//            osd->Flush();
         }
     }
 }
@@ -803,9 +803,9 @@ void cNopacitySeriesView::Action(void) {
     ClearContent();
     if (!headerDrawn) {
         DrawHeader();
-        osd->Flush();
+//        osd->Flush();
         DrawHeaderBanner();
-        osd->Flush();
+//        osd->Flush();
         headerDrawn = true;
     }
     if (tabs.size() == 0) {
@@ -996,28 +996,28 @@ void cNopacityMovieView::DrawImages(void) {
         if (imgLoader.LoadPoster(movie.fanart.path.c_str(), fanartWidth, fanartHeight) && Running()) {
             pixmapContent->DrawImage(cPoint((width - fanartWidth)/2, yPic), imgLoader.GetImage());
             yPic += fanartHeight + border;
-            osd->Flush();
+//            osd->Flush();
         }
     }
     if (movie.collectionFanart.width > 0 && movie.collectionFanart.height > 0 && movie.collectionFanart.path.size() > 0) {
         if (imgLoader.LoadPoster(movie.collectionFanart.path.c_str(), collectionFanartWidth, collectionFanartHeight) && Running()) {
             pixmapContent->DrawImage(cPoint((width - collectionFanartWidth)/2, yPic), imgLoader.GetImage());
             yPic += collectionFanartHeight + border;
-            osd->Flush();
+//            osd->Flush();
         }
     }
     if (movie.poster.width > 0 && movie.poster.height > 0 && movie.poster.path.size() > 0) {
         if (imgLoader.LoadPoster(movie.poster.path.c_str(), movie.poster.width, movie.poster.height) && Running()) {
             pixmapContent->DrawImage(cPoint((width - movie.poster.width) / 2, yPic), imgLoader.GetImage());
             yPic += movie.poster.height + border;
-            osd->Flush();
+//            osd->Flush();
         }
     }
     if (movie.collectionPoster.width > 0 && movie.collectionPoster.height > 0 && movie.collectionPoster.path.size() > 0) {
         if (imgLoader.LoadPoster(movie.collectionPoster.path.c_str(), movie.collectionPoster.width, movie.collectionPoster.height) && Running()) {
             pixmapContent->DrawImage(cPoint((width - movie.collectionPoster.width) / 2, yPic), imgLoader.GetImage());
             yPic += movie.collectionPoster.height + border;
-            osd->Flush();
+//            osd->Flush();
         }
     }
 }
@@ -1040,9 +1040,9 @@ void cNopacityMovieView::Action(void) {
     ClearContent();
     if (!headerDrawn) {
         DrawHeader();
-        osd->Flush();
+//        osd->Flush();
         DrawHeaderPoster();
-        osd->Flush();
+//        osd->Flush();
         headerDrawn = true;
     }
     if (tabs.size() == 0) {
