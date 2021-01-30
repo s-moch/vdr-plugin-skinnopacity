@@ -121,7 +121,6 @@ void cNopacityDisplayTracks::SetItem(const char *Text, int Index, bool Current) 
         menuItems.resize(Index+4);
     menuItems[Index].reset(item);
     item->SetCurrent(Current);
-    item->SetFont(fontManager->trackText);
     item->SetGeometry(Index, menuItemHeight+4, 2, menuItemWidth, menuItemHeight, 4);
     item->CreatePixmapBackground();
     item->CreatePixmapStatic();

@@ -370,10 +370,6 @@ bool cNopacityDisplayMenu::SetItemEvent(const cEvent *Event, int Index, bool Cur
         cPoint itemSize;
         menuItems[Index].reset(item);
         menuView->GetMenuItemSize(MenuCategory(), &itemSize);
-        item->SetFont(fontManager->menuItemSchedule);
-        item->SetFontSmall(fontManager->menuItemScheduleSmall);
-        item->SetFontEPGWindow(fontManager->menuEPGInfoWindow);
-        item->SetFontEPGWindowLarge(fontManager->menuEPGInfoWindowLarge);
         int spaceTop = menuView->GetMenuTop(currentNumItems, itemSize.Y());
         item->SetGeometry(Index, spaceTop, menuView->GetMenuItemLeft(itemSize.X()), itemSize.X(), itemSize.Y(), geoManager->menuSpace);
         item->SetTextWindow(menuView->GetDescriptionTextWindowSize(mcSchedule));
@@ -412,10 +408,6 @@ bool cNopacityDisplayMenu::SetItemTimer(const cTimer *Timer, int Index, bool Cur
         cPoint itemSize;
         menuItems[Index].reset(item);
         menuView->GetMenuItemSize(MenuCategory(), &itemSize);
-        item->SetFont(fontManager->menuItemTimers);
-        item->SetFontSmall(fontManager->menuItemTimersSmall);
-        item->SetFontEPGWindow(fontManager->menuEPGInfoWindow);
-        item->SetFontEPGWindowLarge(fontManager->menuEPGInfoWindowLarge);
         int spaceTop = menuView->GetMenuTop(currentNumItems, itemSize.Y());
         item->SetGeometry(Index, spaceTop, menuView->GetMenuItemLeft(itemSize.X()), itemSize.X(), itemSize.Y(), geoManager->menuSpace);
         item->SetTextWindow(menuView->GetDescriptionTextWindowSize(mcTimer));
@@ -454,9 +446,6 @@ bool cNopacityDisplayMenu::SetItemChannel(const cChannel *Channel, int Index, bo
         cPoint itemSize;
         menuItems[Index].reset(item);
         menuView->GetMenuItemSize(MenuCategory(), &itemSize);
-        item->SetFont(fontManager->menuItemChannel);
-        item->SetFontSmall(fontManager->menuItemChannelSmall);
-        item->SetFontEPGWindow(fontManager->menuEPGInfoWindow);
         int spaceTop = menuView->GetMenuTop(currentNumItems, itemSize.Y());
         item->SetGeometry(Index, spaceTop, menuView->GetMenuItemLeft(itemSize.X()), itemSize.X(), itemSize.Y(), geoManager->menuSpace);
         item->SetTextWindow(menuView->GetDescriptionTextWindowSize(mcChannel));
@@ -499,10 +488,6 @@ bool cNopacityDisplayMenu::SetItemRecording(const cRecording *Recording, int Ind
         cPoint itemSize;
         menuItems[Index].reset(item);
         menuView->GetMenuItemSize(MenuCategory(), &itemSize);
-        item->SetFont(fontManager->menuItemRecordings);
-        item->SetFontSmall(fontManager->menuItemRecordingsSmall);
-        item->SetFontEPGWindow(fontManager->menuEPGInfoWindow);
-        item->SetFontEPGWindowLarge(fontManager->menuEPGInfoWindowLarge);
         int spaceTop = menuView->GetMenuTop(currentNumItems, itemSize.Y());
         item->SetGeometry(Index, spaceTop, menuView->GetMenuItemLeft(itemSize.X()), itemSize.X(), itemSize.Y(), geoManager->menuSpace);
         item->SetTextWindow(menuView->GetDescriptionTextWindowSize(mcRecording));
@@ -556,14 +541,12 @@ void cNopacityDisplayMenu::SetItem(const char *Text, int Index, bool Current, bo
             item = new cNopacityMainMenuItem(osd, Text, Selectable, isSetup);
             menuItems[Index].reset(item);
             menuView->GetMenuItemSize(MenuCategory(), &itemSize);
-            item->SetFont(fontManager->menuItemLarge);
             if (config.GetValue("useMenuIcons"))
                 hasIcons = true;
         } else {
             item = new cNopacityDefaultMenuItem(osd, Text, Selectable);
             menuItems[Index].reset(item);
             menuView->GetMenuItemSize(mcUnknown, &itemSize);
-            item->SetFont(fontManager->menuItemDefault);
         }
         int spaceTop = menuView->GetMenuTop(currentNumItems, itemSize.Y());
         item->SetGeometry(Index, spaceTop, menuView->GetMenuItemLeft(itemSize.X()), itemSize.X(), itemSize.Y(), geoManager->menuSpace);
