@@ -81,25 +81,26 @@ bool cNopacityTextWindow::SetManualPoster(const cRecording *recording, bool full
 void cNopacityTextWindow::SetPoster(const cEvent *event, const cRecording *recording, bool fullscreen) {
     if (!event && !recording)
         return;
+    hasPoster = false;
+    posterHeight = 0;
+    posterWidth = 0;
     static cPlugin *pScraper = GetScraperPlugin();
     if (pScraper) {
         posterScraper2Vdr.event = event;
         posterScraper2Vdr.recording = recording;
         if (pScraper->Service("GetPoster", &posterScraper2Vdr)) {
-            hasPoster = true;
             int posterWidthOrig = posterScraper2Vdr.poster.width;
             int posterHeightOrig = posterScraper2Vdr.poster.height;
-            if (!fullscreen) {
-                posterHeight = geometry->Height() - 5;
-                posterWidth = posterWidthOrig * ((double)posterHeight / (double)posterHeightOrig);
-            } else {
-                posterWidth = geometry->Width() / 4;
-                posterHeight = posterHeightOrig * ((double)posterWidth / (double)posterWidthOrig);
+            if (!(posterWidthOrig == 0 || posterHeightOrig == 0)) {
+                if (!fullscreen) {
+                    posterHeight = geometry->Height() - 5;
+                    posterWidth = posterWidthOrig * ((double)posterHeight / (double)posterHeightOrig);
+                } else {
+                    posterWidth = geometry->Width() / 4;
+                    posterHeight = posterHeightOrig * ((double)posterWidth / (double)posterWidthOrig);
+                }
+                hasPoster = true;
             }
-        } else {
-            hasPoster = false;
-            posterHeight = 0;
-            posterWidth = 0;
         }
     }
 }
@@ -120,7 +121,7 @@ bool cNopacityTextWindow::SetTextScroller(int border, int left) {
         }
     } else {
         cTextWrapper test;
-        int widthTall = geometry->Width() - 2*border - left;
+        int widthTall = geometry->Width() - 2 * border - left;
         test.Set(*text, font, widthTall);
         int linesTotal = test.Lines();
         int textHeight =  linesTotal * lineHeight;
