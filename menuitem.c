@@ -227,6 +227,7 @@ void cNopacityMenuItem::DrawChannelLogoBackground(void) {
 // cNopacityMainMenuItem  -------------
 cNopacityMainMenuItem::cNopacityMainMenuItem(cOsd *osd, const char *text, bool sel, bool setup) : cNopacityMenuItem (osd, text, sel) {
     this->isSetup = setup;
+    font = fontManager->menuItemLarge;
 }
 
 cNopacityMainMenuItem::~cNopacityMainMenuItem(void) {
@@ -447,6 +448,10 @@ cNopacityScheduleMenuItem::cNopacityScheduleMenuItem(cOsd *osd, const cEvent *Ev
     strSubTitleFull = "";
     scrollTitle = false;
     scrollSubTitle = false;
+    font = fontManager->menuItemSchedule;
+    fontSmall = fontManager->menuItemScheduleSmall;
+    fontEPGWindow = fontManager->menuEPGInfoWindow;
+    fontEPGWindowLarge = fontManager->menuEPGInfoWindowLarge;
 }
 
 cNopacityScheduleMenuItem::~cNopacityScheduleMenuItem(void) {
@@ -681,6 +686,9 @@ cNopacityChannelMenuItem::cNopacityChannelMenuItem(cOsd *osd, const cChannel *Ch
     strEpgInfo = "";
     strEpgInfoFull = "";
     strTimeInfo = "";
+    font = fontManager->menuItemChannel;
+    fontSmall = fontManager->menuItemChannelSmall;
+    fontEPGWindow = fontManager->menuEPGInfoWindow;
 }
 
 cNopacityChannelMenuItem::~cNopacityChannelMenuItem(void) {
@@ -920,6 +928,10 @@ void cNopacityChannelMenuItem::Render() {
 cNopacityTimerMenuItem::cNopacityTimerMenuItem(cOsd *osd, const cTimer *Timer, bool sel, cRect *vidWin) : cNopacityMenuItem (osd, "", sel) {
     this->Timer = Timer;
     this->vidWin = vidWin;
+    font = fontManager->menuItemTimers;
+    fontSmall = fontManager->menuItemTimersSmall;
+    fontEPGWindow = fontManager->menuEPGInfoWindow;
+    fontEPGWindowLarge = fontManager->menuEPGInfoWindowLarge;
 }
 
 cNopacityTimerMenuItem::~cNopacityTimerMenuItem(void) {
@@ -1126,6 +1138,10 @@ cNopacityRecordingMenuItem::cNopacityRecordingMenuItem(cOsd *osd, const cRecordi
     manualPosterPath = "";
     hasPoster = false;
     hasThumb = false;
+    font = fontManager->menuItemRecordings;
+    fontSmall = fontManager->menuItemRecordingsSmall;
+    fontEPGWindow = fontManager->menuEPGInfoWindow;
+    fontEPGWindowLarge = fontManager->menuEPGInfoWindowLarge;
 }
 
 cNopacityRecordingMenuItem::~cNopacityRecordingMenuItem(void) {
@@ -1447,6 +1463,7 @@ void cNopacityRecordingMenuItem::Render() {
 
 cNopacityDefaultMenuItem::cNopacityDefaultMenuItem(cOsd *osd, const char *text, bool sel) : cNopacityMenuItem (osd, text, sel) {
     scrollCol = -1;
+    font = fontManager->menuItemDefault;
 }
 
 cNopacityDefaultMenuItem::~cNopacityDefaultMenuItem(void) {
@@ -1654,6 +1671,7 @@ void cNopacityDefaultMenuItem::Render() {
 // cNopacityTrackMenuItem  -------------
 
 cNopacityTrackMenuItem::cNopacityTrackMenuItem(cOsd *osd, const char *text) : cNopacityMenuItem (osd, text, true) {
+    font = fontManager->trackText;
 }
 
 cNopacityTrackMenuItem::~cNopacityTrackMenuItem(void) {

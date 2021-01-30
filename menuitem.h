@@ -18,10 +18,10 @@ protected:
     bool wasCurrent;
     bool scrollable;
     bool drawn;
-    cFont *font;
-    cFont *fontSmall;
-    cFont *fontEPGWindow;
-    cFont *fontEPGWindowLarge;
+    cFont *font = NULL;
+    cFont *fontSmall = NULL;
+    cFont *fontEPGWindow = NULL;
+    cFont *fontEPGWindowLarge = NULL;
     int width, height;
     int top, left;
     int spaceMenu;
@@ -47,10 +47,6 @@ public:
     void CreatePixmapStatic(void);
     virtual void CreatePixmapTextScroller(int totalWidth);
     void SetGeometry(int index, int top, int left, int width, int height, int spaceMenu);
-    void SetFont(cFont *font) {this->font = font;}
-    void SetFontSmall(cFont *fontSmall) {this->fontSmall = fontSmall;}
-    void SetFontEPGWindow(cFont *font) {this->fontEPGWindow = font;}
-    void SetFontEPGWindowLarge(cFont *font) {this->fontEPGWindowLarge = font;}
     void SetCurrent(bool cur);
     void SetAlpha(int alpha) {this->pixmapBackground->SetAlpha(alpha);}
     void SetAlphaIcon(int alpha) {if (pixmapStatic) this->pixmapStatic->SetAlpha(alpha);}
