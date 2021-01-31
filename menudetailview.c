@@ -409,27 +409,22 @@ void cNopacityMenuDetailEventView::Render(void) {
 void cNopacityMenuDetailEventView::Action(void) {
     if (hasAdditionalMedia && Running()) {
         DrawPoster();
-        osd->Flush();
     }
     //draw banner only for series
     if (hasAdditionalMedia && (mediaInfo.type == typeSeries) && Running()) {
         DrawBanner(yBanner);
-        osd->Flush();
     }
     //draw actors
     if (hasAdditionalMedia && Running()) {
        DrawActors(yActors);
-        osd->Flush();
     }
     //draw fanart
     if (hasAdditionalMedia && Running()) {
        DrawFanart(yFanart);
-        osd->Flush();
     }
     //draw additional EPG Pictures
     if (((config.GetValue("displayAdditionalEPGPictures") == 1) || ((config.GetValue("displayAdditionalEPGPictures") == 2) && !hasAdditionalMedia)) && Running()) {
         DrawEPGPictures(yEPGPics);
-        osd->Flush();
     }
 }
 
@@ -727,27 +722,22 @@ void cNopacityMenuDetailRecordingView::Render(void) {
 void cNopacityMenuDetailRecordingView::Action(void) {
     if ((hasManualPoster || hasAdditionalMedia) && Running()) {
         DrawPoster();
-        osd->Flush();
     }
     //draw banner only for series
     if (!hasManualPoster && hasAdditionalMedia && (mediaInfo.type == typeSeries) && Running()) {
         DrawBanner(yBanner);
-        osd->Flush();
     }
     //draw actors
     if (!hasManualPoster && hasAdditionalMedia && Running()) {
        DrawActors(yActors);
-        osd->Flush();
     }
     //draw fanart
     if (!hasManualPoster && hasAdditionalMedia && Running()) {
        DrawFanart(yFanart);
-        osd->Flush();
     }
     //draw additional EPG Pictures
     if (((config.GetValue("displayAdditionalRecEPGPictures") == 1) || ((config.GetValue("displayAdditionalRecEPGPictures") == 2) && !hasAdditionalMedia)) && Running()) {
         DrawEPGPictures(yEPGPics);
-        osd->Flush();
     }
 }
 
