@@ -37,6 +37,9 @@ private:
 protected:
     int Tab(int n);
 public:
+#ifdef DEPRECATED_SKIN_SETITEMEVENT
+    using cSkinDisplayMenu::SetItemEvent;
+#endif
     cNopacityDisplayMenu(cImageCache *imgCache);
     virtual ~cNopacityDisplayMenu();
     virtual void Scroll(bool Up, bool Page);
@@ -47,7 +50,7 @@ public:
     virtual void SetButtons(const char *Red, const char *Green = NULL, const char *Yellow = NULL, const char *Blue = NULL);
     virtual void SetMessage(eMessageType Type, const char *Text);
     virtual void SetItem(const char *Text, int Index, bool Current, bool Selectable);
-    virtual bool SetItemEvent(const cEvent *Event, int Index, bool Current, bool Selectable, const cChannel *Channel, bool WithDate, eTimerMatch TimerMatch);
+    virtual bool SetItemEvent(const cEvent *Event, int Index, bool Current, bool Selectable, const cChannel *Channel, bool WithDate, eTimerMatch TimerMatch, bool TimerActive);
     virtual bool SetItemTimer(const cTimer *Timer, int Index, bool Current, bool Selectable);
     virtual bool SetItemChannel(const cChannel *Channel, int Index, bool Current, bool Selectable, bool WithProvider);
     virtual bool SetItemRecording(const cRecording *Recording, int Index, bool Current, bool Selectable, int Level, int Total, int New);

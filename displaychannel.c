@@ -102,7 +102,8 @@ void cNopacityDisplayChannel::SetEvents(const cEvent *Present, const cEvent *Fol
         }
         bool recCurrent = false;
         eTimerMatch TimerMatch = tmNone;
-        const cTimer *Timer = Timers.GetMatch(Present, &TimerMatch);
+        LOCK_TIMERS_READ;
+        const cTimer *Timer = Timers->GetMatch(Present, &TimerMatch);
         if (Timer && Timer->Recording()) {
             recCurrent = true;
         }
@@ -184,7 +185,7 @@ void cNopacityDisplayChannel::Action(void) {
     while (Running()) {
         uint64_t Now = cTimeMs::Now();
         cPixmap::Lock();
-        double t = min(double(Now - Start) / FadeTime, 1.0);
+        double t = std::min(double(Now - Start) / FadeTime, 1.0);
         int Alpha = t * ALPHA_OPAQUE;
         channelView->SetAlpha(Alpha);
         cPixmap::Unlock();

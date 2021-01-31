@@ -100,7 +100,8 @@ void cNopacityDisplayMenu::DrawTimers(bool timersChanged, int numConflicts) {
                 drawRemoteTimers = pRemoteTimers->Service("RemoteTimers::RefreshTimers-v1.0", &errorMsg);
             }
             timers.Clear();
-            cSortedTimers SortedTimers;
+            LOCK_TIMERS_READ;
+            cSortedTimers SortedTimers(Timers);
             //if remotetimers plugin is available, take timers also from him
             if (drawRemoteTimers) {
                 cTimer* remoteTimer = NULL;
@@ -372,7 +373,7 @@ void cNopacityDisplayMenu::SetMessage(eMessageType Type, const char *Text) {
 }
 
 bool cNopacityDisplayMenu::SetItemEvent(const cEvent *Event, int Index, bool Current,
-                                        bool Selectable, const cChannel *Channel, bool WithDate, eTimerMatch TimerMatch) {
+                                        bool Selectable, const cChannel *Channel, bool WithDate, eTimerMatch TimerMatch, bool TimerActive) {
     if (!config.GetValue("narrowScheduleMenu"))
         return false;
     if ((initMenu)&&(Index > menuItemIndexLast)) {
@@ -734,7 +735,7 @@ void cNopacityDisplayMenu::Flush(void) {
     if (MenuCategory() == mcMain) {
         if (config.GetValue("showDiscUsage"))
             DrawDisk();
-        bool timersChanged = Timers.Modified(lastTimersState);
+        bool timersChanged = true;
         int numConflicts = 0;
         if (config.GetValue("checkTimerConflict"))
             numConflicts = CheckTimerConflict(timersChanged);

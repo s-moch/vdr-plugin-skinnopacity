@@ -460,7 +460,8 @@ int cNopacityMenuDetailEventView::HeightEPGPics(void) {
 
 void cNopacityMenuDetailEventView::DrawHeader(void) {
     int logoWidth = config.GetValue("logoWidthOriginal");
-    cChannel *channel = Channels.GetByChannelID(event->ChannelID(), true);
+    LOCK_CHANNELS_READ;
+    const cChannel *channel = Channels->GetByChannelID(event->ChannelID(), true);
     if (channel) {
         cImage *logo = imgCache->GetLogo(ctLogo, channel);
         if (logo) {
@@ -522,7 +523,7 @@ void cNopacityMenuDetailEventView::LoadReruns(void) {
                 strQuery += "~";
             if (!isempty(event->ShortText()))
                 strQuery += event->ShortText();
-                data.useSubTitle = true;
+            data.useSubTitle = true;
         } else {
             data.useSubTitle = false;
         }
@@ -543,7 +544,8 @@ void cNopacityMenuDetailEventView::LoadReruns(void) {
                     i++;
                     sstrReruns  << "- "
                                 << *DayDateTime(r->event->StartTime());
-                    cChannel *channel = Channels.GetByChannelID(r->event->ChannelID(), true, true);
+                    LOCK_CHANNELS_READ;
+                    const cChannel *channel = Channels->GetByChannelID(r->event->ChannelID(), true, true);
                     if (channel) {
                         sstrReruns << ", " << channel->Number() << ".";
                         sstrReruns << " " << channel->ShortName(true);
@@ -923,7 +925,8 @@ void cNopacityMenuDetailRecordingView::LoadRecordingInformation(void) {
 
     std::stringstream sstrInfo;
 
-    cChannel *channel = Channels.GetByChannelID(Info->ChannelID());
+    LOCK_CHANNELS_READ;
+    const cChannel *channel = Channels->GetByChannelID(Info->ChannelID());
     if (channel)
         sstrInfo << trVDR("Channel") << ": " << channel->Number() << " - " << channel->Name() << std::endl;
     if (nRecSize < 0) {

@@ -122,7 +122,7 @@ void cGeometryManager::SetDisplayChannelSizes(void) {
     int logoWidthTotalPercent = 16;
     channelLogoWidthTotal = logoWidthTotalPercent * channelWidth /100;
 
-    int logoMaxWidth = logoMaxWidth = channelLogoWidthTotal - 10;
+    int logoMaxWidth = channelLogoWidthTotal - 10;
     int logoMaxHeight;
     if (config.GetValue("displayType") == dtGraphical) {
         logoMaxHeight = channelHeight - channelHeaderHeight - 2;
@@ -195,7 +195,7 @@ void cGeometryManager::SetDisplayReplaySizes(void) {
     replayJumpHeight = replayControlsHeight;
 
     replayIconBorder = 5;
-    replayIconSize = min(replayControlsHeight - 2*replayIconBorder, 128);
+    replayIconSize = std::min(replayControlsHeight - 2*replayIconBorder, 128);
 
     replayMessageY = replayHeight - replayFooterHeight;
     replayMessageWidth = replayWidth * 75 / 100;

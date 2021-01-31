@@ -339,7 +339,7 @@ void cNopacityTextWindow::DrawTextWrapperFloat(const char *text, int widthSmall,
     int y = top;
     int linesDrawn = 0;
     bool drawNarrow = true;
-    for (int i=0; i<flds.size(); i++) {
+    for (long unsigned int i = 0; i < flds.size(); i++) {
         if (!flds[i].size()) {
             //empty line
             linesDrawn++;
