@@ -13,6 +13,7 @@
 
 cNopacity::cNopacity(cImageCache *imgCache) : cSkin("nOpacity", &::Theme) {
     displayMenu = NULL;
+    init = true;
     config.LoadThemeSpecificConfigs();
     config.SetThemeSpecificDefaults();
     config.SetThemeSetup();
@@ -24,7 +25,6 @@ cNopacity::cNopacity(cImageCache *imgCache) : cSkin("nOpacity", &::Theme) {
     fontManager->SetFonts();
     this->imgCache = imgCache;
     imgCache->CreateCache();
-    imgCache->CreateCacheDelayed();
 }
 
 const char *cNopacity::Description(void) {
@@ -33,6 +33,10 @@ const char *cNopacity::Description(void) {
 
 cSkinDisplayChannel *cNopacity::DisplayChannel(bool WithInfo) {
     ReloadCaches();
+    if (init) {
+        imgCache->CreateCacheDelayed();
+        init = false;
+    }
     return new cNopacityDisplayChannel(imgCache, WithInfo);
 }
 
