@@ -19,7 +19,7 @@
 #endif
 
 
-static const char *VERSION        = "1.0.5";
+static const char *VERSION        = "1.0.6";
 static const char *DESCRIPTION    = "'nOpacity' Skin";
 static const char *MAINMENUENTRY  = "nOpacity";
 
@@ -49,6 +49,10 @@ public:
   virtual const char **SVDRPHelpPages(void);
   virtual cString SVDRPCommand(const char *Command, const char *Option, int &ReplyCode);
   };
+
+__attribute__((constructor)) static void init(void) {
+   Magick::InitializeMagick(NULL);
+}
 
 cPluginNopacity::cPluginNopacity(void)
 {
