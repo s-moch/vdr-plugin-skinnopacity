@@ -447,3 +447,9 @@ Version 1.1.5
 - softhdcuvid fix
 - Change Locking in cNopacityDisplayChannelView::DrawEvents
 - Fix for gcc11
+
+Version 1.1.6
+
+- Fixed a crash when starting VDR when a message should be displayed after the timer conflict check
+- Optimize displaychannel
+- An info display error in the recording menu has been fixed when menu = narrow and no banner
