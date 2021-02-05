@@ -13,6 +13,7 @@ cNopacityDisplayReplay::cNopacityDisplayReplay(cImageCache *imgCache, bool ModeO
     createOSD();
     CreatePixmaps();
     DrawBackground();
+    LoadControlIcons();
 }
 
 cNopacityDisplayReplay::~cNopacityDisplayReplay() {
