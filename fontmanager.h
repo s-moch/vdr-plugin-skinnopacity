@@ -64,4 +64,6 @@ class cFontManager {
         cFont *volumeText;
 };
 
+extern cFontManager *fontManager;
+
 #endif //__NOPACITY_FONTMANAGER_H

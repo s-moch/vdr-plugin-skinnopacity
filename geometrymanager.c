@@ -3,6 +3,8 @@
 #include "helpers.h"
 #include <vdr/osd.h>
 
+cGeometryManager *geoManager;
+
 cGeometryManager::cGeometryManager() {
     SetOSDSize();
 }

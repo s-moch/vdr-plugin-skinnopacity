@@ -111,4 +111,6 @@ class cGeometryManager {
         int volumeProgressBarHeight;
 };
 
+extern cGeometryManager *geoManager;
+
 #endif //__NOPACITY_GEOMETRYMANAGER_H

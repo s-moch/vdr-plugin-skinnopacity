@@ -58,17 +58,9 @@ class cNopacityConfig {
         cString epgImagePath;
         bool mainMenuEntry;
 };
-#ifdef DEFINE_CONFIG
-   cNopacityConfig config;
-   cGeometryManager *geoManager;
-   cFontManager *fontManager;
-   cTheme Theme;
-#else
-   extern cNopacityConfig config;
-   extern cGeometryManager *geoManager;
-   extern cFontManager *fontManager;
-   extern cTheme Theme;
-#endif
+
+extern cNopacityConfig config;
+extern cTheme Theme;
 
 //COMMON
 #define CLR_TRANSPARENT         0x00000000
