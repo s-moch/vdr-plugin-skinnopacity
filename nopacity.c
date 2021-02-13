@@ -12,7 +12,6 @@
 #include "displaymessage.h"
 
 cNopacity::cNopacity(cImageCache *imgCache) : cSkin("nOpacity", &::Theme) {
-    displayMenu = NULL;
     init = true;
     config.LoadThemeSpecificConfigs();
     config.SetThemeSpecificDefaults();
@@ -42,9 +41,7 @@ cSkinDisplayChannel *cNopacity::DisplayChannel(bool WithInfo) {
 
 cSkinDisplayMenu *cNopacity::DisplayMenu(void) {
     ReloadCaches();
-    cNopacityDisplayMenu *menu = new cNopacityDisplayMenu(imgCache);
-    displayMenu = menu;
-    return menu;
+    return new cNopacityDisplayMenu(imgCache);
 }
 
 cSkinDisplayReplay *cNopacity::DisplayReplay(bool ModeOnly) {
