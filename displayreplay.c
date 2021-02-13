@@ -14,6 +14,7 @@ cNopacityDisplayReplay::cNopacityDisplayReplay(cImageCache *imgCache, bool ModeO
     CreatePixmaps();
     DrawBackground();
     LoadControlIcons();
+    messageBox = NULL;
 }
 
 cNopacityDisplayReplay::~cNopacityDisplayReplay() {
@@ -32,13 +33,13 @@ cNopacityDisplayReplay::~cNopacityDisplayReplay() {
         osd->DestroyPixmap(pixmapScreenResBackground);
         osd->DestroyPixmap(pixmapScreenRes);
         osd->DestroyPixmap(pixmapJump);
-        osd->DestroyPixmap(pixmapMessage);
     }
     osd->DestroyPixmap(pixmapControls);
     osd->DestroyPixmap(pixmapRew);
     osd->DestroyPixmap(pixmapPause);
     osd->DestroyPixmap(pixmapPlay);
     osd->DestroyPixmap(pixmapFwd);
+    delete messageBox;
     delete osd;
 }
 
@@ -59,7 +60,7 @@ void cNopacityDisplayReplay::CreatePixmaps(void) {
                                                       0,
                                                       geoManager->replayWidth,
                                                       geoManager->replayHeight));
-        pixmapTop = osd->CreatePixmap(7, cRect(0,
+        pixmapTop = osd->CreatePixmap(5, cRect(0,
                                                0,
                                                geoManager->replayWidth,
                                                geoManager->replayHeight));
@@ -92,11 +93,11 @@ void cNopacityDisplayReplay::CreatePixmaps(void) {
                                                  + geoManager->replayProgressBarHeight,
                                                  geoManager->replayWidth/5,
                                                  geoManager->replayCurrentHeight));
-        pixmapScreenResBackground = osd->CreatePixmap(5, cRect(geoManager->replayResolutionX - 10,
+        pixmapScreenResBackground = osd->CreatePixmap(3, cRect(geoManager->replayResolutionX - 10,
                                                      geoManager->replayResolutionY - 5,
                                                      geoManager->replayResolutionSize * 3 + 20,
                                                      geoManager->replayResolutionSize + 10));
-        pixmapScreenRes = osd->CreatePixmap(6, cRect(geoManager->replayResolutionX,
+        pixmapScreenRes = osd->CreatePixmap(4, cRect(geoManager->replayResolutionX,
                                                      geoManager->replayResolutionY,
                                                      geoManager->replayResolutionSize * 3,
                                                      geoManager->replayResolutionSize));
@@ -104,10 +105,6 @@ void cNopacityDisplayReplay::CreatePixmaps(void) {
                                                 geoManager->replayJumpY,
                                                 geoManager->replayJumpWidth,
                                                 geoManager->replayJumpHeight));
-        pixmapMessage = osd->CreatePixmap(4, cRect(0,
-                                                   geoManager->replayMessageY,
-                                                   geoManager->replayMessageWidth,
-                                                   geoManager->replayMessageHeight));
     }
 
     int controlY = geoManager->replayHeaderHeight
@@ -160,7 +157,6 @@ void cNopacityDisplayReplay::CreatePixmaps(void) {
             pixmapScreenResBackground->SetAlpha(0);
             pixmapScreenRes->SetAlpha(0);
             pixmapJump->SetAlpha(0);
-            pixmapMessage->SetAlpha(0);
         }
         pixmapControls->SetAlpha(0);
         pixmapRew->SetAlpha(0);
@@ -219,7 +215,6 @@ void cNopacityDisplayReplay::DrawBackground(void) {
         pixmapScreenResBackground->Fill(clrTransparent);
         pixmapScreenRes->Fill(clrTransparent);
         pixmapJump->Fill(clrTransparent);
-        pixmapMessage->Fill(clrTransparent);
     } else {
         pixmapControls->Fill(Theme.Color(clrMenuBorder));
         pixmapControls->DrawRectangle(cRect(2, 2, pixmapControls->ViewPort().Width() - 4, pixmapControls->ViewPort().Height() - 4),Theme.Color(clrReplayBackground));
@@ -470,14 +465,14 @@ void cNopacityDisplayReplay::SetJump(const char *Jump) {
 }
 
 void cNopacityDisplayReplay::SetMessage(eMessageType Type, const char *Text) {
-    pixmapMessage->Fill(clrTransparent);
+    DELETENULL(messageBox);
     if (!Text)
         return;
-    pixmapMessage->DrawText(cPoint(geoManager->replayMessageHeight/2, 0),
-                            Text,
-                            Theme.Color(clrReplayHead),
-                            clrTransparent,
-                            fontManager->replayHeader);
+    messageBox = new cNopacityMessageBox(osd, imgCache,
+					 cRect((geoManager->replayWidth - geoManager->messageWidth) / 2,
+					       geoManager->replayHeight - geoManager->messageHeight - 20,
+					       geoManager->messageWidth, geoManager->messageHeight),
+					 Type, Text);
 }
 
 void cNopacityDisplayReplay::Flush(void) {
@@ -512,7 +507,6 @@ void cNopacityDisplayReplay::Action(void) {
             pixmapScreenResBackground->SetAlpha(Alpha);
             pixmapScreenRes->SetAlpha(Alpha);
             pixmapJump->SetAlpha(Alpha);
-            pixmapMessage->SetAlpha(Alpha);
 
         }
         pixmapControls->SetAlpha(Alpha);
