@@ -115,8 +115,6 @@ bool cPluginNopacity::Start(void) {
 
 void cPluginNopacity::Stop(void) {
     delete imgCache;
-    delete geoManager;
-    delete fontManager;
 }
 
 void cPluginNopacity::Housekeeping(void) {
