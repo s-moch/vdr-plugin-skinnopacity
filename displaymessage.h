@@ -4,13 +4,13 @@
 #include <vdr/thread.h>
 #include <vdr/skins.h>
 #include "imagecache.h"
+#include "messagebox.h"
 
 class cNopacityDisplayMessage : public cSkinDisplayMessage , cThread {
 private:
     cOsd *osd;
     cImageCache *imgCache;
-    cPixmap *pixmap;
-    cPixmap *pixmapBackground;
+    cNopacityMessageBox *messageBox;
     int FrameTime;
     int FadeTime;
     virtual void Action(void);
