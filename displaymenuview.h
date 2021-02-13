@@ -8,6 +8,7 @@
 #include "config.h"
 #include "helpers.h"
 #include "imageloader.h"
+#include "messagebox.h"
 
 class cNopacityDisplayMenuView {
     private:
@@ -30,7 +31,7 @@ class cNopacityDisplayMenuView {
         cPixmap *pixmapDiskUsage;
         cPixmap *pixmapDiskUsageIcon;
         cPixmap *pixmapDiskUsageLabel;
-        cPixmap *pixmapStatus;
+	cNopacityMessageBox *messageBox;
         int feedNameLength;
         int avrgFontWidth;
         cRect textWindowSizeSchedules;
@@ -76,7 +77,6 @@ class cNopacityDisplayMenuView {
         void DrawScrollbar(double Height, double Offset);
         void ClearScrollbar(void);
         void DrawMessage(eMessageType Type, const char *Text);
-        void ClearMessage(void);
         void SetDetailViewSize(eDetailViewType detailViewType, cNopacityDetailView *detailView);
 };
 

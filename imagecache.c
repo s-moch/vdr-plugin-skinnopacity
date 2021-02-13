@@ -562,25 +562,17 @@ void cImageCache::CreateSkinElementsGraphics(void) {
     std::string msgWarning = "skinElements/messageWarning";
     std::string msgError = "skinElements/messageError";
     success = LoadIcon(ctSkinElement, msgStatus);
-    if (success) {
+    if (success)
         InsertIntoSkinElementCache(seMessageStatus, geoManager->messageWidth, geoManager->messageHeight);
-        InsertIntoSkinElementCache(seMessageMenuStatus, geoManager->menuMessageWidth, geoManager->menuMessageHeight);
-    }
     success = LoadIcon(ctSkinElement, msgInfo);
-    if (success) {
+    if (success)
         InsertIntoSkinElementCache(seMessageInfo, geoManager->messageWidth, geoManager->messageHeight);
-        InsertIntoSkinElementCache(seMessageMenuInfo, geoManager->menuMessageWidth, geoManager->menuMessageHeight);
-    }
     success = LoadIcon(ctSkinElement, msgWarning);
-    if (success) {
+    if (success)
         InsertIntoSkinElementCache(seMessageWarning, geoManager->messageWidth, geoManager->messageHeight);
-        InsertIntoSkinElementCache(seMessageMenuWarning, geoManager->menuMessageWidth, geoManager->menuMessageHeight);
-    }
     success = LoadIcon(ctSkinElement, msgError);
-    if (success) {
+    if (success)
         InsertIntoSkinElementCache(seMessageError, geoManager->messageWidth, geoManager->messageHeight);
-        InsertIntoSkinElementCache(seMessageMenuError, geoManager->menuMessageWidth, geoManager->menuMessageHeight);
-    }
 
     //DisplayChannel Background and Foreground
     std::string imgChannelBackground;

@@ -361,11 +361,7 @@ void cNopacityDisplayMenu::SetButtons(const char *Red, const char *Green, const 
 }
 
 void cNopacityDisplayMenu::SetMessage(eMessageType Type, const char *Text) {
-    if (Text) {
-        menuView->DrawMessage(Type, Text);
-    } else {
-        menuView->ClearMessage();
-    }
+    menuView->DrawMessage(Type, Text);
 }
 
 bool cNopacityDisplayMenu::SetItemEvent(const cEvent *Event, int Index, bool Current,

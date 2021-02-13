@@ -106,9 +106,6 @@ void cGeometryManager::SetDisplayMenuSizes() {
                                 config.GetValue("logoHeightOriginal"));
     menuTimersLogoWidth = timersLogoSize.Width();
     menuTimersLogoHeight = timersLogoSize.Height();
-    
-    menuMessageWidth = 0.8 * osdWidth;
-    menuMessageHeight = 0.1 * osdHeight;
 }
 
 void cGeometryManager::SetDisplayChannelSizes(void) {

@@ -51,7 +51,7 @@ void cFontManager::SetFontsMenu(void) {
     menuTimersHead = CreateFont((geoManager->menuContentHeight - 3*geoManager->menuSpace - geoManager->menuDiskUsageHeight) / 25 + config.GetValue("fontTimersHead"));
     menuTimers = CreateFont((geoManager->menuContentHeight - 3*geoManager->menuSpace - geoManager->menuDiskUsageHeight) / 25 - 6 + config.GetValue("fontTimers"));
     menuButtons = CreateFont(geoManager->menuButtonHeight*0.8 + config.GetValue("fontButtons"));
-    menuMessage = CreateFont(geoManager->menuMessageHeight / 3 + config.GetValue("fontMessageMenu"));
+    menuMessage = CreateFont(geoManager->messageHeight / 3 + config.GetValue("fontMessageMenu"));
     menuEPGInfoWindow = CreateFont(geoManager->menuContentHeight / 30 + config.GetValue("fontEPGInfoWindow"));
     menuEPGInfoWindowLarge = CreateFont(geoManager->menuContentHeight / 20 + config.GetValue("fontEPGInfoWindowLarge"));
 }

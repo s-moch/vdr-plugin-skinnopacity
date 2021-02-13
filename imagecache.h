@@ -60,10 +60,6 @@ enum eSkinElementType {
     seMessageInfo,
     seMessageWarning,
     seMessageError,
-    seMessageMenuStatus,
-    seMessageMenuInfo,
-    seMessageMenuWarning,
-    seMessageMenuError,
     seVolumeBackground,
     seScrollbar,
 };
