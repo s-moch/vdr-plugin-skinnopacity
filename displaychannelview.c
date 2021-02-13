@@ -25,6 +25,7 @@ cNopacityDisplayChannelView::cNopacityDisplayChannelView(cImageCache *imgCache) 
     pixmapSignalQuality = NULL;
     pixmapSignalLabel = NULL;
     pixmapPoster = NULL;
+    messageBox = NULL;
 }
 
 cNopacityDisplayChannelView::~cNopacityDisplayChannelView() {
@@ -49,6 +50,7 @@ cNopacityDisplayChannelView::~cNopacityDisplayChannelView() {
         osd->DestroyPixmap(pixmapSignalLabel);
     if (pixmapPoster)
         osd->DestroyPixmap(pixmapPoster);
+    delete messageBox;
     delete osd;
 }
 
@@ -69,7 +71,7 @@ void cNopacityDisplayChannelView::CreatePixmaps(void) {
                                     geoManager->channelWidth,
                                     geoManager->channelHeight)
                             );
-    pixmapTop = osd->CreatePixmap(7,
+    pixmapTop = osd->CreatePixmap(5,
                               cRect(geoManager->channelX,
                                     geoManager->channelTop,
                                     geoManager->channelWidth,
@@ -856,11 +858,13 @@ void cNopacityDisplayChannelView::ClearSourceInfo(void) {
     pixmapSourceInfo->Fill(clrTransparent);
 }
 
-void cNopacityDisplayChannelView::DisplayMessage(const char *Text) {
+void cNopacityDisplayChannelView::DisplayMessage(eMessageType Type, const char *Text) {
+    DELETENULL(messageBox);
     if (!Text)
         return;
-    int textWidth = fontManager->channelEPG->Width(Text);
-    int x = (geoManager->channelContentWidth - textWidth)/2;
-    int y = (geoManager->channelEpgInfoHeight - fontManager->channelEPG->Height())/2;
-    pixmapEPGInfo->DrawText(cPoint(x, y), Text, Theme.Color(clrChannelEPG), clrTransparent, fontManager->channelEPG);
+    messageBox = new cNopacityMessageBox(osd, imgCache,
+					 cRect((geoManager->channelWidth - geoManager->messageWidth) / 2,
+					       geoManager->channelTop + geoManager->channelHeight - geoManager->messageHeight - 20,
+					       geoManager->messageWidth, geoManager->messageHeight),
+					 Type, Text);
 }

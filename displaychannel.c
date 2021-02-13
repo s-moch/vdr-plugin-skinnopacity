@@ -97,15 +97,7 @@ void cNopacityDisplayChannel::SetProgressBar(const cEvent *present) {
 
 
 void cNopacityDisplayChannel::SetMessage(eMessageType Type, const char *Text) {
-    channelView->ClearChannelLogo();
-    channelView->ClearChannelName();
-    channelView->ClearEPGInfo();
-    channelView->ClearStatusIcons();
-    channelView->ClearSourceInfo();
-    channelView->ClearProgressBar();
-    channelView->HideSignalMeter();
-    channelView->DisplayMessage(Text);
-    groupSep = true;
+    channelView->DisplayMessage(Type, Text);
 }
 
 void cNopacityDisplayChannel::Flush(void) {
