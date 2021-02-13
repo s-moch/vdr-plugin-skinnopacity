@@ -30,14 +30,10 @@ cNopacityDisplayChannel::~cNopacityDisplayChannel() {
     Cancel(-1);
     while (Active())
         cCondWait::SleepMs(10);
-    if (channelView)
-        delete channelView;
+    delete channelView;
 }
 
 void cNopacityDisplayChannel::SetChannel(const cChannel *Channel, int Number) {
-    if (!channelView)
-        return;
-
     channelChange = true;
     groupSep = false;
 
@@ -78,8 +74,6 @@ void cNopacityDisplayChannel::SetChannel(const cChannel *Channel, int Number) {
 }
 
 void cNopacityDisplayChannel::SetEvents(const cEvent *Present, const cEvent *Following) {
-    if (!channelView)
-        return;
     present = Present;
     following = Following;
     channelView->ClearProgressBar();
@@ -104,8 +98,6 @@ void cNopacityDisplayChannel::SetProgressBar(const cEvent *present) {
 
 
 void cNopacityDisplayChannel::SetMessage(eMessageType Type, const char *Text) {
-    if (!channelView)
-        return;
     channelView->ClearChannelLogo();
     channelView->ClearChannelName();
     channelView->ClearEPGInfo();
@@ -118,8 +110,6 @@ void cNopacityDisplayChannel::SetMessage(eMessageType Type, const char *Text) {
 }
 
 void cNopacityDisplayChannel::Flush(void) {
-    if (!channelView)
-        return;
     if (initial || channelChange)
         channelView->DrawDate();
 
