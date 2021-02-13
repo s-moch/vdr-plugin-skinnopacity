@@ -4,6 +4,7 @@
 #include <vdr/skins.h>
 #include <vdr/thread.h>
 #include "imagecache.h"
+#include "messagebox.h"
 
 class cNopacityDisplayReplay : public cSkinDisplayReplay , cThread{
 private:
@@ -30,7 +31,7 @@ private:
     cPixmap *pixmapPlay;
     cPixmap *pixmapFwd;
     cPixmap *pixmapJump;
-    cPixmap *pixmapMessage;
+    cNopacityMessageBox *messageBox;
     virtual void Action(void);
     void createOSD(void);
     void CreatePixmaps(void);
