@@ -26,6 +26,11 @@ cNopacity::cNopacity(cImageCache *imgCache) : cSkin("nOpacity", &::Theme) {
     imgCache->CreateCache();
 }
 
+cNopacity::~cNopacity() {
+    delete geoManager;
+    delete fontManager;
+}
+
 const char *cNopacity::Description(void) {
   return "nOpacity";
 }

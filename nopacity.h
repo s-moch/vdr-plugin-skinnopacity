@@ -14,6 +14,7 @@ private:
   void ReloadCaches(void);
 public:
   cNopacity(cImageCache *imgCache);
+  ~cNopacity(void);
   virtual const char *Description(void);
   virtual cSkinDisplayChannel *DisplayChannel(bool WithInfo);
   virtual cSkinDisplayMenu *DisplayMenu(void);
