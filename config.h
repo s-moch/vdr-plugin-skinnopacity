@@ -59,13 +59,11 @@ class cNopacityConfig {
         bool mainMenuEntry;
 };
 #ifdef DEFINE_CONFIG
-   bool firstDisplay = true;
    cNopacityConfig config;
    cGeometryManager *geoManager;
    cFontManager *fontManager;
    cTheme Theme;
 #else
-   extern bool firstDisplay;
    extern cNopacityConfig config;
    extern cGeometryManager *geoManager;
    extern cFontManager *fontManager;
