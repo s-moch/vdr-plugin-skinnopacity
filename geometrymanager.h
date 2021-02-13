@@ -62,8 +62,6 @@ class cGeometryManager {
         int menuDiskUsageWidth;
         int menuDiskUsageHeight;
         int menuTimersWidth;
-        int menuMessageWidth;
-        int menuMessageHeight;
         //DisplayChannel Sizes
         int channelX, channelTop;
         int channelWidth, channelHeight;

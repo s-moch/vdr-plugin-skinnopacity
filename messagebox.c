@@ -3,7 +3,7 @@
 #include "imageloader.h"
 #include "messagebox.h"
 
-cNopacityMessageBox::cNopacityMessageBox(cOsd *Osd, cImageCache *imgCache, const cRect &Rect, eMessageType Type, const char *Text) {
+cNopacityMessageBox::cNopacityMessageBox(cOsd *Osd, cImageCache *imgCache, const cRect &Rect, eMessageType Type, const char *Text, bool isMenuMessage) {
   osd = Osd;
   pixmap = osd->CreatePixmap(7, Rect);
   pixmapBackground = osd->CreatePixmap(6, Rect);
@@ -51,13 +51,13 @@ cNopacityMessageBox::cNopacityMessageBox(cOsd *Osd, cImageCache *imgCache, const
       DrawRoundedCornersWithBorder(pixmapBackground, col, config.GetValue("cornerRadius"), Rect.Width(), Rect.Height());
     }
   }
-  int textWidth = fontManager->messageText->Width(Text);
-  pixmap->DrawText(cPoint((Rect.Width() - textWidth) / 2,
-			  (Rect.Height() - fontManager->messageText->Height()) / 2),
+  cFont *font = isMenuMessage ? fontManager->menuMessage : fontManager->messageText;
+  pixmap->DrawText(cPoint((Rect.Width() - font->Width(Text)) / 2,
+			  (Rect.Height() - font->Height()) / 2),
 		   Text,
 		   colFont,
 		   clrTransparent,
-		   fontManager->messageText);
+		   font);
 }
 
 cNopacityMessageBox::~cNopacityMessageBox() {

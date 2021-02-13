@@ -3,8 +3,8 @@
 cNopacityDisplayMenuView::cNopacityDisplayMenuView(cImageCache *imgCache) {
     this->imgCache = imgCache;
     diskUsageAlert = 95;
-    pixmapStatus = NULL;
     pixmapHeaderIcon = NULL;
+    messageBox = NULL;
 }
 
 cNopacityDisplayMenuView::~cNopacityDisplayMenuView(void) {
@@ -24,6 +24,7 @@ cNopacityDisplayMenuView::~cNopacityDisplayMenuView(void) {
     osd->DestroyPixmap(pixmapDiskUsageLabel);
     if (pixmapHeaderIcon)
         osd->DestroyPixmap(pixmapHeaderIcon);
+    delete messageBox;
 }
 
 cOsd *cNopacityDisplayMenuView::createOsd(void) {
@@ -673,67 +674,14 @@ void cNopacityDisplayMenuView::ClearScrollbar(void) {
 
 
 void cNopacityDisplayMenuView::DrawMessage(eMessageType Type, const char *Text) {
-    tColor col = Theme.Color(clrMessageStatus);
-    tColor colFont = Theme.Color(clrMessageFontStatus);
-    eSkinElementType seType = seMessageMenuStatus;
-    switch (Type) {
-        case mtStatus:
-            col = Theme.Color(clrMessageStatus);
-            colFont = Theme.Color(clrMessageFontStatus);
-            seType = seMessageMenuStatus;
-            break;
-        case mtInfo:
-            col = Theme.Color(clrMessageInfo);
-            colFont = Theme.Color(clrMessageFontInfo);
-            seType = seMessageMenuInfo;
-            break;
-        case mtWarning:
-            col = Theme.Color(clrMessageWarning);
-            colFont = Theme.Color(clrMessageFontWarning);
-            seType = seMessageMenuWarning;
-            break;
-        case mtError:
-            col = Theme.Color(clrMessageError);
-            colFont = Theme.Color(clrMessageFontError);
-            seType = seMessageMenuError;
-            break;
-    }
-    if (pixmapStatus) {
-        ClearMessage();
-    }
-    pixmapStatus = osd->CreatePixmap(7, cRect(0.1*geoManager->osdWidth, 0.8*geoManager->osdHeight, geoManager->menuMessageWidth, geoManager->menuMessageHeight));
-
-    pixmapStatus->Fill(clrTransparent);
-    if (config.GetValue("displayType") == dtGraphical) {
-        cImage *imgBack = imgCache->GetSkinElement(seType);
-        if (imgBack) {
-            pixmapStatus->DrawImage(cPoint(0, 0), *imgBack);
-        }
-    } else {
-        pixmapStatus->Fill(col);
-        if (config.GetValue("displayType") == dtBlending) {
-            cImage imgBack = imgCache->GetBackground(Theme.Color(clrMenuBack), col, geoManager->menuMessageWidth-2, geoManager->menuMessageHeight-2, true);
-            pixmapStatus->DrawImage(cPoint(1, 1), imgBack);
-        }
-        if (config.GetValue("roundedCorners")) {
-            DrawRoundedCornersWithBorder(pixmapStatus, col, config.GetValue("cornerRadius"), geoManager->menuMessageWidth, geoManager->menuMessageHeight);
-        }
-    }
-    int textWidth = fontManager->menuMessage->Width(Text);
-    tColor clrFontBack = (config.GetValue("displayType") != dtFlat)?(clrTransparent):col;
-    pixmapStatus->DrawText(cPoint((geoManager->menuMessageWidth - textWidth) / 2,
-                                  (geoManager->menuMessageHeight - fontManager->menuMessage->Height()) / 2),
-                                  Text,
-                                  colFont,
-                                  clrFontBack,
-                                  fontManager->menuMessage);
-}
-
-void cNopacityDisplayMenuView::ClearMessage(void) {
-    if (pixmapStatus) {
-        osd->DestroyPixmap(pixmapStatus);
-        pixmapStatus = NULL;
-    }
+    DELETENULL(messageBox);
+    if (!Text)
+        return;
+    messageBox = new cNopacityMessageBox(osd, imgCache,
+					 cRect((geoManager->osdWidth - geoManager->messageWidth) / 2,
+					       geoManager->osdHeight * 9/10 - geoManager->messageHeight,
+					       geoManager->messageWidth, geoManager->messageHeight),
+					 Type, Text, true);
 }
 
 void cNopacityDisplayMenuView::SetDetailViewSize(eDetailViewType detailViewType, cNopacityMenuDetailView *detailView) {

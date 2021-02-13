@@ -10,7 +10,7 @@ private:
   cPixmap *pixmap;
   cPixmap *pixmapBackground;
 public:
-  cNopacityMessageBox(cOsd *Osd, cImageCache *imgCache, const cRect &Rect, eMessageType Type, const char *Text);
+  cNopacityMessageBox(cOsd *Osd, cImageCache *imgCache, const cRect &Rect, eMessageType Type, const char *Text, bool isMenuMessage = false);
   ~cNopacityMessageBox();
   void SetAlpha(int Alpha);
   };
