@@ -2,6 +2,7 @@
 #include "geometrymanager.h"
 #include "config.h"
 
+cFontManager *fontManager;
 
 cFontManager::cFontManager() {
 }

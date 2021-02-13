@@ -7,8 +7,6 @@
  */
 #include <getopt.h>
 #include <vdr/plugin.h>
-
-#define DEFINE_CONFIG 1
 #include "config.h"
 #include "nopacity.h"
 #include "setup.h"

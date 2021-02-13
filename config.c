@@ -5,6 +5,9 @@
 #include "helpers.h"
 #include <vdr/skins.h>
 
+cNopacityConfig config;
+cTheme Theme;
+
 cNopacityConfig::cNopacityConfig() {
     logoPathSet = false;
     epgImagePathSet = false;
