@@ -9,7 +9,6 @@ class cNopacityDisplayMenu;
 
 class cNopacity : public cSkin {
 private:
-  cNopacityDisplayMenu *displayMenu;
   cImageCache *imgCache;
   void ReloadCaches(void);
 public:
