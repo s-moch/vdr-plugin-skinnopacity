@@ -2,6 +2,7 @@
 #define __NOPACITY_DISPLAYCHANNELVIEW_H
 
 #include "imagecache.h"
+#include "messagebox.h"
 #include <vdr/osd.h>
 
 class cNopacityDisplayChannelView {
@@ -32,6 +33,7 @@ private:
     cPixmap *pixmapSignalLabel;
     cPixmap *pixmapSourceInfo;
     cPixmap *pixmapPoster;
+    cNopacityMessageBox *messageBox;
     tColor DrawProgressbarProgress(int left, int top, int width, int height);
     cString GetScreenResolutionIcon(void);
     std::string GetChannelSep(const cChannel *channel, bool prev);
@@ -64,7 +66,7 @@ public:
     void DrawChannelGroups(const cChannel *Channel, cString ChannelName);
     void DrawSourceInfo(void);
     void ClearSourceInfo(void);
-    void DisplayMessage(const char *Text);
+    void DisplayMessage(eMessageType Type, const char *Text);
     void Flush(void) { osd->Flush(); };
 };
 #endif //__NOPACITY_DISPLAYCHANNELVIEW_H
