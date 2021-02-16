@@ -4,9 +4,8 @@
 * cNopacityView
 ********************************************************************************************/
 
-cNopacityView::cNopacityView(cOsd *osd, cImageCache *imgCache) {
+cNopacityView::cNopacityView(cOsd *osd) {
     this->osd = osd;
-    this->imgCache = imgCache;
     activeView = 0;
     scrollable = false;
     tabbed = false;
@@ -411,7 +410,7 @@ bool cNopacityView::KeyDown(void) {
 * cNopacityEPGView : cNopacityView
 ********************************************************************************************/
 
-cNopacityEPGView::cNopacityEPGView(cOsd *osd, cImageCache *imgCache) : cNopacityView(osd, imgCache) {
+cNopacityEPGView::cNopacityEPGView(cOsd *osd) : cNopacityView(osd) {
     tabbed = true;
     pixmapHeaderEPGImage = NULL;
     numEPGPics = -1;
@@ -592,7 +591,7 @@ void cNopacityEPGView::Action(void) {
 * cNopacitySeriesView : cNopacityView
 ********************************************************************************************/
 
-cNopacitySeriesView::cNopacitySeriesView(cOsd *osd, cImageCache *imgCache, int seriesId, int episodeId) : cNopacityView(osd, imgCache) {
+cNopacitySeriesView::cNopacitySeriesView(cOsd *osd, int seriesId, int episodeId) : cNopacityView(osd) {
     this->seriesId = seriesId;
     this->episodeId = episodeId;
     tvdbInfo = "";
@@ -854,7 +853,7 @@ void cNopacitySeriesView::Action(void) {
 * cNopacityMovieView : cNopacityView
 ********************************************************************************************/
 
-cNopacityMovieView::cNopacityMovieView(cOsd *osd, cImageCache *imgCache, int movieId) : cNopacityView(osd, imgCache) {
+cNopacityMovieView::cNopacityMovieView(cOsd *osd, int movieId) : cNopacityView(osd) {
     this->movieId = movieId;
     pixmapHeaderPoster = NULL;
     tabbed = true;
@@ -1085,7 +1084,7 @@ void cNopacityMovieView::Action(void) {
 * cNopacityTextView : cNopacityView
 ********************************************************************************************/
 
-cNopacityTextView::cNopacityTextView(cOsd *osd, cImageCache *imgCache) : cNopacityView(osd, imgCache) {
+cNopacityTextView::cNopacityTextView(cOsd *osd) : cNopacityView(osd) {
 }
 
 cNopacityTextView::~cNopacityTextView(void) {

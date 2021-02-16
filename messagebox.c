@@ -3,7 +3,7 @@
 #include "imageloader.h"
 #include "messagebox.h"
 
-cNopacityMessageBox::cNopacityMessageBox(cOsd *Osd, cImageCache *imgCache, const cRect &Rect, eMessageType Type, const char *Text, bool isMenuMessage) {
+cNopacityMessageBox::cNopacityMessageBox(cOsd *Osd, const cRect &Rect, eMessageType Type, const char *Text, bool isMenuMessage) {
   osd = Osd;
   pixmap = osd->CreatePixmap(7, Rect);
   pixmapBackground = osd->CreatePixmap(6, Rect);

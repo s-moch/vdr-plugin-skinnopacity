@@ -7,7 +7,6 @@
 
 class cNopacityDisplayChannelView {
 private:
-    cImageCache *imgCache;
     cOsd *osd;
     cString lastDate;
     int statusIconBorder;
@@ -38,8 +37,8 @@ private:
     cString GetScreenResolutionIcon(void);
     std::string GetChannelSep(const cChannel *channel, bool prev);
 public:
-    cNopacityDisplayChannelView(cImageCache *imgCache);
-    virtual ~cNopacityDisplayChannelView();
+    cNopacityDisplayChannelView(void);
+    virtual ~cNopacityDisplayChannelView(void);
     bool createOsd(void);
     void CreatePixmaps(void);
     void SetAlpha(int alpha);

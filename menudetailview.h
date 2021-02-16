@@ -23,7 +23,6 @@ class cNopacityDetailView : public cThread {
 protected:
     eDetailViewType type;
     cOsd *osd;
-    cImageCache *imgCache;
     const cEvent *ev;
     const cRecording *rec;
     const char *text;
@@ -39,7 +38,7 @@ protected:
     int ReadSizeVdr(const char *strPath);
     virtual void Action(void);
 public:
-    cNopacityDetailView(eDetailViewType detailViewType, cOsd *osd, cImageCache *imgCache);
+    cNopacityDetailView(eDetailViewType detailViewType, cOsd *osd);
     virtual ~cNopacityDetailView(void);
     void SetGeometry(int x, int width, int height, int top, int contentBorder, int headerHeight);
     void SetEvent(const cEvent *e) { ev = e; };

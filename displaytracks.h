@@ -10,7 +10,6 @@
 class cNopacityDisplayTracks : public cSkinDisplayTracks, cThread {
 private:
     cOsd *osd;
-    cImageCache *imgCache;
     int FrameTime;
     int FadeTime;
     int width, height;
@@ -31,7 +30,7 @@ private:
     void CreatePixmaps(void);
     void DrawHeader(const char *Title);
 public:
-    cNopacityDisplayTracks(cImageCache *imgCache, const char *Title, int NumTracks, const char * const *Tracks);
+    cNopacityDisplayTracks(const char *Title, int NumTracks, const char * const *Tracks);
     virtual ~cNopacityDisplayTracks();
     virtual void SetTrack(int Index, const char * const *Tracks);
     virtual void SetAudioChannel(int AudioChannel);

@@ -3,10 +3,9 @@
 /********************************************************************************************
 * cNopacityDetailView
 ********************************************************************************************/
-cNopacityDetailView::cNopacityDetailView(eDetailViewType detailViewType, cOsd *osd, cImageCache *imgCache) {
+cNopacityDetailView::cNopacityDetailView(eDetailViewType detailViewType, cOsd *osd) {
     type = detailViewType;
     this->osd = osd;
-    this->imgCache = imgCache;
     ev = NULL;
     rec = NULL;
     text = NULL;
@@ -45,15 +44,15 @@ void cNopacityDetailView::InitiateViewType(void) {
                 break;
             call.event = ev;
             if (!pScraper) {
-                view = new cNopacityEPGView(osd, imgCache);
+                view = new cNopacityEPGView(osd);
             } else if (pScraper->Service("GetEventType", &call)) {
                 if (call.type == tMovie) {
-                    view = new cNopacityMovieView(osd, imgCache, call.movieId);
+                    view = new cNopacityMovieView(osd, call.movieId);
                 } else if (call.type == tSeries) {
-                    view = new cNopacitySeriesView(osd, imgCache, call.seriesId, call.episodeId);
+                    view = new cNopacitySeriesView(osd, call.seriesId, call.episodeId);
                 }
             } else {
-                view = new cNopacityEPGView(osd, imgCache);                
+                view = new cNopacityEPGView(osd);                
             }
             view->SetTitle(ev->Title());
             view->SetSubTitle(ev->ShortText());
@@ -75,15 +74,15 @@ void cNopacityDetailView::InitiateViewType(void) {
                 break;
             call.recording = rec;
             if (!pScraper) {
-                view = new cNopacityEPGView(osd, imgCache);
+                view = new cNopacityEPGView(osd);
             } else if (pScraper->Service("GetEventType", &call)) {
                 if (call.type == tMovie) {
-                    view = new cNopacityMovieView(osd, imgCache, call.movieId);
+                    view = new cNopacityMovieView(osd, call.movieId);
                 } else if (call.type == tSeries) {
-                    view = new cNopacitySeriesView(osd, imgCache, call.seriesId, call.episodeId);
+                    view = new cNopacitySeriesView(osd, call.seriesId, call.episodeId);
                 }
             } else {
-                view = new cNopacityEPGView(osd, imgCache);                
+                view = new cNopacityEPGView(osd);                
             }
             const cRecordingInfo *info = rec->Info();
             if (info) {
@@ -102,7 +101,7 @@ void cNopacityDetailView::InitiateViewType(void) {
             view->SetRecFileName(rec->FileName());
             break; }
         case dvText:
-            view = new cNopacityTextView(osd, imgCache);
+            view = new cNopacityTextView(osd);
             view->SetInfoText(text);
             break;
         default:

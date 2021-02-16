@@ -4,18 +4,16 @@
 #include "helpers.h"
 #include <vdr/recording.h>
 
-cNopacityTimer::cNopacityTimer(cOsd *osd, cImageCache *imgCache, const cTimer *timer, const cFont *font, const cFont *fontLarge) {
+cNopacityTimer::cNopacityTimer(cOsd *osd, const cTimer *timer, const cFont *font, const cFont *fontLarge) {
     this->osd = osd;
-    this->imgCache = imgCache;
     this->timer = timer;
     this->font = font;
     this->fontLarge = fontLarge;
     isTimerConflict = false;
 }
 
-cNopacityTimer::cNopacityTimer(cOsd *osd, cImageCache *imgCache, int numConflicts, const cFont *font, const cFont *fontLarge) {
+cNopacityTimer::cNopacityTimer(cOsd *osd, int numConflicts, const cFont *font, const cFont *fontLarge) {
     this->osd = osd;
-    this->imgCache = imgCache;
     this->numConflicts = numConflicts;
     this->font = font;
     this->fontLarge = fontLarge;

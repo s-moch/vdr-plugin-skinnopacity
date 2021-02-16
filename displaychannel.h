@@ -23,7 +23,7 @@ private:
     virtual void Action(void);
     void SetProgressBar(const cEvent *present);
 public:
-    cNopacityDisplayChannel(cImageCache *imgCache, bool WithInfo);
+    cNopacityDisplayChannel(bool WithInfo);
     virtual ~cNopacityDisplayChannel();
     virtual void SetChannel(const cChannel *Channel, int Number);
     virtual void SetEvents(const cEvent *Present, const cEvent *Following);

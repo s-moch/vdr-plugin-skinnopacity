@@ -1,7 +1,6 @@
 #include "displaymenuview.h"
 
-cNopacityDisplayMenuView::cNopacityDisplayMenuView(cImageCache *imgCache) {
-    this->imgCache = imgCache;
+cNopacityDisplayMenuView::cNopacityDisplayMenuView(void) {
     diskUsageAlert = 95;
     pixmapHeaderIcon = NULL;
     messageBox = NULL;
@@ -625,7 +624,7 @@ int cNopacityDisplayMenuView::GetTimersMaxHeight(void) {
 }
 
 cNopacityTimer *cNopacityDisplayMenuView::DrawTimerConflict(int numConflicts, int y) {
-    cNopacityTimer *t = new cNopacityTimer(osd, imgCache, numConflicts, fontManager->menuTimers, fontManager->menuTimersHead);
+    cNopacityTimer *t = new cNopacityTimer(osd, numConflicts, fontManager->menuTimers, fontManager->menuTimersHead);
     t->SetGeometry(geoManager->menuTimersWidth, y);
     t->CreateConflictText();
     t->CalculateHeight(geoManager->menuSpace);
@@ -636,7 +635,7 @@ cNopacityTimer *cNopacityDisplayMenuView::DrawTimerConflict(int numConflicts, in
 }
 
 cNopacityTimer *cNopacityDisplayMenuView::DrawTimer(const cTimer *Timer, int y) {
-    cNopacityTimer *t = new cNopacityTimer(osd, imgCache, Timer, fontManager->menuTimers, fontManager->menuTimersHead);
+    cNopacityTimer *t = new cNopacityTimer(osd, Timer, fontManager->menuTimers, fontManager->menuTimersHead);
     t->SetGeometry(geoManager->menuTimersWidth, y);
     t->CreateDate();
     t->CreateShowName();
@@ -673,7 +672,7 @@ void cNopacityDisplayMenuView::DrawMessage(eMessageType Type, const char *Text) 
     DELETENULL(messageBox);
     if (!Text)
         return;
-    messageBox = new cNopacityMessageBox(osd, imgCache,
+    messageBox = new cNopacityMessageBox(osd,
 					 cRect((geoManager->osdWidth - geoManager->messageWidth) / 2,
 					       geoManager->osdHeight * 9/10 - geoManager->messageHeight,
 					       geoManager->messageWidth, geoManager->messageHeight),

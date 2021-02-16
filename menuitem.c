@@ -10,9 +10,8 @@
 
 // cNopacityMenuItem  -------------
 
-cNopacityMenuItem::cNopacityMenuItem(cOsd *osd, cImageCache *imgCache, const char *text, bool sel) {
+cNopacityMenuItem::cNopacityMenuItem(cOsd *osd, const char *text, bool sel) {
     this->osd = osd;
-    this->imgCache = imgCache;
     drawn = false;
     Text = text;
     selectable = sel;
@@ -226,7 +225,7 @@ void cNopacityMenuItem::DrawChannelLogoBackground(void) {
 }
 
 // cNopacityMainMenuItem  -------------
-cNopacityMainMenuItem::cNopacityMainMenuItem(cOsd *osd, cImageCache *imgCache, const char *text, bool sel, bool setup) : cNopacityMenuItem (osd, imgCache, text, sel) {
+cNopacityMainMenuItem::cNopacityMainMenuItem(cOsd *osd, const char *text, bool sel, bool setup) : cNopacityMenuItem (osd, text, sel) {
     this->isSetup = setup;
 }
 
@@ -434,8 +433,8 @@ void cNopacityMainMenuItem::Render() {
 
 // cNopacityScheduleMenuItem  -------------
 
-cNopacityScheduleMenuItem::cNopacityScheduleMenuItem(cOsd *osd, cImageCache *imgCache, const cEvent *Event, const cChannel *Channel, eTimerMatch TimerMatch, bool sel, eMenuCategory category, cRect *vidWin)
-                            : cNopacityMenuItem (osd, imgCache, "", sel) {
+cNopacityScheduleMenuItem::cNopacityScheduleMenuItem(cOsd *osd, const cEvent *Event, const cChannel *Channel, eTimerMatch TimerMatch, bool sel, eMenuCategory category, cRect *vidWin)
+                            : cNopacityMenuItem (osd, "", sel) {
     this->category = category;
     this->Event = Event;
     this->Channel = Channel;
@@ -672,7 +671,7 @@ void cNopacityScheduleMenuItem::DrawRemaining(int x, int y, int width) {
 
 // cNopacityChannelMenuItem  -------------
 
-cNopacityChannelMenuItem::cNopacityChannelMenuItem(cOsd *osd, cImageCache *imgCache, const cChannel *Channel, bool sel, cRect *vidWin) : cNopacityMenuItem (osd, imgCache, "", sel) {
+cNopacityChannelMenuItem::cNopacityChannelMenuItem(cOsd *osd, const cChannel *Channel, bool sel, cRect *vidWin) : cNopacityMenuItem (osd, "", sel) {
     this->Channel = Channel;
     this->vidWin = vidWin;
     strEntry = "";
@@ -918,7 +917,7 @@ void cNopacityChannelMenuItem::Render() {
 
 // cNopacityTimerMenuItem  -------------
 
-cNopacityTimerMenuItem::cNopacityTimerMenuItem(cOsd *osd, cImageCache *imgCache, const cTimer *Timer, bool sel, cRect *vidWin) : cNopacityMenuItem (osd, imgCache, "", sel) {
+cNopacityTimerMenuItem::cNopacityTimerMenuItem(cOsd *osd, const cTimer *Timer, bool sel, cRect *vidWin) : cNopacityMenuItem (osd, "", sel) {
     this->Timer = Timer;
     this->vidWin = vidWin;
 }
@@ -1114,7 +1113,7 @@ void cNopacityTimerMenuItem::DrawLogo(int logoWidth, int logoHeight) {
 }
 // cNopacityRecordingMenuItem  -------------
 
-cNopacityRecordingMenuItem::cNopacityRecordingMenuItem(cOsd *osd, cImageCache *imgCache, const cRecording *Recording, bool sel, bool isFolder, int Level, int Total, int New, cRect *vidWin) : cNopacityMenuItem (osd, imgCache, "", sel) {
+cNopacityRecordingMenuItem::cNopacityRecordingMenuItem(cOsd *osd, const cRecording *Recording, bool sel, bool isFolder, int Level, int Total, int New, cRect *vidWin) : cNopacityMenuItem (osd, "", sel) {
     this->Recording = Recording;
     this->isFolder = isFolder;
     this->Level = Level;
@@ -1446,7 +1445,7 @@ void cNopacityRecordingMenuItem::Render() {
 
 // cNopacityDefaultMenuItem  -------------
 
-cNopacityDefaultMenuItem::cNopacityDefaultMenuItem(cOsd *osd, cImageCache *imgCache, const char *text, bool sel) : cNopacityMenuItem (osd, imgCache, text, sel) {
+cNopacityDefaultMenuItem::cNopacityDefaultMenuItem(cOsd *osd, const char *text, bool sel) : cNopacityMenuItem (osd, text, sel) {
     scrollCol = -1;
 }
 
@@ -1654,7 +1653,7 @@ void cNopacityDefaultMenuItem::Render() {
 
 // cNopacityTrackMenuItem  -------------
 
-cNopacityTrackMenuItem::cNopacityTrackMenuItem(cOsd *osd, cImageCache *imgCache, const char *text) : cNopacityMenuItem (osd, imgCache, text, true) {
+cNopacityTrackMenuItem::cNopacityTrackMenuItem(cOsd *osd, const char *text) : cNopacityMenuItem (osd, text, true) {
 }
 
 cNopacityTrackMenuItem::~cNopacityTrackMenuItem(void) {

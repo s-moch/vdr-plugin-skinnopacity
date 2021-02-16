@@ -3,13 +3,14 @@
 
 #include "nopacity.h"
 #include "menuitem.h"
+#include "imagecache.h"
+
 #include <vdr/thread.h>
 #include <memory>
 #include <vector>
 
 class cNopacityDisplayMenu : public cSkinDisplayMenu , cThread {
 private:
-    cImageCache *imgCache;
     cNopacityDisplayMenuView *menuView;
     cNopacityDetailView *detailView;
     cOsd *osd;
@@ -40,8 +41,8 @@ public:
 #ifdef DEPRECATED_SKIN_SETITEMEVENT
 	using cSkinDisplayMenu::SetItemEvent;
 #endif
-    cNopacityDisplayMenu(cImageCache *imgCache);
-    virtual ~cNopacityDisplayMenu();
+    cNopacityDisplayMenu(void);
+    virtual ~cNopacityDisplayMenu(void);
     virtual void Scroll(bool Up, bool Page);
     virtual int MaxItems(void);
     virtual void Clear(void);

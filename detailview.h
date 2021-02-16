@@ -31,7 +31,6 @@ enum eMediaViewTabs {
 class cNopacityView : public cThread {
 protected:
     cOsd *osd;
-    cImageCache *imgCache;
     cPixmap *pixmapHeader;
     cPixmap *pixmapHeaderLogo;
     cPixmap *pixmapContent;
@@ -68,7 +67,7 @@ protected:
     virtual void SetTabs(void) {};
     void DrawTabs(void);
 public:    
-    cNopacityView(cOsd *osd, cImageCache *imgCache);
+    cNopacityView(cOsd *osd);
     virtual ~cNopacityView(void);
     void SetTitle(const char *t) { title = t ? t : ""; };
     void SetSubTitle(const char *s) { subTitle = s ? s : ""; };
@@ -101,7 +100,7 @@ protected:
     void CheckEPGImages(void);
     void DrawImages(void);
 public:    
-    cNopacityEPGView(cOsd *osd, cImageCache *imgCache);
+    cNopacityEPGView(cOsd *osd);
     virtual ~cNopacityEPGView(void);
     void KeyLeft(void);
     void KeyRight(void);
@@ -121,7 +120,7 @@ protected:
     void DrawImages(void);
     int GetRandomPoster(void);
 public:    
-    cNopacitySeriesView(cOsd *osd, cImageCache *imgCache, int seriesId, int episodeId);
+    cNopacitySeriesView(cOsd *osd, int seriesId, int episodeId);
     virtual ~cNopacitySeriesView(void);
     void LoadMedia(void);
     void KeyLeft(void);
@@ -140,7 +139,7 @@ protected:
     void DrawHeaderPoster(void);
     void DrawImages(void);
 public:    
-    cNopacityMovieView(cOsd *osd, cImageCache *imgCache, int movieId);
+    cNopacityMovieView(cOsd *osd, int movieId);
     virtual ~cNopacityMovieView(void);
     void LoadMedia(void);
     void KeyLeft(void);
@@ -151,7 +150,7 @@ public:
 class cNopacityTextView : public cNopacityView {
 protected:
 public:    
-    cNopacityTextView(cOsd *osd, cImageCache *imgCache);
+    cNopacityTextView(cOsd *osd);
     virtual ~cNopacityTextView(void);    
     void KeyLeft(void);
     void KeyRight(void);

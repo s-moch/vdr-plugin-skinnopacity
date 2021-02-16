@@ -106,4 +106,6 @@ private:
     void Clear(void);
 };
 
+extern cImageCache *imgCache;
+
 #endif //__NOPACITY_IMAGECACHE_H

@@ -9,7 +9,6 @@
 class cNopacityDisplayReplay : public cSkinDisplayReplay , cThread{
 private:
     cOsd *osd;
-    cImageCache *imgCache;
     bool initial;
     bool modeOnly;
     cString lastDate;
@@ -40,8 +39,8 @@ private:
     void LoadControlIcons(void);
     void DrawScreenResolution(void);
 public:
-  cNopacityDisplayReplay(cImageCache *imgCache, bool ModeOnly);
-  virtual ~cNopacityDisplayReplay();
+  cNopacityDisplayReplay(bool ModeOnly);
+  virtual ~cNopacityDisplayReplay(void);
   virtual void SetRecording(const cRecording *Recording);
   virtual void SetTitle(const char *Title);
   virtual void SetMode(bool Play, bool Forward, int Speed);

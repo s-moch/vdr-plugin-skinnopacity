@@ -11,7 +11,7 @@
 #include "displaytracks.h"
 #include "displaymessage.h"
 
-cNopacity::cNopacity(cImageCache *imgCache) : cSkin("nOpacity", &::Theme) {
+cNopacity::cNopacity(void) : cSkin("nOpacity", &::Theme) {
     init = true;
     config.LoadThemeSpecificConfigs();
     config.SetThemeSpecificDefaults();
@@ -22,11 +22,12 @@ cNopacity::cNopacity(cImageCache *imgCache) : cSkin("nOpacity", &::Theme) {
     geoManager->SetGeometry();
     fontManager = new cFontManager();
     fontManager->SetFonts();
-    this->imgCache = imgCache;
+    imgCache = new cImageCache();
     imgCache->CreateCache();
 }
 
 cNopacity::~cNopacity() {
+    delete imgCache;
     delete geoManager;
     delete fontManager;
 }
@@ -41,32 +42,32 @@ cSkinDisplayChannel *cNopacity::DisplayChannel(bool WithInfo) {
         imgCache->CreateCacheDelayed();
         init = false;
     }
-    return new cNopacityDisplayChannel(imgCache, WithInfo);
+    return new cNopacityDisplayChannel(WithInfo);
 }
 
 cSkinDisplayMenu *cNopacity::DisplayMenu(void) {
     ReloadCaches();
-    return new cNopacityDisplayMenu(imgCache);
+    return new cNopacityDisplayMenu();
 }
 
 cSkinDisplayReplay *cNopacity::DisplayReplay(bool ModeOnly) {
   ReloadCaches();
-  return new cNopacityDisplayReplay(imgCache, ModeOnly);
+  return new cNopacityDisplayReplay(ModeOnly);
 }
 
 cSkinDisplayVolume *cNopacity::DisplayVolume(void) {
   ReloadCaches();
-  return new cNopacityDisplayVolume(imgCache);
+  return new cNopacityDisplayVolume();
 }
 
 cSkinDisplayTracks *cNopacity::DisplayTracks(const char *Title, int NumTracks, const char * const *Tracks) {
   ReloadCaches();
-  return new cNopacityDisplayTracks(imgCache, Title, NumTracks, Tracks);
+  return new cNopacityDisplayTracks(Title, NumTracks, Tracks);
 }
 
 cSkinDisplayMessage *cNopacity::DisplayMessage(void) {
   ReloadCaches();
-  return new cNopacityDisplayMessage(imgCache);
+  return new cNopacityDisplayMessage();
 }
 
 void cNopacity::ReloadCaches(void) {
