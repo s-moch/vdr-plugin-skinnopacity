@@ -1,6 +1,59 @@
 VDR Plugin 'nOpacity' Revision History
 ---------------------------------------
 
+Version 1.0.8
+
+- [S:oren] Remove unused cNopacity::displayMenu
+- [S:oren] Remove unused firstDisplay variable
+- [S:oren] Cleanup geo and font manager delete
+- [S:oren] Cleanup optimized DisplayChannel
+- [S:oren] Split MessageBox class out of DisplayMessage
+- [S:oren] Use MessageBox for DisplayReplay
+- [S:oren] Use MessageBox for DisplayMenu
+- [S:oren] Use MessageBox for DisplayChannel
+
+Version 1.0.7
+
+- [S:oren] Fix-control-icons-in-DisplayReplay
+
+Version 1.0.6
+
+- Update for VDR-2.4.x
+
+Version 1.0.5
+Version 1.0.4
+Version 1.0.3
+
+- Fixed bugs that configured OSD top and left values are not correctly
+  used in DisplayChannel, DisplayTracks, DisplayVolume and
+  DisplayMessages (closes Tickets 1659 and 1696)
+- Fixed a bug with xine as output plugin that VDR crashes if xine plugin
+  gets closed (closes Ticket 1675)
+- Fixed bug that messages are not displayed during replay of a recording
+  if DisplayReplay is active (closes Ticket 1698)
+- Added information about running recordings in DisplayChannel (thanks
+  @Soeren Moch for providing a patch)
+
+Version 1.0.2
+
+- Extended image loading logging only if activated in setup
+- Fixed a possible crash if recording directory is no longer available
+
+Version 1.0.1
+
+- fixed a bug in cImageLoader::FirstImageInFolder()
+- added more Exception Handling for Image Loading
+- fixed a crash for recordings without valid title in info file
+- darkened borders of menubuttons and scrollbar in theme darkredNG
+
+Version 1.0.0
+
+- improved image scaling by using internal scaling libary from
+  Nikolaus Meine (thanks @Soeren Moch for providing the patch)
+- fixed a crash with dvb cards which deliver negative signal values
+- added theme darkredNG
+- updated ca_es po file
+
 2012-11-17: Version 0.0.1
 
 - Initial revision.
@@ -375,45 +428,3 @@ Version 0.1.4
 - Usage of channel logo background in displaychannel and on 
   menuelements configurable via plugin setup
 - Fixed a bug that setup values are not stored if theme is changed
-
-Version 1.0.0
-
-- improved image scaling by using internal scaling libary from
-  Nikolaus Meine (thanks @Soeren Moch for providing the patch)
-- fixed a crash with dvb cards which deliver negative signal values
-- added theme darkredNG
-- updated ca_es po file
-
-Version 1.0.1
-
-- fixed a bug in cImageLoader::FirstImageInFolder()
-- added more Exception Handling for Image Loading
-- fixed a crash for recordings without valid title in info file
-- darkened borders of menubuttons and scrollbar in theme darkredNG
-
-Version 1.0.2
-
-- Extended image loading logging only if activated in setup
-- Fixed a possible crash if recording directory is no longer available
-
-Version 1.0.3
-
-- Fixed bugs that configured OSD top and left values are not correctly
-  used in DisplayChannel, DisplayTracks, DisplayVolume and
-  DisplayMessages (closes Tickets 1659 and 1696)
-- Fixed a bug with xine as output plugin that VDR crashes if xine plugin
-  gets closed (closes Ticket 1675)
-- Fixed bug that messages are not displayed during replay of a recording
-  if DisplayReplay is active (closes Ticket 1698)
-- Added information about running recordings in DisplayChannel (thanks
-  @Soeren Moch for providing a patch)
-
-Version 1.0.4
-Version 1.0.5
-Version 1.0.6
-
-- Update for VDR-2.4.x
-
-Version 1.0.7
-
-- [S:oren] Fix-control-icons-in-DisplayReplay
