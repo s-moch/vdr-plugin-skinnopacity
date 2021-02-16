@@ -23,7 +23,7 @@ static const char *MAINMENUENTRY  = "nOpacity";
 
 class cPluginNopacity : public cPlugin {
 private:
-  cNopacity *nopacity;
+  // Add any member variables or functions you may need here.
 public:
   cPluginNopacity(void);
   virtual ~cPluginNopacity();
@@ -49,7 +49,6 @@ public:
 
 cPluginNopacity::cPluginNopacity(void)
 {
-  nopacity = NULL;
 }
 
 cPluginNopacity::~cPluginNopacity()
@@ -107,8 +106,7 @@ bool cPluginNopacity::Start(void) {
     } else
         dsyslog("nopacity: TrueColor OSD found");
 
-    nopacity = new cNopacity();
-    return nopacity;
+    return new cNopacity();
 }
 
 void cPluginNopacity::Stop(void) {
