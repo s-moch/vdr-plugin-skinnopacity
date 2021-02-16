@@ -1,6 +1,117 @@
 VDR Plugin 'nOpacity' Revision History
 ---------------------------------------
 
+Version 1.1.7
+
+- [S:oren] Fix-control-icons-in-DisplayReplay
+- [S:oren] Remove unused cNopacity::displayMenu
+- [S:oren] Remove unused firstDisplay variable
+- [S:oren] Cleanup geo and font manager delete
+- [S:oren] Cleanup optimized DisplayChannel
+- [S:oren] Split MessageBox class out of DisplayMessage
+- [S:oren] Use MessageBox for DisplayReplay
+- [S:oren] Use MessageBox for DisplayMenu
+- [S:oren] Use MessageBox for DisplayChannel
+
+Version 1.1.6
+
+- Fixed a crash when starting VDR when a message should be displayed after the timer conflict check
+- Optimize displaychannel
+- An info display error in the recording menu has been fixed when menu = narrow and no banner
+
+Version 1.1.5
+
+- softhdcuvid fix
+- Change Locking in cNopacityDisplayChannelView::DrawEvents
+- Fix for gcc11
+
+Version 1.1.4
+
+- Some optimization for VDR >= 2.4.0
+- Update Makefile, epgsearch.h and remotetimers.h
+- Eliminate some warnings
+- Change IMAGELIB to graphicsmagick
+
+Version 1.1.3
+
+- Vertical channel logo alignment configurable in displaychannel
+- added dedicated background pixmap in detailview
+- added support for tvscraper again, tvscraper Version 0.2.0 needed
+- fixed possible division by zero
+- updated theme darkred
+
+Version 1.1.2
+
+- Restructured detailed EPG and recordings view
+- fixed naming of reruns tab when displaying recordings
+- scroll speed with up / down configurable (lines per click)
+- fixed bug that floating text is not shown completely
+- cleaned up and restructured setup menu
+
+Version 1.1.1
+
+- Fixed a crash if no images exists for a movie
+- Only display poster in detailed EPG View if really available
+- Only display poster in detailed recordings view
+- fixed crash in detailed epg view
+
+Version 1.1.0
+
+- Added scraper2vdr support
+
+Version 1.0.8
+
+- [S:oren] Remove unused cNopacity::displayMenu
+- [S:oren] Remove unused firstDisplay variable
+- [S:oren] Cleanup geo and font manager delete
+- [S:oren] Cleanup optimized DisplayChannel
+- [S:oren] Split MessageBox class out of DisplayMessage
+- [S:oren] Use MessageBox for DisplayReplay
+- [S:oren] Use MessageBox for DisplayMenu
+- [S:oren] Use MessageBox for DisplayChannel
+
+Version 1.0.7
+
+- [S:oren] Fix-control-icons-in-DisplayReplay
+
+Version 1.0.6
+
+- Update for VDR-2.4.x
+
+Version 1.0.5
+Version 1.0.4
+Version 1.0.3
+
+- Fixed bugs that configured OSD top and left values are not correctly
+  used in DisplayChannel, DisplayTracks, DisplayVolume and
+  DisplayMessages (closes Tickets 1659 and 1696)
+- Fixed a bug with xine as output plugin that VDR crashes if xine plugin
+  gets closed (closes Ticket 1675)
+- Fixed bug that messages are not displayed during replay of a recording
+  if DisplayReplay is active (closes Ticket 1698)
+- Added information about running recordings in DisplayChannel (thanks
+  @Soeren Moch for providing a patch)
+
+Version 1.0.2
+
+- Extended image loading logging only if activated in setup
+- Fixed a possible crash if recording directory is no longer available
+
+Version 1.0.1
+
+- fixed a bug in cImageLoader::FirstImageInFolder()
+- added more Exception Handling for Image Loading
+- fixed a crash for recordings without valid title in info file
+- darkened borders of menubuttons and scrollbar in theme darkredNG
+
+Version 1.0.0
+
+- improved image scaling by using internal scaling libary from
+  Nikolaus Meine (thanks @Soeren Moch for providing the patch)
+- fixed a crash with dvb cards which deliver negative signal values
+- added theme darkredNG
+- updated ca_es po file
+
 2012-11-17: Version 0.0.1
 
 - Initial revision.
@@ -375,81 +486,3 @@ Version 0.1.4
 - Usage of channel logo background in displaychannel and on 
   menuelements configurable via plugin setup
 - Fixed a bug that setup values are not stored if theme is changed
-
-Version 1.0.0
-
-- improved image scaling by using internal scaling libary from
-  Nikolaus Meine (thanks @Soeren Moch for providing the patch)
-- fixed a crash with dvb cards which deliver negative signal values
-- added theme darkredNG
-- updated ca_es po file
-
-Version 1.0.1
-
-- fixed a bug in cImageLoader::FirstImageInFolder()
-- added more Exception Handling for Image Loading
-- fixed a crash for recordings without valid title in info file
-- darkened borders of menubuttons and scrollbar in theme darkredNG
-
-Version 1.0.2
-
-- Extended image loading logging only if activated in setup
-- Fixed a possible crash if recording directory is no longer available
-
-Version 1.0.3
-
-- Fixed bugs that configured OSD top and left values are not correctly
-  used in DisplayChannel, DisplayTracks, DisplayVolume and
-  DisplayMessages (closes Tickets 1659 and 1696)
-- Fixed a bug with xine as output plugin that VDR crashes if xine plugin
-  gets closed (closes Ticket 1675)
-- Fixed bug that messages are not displayed during replay of a recording
-  if DisplayReplay is active (closes Ticket 1698)
-- Added information about running recordings in DisplayChannel (thanks
-  @Soeren Moch for providing a patch)
-
-Version 1.1.0
-
-- Added scraper2vdr support
-
-Version 1.1.1
-
-- Fixed a crash if no images exists for a movie
-- Only display poster in detailed EPG View if really available
-- Only display poster in detailed recordings view
-- fixed crash in detailed epg view
-
-Version 1.1.2
-
-- Restructured detailed EPG and recordings view
-- fixed naming of reruns tab when displaying recordings
-- scroll speed with up / down configurable (lines per click)
-- fixed bug that floating text is not shown completely
-- cleaned up and restructured setup menu
-
-Version 1.1.3
-
-- Vertical channel logo alignment configurable in displaychannel
-- added dedicated background pixmap in detailview
-- added support for tvscraper again, tvscraper Version 0.2.0 needed
-- fixed possible division by zero
-- updated theme darkred
-
-Version 1.1.4
-
-- Some optimization for VDR >= 2.4.0
-- Update Makefile, epgsearch.h and remotetimers.h
-- Eliminate some warnings
-- Change IMAGELIB to graphicsmagick
-
-Version 1.1.5
-
-- softhdcuvid fix
-- Change Locking in cNopacityDisplayChannelView::DrawEvents
-- Fix for gcc11
-
-Version 1.1.6
-
-- Fixed a crash when starting VDR when a message should be displayed after the timer conflict check
-- Optimize displaychannel
-- An info display error in the recording menu has been fixed when menu = narrow and no banner
