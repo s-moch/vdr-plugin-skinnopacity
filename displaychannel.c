@@ -102,8 +102,7 @@ void cNopacityDisplayChannel::SetMessage(eMessageType Type, const char *Text) {
 }
 
 void cNopacityDisplayChannel::Flush(void) {
-    if (initial || channelChange)
-        channelView->DrawDate();
+    channelView->DrawDate();
 
     if (present && !groupSep) {
         SetProgressBar(present);
