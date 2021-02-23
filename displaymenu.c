@@ -28,7 +28,6 @@ cNopacityDisplayMenu::cNopacityDisplayMenu(cImageCache *imgCache) {
     osd = menuView->createOsd();
     menuView->SetDescriptionTextWindowSize();
     menuView->CreatePixmaps();
-    menuView->SetAvrgFontWidth();
     menuView->DrawHeaderLogo();
     menuView->DrawBorderDecoration();
     currentFeed = 0;

@@ -36,7 +36,6 @@ class cNopacityDisplayMenuView {
         cPixmap *pixmapDiskUsageLabel;
 	cNopacityMessageBox *messageBox;
         int feedNameLength;
-        int avrgFontWidth;
         cRect textWindowSizeSchedules;
         cRect textWindowSizeRecordings;
         cRect textWindowSizeChannels;
@@ -52,7 +51,6 @@ class cNopacityDisplayMenuView {
         void GetMenuItemSize(eMenuCategory menuCat, cPoint *itemSize);
         int GetMenuTop(int numItems, int itemHeight);
         int GetMenuItemLeft(int itemWidth);
-        void SetAvrgFontWidth(void);
         int mytabs[cSkinDisplayMenu::MaxTabs];
         void SetTabs(int Tab1, int Tab2 = 0, int Tab3 = 0, int Tab4 = 0, int Tab5 = 0);
         int GetEditableWidth(void);
