@@ -267,10 +267,6 @@ int cNopacityDisplayMenuView::GetMenuItemLeft(int itemWidth) {
     return menuLeft;
 }
 
-void cNopacityDisplayMenuView::SetAvrgFontWidth(void) {
-    avrgFontWidth = fontManager->menuItemDefault->Width("x")+3;
-}
-
 void cNopacityDisplayMenuView::SetTabs(int Tab1, int Tab2, int Tab3, int Tab4, int Tab5) {
     mytabs[0] = 1;
     mytabs[1] = Tab1 ? mytabs[0] + Tab1 : 0;
@@ -280,7 +276,7 @@ void cNopacityDisplayMenuView::SetTabs(int Tab1, int Tab2, int Tab3, int Tab4, i
     mytabs[5] = Tab5 ? mytabs[4] + Tab5 : 0;
     if (Tab2) {
         for (int i = 1; i < cSkinDisplayMenu::MaxTabs; i++)
-        mytabs[i] *= avrgFontWidth;
+        mytabs[i] *= fontManager->menuItemDefault->Width("x") + 3;
     } else if (Tab1) {
         mytabs[1] = GetEditableWidth();
     }
