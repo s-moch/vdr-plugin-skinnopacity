@@ -9,7 +9,6 @@
 
 class cNopacityDisplayMenu : public cSkinDisplayMenu , cThread {
 private:
-    cImageCache *imgCache;
     cNopacityDisplayMenuView *menuView;
     cNopacityMenuDetailView *detailView;
     cOsd *osd;
@@ -40,8 +39,8 @@ public:
 #ifdef DEPRECATED_SKIN_SETITEMEVENT
     using cSkinDisplayMenu::SetItemEvent;
 #endif
-    cNopacityDisplayMenu(cImageCache *imgCache);
-    virtual ~cNopacityDisplayMenu();
+    cNopacityDisplayMenu(void);
+    virtual ~cNopacityDisplayMenu(void);
     virtual void Scroll(bool Up, bool Page);
     virtual int MaxItems(void);
     virtual void Clear(void);

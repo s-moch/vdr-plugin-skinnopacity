@@ -8,7 +8,6 @@
 class cNopacityMenuItem : public cThread {
 protected:
     cOsd *osd;
-    cImageCache *imgCache;
     cPixmap *pixmapBackground;
     cPixmap *pixmapStatic;
     cPixmap *pixmapTextScroller;
@@ -41,7 +40,7 @@ protected:
     virtual void Action(void);
     void DoSleep(int duration);
 public:
-    cNopacityMenuItem(cOsd *osd, cImageCache *imgCache, const char *text, bool sel);
+    cNopacityMenuItem(cOsd *osd, const char *text, bool sel);
     virtual ~cNopacityMenuItem(void);
     void CreatePixmapBackground();
     void CreatePixmapForeground();
@@ -80,7 +79,7 @@ private:
     void SetTextFull(void);
     void SetTextShort(void);
 public:
-    cNopacityMainMenuItem(cOsd *osd, cImageCache *imgCache, const char *text, bool sel, bool setup);
+    cNopacityMainMenuItem(cOsd *osd, const char *text, bool sel, bool setup);
     ~cNopacityMainMenuItem(void);
     void CreatePixmapTextScroller(int totalWidth);
     void CreateText(void);
@@ -109,7 +108,7 @@ private:
     void SetTextFull(void);
     void SetTextShort(void);
 public:
-    cNopacityScheduleMenuItem(cOsd *osd, cImageCache *imgCache, const cEvent *Event, const cChannel *Channel, eTimerMatch TimerMatch, bool sel, eMenuCategory category, cRect *vidWin);
+    cNopacityScheduleMenuItem(cOsd *osd, const cEvent *Event, const cChannel *Channel, eTimerMatch TimerMatch, bool sel, eMenuCategory category, cRect *vidWin);
     ~cNopacityScheduleMenuItem(void);
     void CreatePixmapTextScroller(int totalWidth);
     void CreateText(void);
@@ -134,7 +133,7 @@ private:
     void readCurrentEPG(void);
     std::string readEPG(void);
 public:
-    cNopacityChannelMenuItem(cOsd *osd, cImageCache *imgCache, const cChannel *Channel, bool sel, cRect *vidWin);
+    cNopacityChannelMenuItem(cOsd *osd, const cChannel *Channel, bool sel, cRect *vidWin);
     ~cNopacityChannelMenuItem(void);
     void CreatePixmapTextScroller(int totalWidth);
     void CreateText(void);
@@ -155,7 +154,7 @@ private:
     void DrawLogo(int logoWidth, int logoHeight);
     std::string CreateDate(void);
 public:
-    cNopacityTimerMenuItem(cOsd *osd, cImageCache *imgCache, const cTimer *Timer, bool sel, cRect *vidWin);
+    cNopacityTimerMenuItem(cOsd *osd, const cTimer *Timer, bool sel, cRect *vidWin);
     ~cNopacityTimerMenuItem(void);
     void CreatePixmapTextScroller(int totalWidth);
     void CreateText(void);
@@ -192,7 +191,7 @@ private:
     int CheckScrollableRecording(void);
     int CheckScrollableFolder(void);
 public:
-    cNopacityRecordingMenuItem(cOsd *osd, cImageCache *imgCache, const cRecording *Recording, bool sel, bool isFolder, int Level, int Total, int New, cRect *vidWin);
+    cNopacityRecordingMenuItem(cOsd *osd, const cRecording *Recording, bool sel, bool isFolder, int Level, int Total, int New, cRect *vidWin);
     ~cNopacityRecordingMenuItem(void);
     void CreatePixmapTextScroller(int totalWidth);
     void CreateText(void);
@@ -213,7 +212,7 @@ private:
     void SetTextFull(void);
     void SetTextShort(void);
 public:
-    cNopacityDefaultMenuItem(cOsd *osd, cImageCache *imgCache, const char *text, bool sel);
+    cNopacityDefaultMenuItem(cOsd *osd, const char *text, bool sel);
     ~cNopacityDefaultMenuItem(void);
     int CheckScrollable(bool hasIcon);
     void Render();
@@ -222,7 +221,7 @@ public:
 class cNopacityTrackMenuItem : public cNopacityMenuItem {
 private:
 public:
-    cNopacityTrackMenuItem(cOsd *osd, cImageCache *imgCache, const char *text);
+    cNopacityTrackMenuItem(cOsd *osd, const char *text);
     ~cNopacityTrackMenuItem(void);
     void Render();
 };

@@ -7,7 +7,7 @@
 #include <vdr/osd.h>
 #include <vdr/menu.h>
 
-cNopacityDisplayChannel::cNopacityDisplayChannel(cImageCache *imgCache, bool WithInfo) {
+cNopacityDisplayChannel::cNopacityDisplayChannel(bool WithInfo) {
     groupSep = false;
     present = NULL;
     following = NULL;
@@ -17,7 +17,7 @@ cNopacityDisplayChannel::cNopacityDisplayChannel(cImageCache *imgCache, bool Wit
     FadeTime = config.GetValue("channelFadeTime");
     FrameTime = FadeTime / 10;
 
-    channelView = new cNopacityDisplayChannelView(imgCache);
+    channelView = new cNopacityDisplayChannelView();
     channelView->createOsd();
     channelView->CreatePixmaps();
     channelView->DrawBackground();
@@ -26,7 +26,7 @@ cNopacityDisplayChannel::cNopacityDisplayChannel(cImageCache *imgCache, bool Wit
     }
 }
 
-cNopacityDisplayChannel::~cNopacityDisplayChannel() {
+cNopacityDisplayChannel::~cNopacityDisplayChannel(void) {
     Cancel(-1);
     while (Active())
         cCondWait::SleepMs(10);

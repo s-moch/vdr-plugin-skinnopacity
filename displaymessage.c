@@ -3,8 +3,7 @@
 #include "imageloader.h"
 #include "helpers.h"
 
-cNopacityDisplayMessage::cNopacityDisplayMessage(cImageCache *imgCache) {
-    this->imgCache = imgCache;
+cNopacityDisplayMessage::cNopacityDisplayMessage(void) {
     FadeTime = config.GetValue("messageFadeTime");
     FrameTime = FadeTime / 10;
     int top = geoManager->osdTop + geoManager->osdHeight - geoManager->messageHeight - config.GetValue("messageBorderBottom");
@@ -23,7 +22,7 @@ cNopacityDisplayMessage::~cNopacityDisplayMessage() {
 
 void cNopacityDisplayMessage::SetMessage(eMessageType Type, const char *Text) {
     delete messageBox;
-    messageBox = new cNopacityMessageBox(osd, imgCache, cRect(0, 0, geoManager->messageWidth, geoManager->messageHeight), Type, Text);
+    messageBox = new cNopacityMessageBox(osd, cRect(0, 0, geoManager->messageWidth, geoManager->messageHeight), Type, Text);
     if (FadeTime) {
         messageBox->SetAlpha(0);
         Start();

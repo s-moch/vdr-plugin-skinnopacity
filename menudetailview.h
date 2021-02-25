@@ -12,7 +12,6 @@
 class cNopacityMenuDetailView : public cThread {
 protected:
     cOsd *osd;
-    cImageCache *imgCache;
     bool hasScrollbar;
     int x, width, height, top;
     int headerHeight;
@@ -48,7 +47,7 @@ protected:
     void DrawFanart(int height);
     virtual void Action(void) {};
 public:
-    cNopacityMenuDetailView(cOsd *osd, cImageCache *imgCache);
+    cNopacityMenuDetailView(cOsd *osd);
     virtual ~cNopacityMenuDetailView(void);
     void SetGeometry(int x, int width, int height, int top, int contentBorder, int headerHeight);
     virtual void SetFonts(void) = 0;
@@ -74,7 +73,7 @@ private:
     void DrawEPGPictures(int height);
     void Action(void);
 public:
-    cNopacityMenuDetailEventView(cOsd *osd, cImageCache *imgCache, const cEvent *Event);
+    cNopacityMenuDetailEventView(cOsd *osd, const cEvent *Event);
     virtual ~cNopacityMenuDetailEventView(void);
     void SetContent(void);
     void SetContentHeight(void);

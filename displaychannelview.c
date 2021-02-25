@@ -7,8 +7,7 @@
 #include "imageloader.h"
 #include <vdr/menu.h>
 
-cNopacityDisplayChannelView::cNopacityDisplayChannelView(cImageCache *imgCache) {
-    this->imgCache = imgCache;
+cNopacityDisplayChannelView::cNopacityDisplayChannelView(void) {
     osd = NULL;
     lastDate = "";
     isRadioChannel = false;
@@ -28,7 +27,7 @@ cNopacityDisplayChannelView::cNopacityDisplayChannelView(cImageCache *imgCache) 
     messageBox = NULL;
 }
 
-cNopacityDisplayChannelView::~cNopacityDisplayChannelView() {
+cNopacityDisplayChannelView::~cNopacityDisplayChannelView(void) {
     osd->DestroyPixmap(pixmapBackground);
     osd->DestroyPixmap(pixmapTop);
     osd->DestroyPixmap(pixmapLogo);
@@ -854,7 +853,7 @@ void cNopacityDisplayChannelView::DisplayMessage(eMessageType Type, const char *
     DELETENULL(messageBox);
     if (!Text)
         return;
-    messageBox = new cNopacityMessageBox(osd, imgCache,
+    messageBox = new cNopacityMessageBox(osd,
 					 cRect((geoManager->channelWidth - geoManager->messageWidth) / 2,
 					       geoManager->channelTop + geoManager->channelHeight - geoManager->messageHeight - 20,
 					       geoManager->messageWidth, geoManager->messageHeight),

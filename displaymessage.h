@@ -9,14 +9,13 @@
 class cNopacityDisplayMessage : public cSkinDisplayMessage , cThread {
 private:
     cOsd *osd;
-    cImageCache *imgCache;
     cNopacityMessageBox *messageBox;
     int FrameTime;
     int FadeTime;
     virtual void Action(void);
 public:
-  cNopacityDisplayMessage(cImageCache *imgCache);
-  virtual ~cNopacityDisplayMessage();
+  cNopacityDisplayMessage(void);
+  virtual ~cNopacityDisplayMessage(void);
   virtual void SetMessage(eMessageType Type, const char *Text);
   virtual void Flush(void);
   };

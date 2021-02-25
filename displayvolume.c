@@ -4,8 +4,7 @@
 #include "config.h"
 #include "helpers.h"
 
-cNopacityDisplayVolume::cNopacityDisplayVolume(cImageCache *imgCache) {
-    this->imgCache = imgCache;
+cNopacityDisplayVolume::cNopacityDisplayVolume(void) {
     initial = true;
     muted = false;
     FadeTime = config.GetValue("volumeFadeTime");
@@ -58,7 +57,7 @@ cNopacityDisplayVolume::cNopacityDisplayVolume(cImageCache *imgCache) {
     }
 }
 
-cNopacityDisplayVolume::~cNopacityDisplayVolume() {
+cNopacityDisplayVolume::~cNopacityDisplayVolume(void) {
     Cancel(-1);
     while (Active())
         cCondWait::SleepMs(10);

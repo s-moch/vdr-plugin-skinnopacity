@@ -9,9 +9,8 @@
 #include "imageloader.h"
 
 
-cNopacityMenuDetailView::cNopacityMenuDetailView(cOsd *osd, cImageCache *imgCache) {
+cNopacityMenuDetailView::cNopacityMenuDetailView(cOsd *osd) {
     this->osd = osd;
-    this->imgCache = imgCache;
     hasScrollbar = false;
     hasManualPoster = false;
     manualPosterPath = "";
@@ -279,7 +278,7 @@ bool cNopacityMenuDetailView::Scroll(bool Up, bool Page) {
 
 //---------------cNopacityMenuDetailEventView---------------------
 
-cNopacityMenuDetailEventView::cNopacityMenuDetailEventView(cOsd *osd, cImageCache *imgCache, const cEvent *Event) : cNopacityMenuDetailView(osd, imgCache) {
+cNopacityMenuDetailEventView::cNopacityMenuDetailEventView(cOsd *osd, const cEvent *Event) : cNopacityMenuDetailView(osd) {
     event = Event;
     numEPGPics = 0;
 }
@@ -588,7 +587,7 @@ void cNopacityMenuDetailEventView::DrawEPGPictures(int height) {
 
 //------------------cNopacityMenuDetailRecordingView------------------
 
-cNopacityMenuDetailRecordingView::cNopacityMenuDetailRecordingView(cOsd *osd, const cRecording *Recording) : cNopacityMenuDetailView(osd, NULL) {
+cNopacityMenuDetailRecordingView::cNopacityMenuDetailRecordingView(cOsd *osd, const cRecording *Recording) : cNopacityMenuDetailView(osd) {
     recording = Recording;
     info = Recording->Info();
 }
@@ -1013,7 +1012,7 @@ int cNopacityMenuDetailRecordingView::ReadSizeVdr(const char *strPath) {
 
 //---------------cNopacityMenuDetailTextView---------------------
 
-cNopacityMenuDetailTextView::cNopacityMenuDetailTextView(cOsd *osd, const char *text) : cNopacityMenuDetailView(osd, NULL) {
+cNopacityMenuDetailTextView::cNopacityMenuDetailTextView(cOsd *osd, const char *text) : cNopacityMenuDetailView(osd) {
     this->text = text;
 }
 

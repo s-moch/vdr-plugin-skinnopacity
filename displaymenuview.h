@@ -16,7 +16,6 @@ enum eDetailViewType {dvEvent = 0, dvRecording, dvText};
 class cNopacityDisplayMenuView {
     private:
         cOsd *osd;
-        cImageCache *imgCache;
         cString lastDate;
         int diskUsageAlert;
         cPixmap *pixmapHeader;
@@ -42,7 +41,7 @@ class cNopacityDisplayMenuView {
         cRect textWindowSizeTimers;
         int GetContentWidth(eMenuCategory menuCat);
     public:
-        cNopacityDisplayMenuView(cImageCache *imgCache);
+        cNopacityDisplayMenuView(void);
         virtual ~cNopacityDisplayMenuView(void);
         cOsd *createOsd(void);
         void SetDescriptionTextWindowSize(void);

@@ -1,14 +1,13 @@
 #include "setup.h"
 
-cNopacitySetup::cNopacitySetup(cImageCache *imgCache) {
-    this->imgCache = imgCache;
+cNopacitySetup::cNopacitySetup(void) {
     tmpConf = config;
     cFont::GetAvailableFontNames(&fontNames);
     fontNames.Insert(strdup(config.fontDefaultName));
     Setup();
 }
 
-cNopacitySetup::~cNopacitySetup() {
+cNopacitySetup::~cNopacitySetup(void) {
     config.SetFontName();
     int start = cTimeMs::Now();
     geoManager->SetGeometry();
@@ -70,7 +69,7 @@ eOSState cNopacitySetup::ProcessKey(eKeys Key) {
             if (strcmp(ItemText, tr("Volume")) == 0)
                 state = AddSubMenu(new cNopacitySetupVolumeDisplay(&tmpConf));
             if (strcmp(ItemText, tr("Image Caching")) == 0)
-                state = AddSubMenu(new cNopacitySetupCaching(&tmpConf, imgCache));
+                state = AddSubMenu(new cNopacitySetupCaching(&tmpConf));
         }
     }
     return state;
@@ -492,8 +491,7 @@ void cNopacitySetupVolumeDisplay::Set(void) {
 
 //-----Image Caching-------------------------------------------------------------------------------------------------------------
 
-cNopacitySetupCaching::cNopacitySetupCaching(cNopacityConfig* data, cImageCache *imgCache)  : cMenuSetupSubMenu(tr("Image Caching"), data) {
-    this->imgCache = imgCache;
+cNopacitySetupCaching::cNopacitySetupCaching(cNopacityConfig* data) : cMenuSetupSubMenu(tr("Image Caching"), data) {
     Set();
 }
 

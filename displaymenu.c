@@ -11,8 +11,7 @@ namespace PluginRemoteTimers {
 #include <string>
 #include "services/epgsearch.h"
 
-cNopacityDisplayMenu::cNopacityDisplayMenu(cImageCache *imgCache) {
-    this->imgCache = imgCache;
+cNopacityDisplayMenu::cNopacityDisplayMenu(void) {
     menuCategoryLast = mcUndefined;
     FadeTime = config.GetValue("menuFadeTime");
     FrameTime = FadeTime / 10;
@@ -24,7 +23,7 @@ cNopacityDisplayMenu::cNopacityDisplayMenu(cImageCache *imgCache) {
     currentNumItems = 0;
     detailView = NULL;
     SetButtonPositions();
-    menuView = new cNopacityDisplayMenuView(imgCache);
+    menuView = new cNopacityDisplayMenuView();
     osd = menuView->createOsd();
     menuView->SetDescriptionTextWindowSize();
     menuView->CreatePixmaps();
@@ -34,7 +33,7 @@ cNopacityDisplayMenu::cNopacityDisplayMenu(cImageCache *imgCache) {
     SetTabs(0);
 }
 
-cNopacityDisplayMenu::~cNopacityDisplayMenu() {
+cNopacityDisplayMenu::~cNopacityDisplayMenu(void) {
     Cancel(-1);
     while (Active())
         cCondWait::SleepMs(10);
@@ -367,7 +366,7 @@ bool cNopacityDisplayMenu::SetItemEvent(const cEvent *Event, int Index, bool Cur
     if ((int)menuItems.size() <= Index)
         menuItems.resize(currentNumItems);
     if (!menuItems[Index]) {
-        cNopacityMenuItem *item = new cNopacityScheduleMenuItem(osd, imgCache, Event, Channel, TimerMatch, Selectable, MenuCategory(), &videoWindowRect);
+        cNopacityMenuItem *item = new cNopacityScheduleMenuItem(osd, Event, Channel, TimerMatch, Selectable, MenuCategory(), &videoWindowRect);
         cPoint itemSize;
         menuItems[Index].reset(item);
         menuView->GetMenuItemSize(MenuCategory(), &itemSize);
@@ -409,7 +408,7 @@ bool cNopacityDisplayMenu::SetItemTimer(const cTimer *Timer, int Index, bool Cur
     if ((int)menuItems.size() <= Index)
         menuItems.resize(currentNumItems);
     if (!menuItems[Index]) {
-        cNopacityMenuItem *item = new cNopacityTimerMenuItem(osd, imgCache, Timer, Selectable, &videoWindowRect);
+        cNopacityMenuItem *item = new cNopacityTimerMenuItem(osd, Timer, Selectable, &videoWindowRect);
         cPoint itemSize;
         menuItems[Index].reset(item);
         menuView->GetMenuItemSize(MenuCategory(), &itemSize);
@@ -451,7 +450,7 @@ bool cNopacityDisplayMenu::SetItemChannel(const cChannel *Channel, int Index, bo
     if ((int)menuItems.size() <= Index)
         menuItems.resize(currentNumItems);
     if (!menuItems[Index]) {
-        cNopacityMenuItem *item = new cNopacityChannelMenuItem(osd, imgCache, Channel, Selectable, &videoWindowRect);
+        cNopacityMenuItem *item = new cNopacityChannelMenuItem(osd, Channel, Selectable, &videoWindowRect);
         cPoint itemSize;
         menuItems[Index].reset(item);
         menuView->GetMenuItemSize(MenuCategory(), &itemSize);
@@ -496,7 +495,7 @@ bool cNopacityDisplayMenu::SetItemRecording(const cRecording *Recording, int Ind
         bool isFolder = false;
         if (Total > 0)
             isFolder = true;
-        cNopacityMenuItem *item = new cNopacityRecordingMenuItem(osd, imgCache, Recording, Selectable, isFolder, Level, Total, New, &videoWindowRect);
+        cNopacityMenuItem *item = new cNopacityRecordingMenuItem(osd, Recording, Selectable, isFolder, Level, Total, New, &videoWindowRect);
         cPoint itemSize;
         menuItems[Index].reset(item);
         menuView->GetMenuItemSize(MenuCategory(), &itemSize);
@@ -554,14 +553,14 @@ void cNopacityDisplayMenu::SetItem(const char *Text, int Index, bool Current, bo
         if (((MenuCategory() == mcMain)&&(config.GetValue("narrowMainMenu"))) || ((MenuCategory() == mcSetup)&&(config.GetValue("narrowSetupMenu")))){
             MainOrSetup = true;
             bool isSetup = (MenuCategory() == mcSetup)?true:false;
-            item = new cNopacityMainMenuItem(osd, imgCache, Text, Selectable, isSetup);
+            item = new cNopacityMainMenuItem(osd, Text, Selectable, isSetup);
             menuItems[Index].reset(item);
             menuView->GetMenuItemSize(MenuCategory(), &itemSize);
             item->SetFont(fontManager->menuItemLarge);
             if (config.GetValue("useMenuIcons"))
                 hasIcons = true;
         } else {
-            item = new cNopacityDefaultMenuItem(osd, imgCache, Text, Selectable);
+            item = new cNopacityDefaultMenuItem(osd, Text, Selectable);
             menuItems[Index].reset(item);
             menuView->GetMenuItemSize(mcUnknown, &itemSize);
             item->SetFont(fontManager->menuItemDefault);
@@ -651,7 +650,7 @@ void cNopacityDisplayMenu::SetEvent(const cEvent *Event) {
     if (!Event)
         return;
     menuView->AdjustContentBackground(this->MenuCategory(), menuCategoryLast, videoWindowRect);
-    detailView = new cNopacityMenuDetailEventView(osd, imgCache, Event);
+    detailView = new cNopacityMenuDetailEventView(osd, Event);
     menuView->SetDetailViewSize(dvEvent, detailView);
     detailView->SetFonts();
     detailView->SetContent();

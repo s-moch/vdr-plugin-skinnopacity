@@ -9,10 +9,9 @@ class cNopacityDisplayMenu;
 
 class cNopacity : public cSkin {
 private:
-  cImageCache *imgCache;
   void ReloadCaches(void);
 public:
-  cNopacity(cImageCache *imgCache);
+  cNopacity(void);
   ~cNopacity(void);
   virtual const char *Description(void);
   virtual cSkinDisplayChannel *DisplayChannel(bool WithInfo);

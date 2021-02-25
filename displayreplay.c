@@ -3,8 +3,7 @@
 #include "helpers.h"
 #include "imageloader.h"
 
-cNopacityDisplayReplay::cNopacityDisplayReplay(cImageCache *imgCache, bool ModeOnly) {
-    this->imgCache = imgCache;
+cNopacityDisplayReplay::cNopacityDisplayReplay(bool ModeOnly) {
     initial = true;
     modeOnly = ModeOnly;
     lastDate = "";
@@ -468,7 +467,7 @@ void cNopacityDisplayReplay::SetMessage(eMessageType Type, const char *Text) {
     DELETENULL(messageBox);
     if (!Text)
         return;
-    messageBox = new cNopacityMessageBox(osd, imgCache,
+    messageBox = new cNopacityMessageBox(osd,
 					 cRect((geoManager->replayWidth - geoManager->messageWidth) / 2,
 					       geoManager->replayHeight - geoManager->messageHeight - 20,
 					       geoManager->messageWidth, geoManager->messageHeight),

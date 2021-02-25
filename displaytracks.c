@@ -4,8 +4,7 @@
 #include "imageloader.h"
 
 
-cNopacityDisplayTracks::cNopacityDisplayTracks(cImageCache *imgCache, const char *Title, int NumTracks, const char * const *Tracks) {
-    this->imgCache = imgCache;
+cNopacityDisplayTracks::cNopacityDisplayTracks(const char *Title, int NumTracks, const char * const *Tracks) {
     initial = true;
     currentIndex = -1;
     numTracks = NumTracks;
@@ -117,7 +116,7 @@ void cNopacityDisplayTracks::DrawHeader(const char *Title) {
 
 void cNopacityDisplayTracks::SetItem(const char *Text, int Index, bool Current) {
     cNopacityMenuItem *item;
-    item = new cNopacityTrackMenuItem(osd, imgCache, Text);
+    item = new cNopacityTrackMenuItem(osd, Text);
     if ((int)menuItems.size() <= Index)
         menuItems.resize(Index+4);
     menuItems[Index].reset(item);

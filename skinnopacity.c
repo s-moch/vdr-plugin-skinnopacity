@@ -24,7 +24,6 @@ static const char *MAINMENUENTRY  = "nOpacity";
 class cPluginNopacity : public cPlugin {
 private:
   cNopacity *nopacity;
-  cImageCache *imgCache;
 public:
   cPluginNopacity(void);
   virtual ~cPluginNopacity();
@@ -108,13 +107,11 @@ bool cPluginNopacity::Start(void) {
     } else
         dsyslog("nopacity: TrueColor OSD found");
 
-    imgCache = new cImageCache();
-    nopacity = new cNopacity(imgCache);
+    nopacity = new cNopacity();
     return nopacity;
 }
 
 void cPluginNopacity::Stop(void) {
-    delete imgCache;
 }
 
 void cPluginNopacity::Housekeeping(void) {
@@ -136,7 +133,7 @@ cOsdObject *cPluginNopacity::MainMenuAction(void) {
 }
 
 cMenuSetupPage *cPluginNopacity::SetupMenu(void) {
-  return new cNopacitySetup(imgCache);
+  return new cNopacitySetup();
 }
 
 bool cPluginNopacity::SetupParse(const char *Name, const char *Value) {

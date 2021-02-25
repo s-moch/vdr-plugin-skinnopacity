@@ -12,7 +12,6 @@ private:
     bool initial;
     bool muted;
     cOsd *osd;
-    cImageCache *imgCache;
     cPixmap *pixmapBackground;
     cPixmap *pixmapProgressBar;
     cPixmap *pixmapLabel;
@@ -20,8 +19,8 @@ private:
     void DrawProgressBar(int Current, int Total);
     tColor DrawProgressbarBackground(int left, int top, int width, int height);
 public:
-  cNopacityDisplayVolume(cImageCache *imgCache);
-  virtual ~cNopacityDisplayVolume();
+  cNopacityDisplayVolume(void);
+  virtual ~cNopacityDisplayVolume(void);
   virtual void SetVolume(int Current, int Total, bool Mute);
   virtual void Flush(void);
   };

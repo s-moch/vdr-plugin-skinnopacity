@@ -7,6 +7,8 @@
 
 using namespace Magick;
 
+cImageCache *imgCache;
+
 cImageCache::cImageCache() : cImageMagickWrapper() {
     tempStaticLogo = NULL;
     osdTheme = Setup.OSDTheme;
