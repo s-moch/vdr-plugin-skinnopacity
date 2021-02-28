@@ -4,6 +4,8 @@
 #include <vdr/skins.h>
 #include <vdr/thread.h>
 #include "menuitem.h"
+#include <memory>
+#include <vector>
 
 class cNopacityDisplayTracks : public cSkinDisplayTracks, cThread {
 private:
@@ -22,7 +24,7 @@ private:
     cPixmap *pixmapHeader;
     cPixmap *pixmapHeaderAudio;
     cPixmap *pixmapIcon;
-    cList<cNopacityMenuItem> menuItems;
+    std::vector<std::unique_ptr<cNopacityMenuItem>> menuItems;
     virtual void Action(void);
     void SetItem(const char *Text, int Index, bool Current);
     void SetGeometry(void);

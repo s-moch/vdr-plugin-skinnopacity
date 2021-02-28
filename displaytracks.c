@@ -26,7 +26,7 @@ cNopacityDisplayTracks::~cNopacityDisplayTracks() {
     osd->DestroyPixmap(pixmapContainer);
     osd->DestroyPixmap(pixmapHeader);
     osd->DestroyPixmap(pixmapHeaderAudio);
-    menuItems.Clear();
+    menuItems.clear();
     delete osd;
 }
 
@@ -118,6 +118,9 @@ void cNopacityDisplayTracks::DrawHeader(const char *Title) {
 void cNopacityDisplayTracks::SetItem(const char *Text, int Index, bool Current) {
     cNopacityMenuItem *item;
     item = new cNopacityTrackMenuItem(osd, imgCache, Text);
+    if ((int)menuItems.size() <= Index)
+        menuItems.resize(Index+4);
+    menuItems[Index].reset(item);
     item->SetCurrent(Current);
     item->SetFont(fontManager->trackText);
     item->SetGeometry(Index, menuItemHeight+4, 2, menuItemWidth, menuItemHeight, 4);
@@ -125,18 +128,17 @@ void cNopacityDisplayTracks::SetItem(const char *Text, int Index, bool Current) 
     item->CreatePixmapStatic();
     if (config.GetValue("displayType") == dtGraphical)
         item->CreatePixmapForeground();
-    menuItems.Add(item);
     item->Render();
 }
 
 void cNopacityDisplayTracks::SetTrack(int Index, const char * const *Tracks) {
     cNopacityMenuItem *item;
     if (currentIndex >= 0) {
-        item = menuItems.Get(currentIndex);
+        item = menuItems[currentIndex].get();
         item->SetCurrent(false);
         item->Render();
     }
-    item = menuItems.Get(Index);
+    item = menuItems[Index].get();
     item->SetCurrent(true);
     item->Render();
     currentIndex = Index;
@@ -183,8 +185,11 @@ void cNopacityDisplayTracks::Action(void) {
         pixmapContainer->SetAlpha(Alpha);
         pixmapHeader->SetAlpha(Alpha);
         pixmapHeaderAudio->SetAlpha(Alpha);
-        for (cNopacityMenuItem *item = menuItems.First(); Running() && item; item = menuItems.Next(item)) {
-            item->SetAlpha(Alpha);
+        for (auto i = menuItems.begin(); i != menuItems.end(); ++i) {
+	    if (*i && Running()) {
+	        cNopacityMenuItem *item = i->get();
+                item->SetAlpha(Alpha);
+	    }
         }
         cPixmap::Unlock();
         if (Running())

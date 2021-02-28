@@ -17,12 +17,10 @@ cNopacityDisplayMenu::cNopacityDisplayMenu(cImageCache *imgCache) {
     FadeTime = config.GetValue("menuFadeTime");
     FrameTime = FadeTime / 10;
     initial = true;
-    initMenu = true;
     diskUsageDrawn = false;
     timersDrawn = false;
     lastDiskUsageState = -1;
     lastTimersState = -1;
-    menuItemIndexLast = -1;
     currentNumItems = 0;
     detailView = NULL;
     SetButtonPositions();
@@ -34,6 +32,7 @@ cNopacityDisplayMenu::cNopacityDisplayMenu(cImageCache *imgCache) {
     menuView->DrawHeaderLogo();
     menuView->DrawBorderDecoration();
     currentFeed = 0;
+    SetTabs(0);
 }
 
 cNopacityDisplayMenu::~cNopacityDisplayMenu() {
@@ -41,7 +40,7 @@ cNopacityDisplayMenu::~cNopacityDisplayMenu() {
     while (Active())
         cCondWait::SleepMs(10);
     delete menuView;
-    menuItems.Clear();
+    menuItems.clear();
     if (detailView) {
         delete detailView;
     }
@@ -215,9 +214,7 @@ void cNopacityDisplayMenu::Clear(void) {
         delete detailView;
         detailView = NULL;
     }
-    menuItemIndexLast = -1;
-    initMenu = true;
-    menuItems.Clear();
+    menuItems.clear();
 }
 
 void cNopacityDisplayMenu::SetMenuCategory(eMenuCategory MenuCategory) {
@@ -270,11 +267,7 @@ void cNopacityDisplayMenu::SetMenuCategory(eMenuCategory MenuCategory) {
 
 void cNopacityDisplayMenu::SetTitle(const char *Title) {
     //resetting menuitems if no call to clear
-    if (!initMenu) {
-        initMenu = true;
-        menuItemIndexLast = -1;
-        menuItems.Clear();
-    }
+    menuItems.clear();
     int left = 5;
     menuView->DestroyHeaderIcon();
     if (Title) {
@@ -372,9 +365,12 @@ bool cNopacityDisplayMenu::SetItemEvent(const cEvent *Event, int Index, bool Cur
                                         bool Selectable, const cChannel *Channel, bool WithDate, eTimerMatch TimerMatch, bool TimerActive) {
     if (!config.GetValue("narrowScheduleMenu"))
         return false;
-    if ((initMenu)&&(Index > menuItemIndexLast)) {
+    if ((int)menuItems.size() <= Index)
+        menuItems.resize(currentNumItems);
+    if (!menuItems[Index]) {
         cNopacityMenuItem *item = new cNopacityScheduleMenuItem(osd, imgCache, Event, Channel, TimerMatch, Selectable, MenuCategory(), &videoWindowRect);
         cPoint itemSize;
+        menuItems[Index].reset(item);
         menuView->GetMenuItemSize(MenuCategory(), &itemSize);
         item->SetFont(fontManager->menuItemSchedule);
         item->SetFontSmall(fontManager->menuItemScheduleSmall);
@@ -392,9 +388,7 @@ bool cNopacityDisplayMenu::SetItemEvent(const cEvent *Event, int Index, bool Cur
         }
         item->CreatePixmapStatic();
         item->CreatePixmapTextScroller(textWidth);
-        menuItems.Add(item);
         item->Render();
-        menuItemIndexLast = Index;
         if (initial) {
             if (FadeTime) {
                 item->SetAlpha(0);
@@ -403,7 +397,7 @@ bool cNopacityDisplayMenu::SetItemEvent(const cEvent *Event, int Index, bool Cur
             }
         }
     } else {
-        cNopacityMenuItem *item = menuItems.Get(Index);
+        cNopacityMenuItem *item = menuItems[Index].get();
         item->SetCurrent(Current);
         item->Render();
     }
@@ -413,9 +407,12 @@ bool cNopacityDisplayMenu::SetItemEvent(const cEvent *Event, int Index, bool Cur
 bool cNopacityDisplayMenu::SetItemTimer(const cTimer *Timer, int Index, bool Current, bool Selectable) {
     if (!config.GetValue("narrowTimerMenu"))
         return false;
-    if ((initMenu)&&(Index > menuItemIndexLast)) {
+    if ((int)menuItems.size() <= Index)
+        menuItems.resize(currentNumItems);
+    if (!menuItems[Index]) {
         cNopacityMenuItem *item = new cNopacityTimerMenuItem(osd, imgCache, Timer, Selectable, &videoWindowRect);
         cPoint itemSize;
+        menuItems[Index].reset(item);
         menuView->GetMenuItemSize(MenuCategory(), &itemSize);
         item->SetFont(fontManager->menuItemTimers);
         item->SetFontSmall(fontManager->menuItemTimersSmall);
@@ -433,9 +430,7 @@ bool cNopacityDisplayMenu::SetItemTimer(const cTimer *Timer, int Index, bool Cur
         }
         item->CreatePixmapStatic();
         item->CreatePixmapTextScroller(textWidth);
-        menuItems.Add(item);
         item->Render();
-        menuItemIndexLast = Index;
         if (initial) {
             if (FadeTime) {
                 item->SetAlpha(0);
@@ -444,7 +439,7 @@ bool cNopacityDisplayMenu::SetItemTimer(const cTimer *Timer, int Index, bool Cur
             }
         }
     } else {
-        cNopacityMenuItem *item = menuItems.Get(Index);
+        cNopacityMenuItem *item = menuItems[Index].get();
         item->SetCurrent(Current);
         item->Render();
     }
@@ -454,9 +449,12 @@ bool cNopacityDisplayMenu::SetItemTimer(const cTimer *Timer, int Index, bool Cur
 bool cNopacityDisplayMenu::SetItemChannel(const cChannel *Channel, int Index, bool Current, bool Selectable, bool WithProvider) {
     if (!config.GetValue("narrowChannelMenu"))
         return false;
-    if ((initMenu)&&(Index > menuItemIndexLast)) {
+    if ((int)menuItems.size() <= Index)
+        menuItems.resize(currentNumItems);
+    if (!menuItems[Index]) {
         cNopacityMenuItem *item = new cNopacityChannelMenuItem(osd, imgCache, Channel, Selectable, &videoWindowRect);
         cPoint itemSize;
+        menuItems[Index].reset(item);
         menuView->GetMenuItemSize(MenuCategory(), &itemSize);
         item->SetFont(fontManager->menuItemChannel);
         item->SetFontSmall(fontManager->menuItemChannelSmall);
@@ -473,9 +471,7 @@ bool cNopacityDisplayMenu::SetItemChannel(const cChannel *Channel, int Index, bo
         if (config.GetValue("displayType") == dtGraphical) {
             item->CreatePixmapForeground();
         }
-        menuItems.Add(item);
         item->Render();
-        menuItemIndexLast = Index;
         if (initial) {
             if (FadeTime) {
                 item->SetAlpha(0);
@@ -484,7 +480,7 @@ bool cNopacityDisplayMenu::SetItemChannel(const cChannel *Channel, int Index, bo
             }
         }
     } else {
-        cNopacityMenuItem *item = menuItems.Get(Index);
+        cNopacityMenuItem *item = menuItems[Index].get();
         item->SetCurrent(Current);
         item->Render();
     }
@@ -495,12 +491,15 @@ bool cNopacityDisplayMenu::SetItemRecording(const cRecording *Recording, int Ind
                                             int Level, int Total, int New) {
     if (!config.GetValue("narrowRecordingMenu"))
         return false;
-    if ((initMenu)&&(Index > menuItemIndexLast)) {
+    if ((int)menuItems.size() <= Index)
+        menuItems.resize(currentNumItems);
+    if (!menuItems[Index]) {
         bool isFolder = false;
         if (Total > 0)
             isFolder = true;
         cNopacityMenuItem *item = new cNopacityRecordingMenuItem(osd, imgCache, Recording, Selectable, isFolder, Level, Total, New, &videoWindowRect);
         cPoint itemSize;
+        menuItems[Index].reset(item);
         menuView->GetMenuItemSize(MenuCategory(), &itemSize);
         item->SetFont(fontManager->menuItemRecordings);
         item->SetFontSmall(fontManager->menuItemRecordingsSmall);
@@ -519,9 +518,7 @@ bool cNopacityDisplayMenu::SetItemRecording(const cRecording *Recording, int Ind
         if (config.GetValue("displayType") == dtGraphical) {
             item->CreatePixmapForeground();
         }
-        menuItems.Add(item);
         item->Render();
-        menuItemIndexLast = Index;
         if (initial) {
             if (FadeTime) {
                 item->SetAlpha(0);
@@ -530,7 +527,7 @@ bool cNopacityDisplayMenu::SetItemRecording(const cRecording *Recording, int Ind
             }
         }
     } else {
-        cNopacityMenuItem *item = menuItems.Get(Index);
+        cNopacityMenuItem *item = menuItems[Index].get();
         item->SetCurrent(Current);
         item->Render();
     }
@@ -549,61 +546,47 @@ void cNopacityDisplayMenu::SetItem(const char *Text, int Index, bool Current, bo
         tabItems[i+MaxTabs] = 0;
     }
     SplitItem(Text, strItems, tabItems);
-    if (initMenu) {
-        if (Index > menuItemIndexLast) {
-            cNopacityMenuItem *item;
-            cPoint itemSize;
-            if (((MenuCategory() == mcMain)&&(config.GetValue("narrowMainMenu"))) || ((MenuCategory() == mcSetup)&&(config.GetValue("narrowSetupMenu")))){
-                MainOrSetup = true;
-                bool isSetup = (MenuCategory() == mcSetup)?true:false;
-                item = new cNopacityMainMenuItem(osd, imgCache, Text, Selectable, isSetup);
-                menuView->GetMenuItemSize(MenuCategory(), &itemSize);
-                item->SetFont(fontManager->menuItemLarge);
-                if (config.GetValue("useMenuIcons"))
-                    hasIcons = true;
-            } else {
-                item = new cNopacityDefaultMenuItem(osd, imgCache, Text, Selectable);
-                menuView->GetMenuItemSize(mcUnknown, &itemSize);
-                item->SetFont(fontManager->menuItemDefault);
-            }
-            int spaceTop = menuView->GetMenuTop(currentNumItems, itemSize.Y());
-            item->SetGeometry(Index, spaceTop, menuView->GetMenuItemLeft(itemSize.X()), itemSize.X(), itemSize.Y(), geoManager->menuSpace);
-            item->SetCurrent(Current);
-            item->SetTabs(strItems, tabItems, MaxTabs);
-            item->CreateText();
-            int textWidth = item->CheckScrollable(hasIcons);
-            item->CreatePixmapBackground();
-            if (config.GetValue("displayType") == dtGraphical && MainOrSetup) {
-                item->CreatePixmapForeground();
-            }
-            item->CreatePixmapStatic();
-            if (textWidth > 0)
-                item->CreatePixmapTextScroller(textWidth);
-            menuItems.Add(item);
-            item->Render();
-            menuItemIndexLast = Index;
-            if (initial) {
-                if (FadeTime) {
-                    item->SetAlpha(0);
-                    item->SetAlphaIcon(0);
-                    item->SetAlphaText(0);
-                }
-            }
+    if ((int)menuItems.size() <= Index)
+        menuItems.resize(MaxItems());
+    menuItems[Index].reset();
+    if (*Text != '\0') {
+        cNopacityMenuItem *item;
+        cPoint itemSize;
+        if (((MenuCategory() == mcMain)&&(config.GetValue("narrowMainMenu"))) || ((MenuCategory() == mcSetup)&&(config.GetValue("narrowSetupMenu")))){
+            MainOrSetup = true;
+            bool isSetup = (MenuCategory() == mcSetup)?true:false;
+            item = new cNopacityMainMenuItem(osd, imgCache, Text, Selectable, isSetup);
+            menuItems[Index].reset(item);
+            menuView->GetMenuItemSize(MenuCategory(), &itemSize);
+            item->SetFont(fontManager->menuItemLarge);
+            if (config.GetValue("useMenuIcons"))
+                hasIcons = true;
         } else {
-            //adjust Current if item was added twice
-            cNopacityMenuItem *item = menuItems.Get(Index);
-            item->SetCurrent(Current);
-            item->Render();
+            item = new cNopacityDefaultMenuItem(osd, imgCache, Text, Selectable);
+            menuItems[Index].reset(item);
+            menuView->GetMenuItemSize(mcUnknown, &itemSize);
+            item->SetFont(fontManager->menuItemDefault);
         }
-    } else {
-        //redraw item when switching through menu
-        cNopacityMenuItem *item = menuItems.Get(Index);
-        if (item) {
-            item->SetTabs(strItems, tabItems, MaxTabs);
-            item->SetCurrent(Current);
-            if ((MenuCategory() != mcMain) && (MenuCategory() != mcSetup))
-                item->CheckScrollable(false);
-            item->Render();
+        int spaceTop = menuView->GetMenuTop(currentNumItems, itemSize.Y());
+        item->SetGeometry(Index, spaceTop, menuView->GetMenuItemLeft(itemSize.X()), itemSize.X(), itemSize.Y(), geoManager->menuSpace);
+        item->SetCurrent(Current);
+        item->SetTabs(strItems, tabItems, MaxTabs);
+        item->CreateText();
+        int textWidth = item->CheckScrollable(hasIcons);
+        item->CreatePixmapBackground();
+        if (config.GetValue("displayType") == dtGraphical && MainOrSetup) {
+            item->CreatePixmapForeground();
+        }
+        item->CreatePixmapStatic();
+        if (textWidth > 0)
+            item->CreatePixmapTextScroller(textWidth);
+        item->Render();
+        if (initial) {
+            if (FadeTime) {
+                item->SetAlpha(0);
+                item->SetAlphaIcon(0);
+                item->SetAlphaText(0);
+            }
         }
     }
     SetEditableWidth(menuView->GetEditableWidth());
@@ -742,7 +725,6 @@ void cNopacityDisplayMenu::Flush(void) {
         if (FadeTime)
             Start();
     }
-    initMenu = false;
     initial = false;
     osd->Flush();
     cDevice::PrimaryDevice()->ScaleVideo(videoWindowRect);
@@ -756,10 +738,13 @@ void cNopacityDisplayMenu::Action(void) {
         double t = min(double(Now - Start) / FadeTime, 1.0);
         int Alpha = t * ALPHA_OPAQUE;
         menuView->SetPixmapAlpha(Alpha);
-        for (cNopacityMenuItem *item = menuItems.First(); Running() && item; item = menuItems.Next(item)) {
-            item->SetAlpha(Alpha);
-            item->SetAlphaIcon(Alpha);
-            item->SetAlphaText(Alpha);
+        for (auto i = menuItems.begin(); i != menuItems.end(); ++i) {
+	    if (*i && Running()) {
+	        cNopacityMenuItem *item = i->get();
+                item->SetAlpha(Alpha);
+                item->SetAlphaIcon(Alpha);
+                item->SetAlphaText(Alpha);
+	    }
         }
         for (cNopacityTimer *t = timers.First(); Running() && t; t = timers.Next(t))
             t->SetAlpha(Alpha);
