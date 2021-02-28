@@ -5,7 +5,7 @@
 #include <string>
 #include "imagecache.h"
 
-class cNopacityMenuItem : public cListObject, public cThread {
+class cNopacityMenuItem : public cThread {
 protected:
     cOsd *osd;
     cImageCache *imgCache;
@@ -63,6 +63,9 @@ public:
     virtual int CheckScrollable(bool hasIcon) {return 0;};
     virtual void Render() = 0;
 };
+
+// avoid confusion between vdr swap() and std::swap() for std::unique_ptr<cNopacityMenuItem>
+inline void swap(cNopacityMenuItem*& a, cNopacityMenuItem*& b) {std::swap(a,b);}
 
 class cNopacityMainMenuItem : public cNopacityMenuItem {
 private:

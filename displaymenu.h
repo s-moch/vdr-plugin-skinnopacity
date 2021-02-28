@@ -4,6 +4,8 @@
 #include "nopacity.h"
 #include "menuitem.h"
 #include <vdr/thread.h>
+#include <memory>
+#include <vector>
 
 class cNopacityDisplayMenu : public cSkinDisplayMenu , cThread {
 private:
@@ -15,15 +17,13 @@ private:
     int FrameTime;
     int FadeTime;
     bool initial;
-    bool initMenu;
     bool diskUsageDrawn;
     int lastDiskUsageState;
     int lastTimersState;
     bool timersDrawn;
-    int menuItemIndexLast;
     int currentNumItems;
     cList<cNopacityTimer> timers;
-    cList<cNopacityMenuItem> menuItems;
+    std::vector<std::unique_ptr<cNopacityMenuItem>> menuItems;
     int positionButtons[4];
     cRect videoWindowRect;
     int currentFeed;
