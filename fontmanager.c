@@ -57,26 +57,26 @@ void cFontManager::SetFontsMenu(void) {
 }
 
 void cFontManager::DeleteFontsMenu(void) {
-    delete menuHeader;
-    delete menuDate;
-    delete menuItemLarge;
-    delete menuItemSchedule;
-    delete menuItemScheduleSmall;
-    delete menuItemChannel;
-    delete menuItemChannelSmall;
-    delete menuItemRecordings;
-    delete menuItemRecordingsSmall;
-    delete menuItemTimers;
-    delete menuItemTimersSmall;
-    delete menuItemDefault;
-    delete menuDiskUsage;
-    delete menuDiskUsagePercent;
-    delete menuTimers;
-    delete menuTimersHead;
-    delete menuButtons;
-    delete menuMessage;
-    delete menuEPGInfoWindow;
-    delete menuEPGInfoWindowLarge;
+    DELETENULL(menuHeader);
+    DELETENULL(menuDate);
+    DELETENULL(menuItemLarge);
+    DELETENULL(menuItemSchedule);
+    DELETENULL(menuItemScheduleSmall);
+    DELETENULL(menuItemChannel);
+    DELETENULL(menuItemChannelSmall);
+    DELETENULL(menuItemRecordings);
+    DELETENULL(menuItemRecordingsSmall);
+    DELETENULL(menuItemTimers);
+    DELETENULL(menuItemTimersSmall);
+    DELETENULL(menuItemDefault);
+    DELETENULL(menuDiskUsage);
+    DELETENULL(menuDiskUsagePercent);
+    DELETENULL(menuTimers);
+    DELETENULL(menuTimersHead);
+    DELETENULL(menuButtons);
+    DELETENULL(menuMessage);
+    DELETENULL(menuEPGInfoWindow);
+    DELETENULL(menuEPGInfoWindowLarge);
 }
 
 void cFontManager::SetFontsChannel(void) {
@@ -90,13 +90,13 @@ void cFontManager::SetFontsChannel(void) {
 }
 
 void cFontManager::DeleteFontsChannel(void) {
-    delete channelHeader;
-    delete channelDate;
-    delete channelEPG;
-    delete channelEPGSmall;
-    delete channelSourceInfo;
-    delete channelChannelGroup;
-    delete channelChannelGroupSmall;
+    DELETENULL(channelHeader);
+    DELETENULL(channelDate);
+    DELETENULL(channelEPG);
+    DELETENULL(channelEPGSmall);
+    DELETENULL(channelSourceInfo);
+    DELETENULL(channelChannelGroup);
+    DELETENULL(channelChannelGroupSmall);
 }
 
 void cFontManager::SetFontsReplay(void) {
@@ -105,8 +105,8 @@ void cFontManager::SetFontsReplay(void) {
 }
 
 void cFontManager::DeleteFontsReplay(void) {
-    delete replayHeader;
-    delete replayText;
+    DELETENULL(replayHeader);
+    DELETENULL(replayText);
 }
 
 void cFontManager::SetFontsMessage(void) {
@@ -114,7 +114,7 @@ void cFontManager::SetFontsMessage(void) {
 }
 
 void cFontManager::DeleteFontsMessage(void) {
-    delete messageText;
+    DELETENULL(messageText);
 }
 
 void cFontManager::SetFontsTrack(void) {
@@ -123,8 +123,8 @@ void cFontManager::SetFontsTrack(void) {
 }
 
 void cFontManager::DeleteFontsTrack(void) {
-    delete trackText;
-    delete trackHeader;
+    DELETENULL(trackText);
+    DELETENULL(trackHeader);
 }
 
 void cFontManager::SetFontsVolume(void) {
@@ -132,5 +132,5 @@ void cFontManager::SetFontsVolume(void) {
 }
 
 void cFontManager::DeleteFontsVolume(void) {
-    delete volumeText;
+    DELETENULL(volumeText);
 }
