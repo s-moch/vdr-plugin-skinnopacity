@@ -70,7 +70,7 @@ cSkinDisplayMessage *cNopacity::DisplayMessage(void) {
 }
 
 void cNopacity::ReloadCaches(void) {
-    if (geoManager->GeometryChanged() || imgCache->ThemeChanged()) {
+    if (geoManager->SetOSDSize() || imgCache->ThemeChanged()) {
         int start = cTimeMs::Now();
         config.LoadDefaults();
         config.SetThemeSpecificDefaults();

@@ -6,43 +6,34 @@
 cGeometryManager *geoManager;
 
 cGeometryManager::cGeometryManager() {
-    SetOSDSize();
+    osdLeft = 0;
+    osdTop = 0;
+    osdWidth = 0;
+    osdHeight = 0;
 }
 
 cGeometryManager::~cGeometryManager() {
 }
 
-void cGeometryManager::SetOSDSize(void) {
-    osdWidth = cOsd::OsdWidth();
-    osdHeight = cOsd::OsdHeight();
-    osdLeft = cOsd::OsdLeft();
-    osdTop = cOsd::OsdTop();
-}
-
-void cGeometryManager::SetGeometry(void) {
-    SetDisplayMenuSizes();
-    SetDisplayChannelSizes();
-    SetDisplayReplaySizes();
-    SetDisplayMessageSizes();
-    SetDisplayTrackSizes();
-    SetDisplayVolumeSizes();
-}
-
-bool cGeometryManager::GeometryChanged(void) {
+bool cGeometryManager::SetOSDSize(void) {
     if ((osdWidth != cOsd::OsdWidth()) ||
         (osdHeight != cOsd::OsdHeight()) ||
         (osdLeft != cOsd::OsdLeft()) ||
         (osdTop != cOsd::OsdTop())) {
         dsyslog("nopacity: osd Size changed");
         dsyslog("nopacity: old osd size: top %d left %d size %d * %d", osdLeft, osdTop, osdWidth, osdHeight);
-        SetOSDSize();
+        osdWidth = cOsd::OsdWidth();
+        osdHeight = cOsd::OsdHeight();
+        osdLeft = cOsd::OsdLeft();
+        osdTop = cOsd::OsdTop();
         dsyslog("nopacity: new osd size: top %d left %d size %d * %d", osdLeft, osdTop, osdWidth, osdHeight);
         return true;
     }
     return false;
 }
 
-void cGeometryManager::SetDisplayMenuSizes() {
+void cGeometryManager::SetGeometry(void) {
+    // DisplayMenu Sizes
     menuSpace = config.GetValue("spaceMenu");
 
     menuWidthScrollbar = config.GetValue("widthScrollbar");
@@ -81,12 +72,12 @@ void cGeometryManager::SetDisplayMenuSizes() {
     menuItemHeightTracks = config.GetValue("tracksItemHeight");
 
     menuMainMenuIconSize = menuItemHeightMain - 2 * menuSpace;
-    cSize logoSize = ScaleToFit(1000,
+    cSize menuLogoSize = ScaleToFit(1000,
                                 menuItemHeightSchedule - 2,
                                 config.GetValue("logoWidthOriginal"),
                                 config.GetValue("logoHeightOriginal"));
-    menuLogoWidth = logoSize.Width();
-    menuLogoHeight = logoSize.Height();
+    menuLogoWidth = menuLogoSize.Width();
+    menuLogoHeight = menuLogoSize.Height();
     
     cSize logoSizeVDRHeader = ScaleToFit(1000,
                                 menuHeaderHeight - 4,
@@ -106,9 +97,8 @@ void cGeometryManager::SetDisplayMenuSizes() {
                                 config.GetValue("logoHeightOriginal"));
     menuTimersLogoWidth = timersLogoSize.Width();
     menuTimersLogoHeight = timersLogoSize.Height();
-}
 
-void cGeometryManager::SetDisplayChannelSizes(void) {
+    // DisplayChannel Sizes
     channelX = config.GetValue("channelBorderVertical");
     channelWidth = osdWidth - 2 * config.GetValue("channelBorderVertical");
     channelHeight = osdHeight * config.GetValue("channelHeight") / 100;
@@ -128,12 +118,12 @@ void cGeometryManager::SetDisplayChannelSizes(void) {
     } else {
         logoMaxHeight = channelHeight - 2;
     }
-    cSize logoSize = ScaleToFit(logoMaxWidth,
+    cSize channelLogoSize = ScaleToFit(logoMaxWidth,
                                 logoMaxHeight,
                                 config.GetValue("logoWidthOriginal"),
                                 config.GetValue("logoHeightOriginal"));
-    channelLogoWidth = logoSize.Width();
-    channelLogoHeight = logoSize.Height();
+    channelLogoWidth = channelLogoSize.Width();
+    channelLogoHeight = channelLogoSize.Height();
     channelLogoX = (channelLogoWidthTotal - channelLogoWidth) / 2;
 
     switch (config.GetValue("logoVerticalAlignment")) {
@@ -170,9 +160,8 @@ void cGeometryManager::SetDisplayChannelSizes(void) {
     channelEpgInfoHeight = channelContentHeight - channelProgressBarHeight;
     channelEpgInfoLineHeight = channelEpgInfoHeight / 4;
     channelFooterY = channelTop + channelHeaderHeight + channelContentHeight;
-}
 
-void cGeometryManager::SetDisplayReplaySizes(void) {
+    // DisplayReplay Sizes
     replayHeight = osdHeight * config.GetValue("replayHeight") / 100;
     replayWidth = osdWidth - 2 * config.GetValue("replayBorderVertical");
     replayHeaderHeight = replayHeight * 0.2;
@@ -204,18 +193,15 @@ void cGeometryManager::SetDisplayReplaySizes(void) {
     replayMessageY = replayHeight - replayFooterHeight;
     replayMessageWidth = replayWidth * 75 / 100;
     replayMessageHeight = replayFooterHeight;
-}
 
-void cGeometryManager::SetDisplayMessageSizes(void) {
+    // DisplayMessage Sizes
     messageWidth = osdWidth * config.GetValue("messageWidth") / 100;
     messageHeight = osdHeight * config.GetValue("messageHeight") / 100;
-}
 
-void cGeometryManager::SetDisplayTrackSizes(void) {
+    // DisplayTrack Sizes
     trackWidth = osdWidth * config.GetValue("tracksWidth") / 100;
-}
 
-void cGeometryManager::SetDisplayVolumeSizes(void) {
+    // DisplayVolume Sizes
     volumeWidth = osdWidth * config.GetValue("volumeWidth") / 100;
     volumeHeight = osdHeight * config.GetValue("volumeHeight") / 100;
     volumeLabelHeight = volumeHeight/3;
