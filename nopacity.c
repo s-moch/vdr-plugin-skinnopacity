@@ -12,13 +12,7 @@
 #include "displaymessage.h"
 
 cNopacity::cNopacity(void) : cSkin("nOpacity", &::Theme) {
-    config.LoadThemeSpecificConfigs();
-    config.SetThemeSpecificDefaults();
-    config.SetThemeSetup();
-    config.SetPathes();
-    config.SetFontName();
     geoManager = new cGeometryManager();
-    geoManager->SetGeometry();
     fontManager = NULL;
     imgCache = NULL;
 }
