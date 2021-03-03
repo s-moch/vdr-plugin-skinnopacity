@@ -12,15 +12,8 @@
 #include "displaymessage.h"
 
 cNopacity::cNopacity(void) : cSkin("nOpacity", &::Theme) {
-    config.LoadThemeSpecificConfigs();
-    config.SetThemeSpecificDefaults();
-    config.SetThemeSetup();
-    config.SetPathes();
-    config.SetFontName();
     geoManager = new cGeometryManager();
-    geoManager->SetGeometry();
     fontManager = new cFontManager();
-    fontManager->SetFonts();
     imgCache = new cImageCache();
 }
 
@@ -68,8 +61,10 @@ void cNopacity::ReloadCaches(void) {
     if (geoManager->SetOSDSize() || imgCache->ThemeChanged()) {
         int start = cTimeMs::Now();
         config.LoadDefaults();
+        config.LoadThemeSpecificConfigs();
         config.SetThemeSpecificDefaults();
         config.SetThemeSetup();
+        config.SetPathes();
         config.SetFontName();
         geoManager->SetGeometry();
         fontManager->DeleteFonts();
