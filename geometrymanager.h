@@ -6,7 +6,6 @@ enum eBackgroundStyle {bsTrans = 0, bsFull};
 
 class cGeometryManager {
     private:
-        void SetOSDSize(void);
         void SetDisplayMenuSizes(void);
         void SetDisplayChannelSizes(void);
         void SetDisplayReplaySizes(void);
@@ -16,8 +15,8 @@ class cGeometryManager {
     public:
         cGeometryManager();
         ~cGeometryManager();
+        bool SetOSDSize(void);
         void SetGeometry(void);
-        bool GeometryChanged(void);
         int osdWidth;
         int osdHeight;
         int osdLeft;

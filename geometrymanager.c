@@ -6,17 +6,30 @@
 cGeometryManager *geoManager;
 
 cGeometryManager::cGeometryManager() {
-    SetOSDSize();
+    osdLeft = 0;
+    osdTop = 0;
+    osdWidth = 0;
+    osdHeight = 0;
 }
 
 cGeometryManager::~cGeometryManager() {
 }
 
-void cGeometryManager::SetOSDSize(void) {
-    osdWidth = cOsd::OsdWidth();
-    osdHeight = cOsd::OsdHeight();
-    osdLeft = cOsd::OsdLeft();
-    osdTop = cOsd::OsdTop();
+bool cGeometryManager::SetOSDSize(void) {
+    if ((osdWidth != cOsd::OsdWidth()) ||
+        (osdHeight != cOsd::OsdHeight()) ||
+        (osdLeft != cOsd::OsdLeft()) ||
+        (osdTop != cOsd::OsdTop())) {
+        dsyslog("nopacity: osd Size changed");
+        dsyslog("nopacity: old osd size: top %d left %d size %d * %d", osdLeft, osdTop, osdWidth, osdHeight);
+        osdWidth = cOsd::OsdWidth();
+        osdHeight = cOsd::OsdHeight();
+        osdLeft = cOsd::OsdLeft();
+        osdTop = cOsd::OsdTop();
+        dsyslog("nopacity: new osd size: top %d left %d size %d * %d", osdLeft, osdTop, osdWidth, osdHeight);
+        return true;
+    }
+    return false;
 }
 
 void cGeometryManager::SetGeometry(void) {
@@ -26,20 +39,6 @@ void cGeometryManager::SetGeometry(void) {
     SetDisplayMessageSizes();
     SetDisplayTrackSizes();
     SetDisplayVolumeSizes();
-}
-
-bool cGeometryManager::GeometryChanged(void) {
-    if ((osdWidth != cOsd::OsdWidth()) ||
-        (osdHeight != cOsd::OsdHeight()) ||
-        (osdLeft != cOsd::OsdLeft()) ||
-        (osdTop != cOsd::OsdTop())) {
-        dsyslog("nopacity: osd Size changed");
-        dsyslog("nopacity: old osd size: top %d left %d size %d * %d", osdLeft, osdTop, osdWidth, osdHeight);
-        SetOSDSize();
-        dsyslog("nopacity: new osd size: top %d left %d size %d * %d", osdLeft, osdTop, osdWidth, osdHeight);
-        return true;
-    }
-    return false;
 }
 
 void cGeometryManager::SetDisplayMenuSizes() {
