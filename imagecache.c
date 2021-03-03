@@ -72,6 +72,7 @@ void cImageCache::CreateCacheDelayed(void) {
 bool cImageCache::ThemeChanged(void) {
     if (osdTheme.compare(Setup.OSDTheme) != 0) {
         osdTheme = Setup.OSDTheme;
+        dsyslog ("nopacity: theme changed to %s\n", Setup.OSDTheme);
         return true;
     }
     return false;
