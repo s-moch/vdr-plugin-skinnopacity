@@ -5,24 +5,10 @@
 
 class cFontManager {
     private:
-        void SetFontsMenu(void);
-        void DeleteFontsMenu(void);
-        void SetFontsChannel(void);
-        void DeleteFontsChannel(void);
-        void SetFontsReplay(void);
-        void DeleteFontsReplay(void);
-        void SetFontsMessage(void);
-        void DeleteFontsMessage(void);
-        void SetFontsTrack(void);
-        void DeleteFontsTrack(void);
-        void SetFontsVolume(void);
-        void DeleteFontsVolume(void);
+        cFont *CreateFont(int size);
     public:
         cFontManager();
         ~cFontManager();
-        cFont *CreateFont(int size);
-        void SetFonts(void);
-        void DeleteFonts(void);
         //Fonts DisplayMenu
         cFont *menuHeader;
         cFont *menuDate;
