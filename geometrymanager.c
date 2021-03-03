@@ -21,12 +21,12 @@ bool cGeometryManager::SetOSDSize(void) {
         (osdLeft != cOsd::OsdLeft()) ||
         (osdTop != cOsd::OsdTop())) {
         dsyslog("nopacity: osd Size changed");
-        dsyslog("nopacity: old osd size: top %d left %d size %d * %d", osdLeft, osdTop, osdWidth, osdHeight);
+        dsyslog("nopacity: old osd size: left %d top %d size %d * %d", osdLeft, osdTop, osdWidth, osdHeight);
         osdWidth = cOsd::OsdWidth();
         osdHeight = cOsd::OsdHeight();
         osdLeft = cOsd::OsdLeft();
         osdTop = cOsd::OsdTop();
-        dsyslog("nopacity: new osd size: top %d left %d size %d * %d", osdLeft, osdTop, osdWidth, osdHeight);
+        dsyslog("nopacity: new osd size: left %d top %d size %d * %d", osdLeft, osdTop, osdWidth, osdHeight);
         return true;
     }
     return false;
