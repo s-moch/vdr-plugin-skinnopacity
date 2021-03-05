@@ -24,6 +24,11 @@ class cNopacityConfig {
         void LoadThemeConfig(cString confFile, cString theme);
         std::pair<std::string, int> ReadThemeConfigLine(const char *line);
         cString checkSlashAtEnd(std::string path);
+        void LoadDefaults(void);
+        void LoadThemeSpecificConfigs(void);
+        void SetThemeSpecificDefaults(void);
+        void SetThemeSetup(void);
+        void SetPathes(void);
     public:
         cNopacityConfig();
         ~cNopacityConfig();
@@ -42,11 +47,7 @@ class cNopacityConfig {
         cString logoPathDefault;
         cString iconPathDefault;
         cString epgImagePathDefault;
-        void LoadDefaults(void);
-        void LoadThemeSpecificConfigs(void);
-        void SetThemeSpecificDefaults(void);
-        void SetThemeSetup(void);
-        void SetPathes(void);
+        void Init(void);
         void DumpConfig(void);
         void DumpThemeConfig(void);
         void SetFontName();
