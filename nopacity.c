@@ -13,7 +13,7 @@
 
 cNopacity::cNopacity(void) : cSkin("nOpacity", &::Theme) {
     geoManager = new cGeometryManager();
-    fontManager = new cFontManager();
+    fontManager = NULL;
     imgCache = new cImageCache();
 }
 
@@ -67,8 +67,8 @@ void cNopacity::ReloadCaches(void) {
         config.SetPathes();
         config.SetFontName();
         geoManager->SetGeometry();
-        fontManager->DeleteFonts();
-        fontManager->SetFonts();
+        delete fontManager;
+        fontManager = new cFontManager();
         imgCache->Reload();
         dsyslog("nopacity: Cache reloaded in %d ms", int(cTimeMs::Now()-start));
     }

@@ -5,35 +5,7 @@
 cFontManager *fontManager;
 
 cFontManager::cFontManager() {
-}
-
-cFontManager::~cFontManager() {
-    DeleteFonts();
-}
-
-void cFontManager::SetFonts() {
-    SetFontsMenu();
-    SetFontsChannel();
-    SetFontsReplay();
-    SetFontsMessage();
-    SetFontsTrack();
-    SetFontsVolume();
-}
-
-void cFontManager::DeleteFonts() {
-    DeleteFontsMenu();
-    DeleteFontsChannel();
-    DeleteFontsReplay();
-    DeleteFontsMessage();
-    DeleteFontsTrack();
-    DeleteFontsVolume();
-}
-
-cFont *cFontManager::CreateFont(int size) {
-    return cFont::CreateFont(config.fontName, size);
-}
-
-void cFontManager::SetFontsMenu(void) {
+    // Menu fonts
     menuHeader = CreateFont(geoManager->menuHeaderHeight / 2 + config.GetValue("fontHeader"));
     menuDate = CreateFont(geoManager->menuHeaderHeight / 2 + config.GetValue("fontDate"));
     menuItemLarge = CreateFont(geoManager->menuItemHeightMain/3 + 4 + config.GetValue("fontMenuitemLarge"));
@@ -54,32 +26,7 @@ void cFontManager::SetFontsMenu(void) {
     menuMessage = CreateFont(geoManager->messageHeight / 3 + config.GetValue("fontMessageMenu"));
     menuEPGInfoWindow = CreateFont(geoManager->menuContentHeight / 30 + config.GetValue("fontEPGInfoWindow"));
     menuEPGInfoWindowLarge = CreateFont(geoManager->menuContentHeight / 20 + config.GetValue("fontEPGInfoWindowLarge"));
-}
-
-void cFontManager::DeleteFontsMenu(void) {
-    DELETENULL(menuHeader);
-    DELETENULL(menuDate);
-    DELETENULL(menuItemLarge);
-    DELETENULL(menuItemSchedule);
-    DELETENULL(menuItemScheduleSmall);
-    DELETENULL(menuItemChannel);
-    DELETENULL(menuItemChannelSmall);
-    DELETENULL(menuItemRecordings);
-    DELETENULL(menuItemRecordingsSmall);
-    DELETENULL(menuItemTimers);
-    DELETENULL(menuItemTimersSmall);
-    DELETENULL(menuItemDefault);
-    DELETENULL(menuDiskUsage);
-    DELETENULL(menuDiskUsagePercent);
-    DELETENULL(menuTimers);
-    DELETENULL(menuTimersHead);
-    DELETENULL(menuButtons);
-    DELETENULL(menuMessage);
-    DELETENULL(menuEPGInfoWindow);
-    DELETENULL(menuEPGInfoWindowLarge);
-}
-
-void cFontManager::SetFontsChannel(void) {
+    // Channel fonts
     channelHeader = CreateFont(geoManager->channelHeaderHeight - 8 + config.GetValue("fontChannelHeaderSize"));
     channelDate = CreateFont(geoManager->channelHeaderHeight/2 + config.GetValue("fontChannelDateSize"));
     channelEPG = CreateFont(geoManager->channelEpgInfoLineHeight + config.GetValue("fontEPGSize"));
@@ -87,50 +34,60 @@ void cFontManager::SetFontsChannel(void) {
     channelSourceInfo = CreateFont(geoManager->channelFooterHeight/2 + config.GetValue("fontChannelSourceInfoSize"));;
     channelChannelGroup = CreateFont(geoManager->channelEpgInfoHeight/3 + config.GetValue("fontChannelGroupSize"));
     channelChannelGroupSmall = CreateFont(geoManager->channelEpgInfoHeight/3 - 5 + config.GetValue("fontChannelGroupSmallSize"));
-}
-
-void cFontManager::DeleteFontsChannel(void) {
-    DELETENULL(channelHeader);
-    DELETENULL(channelDate);
-    DELETENULL(channelEPG);
-    DELETENULL(channelEPGSmall);
-    DELETENULL(channelSourceInfo);
-    DELETENULL(channelChannelGroup);
-    DELETENULL(channelChannelGroupSmall);
-}
-
-void cFontManager::SetFontsReplay(void) {
+    // Replay fonts
     replayHeader = CreateFont(geoManager->replayHeaderHeight - 8 + config.GetValue("fontReplayHeader"));
     replayText = CreateFont(geoManager->replayCurrentHeight);
-}
-
-void cFontManager::DeleteFontsReplay(void) {
-    DELETENULL(replayHeader);
-    DELETENULL(replayText);
-}
-
-void cFontManager::SetFontsMessage(void) {
+    //Message fonts
     messageText = CreateFont(geoManager->messageHeight / 4 + 15 + config.GetValue("fontMessage"));
-}
-
-void cFontManager::DeleteFontsMessage(void) {
-    DELETENULL(messageText);
-}
-
-void cFontManager::SetFontsTrack(void) {
+    // Track fonts
     trackText = CreateFont(geoManager->menuItemHeightTracks/3 + config.GetValue("fontTracks"));
     trackHeader = CreateFont(geoManager->menuItemHeightTracks/2 + config.GetValue("fontTracksHeader"));
-}
-
-void cFontManager::DeleteFontsTrack(void) {
-    DELETENULL(trackText);
-    DELETENULL(trackHeader);
-}
-
-void cFontManager::SetFontsVolume(void) {
+    // Volume fonts
     volumeText = CreateFont(geoManager->volumeLabelHeight - 6 + config.GetValue("fontVolume"));
 }
 
-void cFontManager::DeleteFontsVolume(void) {
-    DELETENULL(volumeText);
+cFontManager::~cFontManager() {
+    // Menu fonts
+    delete menuHeader;
+    delete menuDate;
+    delete menuItemLarge;
+    delete menuItemSchedule;
+    delete menuItemScheduleSmall;
+    delete menuItemChannel;
+    delete menuItemChannelSmall;
+    delete menuItemRecordings;
+    delete menuItemRecordingsSmall;
+    delete menuItemTimers;
+    delete menuItemTimersSmall;
+    delete menuItemDefault;
+    delete menuDiskUsage;
+    delete menuDiskUsagePercent;
+    delete menuTimers;
+    delete menuTimersHead;
+    delete menuButtons;
+    delete menuMessage;
+    delete menuEPGInfoWindow;
+    delete menuEPGInfoWindowLarge;
+    // Channel fonts
+    delete channelHeader;
+    delete channelDate;
+    delete channelEPG;
+    delete channelEPGSmall;
+    delete channelSourceInfo;
+    delete channelChannelGroup;
+    delete channelChannelGroupSmall;
+    // Replay fonts
+    delete replayHeader;
+    delete replayText;
+    //Message fonts
+    delete messageText;
+    // Track fonts
+    delete trackText;
+    delete trackHeader;
+    // Volume fonts
+    delete volumeText;
+}
+
+cFont *cFontManager::CreateFont(int size) {
+    return cFont::CreateFont(config.fontName, size);
 }

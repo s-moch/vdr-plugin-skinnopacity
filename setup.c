@@ -11,8 +11,8 @@ cNopacitySetup::~cNopacitySetup(void) {
     config.SetFontName();
     int start = cTimeMs::Now();
     geoManager->SetGeometry();
-    fontManager->DeleteFonts();
-    fontManager->SetFonts();
+    delete fontManager;
+    fontManager = new cFontManager();
     imgCache->Reload();
     dsyslog("nopacity: Cache reloaded in %d ms", int(cTimeMs::Now()-start));
 }

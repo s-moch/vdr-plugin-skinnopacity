@@ -5,63 +5,49 @@
 
 class cFontManager {
     private:
-        void SetFontsMenu(void);
-        void DeleteFontsMenu(void);
-        void SetFontsChannel(void);
-        void DeleteFontsChannel(void);
-        void SetFontsReplay(void);
-        void DeleteFontsReplay(void);
-        void SetFontsMessage(void);
-        void DeleteFontsMessage(void);
-        void SetFontsTrack(void);
-        void DeleteFontsTrack(void);
-        void SetFontsVolume(void);
-        void DeleteFontsVolume(void);
+        cFont *CreateFont(int size);
     public:
         cFontManager();
         ~cFontManager();
-        cFont *CreateFont(int size);
-        void SetFonts(void);
-        void DeleteFonts(void);
         //Fonts DisplayMenu
-        cFont *menuHeader = NULL;
-        cFont *menuDate = NULL;
-        cFont *menuItemLarge = NULL;
-        cFont *menuItemSchedule = NULL;
-        cFont *menuItemScheduleSmall = NULL;
-        cFont *menuItemChannel = NULL;
-        cFont *menuItemChannelSmall = NULL;
-        cFont *menuItemRecordings = NULL;
-        cFont *menuItemRecordingsSmall = NULL;
-        cFont *menuItemTimers = NULL;
-        cFont *menuItemTimersSmall = NULL;
-        cFont *menuItemDefault = NULL;
-        cFont *menuDiskUsage = NULL;
-        cFont *menuDiskUsagePercent = NULL;
-        cFont *menuTimers = NULL;
-        cFont *menuTimersHead = NULL;
-        cFont *menuButtons = NULL;
-        cFont *menuMessage = NULL;
-        cFont *menuEPGInfoWindow = NULL;
-        cFont *menuEPGInfoWindowLarge = NULL;
+        cFont *menuHeader;
+        cFont *menuDate;
+        cFont *menuItemLarge;
+        cFont *menuItemSchedule;
+        cFont *menuItemScheduleSmall;
+        cFont *menuItemChannel;
+        cFont *menuItemChannelSmall;
+        cFont *menuItemRecordings;
+        cFont *menuItemRecordingsSmall;
+        cFont *menuItemTimers;
+        cFont *menuItemTimersSmall;
+        cFont *menuItemDefault;
+        cFont *menuDiskUsage;
+        cFont *menuDiskUsagePercent;
+        cFont *menuTimers;
+        cFont *menuTimersHead;
+        cFont *menuButtons;
+        cFont *menuMessage;
+        cFont *menuEPGInfoWindow;
+        cFont *menuEPGInfoWindowLarge;
         //Fonts DisplayChannel
-        cFont *channelHeader = NULL;
-        cFont *channelDate = NULL;
-        cFont *channelEPG = NULL;
-        cFont *channelEPGSmall = NULL;
-        cFont *channelSourceInfo = NULL;
-        cFont *channelChannelGroup = NULL;
-        cFont *channelChannelGroupSmall = NULL;
+        cFont *channelHeader;
+        cFont *channelDate;
+        cFont *channelEPG;
+        cFont *channelEPGSmall;
+        cFont *channelSourceInfo;
+        cFont *channelChannelGroup;
+        cFont *channelChannelGroupSmall;
         //Fonts DisplayReplay
-        cFont *replayHeader = NULL;
-        cFont *replayText = NULL;
+        cFont *replayHeader;
+        cFont *replayText;
         //Fonts DisplayMessage
-        cFont *messageText = NULL;
+        cFont *messageText;
         //Fonts DisplayTracks
-        cFont *trackText = NULL;
-        cFont *trackHeader = NULL;
+        cFont *trackText;
+        cFont *trackHeader;
         //Fonts DisplayVolume
-        cFont *volumeText = NULL;
+        cFont *volumeText;
 };
 
 extern cFontManager *fontManager;
