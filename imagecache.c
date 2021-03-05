@@ -12,6 +12,7 @@ cImageCache *imgCache;
 cImageCache::cImageCache() : cImageMagickWrapper() {
     tempStaticLogo = NULL;
     osdTheme = Setup.OSDTheme;
+    CreateCache();
 }
 
 cImageCache::~cImageCache() {
@@ -60,9 +61,6 @@ void cImageCache::CreateCache(void) {
 
         }
     }
-}
-
-void cImageCache::CreateCacheDelayed(void) {
     if (config.GetValue("displayType") == dtBlending)
         CreateSkinElementsBlended();
     else if (config.GetValue("displayType") == dtGraphical)
@@ -76,12 +74,6 @@ bool cImageCache::ThemeChanged(void) {
         return true;
     }
     return false;
-}
-
-void cImageCache::Reload(void) {
-    Clear();
-    CreateCache();
-    CreateCacheDelayed();
 }
 
 cImage *cImageCache::GetMenuIcon(std::string name) {
