@@ -74,9 +74,6 @@ class cImageCache : public cImageMagickWrapper {
 public:
     cImageCache();
     ~cImageCache();
-    void CreateCache(void);
-    void CreateCacheDelayed(void);
-    void Reload(void);
     bool ThemeChanged(void);
     cImage *GetMenuIcon(std::string name);
     cImage *GetSkinIcon(std::string name, int width=0, int height=0, bool preserveAspect = true);
@@ -95,6 +92,7 @@ private:
     std::map<std::string, cImage*> logoTimerCache;
     std::vector<std::pair<std::string, cPoint> > GetMenuIcons(void);
     std::vector<std::pair<std::string, sImgProperties> > GetSkinIcons(void);
+    void CreateCache(void);
     bool LoadIcon(eCacheType type, std::string name);
     void InsertIntoIconCache(eCacheType type, std::string name, int width, int height, bool preserveAspect = true);
     bool LoadLogo(const cChannel *channel);

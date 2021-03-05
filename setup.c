@@ -13,7 +13,8 @@ cNopacitySetup::~cNopacitySetup() {
     geoManager->SetGeometry();
     delete fontManager;
     fontManager = new cFontManager();
-    imgCache->Reload();
+    delete imgCache;
+    imgCache = new cImageCache();
     dsyslog("nopacity: Cache reloaded in %d ms", int(cTimeMs::Now()-start));
 }
 
