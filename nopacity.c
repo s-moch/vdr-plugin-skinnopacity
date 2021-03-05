@@ -60,12 +60,7 @@ cSkinDisplayMessage *cNopacity::DisplayMessage(void) {
 void cNopacity::ReloadCaches(void) {
     if (geoManager->SetOSDSize() || imgCache->ThemeChanged()) {
         int start = cTimeMs::Now();
-        config.LoadDefaults();
-        config.LoadThemeSpecificConfigs();
-        config.SetThemeSpecificDefaults();
-        config.SetThemeSetup();
-        config.SetPathes();
-        config.SetFontName();
+        config.Init();
         geoManager->SetGeometry();
         delete fontManager;
         fontManager = new cFontManager();

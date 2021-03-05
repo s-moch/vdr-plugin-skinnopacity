@@ -23,6 +23,15 @@ cNopacityConfig::cNopacityConfig() {
 cNopacityConfig::~cNopacityConfig() {
 }
 
+void cNopacityConfig::Init(void) {
+    LoadDefaults();
+    LoadThemeSpecificConfigs();
+    SetThemeSpecificDefaults();
+    SetThemeSetup();
+    SetPathes();
+    SetFontName();
+}
+
 int cNopacityConfig::GetValue(std::string name) {
     std::map<std::string, int>::iterator hit = conf.find(name);
     if (hit != conf.end()) {

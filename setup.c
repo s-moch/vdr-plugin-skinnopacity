@@ -8,8 +8,8 @@ cNopacitySetup::cNopacitySetup(void) {
 }
 
 cNopacitySetup::~cNopacitySetup(void) {
-    config.SetFontName();
     int start = cTimeMs::Now();
+    config.SetFontName();
     geoManager->SetGeometry();
     delete fontManager;
     fontManager = new cFontManager();
