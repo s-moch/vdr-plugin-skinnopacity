@@ -58,7 +58,7 @@ cSkinDisplayMessage *cNopacity::DisplayMessage(void) {
 }
 
 void cNopacity::ReloadCaches(void) {
-    if (geoManager->SetOSDSize() || imgCache->ThemeChanged()) {
+    if (geoManager->SetOSDSize() || !imgCache || imgCache->ThemeChanged()) {
         int start = cTimeMs::Now();
         config.Init();
         geoManager->SetGeometry();

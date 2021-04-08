@@ -1,3 +1,4 @@
+#include <vdr/skins.h>
 #include "setup.h"
 
 cNopacitySetup::cNopacitySetup(void) {
@@ -8,14 +9,20 @@ cNopacitySetup::cNopacitySetup(void) {
 }
 
 cNopacitySetup::~cNopacitySetup(void) {
-    int start = cTimeMs::Now();
     config.SetFontName();
-    geoManager->SetGeometry();
     delete fontManager;
-    fontManager = new cFontManager();
     delete imgCache;
-    imgCache = new cImageCache();
-    dsyslog("nopacity: Cache reloaded in %d ms", int(cTimeMs::Now()-start));
+    cSkin *Skin = Skins.Get(Skins.Current()->Index());
+    if (strcmp(Skin->Name(), "nOpacity") == 0) {
+        int start = cTimeMs::Now();
+        geoManager->SetGeometry();
+        fontManager = new cFontManager();
+        imgCache = new cImageCache();
+        dsyslog("nopacity: Cache reloaded in %d ms", int(cTimeMs::Now() - start));
+    } else {
+        fontManager = NULL;
+        imgCache = NULL;
+    }
 }
 
 
