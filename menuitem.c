@@ -1125,9 +1125,9 @@ void cNopacityTimerMenuItem::DrawLogo(int logoWidth, int logoHeight) {
 }
 // cNopacityRecordingMenuItem  -------------
 
-cNopacityRecordingMenuItem::cNopacityRecordingMenuItem(cOsd *osd, const cRecording *Recording, bool sel, bool isFolder, int Level, int Total, int New, cRect *vidWin) : cNopacityMenuItem (osd, "", sel) {
+cNopacityRecordingMenuItem::cNopacityRecordingMenuItem(cOsd *osd, const cRecording *Recording, bool sel, int Level, int Total, int New, cRect *vidWin) : cNopacityMenuItem (osd, "", sel) {
     this->Recording = Recording;
-    this->isFolder = isFolder;
+    this->isFolder = (Total > 0) ? true : false;
     this->Level = Level;
     this->Total = Total;
     this->New = New;

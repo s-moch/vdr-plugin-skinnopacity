@@ -188,7 +188,7 @@ private:
     int CheckScrollableRecording(void);
     int CheckScrollableFolder(void);
 public:
-    cNopacityRecordingMenuItem(cOsd *osd, const cRecording *Recording, bool sel, bool isFolder, int Level, int Total, int New, cRect *vidWin);
+    cNopacityRecordingMenuItem(cOsd *osd, const cRecording *Recording, bool sel, int Level, int Total, int New, cRect *vidWin);
     ~cNopacityRecordingMenuItem(void);
     void CreatePixmapTextScroller(int totalWidth);
     void CreateText(void);

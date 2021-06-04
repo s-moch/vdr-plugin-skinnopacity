@@ -468,10 +468,7 @@ bool cNopacityDisplayMenu::SetItemRecording(const cRecording *Recording, int Ind
     if ((int)menuItems.size() <= Index)
         menuItems.resize(currentNumItems);
     if (!menuItems[Index]) {
-        bool isFolder = false;
-        if (Total > 0)
-            isFolder = true;
-        cNopacityMenuItem *item = new cNopacityRecordingMenuItem(osd, Recording, Selectable, isFolder, Level, Total, New, &videoWindowRect);
+        cNopacityMenuItem *item = new cNopacityRecordingMenuItem(osd, Recording, Selectable, Level, Total, New, &videoWindowRect);
         cPoint itemSize;
         menuItems[Index].reset(item);
         menuView->GetMenuItemSize(MenuCategory(), &itemSize);
