@@ -330,25 +330,15 @@ void cNopacityDisplayMenu::SetButtonPositions(void) {
 }
 
 void cNopacityDisplayMenu::SetButtons(const char *Red, const char *Green, const char *Yellow, const char *Blue) {
-    if (Red) {
+    menuView->ClearButton();
+    if (Red)
         menuView->DrawButton(Red, seButtonRed, Theme.Color(clrButtonRed), Theme.Color(clrButtonRedBorder), Theme.Color(clrButtonRedFont), positionButtons[0]);
-    } else
-        menuView->ClearButton(positionButtons[0]);
-
-    if (Green) {
+    if (Green)
         menuView->DrawButton(Green, seButtonGreen,Theme.Color(clrButtonGreen),  Theme.Color(clrButtonGreenBorder), Theme.Color(clrButtonGreenFont), positionButtons[1]);
-    } else
-        menuView->ClearButton(positionButtons[1]);
-
-    if (Yellow) {
+    if (Yellow)
         menuView->DrawButton(Yellow, seButtonYellow, Theme.Color(clrButtonYellow), Theme.Color(clrButtonYellowBorder), Theme.Color(clrButtonYellowFont), positionButtons[2]);
-    } else
-        menuView->ClearButton(positionButtons[2]);
-
-    if (Blue) {
+    if (Blue)
         menuView->DrawButton(Blue, seButtonBlue, Theme.Color(clrButtonBlue), Theme.Color(clrButtonBlueBorder), Theme.Color(clrButtonBlueFont), positionButtons[3]);
-    } else
-        menuView->ClearButton(positionButtons[3]);
 }
 
 void cNopacityDisplayMenu::SetMessage(eMessageType Type, const char *Text) {

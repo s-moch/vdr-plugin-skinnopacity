@@ -67,7 +67,7 @@ class cNopacityDisplayMenuView {
         void DrawDiskUsage(void);
         void ShowDiskUsage(bool show);
         void DrawButton(const char *text, eSkinElementType seButton, tColor buttonColor, tColor borderColor, tColor fontColor, int num);
-        void ClearButton(int num);
+        void ClearButton(void);
         int GetTimersInitHeight(void);
         int GetTimersMaxHeight(void);
         cNopacityTimer *DrawTimerConflict(int numConflicts, int y);

@@ -14,7 +14,6 @@ cNopacityDisplayMenuView::~cNopacityDisplayMenuView(void) {
     osd->DestroyPixmap(pixmapDate);
     osd->DestroyPixmap(pixmapFooter);
     osd->DestroyPixmap(pixmapFooterBack);
-    osd->DestroyPixmap(pixmapButtonsText);
     osd->DestroyPixmap(pixmapContent);
     osd->DestroyPixmap(pixmapScrollbar);
     osd->DestroyPixmap(pixmapScrollbarBack);
@@ -161,7 +160,6 @@ void cNopacityDisplayMenuView::CreatePixmaps(void) {
     pixmapHeaderLabel = osd->CreatePixmap(2, cRect(labelX, 0, geoManager->osdWidth - geoManager->menuDateWidth, geoManager->menuHeaderHeight));
     pixmapFooter = osd->CreatePixmap(2, cRect(0, geoManager->osdHeight - geoManager->menuFooterHeight, geoManager->osdWidth, geoManager->menuFooterHeight));
     pixmapFooterBack = osd->CreatePixmap(1, cRect(0, geoManager->osdHeight - geoManager->menuFooterHeight, geoManager->osdWidth, geoManager->menuFooterHeight));
-    pixmapButtonsText = osd->CreatePixmap(3, cRect(0, geoManager->osdHeight - geoManager->menuFooterHeight, geoManager->osdWidth, geoManager->menuFooterHeight));
     int drawPortWidth = geoManager->osdWidth + geoManager->menuContentWidthFull - geoManager->menuContentWidthMinimum;
     pixmapContent = osd->CreatePixmap(1, cRect(0, geoManager->menuHeaderHeight, geoManager->osdWidth, geoManager->menuContentHeight),
                                          cRect(0, 0, drawPortWidth, geoManager->menuContentHeight));
@@ -186,7 +184,6 @@ void cNopacityDisplayMenuView::CreatePixmaps(void) {
         pixmapDate->SetAlpha(0);
         pixmapFooter->SetAlpha(0);
         pixmapFooterBack->SetAlpha(0);
-        pixmapButtonsText->SetAlpha(0);
         pixmapContent->SetAlpha(0);
         pixmapScrollbarBack->SetAlpha(0);
         pixmapScrollbar->SetAlpha(0);
@@ -205,7 +202,6 @@ void cNopacityDisplayMenuView::SetPixmapAlpha(int Alpha) {
     pixmapContent->SetAlpha(Alpha);
     pixmapFooter->SetAlpha(Alpha);
     pixmapFooterBack->SetAlpha(Alpha);
-    pixmapButtonsText->SetAlpha(Alpha);
     pixmapScrollbarBack->SetAlpha(Alpha);
     pixmapScrollbar->SetAlpha(Alpha);
     pixmapDiskUsage->SetAlpha(Alpha);
@@ -318,7 +314,6 @@ void cNopacityDisplayMenuView::DrawBorderDecoration() {
     }
     pixmapFooter->Fill(clrTransparent);
     pixmapFooterBack->Fill(Theme.Color(clrMenuBack));
-    pixmapButtonsText->Fill(clrTransparent);
 
     int borderWidth = 2;
     int radius = 10;
@@ -599,17 +594,11 @@ void cNopacityDisplayMenuView::DrawButton(const char *text, eSkinElementType seB
     }
     int textWidth = fontManager->menuButtons->Width(text);
     int textHeight = fontManager->menuButtons->Height();
-    pixmapButtonsText->DrawRectangle(cRect(left, top, geoManager->menuButtonWidth, geoManager->menuButtonHeight), clrTransparent);
-    pixmapButtonsText->DrawText(cPoint(left + (geoManager->menuButtonWidth-textWidth)/2, top + (geoManager->menuButtonHeight-textHeight)/2), text, fontColor, clrTransparent, fontManager->menuButtons);
+    pixmapFooter->DrawText(cPoint(left + (geoManager->menuButtonWidth-textWidth)/2, top + (geoManager->menuButtonHeight-textHeight)/2), text, fontColor, clrTransparent, fontManager->menuButtons);
 }
 
-void cNopacityDisplayMenuView::ClearButton(int num) {
-    if (num < 0)
-        return;
-    int top = 2*geoManager->menuButtonsBorder;
-    int left = num * geoManager->menuButtonWidth + (2*num + 1) * geoManager->menuButtonsBorder;
-    pixmapFooter->DrawRectangle(cRect(left, top, geoManager->menuButtonWidth, geoManager->menuButtonHeight), clrTransparent);
-    pixmapButtonsText->DrawRectangle(cRect(left, top, geoManager->menuButtonWidth, geoManager->menuButtonHeight), clrTransparent);
+void cNopacityDisplayMenuView::ClearButton(void) {
+    pixmapFooter->Fill(clrTransparent);
 }
 
 int cNopacityDisplayMenuView::GetTimersInitHeight(void) {
