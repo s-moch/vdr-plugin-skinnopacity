@@ -3,19 +3,36 @@
 /********************************************************************************************
 * cNopacityDetailView
 ********************************************************************************************/
-cNopacityDetailView::cNopacityDetailView(eDetailViewType detailViewType, cOsd *osd) {
+cNopacityDetailView::cNopacityDetailView(eDetailViewType detailViewType, cOsd *osd, cPixmap *s, cPixmap *sBack) {
     type = detailViewType;
     this->osd = osd;
+    this->scrollBar = s;
+    this->scrollBarBack = sBack;
     ev = NULL;
     rec = NULL;
     text = NULL;
     view = NULL;
-    x = 0;
-    width = 0;
-    height = 0;
-    top = 0;
-    border = 0;
+    x = (config.GetValue("menuAdjustLeft")) ? 0 : geoManager->osdWidth - geoManager->menuContentWidthFull + 2 * geoManager->menuSpace;
+    width = geoManager->menuContentWidthFull - 2 * geoManager->menuSpace;
+    height = geoManager->menuContentHeight;
+    top = geoManager->menuHeaderHeight;
+    border = 30;
     headerHeight = 0;
+    switch (type) {
+        case dvEvent:
+            headerHeight = config.GetValue("headerDetailedEPG") * height / 100;
+            border = config.GetValue("borderDetailedEPG");
+            break;
+        case dvRecording:
+            headerHeight = config.GetValue("headerDetailedRecordings") * height / 100;
+            border = config.GetValue("borderDetailedRecordings");
+            break;
+        case dvText:
+            headerHeight = 0;
+            break;
+        default:
+            break;
+    }
 }
 
 cNopacityDetailView::~cNopacityDetailView(void) {
@@ -24,15 +41,6 @@ cNopacityDetailView::~cNopacityDetailView(void) {
         cCondWait::SleepMs(10);
     if (view)
         delete view;
-}
-
-void cNopacityDetailView::SetGeometry(int x, int width, int height, int top, int contentBorder, int headerHeight) {
-    this->x = x;
-    this->width = width;
-    this->height = height;
-    this->top = top;
-    this->border = contentBorder;
-    this->headerHeight = headerHeight;
 }
 
 void cNopacityDetailView::InitiateViewType(void) {
@@ -122,12 +130,14 @@ void cNopacityDetailView::KeyInput(bool Up, bool Page) {
     } else if (Up && !Page) {
         bool scrolled = view->KeyUp();
         if (scrolled) {
+            view->SetScrollbarPixmaps(scrollBar, scrollBarBack);
             view->DrawScrollbar();
             osd->Flush();
         }
     }else if (!Up && !Page) {
         bool scrolled = view->KeyDown();
         if (scrolled) {
+            view->SetScrollbarPixmaps(scrollBar, scrollBarBack);
             view->DrawScrollbar();
             osd->Flush();
         }

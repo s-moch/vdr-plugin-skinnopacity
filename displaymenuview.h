@@ -75,7 +75,8 @@ class cNopacityDisplayMenuView {
         void DrawScrollbar(double Height, double Offset);
         void ClearScrollbar(void);
         void DrawMessage(eMessageType Type, const char *Text);
-        void SetDetailViewSize(eDetailViewType detailViewType, cNopacityDetailView *detailView);
+        cPixmap *GetPixmapScrollbar(void) { return pixmapScrollbar; };
+        cPixmap *GetPixmapScrollbarBack(void) { return pixmapScrollbarBack; };
 };
 
 

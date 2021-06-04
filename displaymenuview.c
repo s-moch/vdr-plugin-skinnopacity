@@ -667,34 +667,3 @@ void cNopacityDisplayMenuView::DrawMessage(eMessageType Type, const char *Text) 
 					       geoManager->messageWidth, geoManager->messageHeight),
 					 Type, Text, true);
 }
-
-void cNopacityDisplayMenuView::SetDetailViewSize(eDetailViewType detailViewType, cNopacityDetailView *detailView) {
-    int x = (config.GetValue("menuAdjustLeft")) ? 0 : geoManager->osdWidth - geoManager->menuContentWidthFull + 2*geoManager->menuSpace;
-    int width = 0;
-    int height = 0;
-    int top = 0;
-    int contentBorder = 30;
-    int detailHeaderHeight = 0;
-
-    width = geoManager->menuContentWidthFull - 2*geoManager->menuSpace;
-    height = geoManager->menuContentHeight;
-    top = geoManager->menuHeaderHeight;
-
-    switch (detailViewType) {
-        case dvEvent:
-            detailHeaderHeight = config.GetValue("headerDetailedEPG") * height / 100;
-            contentBorder = config.GetValue("borderDetailedEPG");
-            break;
-        case dvRecording:
-            detailHeaderHeight = config.GetValue("headerDetailedRecordings") * height / 100;
-            contentBorder = config.GetValue("borderDetailedRecordings");
-            break;
-        case dvText:
-            detailHeaderHeight = 0;
-            break;
-        default:
-            break;
-    }
-    detailView->SetGeometry(x, width, height, top, contentBorder, detailHeaderHeight);
-    detailView->SetScrollBar(pixmapScrollbar, pixmapScrollbarBack);
-}

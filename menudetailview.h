@@ -38,13 +38,11 @@ protected:
     int ReadSizeVdr(const char *strPath);
     virtual void Action(void);
 public:
-    cNopacityDetailView(eDetailViewType detailViewType, cOsd *osd);
+    cNopacityDetailView(eDetailViewType detailViewType, cOsd *osd, cPixmap *s, cPixmap *sBack);
     virtual ~cNopacityDetailView(void);
-    void SetGeometry(int x, int width, int height, int top, int contentBorder, int headerHeight);
     void SetEvent(const cEvent *e) { ev = e; };
     void SetRecording(const cRecording *r) { rec = r; };
     void SetText(const char *t) { text = t; };
-    void SetScrollBar(cPixmap *s, cPixmap *sBack) { scrollBar = s; scrollBarBack = sBack; };
     void KeyInput(bool Up, bool Page);
 };
 
