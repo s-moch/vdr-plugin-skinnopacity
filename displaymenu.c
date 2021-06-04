@@ -23,12 +23,8 @@ cNopacityDisplayMenu::cNopacityDisplayMenu(void) {
     currentNumItems = 0;
     detailView = NULL;
     SetButtonPositions();
-    menuView = new cNopacityDisplayMenuView();
-    osd = menuView->createOsd();
-    menuView->SetDescriptionTextWindowSize();
-    menuView->CreatePixmaps();
-    menuView->DrawHeaderLogo();
-    menuView->DrawBorderDecoration();
+    osd = CreateOsd(geoManager->osdLeft, geoManager->osdTop, geoManager->osdWidth, geoManager->osdHeight);
+    menuView = new cNopacityDisplayMenuView(osd);
     currentFeed = 0;
     SetTabs(0);
 }
@@ -37,11 +33,11 @@ cNopacityDisplayMenu::~cNopacityDisplayMenu(void) {
     Cancel(-1);
     while (Active())
         cCondWait::SleepMs(10);
-    delete menuView;
-    menuItems.clear();
     if (detailView) {
         delete detailView;
     }
+    delete menuView;
+    menuItems.clear();
     timers.Clear();
     delete osd;
     cDevice::PrimaryDevice()->ScaleVideo(cRect::Null);
@@ -204,10 +200,7 @@ int cNopacityDisplayMenu::MaxItems(void) {
 }
 
 void cNopacityDisplayMenu::Clear(void) {
-    if (detailView) {
-        delete detailView;
-        detailView = NULL;
-    }
+    DELETENULL(detailView);
     menuItems.clear();
 }
 
@@ -245,6 +238,9 @@ void cNopacityDisplayMenu::SetMenuCategory(eMenuCategory MenuCategory) {
       */
     menuCategoryLast = this->MenuCategory();
     cSkinDisplayMenu::SetMenuCategory(MenuCategory);
+    if ((MenuCategory != mcRecordingInfo) && (MenuCategory != mcEvent && MenuCategory != mcText)) {
+        DELETENULL(detailView);
+    }
     if ((menuCategoryLast == mcMain) && (MenuCategory != mcMain)) {
         if (config.GetValue("showDiscUsage")) {
             menuView->ShowDiskUsage(false);

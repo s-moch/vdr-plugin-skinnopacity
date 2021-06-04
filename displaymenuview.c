@@ -1,9 +1,14 @@
 #include "displaymenuview.h"
 
-cNopacityDisplayMenuView::cNopacityDisplayMenuView(void) {
+cNopacityDisplayMenuView::cNopacityDisplayMenuView(cOsd *osd) {
+    this->osd = osd;
     diskUsageAlert = 95;
     pixmapHeaderIcon = NULL;
     messageBox = NULL;
+    SetDescriptionTextWindowSize();
+    CreatePixmaps();
+    DrawHeaderLogo();
+    DrawBorderDecoration();
 }
 
 cNopacityDisplayMenuView::~cNopacityDisplayMenuView(void) {
@@ -23,11 +28,6 @@ cNopacityDisplayMenuView::~cNopacityDisplayMenuView(void) {
     if (pixmapHeaderIcon)
         osd->DestroyPixmap(pixmapHeaderIcon);
     delete messageBox;
-}
-
-cOsd *cNopacityDisplayMenuView::createOsd(void) {
-    osd = CreateOsd(geoManager->osdLeft, geoManager->osdTop, geoManager->osdWidth, geoManager->osdHeight);
-    return osd;
 }
 
 void cNopacityDisplayMenuView::SetDescriptionTextWindowSize(void) {

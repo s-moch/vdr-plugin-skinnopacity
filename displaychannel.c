@@ -17,13 +17,8 @@ cNopacityDisplayChannel::cNopacityDisplayChannel(bool WithInfo) {
     FadeTime = config.GetValue("channelFadeTime");
     FrameTime = FadeTime / 10;
 
-    channelView = new cNopacityDisplayChannelView();
-    channelView->createOsd();
-    channelView->CreatePixmaps();
-    channelView->DrawBackground();
-    if (config.GetValue("displaySignalStrength")) {
-        channelView->DrawSignalMeter();
-    }
+    osd = CreateOsd(geoManager->osdLeft, geoManager->osdTop, geoManager->osdWidth, geoManager->osdHeight);
+    channelView = new cNopacityDisplayChannelView(osd);
 }
 
 cNopacityDisplayChannel::~cNopacityDisplayChannel() {
@@ -31,6 +26,7 @@ cNopacityDisplayChannel::~cNopacityDisplayChannel() {
     while (Active())
         cCondWait::SleepMs(10);
     delete channelView;
+    delete osd;
 }
 
 void cNopacityDisplayChannel::SetChannel(const cChannel *Channel, int Number) {
@@ -139,7 +135,7 @@ void cNopacityDisplayChannel::Flush(void) {
     }
     initial = false;
     channelChange = false;
-    channelView->Flush();
+    osd->Flush();
 }
 
 void cNopacityDisplayChannel::Action(void) {
@@ -152,7 +148,7 @@ void cNopacityDisplayChannel::Action(void) {
         channelView->SetAlpha(Alpha);
         cPixmap::Unlock();
         if (Running())
-            channelView->Flush();
+            osd->Flush();
         int Delta = cTimeMs::Now() - Now;
         if (Running() && (Delta < FrameTime))
             cCondWait::SleepMs(FrameTime - Delta);

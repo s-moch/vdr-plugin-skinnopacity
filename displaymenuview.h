@@ -38,12 +38,13 @@ class cNopacityDisplayMenuView {
         cRect textWindowSizeChannels;
         cRect textWindowSizeTimers;
         int GetContentWidth(eMenuCategory menuCat);
-    public:
-        cNopacityDisplayMenuView(void);
-        virtual ~cNopacityDisplayMenuView(void);
-        cOsd *createOsd(void);
         void SetDescriptionTextWindowSize(void);
         void CreatePixmaps(void);
+        void DrawHeaderLogo(void);
+        void DrawBorderDecoration(void);
+    public:
+        cNopacityDisplayMenuView(cOsd *osd);
+        virtual ~cNopacityDisplayMenuView(void);
         void SetPixmapAlpha(int Alpha);
         void GetMenuItemSize(eMenuCategory menuCat, cPoint *itemSize);
         int GetMenuTop(int numItems, int itemHeight);
@@ -56,9 +57,7 @@ class cNopacityDisplayMenuView {
         const cFont *GetTextAreaFont(bool FixedFont);
         cRect *GetDescriptionTextWindowSize(eMenuCategory menuCat);
         void AdjustContentBackground(eMenuCategory menuCat, eMenuCategory menuCatLast, cRect & vidWin);
-        void DrawBorderDecoration(void);
         int ShowHeaderLogo(bool show);
-        void DrawHeaderLogo(void);
         int DrawHeaderIcon(eMenuCategory menuCat);
         int ShowHeaderIconChannelLogo(const char *Title);
         void DestroyHeaderIcon(void);
@@ -78,7 +77,5 @@ class cNopacityDisplayMenuView {
         cPixmap *GetPixmapScrollbar(void) { return pixmapScrollbar; };
         cPixmap *GetPixmapScrollbarBack(void) { return pixmapScrollbarBack; };
 };
-
-
 
 #endif //__NOPACITY_DISPLAYMENUVIEW_H

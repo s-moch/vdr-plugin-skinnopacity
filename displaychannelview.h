@@ -36,13 +36,13 @@ private:
     tColor DrawProgressbarProgress(int left, int top, int width, int height);
     cString GetScreenResolutionIcon(void);
     std::string GetChannelSep(const cChannel *channel, bool prev);
-public:
-    cNopacityDisplayChannelView(void);
-    virtual ~cNopacityDisplayChannelView(void);
-    bool createOsd(void);
     void CreatePixmaps(void);
-    void SetAlpha(int alpha);
     void DrawBackground(void);
+    void DrawSignalMeter(void);
+public:
+    cNopacityDisplayChannelView(cOsd *osd);
+    virtual ~cNopacityDisplayChannelView(void);
+    void SetAlpha(int alpha);
     void DrawChannelLogo(const cChannel *Channel);
     void ClearChannelLogo(void);
     void DrawChannelName(cString number, cString name);
@@ -58,7 +58,6 @@ public:
     void DrawScreenResolution(void);
     void ClearStatusIcons(void);
     void DrawPoster(const cEvent *event, bool initial, bool channelchange);
-    void DrawSignalMeter(void);
     void DrawSignal(void);
     void ShowSignalMeter(void);
     void HideSignalMeter(void);
@@ -66,6 +65,5 @@ public:
     void DrawSourceInfo(void);
     void ClearSourceInfo(void);
     void DisplayMessage(eMessageType Type, const char *Text);
-    void Flush(void) { osd->Flush(); };
 };
 #endif //__NOPACITY_DISPLAYCHANNELVIEW_H

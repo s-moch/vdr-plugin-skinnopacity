@@ -6,6 +6,7 @@
 
 class cNopacityDisplayChannel : public cSkinDisplayChannel, cThread {
 private:
+    cOsd *osd;
     cNopacityDisplayChannelView *channelView;
     int FrameTime;
     int FadeTime;

@@ -11,9 +11,9 @@
 
 class cNopacityDisplayMenu : public cSkinDisplayMenu , cThread {
 private:
+    cOsd *osd;
     cNopacityDisplayMenuView *menuView;
     cNopacityDetailView *detailView;
-    cOsd *osd;
     eMenuCategory menuCategoryLast;
     int FrameTime;
     int FadeTime;

@@ -7,8 +7,8 @@
 #include "imageloader.h"
 #include <vdr/menu.h>
 
-cNopacityDisplayChannelView::cNopacityDisplayChannelView(void) {
-    osd = NULL;
+cNopacityDisplayChannelView::cNopacityDisplayChannelView(cOsd *osd) {
+    this->osd = osd;
     lastDate = "";
     isRadioChannel = false;
     statusIconBorder = 5;
@@ -25,6 +25,11 @@ cNopacityDisplayChannelView::cNopacityDisplayChannelView(void) {
     pixmapSignalLabel = NULL;
     pixmapPoster = NULL;
     messageBox = NULL;
+    CreatePixmaps();
+    DrawBackground();
+    if (config.GetValue("displaySignalStrength")) {
+        DrawSignalMeter();
+    }
 }
 
 cNopacityDisplayChannelView::~cNopacityDisplayChannelView() {
@@ -50,17 +55,6 @@ cNopacityDisplayChannelView::~cNopacityDisplayChannelView() {
     if (pixmapPoster)
         osd->DestroyPixmap(pixmapPoster);
     delete messageBox;
-    delete osd;
-}
-
-bool cNopacityDisplayChannelView::createOsd(void) {
-    osd = CreateOsd(geoManager->osdLeft,
-                    geoManager->osdTop,
-                    geoManager->osdWidth,
-                    geoManager->osdHeight);
-    if (!osd)
-        return false;
-    return true;
 }
 
 void cNopacityDisplayChannelView::CreatePixmaps(void) {
