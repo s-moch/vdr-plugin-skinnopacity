@@ -56,6 +56,7 @@ protected:
     int eventID;
     std::string recFileName;
     bool headerDrawn;
+    void SetFonts(void);
     void DrawHeader(void);
     void ClearContent(void);
     void CreateContent(int fullHeight);
@@ -80,7 +81,6 @@ public:
     void SetRecFileName(const char *name) { recFileName = name ? name : ""; };
     virtual void LoadMedia(void) {};
     void SetGeometry(int x, int y, int width, int height, int border, int headerHeight);
-    void SetFonts(void);
     void SetScrollbarPixmaps(cPixmap *s, cPixmap *sb) { pixmapScrollbar = s; pixmapScrollbarBack = sb; };
     virtual bool KeyUp(void);
     virtual bool KeyDown(void);

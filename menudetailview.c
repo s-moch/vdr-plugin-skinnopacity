@@ -379,7 +379,6 @@ void cNopacityDetailView::Action(void) {
     if (!view)
         return;
     view->SetGeometry(x, top, width, height, border, headerHeight);
-    view->SetFonts();
     view->SetScrollbarPixmaps(scrollBar, scrollBarBack);
     view->LoadMedia();
     view->Start();

@@ -67,6 +67,7 @@ void cNopacityView::SetGeometry(int x, int y, int width, int height, int border,
     if (tabbed)
         tabHeight = 2 * border;
     contentHeight = height - headerHeight - tabHeight;
+    SetFonts();
 }
 
 void cNopacityView::SetFonts(void) {
