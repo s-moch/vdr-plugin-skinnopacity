@@ -79,6 +79,13 @@ void cNopacityMenuItem::CreatePixmapTextScroller(int totalWidth) {
     pixmapTextScroller->Fill(clrTransparent);
 }
 
+void cNopacityMenuItem::SetAlpha(int alpha) {
+    pixmapBackground->SetAlpha(alpha);
+    if (pixmapStatic) pixmapStatic->SetAlpha(alpha);
+    if (pixmapTextScroller) pixmapTextScroller->SetAlpha(alpha);
+    if (infoTextWindow) infoTextWindow->SetAlpha(alpha);
+}
+
 void cNopacityMenuItem::SetTabs(cString *tabs, int *tabWidths, int numtabs) {
     if (itemTabs)
         delete [] itemTabs;

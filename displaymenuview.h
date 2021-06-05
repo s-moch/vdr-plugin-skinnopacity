@@ -45,7 +45,7 @@ class cNopacityDisplayMenuView {
     public:
         cNopacityDisplayMenuView(cOsd *osd);
         virtual ~cNopacityDisplayMenuView(void);
-        void SetPixmapAlpha(int Alpha);
+        void SetAlpha(int Alpha = 0);
         void GetMenuItemSize(eMenuCategory menuCat, cPoint *itemSize);
         int GetMenuTop(int numItems, int itemHeight);
         int GetMenuItemLeft(int itemWidth);

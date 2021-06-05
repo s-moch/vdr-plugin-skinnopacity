@@ -43,6 +43,10 @@ cNopacityDetailView::~cNopacityDetailView(void) {
         delete view;
 }
 
+void cNopacityDetailView::SetAlpha(int Alpha) {
+    if (view) view->SetAlpha(Alpha);
+}
+
 void cNopacityDetailView::InitiateViewType(void) {
     static cPlugin *pScraper = GetScraperPlugin();
     ScraperGetEventType call;

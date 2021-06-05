@@ -422,6 +422,16 @@ cNopacityEPGView::~cNopacityEPGView(void) {
         osd->DestroyPixmap(pixmapHeaderEPGImage);
 }
 
+void cNopacityEPGView::SetAlpha(int Alpha) {
+    pixmapHeader->SetAlpha(Alpha);
+    pixmapHeaderLogo->SetAlpha(Alpha);
+    pixmapTabs->SetAlpha(Alpha);
+    pixmapContentBack->SetAlpha(Alpha);
+    pixmapContent->SetAlpha(Alpha);
+    if (pixmapHeaderEPGImage)
+        pixmapHeaderEPGImage->SetAlpha(Alpha);
+}
+
 void cNopacityEPGView::SetTabs(void) {
     tabs.push_back(tr("EPG Info"));
     if (eventID > 0)
@@ -600,6 +610,16 @@ cNopacitySeriesView::~cNopacitySeriesView(void) {
         cCondWait::SleepMs(10);
     if (pixmapHeaderBanner)
         osd->DestroyPixmap(pixmapHeaderBanner);
+}
+
+void cNopacitySeriesView::SetAlpha(int Alpha) {
+    pixmapHeader->SetAlpha(Alpha);
+    pixmapHeaderLogo->SetAlpha(Alpha);
+    pixmapTabs->SetAlpha(Alpha);
+    pixmapContentBack->SetAlpha(Alpha);
+    pixmapContent->SetAlpha(Alpha);
+    if (pixmapHeaderBanner)
+        pixmapHeaderBanner->SetAlpha(Alpha);
 }
 
 void cNopacitySeriesView::LoadMedia(void) {
@@ -856,6 +876,16 @@ cNopacityMovieView::~cNopacityMovieView(void) {
         osd->DestroyPixmap(pixmapHeaderPoster);
 }
 
+void cNopacityMovieView::SetAlpha(int Alpha) {
+    pixmapHeader->SetAlpha(Alpha);
+    pixmapHeaderLogo->SetAlpha(Alpha);
+    pixmapTabs->SetAlpha(Alpha);
+    pixmapContentBack->SetAlpha(Alpha);
+    pixmapContent->SetAlpha(Alpha);
+    if (pixmapHeaderPoster)
+        pixmapHeaderPoster->SetAlpha(Alpha);
+}
+
 void cNopacityMovieView::LoadMedia(void) {
     static cPlugin *pScraper = GetScraperPlugin();
     if (!pScraper || movieId < 1)
@@ -1075,6 +1105,14 @@ cNopacityTextView::~cNopacityTextView(void) {
     Cancel(-1);
     while (Active())
         cCondWait::SleepMs(10);
+}
+
+void cNopacityTextView::SetAlpha(int Alpha) {
+    pixmapHeader->SetAlpha(Alpha);
+    pixmapHeaderLogo->SetAlpha(Alpha);
+    pixmapTabs->SetAlpha(Alpha);
+    pixmapContentBack->SetAlpha(Alpha);
+    pixmapContent->SetAlpha(Alpha);
 }
 
 void cNopacityTextView::KeyLeft(void) {

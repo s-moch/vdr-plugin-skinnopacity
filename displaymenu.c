@@ -369,8 +369,6 @@ bool cNopacityDisplayMenu::SetItemEvent(const cEvent *Event, int Index, bool Cur
         if (initial) {
             if (FadeTime) {
                 item->SetAlpha(0);
-                item->SetAlphaIcon(0);
-                item->SetAlphaText(0);
             }
         }
     } else {
@@ -407,8 +405,6 @@ bool cNopacityDisplayMenu::SetItemTimer(const cTimer *Timer, int Index, bool Cur
         if (initial) {
             if (FadeTime) {
                 item->SetAlpha(0);
-                item->SetAlphaIcon(0);
-                item->SetAlphaText(0);
             }
         }
     } else {
@@ -445,8 +441,6 @@ bool cNopacityDisplayMenu::SetItemChannel(const cChannel *Channel, int Index, bo
         if (initial) {
             if (FadeTime) {
                 item->SetAlpha(0);
-                item->SetAlphaIcon(0);
-                item->SetAlphaText(0);
             }
         }
     } else {
@@ -485,8 +479,6 @@ bool cNopacityDisplayMenu::SetItemRecording(const cRecording *Recording, int Ind
         if (initial) {
             if (FadeTime) {
                 item->SetAlpha(0);
-                item->SetAlphaIcon(0);
-                item->SetAlphaText(0);
             }
         }
     } else {
@@ -545,8 +537,6 @@ void cNopacityDisplayMenu::SetItem(const char *Text, int Index, bool Current, bo
         if (initial) {
             if (FadeTime) {
                 item->SetAlpha(0);
-                item->SetAlphaIcon(0);
-                item->SetAlphaText(0);
             }
         }
     }
@@ -669,13 +659,11 @@ void cNopacityDisplayMenu::Action(void) {
         cPixmap::Lock();
         double t = std::min(double(Now - Start) / FadeTime, 1.0);
         int Alpha = t * ALPHA_OPAQUE;
-        menuView->SetPixmapAlpha(Alpha);
+        menuView->SetAlpha(Alpha);
         for (auto i = menuItems.begin(); i != menuItems.end(); ++i) {
 	    if (*i && Running()) {
 	        cNopacityMenuItem *item = i->get();
                 item->SetAlpha(Alpha);
-                item->SetAlphaIcon(Alpha);
-                item->SetAlphaText(Alpha);
 	    }
         }
         for (cNopacityTimer *t = timers.First(); Running() && t; t = timers.Next(t))

@@ -69,6 +69,7 @@ protected:
 public:    
     cNopacityView(cOsd *osd);
     virtual ~cNopacityView(void);
+    virtual void SetAlpha(int Alpha) {};
     void SetTitle(const char *t) { title = t ? t : ""; };
     void SetSubTitle(const char *s) { subTitle = s ? s : ""; };
     void SetDateTime(const char *dt) { dateTime = dt; };
@@ -102,6 +103,7 @@ protected:
 public:    
     cNopacityEPGView(cOsd *osd);
     virtual ~cNopacityEPGView(void);
+    void SetAlpha(int Alpha = 0);
     void KeyLeft(void);
     void KeyRight(void);
     void Action(void);
@@ -122,6 +124,7 @@ protected:
 public:    
     cNopacitySeriesView(cOsd *osd, int seriesId, int episodeId);
     virtual ~cNopacitySeriesView(void);
+    void SetAlpha(int Alpha = 0);
     void LoadMedia(void);
     void KeyLeft(void);
     void KeyRight(void);
@@ -141,6 +144,7 @@ protected:
 public:    
     cNopacityMovieView(cOsd *osd, int movieId);
     virtual ~cNopacityMovieView(void);
+    void SetAlpha(int Alpha = 0);
     void LoadMedia(void);
     void KeyLeft(void);
     void KeyRight(void);
@@ -151,7 +155,8 @@ class cNopacityTextView : public cNopacityView {
 protected:
 public:    
     cNopacityTextView(cOsd *osd);
-    virtual ~cNopacityTextView(void);    
+    virtual ~cNopacityTextView(void);
+    void SetAlpha(int Alpha = 0);
     void KeyLeft(void);
     void KeyRight(void);
     void Action(void);

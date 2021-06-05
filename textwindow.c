@@ -172,10 +172,6 @@ void cNopacityTextWindow::CreatePixmap(void) {
     pixmapBackground->Fill(Theme.Color(clrMenuBorder));
     pixmapBackground->DrawRectangle(cRect(1, 1, geometry->Width(), geometry->Height()), clrBlack);
     pixmap->Fill(Theme.Color(clrMenuBack));
-    if (config.GetValue("menuEPGWindowFadeTime")) {
-        pixmap->SetAlpha(0);
-        pixmapBackground->SetAlpha(0);
-    }
     cPixmap::Unlock();
 }
 
@@ -185,6 +181,11 @@ void cNopacityTextWindow::CreatePixmapFullScreen(void) {
     pixmapBackground->Fill(Theme.Color(clrMenuBorder));
     pixmapBackground->DrawRectangle(cRect(1, 1, geometry->Width(), geometry->Height()), Theme.Color(clrMenuTextWindow));
     pixmap->Fill(clrTransparent);
+}
+
+void cNopacityTextWindow::SetAlpha(int Alpha) {
+    if (pixmapBackground) pixmapBackground->SetAlpha(Alpha);
+    if (pixmap) pixmap->SetAlpha(Alpha);
 }
 
 void cNopacityTextWindow::DrawText(int border, int left) {
@@ -449,8 +450,7 @@ void cNopacityTextWindow::Action(void) {
             cPixmap::Lock();
             double t = std::min(double(Now - Start) / FadeTime, 1.0);
             int Alpha = t * ALPHA_OPAQUE;
-            pixmapBackground->SetAlpha(Alpha);
-            pixmap->SetAlpha(Alpha);
+            SetAlpha(Alpha);
             cPixmap::Unlock();
             if (Running())
                 osd->Flush();

@@ -41,6 +41,7 @@ public:
     cNopacityTextWindow(cOsd *osd, cFont *font, cRect *vidWin);
     cNopacityTextWindow(cOsd *osd, cFont *font, cFont *fontHeader);
     virtual ~cNopacityTextWindow(void);
+    void SetAlpha(int Alpha = 0);
     void SetGeometry(cRect *geo) {geometry = geo;};
     void SetEvent(const cEvent *event);
     void SetRecording(const cRecording *recording);

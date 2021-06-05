@@ -145,17 +145,7 @@ void cNopacityDisplayChannelView::CreatePixmaps(void) {
                             );
 
     if (config.GetValue("channelFadeTime")) {
-        pixmapBackground->SetAlpha(0);
-        pixmapTop->SetAlpha(0);
-        pixmapLogo->SetAlpha(0);
-        pixmapLogoBackground->SetAlpha(0);
-        pixmapChannelName->SetAlpha(0);
-        pixmapDate->SetAlpha(0);
-        pixmapProgressBar->SetAlpha(0);
-        pixmapEPGInfo->SetAlpha(0);
-        pixmapStatusIcons->SetAlpha(0);
-        pixmapStatusIconsBackground->SetAlpha(0);
-        pixmapSourceInfo->SetAlpha(0);
+        SetAlpha(0);
     } else {
         int alphaBack = (100 - config.GetValue("channelBackgroundTransparency"))*255/100;
         pixmapBackground->SetAlpha(alphaBack);

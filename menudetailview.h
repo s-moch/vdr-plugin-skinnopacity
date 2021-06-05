@@ -40,6 +40,7 @@ protected:
 public:
     cNopacityDetailView(eDetailViewType detailViewType, cOsd *osd, cPixmap *s, cPixmap *sBack);
     virtual ~cNopacityDetailView(void);
+    void SetAlpha(int Alpha = 0);
     void SetEvent(const cEvent *e) { ev = e; };
     void SetRecording(const cRecording *r) { rec = r; };
     void SetText(const char *t) { text = t; };

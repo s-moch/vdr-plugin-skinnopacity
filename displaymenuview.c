@@ -177,23 +177,11 @@ void cNopacityDisplayMenuView::CreatePixmaps(void) {
     pixmapDiskUsageIcon->Fill(clrTransparent);
     pixmapDiskUsageLabel->Fill(clrTransparent);
     if (config.GetValue("menuFadeTime")) {
-        pixmapHeader->SetAlpha(0);
-        pixmapHeaderForeground->SetAlpha(0);
-        pixmapHeaderLogo->SetAlpha(0);
-        pixmapHeaderLabel->SetAlpha(0);
-        pixmapDate->SetAlpha(0);
-        pixmapFooter->SetAlpha(0);
-        pixmapFooterBack->SetAlpha(0);
-        pixmapContent->SetAlpha(0);
-        pixmapScrollbarBack->SetAlpha(0);
-        pixmapScrollbar->SetAlpha(0);
-        pixmapDiskUsage->SetAlpha(0);
-        pixmapDiskUsageIcon->SetAlpha(0);
-        pixmapDiskUsageLabel->SetAlpha(0);
+        SetAlpha();
     }
 }
 
-void cNopacityDisplayMenuView::SetPixmapAlpha(int Alpha) {
+void cNopacityDisplayMenuView::SetAlpha(int Alpha) {
     pixmapHeader->SetAlpha(Alpha);
     pixmapHeaderForeground->SetAlpha(Alpha);
     pixmapHeaderLogo->SetAlpha(Alpha);
@@ -207,6 +195,8 @@ void cNopacityDisplayMenuView::SetPixmapAlpha(int Alpha) {
     pixmapDiskUsage->SetAlpha(Alpha);
     pixmapDiskUsageIcon->SetAlpha(Alpha);
     pixmapDiskUsageLabel->SetAlpha(Alpha);
+    if (pixmapHeaderIcon)
+        pixmapHeaderIcon->SetAlpha(Alpha);
 }
 
 void cNopacityDisplayMenuView::GetMenuItemSize(eMenuCategory menuCat, cPoint *itemSize) {

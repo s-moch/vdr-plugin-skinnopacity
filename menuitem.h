@@ -48,9 +48,7 @@ public:
     virtual void CreatePixmapTextScroller(int totalWidth);
     void SetGeometry(int index, int top, int left, int width, int height, int spaceMenu);
     void SetCurrent(bool cur);
-    void SetAlpha(int alpha) {this->pixmapBackground->SetAlpha(alpha);}
-    void SetAlphaIcon(int alpha) {if (pixmapStatic) this->pixmapStatic->SetAlpha(alpha);}
-    void SetAlphaText(int alpha) {if (pixmapTextScroller) this->pixmapTextScroller->SetAlpha(alpha);}
+    void SetAlpha(int alpha = 0);
     void SetTabs(cString *tabs, int *tabWidths, int numtabs);
     void SetTextWindow(cRect *window) {textWindow = window;};
     virtual void CreateText(void) {};
