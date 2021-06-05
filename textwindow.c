@@ -5,7 +5,7 @@
 #include "helpers.h"
 #include <sstream>
 
-cNopacityTextWindow::cNopacityTextWindow(cOsd *osd, cFont *font, cRect *vidWin) {
+cNopacityTextWindow::cNopacityTextWindow(cOsd *osd, cFont *font, cRect *vidWin) : cThread("TextWindow") {
     this->osd = osd;
     this->font = font;
     this->fontHeader = NULL;
@@ -20,7 +20,7 @@ cNopacityTextWindow::cNopacityTextWindow(cOsd *osd, cFont *font, cRect *vidWin) 
     hasPoster = false;
 }
 
-cNopacityTextWindow::cNopacityTextWindow(cOsd *osd, cFont *font, cFont *fontHeader) {
+cNopacityTextWindow::cNopacityTextWindow(cOsd *osd, cFont *font, cFont *fontHeader) : cThread("TextWindow") {
     this->osd = osd;
     this->font = font;
     this->fontHeader = fontHeader;

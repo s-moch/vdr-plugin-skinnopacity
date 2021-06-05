@@ -3,7 +3,7 @@
 /********************************************************************************************
 * cNopacityDetailView
 ********************************************************************************************/
-cNopacityDetailView::cNopacityDetailView(eDetailViewType detailViewType, cOsd *osd, cPixmap *s, cPixmap *sBack) {
+cNopacityDetailView::cNopacityDetailView(eDetailViewType detailViewType, cOsd *osd, cPixmap *s, cPixmap *sBack) : cThread("DetailView") {
     type = detailViewType;
     this->osd = osd;
     this->scrollBar = s;

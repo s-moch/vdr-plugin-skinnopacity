@@ -4,7 +4,7 @@
 #include "config.h"
 #include "helpers.h"
 
-cNopacityDisplayVolume::cNopacityDisplayVolume(void) {
+cNopacityDisplayVolume::cNopacityDisplayVolume(void) : cThread("DisplayVolume") {
     initial = true;
     muted = false;
     FadeTime = config.GetValue("volumeFadeTime");

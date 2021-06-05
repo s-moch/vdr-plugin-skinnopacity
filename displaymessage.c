@@ -3,7 +3,7 @@
 #include "imageloader.h"
 #include "helpers.h"
 
-cNopacityDisplayMessage::cNopacityDisplayMessage(void) {
+cNopacityDisplayMessage::cNopacityDisplayMessage(void) : cThread("DisplayMessage") {
     FadeTime = config.GetValue("messageFadeTime");
     FrameTime = FadeTime / 10;
     int top = geoManager->osdTop + geoManager->osdHeight - geoManager->messageHeight - config.GetValue("messageBorderBottom");

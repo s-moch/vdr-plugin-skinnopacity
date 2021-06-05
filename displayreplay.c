@@ -3,7 +3,7 @@
 #include "helpers.h"
 #include "imageloader.h"
 
-cNopacityDisplayReplay::cNopacityDisplayReplay(bool ModeOnly) {
+cNopacityDisplayReplay::cNopacityDisplayReplay(bool ModeOnly) : cThread("DisplayReplay") {
     initial = true;
     modeOnly = ModeOnly;
     lastDate = "";

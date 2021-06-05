@@ -4,7 +4,7 @@
 * cNopacityView
 ********************************************************************************************/
 
-cNopacityView::cNopacityView(cOsd *osd) {
+cNopacityView::cNopacityView(cOsd *osd) : cThread("DetailView") {
     this->osd = osd;
     activeView = 0;
     scrollable = false;

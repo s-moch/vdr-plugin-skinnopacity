@@ -10,7 +10,7 @@
 
 // cNopacityMenuItem  -------------
 
-cNopacityMenuItem::cNopacityMenuItem(cOsd *osd, const char *text, bool sel) {
+cNopacityMenuItem::cNopacityMenuItem(cOsd *osd, const char *text, bool sel) : cThread("MenuItem") {
     this->osd = osd;
     drawn = false;
     Text = text;

@@ -11,7 +11,7 @@ namespace PluginRemoteTimers {
 #include <string>
 #include "services/epgsearch.h"
 
-cNopacityDisplayMenu::cNopacityDisplayMenu(void) {
+cNopacityDisplayMenu::cNopacityDisplayMenu(void) : cThread("DisplayMenu") {
     menuCategoryLast = mcUndefined;
     FadeTime = config.GetValue("menuFadeTime");
     FrameTime = FadeTime / 10;

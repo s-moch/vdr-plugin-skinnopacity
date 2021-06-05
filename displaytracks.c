@@ -4,7 +4,7 @@
 #include "imageloader.h"
 
 
-cNopacityDisplayTracks::cNopacityDisplayTracks(const char *Title, int NumTracks, const char * const *Tracks) {
+cNopacityDisplayTracks::cNopacityDisplayTracks(const char *Title, int NumTracks, const char * const *Tracks) : cThread("DisplayTracks") {
     initial = true;
     currentIndex = -1;
     numTracks = NumTracks;

@@ -7,7 +7,7 @@
 #include <vdr/osd.h>
 #include <vdr/menu.h>
 
-cNopacityDisplayChannel::cNopacityDisplayChannel(bool WithInfo) {
+cNopacityDisplayChannel::cNopacityDisplayChannel(bool WithInfo) : cThread("DisplayChannel") {
     groupSep = false;
     present = NULL;
     following = NULL;
