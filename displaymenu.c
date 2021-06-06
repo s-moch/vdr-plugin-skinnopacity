@@ -33,10 +33,10 @@ cNopacityDisplayMenu::~cNopacityDisplayMenu(void) {
     Cancel(-1);
     while (Active())
         cCondWait::SleepMs(10);
-    if (detailView) {
+    if (detailView)
         delete detailView;
-    }
-    delete menuView;
+    if (menuView)
+        delete menuView;
     menuItems.clear();
     timers.Clear();
     delete osd;
@@ -109,9 +109,6 @@ void cNopacityDisplayMenu::DrawTimers(bool timersChanged, int numConflicts) {
             int currentHeight = menuView->GetTimersInitHeight();
             if (numConflicts > 0) {
                 cNopacityTimer *t = menuView->DrawTimerConflict(numConflicts, currentHeight);
-                if (initial)
-                    if (FadeTime)
-                        t->SetAlpha(0);
                 currentHeight += t->GetHeight() + geoManager->menuSpace;
                 timers.Add(t);
             }
@@ -120,9 +117,6 @@ void cNopacityDisplayMenu::DrawTimers(bool timersChanged, int numConflicts) {
                 if (const cTimer *Timer = SortedTimers[i]) {
                     if (Timer->HasFlags(tfActive)) {
                         cNopacityTimer *t = menuView->DrawTimer(Timer, currentHeight);
-                        if (initial)
-                            if (FadeTime)
-                                t->SetAlpha(0);
                         currentHeight += t->GetHeight() + geoManager->menuSpace;
                         if (currentHeight < maxTimersHeight) {
                             timers.Add(t);
@@ -257,6 +251,7 @@ void cNopacityDisplayMenu::SetMenuCategory(eMenuCategory MenuCategory) {
 
 void cNopacityDisplayMenu::SetTitle(const char *Title) {
     //resetting menuitems if no call to clear
+    DELETENULL(detailView);
     menuItems.clear();
     int left = 5;
     menuView->DestroyHeaderIcon();
@@ -279,16 +274,16 @@ void cNopacityDisplayMenu::SetTitle(const char *Title) {
                 break;
             case mcSchedule:
                 menuView->ShowHeaderLogo(false);
-                left += menuView->ShowHeaderIconChannelLogo(Title);
+                left += menuView->ShowHeaderIconChannelLogo(Title, initial);
                 break;
             case mcRecording:
                 menuView->ShowHeaderLogo(false);
                 title = cString::sprintf("%s (%s)", Title, *cVideoDiskUsage::String());
-                left += menuView->DrawHeaderIcon(MenuCategory());
+                left += menuView->DrawHeaderIcon(MenuCategory(), initial);
                 break;
             default:
                 menuView->ShowHeaderLogo(false);
-                left += menuView->DrawHeaderIcon(MenuCategory());
+                left += menuView->DrawHeaderIcon(MenuCategory(), initial);
         }
         menuView->AdjustContentBackground(this->MenuCategory(), menuCategoryLast, videoWindowRect);
         menuView->DrawHeaderLabel(left, title);
@@ -365,12 +360,7 @@ bool cNopacityDisplayMenu::SetItemEvent(const cEvent *Event, int Index, bool Cur
         }
         item->CreatePixmapStatic();
         item->CreatePixmapTextScroller(textWidth);
-        item->Render();
-        if (initial) {
-            if (FadeTime) {
-                item->SetAlpha(0);
-            }
-        }
+        item->Render(initial);
     } else {
         cNopacityMenuItem *item = menuItems[Index].get();
         item->SetCurrent(Current);
@@ -401,12 +391,7 @@ bool cNopacityDisplayMenu::SetItemTimer(const cTimer *Timer, int Index, bool Cur
         }
         item->CreatePixmapStatic();
         item->CreatePixmapTextScroller(textWidth);
-        item->Render();
-        if (initial) {
-            if (FadeTime) {
-                item->SetAlpha(0);
-            }
-        }
+        item->Render(initial);
     } else {
         cNopacityMenuItem *item = menuItems[Index].get();
         item->SetCurrent(Current);
@@ -437,12 +422,7 @@ bool cNopacityDisplayMenu::SetItemChannel(const cChannel *Channel, int Index, bo
         if (config.GetValue("displayType") == dtGraphical) {
             item->CreatePixmapForeground();
         }
-        item->Render();
-        if (initial) {
-            if (FadeTime) {
-                item->SetAlpha(0);
-            }
-        }
+        item->Render(initial);
     } else {
         cNopacityMenuItem *item = menuItems[Index].get();
         item->SetCurrent(Current);
@@ -475,12 +455,7 @@ bool cNopacityDisplayMenu::SetItemRecording(const cRecording *Recording, int Ind
         if (config.GetValue("displayType") == dtGraphical) {
             item->CreatePixmapForeground();
         }
-        item->Render();
-        if (initial) {
-            if (FadeTime) {
-                item->SetAlpha(0);
-            }
-        }
+        item->Render(initial);
     } else {
         cNopacityMenuItem *item = menuItems[Index].get();
         item->SetCurrent(Current);
@@ -533,12 +508,7 @@ void cNopacityDisplayMenu::SetItem(const char *Text, int Index, bool Current, bo
         item->CreatePixmapStatic();
         if (textWidth > 0)
             item->CreatePixmapTextScroller(textWidth);
-        item->Render();
-        if (initial) {
-            if (FadeTime) {
-                item->SetAlpha(0);
-            }
-        }
+        item->Render(initial);
     }
     SetEditableWidth(menuView->GetEditableWidth());
 }
@@ -630,8 +600,25 @@ void cNopacityDisplayMenu::SetText(const char *Text, bool FixedFont) {
     detailView->Start();
 }
 
+void cNopacityDisplayMenu::SetAlpha(int Alpha, bool Force) {
+    if (menuView && (Force || Running()))
+        menuView->SetAlpha(Alpha);
+    if (detailView && (Force || Running()))
+        detailView->SetAlpha(Alpha);
+    for (auto i = menuItems.begin(); i != menuItems.end(); ++i) {
+        if (*i && (Force || Running())) {
+            cNopacityMenuItem *item = i->get();
+            item->SetAlpha(Alpha);
+        }
+    }
+    for (cNopacityTimer *t = timers.First(); (Force || Running()) && t; t = timers.Next(t))
+        t->SetAlpha(Alpha);
+}
+
 void cNopacityDisplayMenu::Flush(void) {
-    //int start = cTimeMs::Now();
+    if (Running())
+        return;
+
     menuView->DrawDate(initial);
     if (MenuCategory() == mcMain) {
         if (config.GetValue("showDiscUsage"))
@@ -643,34 +630,35 @@ void cNopacityDisplayMenu::Flush(void) {
         if (config.GetValue("showTimers"))
             DrawTimers(timersChanged, numConflicts);
     }
+    if (detailView)
+        while (detailView->IsRunning())
+            cCondWait::SleepMs(10);
     if (initial) {
-        if (FadeTime)
+        if (FadeTime) {
+            SetAlpha(0, true);
             Start();
+        }
     }
-    initial = false;
     osd->Flush();
+    initial = false;
     cDevice::PrimaryDevice()->ScaleVideo(videoWindowRect);
 }
 
 void cNopacityDisplayMenu::Action(void) {
+    uint64_t First = cTimeMs::Now();
+    cPixmap::Lock();
+    cPixmap::Unlock();
     uint64_t Start = cTimeMs::Now();
+    dsyslog ("skinnopacity: First Lock(): %lims\n", Start - First);
     while (Running()) {
         uint64_t Now = cTimeMs::Now();
-        cPixmap::Lock();
         double t = std::min(double(Now - Start) / FadeTime, 1.0);
         int Alpha = t * ALPHA_OPAQUE;
-        menuView->SetAlpha(Alpha);
-        for (auto i = menuItems.begin(); i != menuItems.end(); ++i) {
-	    if (*i && Running()) {
-	        cNopacityMenuItem *item = i->get();
-                item->SetAlpha(Alpha);
-	    }
-        }
-        for (cNopacityTimer *t = timers.First(); Running() && t; t = timers.Next(t))
-            t->SetAlpha(Alpha);
-        cPixmap::Unlock();
+        cPixmap::Lock();
+        SetAlpha(Alpha);
         if (Running())
             osd->Flush();
+        cPixmap::Unlock();
         int Delta = cTimeMs::Now() - Now;
         if (Running() && (Delta < FrameTime))
             cCondWait::SleepMs(FrameTime - Delta);

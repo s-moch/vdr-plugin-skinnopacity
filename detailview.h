@@ -28,7 +28,7 @@ enum eMediaViewTabs {
     mvtCount
 };
 
-class cNopacityView : public cThread {
+class cNopacityView {
 protected:
     cOsd *osd;
     cPixmap *pixmapHeader;
@@ -87,7 +87,7 @@ public:
     virtual void KeyLeft(void) {};
     virtual void KeyRight(void) {};
     void DrawScrollbar(void);
-    virtual void Action(void) {};
+    virtual void Render(void) {};
 };
 
 class cNopacityEPGView : public cNopacityView {
@@ -106,7 +106,7 @@ public:
     void SetAlpha(int Alpha = 0);
     void KeyLeft(void);
     void KeyRight(void);
-    void Action(void);
+    void Render(void);
 };
 
 class cNopacitySeriesView : public cNopacityView {
@@ -128,7 +128,7 @@ public:
     void LoadMedia(void);
     void KeyLeft(void);
     void KeyRight(void);
-    void Action(void);
+    void Render(void);
 };
 
 class cNopacityMovieView : public cNopacityView {
@@ -148,7 +148,7 @@ public:
     void LoadMedia(void);
     void KeyLeft(void);
     void KeyRight(void);
-    void Action(void);
+    void Render(void);
 };
 
 class cNopacityTextView : public cNopacityView {
@@ -159,7 +159,7 @@ public:
     void SetAlpha(int Alpha = 0);
     void KeyLeft(void);
     void KeyRight(void);
-    void Action(void);
+    void Render(void);
 };
 
 #endif //__NOPACITY_DETAILVIEW_H

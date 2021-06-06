@@ -414,7 +414,7 @@ void cNopacityMainMenuItem::SetTextShort(void) {
     pixmapTextScroller->DrawText(cPoint(x, (height - font->Height())/2), strEntry.c_str(), clrFont, clrTransparent, font);
 }
 
-void cNopacityMainMenuItem::Render() {
+void cNopacityMainMenuItem::Render(bool initial) {
     DrawBackground();
     if (selectable) {
         if (config.GetValue("useMenuIcons")) {
@@ -536,7 +536,7 @@ void cNopacityScheduleMenuItem::SetTextShort(void) {
     pixmapTextScroller->DrawText(cPoint(5, titleY + font->Height() - 2), strSubTitle.c_str(), clrFont, clrTransparent, fontSmall);
 }
 
-void cNopacityScheduleMenuItem::Render() {
+void cNopacityScheduleMenuItem::Render(bool initial) {
     int logoWidth = geoManager->menuLogoWidth;
     int logoHeight = geoManager->menuLogoHeight;
     textLeft = 5;
@@ -577,6 +577,7 @@ void cNopacityScheduleMenuItem::Render() {
                 infoTextWindow->SetGeometry(textWindow);
                 infoTextWindow->SetText(Event->Description());
                 infoTextWindow->SetPoster(Event, NULL);
+                infoTextWindow->SetInitial(initial);
                 infoTextWindow->Start();
             } else {
                 //fullscreen mode
@@ -895,7 +896,7 @@ std::string cNopacityChannelMenuItem::readEPG(void) {
     return sstrText.str();
 }
 
-void cNopacityChannelMenuItem::Render() {
+void cNopacityChannelMenuItem::Render(bool initial) {
     if (selectable) {                           //Channels
         DrawBackground();
         DrawChannelLogoBackground();
@@ -924,6 +925,7 @@ void cNopacityChannelMenuItem::Render() {
             infoTextWindow = new cNopacityTextWindow(osd, fontEPGWindow, vidWin);
             infoTextWindow->SetGeometry(textWindow);
             infoTextWindow->SetText(readEPG().c_str());
+            infoTextWindow->SetInitial(initial);
             infoTextWindow->Start();
         }
     } else {                                    //Channelseparators
@@ -1067,7 +1069,7 @@ void cNopacityTimerMenuItem::DrawBackground(int textLeft) {
     pixmapStatic->DrawText(cPoint(textLeft + iconSize, (height/2 - fontSmall->Height())/2), *dateTime, clrFont, clrTransparent, fontSmall);
 }
 
-void cNopacityTimerMenuItem::Render() {
+void cNopacityTimerMenuItem::Render(bool initial) {
     textLeft = geoManager->menuLogoWidth + geoManager->menuSpace;
     if (selectable) {
         DrawBackground(textLeft);
@@ -1101,6 +1103,7 @@ void cNopacityTimerMenuItem::Render() {
                 infoTextWindow->SetGeometry(textWindow);
                 infoTextWindow->SetText(Event->Description());
                 infoTextWindow->SetPoster(Event, NULL, false);
+                infoTextWindow->SetInitial(initial);
                 infoTextWindow->Start();
             } else {
                 //fullscreen mode
@@ -1413,7 +1416,7 @@ void cNopacityRecordingMenuItem::DrawPoster(void) {
     }
 }
 
-void cNopacityRecordingMenuItem::Render() {
+void cNopacityRecordingMenuItem::Render(bool initial) {
     if (selectable) {
         DrawBackground();
         if (isFolder) {
@@ -1452,6 +1455,7 @@ void cNopacityRecordingMenuItem::Render() {
                     infoTextWindow->SetText(Recording->Info()->Description());
                     if (!infoTextWindow->SetManualPoster(Recording))
                         infoTextWindow->SetPoster(NULL, Recording);
+                    infoTextWindow->SetInitial(initial);
                     infoTextWindow->Start();
                 } else {
                     //fullscreen mode
@@ -1617,7 +1621,7 @@ bool cNopacityDefaultMenuItem::DrawHeaderElement(void) {
     return false;
 }
 
-void cNopacityDefaultMenuItem::Render() {
+void cNopacityDefaultMenuItem::Render(bool initial) {
     DrawBackground();
     pixmapStatic->Fill(clrTransparent);
 
@@ -1685,7 +1689,7 @@ cNopacityTrackMenuItem::cNopacityTrackMenuItem(cOsd *osd, const char *text) : cN
 cNopacityTrackMenuItem::~cNopacityTrackMenuItem(void) {
 }
 
-void cNopacityTrackMenuItem::Render() {
+void cNopacityTrackMenuItem::Render(bool initial) {
     eSkinElementType type = (current)?seTracksHigh:seTracks;
     if (config.GetValue("displayType") == dtBlending) {
         pixmapBackground->Fill(Theme.Color(clrMenuBorder));

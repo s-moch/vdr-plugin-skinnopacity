@@ -172,6 +172,8 @@ void cNopacityTextWindow::CreatePixmap(void) {
     pixmapBackground->Fill(Theme.Color(clrMenuBorder));
     pixmapBackground->DrawRectangle(cRect(1, 1, geometry->Width(), geometry->Height()), clrBlack);
     pixmap->Fill(Theme.Color(clrMenuBack));
+    if (config.GetValue("menuEPGWindowFadeTime"))
+        SetAlpha();
     cPixmap::Unlock();
 }
 
@@ -419,7 +421,8 @@ void cNopacityTextWindow::Action(void) {
     if (! *text)
         return;
 
-    DoSleep(config.GetValue("menuInfoTextDelay")*1000);
+    int initialSleepTime = (initial) ? config.GetValue("menuFadeTime") : 0;
+    DoSleep(initialSleepTime + config.GetValue("menuInfoTextDelay") * 1000);
 
     if (config.GetValue("scalePicture") == 2) {
           ScaleVideoWindow();
@@ -440,16 +443,17 @@ void cNopacityTextWindow::Action(void) {
     if (Running() && (hasPoster || hasManualPoster)) {
         DrawPoster(border);
     }
+
     //FadeIn
     if (config.GetValue("menuEPGWindowFadeTime")) {
-        uint64_t Start = cTimeMs::Now();
         int FadeTime = config.GetValue("menuEPGWindowFadeTime");
         int FadeFrameTime = FadeTime / 10;
+        uint64_t Start = cTimeMs::Now();
         while (Running()) {
             uint64_t Now = cTimeMs::Now();
-            cPixmap::Lock();
             double t = std::min(double(Now - Start) / FadeTime, 1.0);
             int Alpha = t * ALPHA_OPAQUE;
+            cPixmap::Lock();
             SetAlpha(Alpha);
             cPixmap::Unlock();
             if (Running())
@@ -482,7 +486,7 @@ void cNopacityTextWindow::Action(void) {
             drawPortY = pixmap->DrawPort().Y();
             drawPortY -= 1;
             cPixmap::Unlock();
-            if (abs(drawPortY) > maxY) {
+            if (std::abs(drawPortY) > maxY) {
                 doSleep = true;
                 DoSleep(scrollDelay);
                 drawPortY = 0;

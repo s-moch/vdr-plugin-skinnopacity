@@ -16,6 +16,7 @@ class cNopacityDisplayMenuView {
         cOsd *osd;
         cString lastDate;
         int diskUsageAlert;
+	bool menuAdjustLeft;
         cPixmap *pixmapHeader;
         cPixmap *pixmapHeaderForeground;
         cPixmap *pixmapHeaderLogo;
@@ -58,8 +59,8 @@ class cNopacityDisplayMenuView {
         cRect *GetDescriptionTextWindowSize(eMenuCategory menuCat);
         void AdjustContentBackground(eMenuCategory menuCat, eMenuCategory menuCatLast, cRect & vidWin);
         int ShowHeaderLogo(bool show);
-        int DrawHeaderIcon(eMenuCategory menuCat);
-        int ShowHeaderIconChannelLogo(const char *Title);
+        int DrawHeaderIcon(eMenuCategory menuCat, bool initial = false);
+        int ShowHeaderIconChannelLogo(const char *Title, bool initial = false);
         void DestroyHeaderIcon(void);
         void DrawHeaderLabel(int left, cString label);
         void DrawDate(bool initial);

@@ -54,7 +54,7 @@ public:
     virtual void CreateText(void) {};
     virtual void SetPoster(void) {};
     virtual int CheckScrollable(bool hasIcon) {return 0;};
-    virtual void Render() = 0;
+    virtual void Render(bool initial = false) = 0;
 };
 
 // avoid confusion between vdr swap() and std::swap() for std::unique_ptr<cNopacityMenuItem>
@@ -78,7 +78,7 @@ public:
     void CreatePixmapTextScroller(int totalWidth);
     void CreateText(void);
     int CheckScrollable(bool hasIcon);
-    void Render();
+    void Render(bool initial = false);
 };
 
 class cNopacityScheduleMenuItem : public cNopacityMenuItem {
@@ -107,7 +107,7 @@ public:
     void CreatePixmapTextScroller(int totalWidth);
     void CreateText(void);
     int CheckScrollable(bool hasIcon);
-    void Render();
+    void Render(bool initial = false);
 };
 
 class cNopacityChannelMenuItem : public cNopacityMenuItem {
@@ -132,7 +132,7 @@ public:
     void CreatePixmapTextScroller(int totalWidth);
     void CreateText(void);
     int CheckScrollable(bool hasIcon);
-    void Render();
+    void Render(bool initial = false);
 };
 
 class cNopacityTimerMenuItem : public cNopacityMenuItem {
@@ -153,7 +153,7 @@ public:
     void CreatePixmapTextScroller(int totalWidth);
     void CreateText(void);
     int CheckScrollable(bool hasIcon);
-    void Render();
+    void Render(bool initial = false);
 };
 
 class cNopacityRecordingMenuItem : public cNopacityMenuItem {
@@ -192,7 +192,7 @@ public:
     void CreateText(void);
     void SetPoster(void);
     int CheckScrollable(bool hasIcon);
-    void Render();
+    void Render(bool initial = false);
 };
 
 class cNopacityDefaultMenuItem : public cNopacityMenuItem {
@@ -210,7 +210,7 @@ public:
     cNopacityDefaultMenuItem(cOsd *osd, const char *text, bool sel);
     ~cNopacityDefaultMenuItem(void);
     int CheckScrollable(bool hasIcon);
-    void Render();
+    void Render(bool initial = false);
 };
 
 class cNopacityTrackMenuItem : public cNopacityMenuItem {
@@ -218,6 +218,6 @@ private:
 public:
     cNopacityTrackMenuItem(cOsd *osd, const char *text);
     ~cNopacityTrackMenuItem(void);
-    void Render();
+    void Render(bool initial = false);
 };
 #endif //__NOPACITY_MENUITEM_H

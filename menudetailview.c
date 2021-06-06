@@ -127,10 +127,12 @@ void cNopacityDetailView::KeyInput(bool Up, bool Page) {
         return;
     if (Up && Page) {
         view->KeyLeft();
-        view->Start();
+        view->Render();
+        osd->Flush();
     } else if (!Up && Page) {
         view->KeyRight();
-        view->Start();
+        view->Render();
+        osd->Flush();
     } else if (Up && !Page) {
         bool scrolled = view->KeyUp();
         if (scrolled) {
@@ -381,9 +383,9 @@ void cNopacityDetailView::Action(void) {
     view->SetGeometry(x, top, width, height, border, headerHeight);
     view->SetScrollbarPixmaps(scrollBar, scrollBarBack);
     view->LoadMedia();
-    view->Start();
     if (ev)
         view->SetAdditionalInfoText(LoadReruns());
     else if (rec)
         view->SetAdditionalInfoText(LoadRecordingInformation());
+    view->Render();
 }

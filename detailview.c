@@ -4,7 +4,7 @@
 * cNopacityView
 ********************************************************************************************/
 
-cNopacityView::cNopacityView(cOsd *osd) : cThread("DetailView") {
+cNopacityView::cNopacityView(cOsd *osd) {
     this->osd = osd;
     activeView = 0;
     scrollable = false;
@@ -54,7 +54,7 @@ cNopacityView::~cNopacityView(void) {
         osd->DestroyPixmap(pixmapTabs);
 }
 
-void cNopacityView::SetGeometry(int x, int y, int width, int height, int border, int headerHeight) { 
+void cNopacityView::SetGeometry(int x, int y, int width, int height, int border, int headerHeight) {
     this->x = x;
     this->y = y;
     this->width = width;
@@ -126,7 +126,7 @@ void cNopacityView::DrawTabs(void) {
 }
 
 void cNopacityView::ClearContent(void) {
-    if (pixmapContent && Running()) {
+    if (pixmapContent) {
         osd->DestroyPixmap(pixmapContent);
         pixmapContent = NULL;
     }
@@ -195,13 +195,13 @@ void cNopacityView::DrawFloatingContent(std::string *infoText, cTvMedia *img, cT
     }
     cImageLoader imgLoader;
     if (imgLoader.LoadPoster(img->path.c_str(), imgWidth, imgHeight)) {
-        if (Running() && pixmapContent)
+        if (pixmapContent)
             pixmapContent->DrawImage(cPoint(width - imgWidth - border, border), imgLoader.GetImage());
     }
     if (!img2)
         return;
     if (imgLoader.LoadPoster(img2->path.c_str(), imgWidth2, imgHeight2)) {
-        if (Running() && pixmapContent)
+        if (pixmapContent)
             pixmapContent->DrawImage(cPoint(width - imgWidth2 - border, imgHeight + 2*border), imgLoader.GetImage());
     }
 }
@@ -295,14 +295,10 @@ void cNopacityView::DrawActors(std::vector<cActor> *actors) {
 
     int x = 0;
     int y = 2 * border + fontHeaderLarge->Height();
-    if (!Running())
-        return;
     cImageLoader imgLoader;
     int actor = 0;
     for (int row = 0; row < picLines; row++) {
         for (int col = 0; col < picsPerLine; col++) {
-            if (!Running())
-                return;
             if (actor == numActors)
                 break;
             std::string path = actors->at(actor).actorThumb.path;
@@ -311,7 +307,7 @@ void cNopacityView::DrawActors(std::vector<cActor> *actors) {
             sstrRole << "\"" << actors->at(actor).role << "\"";
             std::string role = sstrRole.str();
             if (imgLoader.LoadPoster(path.c_str(), thumbWidth, thumbHeight)) {
-                if (Running() && pixmapContent)
+                if (pixmapContent)
                     pixmapContent->DrawImage(cPoint(x + border, y), imgLoader.GetImage());
             }
 
@@ -321,7 +317,7 @@ void cNopacityView::DrawActors(std::vector<cActor> *actors) {
                 role = CutText(role, thumbWidth + 2*border, fontSmall);
             int xName = x + ((thumbWidth+2*border) - fontSmall->Width(name.c_str()))/2;
             int xRole = x + ((thumbWidth+2*border) - fontSmall->Width(role.c_str()))/2;
-            if (Running() && pixmapContent) {
+            if (pixmapContent) {
                 pixmapContent->DrawText(cPoint(xName, y + thumbHeight + border/2), name.c_str(), Theme.Color(clrMenuFontDetailViewText), clrTransparent, fontSmall);
                 pixmapContent->DrawText(cPoint(xRole, y + thumbHeight + border/2 + fontSmall->Height()), role.c_str(), Theme.Color(clrMenuFontDetailViewText), clrTransparent, fontSmall);
                 x += thumbWidth + 2*border;
@@ -363,7 +359,7 @@ void cNopacityView::DrawScrollbar(void) {
     pixmapScrollbar->DrawRectangle(cRect(3,3 + barTop,geoManager->menuWidthScrollbar-6,barHeight), Theme.Color(clrMenuScrollBar));
 }
 
-bool cNopacityView::KeyUp(void) { 
+bool cNopacityView::KeyUp(void) {
     if (!scrollable)
         return false;
     int aktHeight = pixmapContent->DrawPort().Point().Y();
@@ -379,7 +375,7 @@ bool cNopacityView::KeyUp(void) {
     return true;
 }
 
-bool cNopacityView::KeyDown(void) { 
+bool cNopacityView::KeyDown(void) {
     if (!scrollable)
         return false;
     int aktHeight = pixmapContent->DrawPort().Point().Y();
@@ -409,9 +405,6 @@ cNopacityEPGView::cNopacityEPGView(cOsd *osd) : cNopacityView(osd) {
 }
 
 cNopacityEPGView::~cNopacityEPGView(void) {
-    Cancel(-1);
-    while (Active())
-        cCondWait::SleepMs(10);
     if (pixmapHeaderEPGImage)
         osd->DestroyPixmap(pixmapHeaderEPGImage);
 }
@@ -423,6 +416,10 @@ void cNopacityEPGView::SetAlpha(int Alpha) {
     pixmapContent->SetAlpha(Alpha);
     if (pixmapHeaderEPGImage)
         pixmapHeaderEPGImage->SetAlpha(Alpha);
+    if (pixmapScrollbar)
+        pixmapScrollbar->SetAlpha(Alpha);
+    if (pixmapScrollbarBack)
+        pixmapScrollbarBack->SetAlpha(Alpha);
 }
 
 void cNopacityEPGView::SetTabs(void) {
@@ -543,26 +540,21 @@ void cNopacityEPGView::DrawImages(void) {
     } 
 }
 
-void cNopacityEPGView::KeyLeft(void) { 
-    if (Running())
-        return;
+void cNopacityEPGView::KeyLeft(void) {
     activeView--;
     if (activeView < 0)
         activeView = numTabs - 1; 
 }
 
-void cNopacityEPGView::KeyRight(void) { 
-    if (Running())
-        return;
+void cNopacityEPGView::KeyRight(void) {
     activeView = (activeView + 1) % numTabs;
 }
 
-void cNopacityEPGView::Action(void) {
+void cNopacityEPGView::Render(void) {
     ClearContent();
     if (!headerDrawn) {
         DrawHeader();
         DrawHeaderEPGImage();
-//        osd->Flush();
         headerDrawn = true;
     }
     if (tabs.size() == 0) {
@@ -582,7 +574,6 @@ void cNopacityEPGView::Action(void) {
             break;
     }
     DrawScrollbar();
-    osd->Flush();
 }
 
 /********************************************************************************************
@@ -598,9 +589,6 @@ cNopacitySeriesView::cNopacitySeriesView(cOsd *osd, int seriesId, int episodeId)
 }
 
 cNopacitySeriesView::~cNopacitySeriesView(void) {
-    Cancel(-1);
-    while (Active())
-        cCondWait::SleepMs(10);
     if (pixmapHeaderBanner)
         osd->DestroyPixmap(pixmapHeaderBanner);
 }
@@ -612,6 +600,10 @@ void cNopacitySeriesView::SetAlpha(int Alpha) {
     pixmapContent->SetAlpha(Alpha);
     if (pixmapHeaderBanner)
         pixmapHeaderBanner->SetAlpha(Alpha);
+    if (pixmapScrollbar)
+        pixmapScrollbar->SetAlpha(Alpha);
+    if (pixmapScrollbarBack)
+        pixmapScrollbarBack->SetAlpha(Alpha);
 }
 
 void cNopacitySeriesView::LoadMedia(void) {
@@ -706,7 +698,7 @@ void cNopacitySeriesView::DrawHeaderBanner(void) {
     pixmapHeaderBanner->Fill(clrTransparent);
 
     cImageLoader imgLoader;
-    if (imgLoader.LoadPoster(bannerPath.c_str(), bannerWidth, bannerHeight) && Running()) {
+    if (imgLoader.LoadPoster(bannerPath.c_str(), bannerWidth, bannerHeight)) {
         pixmapHeaderBanner->DrawImage(cPoint(bannerX, bannerY), imgLoader.GetImage());
     }   
 }
@@ -749,29 +741,29 @@ void cNopacitySeriesView::DrawImages(void) {
     int yPic = border;
     for (int i=0; i < numFanarts; i++) {
         if (numBanners > i) {
-            if (imgLoader.LoadPoster(series.banners[i].path.c_str(), series.banners[i].width, series.banners[i].height) && Running()) {
+            if (imgLoader.LoadPoster(series.banners[i].path.c_str(), series.banners[i].width, series.banners[i].height)) {
                 pixmapContent->DrawImage(cPoint((width - series.banners[i].width) / 2, yPic), imgLoader.GetImage());
                 yPic += series.banners[i].height + border;
             }
         }
-        if (imgLoader.LoadPoster(series.fanarts[i].path.c_str(), fanartWidth, fanartHeight) && Running()) {
+        if (imgLoader.LoadPoster(series.fanarts[i].path.c_str(), fanartWidth, fanartHeight)) {
             pixmapContent->DrawImage(cPoint((width - fanartWidth)/2, yPic), imgLoader.GetImage());
             yPic += fanartHeight + border;
         }
     }
     if (numPosters >= 1) {
-        if (imgLoader.LoadPoster(series.posters[0].path.c_str(), posterWidth, posterHeight) && Running()) {
+        if (imgLoader.LoadPoster(series.posters[0].path.c_str(), posterWidth, posterHeight)) {
             pixmapContent->DrawImage(cPoint(border, yPic), imgLoader.GetImage());
             yPic += posterHeight + border;
         }
     }
     if (numPosters >= 2) {
-        if (imgLoader.LoadPoster(series.posters[1].path.c_str(), posterWidth, posterHeight) && Running()) {
+        if (imgLoader.LoadPoster(series.posters[1].path.c_str(), posterWidth, posterHeight)) {
             pixmapContent->DrawImage(cPoint(2 * border + posterWidth, yPic - posterHeight - border), imgLoader.GetImage());
         }
     }
     if (numPosters == 3) {
-        if (imgLoader.LoadPoster(series.posters[2].path.c_str(), posterWidth, posterHeight) && Running()) {
+        if (imgLoader.LoadPoster(series.posters[2].path.c_str(), posterWidth, posterHeight)) {
             pixmapContent->DrawImage(cPoint((width - posterWidth) / 2, yPic), imgLoader.GetImage());
         }
     }
@@ -786,26 +778,21 @@ int cNopacitySeriesView::GetRandomPoster(void) {
     return randPoster;
 }
 
-void cNopacitySeriesView::KeyLeft(void) { 
-    if (Running())
-        return;
+void cNopacitySeriesView::KeyLeft(void) {
     activeView--;
     if (activeView < 0)
         activeView = mvtCount - 1; 
 }
 
-void cNopacitySeriesView::KeyRight(void) { 
-    if (Running())
-        return;
+void cNopacitySeriesView::KeyRight(void) {
     activeView = (activeView + 1) % mvtCount;
 }
 
-void cNopacitySeriesView::Action(void) {
+void cNopacitySeriesView::Render(void) {
     ClearContent();
     if (!headerDrawn) {
         DrawHeader();
         DrawHeaderBanner();
-//        osd->Flush();
         headerDrawn = true;
     }
     if (tabs.size() == 0) {
@@ -847,7 +834,6 @@ void cNopacitySeriesView::Action(void) {
             break;
     }
     DrawScrollbar();
-    osd->Flush();
 }
 
 /********************************************************************************************
@@ -861,9 +847,6 @@ cNopacityMovieView::cNopacityMovieView(cOsd *osd, int movieId) : cNopacityView(o
 }
 
 cNopacityMovieView::~cNopacityMovieView(void) {
-    Cancel(-1);
-    while (Active())
-        cCondWait::SleepMs(10);
     if (pixmapHeaderPoster)
         osd->DestroyPixmap(pixmapHeaderPoster);
 }
@@ -875,6 +858,10 @@ void cNopacityMovieView::SetAlpha(int Alpha) {
     pixmapContent->SetAlpha(Alpha);
     if (pixmapHeaderPoster)
         pixmapHeaderPoster->SetAlpha(Alpha);
+    if (pixmapScrollbar)
+        pixmapScrollbar->SetAlpha(Alpha);
+    if (pixmapScrollbarBack)
+        pixmapScrollbarBack->SetAlpha(Alpha);
 }
 
 void cNopacityMovieView::LoadMedia(void) {
@@ -957,7 +944,7 @@ void cNopacityMovieView::DrawHeaderPoster(void) {
     pixmapHeaderPoster->Fill(clrTransparent);
 
     cImageLoader imgLoader;
-    if (imgLoader.LoadPoster(movie.poster.path.c_str(), posterWidth, posterHeight) && Running()) {
+    if (imgLoader.LoadPoster(movie.poster.path.c_str(), posterWidth, posterHeight)) {
         pixmapHeaderPoster->DrawImage(cPoint(posterX, posterY), imgLoader.GetImage());
     }   
 }
@@ -1002,51 +989,46 @@ void cNopacityMovieView::DrawImages(void) {
     cImageLoader imgLoader;
     int yPic = border;
     if (movie.fanart.width > 0 && movie.fanart.height > 0 && movie.fanart.path.size() > 0) {
-        if (imgLoader.LoadPoster(movie.fanart.path.c_str(), fanartWidth, fanartHeight) && Running()) {
+        if (imgLoader.LoadPoster(movie.fanart.path.c_str(), fanartWidth, fanartHeight)) {
             pixmapContent->DrawImage(cPoint((width - fanartWidth)/2, yPic), imgLoader.GetImage());
             yPic += fanartHeight + border;
         }
     }
     if (movie.collectionFanart.width > 0 && movie.collectionFanart.height > 0 && movie.collectionFanart.path.size() > 0) {
-        if (imgLoader.LoadPoster(movie.collectionFanart.path.c_str(), collectionFanartWidth, collectionFanartHeight) && Running()) {
+        if (imgLoader.LoadPoster(movie.collectionFanart.path.c_str(), collectionFanartWidth, collectionFanartHeight)) {
             pixmapContent->DrawImage(cPoint((width - collectionFanartWidth)/2, yPic), imgLoader.GetImage());
             yPic += collectionFanartHeight + border;
         }
     }
     if (movie.poster.width > 0 && movie.poster.height > 0 && movie.poster.path.size() > 0) {
-        if (imgLoader.LoadPoster(movie.poster.path.c_str(), movie.poster.width, movie.poster.height) && Running()) {
+        if (imgLoader.LoadPoster(movie.poster.path.c_str(), movie.poster.width, movie.poster.height)) {
             pixmapContent->DrawImage(cPoint((width - movie.poster.width) / 2, yPic), imgLoader.GetImage());
             yPic += movie.poster.height + border;
         }
     }
     if (movie.collectionPoster.width > 0 && movie.collectionPoster.height > 0 && movie.collectionPoster.path.size() > 0) {
-        if (imgLoader.LoadPoster(movie.collectionPoster.path.c_str(), movie.collectionPoster.width, movie.collectionPoster.height) && Running()) {
+        if (imgLoader.LoadPoster(movie.collectionPoster.path.c_str(), movie.collectionPoster.width, movie.collectionPoster.height)) {
             pixmapContent->DrawImage(cPoint((width - movie.collectionPoster.width) / 2, yPic), imgLoader.GetImage());
             yPic += movie.collectionPoster.height + border;
         }
     }
 }
 
-void cNopacityMovieView::KeyLeft(void) { 
-    if (Running())
-        return;
+void cNopacityMovieView::KeyLeft(void) {
     activeView--;
     if (activeView < 0)
         activeView = mvtCount - 1; 
 }
 
-void cNopacityMovieView::KeyRight(void) { 
-    if (Running())
-        return;
+void cNopacityMovieView::KeyRight(void) {
     activeView = (activeView + 1) % mvtCount;
 }
 
-void cNopacityMovieView::Action(void) {
+void cNopacityMovieView::Render(void) {
     ClearContent();
     if (!headerDrawn) {
         DrawHeader();
         DrawHeaderPoster();
-//        osd->Flush();
         headerDrawn = true;
     }
     if (tabs.size() == 0) {
@@ -1082,7 +1064,6 @@ void cNopacityMovieView::Action(void) {
             break;
     }
     DrawScrollbar();
-    osd->Flush();
 }
 
 /********************************************************************************************
@@ -1093,9 +1074,6 @@ cNopacityTextView::cNopacityTextView(cOsd *osd) : cNopacityView(osd) {
 }
 
 cNopacityTextView::~cNopacityTextView(void) {
-    Cancel(-1);
-    while (Active())
-        cCondWait::SleepMs(10);
 }
 
 void cNopacityTextView::SetAlpha(int Alpha) {
@@ -1103,6 +1081,10 @@ void cNopacityTextView::SetAlpha(int Alpha) {
     pixmapTabs->SetAlpha(Alpha);
     pixmapContentBack->SetAlpha(Alpha);
     pixmapContent->SetAlpha(Alpha);
+    if (pixmapScrollbar)
+        pixmapScrollbar->SetAlpha(Alpha);
+    if (pixmapScrollbarBack)
+        pixmapScrollbarBack->SetAlpha(Alpha);
 }
 
 void cNopacityTextView::KeyLeft(void) {
@@ -1115,10 +1097,9 @@ void cNopacityTextView::KeyLeft(void) {
         newY = 0;
     pixmapContent->SetDrawPortPoint(cPoint(0, newY));
     DrawScrollbar();
-    osd->Flush();
 }
 
-void cNopacityTextView::KeyRight(void) { 
+void cNopacityTextView::KeyRight(void) {
     if (!pixmapContent)
         return;
     int aktHeight = pixmapContent->DrawPort().Point().Y();
@@ -1129,13 +1110,11 @@ void cNopacityTextView::KeyRight(void) {
         newY = (-1)*(totalHeight - screenHeight);
     pixmapContent->SetDrawPortPoint(cPoint(0, newY));
     DrawScrollbar();
-    osd->Flush();
 }
 
-void cNopacityTextView::Action(void) {
+void cNopacityTextView::Render(void) {
     if (pixmapContent)
         return;
     DrawContent(&infoText);
     DrawScrollbar();
-    osd->Flush();
 }

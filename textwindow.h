@@ -16,6 +16,7 @@ private:
     int drawportHeight;
     cRect *vidWin;
     cRect oldVidWin;
+    bool initial = false;
     bool scaledWindow;
     cString text;
     cTextWrapper twTextTall;
@@ -48,6 +49,7 @@ public:
     void SetText(cString Text) {text = Text;};
     bool SetManualPoster(const cRecording *recording, bool fullscreen = false);
     void SetPoster(const cEvent *event, const cRecording *recording, bool fullscreen = false);
+    void SetInitial(bool initial) { this->initial = initial; };
 };
 
 #endif //__NOPACITY_TEXTWINDOW_H

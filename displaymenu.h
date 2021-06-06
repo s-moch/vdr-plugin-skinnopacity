@@ -34,6 +34,7 @@ private:
     void DrawTimers(bool timersChanged, int numConflicts);
     void SplitItem(const char *Text, cString *strItems, int *tabItems);
     void SetButtonPositions(void);
+    void SetAlpha(int Alpha = 0, bool force = false);
     virtual void Action(void);
 protected:
     int Tab(int n);

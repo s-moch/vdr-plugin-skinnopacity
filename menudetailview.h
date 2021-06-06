@@ -45,6 +45,7 @@ public:
     void SetRecording(const cRecording *r) { rec = r; };
     void SetText(const char *t) { text = t; };
     void KeyInput(bool Up, bool Page);
+    bool IsRunning(void) { return Running(); };
 };
 
 #endif //__NOPACITY_MENUDETAILVIEW_H
