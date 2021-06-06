@@ -13,18 +13,25 @@ cNopacityDisplayChannel::cNopacityDisplayChannel(bool WithInfo) : cThread("Displ
     following = NULL;
     currentLast = 0;
     channelChange = false;
+    fadeout = false;
     initial = true;
-    FadeTime = config.GetValue("channelFadeTime");
-    FrameTime = FadeTime / 10;
 
     osd = CreateOsd(geoManager->osdLeft, geoManager->osdTop, geoManager->osdWidth, geoManager->osdHeight);
     channelView = new cNopacityDisplayChannelView(osd);
 }
 
 cNopacityDisplayChannel::~cNopacityDisplayChannel() {
-    Cancel(-1);
-    while (Active())
+    if (config.GetValue("channelFadeOutTime")) {
+        fadeout = true;
+        Start();
+    }
+    int count = 0;
+    while (Active()) {
         cCondWait::SleepMs(10);
+        count++;
+        if (count > 150)
+           Cancel(1);
+    }
     delete channelView;
     delete osd;
 }
@@ -132,9 +139,9 @@ void cNopacityDisplayChannel::Flush(void) {
     } else
         channelView->ClearSourceInfo();
 
-    if (initial) {
-        if (config.GetValue("channelFadeTime"))
-            Start();
+    if (initial && config.GetValue("channelFadeTime")) {
+        channelView->SetAlpha(0);
+        Start();
     }
     initial = false;
     channelChange = false;
@@ -142,6 +149,9 @@ void cNopacityDisplayChannel::Flush(void) {
 }
 
 void cNopacityDisplayChannel::Action(void) {
+    int x = (fadeout) ? 255 : 0;
+    int FadeTime = (fadeout) ? config.GetValue("channelFadeOutTime") : config.GetValue("channelFadeTime");
+    int FrameTime = FadeTime / 10;
     uint64_t First = cTimeMs::Now();
     cPixmap::Lock();
     cPixmap::Unlock();
@@ -150,7 +160,7 @@ void cNopacityDisplayChannel::Action(void) {
     while (Running()) {
         uint64_t Now = cTimeMs::Now();
         double t = std::min(double(Now - Start) / FadeTime, 1.0);
-        int Alpha = t * ALPHA_OPAQUE;
+        int Alpha = std::abs(x - (int(t * ALPHA_OPAQUE)));
         cPixmap::Lock();
         channelView->SetAlpha(Alpha);
         if (Running())

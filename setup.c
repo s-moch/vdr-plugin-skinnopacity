@@ -394,6 +394,7 @@ void cNopacitySetupChannelDisplay::Set(void) {
     int currentItem = Current();
     Clear();
     Add(new cMenuEditIntItem(tr("Fade-In Time in ms (Zero for switching off fading)"), tmpConf->GetValueRef("channelFadeTime"), 0, 1000));
+    Add(new cMenuEditIntItem(tr("Fade-Out Time in ms (Zero for switching off fading)"), tmpConf->GetValueRef("channelFadeOutTime"), 0, 1000));
     Add(new cMenuEditIntItem(tr("Height of Channel Display (Percent of OSD Height)"), tmpConf->GetValueRef("channelHeight"), 15, 80));
     Add(new cMenuEditIntItem(tr("Left & Right Border Width"), tmpConf->GetValueRef("channelBorderVertical"), 0, 300));
     Add(new cMenuEditIntItem(tr("Bottom Border Height"), tmpConf->GetValueRef("channelBorderBottom"), 0, 300));

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: vdr-skinnopacity\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2014-05-24 15:11+0200\n"
+"POT-Creation-Date: 2021-06-06 13:13+0200\n"
 "PO-Revision-Date: 2013-11-11 20:52+0100\n"
 "Last-Translator: Milan Hrala <hrala.milan@gmail.com>\n"
 "Language-Team: \n"
@@ -520,6 +520,9 @@ msgstr "zobrazi» uplynulý èas"
 
 msgid "show remaining time"
 msgstr "zobrazi» zostávajúci èas"
+
+msgid "Fade-Out Time in ms (Zero for switching off fading)"
+msgstr ""
 
 msgid "Height of Channel Display (Percent of OSD Height)"
 msgstr "Vý¹ka zobrazeného kanálu"

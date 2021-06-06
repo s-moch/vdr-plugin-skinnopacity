@@ -42,7 +42,7 @@ private:
 public:
     cNopacityDisplayChannelView(cOsd *osd);
     virtual ~cNopacityDisplayChannelView(void);
-    void SetAlpha(int alpha);
+    void SetAlpha(int alpha = 0);
     void DrawChannelLogo(const cChannel *Channel);
     void ClearChannelLogo(void);
     void DrawChannelName(cString number, cString name);

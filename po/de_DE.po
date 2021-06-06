@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2014-05-24 15:11+0200\n"
+"POT-Creation-Date: 2021-06-06 13:13+0200\n"
 "PO-Revision-Date: 2012-11-11 17:49+0200\n"
 "Last-Translator: louis\n"
 "Language-Team: \n"
@@ -520,6 +520,9 @@ msgstr "vergangene Zeit anzeigen"
 
 msgid "show remaining time"
 msgstr "verbleibende Zeit anzeigen"
+
+msgid "Fade-Out Time in ms (Zero for switching off fading)"
+msgstr "Fade-Out Zeit in ms (Null zum Abschalten)"
 
 msgid "Height of Channel Display (Percent of OSD Height)"
 msgstr "Höhe der Kanalwechsel Anzeige (% der OSD Höhe)"

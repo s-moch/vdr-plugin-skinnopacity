@@ -144,12 +144,8 @@ void cNopacityDisplayChannelView::CreatePixmaps(void) {
                                     geoManager->channelFooterHeight)
                             );
 
-    if (config.GetValue("channelFadeTime")) {
-        SetAlpha(0);
-    } else {
-        int alphaBack = (100 - config.GetValue("channelBackgroundTransparency"))*255/100;
-        pixmapBackground->SetAlpha(alphaBack);
-    }
+    int alphaBack = (100 - config.GetValue("channelBackgroundTransparency"))*255/100;
+    pixmapBackground->SetAlpha(alphaBack);
 }
 
 void cNopacityDisplayChannelView::SetAlpha(int alpha) {
