@@ -97,6 +97,9 @@ void cNopacityDisplayChannel::SetMessage(eMessageType Type, const char *Text) {
 }
 
 void cNopacityDisplayChannel::Flush(void) {
+    if (Running())
+        return;
+
     channelView->DrawDate();
 
     if (present && !groupSep) {
@@ -139,16 +142,20 @@ void cNopacityDisplayChannel::Flush(void) {
 }
 
 void cNopacityDisplayChannel::Action(void) {
+    uint64_t First = cTimeMs::Now();
+    cPixmap::Lock();
+    cPixmap::Unlock();
     uint64_t Start = cTimeMs::Now();
+    dsyslog ("skinnopacity: First Lock(): %lims\n", Start - First);
     while (Running()) {
         uint64_t Now = cTimeMs::Now();
-        cPixmap::Lock();
         double t = std::min(double(Now - Start) / FadeTime, 1.0);
         int Alpha = t * ALPHA_OPAQUE;
+        cPixmap::Lock();
         channelView->SetAlpha(Alpha);
-        cPixmap::Unlock();
         if (Running())
             osd->Flush();
+        cPixmap::Unlock();
         int Delta = cTimeMs::Now() - Now;
         if (Running() && (Delta < FrameTime))
             cCondWait::SleepMs(FrameTime - Delta);
