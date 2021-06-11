@@ -6,11 +6,10 @@
 
 cNopacityDisplayTracks::cNopacityDisplayTracks(const char *Title, int NumTracks, const char * const *Tracks) : cThread("DisplayTracks") {
     initial = true;
+    fadeout = false;
     currentIndex = -1;
     numTracks = NumTracks;
     audioChannelLast = -5;
-    FadeTime = config.GetValue("tracksFadeTime");
-    FrameTime = FadeTime / 10;
     SetGeometry();
     CreatePixmaps();
     DrawHeader(Title);
@@ -19,9 +18,17 @@ cNopacityDisplayTracks::cNopacityDisplayTracks(const char *Title, int NumTracks,
 }
 
 cNopacityDisplayTracks::~cNopacityDisplayTracks() {
-    Cancel(-1);
-    while (Active())
+    if (config.GetValue("tracksFadeOutTime")) {
+        fadeout = true;
+        Start();
+    }
+    int count = 0;
+    while (Active()) {
         cCondWait::SleepMs(10);
+        count++;
+        if (count > 150)
+           Cancel(1);
+    }
     osd->DestroyPixmap(pixmapContainer);
     osd->DestroyPixmap(pixmapHeader);
     osd->DestroyPixmap(pixmapHeaderAudio);
@@ -112,14 +119,14 @@ void cNopacityDisplayTracks::DrawHeader(const char *Title) {
     pixmapHeader->DrawText(cPoint((width - fontManager->trackHeader->Width(Title)) / 2, (menuItemHeight - fontManager->trackHeader->Height()) / 2), Title, Theme.Color(clrTracksFontHead), clrTransparent, fontManager->trackHeader);
 }
 
-void cNopacityDisplayTracks::SetAlpha(int Alpha) {
+void cNopacityDisplayTracks::SetAlpha(int Alpha, bool Force) {
     if (config.GetValue("tracksFadeTime")) {
         pixmapContainer->SetAlpha(Alpha);
         pixmapHeader->SetAlpha(Alpha);
         pixmapHeaderAudio->SetAlpha(Alpha);
         pixmapIcon->SetAlpha(Alpha);
         for (auto i = menuItems.begin(); i != menuItems.end(); ++i) {
-            if (*i && Running()) {
+            if (*i && (Force || Running())) {
                 cNopacityMenuItem *item = i->get();
                 item->SetAlpha(Alpha);
             }
@@ -140,8 +147,6 @@ void cNopacityDisplayTracks::SetItem(const char *Text, int Index, bool Current) 
     if (config.GetValue("displayType") == dtGraphical)
         item->CreatePixmapForeground();
     item->Render();
-    if (initial && config.GetValue("tracksFadeTime"))
-        item->SetAlpha(0);
 }
 
 void cNopacityDisplayTracks::SetTrack(int Index, const char * const *Tracks) {
@@ -184,7 +189,7 @@ void cNopacityDisplayTracks::Flush(void) {
     if (Running())
         return;
     if (initial && config.GetValue("tracksFadeTime")) {
-        SetAlpha(0);
+        SetAlpha(0, true);
         Start();
     }
     initial = false;
@@ -192,6 +197,9 @@ void cNopacityDisplayTracks::Flush(void) {
 }
 
 void cNopacityDisplayTracks::Action(void) {
+    int x = (fadeout) ? 255 : 0;
+    int FadeTime = (fadeout) ? config.GetValue("replayFadeOutTime") : config.GetValue("replayFadeTime");
+    int FrameTime = FadeTime / 10;
     uint64_t First = cTimeMs::Now();
     cPixmap::Lock();
     cPixmap::Unlock();
@@ -200,7 +208,7 @@ void cNopacityDisplayTracks::Action(void) {
     while (Running()) {
         uint64_t Now = cTimeMs::Now();
         double t = std::min(double(Now - Start) / FadeTime, 1.0);
-        int Alpha = t * ALPHA_OPAQUE;
+        int Alpha = std::abs(x - (int(t * ALPHA_OPAQUE)));
         cPixmap::Lock();
         SetAlpha(Alpha);
         if (Running()) {

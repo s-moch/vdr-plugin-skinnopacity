@@ -461,6 +461,7 @@ void cNopacitySetupTrackDisplay::Set(void) {
     int currentItem = Current();
     Clear();
     Add(new cMenuEditIntItem(tr("Fade-In Time in ms (Zero for switching off fading)"), tmpConf->GetValueRef("tracksFadeTime"), 0, 1000));
+    Add(new cMenuEditIntItem(tr("Fade-Out Time in ms (Zero for switching off fading)"), tmpConf->GetValueRef("tracksFadeOutTime"), 0, 1000));
     Add(new cMenuEditIntItem(tr("Width of Tracks Display (Percent of OSD Width)"), tmpConf->GetValueRef("tracksWidth"), 10, 100));
     Add(new cMenuEditIntItem(tr("Height of Track Items (in pixels)"), tmpConf->GetValueRef("tracksItemHeight"), 30, 200));
     Add(new cMenuEditIntItem(tr("Position (0: bot. center, 1: bot. left, ... , 7: bot. right)"), tmpConf->GetValueRef("tracksPosition"), 0, 7));

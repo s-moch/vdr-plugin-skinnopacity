@@ -10,8 +10,7 @@
 class cNopacityDisplayTracks : public cSkinDisplayTracks, cThread {
 private:
     cOsd *osd;
-    int FrameTime;
-    int FadeTime;
+    bool fadeout;
     int width, height;
     int menuItemWidth;
     int menuItemHeight;
@@ -29,7 +28,7 @@ private:
     void SetGeometry(void);
     void CreatePixmaps(void);
     void DrawHeader(const char *Title);
-    void SetAlpha(int Alpha = 0);
+    void SetAlpha(int Alpha = 0, bool force = false);
 public:
     cNopacityDisplayTracks(const char *Title, int NumTracks, const char * const *Tracks);
     virtual ~cNopacityDisplayTracks();

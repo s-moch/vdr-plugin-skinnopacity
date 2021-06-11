@@ -195,6 +195,7 @@ void cNopacityConfig::LoadDefaults(void) {
     conf.insert(std::pair<std::string, int>("fontMessage", 0));
     //DisplayTracks
     conf.insert(std::pair<std::string, int>("tracksFadeTime", 300));
+    conf.insert(std::pair<std::string, int>("tracksFadeOutTime", 300));
     conf.insert(std::pair<std::string, int>("tracksWidth", 25));
     conf.insert(std::pair<std::string, int>("tracksItemHeight", 80));
     conf.insert(std::pair<std::string, int>("tracksPosition", 0));
