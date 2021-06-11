@@ -485,6 +485,7 @@ void cNopacitySetupMessageDisplay::Set(void) {
     Clear();
 
     Add(new cMenuEditIntItem(tr("Fade-In Time in ms (Zero for switching off fading)"), tmpConf->GetValueRef("messageFadeTime"), 0, 1000));
+    Add(new cMenuEditIntItem(tr("Fade-In Time in ms (Zero for switching off fading)"), tmpConf->GetValueRef("messageFadeOutTime"), 0, 1000));
     Add(new cMenuEditIntItem(tr("Width of Message Display (Percent of OSD Height)"), tmpConf->GetValueRef("messageWidth"), 30, 100));
     Add(new cMenuEditIntItem(tr("Height of Message Display (Percent of OSD Height)"), tmpConf->GetValueRef("messageHeight"), 5, 100));
     Add(new cMenuEditIntItem(tr("Bottom Border Height"), tmpConf->GetValueRef("messageBorderBottom"), 0, 1000));

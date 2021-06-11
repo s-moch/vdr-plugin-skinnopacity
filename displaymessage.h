@@ -10,8 +10,7 @@ class cNopacityDisplayMessage : public cSkinDisplayMessage , cThread {
 private:
     cOsd *osd;
     cNopacityMessageBox *messageBox;
-    int FrameTime;
-    int FadeTime;
+    bool fadeout;
     virtual void Action(void);
 public:
   cNopacityDisplayMessage(void);
