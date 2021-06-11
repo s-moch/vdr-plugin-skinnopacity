@@ -504,6 +504,7 @@ void cNopacitySetupVolumeDisplay::Set(void) {
     int currentItem = Current();
     Clear();
     Add(new cMenuEditIntItem(tr("Fade-In Time in ms (Zero for switching off fading)"), tmpConf->GetValueRef("volumeFadeTime"), 0, 1000));
+    Add(new cMenuEditIntItem(tr("Fade-Out Time in ms (Zero for switching off fading)"), tmpConf->GetValueRef("volumeFadeOutTime"), 0, 1000));
     Add(new cMenuEditIntItem(tr("Width of Volume Display (Percent of OSD Height)"), tmpConf->GetValueRef("volumeWidth"), 10, 100));
     Add(new cMenuEditIntItem(tr("Height of Volume Display (Percent of OSD Height)"), tmpConf->GetValueRef("volumeHeight"), 5, 100));
     Add(new cMenuEditIntItem(tr("Bottom Border Height"), tmpConf->GetValueRef("volumeBorderBottom"), 0, 1000));

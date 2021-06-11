@@ -205,6 +205,7 @@ void cNopacityConfig::LoadDefaults(void) {
     conf.insert(std::pair<std::string, int>("fontTracks", 0));
     //DisplayVolume
     conf.insert(std::pair<std::string, int>("volumeFadeTime", 300));
+    conf.insert(std::pair<std::string, int>("volumeFadeOutTime", 300));
     conf.insert(std::pair<std::string, int>("volumeWidth", 40));
     conf.insert(std::pair<std::string, int>("volumeHeight", 10));
     conf.insert(std::pair<std::string, int>("volumeBorderBottom", 10));

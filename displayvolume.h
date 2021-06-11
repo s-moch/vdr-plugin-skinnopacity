@@ -7,9 +7,8 @@
 
 class cNopacityDisplayVolume : public cSkinDisplayVolume, cThread {
 private:
-    int FrameTime;
-    int FadeTime;
     bool initial;
+    bool fadeout;
     bool muted;
     cOsd *osd;
     cPixmap *pixmapBackground;
@@ -18,6 +17,7 @@ private:
     virtual void Action(void);
     void DrawProgressBar(int Current, int Total);
     tColor DrawProgressbarBackground(int left, int top, int width, int height);
+    void SetAlpha(int Alpha = 0);
 public:
   cNopacityDisplayVolume(void);
   virtual ~cNopacityDisplayVolume(void);

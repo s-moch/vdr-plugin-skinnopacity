@@ -6,9 +6,8 @@
 
 cNopacityDisplayVolume::cNopacityDisplayVolume(void) : cThread("DisplayVolume") {
     initial = true;
+    fadeout = false;
     muted = false;
-    FadeTime = config.GetValue("volumeFadeTime");
-    FrameTime = FadeTime / 10;
 
     int top = geoManager->osdTop + geoManager->osdHeight - geoManager->volumeHeight - config.GetValue("volumeBorderBottom");
     int left = geoManager->osdLeft + (geoManager->osdWidth - geoManager->volumeWidth) / 2;
@@ -49,18 +48,20 @@ cNopacityDisplayVolume::cNopacityDisplayVolume(void) : cThread("DisplayVolume") 
     }
     pixmapLabel = osd->CreatePixmap(2, cRect(0, 5, geoManager->volumeWidth, geoManager->volumeLabelHeight));
     pixmapProgressBar = osd->CreatePixmap(2, cRect((geoManager->volumeWidth - geoManager->volumeProgressBarWidth) / 2, (geoManager->volumeHeight - geoManager->volumeProgressBarHeight)*2/3, geoManager->volumeProgressBarWidth, geoManager->volumeProgressBarHeight));
-
-    if (FadeTime) {
-        pixmapBackground->SetAlpha(0);
-        pixmapProgressBar->SetAlpha(0);
-        pixmapLabel->SetAlpha(0);
-    }
 }
 
 cNopacityDisplayVolume::~cNopacityDisplayVolume() {
-    Cancel(-1);
-    while (Active())
+    if (config.GetValue("volumeFadeOutTime")) {
+        fadeout = true;
+        Start();
+    }
+    int count = 0;
+    while (Active()) {
         cCondWait::SleepMs(10);
+        count++;
+        if (count > 150)
+           Cancel(1);
+    }
     osd->DestroyPixmap(pixmapBackground);
     osd->DestroyPixmap(pixmapLabel);
     osd->DestroyPixmap(pixmapProgressBar);
@@ -128,17 +129,27 @@ tColor cNopacityDisplayVolume::DrawProgressbarBackground(int left, int top, int 
     return clr;
 }
 
+void cNopacityDisplayVolume::SetAlpha(int Alpha) {
+    pixmapBackground->SetAlpha(Alpha);
+    pixmapProgressBar->SetAlpha(Alpha);
+    pixmapLabel->SetAlpha(Alpha);
+}
+
 void cNopacityDisplayVolume::Flush(void) {
     if (Running())
         return;
-    if (initial)
-        if (FadeTime)
-            Start();
+    if (initial && config.GetValue("volumeFadeTime")) {
+        SetAlpha(0);
+        Start();
+    }
     initial = false;
     osd->Flush();
 }
 
 void cNopacityDisplayVolume::Action(void) {
+    int x = (fadeout) ? 255 : 0;
+    int FadeTime = (fadeout) ? config.GetValue("replayFadeOutTime") : config.GetValue("replayFadeTime");
+    int FrameTime = FadeTime / 10;
     uint64_t First = cTimeMs::Now();
     cPixmap::Lock();
     cPixmap::Unlock();
@@ -147,11 +158,9 @@ void cNopacityDisplayVolume::Action(void) {
     while (Running()) {
         uint64_t Now = cTimeMs::Now();
         double t = std::min(double(Now - Start) / FadeTime, 1.0);
-        int Alpha = t * ALPHA_OPAQUE;
+        int Alpha = std::abs(x - (int(t * ALPHA_OPAQUE)));
         cPixmap::Lock();
-        pixmapBackground->SetAlpha(Alpha);
-        pixmapProgressBar->SetAlpha(Alpha);
-        pixmapLabel->SetAlpha(Alpha);
+        SetAlpha(Alpha);
         if (Running())
             osd->Flush();
         cPixmap::Unlock();
