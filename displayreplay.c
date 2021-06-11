@@ -5,10 +5,9 @@
 
 cNopacityDisplayReplay::cNopacityDisplayReplay(bool ModeOnly) : cThread("DisplayReplay") {
     initial = true;
+    fadeout = false;
     modeOnly = ModeOnly;
     lastDate = "";
-    FadeTime = config.GetValue("replayFadeTime");
-    FrameTime = FadeTime / 10;
     createOSD();
     CreatePixmaps();
     DrawBackground();
@@ -17,9 +16,17 @@ cNopacityDisplayReplay::cNopacityDisplayReplay(bool ModeOnly) : cThread("Display
 }
 
 cNopacityDisplayReplay::~cNopacityDisplayReplay() {
-    Cancel(-1);
-    while (Active())
+    if (config.GetValue("replayFadeOutTime")) {
+        fadeout = true;
+        Start();
+    }
+    int count = 0;
+    while (Active()) {
         cCondWait::SleepMs(10);
+        count++;
+        if (count > 150)
+           Cancel(1);
+    }
     if (!modeOnly) {
         osd->DestroyPixmap(pixmapBackground);
         osd->DestroyPixmap(pixmapTop);
@@ -143,9 +150,7 @@ void cNopacityDisplayReplay::CreatePixmaps(void) {
                                            iconSize,
                                            iconSize));
 
-    if (FadeTime) {
-        SetAlpha(0);
-    } else if (!modeOnly) {
+    if (!modeOnly) {
         int alphaBack = (100 - config.GetValue("channelBackgroundTransparency"))*255/100;
         pixmapBackground->SetAlpha(alphaBack);
     }
@@ -488,15 +493,18 @@ void cNopacityDisplayReplay::Flush(void) {
     if (!modeOnly) {
         DrawDate();
     }
-    if (initial) {
-        if (FadeTime)
-            Start();
+    if (initial && config.GetValue("replayFadeTime")) {
+        SetAlpha(0);
+        Start();
     }
     initial = false;
     osd->Flush();
 }
 
 void cNopacityDisplayReplay::Action(void) {
+    int x = (fadeout) ? 255 : 0;
+    int FadeTime = (fadeout) ? config.GetValue("replayFadeOutTime") : config.GetValue("replayFadeTime");
+    int FrameTime = FadeTime / 10;
     uint64_t First = cTimeMs::Now();
     cPixmap::Lock();
     cPixmap::Unlock();
@@ -505,7 +513,7 @@ void cNopacityDisplayReplay::Action(void) {
     while (Running()) {
         uint64_t Now = cTimeMs::Now();
         double t = std::min(double(Now - Start) / FadeTime, 1.0);
-        int Alpha = t * ALPHA_OPAQUE;
+        int Alpha = std::abs(x - (int(t * ALPHA_OPAQUE)));
         cPixmap::Lock();
         SetAlpha(Alpha);
         if (Running())

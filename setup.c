@@ -440,6 +440,7 @@ void cNopacitySetupReplayDisplay::Set(void) {
     Clear();
 
     Add(new cMenuEditIntItem(tr("Fade-In Time in ms (Zero for switching off fading)"), tmpConf->GetValueRef("replayFadeTime"), 0, 1000));
+    Add(new cMenuEditIntItem(tr("Fade-Out Time in ms (Zero for switching off fading)"), tmpConf->GetValueRef("replayFadeOutTime"), 0, 1000));
     Add(new cMenuEditIntItem(tr("Height of Replay Display (Percent of OSD Height)"), tmpConf->GetValueRef("replayHeight"), 15, 80));
     Add(new cMenuEditIntItem(tr("Left & Right Border Width"), tmpConf->GetValueRef("replayBorderVertical"), 0, 300));
     Add(new cMenuEditIntItem(tr("Bottom Border Height"), tmpConf->GetValueRef("replayBorderBottom"), 0, 300));

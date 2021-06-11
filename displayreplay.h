@@ -12,8 +12,7 @@ private:
     bool initial;
     bool modeOnly;
     cString lastDate;
-    int FrameTime;
-    int FadeTime;
+    bool fadeout;
     cPixmap *pixmapBackground;
     cPixmap *pixmapTop;
     cPixmap *pixmapInfo;
