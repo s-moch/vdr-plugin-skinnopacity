@@ -129,6 +129,8 @@ tColor cNopacityDisplayVolume::DrawProgressbarBackground(int left, int top, int 
 }
 
 void cNopacityDisplayVolume::Flush(void) {
+    if (Running())
+        return;
     if (initial)
         if (FadeTime)
             Start();
@@ -137,18 +139,22 @@ void cNopacityDisplayVolume::Flush(void) {
 }
 
 void cNopacityDisplayVolume::Action(void) {
+    uint64_t First = cTimeMs::Now();
+    cPixmap::Lock();
+    cPixmap::Unlock();
     uint64_t Start = cTimeMs::Now();
+    dsyslog ("skinnopacity: First Lock(): %lims \n", Start - First);
     while (Running()) {
         uint64_t Now = cTimeMs::Now();
-        cPixmap::Lock();
         double t = std::min(double(Now - Start) / FadeTime, 1.0);
         int Alpha = t * ALPHA_OPAQUE;
+        cPixmap::Lock();
         pixmapBackground->SetAlpha(Alpha);
         pixmapProgressBar->SetAlpha(Alpha);
         pixmapLabel->SetAlpha(Alpha);
-        cPixmap::Unlock();
         if (Running())
             osd->Flush();
+        cPixmap::Unlock();
         int Delta = cTimeMs::Now() - Now;
         if (Running() && (Delta < FrameTime))
             cCondWait::SleepMs(FrameTime - Delta);
