@@ -34,6 +34,7 @@ private:
     virtual void Action(void);
     void createOSD(void);
     void CreatePixmaps(void);
+    void SetAlpha(int Alpha = 0);
     void DrawBackground(void);
     void DrawDate(void);
     void LoadControlIcons(void);

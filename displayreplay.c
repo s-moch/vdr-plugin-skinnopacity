@@ -144,28 +144,33 @@ void cNopacityDisplayReplay::CreatePixmaps(void) {
                                            iconSize));
 
     if (FadeTime) {
-        if (!modeOnly) {
-            pixmapBackground->SetAlpha(0);
-            pixmapTop->SetAlpha(0);
-            pixmapInfo->SetAlpha(0);
-            pixmapDate->SetAlpha(0);
-            pixmapInfo2->SetAlpha(0);
-            pixmapProgressBar->SetAlpha(0);
-            pixmapCurrent->SetAlpha(0);
-            pixmapTotal->SetAlpha(0);
-            pixmapScreenResBackground->SetAlpha(0);
-            pixmapScreenRes->SetAlpha(0);
-            pixmapJump->SetAlpha(0);
-        }
-        pixmapControls->SetAlpha(0);
-        pixmapRew->SetAlpha(0);
-        pixmapPause->SetAlpha(0);
-        pixmapPlay->SetAlpha(0);
-        pixmapFwd->SetAlpha(0);
+        SetAlpha(0);
     } else if (!modeOnly) {
         int alphaBack = (100 - config.GetValue("channelBackgroundTransparency"))*255/100;
         pixmapBackground->SetAlpha(alphaBack);
     }
+}
+
+void cNopacityDisplayReplay::SetAlpha(int Alpha) {
+    if (!modeOnly) {
+        int alphaBack = (100 - config.GetValue("channelBackgroundTransparency"))*Alpha/100;
+        pixmapBackground->SetAlpha(alphaBack);
+        pixmapTop->SetAlpha(Alpha);
+        pixmapInfo->SetAlpha(Alpha);
+        pixmapDate->SetAlpha(Alpha);
+        pixmapInfo2->SetAlpha(Alpha);
+        pixmapProgressBar->SetAlpha(Alpha);
+        pixmapCurrent->SetAlpha(Alpha);
+        pixmapTotal->SetAlpha(Alpha);
+        pixmapScreenResBackground->SetAlpha(Alpha);
+        pixmapScreenRes->SetAlpha(Alpha);
+        pixmapJump->SetAlpha(Alpha);
+    }
+    pixmapControls->SetAlpha(Alpha);
+    pixmapRew->SetAlpha(Alpha);
+    pixmapPause->SetAlpha(Alpha);
+    pixmapPlay->SetAlpha(Alpha);
+    pixmapFwd->SetAlpha(Alpha);
 }
 
 void cNopacityDisplayReplay::DrawBackground(void) {
@@ -393,7 +398,7 @@ void cNopacityDisplayReplay::SetMode(bool Play, bool Forward, int Speed) {
 }
 
 void cNopacityDisplayReplay::SetProgress(int Current, int Total) {
-    if (geoManager->replayProgressBarHeight < 5)
+    if (Running() || geoManager->replayProgressBarHeight < 5)
         return;
     int barWidth = geoManager->replayWidth - 2*geoManager->replayProgressBarHeight;
     cProgressBar pb(barWidth,
@@ -430,6 +435,8 @@ void cNopacityDisplayReplay::SetProgress(int Current, int Total) {
 }
 
 void cNopacityDisplayReplay::SetCurrent(const char *Current) {
+    if (Running())
+        return;
     pixmapCurrent->Fill(clrTransparent);
     pixmapCurrent->DrawText(cPoint(geoManager->replayHeaderHeight/2, 0),
                             Current,
@@ -475,6 +482,9 @@ void cNopacityDisplayReplay::SetMessage(eMessageType Type, const char *Text) {
 }
 
 void cNopacityDisplayReplay::Flush(void) {
+    if (Running())
+        return;
+
     if (!modeOnly) {
         DrawDate();
     }
@@ -487,35 +497,20 @@ void cNopacityDisplayReplay::Flush(void) {
 }
 
 void cNopacityDisplayReplay::Action(void) {
+    uint64_t First = cTimeMs::Now();
+    cPixmap::Lock();
+    cPixmap::Unlock();
     uint64_t Start = cTimeMs::Now();
+    dsyslog ("skinnopacity: First Lock(): %lims \n", Start - First);
     while (Running()) {
         uint64_t Now = cTimeMs::Now();
-        cPixmap::Lock();
         double t = std::min(double(Now - Start) / FadeTime, 1.0);
         int Alpha = t * ALPHA_OPAQUE;
-        if (!modeOnly) {
-            int alphaBack = (100 - config.GetValue("channelBackgroundTransparency"))*Alpha/100;
-            pixmapBackground->SetAlpha(alphaBack);
-            pixmapTop->SetAlpha(Alpha);
-            pixmapInfo->SetAlpha(Alpha);
-            pixmapDate->SetAlpha(Alpha);
-            pixmapInfo2->SetAlpha(Alpha);
-            pixmapProgressBar->SetAlpha(Alpha);
-            pixmapCurrent->SetAlpha(Alpha);
-            pixmapTotal->SetAlpha(Alpha);
-            pixmapScreenResBackground->SetAlpha(Alpha);
-            pixmapScreenRes->SetAlpha(Alpha);
-            pixmapJump->SetAlpha(Alpha);
-
-        }
-        pixmapControls->SetAlpha(Alpha);
-        pixmapRew->SetAlpha(Alpha);
-        pixmapPause->SetAlpha(Alpha);
-        pixmapPlay->SetAlpha(Alpha);
-        pixmapFwd->SetAlpha(Alpha);
-        cPixmap::Unlock();
+        cPixmap::Lock();
+        SetAlpha(Alpha);
         if (Running())
             osd->Flush();
+        cPixmap::Unlock();
         int Delta = cTimeMs::Now() - Now;
         if (Running() && (Delta < FrameTime))
             cCondWait::SleepMs(FrameTime - Delta);
