@@ -29,6 +29,7 @@ private:
     void SetGeometry(void);
     void CreatePixmaps(void);
     void DrawHeader(const char *Title);
+    void SetAlpha(int Alpha = 0);
 public:
     cNopacityDisplayTracks(const char *Title, int NumTracks, const char * const *Tracks);
     virtual ~cNopacityDisplayTracks();

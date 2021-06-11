@@ -25,6 +25,8 @@ cNopacityDisplayTracks::~cNopacityDisplayTracks() {
     osd->DestroyPixmap(pixmapContainer);
     osd->DestroyPixmap(pixmapHeader);
     osd->DestroyPixmap(pixmapHeaderAudio);
+    if (pixmapIcon)
+        osd->DestroyPixmap(pixmapIcon);
     menuItems.clear();
     delete osd;
 }
@@ -82,14 +84,10 @@ void cNopacityDisplayTracks::CreatePixmaps(void) {
     pixmapContainer = osd->CreatePixmap(1, cRect(0, 0, width, height));
     pixmapHeader = osd->CreatePixmap(2, cRect(2, 2, menuItemWidth, menuItemHeight));
     pixmapHeaderAudio = osd->CreatePixmap(3, cRect(menuItemWidth - menuItemHeight, 2, menuItemHeight, menuItemHeight));
-    if (FadeTime) {
-        pixmapContainer->SetAlpha(0);
-        pixmapHeader->SetAlpha(0);
-        pixmapHeaderAudio->SetAlpha(0);
-    }
 }
 
 void cNopacityDisplayTracks::DrawHeader(const char *Title) {
+    pixmapHeaderAudio->Fill(clrTransparent);
     pixmapContainer->Fill(Theme.Color(clrMenuBorder));
     pixmapContainer->DrawRectangle(cRect(1, 1, width-2, height-2), Theme.Color(clrMenuBack));
     if (config.GetValue("displayType") == dtBlending) {
@@ -111,7 +109,22 @@ void cNopacityDisplayTracks::DrawHeader(const char *Title) {
     cImage *imgTracks = imgCache->GetSkinIcon("skinIcons/tracks", menuItemHeight-6, menuItemHeight-6);
     if (imgTracks)
         pixmapIcon->DrawImage(cPoint(3,3), *imgTracks);
-    pixmapIcon->DrawText(cPoint((width - fontManager->trackHeader->Width(Title)) / 2, (menuItemHeight - fontManager->trackHeader->Height()) / 2), Title, Theme.Color(clrTracksFontHead), clrTransparent, fontManager->trackHeader);
+    pixmapHeader->DrawText(cPoint((width - fontManager->trackHeader->Width(Title)) / 2, (menuItemHeight - fontManager->trackHeader->Height()) / 2), Title, Theme.Color(clrTracksFontHead), clrTransparent, fontManager->trackHeader);
+}
+
+void cNopacityDisplayTracks::SetAlpha(int Alpha) {
+    if (config.GetValue("tracksFadeTime")) {
+        pixmapContainer->SetAlpha(Alpha);
+        pixmapHeader->SetAlpha(Alpha);
+        pixmapHeaderAudio->SetAlpha(Alpha);
+        pixmapIcon->SetAlpha(Alpha);
+        for (auto i = menuItems.begin(); i != menuItems.end(); ++i) {
+            if (*i && Running()) {
+                cNopacityMenuItem *item = i->get();
+                item->SetAlpha(Alpha);
+            }
+        }
+    }
 }
 
 void cNopacityDisplayTracks::SetItem(const char *Text, int Index, bool Current) {
@@ -127,6 +140,8 @@ void cNopacityDisplayTracks::SetItem(const char *Text, int Index, bool Current) 
     if (config.GetValue("displayType") == dtGraphical)
         item->CreatePixmapForeground();
     item->Render();
+    if (initial && config.GetValue("tracksFadeTime"))
+        item->SetAlpha(0);
 }
 
 void cNopacityDisplayTracks::SetTrack(int Index, const char * const *Tracks) {
@@ -166,32 +181,32 @@ void cNopacityDisplayTracks::SetAudioChannel(int AudioChannel) {
 }
 
 void cNopacityDisplayTracks::Flush(void) {
-    if (initial)
-        if (FadeTime)
-            Start();
+    if (Running())
+        return;
+    if (initial && config.GetValue("tracksFadeTime")) {
+        SetAlpha(0);
+        Start();
+    }
     initial = false;
     osd->Flush();
 }
 
 void cNopacityDisplayTracks::Action(void) {
+    uint64_t First = cTimeMs::Now();
+    cPixmap::Lock();
+    cPixmap::Unlock();
     uint64_t Start = cTimeMs::Now();
+    dsyslog ("skinnopacity: First Lock(): %lims \n", Start - First);
     while (Running()) {
         uint64_t Now = cTimeMs::Now();
-        cPixmap::Lock();
         double t = std::min(double(Now - Start) / FadeTime, 1.0);
         int Alpha = t * ALPHA_OPAQUE;
-        pixmapContainer->SetAlpha(Alpha);
-        pixmapHeader->SetAlpha(Alpha);
-        pixmapHeaderAudio->SetAlpha(Alpha);
-        for (auto i = menuItems.begin(); i != menuItems.end(); ++i) {
-	    if (*i && Running()) {
-	        cNopacityMenuItem *item = i->get();
-                item->SetAlpha(Alpha);
-	    }
+        cPixmap::Lock();
+        SetAlpha(Alpha);
+        if (Running()) {
+            osd->Flush();
         }
         cPixmap::Unlock();
-        if (Running())
-            osd->Flush();
         int Delta = cTimeMs::Now() - Now;
         if (Running() && (Delta < FrameTime))
             cCondWait::SleepMs(FrameTime - Delta);

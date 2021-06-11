@@ -81,6 +81,7 @@ void cNopacityMenuItem::CreatePixmapTextScroller(int totalWidth) {
 
 void cNopacityMenuItem::SetAlpha(int alpha) {
     pixmapBackground->SetAlpha(alpha);
+    if (pixmapForeground) pixmapForeground->SetAlpha(alpha);
     if (pixmapStatic) pixmapStatic->SetAlpha(alpha);
     if (pixmapTextScroller) pixmapTextScroller->SetAlpha(alpha);
     if (infoTextWindow) infoTextWindow->SetAlpha(alpha);
