@@ -24,7 +24,6 @@ class cMenuSetupSubMenu : public cOsdMenu {
         cString spacer;
         virtual eOSState ProcessKey(eKeys Key);
         virtual void Set(void) = 0;
-        cOsdItem *InfoItem(const char *label, const char *value);
     public:
         cMenuSetupSubMenu(const char *Title, cNopacityConfig *data);
 };

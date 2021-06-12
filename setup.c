@@ -109,13 +109,6 @@ cMenuSetupSubMenu::cMenuSetupSubMenu(const char* Title, cNopacityConfig* data) :
     spacer = "   ";
 }
 
-cOsdItem *cMenuSetupSubMenu::InfoItem(const char *label, const char *value) {
-    cOsdItem *item;
-    item = new cOsdItem(cString::sprintf("%s: %s", label, value));
-    item->SetSelectable(false);
-    return item;
-}
-
 eOSState cMenuSetupSubMenu::ProcessKey(eKeys Key) {
   eOSState state = cOsdMenu::ProcessKey(Key);
   if (state == osUnknown) {
@@ -532,13 +525,14 @@ void cNopacitySetupCaching::Set(void) {
     }
     Add(new cMenuEditIntItem(tr("Number of  logos to cache at start"), tmpConf->GetValueRef("numLogosInitial"), 0, 9999));
 
-    Add(InfoItem(tr("Cache Sizes"), ""));
-    Add(InfoItem(tr("Menu Icon cache"), (imgCache->GetCacheSize(ctMenuIcon)).c_str()));
-    Add(InfoItem(tr("Skin Icon image cache"), (imgCache->GetCacheSize(ctSkinIcon)).c_str()));
-    Add(InfoItem(tr("Logo cache"), (imgCache->GetCacheSize(ctLogo)).c_str()));
-    Add(InfoItem(tr("Menu Item Logo cache"), (imgCache->GetCacheSize(ctLogoMenuItem)).c_str()));
-    Add(InfoItem(tr("Timer Logo cache"), (imgCache->GetCacheSize(ctLogoTimer)).c_str()));
-    Add(InfoItem(tr("Background Images cache"), (imgCache->GetCacheSize(ctSkinElement)).c_str()));
+    Add(new cOsdItem("", osUnknown, false));
+    Add(new cOsdItem(tr("Cache Sizes"), osUnknown, false));
+    Add(new cOsdItem(cString::sprintf("%s:\t%s", tr("Menu Icon cache"), (imgCache->GetCacheSize(ctMenuIcon)).c_str()), osUnknown, false));
+    Add(new cOsdItem(cString::sprintf("%s:\t%s", tr("Skin Icon image cache"), (imgCache->GetCacheSize(ctSkinIcon)).c_str()), osUnknown, false));
+    Add(new cOsdItem(cString::sprintf("%s:\t%s", tr("Logo cache"), (imgCache->GetCacheSize(ctLogo)).c_str()), osUnknown, false));
+    Add(new cOsdItem(cString::sprintf("%s:\t%s", tr("Menu Item Logo cache"), (imgCache->GetCacheSize(ctLogoMenuItem)).c_str()), osUnknown, false));
+    Add(new cOsdItem(cString::sprintf("%s:\t%s", tr("Timer Logo cache"), (imgCache->GetCacheSize(ctLogoTimer)).c_str()), osUnknown, false));
+    Add(new cOsdItem(cString::sprintf("%s:\t%s", tr("Background Images cache"), (imgCache->GetCacheSize(ctSkinElement)).c_str()), osUnknown, false));
 
     SetCurrent(Get(currentItem));
     Display();
