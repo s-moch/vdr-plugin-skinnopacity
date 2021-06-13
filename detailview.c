@@ -14,7 +14,6 @@ cNopacityView::cNopacityView(cOsd *osd) : cThread("DetailView") {
     fontHeader = NULL;
     fontHeaderLarge = NULL;
     pixmapHeader = NULL;
-    pixmapHeaderLogo = NULL;
     pixmapContent = NULL;
     pixmapContentBack = NULL;
     pixmapTabs = NULL;
@@ -47,8 +46,6 @@ cNopacityView::~cNopacityView(void) {
         delete fontHeaderLarge;
     if (pixmapHeader)
         osd->DestroyPixmap(pixmapHeader);
-    if (pixmapHeaderLogo)
-        osd->DestroyPixmap(pixmapHeaderLogo);   
     if (pixmapContent)
         osd->DestroyPixmap(pixmapContent);
     if (pixmapContentBack)
@@ -81,18 +78,14 @@ void cNopacityView::DrawHeader(void) {
     if (!pixmapHeader) {
         pixmapHeader = osd->CreatePixmap(4, cRect(x, y, width, headerHeight));
     }
-    if (!pixmapHeaderLogo) {
-        pixmapHeaderLogo = osd->CreatePixmap(5, cRect(x, y, width, headerHeight));
-    }
     pixmapHeader->Fill(Theme.Color(clrMenuDetailViewBack));
-    pixmapHeaderLogo->Fill(clrTransparent);
     //Channel Logo
     int logoWidth = geoManager->channelLogoWidth;
     int xText = border;
     if (channel) {
         cImage *logo = imgCache->GetLogo(ctLogo, channel);
         if (logo) {
-            pixmapHeaderLogo->DrawImage(cPoint(border, std::max((headerHeight - geoManager->channelLogoHeight - border)/2, 0)), *logo);
+            pixmapHeader->DrawImage(cPoint(border, std::max((headerHeight - geoManager->channelLogoHeight - border) / 2, 0)), *logo);
             xText += logoWidth + border;
         }
     }
@@ -425,7 +418,6 @@ cNopacityEPGView::~cNopacityEPGView(void) {
 
 void cNopacityEPGView::SetAlpha(int Alpha) {
     pixmapHeader->SetAlpha(Alpha);
-    pixmapHeaderLogo->SetAlpha(Alpha);
     pixmapTabs->SetAlpha(Alpha);
     pixmapContentBack->SetAlpha(Alpha);
     pixmapContent->SetAlpha(Alpha);
@@ -615,7 +607,6 @@ cNopacitySeriesView::~cNopacitySeriesView(void) {
 
 void cNopacitySeriesView::SetAlpha(int Alpha) {
     pixmapHeader->SetAlpha(Alpha);
-    pixmapHeaderLogo->SetAlpha(Alpha);
     pixmapTabs->SetAlpha(Alpha);
     pixmapContentBack->SetAlpha(Alpha);
     pixmapContent->SetAlpha(Alpha);
@@ -879,7 +870,6 @@ cNopacityMovieView::~cNopacityMovieView(void) {
 
 void cNopacityMovieView::SetAlpha(int Alpha) {
     pixmapHeader->SetAlpha(Alpha);
-    pixmapHeaderLogo->SetAlpha(Alpha);
     pixmapTabs->SetAlpha(Alpha);
     pixmapContentBack->SetAlpha(Alpha);
     pixmapContent->SetAlpha(Alpha);
@@ -1110,7 +1100,6 @@ cNopacityTextView::~cNopacityTextView(void) {
 
 void cNopacityTextView::SetAlpha(int Alpha) {
     pixmapHeader->SetAlpha(Alpha);
-    pixmapHeaderLogo->SetAlpha(Alpha);
     pixmapTabs->SetAlpha(Alpha);
     pixmapContentBack->SetAlpha(Alpha);
     pixmapContent->SetAlpha(Alpha);
