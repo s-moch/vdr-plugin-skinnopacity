@@ -81,6 +81,7 @@ void cNopacityConfig::LoadDefaults(void) {
     conf.insert(std::pair<std::string, int>("menuChannelDisplayTime", 1));
     conf.insert(std::pair<std::string, int>("numEPGEntriesChannelsMenu", 15));
     conf.insert(std::pair<std::string, int>("menuFadeTime", 0));
+    conf.insert(std::pair<std::string, int>("menuFadeOutTime", 0));
     conf.insert(std::pair<std::string, int>("menuEPGWindowFadeTime", 300));
     conf.insert(std::pair<std::string, int>("menuWidthMain", 30));
     conf.insert(std::pair<std::string, int>("menuWidthSchedules", 30));

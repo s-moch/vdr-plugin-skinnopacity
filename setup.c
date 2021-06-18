@@ -163,6 +163,7 @@ void cNopacitySetupMenuDisplay::Set(void) {
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Radius of rounded corners")), tmpConf->GetValueRef("cornerRadius"), 5, 30));
     Add(new cMenuEditBoolItem(tr("Use Channel Logo background"), tmpConf->GetValueRef("menuChannelLogoBackground")));
     Add(new cMenuEditIntItem(tr("Fade-In Time in ms (Zero for switching off fading)"), tmpConf->GetValueRef("menuFadeTime"), 0, 1000));
+    Add(new cMenuEditIntItem(tr("Fade-In Time in ms (Zero for switching off fading)"), tmpConf->GetValueRef("menuFadeOutTime"), 0, 1000));
     Add(new cMenuEditStraItem(tr("Menu Items Scroll Style"), tmpConf->GetValueRef("scrollMode"), 2, scrollMode));
     Add(new cMenuEditStraItem(tr("Menu Items Scrolling Speed"), tmpConf->GetValueRef("menuScrollSpeed"), 4, scrollSpeed));
     Add(new cMenuEditIntItem(tr("Menu Items Scrolling Delay in s"), tmpConf->GetValueRef("menuScrollDelay"), 0, 3));

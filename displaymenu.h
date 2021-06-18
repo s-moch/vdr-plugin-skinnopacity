@@ -15,8 +15,9 @@ private:
     cNopacityDisplayMenuView *menuView;
     cNopacityDetailView *detailView;
     eMenuCategory menuCategoryLast;
-    int FrameTime;
-    int FadeTime;
+    int menuFadeTime = 0;
+    int menuFadeOutTime = 0;
+    bool fadeout;
     bool initial;
     bool diskUsageDrawn;
     int lastDiskUsageState;

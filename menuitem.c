@@ -414,7 +414,7 @@ void cNopacityMainMenuItem::SetTextShort(void) {
     pixmapTextScroller->DrawText(cPoint(x, (height - font->Height())/2), strEntry.c_str(), clrFont, clrTransparent, font);
 }
 
-void cNopacityMainMenuItem::Render(bool initial) {
+void cNopacityMainMenuItem::Render(bool initial, bool fadeout) {
     DrawBackground();
     if (selectable) {
         if (config.GetValue("useMenuIcons")) {
@@ -536,7 +536,7 @@ void cNopacityScheduleMenuItem::SetTextShort(void) {
     pixmapTextScroller->DrawText(cPoint(5, titleY + font->Height() - 2), strSubTitle.c_str(), clrFont, clrTransparent, fontSmall);
 }
 
-void cNopacityScheduleMenuItem::Render(bool initial) {
+void cNopacityScheduleMenuItem::Render(bool initial, bool fadeout) {
     int logoWidth = geoManager->menuLogoWidth;
     int logoHeight = geoManager->menuLogoHeight;
     textLeft = 5;
@@ -572,6 +572,7 @@ void cNopacityScheduleMenuItem::Render(bool initial) {
             }
         if (current && Event) {
             if (config.GetValue("menuSchedulesWindowMode") == 0) {
+              if (!fadeout) {
                 //window mode
                 infoTextWindow = new cNopacityTextWindow(osd, fontEPGWindow, vidWin);
                 infoTextWindow->SetGeometry(textWindow);
@@ -579,6 +580,7 @@ void cNopacityScheduleMenuItem::Render(bool initial) {
                 infoTextWindow->SetPoster(Event, NULL);
                 infoTextWindow->SetInitial(initial);
                 infoTextWindow->Start();
+              }
             } else {
                 //fullscreen mode
                 infoTextWindow = new cNopacityTextWindow(osd, fontEPGWindow, fontEPGWindowLarge);
@@ -896,7 +898,7 @@ std::string cNopacityChannelMenuItem::readEPG(void) {
     return sstrText.str();
 }
 
-void cNopacityChannelMenuItem::Render(bool initial) {
+void cNopacityChannelMenuItem::Render(bool initial, bool fadeout) {
     if (selectable) {                           //Channels
         DrawBackground();
         DrawChannelLogoBackground();
@@ -922,11 +924,13 @@ void cNopacityChannelMenuItem::Render(bool initial) {
                 infoTextWindow = NULL;
             }
         if (current && Channel && (config.GetValue("menuChannelDisplayMode") == 0)) {
+          if (!fadeout) {
             infoTextWindow = new cNopacityTextWindow(osd, fontEPGWindow, vidWin);
             infoTextWindow->SetGeometry(textWindow);
             infoTextWindow->SetText(readEPG().c_str());
             infoTextWindow->SetInitial(initial);
             infoTextWindow->Start();
+          }
         }
     } else {                                    //Channelseparators
         DrawDelimiter(Channel->Name(), "skinIcons/channeldelimiter", (config.GetValue("displayType")!=dtFlat )?seChannels:seNone);
@@ -1069,7 +1073,7 @@ void cNopacityTimerMenuItem::DrawBackground(int textLeft) {
     pixmapStatic->DrawText(cPoint(textLeft + iconSize, (height/2 - fontSmall->Height())/2), *dateTime, clrFont, clrTransparent, fontSmall);
 }
 
-void cNopacityTimerMenuItem::Render(bool initial) {
+void cNopacityTimerMenuItem::Render(bool initial, bool fadeout) {
     textLeft = geoManager->menuLogoWidth + geoManager->menuSpace;
     if (selectable) {
         DrawBackground(textLeft);
@@ -1098,6 +1102,7 @@ void cNopacityTimerMenuItem::Render(bool initial) {
         const cEvent *Event = Timer->Event();
         if (current && Event) {
             if (config.GetValue("menuTimersWindowMode") == 0) {
+              if (!fadeout) {
                 //window mode
                 infoTextWindow = new cNopacityTextWindow(osd, fontEPGWindow, vidWin);
                 infoTextWindow->SetGeometry(textWindow);
@@ -1105,6 +1110,7 @@ void cNopacityTimerMenuItem::Render(bool initial) {
                 infoTextWindow->SetPoster(Event, NULL, false);
                 infoTextWindow->SetInitial(initial);
                 infoTextWindow->Start();
+              }
             } else {
                 //fullscreen mode
                 infoTextWindow = new cNopacityTextWindow(osd, fontEPGWindow, fontEPGWindowLarge);
@@ -1416,7 +1422,7 @@ void cNopacityRecordingMenuItem::DrawPoster(void) {
     }
 }
 
-void cNopacityRecordingMenuItem::Render(bool initial) {
+void cNopacityRecordingMenuItem::Render(bool initial, bool fadeout) {
     if (selectable) {
         DrawBackground();
         if (isFolder) {
@@ -1449,6 +1455,7 @@ void cNopacityRecordingMenuItem::Render(bool initial) {
                 }
             if (current) {
                 if (config.GetValue("menuRecordingsWindowMode") == 0) {
+                  if (!fadeout) {
                     //window mode
                     infoTextWindow = new cNopacityTextWindow(osd, fontEPGWindow, vidWin);
                     infoTextWindow->SetGeometry(textWindow);
@@ -1457,6 +1464,7 @@ void cNopacityRecordingMenuItem::Render(bool initial) {
                         infoTextWindow->SetPoster(NULL, Recording);
                     infoTextWindow->SetInitial(initial);
                     infoTextWindow->Start();
+                  }
                 } else {
                     //fullscreen mode
                     infoTextWindow = new cNopacityTextWindow(osd, fontEPGWindow, fontEPGWindowLarge);
@@ -1621,7 +1629,7 @@ bool cNopacityDefaultMenuItem::DrawHeaderElement(void) {
     return false;
 }
 
-void cNopacityDefaultMenuItem::Render(bool initial) {
+void cNopacityDefaultMenuItem::Render(bool initial, bool fadeout) {
     DrawBackground();
     pixmapStatic->Fill(clrTransparent);
 
@@ -1689,7 +1697,7 @@ cNopacityTrackMenuItem::cNopacityTrackMenuItem(cOsd *osd, const char *text) : cN
 cNopacityTrackMenuItem::~cNopacityTrackMenuItem(void) {
 }
 
-void cNopacityTrackMenuItem::Render(bool initial) {
+void cNopacityTrackMenuItem::Render(bool initial, bool fadeout) {
     eSkinElementType type = (current)?seTracksHigh:seTracks;
     if (config.GetValue("displayType") == dtBlending) {
         pixmapBackground->Fill(Theme.Color(clrMenuBorder));

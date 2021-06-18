@@ -13,8 +13,9 @@ namespace PluginRemoteTimers {
 
 cNopacityDisplayMenu::cNopacityDisplayMenu(void) : cThread("DisplayMenu") {
     menuCategoryLast = mcUndefined;
-    FadeTime = config.GetValue("menuFadeTime");
-    FrameTime = FadeTime / 10;
+    menuFadeTime = config.GetValue("menuFadeTime");
+    menuFadeOutTime = config.GetValue("menuFadeOutTime");
+    fadeout = false;
     initial = true;
     diskUsageDrawn = false;
     timersDrawn = false;
@@ -30,9 +31,17 @@ cNopacityDisplayMenu::cNopacityDisplayMenu(void) : cThread("DisplayMenu") {
 }
 
 cNopacityDisplayMenu::~cNopacityDisplayMenu(void) {
-    Cancel(-1);
-    while (Active())
+    if (osd && menuFadeOutTime) {
+        fadeout = true;
+        Start();
+    }
+    int count = 0;
+    while (Active()) {
         cCondWait::SleepMs(10);
+        count++;
+        if (count > 200)
+           Cancel(1);
+    }
     if (detailView)
         delete detailView;
     if (menuView)
@@ -194,6 +203,8 @@ int cNopacityDisplayMenu::MaxItems(void) {
 }
 
 void cNopacityDisplayMenu::Clear(void) {
+    if (menuFadeOutTime)
+        return;
     DELETENULL(detailView);
     menuItems.clear();
 }
@@ -360,7 +371,7 @@ bool cNopacityDisplayMenu::SetItemEvent(const cEvent *Event, int Index, bool Cur
         }
         item->CreatePixmapStatic();
         item->CreatePixmapTextScroller(textWidth);
-        item->Render(initial);
+        item->Render(initial, fadeout);
     } else {
         cNopacityMenuItem *item = menuItems[Index].get();
         item->SetCurrent(Current);
@@ -391,7 +402,7 @@ bool cNopacityDisplayMenu::SetItemTimer(const cTimer *Timer, int Index, bool Cur
         }
         item->CreatePixmapStatic();
         item->CreatePixmapTextScroller(textWidth);
-        item->Render(initial);
+        item->Render(initial, fadeout);
     } else {
         cNopacityMenuItem *item = menuItems[Index].get();
         item->SetCurrent(Current);
@@ -422,7 +433,7 @@ bool cNopacityDisplayMenu::SetItemChannel(const cChannel *Channel, int Index, bo
         if (config.GetValue("displayType") == dtGraphical) {
             item->CreatePixmapForeground();
         }
-        item->Render(initial);
+        item->Render(initial, fadeout);
     } else {
         cNopacityMenuItem *item = menuItems[Index].get();
         item->SetCurrent(Current);
@@ -455,7 +466,7 @@ bool cNopacityDisplayMenu::SetItemRecording(const cRecording *Recording, int Ind
         if (config.GetValue("displayType") == dtGraphical) {
             item->CreatePixmapForeground();
         }
-        item->Render(initial);
+        item->Render(initial, fadeout);
     } else {
         cNopacityMenuItem *item = menuItems[Index].get();
         item->SetCurrent(Current);
@@ -508,7 +519,7 @@ void cNopacityDisplayMenu::SetItem(const char *Text, int Index, bool Current, bo
         item->CreatePixmapStatic();
         if (textWidth > 0)
             item->CreatePixmapTextScroller(textWidth);
-        item->Render(initial);
+        item->Render(initial, fadeout);
     }
     SetEditableWidth(menuView->GetEditableWidth());
 }
@@ -634,7 +645,7 @@ void cNopacityDisplayMenu::Flush(void) {
         while (detailView->IsRunning())
             cCondWait::SleepMs(10);
     if (initial) {
-        if (FadeTime) {
+        if (menuFadeTime) {
             SetAlpha(0, true);
             Start();
         }
@@ -645,6 +656,9 @@ void cNopacityDisplayMenu::Flush(void) {
 }
 
 void cNopacityDisplayMenu::Action(void) {
+    int x = (fadeout) ? 255 : 0;
+    int FadeTime = (fadeout) ? menuFadeOutTime : menuFadeTime;
+    int FrameTime = FadeTime / 10;
     uint64_t First = cTimeMs::Now();
     cPixmap::Lock();
     cPixmap::Unlock();
@@ -653,7 +667,7 @@ void cNopacityDisplayMenu::Action(void) {
     while (Running()) {
         uint64_t Now = cTimeMs::Now();
         double t = std::min(double(Now - Start) / FadeTime, 1.0);
-        int Alpha = t * ALPHA_OPAQUE;
+        int Alpha = std::abs(x - (int(t * ALPHA_OPAQUE)));
         cPixmap::Lock();
         SetAlpha(Alpha);
         if (Running())
