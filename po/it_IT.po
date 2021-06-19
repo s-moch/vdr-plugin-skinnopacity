@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2021-06-06 13:13+0200\n"
+"POT-Creation-Date: 2021-06-19 15:09+0200\n"
 "PO-Revision-Date: 2013-03-19 22:56+0100\n"
 "Last-Translator: Diego Pierotto <vdr-italian@tiscali.it>\n"
 "Language-Team: \n"
@@ -154,6 +154,9 @@ msgstr "Formato"
 
 msgid "Est. bitrate"
 msgstr "Bitrate estimato"
+
+msgid "TS Errors"
+msgstr ""
 
 msgid "Search timer"
 msgstr ""

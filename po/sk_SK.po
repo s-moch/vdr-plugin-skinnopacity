@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: vdr-skinnopacity\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2021-06-06 13:13+0200\n"
+"POT-Creation-Date: 2021-06-19 15:09+0200\n"
 "PO-Revision-Date: 2013-11-11 20:52+0100\n"
 "Last-Translator: Milan Hrala <hrala.milan@gmail.com>\n"
 "Language-Team: \n"
@@ -151,6 +151,9 @@ msgstr "Formát"
 
 msgid "Est. bitrate"
 msgstr "Odhadovaná prenosová rýchlos»"
+
+msgid "TS Errors"
+msgstr ""
 
 msgid "Search timer"
 msgstr "Vyhµada» plán"
