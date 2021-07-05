@@ -144,7 +144,7 @@ std::vector<std::string>& splitstring::split(char delim, int rep) {
     if (!flds.empty()) flds.clear();  // empty vector if necessary
     std::string work = data();
     std::string buf = "";
-    long unsigned int i = 0;
+    unsigned int i = 0;
     while (i < work.length()) {
         if (work[i] != delim)
             buf += work[i];

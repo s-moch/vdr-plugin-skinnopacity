@@ -223,7 +223,7 @@ void cNopacityView::CreateFloatingTextWrapper(cTextWrapper *twNarrow, cTextWrapp
     std::stringstream sstrTextTall;
     std::stringstream sstrTextFull;
       
-    for (long unsigned int i = 0; i < flds.size(); i++) {
+    for (unsigned int i = 0; i < flds.size(); i++) {
         if (!flds[i].size()) {
             //empty line
             linesDrawn++;

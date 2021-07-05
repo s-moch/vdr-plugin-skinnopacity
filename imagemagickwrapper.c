@@ -139,7 +139,7 @@ void cImageMagickWrapper::CreateGradient(tColor back, tColor blend, int width, i
     for (int x = 0; x < width; x++) {
         for (int y = 0; y < height; y++) {
             PixelPacket *pixel = pixels + y * width + x;
-            long unsigned int opacity = (maxw / width * x + maxh - maxh / height * y) / 2;
+            unsigned int opacity = (maxw / width * x + maxh - maxh / height * y) / 2;
             pixel->opacity = (opacity <= MaxRGB) ? opacity : MaxRGB;
         }
     }

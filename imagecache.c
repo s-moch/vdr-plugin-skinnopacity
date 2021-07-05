@@ -26,7 +26,7 @@ cImageCache::~cImageCache() {
 void cImageCache::CreateCache(void) {
     //Menu Icons
     std::vector<std::pair<std::string, cPoint> > menuIcons = GetMenuIcons();
-    for (long unsigned int i = 0; i < menuIcons.size(); i++) {
+    for (unsigned int i = 0; i < menuIcons.size(); i++) {
         std::string iconName = menuIcons[i].first;
         cPoint iconSize = menuIcons[i].second;
         bool success = LoadIcon(ctMenuIcon, iconName);
@@ -35,7 +35,7 @@ void cImageCache::CreateCache(void) {
     }
     //Skin Icons
     std::vector<std::pair<std::string, sImgProperties> > skinIcons = GetSkinIcons();
-    for (long unsigned int i = 0; i < skinIcons.size(); i++) {
+    for (unsigned int i = 0; i < skinIcons.size(); i++) {
         std::string iconName = skinIcons[i].first;
         sImgProperties iconProps = skinIcons[i].second;
         bool success = LoadIcon(ctSkinIcon, iconName);
@@ -139,7 +139,7 @@ cImage *cImageCache::GetLogo(eCacheType type, const cChannel *channel) {
     } else {
         bool success = LoadLogo(channel);
         if (success) {
-            if (config.GetValue("limitLogoCache") && (cache->size() >= (long unsigned int)config.GetValue("numLogosMax"))) {
+            if (config.GetValue("limitLogoCache") && (cache->size() >= (unsigned int)config.GetValue("numLogosMax"))) {
             //logo cache is full, don't cache anymore
                 cPoint logoSize = LogoSize(type);
                 int width = logoSize.X();
@@ -234,7 +234,7 @@ std::vector<std::pair<std::string, cPoint> > cImageCache::GetMenuIcons(void) {
     mainMenuIcons.push_back("menuIcons/Plugins");
     mainMenuIcons.push_back("menuIcons/Restart");
     int mainMenuIconSize = geoManager->menuMainMenuIconSize;
-    for (long unsigned int i = 0; i < mainMenuIcons.size(); i++) {
+    for (unsigned int i = 0; i < mainMenuIcons.size(); i++) {
         menuIcons.push_back(std::pair<std::string, cPoint>(mainMenuIcons[i], cPoint(mainMenuIconSize, mainMenuIconSize)));
     }
 
@@ -279,7 +279,7 @@ std::vector<std::pair<std::string, sImgProperties> > cImageCache::GetSkinIcons(v
     props.width = geoManager->menuHeaderHeight-2;
     props.height = geoManager->menuHeaderHeight-2;
     props.preserveAspect = true;
-    for (long unsigned int i = 0; i < menuHeaderIcons.size(); i++) {
+    for (unsigned int i = 0; i < menuHeaderIcons.size(); i++) {
         skinIcons.push_back(std::pair<std::string, sImgProperties>(menuHeaderIcons[i], props));
     }
 
