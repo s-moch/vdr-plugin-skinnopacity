@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2021-07-05 14:49+0200\n"
+"POT-Creation-Date: 2021-07-05 15:18+0200\n"
 "PO-Revision-Date: 2013-03-19 22:56+0100\n"
 "Last-Translator: Diego Pierotto <vdr-italian@tiscali.it>\n"
 "Language-Team: \n"
@@ -179,8 +179,14 @@ msgstr "registrazioni"
 msgid "new"
 msgstr "nuovo"
 
+msgid "Theme specific setup parameters are only available if this skin is active!"
+msgstr ""
+
 msgid "Font"
 msgstr "Carattere"
+
+msgid "Create Log Messages for image loading"
+msgstr ""
 
 msgid "Use scraper infos and pictures"
 msgstr ""
@@ -248,9 +254,6 @@ msgstr "veloce"
 msgid "auto"
 msgstr ""
 
-msgid "Create Log Messages for image loading"
-msgstr ""
-
 msgid "Number of Default Menu Entries per Page"
 msgstr "Numero di voci per pagina menu predefinito"
 
@@ -280,6 +283,18 @@ msgstr ""
 
 msgid "Fade-In Time in ms (Zero for switching off fading)"
 msgstr "Tempo comparsa in ms (0 per disattivazione)"
+
+msgid "Info Window Fade-In Time in ms (Zero for switching off fading)"
+msgstr ""
+
+msgid "Info Window Display Delay in s"
+msgstr ""
+
+msgid "Info Window Scroll Delay in s"
+msgstr ""
+
+msgid "Info Window Text Scrolling Speed"
+msgstr ""
 
 msgid "Menu Items Scroll Style"
 msgstr ""
@@ -403,18 +418,6 @@ msgstr "Usa menu ridotto"
 
 msgid "Mode of EPG Window"
 msgstr ""
-
-msgid "EPG Window Fade-In Time in ms (Zero for switching off fading)"
-msgstr "Tempo comparsa finestra EPG in ms (0 per disattivazione)"
-
-msgid "EPG Window Display Delay in s"
-msgstr "Ritardo schermo finestra EPG in sec"
-
-msgid "EPG Window Scroll Delay in s"
-msgstr "Ritardo scorrimento finestra EPG in sec"
-
-msgid "EPG Window Text Scrolling Speed"
-msgstr "Velocità scorrimento testo finestra EPG"
 
 msgid "Height of EPG Info Window (Percent of OSD Height)"
 msgstr "Altezza di Finestra info EPG (% altezza OSD)"
@@ -673,6 +676,18 @@ msgstr "conflitto"
 
 msgid "conflicts"
 msgstr "conflitti"
+
+#~ msgid "EPG Window Fade-In Time in ms (Zero for switching off fading)"
+#~ msgstr "Tempo comparsa finestra EPG in ms (0 per disattivazione)"
+
+#~ msgid "EPG Window Display Delay in s"
+#~ msgstr "Ritardo schermo finestra EPG in sec"
+
+#~ msgid "EPG Window Scroll Delay in s"
+#~ msgstr "Ritardo scorrimento finestra EPG in sec"
+
+#~ msgid "EPG Window Text Scrolling Speed"
+#~ msgstr "Velocità scorrimento testo finestra EPG"
 
 #~ msgid "Display additional EPG Pictures in detailed recording View"
 #~ msgstr "Mostra immagini EPG aggiuntivo nella vista dettagli registrazione"

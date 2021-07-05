@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2021-07-05 14:49+0200\n"
+"POT-Creation-Date: 2021-07-05 15:18+0200\n"
 "PO-Revision-Date: 2012-11-11 17:49+0200\n"
 "Last-Translator: louis\n"
 "Language-Team: \n"
@@ -176,8 +176,14 @@ msgstr "Aufnahmen"
 msgid "new"
 msgstr "neu"
 
+msgid "Theme specific setup parameters are only available if this skin is active!"
+msgstr ""
+
 msgid "Font"
 msgstr "Schriftart"
+
+msgid "Create Log Messages for image loading"
+msgstr "Log Nachrichten beim Bilder laden erzeugen"
 
 msgid "Use scraper infos and pictures"
 msgstr "Scraper Infos und Bilder benutzen"
@@ -245,9 +251,6 @@ msgstr "schnell"
 msgid "auto"
 msgstr "auto"
 
-msgid "Create Log Messages for image loading"
-msgstr "Log Nachrichten beim Bilder laden erzeugen"
-
 msgid "Number of Default Menu Entries per Page"
 msgstr "Anzahl der Default-Menüelemente pro Seite"
 
@@ -277,6 +280,18 @@ msgstr "Hintergrund für Kanallogos benutzen"
 
 msgid "Fade-In Time in ms (Zero for switching off fading)"
 msgstr "Fade-In Zeit in ms (Null zum Abschalten)"
+
+msgid "Info Window Fade-In Time in ms (Zero for switching off fading)"
+msgstr ""
+
+msgid "Info Window Display Delay in s"
+msgstr ""
+
+msgid "Info Window Scroll Delay in s"
+msgstr ""
+
+msgid "Info Window Text Scrolling Speed"
+msgstr ""
 
 msgid "Menu Items Scroll Style"
 msgstr "Scrollstil der Menüelemente"
@@ -400,18 +415,6 @@ msgstr "Schmales Menü verwenden"
 
 msgid "Mode of EPG Window"
 msgstr "EPG Fenster Modus"
-
-msgid "EPG Window Fade-In Time in ms (Zero for switching off fading)"
-msgstr "Fade-In Zeit des EPG Fensters in ms (Null zum Abschalten)"
-
-msgid "EPG Window Display Delay in s"
-msgstr "Anzeigeverzögerung des EPG Fensters in s"
-
-msgid "EPG Window Scroll Delay in s"
-msgstr "Scroll Verzögerung des EPG Fensters in s"
-
-msgid "EPG Window Text Scrolling Speed"
-msgstr "Text Scroll Geschwindigkeit des EPG Fensters"
 
 msgid "Height of EPG Info Window (Percent of OSD Height)"
 msgstr "Höhe des EPG Info Fensters (% der OSD Höhe)"
@@ -670,6 +673,18 @@ msgstr "Konflikt"
 
 msgid "conflicts"
 msgstr "Konflikte"
+
+#~ msgid "EPG Window Fade-In Time in ms (Zero for switching off fading)"
+#~ msgstr "Fade-In Zeit des EPG Fensters in ms (Null zum Abschalten)"
+
+#~ msgid "EPG Window Display Delay in s"
+#~ msgstr "Anzeigeverzögerung des EPG Fensters in s"
+
+#~ msgid "EPG Window Scroll Delay in s"
+#~ msgstr "Scroll Verzögerung des EPG Fensters in s"
+
+#~ msgid "EPG Window Text Scrolling Speed"
+#~ msgstr "Text Scroll Geschwindigkeit des EPG Fensters"
 
 #~ msgid "Display additional EPG Pictures in detailed recording View"
 #~ msgstr "Weitere EPG Bilder in der detaillierten Aufnahmeansicht anzeigen"

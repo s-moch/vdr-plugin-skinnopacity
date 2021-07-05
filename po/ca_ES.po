@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2021-07-05 14:49+0200\n"
+"POT-Creation-Date: 2021-07-05 15:18+0200\n"
 "PO-Revision-Date: 2013-03-19 22:56+0100\n"
 "Last-Translator: Gabychan <gbonich@gmail.com>\n"
 "Language-Team: \n"
@@ -179,8 +179,14 @@ msgstr "gravacions"
 msgid "new"
 msgstr "nou"
 
+msgid "Theme specific setup parameters are only available if this skin is active!"
+msgstr ""
+
 msgid "Font"
 msgstr "Font"
+
+msgid "Create Log Messages for image loading"
+msgstr "Crea Log d'imatges carregades"
 
 msgid "Use scraper infos and pictures"
 msgstr ""
@@ -248,9 +254,6 @@ msgstr "ràpid"
 msgid "auto"
 msgstr "auto"
 
-msgid "Create Log Messages for image loading"
-msgstr "Crea Log d'imatges carregades"
-
 msgid "Number of Default Menu Entries per Page"
 msgstr "Nombre d'entrades de menú per pàgina"
 
@@ -280,6 +283,18 @@ msgstr "Utilitza logo del canal de fons"
 
 msgid "Fade-In Time in ms (Zero for switching off fading)"
 msgstr "Fosa d'entrada, temps en ms (0 per desactivació)"
+
+msgid "Info Window Fade-In Time in ms (Zero for switching off fading)"
+msgstr ""
+
+msgid "Info Window Display Delay in s"
+msgstr ""
+
+msgid "Info Window Scroll Delay in s"
+msgstr ""
+
+msgid "Info Window Text Scrolling Speed"
+msgstr ""
 
 msgid "Menu Items Scroll Style"
 msgstr "Estil del Menu desplaçament"
@@ -403,18 +418,6 @@ msgstr "Utilitza menú limitat"
 
 msgid "Mode of EPG Window"
 msgstr "Mode pantalla EPG"
-
-msgid "EPG Window Fade-In Time in ms (Zero for switching off fading)"
-msgstr "Fosa d'entrada finestra EPG, temps en ms (0 per desactivació)"
-
-msgid "EPG Window Display Delay in s"
-msgstr "Temps visualització finestra EPG en s"
-
-msgid "EPG Window Scroll Delay in s"
-msgstr "Temps retard desplaçament finestra EPG en s"
-
-msgid "EPG Window Text Scrolling Speed"
-msgstr "Velocitat desplaçament text finestra EPG"
 
 msgid "Height of EPG Info Window (Percent of OSD Height)"
 msgstr "Alçada Finestra Info EPG (% alçada OSD)"
@@ -673,6 +676,18 @@ msgstr "conflicte"
 
 msgid "conflicts"
 msgstr "conflictes"
+
+#~ msgid "EPG Window Fade-In Time in ms (Zero for switching off fading)"
+#~ msgstr "Fosa d'entrada finestra EPG, temps en ms (0 per desactivació)"
+
+#~ msgid "EPG Window Display Delay in s"
+#~ msgstr "Temps visualització finestra EPG en s"
+
+#~ msgid "EPG Window Scroll Delay in s"
+#~ msgstr "Temps retard desplaçament finestra EPG en s"
+
+#~ msgid "EPG Window Text Scrolling Speed"
+#~ msgstr "Velocitat desplaçament text finestra EPG"
 
 #~ msgid "Display additional EPG Pictures in detailed recording View"
 #~ msgstr "Mostra imatges EPG addicionals a vista detallada gravacions"

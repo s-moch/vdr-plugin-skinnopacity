@@ -7,8 +7,9 @@
 class cNopacitySetup : public cMenuSetupPage {
     public:
         cNopacitySetup(void);
-        virtual ~cNopacitySetup();
+        virtual ~cNopacitySetup(void);
     private:
+        bool isNopacity = false;
         cNopacityConfig tmpConf;
         cStringList fontNames;
         void Setup(void);

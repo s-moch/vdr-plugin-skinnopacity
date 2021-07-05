@@ -2,18 +2,24 @@
 #include "setup.h"
 
 cNopacitySetup::cNopacitySetup(void) {
-    tmpConf = config;
-    cFont::GetAvailableFontNames(&fontNames);
-    fontNames.Insert(strdup(config.fontDefaultName));
-    Setup();
+    SetMenuCategory(mcPluginSetup);
+    cSkin *Skin = Skins.Get(Skins.Current()->Index());
+    if (strcmp(Skin->Name(), "nOpacity") == 0) {
+        isNopacity = true;
+        tmpConf = config;
+        cFont::GetAvailableFontNames(&fontNames);
+        fontNames.Insert(strdup(config.fontDefaultName));
+        Setup();
+    } else {
+        Add(new cOsdItem(tr("Theme specific setup parameters are only available if this skin is active!"), osUnknown, false));
+    }
 }
 
 cNopacitySetup::~cNopacitySetup(void) {
     config.SetFontName();
     delete fontManager;
     delete imgCache;
-    cSkin *Skin = Skins.Get(Skins.Current()->Index());
-    if (strcmp(Skin->Name(), "nOpacity") == 0) {
+    if (isNopacity) {
         int start = cTimeMs::Now();
         geoManager->SetGeometry();
         fontManager = new cFontManager();
@@ -30,6 +36,7 @@ void cNopacitySetup::Setup(void) {
     int currentItem = Current();
     Clear();
     Add(new cMenuEditStraItem(tr("Font"), tmpConf.GetValueRef("fontIndex"), fontNames.Size(), &fontNames[0]));
+    Add(new cMenuEditBoolItem(tr("Create Log Messages for image loading"), tmpConf.GetValueRef("debugImageLoading")));
     Add(new cMenuEditBoolItem(tr("Use scraper infos and pictures"), tmpConf.GetValueRef("scraperInfo")));
     Add(new cOsdItem(tr("VDR Menu: Common Settings")));
     Add(new cOsdItem(tr("VDR Menu: Main and Setup Menu")));
@@ -88,6 +95,8 @@ eOSState cNopacitySetup::ProcessKey(eKeys Key) {
 }
 
 void cNopacitySetup::Store(void) {
+    if (!isNopacity)
+        return;
     const char *themeName = Skins.Current()->Theme()->Name();
     for(std::map<std::string, int>::const_iterator it = tmpConf.GetStart(); it != tmpConf.GetEnd(); it++) {
         std::string name = (std::string)it->first;
@@ -106,6 +115,7 @@ void cNopacitySetup::Store(void) {
 //------------------------------------------------------------------------------------------------------------------
 
 cMenuSetupSubMenu::cMenuSetupSubMenu(const char* Title, cNopacityConfig* data) : cOsdMenu(Title, 30) {
+    SetMenuCategory(mcPluginSetup);
     tmpConf = data;
     spacer = "   ";
 }
@@ -145,7 +155,6 @@ cNopacitySetupMenuDisplay::cNopacitySetupMenuDisplay(cNopacityConfig* data)  : c
 void cNopacitySetupMenuDisplay::Set(void) {
     int currentItem = Current();
     Clear();
-    Add(new cMenuEditBoolItem(tr("Create Log Messages for image loading"), tmpConf->GetValueRef("debugImageLoading")));
     Add(new cMenuEditIntItem(tr("Number of Default Menu Entries per Page"), tmpConf->GetValueRef("numDefaultMenuItems"), 10, 40));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Default Menu Item"), tmpConf->GetValueRef("fontMenuitemDefault"), -20, 20));
     Add(new cMenuEditStraItem(tr("Adjustment of narrow menus"), tmpConf->GetValueRef("menuAdjustLeft"), 2, adjustLeft));
@@ -158,6 +167,10 @@ void cNopacitySetupMenuDisplay::Set(void) {
     Add(new cMenuEditBoolItem(tr("Use Channel Logo background"), tmpConf->GetValueRef("menuChannelLogoBackground")));
     Add(new cMenuEditIntItem(tr("Fade-In Time in ms (Zero for switching off fading)"), tmpConf->GetValueRef("menuFadeTime"), 0, 1000));
     Add(new cMenuEditIntItem(tr("Fade-In Time in ms (Zero for switching off fading)"), tmpConf->GetValueRef("menuFadeOutTime"), 0, 1000));
+    Add(new cMenuEditIntItem(tr("Info Window Fade-In Time in ms (Zero for switching off fading)"), tmpConf->GetValueRef("menuEPGWindowFadeTime"), 0, 1000));
+    Add(new cMenuEditIntItem(tr("Info Window Display Delay in s"), tmpConf->GetValueRef("menuInfoTextDelay"), 0, 10));
+    Add(new cMenuEditIntItem(tr("Info Window Scroll Delay in s"), tmpConf->GetValueRef("menuInfoScrollDelay"), 0, 10));
+    Add(new cMenuEditStraItem(tr("Info Window Text Scrolling Speed"), tmpConf->GetValueRef("menuInfoScrollSpeed"), 4, scrollSpeed));
     Add(new cMenuEditStraItem(tr("Menu Items Scroll Style"), tmpConf->GetValueRef("scrollMode"), 2, scrollMode));
     Add(new cMenuEditStraItem(tr("Menu Items Scrolling Speed"), tmpConf->GetValueRef("menuScrollSpeed"), 4, scrollSpeed));
     Add(new cMenuEditIntItem(tr("Menu Items Scrolling Delay in s"), tmpConf->GetValueRef("menuScrollDelay"), 0, 3));
@@ -227,10 +240,6 @@ void cNopacitySetupMenuDisplayMain::Set(void) {
 //-----MenuDisplay Schedules Menu -------------------------------------------------------------------------------------------------------------
 
 cNopacitySetupMenuDisplaySchedules::cNopacitySetupMenuDisplaySchedules(cNopacityConfig* data)  : cMenuSetupSubMenu(tr("VDR Menu: Schedules Menu"), data) {
-    scrollSpeed[0] = tr("off");
-    scrollSpeed[1] = tr("slow");
-    scrollSpeed[2] = tr("medium");
-    scrollSpeed[3] = tr("fast");
     windowMode[0] = tr("window");
     windowMode[1] = tr("full screen");
     Set();
@@ -245,10 +254,6 @@ void cNopacitySetupMenuDisplaySchedules::Set(void) {
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Width (Percent of OSD Width)")), tmpConf->GetValueRef("menuWidthSchedules"), 10, 97));
     Add(new cMenuEditIntItem(tr("Number of entires per page"), tmpConf->GetValueRef("numSchedulesMenuItems"), 3, 20));
     Add(new cMenuEditStraItem(tr("Mode of EPG Window"), tmpConf->GetValueRef("menuSchedulesWindowMode"), 2, windowMode));
-    Add(new cMenuEditIntItem(tr("EPG Window Fade-In Time in ms (Zero for switching off fading)"), tmpConf->GetValueRef("menuEPGWindowFadeTime"), 0, 1000));
-    Add(new cMenuEditIntItem(tr("EPG Window Display Delay in s"), tmpConf->GetValueRef("menuInfoTextDelay"), 0, 10));
-    Add(new cMenuEditIntItem(tr("EPG Window Scroll Delay in s"), tmpConf->GetValueRef("menuInfoScrollDelay"), 0, 10));
-    Add(new cMenuEditStraItem(tr("EPG Window Text Scrolling Speed"), tmpConf->GetValueRef("menuInfoScrollSpeed"), 4, scrollSpeed));
     Add(new cMenuEditIntItem(tr("Height of EPG Info Window (Percent of OSD Height)"), tmpConf->GetValueRef("menuHeightInfoWindow"), 10, 100));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Menu Item"), tmpConf->GetValueRef("fontMenuitemSchedule"), -20, 20));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Menu Item Small"), tmpConf->GetValueRef("fontMenuitemScheduleSmall"), -20, 20));

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: vdr-skinnopacity\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2021-07-05 14:49+0200\n"
+"POT-Creation-Date: 2021-07-05 15:18+0200\n"
 "PO-Revision-Date: 2013-11-11 20:52+0100\n"
 "Last-Translator: Milan Hrala <hrala.milan@gmail.com>\n"
 "Language-Team: \n"
@@ -176,8 +176,14 @@ msgstr "nahrávky"
 msgid "new"
 msgstr "nový"
 
+msgid "Theme specific setup parameters are only available if this skin is active!"
+msgstr ""
+
 msgid "Font"
 msgstr "Písmo"
+
+msgid "Create Log Messages for image loading"
+msgstr "Vytvori» protokolovanie správ pre naèítanie obrázka"
 
 msgid "Use scraper infos and pictures"
 msgstr ""
@@ -245,9 +251,6 @@ msgstr "rýchlo"
 msgid "auto"
 msgstr "automaticky"
 
-msgid "Create Log Messages for image loading"
-msgstr "Vytvori» protokolovanie správ pre naèítanie obrázka"
-
 msgid "Number of Default Menu Entries per Page"
 msgstr "Poèet polo¾iek základného menu na stránke"
 
@@ -277,6 +280,18 @@ msgstr ""
 
 msgid "Fade-In Time in ms (Zero for switching off fading)"
 msgstr "èas efektu zmiznutia v ms (nula vypnú»)"
+
+msgid "Info Window Fade-In Time in ms (Zero for switching off fading)"
+msgstr ""
+
+msgid "Info Window Display Delay in s"
+msgstr ""
+
+msgid "Info Window Scroll Delay in s"
+msgstr ""
+
+msgid "Info Window Text Scrolling Speed"
+msgstr ""
 
 msgid "Menu Items Scroll Style"
 msgstr "©týl rolovania menu polo¾iek"
@@ -400,18 +415,6 @@ msgstr "Pou¾i» úzku ponuku"
 
 msgid "Mode of EPG Window"
 msgstr "Spôsob zobrazenia EPG okna"
-
-msgid "EPG Window Fade-In Time in ms (Zero for switching off fading)"
-msgstr "Èas efektu zmiznutia EPG okna v ms (nula vypne efekt)"
-
-msgid "EPG Window Display Delay in s"
-msgstr "Okno EPG zobrazi» z oneskorením (s)"
-
-msgid "EPG Window Scroll Delay in s"
-msgstr "Oneskorenie rolovania textu v okne EPG. (s)"
-
-msgid "EPG Window Text Scrolling Speed"
-msgstr "Rýchlos» rolovania textu v okne EPG"
 
 msgid "Height of EPG Info Window (Percent of OSD Height)"
 msgstr "Vý¹ka informaèného EPG okna (Percent z OSD vý¹ky)"
@@ -670,6 +673,18 @@ msgstr "konflikt"
 
 msgid "conflicts"
 msgstr "konflikty"
+
+#~ msgid "EPG Window Fade-In Time in ms (Zero for switching off fading)"
+#~ msgstr "Èas efektu zmiznutia EPG okna v ms (nula vypne efekt)"
+
+#~ msgid "EPG Window Display Delay in s"
+#~ msgstr "Okno EPG zobrazi» z oneskorením (s)"
+
+#~ msgid "EPG Window Scroll Delay in s"
+#~ msgstr "Oneskorenie rolovania textu v okne EPG. (s)"
+
+#~ msgid "EPG Window Text Scrolling Speed"
+#~ msgstr "Rýchlos» rolovania textu v okne EPG"
 
 #~ msgid "Display additional EPG Pictures in detailed recording View"
 #~ msgstr "Zobrazi» ïal¹ie EPG obrázky v podrobnom zobrazení nahrávky"
