@@ -20,7 +20,7 @@ cNopacityDisplayChannel::cNopacityDisplayChannel(bool WithInfo) : cThread("Displ
     channelView = new cNopacityDisplayChannelView(osd);
 }
 
-cNopacityDisplayChannel::~cNopacityDisplayChannel() {
+cNopacityDisplayChannel::~cNopacityDisplayChannel(void) {
     if (config.GetValue("channelFadeOutTime")) {
         fadeout = true;
         Start();
@@ -55,6 +55,7 @@ void cNopacityDisplayChannel::SetChannel(const cChannel *Channel, int Number) {
     } else {
         ChannelName = ChannelString(NULL, 0);
     }
+
     channelView->ClearChannelLogo();
     channelView->ClearChannelName();
     channelView->ClearEPGInfo();
@@ -119,8 +120,8 @@ void cNopacityDisplayChannel::Flush(void) {
        channelView->DrawEvents(present, following);
        }
 
-    if (config.GetValue("displayPoster"))
-       channelView->DrawPoster(present, initial, channelChange);
+    if (config.GetValue("displayPoster") && (initial || channelChange))
+       channelView->DrawPoster(present, initial);
 
     if (!groupSep)
         channelView->DrawScreenResolution();

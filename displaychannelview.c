@@ -32,7 +32,7 @@ cNopacityDisplayChannelView::cNopacityDisplayChannelView(cOsd *osd) {
     }
 }
 
-cNopacityDisplayChannelView::~cNopacityDisplayChannelView() {
+cNopacityDisplayChannelView::~cNopacityDisplayChannelView(void) {
     osd->DestroyPixmap(pixmapBackground);
     osd->DestroyPixmap(pixmapTop);
     osd->DestroyPixmap(pixmapLogo);
@@ -570,9 +570,7 @@ void cNopacityDisplayChannelView::ClearStatusIcons(void) {
     pixmapStatusIconsBackground->Fill(clrTransparent);
 }
 
-void cNopacityDisplayChannelView::DrawPoster(const cEvent *event, bool initial, bool channelchange) {
-    if (!initial && !channelchange)
-        return;
+void cNopacityDisplayChannelView::DrawPoster(const cEvent *event, bool initial) {
     if (pixmapPoster) {
         osd->DestroyPixmap(pixmapPoster);
         pixmapPoster = NULL;

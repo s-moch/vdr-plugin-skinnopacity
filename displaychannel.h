@@ -24,7 +24,7 @@ private:
     void SetProgressBar(const cEvent *present);
 public:
     cNopacityDisplayChannel(bool WithInfo);
-    virtual ~cNopacityDisplayChannel();
+    virtual ~cNopacityDisplayChannel(void);
     virtual void SetChannel(const cChannel *Channel, int Number);
     virtual void SetEvents(const cEvent *Present, const cEvent *Following);
     virtual void SetMessage(eMessageType Type, const char *Text);
