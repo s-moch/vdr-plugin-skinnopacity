@@ -30,6 +30,7 @@ void cNopacitySetup::Setup(void) {
     int currentItem = Current();
     Clear();
     Add(new cMenuEditStraItem(tr("Font"), tmpConf.GetValueRef("fontIndex"), fontNames.Size(), &fontNames[0]));
+    Add(new cMenuEditBoolItem(tr("Use scraper infos and pictures"), tmpConf.GetValueRef("scraperInfo")));
     Add(new cOsdItem(tr("VDR Menu: Common Settings")));
     Add(new cOsdItem(tr("VDR Menu: Main and Setup Menu")));
     Add(new cOsdItem(tr("VDR Menu: Schedules Menu")));

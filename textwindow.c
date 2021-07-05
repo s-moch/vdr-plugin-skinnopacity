@@ -85,7 +85,7 @@ void cNopacityTextWindow::SetPoster(const cEvent *event, const cRecording *recor
     posterHeight = 0;
     posterWidth = 0;
     static cPlugin *pScraper = GetScraperPlugin();
-    if (pScraper) {
+    if (pScraper && (config.GetValue("scraperInfo") == 1)) {
         posterScraper2Vdr.event = event;
         posterScraper2Vdr.recording = recording;
         if (pScraper->Service("GetPoster", &posterScraper2Vdr)) {

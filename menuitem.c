@@ -1203,7 +1203,7 @@ void cNopacityRecordingMenuItem::SetPoster(void) {
         manualPosterPath = posterFound;
     //no manually set poster found, check scraper
     static cPlugin *pScraper = GetScraperPlugin();
-    if (pScraper) {
+    if (pScraper && (config.GetValue("scraperInfo") == 1)) {
         thumb.event = NULL;
         thumb.recording = Recording;
         if (pScraper->Service("GetPosterThumb", &thumb)) {

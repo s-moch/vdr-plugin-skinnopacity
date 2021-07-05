@@ -608,7 +608,7 @@ void cNopacitySeriesView::SetAlpha(int Alpha) {
 
 void cNopacitySeriesView::LoadMedia(void) {
     static cPlugin *pScraper = GetScraperPlugin();
-    if (!pScraper || seriesId < 1)
+    if (!pScraper || (config.GetValue("scraperInfo") == 0) || seriesId < 1)
         return;
     series.seriesId = seriesId;
     series.episodeId = episodeId;
@@ -866,7 +866,7 @@ void cNopacityMovieView::SetAlpha(int Alpha) {
 
 void cNopacityMovieView::LoadMedia(void) {
     static cPlugin *pScraper = GetScraperPlugin();
-    if (!pScraper || movieId < 1)
+    if (!pScraper || (config.GetValue("scraperInfo") == 0) || movieId < 1)
         return;
     movie.movieId = movieId;
     pScraper->Service("GetMovie", &movie);    

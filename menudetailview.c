@@ -55,7 +55,7 @@ void cNopacityDetailView::InitiateViewType(void) {
             if (!ev)
                 break;
             call.event = ev;
-            if (!pScraper) {
+            if (!pScraper || (config.GetValue("scraperInfo") == 0)) {
                 view = new cNopacityEPGView(osd);
             } else if (pScraper->Service("GetEventType", &call)) {
                 if (call.type == tMovie) {
@@ -85,7 +85,7 @@ void cNopacityDetailView::InitiateViewType(void) {
             if (!rec)
                 break;
             call.recording = rec;
-            if (!pScraper) {
+            if (!pScraper || (config.GetValue("scraperInfo") == 0)) {
                 view = new cNopacityEPGView(osd);
             } else if (pScraper->Service("GetEventType", &call)) {
                 if (call.type == tMovie) {

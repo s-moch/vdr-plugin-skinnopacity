@@ -579,7 +579,7 @@ void cNopacityDisplayChannelView::DrawPoster(const cEvent *event, bool initial, 
     }
 
     static cPlugin *pScraper = GetScraperPlugin();
-    if (pScraper) {
+    if (pScraper && (config.GetValue("scraperInfo") == 1)) {
         ScraperGetPosterBanner call;
         call.event = event;
         if (pScraper->Service("GetPosterBanner", &call)) {
