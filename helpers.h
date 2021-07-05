@@ -21,4 +21,5 @@ public:
 };
 
 cPlugin *GetScraperPlugin(void);
+
 #endif // __HELPERS_H

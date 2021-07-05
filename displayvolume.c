@@ -50,7 +50,7 @@ cNopacityDisplayVolume::cNopacityDisplayVolume(void) : cThread("DisplayVolume") 
     pixmapProgressBar = osd->CreatePixmap(2, cRect((geoManager->volumeWidth - geoManager->volumeProgressBarWidth) / 2, (geoManager->volumeHeight - geoManager->volumeProgressBarHeight)*2/3, geoManager->volumeProgressBarWidth, geoManager->volumeProgressBarHeight));
 }
 
-cNopacityDisplayVolume::~cNopacityDisplayVolume() {
+cNopacityDisplayVolume::~cNopacityDisplayVolume(void) {
     if (config.GetValue("volumeFadeOutTime")) {
         fadeout = true;
         Start();
