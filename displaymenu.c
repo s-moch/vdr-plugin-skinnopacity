@@ -587,7 +587,7 @@ void cNopacityDisplayMenu::SetEvent(const cEvent *Event) {
     menuView->AdjustContentBackground(this->MenuCategory(), menuCategoryLast, videoWindowRect);
     detailView = new cNopacityDetailView(dvEvent, osd, menuView->GetPixmapScrollbar(), menuView->GetPixmapScrollbarBack());
     detailView->SetEvent(Event);
-    detailView->Start();
+    detailView->Render();
 }
 
 void cNopacityDisplayMenu::SetRecording(const cRecording *Recording) {
@@ -600,7 +600,7 @@ void cNopacityDisplayMenu::SetRecording(const cRecording *Recording) {
     menuView->AdjustContentBackground(this->MenuCategory(), menuCategoryLast, videoWindowRect);
     detailView = new cNopacityDetailView(dvRecording, osd, menuView->GetPixmapScrollbar(), menuView->GetPixmapScrollbarBack());
     detailView->SetRecording(Recording);
-    detailView->Start();
+    detailView->Render();
 }
 
 void cNopacityDisplayMenu::SetText(const char *Text, bool FixedFont) {
@@ -609,7 +609,7 @@ void cNopacityDisplayMenu::SetText(const char *Text, bool FixedFont) {
     menuView->AdjustContentBackground(this->MenuCategory(), menuCategoryLast, videoWindowRect);
     detailView = new cNopacityDetailView(dvText, osd, menuView->GetPixmapScrollbar(), menuView->GetPixmapScrollbarBack());
     detailView->SetText(Text);
-    detailView->Start();
+    detailView->Render();
 }
 
 void cNopacityDisplayMenu::SetAlpha(int Alpha, bool Force) {
@@ -642,9 +642,6 @@ void cNopacityDisplayMenu::Flush(void) {
         if (config.GetValue("showTimers"))
             DrawTimers(timersChanged, numConflicts);
     }
-    if (detailView)
-        while (detailView->IsRunning())
-            cCondWait::SleepMs(10);
     if (initial) {
         if ((MenuCategory() != mcPluginSetup) && (MenuCategory() != mcSetupPlugins) && menuFadeTime) {
             SetAlpha(0, true);

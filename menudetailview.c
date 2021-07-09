@@ -3,7 +3,7 @@
 /********************************************************************************************
 * cNopacityDetailView
 ********************************************************************************************/
-cNopacityDetailView::cNopacityDetailView(eDetailViewType detailViewType, cOsd *osd, cPixmap *s, cPixmap *sBack) : cThread("DetailView") {
+cNopacityDetailView::cNopacityDetailView(eDetailViewType detailViewType, cOsd *osd, cPixmap *s, cPixmap *sBack) {
     type = detailViewType;
     this->osd = osd;
     this->scrollBar = s;
@@ -36,9 +36,6 @@ cNopacityDetailView::cNopacityDetailView(eDetailViewType detailViewType, cOsd *o
 }
 
 cNopacityDetailView::~cNopacityDetailView(void) {
-    Cancel(-1);
-    while (Active())
-        cCondWait::SleepMs(10);
     if (view)
         delete view;
 }
@@ -121,8 +118,6 @@ void cNopacityDetailView::InitiateViewType(void) {
     }
 }
 void cNopacityDetailView::KeyInput(bool Up, bool Page) {
-    if (Running())
-        return;
     if (!view)
         return;
     if (Up && Page) {
@@ -382,7 +377,7 @@ int cNopacityDetailView::ReadSizeVdr(const char *strPath) {
     return dirSize;
 }
 
-void cNopacityDetailView::Action(void) {
+void cNopacityDetailView::Render(void) {
     InitiateViewType();
     if (!view)
         return;

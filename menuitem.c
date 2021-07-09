@@ -28,6 +28,9 @@ cNopacityMenuItem::cNopacityMenuItem(cOsd *osd, const char *text, bool sel) : cT
 
 cNopacityMenuItem::~cNopacityMenuItem(void) {
     Cancel(-1);
+    if (infoTextWindow) {
+        delete infoTextWindow;
+    }
     while (Active())
         cCondWait::SleepMs(10);
     delete [] itemTabs;
@@ -41,9 +44,6 @@ cNopacityMenuItem::~cNopacityMenuItem(void) {
     }
     if (pixmapForeground) {
         osd->DestroyPixmap(pixmapForeground);
-    }
-    if (infoTextWindow) {
-        delete infoTextWindow;
     }
 }
 

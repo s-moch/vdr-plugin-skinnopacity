@@ -19,7 +19,7 @@ enum eDetailViewType {
     dvText
 };
 
-class cNopacityDetailView : public cThread {
+class cNopacityDetailView {
 protected:
     eDetailViewType type;
     cOsd *osd;
@@ -36,7 +36,6 @@ protected:
     std::string LoadRecordingInformation(void);
     std::string StripXmlTag(std::string &Line, const char *Tag);
     int ReadSizeVdr(const char *strPath);
-    virtual void Action(void);
 public:
     cNopacityDetailView(eDetailViewType detailViewType, cOsd *osd, cPixmap *s, cPixmap *sBack);
     virtual ~cNopacityDetailView(void);
@@ -45,7 +44,7 @@ public:
     void SetRecording(const cRecording *r) { rec = r; };
     void SetText(const char *t) { text = t; };
     void KeyInput(bool Up, bool Page);
-    bool IsRunning(void) { return Running(); };
+    void Render(void);
 };
 
 #endif //__NOPACITY_MENUDETAILVIEW_H
