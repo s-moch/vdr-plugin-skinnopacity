@@ -334,6 +334,7 @@ void cNopacityDisplayReplay::SetRecording(const cRecording *Recording) {
 
 void cNopacityDisplayReplay::SetTitle(const char *Title) {
     pixmapInfo->Fill(clrTransparent);
+    pixmapInfo2->Fill(clrTransparent);
     if (!Title)
         return;
     int titleLength = fontManager->replayHeader->Width(Title);
