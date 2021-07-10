@@ -1334,27 +1334,28 @@ void cNopacityRecordingMenuItem::SetTextShortRecording(void) {
     pixmapTextScroller->DrawText(cPoint(textLeft, heightRecName), strRecName.c_str(), clrFont, clrTransparent, font);
 }
 
+void cNopacityRecordingMenuItem::DrawRecordingIcons(void) {
+    int iconSize = height / 3;
+    int iconX = pixmapStatic->ViewPort().Width();
+    int iconY = height / 2;
 
-void cNopacityRecordingMenuItem::DrawRecordingNewIcon(void) {
-    int iconNewSize = height/3;
-
-    cImage *imgIcon = imgCache->GetSkinIcon("skinIcons/newrecording", iconNewSize, iconNewSize);
-    if (imgIcon) {
-        int iconX = pixmapStatic->ViewPort().Width() - iconNewSize;
-        int iconY = height/2;
-        pixmapStatic->DrawImage(cPoint(iconX, iconY), *imgIcon);
+    cImage *imgIconNew = imgCache->GetSkinIcon("skinIcons/newrecording", iconSize, iconSize);
+    if (imgIconNew && Recording->IsNew()) {
+        iconX -= iconSize;
+        pixmapStatic->DrawImage(cPoint(iconX, iconY), *imgIconNew);
     }
-}
 
-void cNopacityRecordingMenuItem::DrawRecordingEditedIcon(void) {
-    int iconCutSize = height/3;
-    cImage *imgIcon = imgCache->GetSkinIcon("skinIcons/recordingcutted", iconCutSize, iconCutSize);
-    if (imgIcon) {
-        int iconX = pixmapStatic->ViewPort().Width() - iconCutSize;
-        if (Recording->IsNew())
-            iconX -= iconCutSize;
-        int iconY = height/2;
-        pixmapStatic->DrawImage(cPoint(iconX, iconY), *imgIcon);
+    cImage *imgIconCut = imgCache->GetSkinIcon("skinIcons/recordingcutted", iconSize, iconSize);
+    if (imgIconCut && Recording->IsEdited()) {
+        iconX -= iconSize;
+        pixmapStatic->DrawImage(cPoint(iconX, iconY), *imgIconCut);
+    }
+
+    cImage *imgIconErr = imgCache->GetSkinIcon("skinIcons/recordingerror", iconSize, iconSize);
+    const cRecordingInfo *Info = Recording->Info();
+    if (imgIconErr && Info && (Info->Errors() > 0)) {
+        iconX -= iconSize;
+        pixmapStatic->DrawImage(cPoint(iconX, iconY), *imgIconErr);
     }
 }
 
@@ -1431,12 +1432,7 @@ void cNopacityRecordingMenuItem::Render(bool initial, bool fadeout) {
         } else {
             DrawPoster();
             DrawRecDateTime();
-            if (Recording->IsNew()) {
-                DrawRecordingNewIcon();
-            }
-            if (Recording->IsEdited()) {
-                DrawRecordingEditedIcon();
-            }
+            DrawRecordingIcons();
             SetTextShort();
         }
         if (current && scrollable && !Running() && config.GetValue("menuScrollSpeed")) {
