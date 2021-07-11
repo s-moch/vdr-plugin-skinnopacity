@@ -60,6 +60,7 @@ void cNopacityConfig::LoadDefaults(void) {
     conf.insert(std::pair<std::string, int>("fontIndex", 0));
     conf.insert(std::pair<std::string, int>("debugImageLoading", 0));
     conf.insert(std::pair<std::string, int>("scraperInfo", 1));
+    conf.insert(std::pair<std::string, int>("animation", 1));
     conf.insert(std::pair<std::string, int>("tabsInDetailView", 1));
     //DisplayMenu
     conf.insert(std::pair<std::string, int>("scrollMode", 0));

@@ -38,6 +38,7 @@ void cNopacitySetup::Setup(void) {
     Add(new cMenuEditStraItem(tr("Font"), tmpConf.GetValueRef("fontIndex"), fontNames.Size(), &fontNames[0]));
     Add(new cMenuEditBoolItem(tr("Create Log Messages for image loading"), tmpConf.GetValueRef("debugImageLoading")));
     Add(new cMenuEditBoolItem(tr("Use scraper infos and pictures"), tmpConf.GetValueRef("scraperInfo")));
+    Add(new cMenuEditBoolItem(tr("Use animation"), tmpConf.GetValueRef("animation")));
     Add(new cMenuEditBoolItem(tr("Use tabs in detail view"), tmpConf.GetValueRef("tabsInDetailView")));
     Add(new cOsdItem("",  osUnknown, false));
     Add(new cOsdItem(tr("VDR Menu: Common Settings")));

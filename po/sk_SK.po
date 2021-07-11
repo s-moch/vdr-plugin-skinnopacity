@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: vdr-skinnopacity\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2021-07-11 14:05+0200\n"
+"POT-Creation-Date: 2021-07-30 12:33+0200\n"
 "PO-Revision-Date: 2013-11-11 20:52+0100\n"
 "Last-Translator: Milan Hrala <hrala.milan@gmail.com>\n"
 "Language-Team: \n"
@@ -192,6 +192,9 @@ msgid "Create Log Messages for image loading"
 msgstr "Vytvori» protokolovanie správ pre naèítanie obrázka"
 
 msgid "Use scraper infos and pictures"
+msgstr ""
+
+msgid "Use animation"
 msgstr ""
 
 msgid "Use tabs in detail view"

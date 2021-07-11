@@ -31,9 +31,11 @@ cNopacityDisplayMenu::cNopacityDisplayMenu(void) : cThread("DisplayMenu") {
 }
 
 cNopacityDisplayMenu::~cNopacityDisplayMenu(void) {
-    if (osd && (MenuCategory() != mcPluginSetup) && (MenuCategory() != mcSetupPlugins) && menuFadeOutTime) {
-        fadeout = true;
-        Start();
+    if (config.GetValue("animation") && menuFadeOutTime) {
+        if ((MenuCategory() != mcPluginSetup) && (MenuCategory() != mcSetupPlugins)) {
+            fadeout = true;
+            Start();
+        }
     }
     int count = 0;
     while (Active()) {
@@ -639,8 +641,8 @@ void cNopacityDisplayMenu::Flush(void) {
         if (config.GetValue("showTimers"))
             DrawTimers(timersChanged, numConflicts);
     }
-    if (initial) {
-        if ((MenuCategory() != mcPluginSetup) && (MenuCategory() != mcSetupPlugins) && menuFadeTime) {
+    if (initial && config.GetValue("animation") && menuFadeTime) {
+        if ((MenuCategory() != mcPluginSetup) && (MenuCategory() != mcSetupPlugins)) {
             SetAlpha(0, true);
             Start();
         }

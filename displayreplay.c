@@ -16,7 +16,7 @@ cNopacityDisplayReplay::cNopacityDisplayReplay(bool ModeOnly) : cThread("Display
 }
 
 cNopacityDisplayReplay::~cNopacityDisplayReplay() {
-    if (config.GetValue("replayFadeOutTime")) {
+    if (config.GetValue("animation") && config.GetValue("replayFadeOutTime")) {
         fadeout = true;
         Start();
     }
@@ -499,7 +499,7 @@ void cNopacityDisplayReplay::Flush(void) {
     if (!modeOnly) {
         DrawDate();
     }
-    if (initial && config.GetValue("replayFadeTime")) {
+    if (initial && config.GetValue("animation") && config.GetValue("replayFadeTime")) {
         SetAlpha(0);
         Start();
     }

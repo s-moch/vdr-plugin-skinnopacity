@@ -427,8 +427,9 @@ void cNopacityMainMenuItem::Render(bool initial, bool fadeout) {
             }
         }
         SetTextShort();
-        if (current && scrollable && !Running() && config.GetValue("menuScrollSpeed")) {
-            Start();
+        if (config.GetValue("animation") && config.GetValue("menuScrollSpeed")) {
+            if (current && scrollable && !Running())
+                Start();
         }
         if (wasCurrent && !current && scrollable && Running()) {
             pixmapTextScroller->SetDrawPortPoint(cPoint(0, 0));
@@ -557,8 +558,9 @@ void cNopacityScheduleMenuItem::Render(bool initial, bool fadeout) {
             drawn = true;
         }
         SetTextShort();
-        if (current && scrollable && !Running() && config.GetValue("menuScrollSpeed")) {
-            Start();
+        if (config.GetValue("animation") && config.GetValue("menuScrollSpeed")) {
+            if (current && scrollable && !Running())
+                Start();
         }
         if (wasCurrent && !current && scrollable && Running()) {
             pixmapTextScroller->SetDrawPortPoint(cPoint(0, 0));
@@ -572,7 +574,7 @@ void cNopacityScheduleMenuItem::Render(bool initial, bool fadeout) {
             }
         if (current && Event) {
             if (config.GetValue("menuSchedulesWindowMode") == 0) {
-              if (!fadeout) {
+              if (config.GetValue("animation") && !fadeout) {
                 //window mode
                 infoTextWindow = new cNopacityTextWindow(osd, fontEPGWindow, vidWin);
                 infoTextWindow->SetGeometry(textWindow);
@@ -910,8 +912,9 @@ void cNopacityChannelMenuItem::Render(bool initial, bool fadeout) {
             drawn = true;
         }
         SetTextShort();
-        if (current && scrollable && !Running() && config.GetValue("menuScrollSpeed")) {
-            Start();
+        if (config.GetValue("animation") && config.GetValue("menuScrollSpeed")) {
+            if (current && scrollable && !Running())
+                Start();
         }
         if (wasCurrent && !current && scrollable && Running()) {
             pixmapTextScroller->SetDrawPortPoint(cPoint(0, 0));
@@ -924,7 +927,7 @@ void cNopacityChannelMenuItem::Render(bool initial, bool fadeout) {
                 infoTextWindow = NULL;
             }
         if (current && Channel && (config.GetValue("menuChannelDisplayMode") == 0)) {
-          if (!fadeout) {
+          if (config.GetValue("animation") && !fadeout) {
             infoTextWindow = new cNopacityTextWindow(osd, fontEPGWindow, vidWin);
             infoTextWindow->SetGeometry(textWindow);
             infoTextWindow->SetText(readEPG().c_str());
@@ -1086,8 +1089,9 @@ void cNopacityTimerMenuItem::Render(bool initial, bool fadeout) {
         }
         if (!Running())
             SetTextShort();
-        if (current && scrollable && !Running() && config.GetValue("menuScrollSpeed")) {
-            Start();
+        if (config.GetValue("animation") && config.GetValue("menuScrollSpeed")) {
+            if (current && scrollable && !Running())
+                Start();
         }
         if (wasCurrent && !current && scrollable && Running()) {
             pixmapTextScroller->SetDrawPortPoint(cPoint(0, 0));
@@ -1102,7 +1106,7 @@ void cNopacityTimerMenuItem::Render(bool initial, bool fadeout) {
         const cEvent *Event = Timer->Event();
         if (current && Event) {
             if (config.GetValue("menuTimersWindowMode") == 0) {
-              if (!fadeout) {
+              if (config.GetValue("animation") && !fadeout) {
                 //window mode
                 infoTextWindow = new cNopacityTextWindow(osd, fontEPGWindow, vidWin);
                 infoTextWindow->SetGeometry(textWindow);
@@ -1435,8 +1439,9 @@ void cNopacityRecordingMenuItem::Render(bool initial, bool fadeout) {
             DrawRecordingIcons();
             SetTextShort();
         }
-        if (current && scrollable && !Running() && config.GetValue("menuScrollSpeed")) {
-            Start();
+        if (config.GetValue("animation") && config.GetValue("menuScrollSpeed")) {
+            if (current && scrollable && !Running())
+                Start();
         }
         if (wasCurrent && !current && scrollable && Running()) {
             pixmapTextScroller->SetDrawPortPoint(cPoint(0, 0));
@@ -1451,7 +1456,7 @@ void cNopacityRecordingMenuItem::Render(bool initial, bool fadeout) {
                 }
             if (current) {
                 if (config.GetValue("menuRecordingsWindowMode") == 0) {
-                  if (!fadeout) {
+                  if (config.GetValue("animation") && !fadeout) {
                     //window mode
                     infoTextWindow = new cNopacityTextWindow(osd, fontEPGWindow, vidWin);
                     infoTextWindow->SetGeometry(textWindow);
@@ -1674,8 +1679,9 @@ void cNopacityDefaultMenuItem::Render(bool initial, bool fadeout) {
             break;
     }
 
-    if (current && scrollable && !Running() && config.GetValue("menuScrollSpeed")) {
-        Start();
+    if (config.GetValue("animation") && config.GetValue("menuScrollSpeed")) {
+        if (current && scrollable && !Running())
+            Start();
     }
     if (wasCurrent && !current && scrollable && Running()) {
         pixmapTextScroller->SetDrawPortPoint(cPoint(0, 0));

@@ -12,7 +12,7 @@ cNopacityDisplayMessage::cNopacityDisplayMessage(void) : cThread("DisplayMessage
 }
 
 cNopacityDisplayMessage::~cNopacityDisplayMessage() {
-    if (config.GetValue("messageFadeOutTime")) {
+    if (config.GetValue("animation") && config.GetValue("messageFadeOutTime")) {
         fadeout = true;
         Start();
     }
@@ -30,7 +30,7 @@ cNopacityDisplayMessage::~cNopacityDisplayMessage() {
 void cNopacityDisplayMessage::SetMessage(eMessageType Type, const char *Text) {
     delete messageBox;
     messageBox = new cNopacityMessageBox(osd, cRect(0, 0, geoManager->messageWidth, geoManager->messageHeight), Type, Text);
-    if (config.GetValue("messageFadeTime")) {
+    if (config.GetValue("animation") && config.GetValue("messageFadeTime")) {
         messageBox->SetAlpha(0);
         Start();
     }

@@ -18,7 +18,7 @@ cNopacityDisplayTracks::cNopacityDisplayTracks(const char *Title, int NumTracks,
 }
 
 cNopacityDisplayTracks::~cNopacityDisplayTracks() {
-    if (config.GetValue("tracksFadeOutTime")) {
+    if (config.GetValue("animation") && config.GetValue("tracksFadeOutTime")) {
         fadeout = true;
         Start();
     }
@@ -188,7 +188,7 @@ void cNopacityDisplayTracks::SetAudioChannel(int AudioChannel) {
 void cNopacityDisplayTracks::Flush(void) {
     if (Running())
         return;
-    if (initial && config.GetValue("tracksFadeTime")) {
+    if (initial && config.GetValue("animation") && config.GetValue("tracksFadeTime")) {
         SetAlpha(0, true);
         Start();
     }

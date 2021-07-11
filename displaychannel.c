@@ -21,7 +21,7 @@ cNopacityDisplayChannel::cNopacityDisplayChannel(bool WithInfo) : cThread("Displ
 }
 
 cNopacityDisplayChannel::~cNopacityDisplayChannel(void) {
-    if (config.GetValue("channelFadeOutTime")) {
+    if (config.GetValue("animation") && config.GetValue("channelFadeOutTime")) {
         fadeout = true;
         Start();
     }
@@ -140,7 +140,7 @@ void cNopacityDisplayChannel::Flush(void) {
     } else
         channelView->ClearSourceInfo();
 
-    if (initial && config.GetValue("channelFadeTime")) {
+    if (initial && config.GetValue("animation") && config.GetValue("channelFadeTime")) {
         channelView->SetAlpha(0);
         Start();
     }

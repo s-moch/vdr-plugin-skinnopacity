@@ -51,7 +51,7 @@ cNopacityDisplayVolume::cNopacityDisplayVolume(void) : cThread("DisplayVolume") 
 }
 
 cNopacityDisplayVolume::~cNopacityDisplayVolume(void) {
-    if (config.GetValue("volumeFadeOutTime")) {
+    if (config.GetValue("animation") && config.GetValue("volumeFadeOutTime")) {
         fadeout = true;
         Start();
     }
@@ -138,7 +138,7 @@ void cNopacityDisplayVolume::SetAlpha(int Alpha) {
 void cNopacityDisplayVolume::Flush(void) {
     if (Running())
         return;
-    if (initial && config.GetValue("volumeFadeTime")) {
+    if (initial && config.GetValue("animation") && config.GetValue("volumeFadeTime")) {
         SetAlpha(0);
         Start();
     }
