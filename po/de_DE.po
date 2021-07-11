@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2021-07-05 15:18+0200\n"
+"POT-Creation-Date: 2021-07-11 15:55+0200\n"
 "PO-Revision-Date: 2012-11-11 17:49+0200\n"
 "Last-Translator: louis\n"
 "Language-Team: \n"
@@ -158,6 +158,12 @@ msgstr "TS Fehler"
 msgid "Search timer"
 msgstr "Suchtimer"
 
+msgid "Actors"
+msgstr "Schauspieler"
+
+msgid "RERUNS OF THIS SHOW"
+msgstr "Wiederholungen dieser Sendung"
+
 msgid "Transp."
 msgstr "Transp."
 
@@ -176,8 +182,8 @@ msgstr "Aufnahmen"
 msgid "new"
 msgstr "neu"
 
-msgid "Theme specific setup parameters are only available if this skin is active!"
-msgstr ""
+msgid "Theme-specific setup parameters can only be changed if this skin is active!"
+msgstr "Themen spezifische Parameter können nur geändert werden, wenn dieser Skin aktiv ist!"
 
 msgid "Font"
 msgstr "Schriftart"
@@ -187,6 +193,9 @@ msgstr "Log Nachrichten beim Bilder laden erzeugen"
 
 msgid "Use scraper infos and pictures"
 msgstr "Scraper Infos und Bilder benutzen"
+
+msgid "Use tabs in detail view"
+msgstr "Reiter in der Detail Ansicht benutzen"
 
 msgid "VDR Menu: Common Settings"
 msgstr "VDR Menü: Allgemeine Einstellungen"
@@ -449,15 +458,6 @@ msgstr "Programm mit Zeitinformation anzeigen"
 msgid "Number of EPG Entries in Schedules Info Window"
 msgstr "Anzahl der EPG Einträge im Programm Info Fenster"
 
-msgid "never"
-msgstr "nie"
-
-msgid "always"
-msgstr "immer"
-
-msgid "only if no tvscraper media available"
-msgstr "falls keine tvscraper medien verfügbar"
-
 msgid "Mode of recording Window"
 msgstr "Aufnahme Fenster Modus"
 
@@ -472,6 +472,15 @@ msgstr "Breite der manuell gesetzen Poster"
 
 msgid "Height of manually set recording poster"
 msgstr "Höhe der manuell gesetzten Poster"
+
+msgid "never"
+msgstr "nie"
+
+msgid "always"
+msgstr "immer"
+
+msgid "only if no tvscraper media available"
+msgstr "falls keine tvscraper medien verfügbar"
 
 msgid "if exists"
 msgstr "falls vorhanden"
@@ -488,11 +497,23 @@ msgstr "Header Höhe in det. EPG Ansicht (% OSD Höhe)"
 msgid "Header Height detailed recording view (Perc. of OSD Height)"
 msgstr "Header Höhe in det. Aufnahmeansicht (% der OSD Höhe)"
 
+msgid "Display Reruns in detailed EPG View"
+msgstr "Wiederholungen in der detailierten EPG Ansicht anzeigen"
+
 msgid "Number of reruns to display"
 msgstr "Anzahl der dargestellten Wiederholungen"
 
 msgid "Use Subtitle for reruns"
 msgstr "Untertitel für Wiederholungssuche nutzen"
+
+msgid "Display additional EPG Pictures in detailed EPG View"
+msgstr "Weitere EPG Bilder in der detaillierten EPG Ansicht anzeigen"
+
+msgid "Number of EPG pictures to display"
+msgstr "Anzahl der zusätzlichen EPG Bilder"
+
+msgid "Display additional EPG Pictures in detailed recording View"
+msgstr "Weitere EPG Bilder in der detaillierten Aufnahmeansicht anzeigen"
 
 msgid "EPG Image Width"
 msgstr "EPG Bild Breite"
@@ -686,20 +707,8 @@ msgstr "Konflikte"
 #~ msgid "EPG Window Text Scrolling Speed"
 #~ msgstr "Text Scroll Geschwindigkeit des EPG Fensters"
 
-#~ msgid "Display additional EPG Pictures in detailed recording View"
-#~ msgstr "Weitere EPG Bilder in der detaillierten Aufnahmeansicht anzeigen"
-
-#~ msgid "Number of EPG pictures to display"
-#~ msgstr "Anzahl der zusätzlichen EPG Bilder"
-
 #~ msgid "Border around detailed EPG view"
 #~ msgstr "Rahmen um detailierte EPG Ansicht"
-
-#~ msgid "Display Reruns in detailed EPG View"
-#~ msgstr "Wiederholungen in der detailierten EPG Ansicht anzeigen"
-
-#~ msgid "Display additional EPG Pictures in detailed EPG View"
-#~ msgstr "Weitere EPG Bilder in der detaillierten EPG Ansicht anzeigen"
 
 #~ msgid "Detail EPG View EPG Image Width"
 #~ msgstr "Breite der EPG Bilder in der EPG Detailanzeige"
@@ -712,9 +721,3 @@ msgstr "Konflikte"
 
 #~ msgid "Detail EPG View additional EPG Image Height"
 #~ msgstr "Höhe der zusätzlichen EPG Bilder"
-
-#~ msgid "RERUNS OF THIS SHOW"
-#~ msgstr "Wiederholungen dieser Sendung"
-
-#~ msgid "Actors"
-#~ msgstr "Schauspieler"

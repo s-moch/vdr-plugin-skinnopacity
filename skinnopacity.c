@@ -17,7 +17,7 @@
 #endif
 
 
-static const char *VERSION        = "1.1.8";
+static const char *VERSION        = "1.1.9-Test";
 static const char *DESCRIPTION    = "'nOpacity' Skin";
 static const char *MAINMENUENTRY  = "nOpacity";
 

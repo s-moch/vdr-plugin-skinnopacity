@@ -11,7 +11,7 @@ cNopacitySetup::cNopacitySetup(void) {
         fontNames.Insert(strdup(config.fontDefaultName));
         Setup();
     } else {
-        Add(new cOsdItem(tr("Theme specific setup parameters are only available if this skin is active!"), osUnknown, false));
+        Add(new cOsdItem(tr("Theme-specific setup parameters can only be changed if this skin is active!"), osUnknown, false));
     }
 }
 
@@ -38,6 +38,8 @@ void cNopacitySetup::Setup(void) {
     Add(new cMenuEditStraItem(tr("Font"), tmpConf.GetValueRef("fontIndex"), fontNames.Size(), &fontNames[0]));
     Add(new cMenuEditBoolItem(tr("Create Log Messages for image loading"), tmpConf.GetValueRef("debugImageLoading")));
     Add(new cMenuEditBoolItem(tr("Use scraper infos and pictures"), tmpConf.GetValueRef("scraperInfo")));
+    Add(new cMenuEditBoolItem(tr("Use tabs in detail view"), tmpConf.GetValueRef("tabsInDetailView")));
+    Add(new cOsdItem("",  osUnknown, false));
     Add(new cOsdItem(tr("VDR Menu: Common Settings")));
     Add(new cOsdItem(tr("VDR Menu: Main and Setup Menu")));
     Add(new cOsdItem(tr("VDR Menu: Schedules Menu")));
@@ -318,9 +320,6 @@ void cNopacitySetupMenuDisplayTimers::Set(void) {
 //-----MenuDisplay Recordings Menu -------------------------------------------------------------------------------------------------------------
 
 cNopacitySetupMenuDisplayRecordings::cNopacitySetupMenuDisplayRecordings(cNopacityConfig* data)  : cMenuSetupSubMenu(tr("VDR Menu: Recordings Menu"), data) {
-    displayEPGPictures[0] = tr("never");
-    displayEPGPictures[1] = tr("always");
-    displayEPGPictures[2] = tr("only if no tvscraper media available");
     windowMode[0] = tr("window");
     windowMode[1] = tr("full screen");
     Set();
@@ -349,6 +348,9 @@ void cNopacitySetupMenuDisplayRecordings::Set(void) {
 //-----MenuDisplay Detailed EPG & Recordings View -------------------------------------------------------------------------------------------------------------
 
 cNopacitySetupDetailedView::cNopacitySetupDetailedView(cNopacityConfig* data)  : cMenuSetupSubMenu(tr("VDR Menu: Detailed EPG & Recordings View"), data) {
+    displayEPGPictures[0] = tr("never");
+    displayEPGPictures[1] = tr("always");
+    displayEPGPictures[2] = tr("only if no tvscraper media available");
     useSubtitleRerunTexts[0] = tr("never");
     useSubtitleRerunTexts[1] = tr("if exists");
     useSubtitleRerunTexts[2] = tr("always");
@@ -363,8 +365,17 @@ void cNopacitySetupDetailedView::Set(void) {
     Add(new cMenuEditIntItem(tr("Scroll Speed with up / down (number of lines)"), tmpConf->GetValueRef("detailedViewScrollStep"), 1, 30));
     Add(new cMenuEditIntItem(tr("Header Height detailed EPG view (Perc. of OSD Height)"), tmpConf->GetValueRef("headerDetailedEPG"), 10, 50));
     Add(new cMenuEditIntItem(tr("Header Height detailed recording view (Perc. of OSD Height)"), tmpConf->GetValueRef("headerDetailedRecordings"), 10, 50));
-    Add(new cMenuEditIntItem(tr("Number of reruns to display"), tmpConf->GetValueRef("numReruns"), 1, 10));
-    Add(new cMenuEditStraItem(tr("Use Subtitle for reruns"), tmpConf->GetValueRef("useSubtitleRerun"), 3, useSubtitleRerunTexts));
+    Add(new cMenuEditBoolItem(tr("Display Reruns in detailed EPG View"), tmpConf->GetValueRef("displayRerunsDetailEPGView")));
+    if (tmpConf->GetValue("displayRerunsDetailEPGView") || tmpConf->GetValue("tabsInDetailView")) {
+        Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Number of reruns to display")), tmpConf->GetValueRef("numReruns"), 1, 10));
+        Add(new cMenuEditStraItem(cString::sprintf("%s%s", *spacer, tr("Use Subtitle for reruns")), tmpConf->GetValueRef("useSubtitleRerun"), 3, useSubtitleRerunTexts));
+    }
+    Add(new cMenuEditStraItem(tr("Display additional EPG Pictures in detailed EPG View"), tmpConf->GetValueRef("displayAdditionalEPGPictures"), 3, displayEPGPictures));
+    if (tmpConf->GetValue("displayAdditionalEPGPictures"))
+        Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Number of EPG pictures to display")), tmpConf->GetValueRef("numAdditionalEPGPictures"), 1, 9));
+    Add(new cMenuEditStraItem(tr("Display additional EPG Pictures in detailed recording View"), tmpConf->GetValueRef("displayAdditionalRecEPGPictures"), 3, displayEPGPictures));
+    if (tmpConf->GetValue("displayAdditionalRecEPGPictures"))
+        Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Number of EPG pictures to display")), tmpConf->GetValueRef("numAdditionalRecEPGPictures"), 1, 9));
     Add(new cMenuEditIntItem(tr("EPG Image Width"), tmpConf->GetValueRef("epgImageWidth"), 30, 500));
     Add(new cMenuEditIntItem(tr("EPG Image Height"), tmpConf->GetValueRef("epgImageHeight"), 30, 500));
     Add(new cMenuEditIntItem(tr("Large EPG Image Width"), tmpConf->GetValueRef("epgImageWidthLarge"), 100, 800));

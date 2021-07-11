@@ -585,8 +585,7 @@ void cNopacityDisplayMenu::SetEvent(const cEvent *Event) {
     if (!Event)
         return;
     menuView->AdjustContentBackground(this->MenuCategory(), menuCategoryLast, videoWindowRect);
-    detailView = new cNopacityDetailView(dvEvent, osd, menuView->GetPixmapScrollbar(), menuView->GetPixmapScrollbarBack());
-    detailView->SetEvent(Event);
+    detailView = new cNopacityDetailView(osd, Event, menuView->GetPixmapScrollbar(), menuView->GetPixmapScrollbarBack());
     detailView->Render();
 }
 
@@ -598,8 +597,7 @@ void cNopacityDisplayMenu::SetRecording(const cRecording *Recording) {
         return;
     }
     menuView->AdjustContentBackground(this->MenuCategory(), menuCategoryLast, videoWindowRect);
-    detailView = new cNopacityDetailView(dvRecording, osd, menuView->GetPixmapScrollbar(), menuView->GetPixmapScrollbarBack());
-    detailView->SetRecording(Recording);
+    detailView = new cNopacityDetailView(osd, Recording, menuView->GetPixmapScrollbar(), menuView->GetPixmapScrollbarBack());
     detailView->Render();
 }
 
@@ -607,8 +605,7 @@ void cNopacityDisplayMenu::SetText(const char *Text, bool FixedFont) {
     if (!Text)
         return;
     menuView->AdjustContentBackground(this->MenuCategory(), menuCategoryLast, videoWindowRect);
-    detailView = new cNopacityDetailView(dvText, osd, menuView->GetPixmapScrollbar(), menuView->GetPixmapScrollbarBack());
-    detailView->SetText(Text);
+    detailView = new cNopacityDetailView(osd, Text, menuView->GetPixmapScrollbar(), menuView->GetPixmapScrollbarBack());
     detailView->Render();
 }
 

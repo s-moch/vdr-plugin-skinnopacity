@@ -60,6 +60,7 @@ void cNopacityConfig::LoadDefaults(void) {
     conf.insert(std::pair<std::string, int>("fontIndex", 0));
     conf.insert(std::pair<std::string, int>("debugImageLoading", 0));
     conf.insert(std::pair<std::string, int>("scraperInfo", 1));
+    conf.insert(std::pair<std::string, int>("tabsInDetailView", 1));
     //DisplayMenu
     conf.insert(std::pair<std::string, int>("scrollMode", 0));
     conf.insert(std::pair<std::string, int>("spaceMenu", 5));
@@ -76,8 +77,13 @@ void cNopacityConfig::LoadDefaults(void) {
     conf.insert(std::pair<std::string, int>("narrowTimerMenu", 1));
     conf.insert(std::pair<std::string, int>("narrowRecordingMenu", 1));
     conf.insert(std::pair<std::string, int>("narrowSetupMenu", 1));
+    conf.insert(std::pair<std::string, int>("displayRerunsDetailEPGView", 1));
     conf.insert(std::pair<std::string, int>("numReruns", 5));
     conf.insert(std::pair<std::string, int>("useSubtitleRerun", 1));
+    conf.insert(std::pair<std::string, int>("displayAdditionalEPGPictures", 1));
+    conf.insert(std::pair<std::string, int>("numAdditionalEPGPictures", 9));
+    conf.insert(std::pair<std::string, int>("displayAdditionalRecEPGPictures", 1));
+    conf.insert(std::pair<std::string, int>("numAdditionalRecEPGPictures", 9));
     conf.insert(std::pair<std::string, int>("menuChannelDisplayMode", 0));
     conf.insert(std::pair<std::string, int>("menuChannelDisplayTime", 1));
     conf.insert(std::pair<std::string, int>("numEPGEntriesChannelsMenu", 15));

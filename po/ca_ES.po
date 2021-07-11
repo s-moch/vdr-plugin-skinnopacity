@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2021-07-05 15:18+0200\n"
+"POT-Creation-Date: 2021-07-11 14:01+0200\n"
 "PO-Revision-Date: 2013-03-19 22:56+0100\n"
 "Last-Translator: Gabychan <gbonich@gmail.com>\n"
 "Language-Team: \n"
@@ -161,6 +161,12 @@ msgstr ""
 msgid "Search timer"
 msgstr "Cerca timer"
 
+msgid "Actors"
+msgstr "Actors"
+
+msgid "RERUNS OF THIS SHOW"
+msgstr "REEMISSIONS"
+
 msgid "Transp."
 msgstr "Transponedor"
 
@@ -179,7 +185,7 @@ msgstr "gravacions"
 msgid "new"
 msgstr "nou"
 
-msgid "Theme specific setup parameters are only available if this skin is active!"
+msgid "Theme-specific setup parameters can only be changed if this skin is active!"
 msgstr ""
 
 msgid "Font"
@@ -187,6 +193,9 @@ msgstr "Font"
 
 msgid "Create Log Messages for image loading"
 msgstr "Crea Log d'imatges carregades"
+
+msgid "Use tabs in detail view"
+msgstr ""
 
 msgid "Use scraper infos and pictures"
 msgstr ""
@@ -452,15 +461,6 @@ msgstr "Veure horaris amb informació en temps"
 msgid "Number of EPG Entries in Schedules Info Window"
 msgstr "Nombre d'entrades EPG a la Finestra de Programació"
 
-msgid "never"
-msgstr "mai"
-
-msgid "always"
-msgstr "sempre"
-
-msgid "only if no tvscraper media available"
-msgstr "Sols si tvscraper media no disponible"
-
 msgid "Mode of recording Window"
 msgstr "Mode de gravació"
 
@@ -475,6 +475,15 @@ msgstr "Ample del cartell de gravació ajustat manualment"
 
 msgid "Height of manually set recording poster"
 msgstr "Alçada del cartell de gravació ajustat manualment"
+
+msgid "never"
+msgstr "mai"
+
+msgid "always"
+msgstr "sempre"
+
+msgid "only if no tvscraper media available"
+msgstr "Sols si tvscraper media no disponible"
 
 msgid "if exists"
 msgstr "si existeix"
@@ -491,11 +500,23 @@ msgstr ""
 msgid "Header Height detailed recording view (Perc. of OSD Height)"
 msgstr ""
 
+msgid "Display Reruns in detailed EPG View"
+msgstr "Mostra Reemissions a vista detallada EPG"
+
 msgid "Number of reruns to display"
 msgstr "Nombre de reemissions a mostrar"
 
 msgid "Use Subtitle for reruns"
 msgstr "Utilitza subtítols a les reemissions"
+
+msgid "Display additional EPG Pictures in detailed EPG View"
+msgstr "Mostra imatges addicionals a vista detallada EPG"
+
+msgid "Number of EPG pictures to display"
+msgstr "Nombre d'imatges EPG a mostrar"
+
+msgid "Display additional EPG Pictures in detailed recording View"
+msgstr "Mostra imatges EPG addicionals a vista detallada gravacions"
 
 msgid "EPG Image Width"
 msgstr ""
@@ -689,20 +710,8 @@ msgstr "conflictes"
 #~ msgid "EPG Window Text Scrolling Speed"
 #~ msgstr "Velocitat desplaçament text finestra EPG"
 
-#~ msgid "Display additional EPG Pictures in detailed recording View"
-#~ msgstr "Mostra imatges EPG addicionals a vista detallada gravacions"
-
-#~ msgid "Number of EPG pictures to display"
-#~ msgstr "Nombre d'imatges EPG a mostrar"
-
 #~ msgid "Border around detailed EPG view"
 #~ msgstr "Vora al voltant de vista detallada EPG"
-
-#~ msgid "Display Reruns in detailed EPG View"
-#~ msgstr "Mostra Reemissions a vista detallada EPG"
-
-#~ msgid "Display additional EPG Pictures in detailed EPG View"
-#~ msgstr "Mostra imatges addicionals a vista detallada EPG"
 
 #~ msgid "Detail EPG View EPG Image Width"
 #~ msgstr "Amplada imatges a vista detallada EPG"
@@ -715,12 +724,6 @@ msgstr "conflictes"
 
 #~ msgid "Detail EPG View additional EPG Image Height"
 #~ msgstr "Alçada imatges addicionals a vista detallada EPG"
-
-#~ msgid "RERUNS OF THIS SHOW"
-#~ msgstr "REEMISSIONS"
-
-#~ msgid "Actors"
-#~ msgstr "Actors"
 
 #~ msgid "Display Channel Source information"
 #~ msgstr "Mostra informació del canal"
