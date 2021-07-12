@@ -151,17 +151,4 @@ public:
     void Render(void);
 };
 
-class cNopacityMenuDetailTextViewLight : public cNopacityMenuDetailViewLight {
-private:
-    const char *text;
-    cTextWrapper content;
-public:
-    cNopacityMenuDetailTextViewLight(cOsd *osd, const char *text, cPixmap *s, cPixmap *sBack);
-    virtual ~cNopacityMenuDetailTextViewLight(void);
-    void SetContent(void);
-    void SetContentHeight(void);
-    void CreatePixmaps(void);
-    void Render(void);
-};
-
 #endif //__NOPACITY_MENUDETAILVIEW_H

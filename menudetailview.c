@@ -82,16 +82,13 @@ void cNopacityDetailView::SetAlpha(int Alpha) {
 }
 
 void cNopacityDetailView::InitiateViewType(void) {
-    if (!(config.GetValue("tabsInDetailView"))) {
+    if (!(config.GetValue("tabsInDetailView") && !(type == dvText))) {
         switch (type) {
             case dvEvent:
                 viewLight = new cNopacityMenuDetailEventViewLight(osd, ev, scrollBar, scrollBarBack);
                 break;
             case dvRecording:
                 viewLight = new cNopacityMenuDetailRecordingViewLight(osd, rec, scrollBar, scrollBarBack);
-                break;
-            case dvText:
-                viewLight = new cNopacityMenuDetailTextViewLight(osd, text, scrollBar, scrollBarBack);
                 break;
             default:
                 break;
@@ -1815,44 +1812,4 @@ int cNopacityMenuDetailRecordingViewLight::ReadSizeVdr(const char *strPath) {
         free(strFilename);
     }
     return dirSize;
-}
-
-//---------------cNopacityMenuDetailTextViewLight---------------------
-
-cNopacityMenuDetailTextViewLight::cNopacityMenuDetailTextViewLight(cOsd *osd, const char *text, cPixmap *s, cPixmap *sBack) : cNopacityMenuDetailViewLight(osd, s, sBack) {
-    this->text = text;
-}
-
-cNopacityMenuDetailTextViewLight::~cNopacityMenuDetailTextViewLight(void) {
-    osd->DestroyPixmap(pixmapContent);
-}
-
-void cNopacityMenuDetailTextViewLight::SetContent(void) {
-    content.Set(text, font, width - 4 * border);
-}
-
-void cNopacityMenuDetailTextViewLight::SetContentHeight(void) {
-    int lineHeight = font->Height();
-    int linesContent = content.Lines() + 1;
-
-    int heightContentText = linesContent * lineHeight;
-    if (heightContentText > contentHeight) {
-        contentDrawPortHeight = heightContentText;
-        hasScrollbar = true;
-    } else {
-        contentDrawPortHeight = contentHeight;
-    }
-}
-
-void cNopacityMenuDetailTextViewLight::CreatePixmaps(void) {
-    contentHeight = contentHeight - border;
-    pixmapContent = osd->CreatePixmap(3, cRect(x, top + headerHeight + border, width, contentHeight),
-                                         cRect(0, 0, width, contentDrawPortHeight));
-
-    pixmapContent->Fill(clrTransparent);
-}
-
-void cNopacityMenuDetailTextViewLight::Render(void) {
-    DrawTextWrapper(&content, 0);
-    DrawScrollbar();
 }
