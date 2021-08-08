@@ -1355,12 +1355,14 @@ void cNopacityRecordingMenuItem::DrawRecordingIcons(void) {
         pixmapStatic->DrawImage(cPoint(iconX, iconY), *imgIconCut);
     }
 
+#if (APIVERSNUM >= 20505)
     cImage *imgIconErr = imgCache->GetSkinIcon("skinIcons/recordingerror", iconSize, iconSize);
     const cRecordingInfo *Info = Recording->Info();
     if (imgIconErr && Info && (Info->Errors() > 0)) {
         iconX -= iconSize;
         pixmapStatic->DrawImage(cPoint(iconX, iconY), *imgIconErr);
     }
+#endif
 }
 
 void cNopacityRecordingMenuItem::DrawFolderIcon(void) {
