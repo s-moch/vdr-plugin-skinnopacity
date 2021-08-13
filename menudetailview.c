@@ -669,8 +669,8 @@ int cNopacityMenuDetailViewLight::HeightFanart(void) {
 }
 
 void cNopacityMenuDetailViewLight::DrawPoster(void) {
-    int posterWidthOrig;
-    int posterHeightOrig;
+    int posterWidthOrig = 0;
+    int posterHeightOrig = 0;
     if (hasManualPoster) {
         posterWidthOrig = config.GetValue("posterWidth");
         posterHeightOrig = config.GetValue("posterHeight");
