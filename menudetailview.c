@@ -82,7 +82,7 @@ void cNopacityDetailView::SetAlpha(int Alpha) {
 }
 
 void cNopacityDetailView::InitiateViewType(void) {
-    if (!(config.GetValue("tabsInDetailView") && !(type == dvText))) {
+    if ((config.GetValue("tabsInDetailView") == 0) && !(type == dvText)) {
         switch (type) {
             case dvEvent:
                 viewLight = new cNopacityMenuDetailEventViewLight(osd, ev, scrollBar, scrollBarBack);
