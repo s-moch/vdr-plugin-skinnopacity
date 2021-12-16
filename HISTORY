@@ -1,6 +1,18 @@
 VDR Plugin 'nOpacity' Revision History
 ---------------------------------------
 
+Version 1.1.9
+
+- Update iceblue theme
+- Optimize Flush
+- Add fade-out to Skin
+- Add TS errors to recording info (vdr >= 2.5.5)
+- Add "Use scraper infos, pictures and animation" to setup
+- Add icon fpr UHD/4K
+- Rework Setup (The setup menu for this skin now only works if this skin is active)
+- Merge Light version
+- Centers ChannelLogos vertically in the channel menu, timer menu, schedule menu and displaychannel
+
 Version 1.1.8
 
 - [S:oren] Convert menuItems from cList to std::vector
