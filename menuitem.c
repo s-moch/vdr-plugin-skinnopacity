@@ -901,13 +901,13 @@ std::string cNopacityChannelMenuItem::readEPG(void) {
 }
 
 void cNopacityChannelMenuItem::Render(bool initial, bool fadeout) {
-    if (selectable) {                           //Channels
+    if (selectable) { //Channels
         DrawBackground();
         DrawChannelLogoBackground();
         if (!drawn) {
             cImage *logo = imgCache->GetLogo(ctLogoMenuItem, Channel);
             if (logo) {
-                pixmapStatic->DrawImage(cPoint(1,1), *logo);
+                pixmapStatic->DrawImage(cPoint(1, (height - logo->Height()) / 2), *logo);
             }
             drawn = true;
         }
@@ -935,7 +935,7 @@ void cNopacityChannelMenuItem::Render(bool initial, bool fadeout) {
             infoTextWindow->Start();
           }
         }
-    } else {                                    //Channelseparators
+    } else { //Channelseparators
         DrawDelimiter(Channel->Name(), "skinIcons/channeldelimiter", (config.GetValue("displayType")!=dtFlat )?seChannels:seNone);
     }
 }
