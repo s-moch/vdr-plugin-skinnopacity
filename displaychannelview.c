@@ -232,7 +232,7 @@ void cNopacityDisplayChannelView::DrawChannelLogo(const cChannel *Channel) {
     }
     cImage *imgLogo = imgCache->GetLogo(ctLogo, Channel);
     if (imgLogo) {
-        pixmapLogo->DrawImage(cPoint(0,0), *imgLogo);
+        pixmapLogo->DrawImage(cPoint(0, (geoManager->channelLogoHeight - imgLogo->Height()) / 2), *imgLogo);
     }
 }
 
