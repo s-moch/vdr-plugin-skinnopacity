@@ -648,7 +648,7 @@ void cNopacityScheduleMenuItem::DrawLogo(int logoWidth, int logoHeight) {
     if (Channel && Channel->Name()) {
         cImage *logo = imgCache->GetLogo(ctLogoMenuItem, Channel);
         if (logo) {
-            pixmapStatic->DrawImage(cPoint(1,1), *logo);
+            pixmapStatic->DrawImage(cPoint(1, (logoHeight - logo->Height()) / 2), *logo);
         } else {
             cTextWrapper channel;
             channel.Set(Channel->Name(), font, logoWidth);
@@ -1130,7 +1130,7 @@ void cNopacityTimerMenuItem::DrawLogo(int logoWidth, int logoHeight) {
     if (Timer && Timer->Channel() && Timer->Channel()->Name()) {
         cImage *logo = imgCache->GetLogo(ctLogoMenuItem, Timer->Channel());
         if (logo) {
-            pixmapStatic->DrawImage(cPoint(1,1), *logo);
+            pixmapStatic->DrawImage(cPoint(1, (logoHeight - logo->Height()) / 2), *logo);
         } else {
             cTextWrapper channel;
             channel.Set(Timer->Channel()->Name(), font, logoWidth);
