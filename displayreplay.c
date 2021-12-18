@@ -273,11 +273,10 @@ void cNopacityDisplayReplay::DrawScreenResolution(void) {
     int screenHeight = 0;
     double aspect = 0;
     cDevice::PrimaryDevice()->GetVideoSize(screenWidth, screenHeight, aspect);
-//    esyslog ("skinnopacity: %s %s %d %ix%i\n", __FILE__, __func__,  __LINE__, screenWidth, screenHeight);
     cString iconName("");
     switch (screenWidth) {
-        case 4320: // 7680 x 4320 = 8K UHD
-        case 2160: // 3840 x 2160 = 4K UHD
+        case 7680: // 7680 x 4320 = 8K UHD
+        case 3840: // 3840 x 2160 = 4K UHD
             iconName = "skinIcons/uhd4k";
             break;
         case 1920:
