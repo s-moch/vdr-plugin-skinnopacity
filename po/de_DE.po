@@ -407,6 +407,9 @@ msgstr "Breite der Timer (% der OSD Breite)"
 msgid "Width of Channel Logos (Percent of Timer Width)"
 msgstr "Channel Logo Breite (% der Timer Breite)"
 
+msgid "Size of the Timer Channel Logo in Percent"
+msgstr "Größe des Timer Kanal Logos in %"
+
 msgid "Adjust Font Size - Title"
 msgstr "Schriftgröße anpassen - Titel"
 
@@ -418,6 +421,9 @@ msgstr "Header Logo Breite"
 
 msgid "Header Logo Height"
 msgstr "Header Logo Höhe"
+
+msgid "Size of the Menu Channel Logo in Percent"
+msgstr "Größe des Menü Kanal Logos in %"
 
 msgid "Adjust Font Size - Menu Items"
 msgstr "Schriftgröße anpassen - Menüelemente"
@@ -601,6 +607,9 @@ msgstr "Kanallogo original Breite"
 
 msgid "Channel Logo original Height"
 msgstr "Kanallogo original Höhe"
+
+msgid "Size of the Channel Logo in Percent"
+msgstr "Größe des Kanal Logo in %"
 
 msgid "Kind of time display for current schedule"
 msgstr "Art der Zeitanzeige für die laufende Sendung"

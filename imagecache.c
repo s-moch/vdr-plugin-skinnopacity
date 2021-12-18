@@ -378,16 +378,16 @@ cPoint cImageCache::LogoSize(eCacheType type) {
     int width, height;
     switch (type) {
         case ctLogo:
-            width = geoManager->channelLogoWidth;
-            height = geoManager->channelLogoHeight;
+            width = geoManager->channelLogoWidth * config.GetValue("logoScale") / 100;
+            height = geoManager->channelLogoHeight * config.GetValue("logoScale") / 100;
             break;
         case ctLogoMenuItem:
-            width = geoManager->menuLogoWidth;
-            height = geoManager->menuLogoHeight;
+            width = geoManager->menuLogoWidth * config.GetValue("logoMenuScale") / 100;
+            height = geoManager->menuLogoHeight * config.GetValue("logoMenuScale") / 100;
             break;
         case ctLogoTimer:
-            width = geoManager->menuTimersLogoWidth;
-            height = geoManager->menuTimersLogoHeight;
+            width = geoManager->menuTimersLogoWidth * config.GetValue("logoTimerScale") / 100;
+            height = geoManager->menuTimersLogoHeight * config.GetValue("logoTimerScale") / 100;
             break;
         default:
             width = 1;

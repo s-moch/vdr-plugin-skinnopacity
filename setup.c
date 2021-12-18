@@ -228,12 +228,14 @@ void cNopacitySetupMenuDisplayMain::Set(void) {
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Maximum number of Timers")), tmpConf->GetValueRef("numberTimers"), 1, 10));
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Width of Timers (Percent of OSD Width)")), tmpConf->GetValueRef("menuWidthRightItems"), 5, 30));
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Width of Channel Logos (Percent of Timer Width)")), tmpConf->GetValueRef("timersLogoWidth"), 20, 98));
+        Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Size of the Timer Channel Logo in Percent")), tmpConf->GetValueRef("logoTimerScale"), 50, 100));
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Adjust Font Size - Header")), tmpConf->GetValueRef("fontTimersHead"), -20, 20));
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Adjust Font Size - Title")), tmpConf->GetValueRef("fontTimers"), -20, 20));
     }
     Add(new cMenuEditBoolItem(tr("Show Timer Conflicts"), tmpConf->GetValueRef("checkTimerConflict")));
     Add(new cMenuEditIntItem(tr("Header Logo Width"), tmpConf->GetValueRef("menuHeaderLogoWidth"), 30, 500));
     Add(new cMenuEditIntItem(tr("Header Logo Height"), tmpConf->GetValueRef("menuHeaderLogoHeight"), 30, 500));
+    Add(new cMenuEditIntItem(tr("Size of the Menu Channel Logo in Percent"), tmpConf->GetValueRef("logoMenuScale"), 50, 100));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Menu Items"), tmpConf->GetValueRef("fontMenuitemLarge"), -20, 20));
 
     SetCurrent(Get(currentItem));
@@ -425,6 +427,7 @@ void cNopacitySetupChannelDisplay::Set(void) {
     if (tmpConf->GetValue("logoPosition")) {
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Channel Logo original Width")), tmpConf->GetValueRef("logoWidthOriginal"), 30, 500));
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Channel Logo original Height")), tmpConf->GetValueRef("logoHeightOriginal"), 30, 500));
+        Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Size of the Channel Logo in Percent")), tmpConf->GetValueRef("logoScale"), 50, 100));
         Add(new cMenuEditBoolItem(cString::sprintf("%s%s", *spacer, tr("Use Channel Logo background")), tmpConf->GetValueRef("channelUseLogoBackground")));
     }
     Add(new cMenuEditStraItem(tr("Kind of time display for current schedule"), tmpConf->GetValueRef("progressCurrentSchedule"), 2, progressStyleCurrentSchedule));

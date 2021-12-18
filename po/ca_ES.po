@@ -410,6 +410,9 @@ msgstr "Amplada dels timers (% amplada OSD)"
 msgid "Width of Channel Logos (Percent of Timer Width)"
 msgstr "Ample dels Logos Canal (% Amplada temporitzador)"
 
+msgid "Size of the Timer Channel Logo in Percent"
+msgstr ""
+
 msgid "Adjust Font Size - Title"
 msgstr "Ajusta mida de la Font - Títol"
 
@@ -421,6 +424,9 @@ msgstr "Amplada logo capçalera"
 
 msgid "Header Logo Height"
 msgstr "Alçada logo capçalera"
+
+msgid "Size of the Menu Channel Logo in Percent"
+msgstr ""
 
 msgid "Adjust Font Size - Menu Items"
 msgstr "Ajusta mida de la font - Elements de menú"
@@ -604,6 +610,9 @@ msgstr "Amplada Original Logo del canal"
 
 msgid "Channel Logo original Height"
 msgstr "Alçada Original Logo del canal"
+
+msgid "Size of the Channel Logo in Percent"
+msgstr ""
 
 msgid "Kind of time display for current schedule"
 msgstr "Tipus de visualització per la programació actual"

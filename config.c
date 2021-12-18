@@ -110,6 +110,7 @@ void cNopacityConfig::LoadDefaults(void) {
     conf.insert(std::pair<std::string, int>("showTimers", 1));
     conf.insert(std::pair<std::string, int>("numberTimers", 10));
     conf.insert(std::pair<std::string, int>("timersLogoWidth", 60));    
+    conf.insert(std::pair<std::string, int>("logoTimerScale", 100));
     conf.insert(std::pair<std::string, int>("checkTimerConflict", 1));
     conf.insert(std::pair<std::string, int>("headerHeight", 7));
     conf.insert(std::pair<std::string, int>("footerHeight", 7));
@@ -119,6 +120,7 @@ void cNopacityConfig::LoadDefaults(void) {
     conf.insert(std::pair<std::string, int>("numRecordingsMenuItems", 10));
     conf.insert(std::pair<std::string, int>("menuHeaderLogoWidth", 160));
     conf.insert(std::pair<std::string, int>("menuHeaderLogoHeight", 70));
+    conf.insert(std::pair<std::string, int>("logoMenuScale", 100));
     conf.insert(std::pair<std::string, int>("epgImageWidth", 210));
     conf.insert(std::pair<std::string, int>("epgImageHeight", 160));
     conf.insert(std::pair<std::string, int>("epgImageWidthLarge", 525));
@@ -168,6 +170,7 @@ void cNopacityConfig::LoadDefaults(void) {
     conf.insert(std::pair<std::string, int>("channelFadeTime", 300));
     conf.insert(std::pair<std::string, int>("channelFadeOutTime", 300));
     conf.insert(std::pair<std::string, int>("channelBackgroundTransparency", 0));
+    conf.insert(std::pair<std::string, int>("logoScale", 100));
     conf.insert(std::pair<std::string, int>("channelUseLogoBackground", 1));
     conf.insert(std::pair<std::string, int>("logoPosition", 1));
     conf.insert(std::pair<std::string, int>("logoVerticalAlignment", 1));
