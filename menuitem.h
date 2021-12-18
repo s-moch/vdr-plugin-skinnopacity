@@ -37,6 +37,7 @@ protected:
     void DrawDelimiter(const char *del, const char *icon, eSkinElementType seType);
     void DrawRoundedCorners(tColor borderColor);
     void DrawChannelLogoBackground(void);
+    void DrawLogo(const cChannel *Channel, int logoWidth, int logoHeight, cFont *font, bool drawText = false);
     virtual void Action(void);
     void DoSleep(int duration);
 public:
@@ -97,7 +98,6 @@ private:
     bool scrollSubTitle;
     int titleY;
     void DrawBackground(int textLeft);
-    void DrawLogo(int logoWidth, int logoHeight);
     void DrawRemaining(int x, int y, int width);
     void SetTextFull(void);
     void SetTextShort(void);
@@ -145,7 +145,6 @@ private:
     void SetTextFull(void);
     void SetTextShort(void);
     void DrawBackground(int textLeft);
-    void DrawLogo(int logoWidth, int logoHeight);
     std::string CreateDate(void);
 public:
     cNopacityTimerMenuItem(cOsd *osd, const cTimer *Timer, bool sel, cRect *vidWin);

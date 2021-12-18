@@ -232,6 +232,24 @@ void cNopacityMenuItem::DrawChannelLogoBackground(void) {
     pixmapBackground->DrawRectangle(cRect(4,6,logoWidth-4, height-12), Theme.Color(clrMenuChannelLogoBack));
 }
 
+void cNopacityMenuItem::DrawLogo(const cChannel *Channel, int logoWidth, int logoHeight, cFont *font, bool drawText) {
+    cImage *logo = imgCache->GetLogo(ctLogoMenuItem, Channel);
+    if (logo) {
+        pixmapStatic->DrawImage(cPoint(2 + (logoWidth - logo->Width()) / 2, (logoHeight - logo->Height()) / 2), *logo);
+    } else if (drawText) {
+        cTextWrapper channel;
+        channel.Set(Channel->Name(), font, logoWidth);
+        int lines = channel.Lines();
+        int lineHeight = height / 3;
+        int heightChannel = lines * lineHeight;
+        int y = (heightChannel > height) ? 0 : (height-heightChannel) / 2;
+        for (int line = 0; line < lines; line++) {
+            pixmapStatic->DrawText(cPoint((logoWidth - font->Width(channel.GetLine(line))) / 2, y + lineHeight * line),
+                                   channel.GetLine(line), Theme.Color(clrMenuFontMenuItemHigh), clrTransparent, font);
+        }
+    }
+}
+
 // cNopacityMainMenuItem  -------------
 cNopacityMainMenuItem::cNopacityMainMenuItem(cOsd *osd, const char *text, bool sel, bool setup) : cNopacityMenuItem (osd, text, sel) {
     this->isSetup = setup;
@@ -554,7 +572,8 @@ void cNopacityScheduleMenuItem::Render(bool initial, bool fadeout) {
             progressBarDelta = 10;
         DrawRemaining(textLeft + progressBarDelta, height*7/8, width - textLeft - 20 - progressBarDelta);
         if (!drawn) {
-            DrawLogo(logoWidth, logoHeight);
+            if (Channel && Channel->Name())
+                DrawLogo(Channel, logoWidth, logoHeight, font, true);
             drawn = true;
         }
         SetTextShort();
@@ -642,25 +661,6 @@ void cNopacityScheduleMenuItem::DrawBackground(int textLeft) {
     }
     tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
     pixmapStatic->DrawText(cPoint(textLeft, 3), strDateTime.c_str(), clrFont, clrTransparent, font);
-}
-
-void cNopacityScheduleMenuItem::DrawLogo(int logoWidth, int logoHeight) {
-    if (Channel && Channel->Name()) {
-        cImage *logo = imgCache->GetLogo(ctLogoMenuItem, Channel);
-        if (logo) {
-            pixmapStatic->DrawImage(cPoint(1, (logoHeight - logo->Height()) / 2), *logo);
-        } else {
-            cTextWrapper channel;
-            channel.Set(Channel->Name(), font, logoWidth);
-            int lines = channel.Lines();
-            int lineHeight = height / 3;
-            int heightChannel = lines * lineHeight;
-            int y = (heightChannel>height)?0:(height-heightChannel)/2;
-            for (int line = 0; line < lines; line++) {
-                pixmapStatic->DrawText(cPoint((logoWidth - font->Width(channel.GetLine(line)))/2, y+lineHeight*line), channel.GetLine(line), Theme.Color(clrMenuFontMenuItemHigh), clrTransparent, font);
-            }
-        }
-    }
 }
 
 void cNopacityScheduleMenuItem::DrawRemaining(int x, int y, int width) {
@@ -901,14 +901,14 @@ std::string cNopacityChannelMenuItem::readEPG(void) {
 }
 
 void cNopacityChannelMenuItem::Render(bool initial, bool fadeout) {
+    int logoWidth = geoManager->menuLogoWidth;
+    int logoHeight = geoManager->menuLogoHeight;
     if (selectable) { //Channels
         DrawBackground();
         DrawChannelLogoBackground();
         if (!drawn) {
-            cImage *logo = imgCache->GetLogo(ctLogoMenuItem, Channel);
-            if (logo) {
-                pixmapStatic->DrawImage(cPoint(1, (height - logo->Height()) / 2), *logo);
-            }
+            if (Channel && Channel->Name())
+                DrawLogo(Channel, logoWidth, logoHeight, font);
             drawn = true;
         }
         SetTextShort();
@@ -1084,7 +1084,8 @@ void cNopacityTimerMenuItem::Render(bool initial, bool fadeout) {
         int logoWidth = geoManager->menuLogoWidth;
         int logoHeight = geoManager->menuLogoHeight;
         if (!drawn) {
-            DrawLogo(logoWidth, logoHeight);
+            if (Timer && Timer->Channel() && Timer->Channel()->Name())
+                DrawLogo(Timer->Channel(), logoWidth, logoHeight, font, true);
             drawn = true;
         }
         if (!Running())
@@ -1126,24 +1127,6 @@ void cNopacityTimerMenuItem::Render(bool initial, bool fadeout) {
     }
 }
 
-void cNopacityTimerMenuItem::DrawLogo(int logoWidth, int logoHeight) {
-    if (Timer && Timer->Channel() && Timer->Channel()->Name()) {
-        cImage *logo = imgCache->GetLogo(ctLogoMenuItem, Timer->Channel());
-        if (logo) {
-            pixmapStatic->DrawImage(cPoint(1, (logoHeight - logo->Height()) / 2), *logo);
-        } else {
-            cTextWrapper channel;
-            channel.Set(Timer->Channel()->Name(), font, logoWidth);
-            int lines = channel.Lines();
-            int lineHeight = height / 3;
-            int heightChannel = lines * lineHeight;
-            int y = (heightChannel>height)?0:(height-heightChannel)/2;
-            for (int line = 0; line < lines; line++) {
-                pixmapStatic->DrawText(cPoint((logoWidth - font->Width(channel.GetLine(line)))/2, y+lineHeight*line), channel.GetLine(line), Theme.Color(clrMenuFontMenuItemHigh), clrTransparent, font);
-            }
-        }
-    }
-}
 // cNopacityRecordingMenuItem  -------------
 
 cNopacityRecordingMenuItem::cNopacityRecordingMenuItem(cOsd *osd, const cRecording *Recording, bool sel, int Level, int Total, int New, cRect *vidWin) : cNopacityMenuItem (osd, "", sel) {
