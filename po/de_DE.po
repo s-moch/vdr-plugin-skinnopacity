@@ -293,6 +293,9 @@ msgstr "Hintergrund für Kanallogos benutzen"
 msgid "Fade-In Time in ms (Zero for switching off fading)"
 msgstr "Fade-In Zeit in ms (Null zum Abschalten)"
 
+msgid "Fade-Out Time in ms (Zero for switching off fading)"
+msgstr "Fade-Out Zeit in ms (Null zum Abschalten)"
+
 msgid "Info Window Fade-In Time in ms (Zero for switching off fading)"
 msgstr ""
 
@@ -553,9 +556,6 @@ msgstr "vergangene Zeit anzeigen"
 
 msgid "show remaining time"
 msgstr "verbleibende Zeit anzeigen"
-
-msgid "Fade-Out Time in ms (Zero for switching off fading)"
-msgstr "Fade-Out Zeit in ms (Null zum Abschalten)"
 
 msgid "Height of Channel Display (Percent of OSD Height)"
 msgstr "Höhe der Kanalwechsel Anzeige (% der OSD Höhe)"

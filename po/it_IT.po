@@ -296,6 +296,9 @@ msgstr ""
 msgid "Fade-In Time in ms (Zero for switching off fading)"
 msgstr "Tempo comparsa in ms (0 per disattivazione)"
 
+msgid "Fade-Out Time in ms (Zero for switching off fading)"
+msgstr ""
+
 msgid "Info Window Fade-In Time in ms (Zero for switching off fading)"
 msgstr ""
 
@@ -555,9 +558,6 @@ msgid "show elapsed time"
 msgstr ""
 
 msgid "show remaining time"
-msgstr ""
-
-msgid "Fade-Out Time in ms (Zero for switching off fading)"
 msgstr ""
 
 msgid "Height of Channel Display (Percent of OSD Height)"

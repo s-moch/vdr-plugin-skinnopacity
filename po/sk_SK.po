@@ -293,6 +293,9 @@ msgstr ""
 msgid "Fade-In Time in ms (Zero for switching off fading)"
 msgstr "èas efektu zmiznutia v ms (nula vypnú»)"
 
+msgid "Fade-Out Time in ms (Zero for switching off fading)"
+msgstr ""
+
 msgid "Info Window Fade-In Time in ms (Zero for switching off fading)"
 msgstr ""
 
@@ -553,9 +556,6 @@ msgstr "zobrazi» uplynulý èas"
 
 msgid "show remaining time"
 msgstr "zobrazi» zostávajúci èas"
-
-msgid "Fade-Out Time in ms (Zero for switching off fading)"
-msgstr ""
 
 msgid "Height of Channel Display (Percent of OSD Height)"
 msgstr "Vý¹ka zobrazeného kanálu"

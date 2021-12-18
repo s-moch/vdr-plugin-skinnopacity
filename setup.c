@@ -169,7 +169,7 @@ void cNopacitySetupMenuDisplay::Set(void) {
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Radius of rounded corners")), tmpConf->GetValueRef("cornerRadius"), 5, 30));
     Add(new cMenuEditBoolItem(tr("Use Channel Logo background"), tmpConf->GetValueRef("menuChannelLogoBackground")));
     Add(new cMenuEditIntItem(tr("Fade-In Time in ms (Zero for switching off fading)"), tmpConf->GetValueRef("menuFadeTime"), 0, 1000));
-    Add(new cMenuEditIntItem(tr("Fade-In Time in ms (Zero for switching off fading)"), tmpConf->GetValueRef("menuFadeOutTime"), 0, 1000));
+    Add(new cMenuEditIntItem(tr("Fade-Out Time in ms (Zero for switching off fading)"), tmpConf->GetValueRef("menuFadeOutTime"), 0, 1000));
     Add(new cMenuEditIntItem(tr("Info Window Fade-In Time in ms (Zero for switching off fading)"), tmpConf->GetValueRef("menuEPGWindowFadeTime"), 0, 1000));
     Add(new cMenuEditIntItem(tr("Info Window Display Delay in s"), tmpConf->GetValueRef("menuInfoTextDelay"), 0, 10));
     Add(new cMenuEditIntItem(tr("Info Window Scroll Delay in s"), tmpConf->GetValueRef("menuInfoScrollDelay"), 0, 10));
@@ -497,7 +497,7 @@ void cNopacitySetupMessageDisplay::Set(void) {
     Clear();
 
     Add(new cMenuEditIntItem(tr("Fade-In Time in ms (Zero for switching off fading)"), tmpConf->GetValueRef("messageFadeTime"), 0, 1000));
-    Add(new cMenuEditIntItem(tr("Fade-In Time in ms (Zero for switching off fading)"), tmpConf->GetValueRef("messageFadeOutTime"), 0, 1000));
+    Add(new cMenuEditIntItem(tr("Fade-Out Time in ms (Zero for switching off fading)"), tmpConf->GetValueRef("messageFadeOutTime"), 0, 1000));
     Add(new cMenuEditIntItem(tr("Width of Message Display (Percent of OSD Height)"), tmpConf->GetValueRef("messageWidth"), 30, 100));
     Add(new cMenuEditIntItem(tr("Height of Message Display (Percent of OSD Height)"), tmpConf->GetValueRef("messageHeight"), 5, 100));
     Add(new cMenuEditIntItem(tr("Bottom Border Height"), tmpConf->GetValueRef("messageBorderBottom"), 0, 1000));

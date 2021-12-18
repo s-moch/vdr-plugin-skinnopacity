@@ -296,6 +296,9 @@ msgstr "Utilitza logo del canal de fons"
 msgid "Fade-In Time in ms (Zero for switching off fading)"
 msgstr "Fosa d'entrada, temps en ms (0 per desactivació)"
 
+msgid "Fade-Out Time in ms (Zero for switching off fading)"
+msgstr ""
+
 msgid "Info Window Fade-In Time in ms (Zero for switching off fading)"
 msgstr ""
 
@@ -556,9 +559,6 @@ msgstr "mostra temps transcorregut"
 
 msgid "show remaining time"
 msgstr "mostra temps restant"
-
-msgid "Fade-Out Time in ms (Zero for switching off fading)"
-msgstr ""
 
 msgid "Height of Channel Display (Percent of OSD Height)"
 msgstr "Alçada Visualització Canal (% alçada OSD)"
