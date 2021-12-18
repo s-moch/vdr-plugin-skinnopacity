@@ -186,7 +186,6 @@ int cNopacityTimer::DrawLogo(void) {
     int totalHeight = 0;
     pixmapLogo->Fill(clrTransparent);
     int showTimerLogo = (config.GetValue("showTimers") < 2) ? 1 : 0;
-    int logoWidth = geoManager->menuTimersLogoWidth;
     int logoHeight = geoManager->menuTimersLogoHeight;
     const cChannel *Channel = timer->Channel();
     if (Channel) {
@@ -195,7 +194,7 @@ int cNopacityTimer::DrawLogo(void) {
             cImage *logo = imgCache->GetLogo(ctLogoTimer, Channel);
             if (logo) {
                 logoFound = true;
-                pixmapLogo->DrawImage(cPoint((width - logoWidth)/2, 1), *logo);
+                pixmapLogo->DrawImage(cPoint((width - logo->Width()) / 2, (logoHeight - logo->Height()) / 2), *logo);
             }
         }
         if (!showTimerLogo || !logoFound) {
@@ -203,11 +202,11 @@ int cNopacityTimer::DrawLogo(void) {
             channel.Set(Channel->Name(), fontLarge, width - 10);
             int lines = channel.Lines();
             int lineHeight = fontLarge->Height();
-            int y = 1;
+            int y = 5;
             for (int line = 0; line < lines; line++) {
-                pixmapLogo->DrawText(cPoint((width - fontLarge->Width(channel.GetLine(line)))/2, y+lineHeight*line), channel.GetLine(line), Theme.Color(clrMenuFontMenuItemHigh), clrTransparent, fontLarge);
+                pixmapLogo->DrawText(cPoint((width - fontLarge->Width(channel.GetLine(line))) / 2, y + lineHeight * line), channel.GetLine(line), Theme.Color(clrMenuFontMenuItemHigh), clrTransparent, fontLarge);
             }
-            totalHeight = lineHeight * lines;
+            totalHeight = std::max(logoHeight, lineHeight * lines + 10);
         } else {
             totalHeight = logoHeight;
         }
