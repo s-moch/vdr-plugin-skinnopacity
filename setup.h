@@ -78,6 +78,7 @@ class cNopacitySetupMenuDisplayTimers : public cMenuSetupSubMenu {
 class cNopacitySetupMenuDisplayRecordings : public cMenuSetupSubMenu {
     protected:
         const char *windowMode[2];
+        const char *errorMode[3];
         void Set(void);
     public:
         cNopacitySetupMenuDisplayRecordings(cNopacityConfig *data);

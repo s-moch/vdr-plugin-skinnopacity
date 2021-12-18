@@ -134,6 +134,8 @@ void cNopacityConfig::LoadDefaults(void) {
     conf.insert(std::pair<std::string, int>("detailedViewScrollStep", 1));
     conf.insert(std::pair<std::string, int>("menuSchedulesWindowMode", 1));
     conf.insert(std::pair<std::string, int>("menuRecordingsWindowMode", 1));
+    conf.insert(std::pair<std::string, int>("menuRecordingsErrorMode", 2));
+    conf.insert(std::pair<std::string, int>("menuRecordingsDisplayError0", 1));
     conf.insert(std::pair<std::string, int>("menuTimersWindowMode", 1));
     conf.insert(std::pair<std::string, int>("fontHeader", 0));
     conf.insert(std::pair<std::string, int>("fontDate", 0));

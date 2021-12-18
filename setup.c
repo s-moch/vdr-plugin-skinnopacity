@@ -149,7 +149,7 @@ cNopacitySetupMenuDisplay::cNopacitySetupMenuDisplay(cNopacityConfig* data)  : c
     scrollSpeed[1] = tr("slow");
     scrollSpeed[2] = tr("medium");
     scrollSpeed[3] = tr("fast");
-    scalePic[0] = tr("no");
+    scalePic[0] = trVDR("no");
     scalePic[1] = tr("yes");
     scalePic[2] = tr("auto");
     Set();
@@ -323,6 +323,9 @@ void cNopacitySetupMenuDisplayTimers::Set(void) {
 cNopacitySetupMenuDisplayRecordings::cNopacitySetupMenuDisplayRecordings(cNopacityConfig* data)  : cMenuSetupSubMenu(tr("VDR Menu: Recordings Menu"), data) {
     windowMode[0] = tr("window");
     windowMode[1] = tr("full screen");
+    errorMode[0] = tr("no");
+    errorMode[1] = tr("row 2");
+    errorMode[2] = tr("row 3");
     Set();
 }
 
@@ -335,6 +338,8 @@ void cNopacitySetupMenuDisplayRecordings::Set(void) {
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Width (Percent of OSD Width)")), tmpConf->GetValueRef("menuWidthRecordings"), 10, 97));
     Add(new cMenuEditIntItem(tr("Number of entires per page"), tmpConf->GetValueRef("numRecordingsMenuItems"), 3, 20));
     Add(new cMenuEditStraItem(tr("Mode of recording Window"), tmpConf->GetValueRef("menuRecordingsWindowMode"), 2, windowMode));
+    Add(new cMenuEditStraItem(tr("Show number of errors in the recordings menu"), tmpConf->GetValueRef("menuRecordingsErrorMode"), 3, errorMode));
+    Add(new cMenuEditBoolItem(tr("Display Error 0"), tmpConf->GetValueRef("menuRecordingsDisplayError0")));
     Add(new cMenuEditIntItem(tr("Border around detailed recording view"), tmpConf->GetValueRef("borderDetailedRecordings"), 1, 300));
     Add(new cMenuEditBoolItem(tr("Use folder poster if available"), tmpConf->GetValueRef("useFolderPoster")));
     Add(new cMenuEditIntItem(tr("Width of manually set recording poster"), tmpConf->GetValueRef("posterWidth"), 100, 1000));

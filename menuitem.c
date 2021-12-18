@@ -1324,7 +1324,7 @@ void cNopacityRecordingMenuItem::SetTextShortRecording(void) {
 void cNopacityRecordingMenuItem::DrawRecordingIcons(void) {
     int iconSize = height / 3;
     int iconX = pixmapStatic->ViewPort().Width();
-    int iconY = height / 2;
+    int iconY = height - iconSize - fontSmall->Height();
 
     cImage *imgIconNew = imgCache->GetSkinIcon("skinIcons/newrecording", iconSize, iconSize);
     if (imgIconNew && Recording->IsNew()) {
@@ -1362,25 +1362,37 @@ void cNopacityRecordingMenuItem::DrawRecDateTime(void) {
     Event = Recording->Info()->GetEvent();
     cString strDateTime("");
     cString strDuration("");
+    cString strError("");
+#if (APIVERSNUM >= 20505)
+    //Errors
+    const cRecordingInfo *info = Recording->Info();
+    if (info->Errors() >= (1 - config.GetValue("menuRecordingsDisplayError0"))) {
+        strError = cString::sprintf("%s: %d ", tr("errors"), info->Errors());
+    }
+#endif
     if (Event) {
         std::string strDate = *(Event->GetDateString());
         cString strTime = Event->GetTimeString();
         if (strDate.find("1970") != std::string::npos) {
             time_t start = Recording->Start();
-            strDateTime = cString::sprintf("%s %s", *DateString(start),*TimeString(start));
+            strDateTime = cString::sprintf("%s %s", *DateString(start), *TimeString(start));
         } else {
             strDateTime = cString::sprintf("%s - %s", strDate.c_str(), *strTime);
         }
+        if (config.GetValue("menuRecordingsErrorMode") == 1)
+            strDateTime = cString::sprintf("%s, %s", *strDateTime, *strError);
         int duration = Event->Duration() / 60;
         int recDuration = Recording->LengthInSeconds();
-        recDuration = (recDuration>0)?(recDuration / 60):0;
-        strDuration = cString::sprintf("%s: %d %s, %s: %d %s", tr("Duration"), duration, tr("min"), tr("recording"), recDuration, tr("min"));
+        recDuration = (recDuration > 0) ? (recDuration / 60) : 0;
+	if (config.GetValue("menuRecordingsErrorMode") == 2)
+           strDuration = cString::sprintf("%s: %d %s, %s: %d %s, %s", tr("Duration"), duration, tr("min"), tr("recording"), recDuration, tr("min"), *strError);
+        else
+           strDuration = cString::sprintf("%s: %d %s, %s: %d %s", tr("Duration"), duration, tr("min"), tr("recording"), recDuration, tr("min"));
     }
-
-    int textHeight = height/2 + (height/4 - fontSmall->Height())/2;
+    int textHeight = height / 2 + (height / 4 - fontSmall->Height()) / 2;
     tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
     pixmapStatic->DrawText(cPoint(10 + left, textHeight), *strDateTime, clrFont, clrTransparent, fontSmall);
-    textHeight += height/4;
+    textHeight += height / 4;
     pixmapStatic->DrawText(cPoint(10 + left, textHeight), *strDuration, clrFont, clrTransparent, fontSmall);
 }
 

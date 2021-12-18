@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2021-07-30 12:33+0200\n"
+"POT-Creation-Date: 2022-01-12 15:39+0100\n"
 "PO-Revision-Date: 2013-03-19 22:56+0100\n"
 "Last-Translator: Diego Pierotto <vdr-italian@tiscali.it>\n"
 "Language-Team: \n"
@@ -171,6 +171,9 @@ msgid "Transp."
 msgstr "Transponder"
 
 msgid "No EPG Information found"
+msgstr ""
+
+msgid "errors"
 msgstr ""
 
 msgid "Duration"
@@ -467,7 +470,19 @@ msgstr ""
 msgid "Number of EPG Entries in Schedules Info Window"
 msgstr ""
 
+msgid "row 2"
+msgstr ""
+
+msgid "row 3"
+msgstr ""
+
 msgid "Mode of recording Window"
+msgstr ""
+
+msgid "Show number of errors in the recordings menu"
+msgstr ""
+
+msgid "Display Error 0"
 msgstr ""
 
 msgid "Border around detailed recording view"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: vdr-skinnopacity\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2021-07-30 12:33+0200\n"
+"POT-Creation-Date: 2022-01-12 15:39+0100\n"
 "PO-Revision-Date: 2013-11-11 20:52+0100\n"
 "Last-Translator: Milan Hrala <hrala.milan@gmail.com>\n"
 "Language-Team: \n"
@@ -169,6 +169,9 @@ msgstr "Transp."
 
 msgid "No EPG Information found"
 msgstr "Nena¹li sa EPG informácie"
+
+msgid "errors"
+msgstr ""
 
 msgid "Duration"
 msgstr "Då¾ka"
@@ -464,8 +467,20 @@ msgstr "Zobrazi» reláciu s èasom vysielania"
 msgid "Number of EPG Entries in Schedules Info Window"
 msgstr "Poèet EPG polo¾iek v okne TV programu"
 
+msgid "row 2"
+msgstr ""
+
+msgid "row 3"
+msgstr ""
+
 msgid "Mode of recording Window"
 msgstr "Spôsob zobrazenia okna nahrávok"
+
+msgid "Show number of errors in the recordings menu"
+msgstr ""
+
+msgid "Display Error 0"
+msgstr ""
 
 msgid "Border around detailed recording view"
 msgstr "Okraj okolo podrobného zobrazenia nahrávky"
