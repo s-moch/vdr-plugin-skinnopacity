@@ -12,6 +12,7 @@ cSize ScaleToFit(int widthMax, int heightMax, int widthOriginal, int heightOrigi
 int Minimum(int a, int b, int c, int d, int e, int f);
 std::string CutText(std::string text, int width, const cFont *font);
 std::string StrToLowerCase(std::string str);
+cString GetScreenResolutionIcon(void);
 
 class splitstring : public std::string {
     std::vector<std::string> flds;

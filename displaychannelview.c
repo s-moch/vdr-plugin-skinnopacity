@@ -531,42 +531,13 @@ void cNopacityDisplayChannelView::DrawScreenResolution(void) {
     } else {
         resolutionIcon = GetScreenResolutionIcon();
     }
+    if (strcasecmp(resolutionIcon, "") == 0)
+       return;
     int iconX = 5 * (statusIconBorder + statusIconSize);
-    cImage *imgRes = imgCache->GetSkinIcon(*resolutionIcon, 3*statusIconSize, statusIconSize);
+    cImage *imgRes = imgCache->GetSkinIcon(*resolutionIcon, 3 * statusIconSize, statusIconSize);
     if (imgRes)
         pixmapStatusIcons->DrawImage(cPoint(iconX,statusIconBorder), *imgRes);
 
-}
-
-cString cNopacityDisplayChannelView::GetScreenResolutionIcon(void) {
-    int screenWidth = 0;
-    int screenHeight = 0;
-    double aspect = 0;
-    cDevice::PrimaryDevice()->GetVideoSize(screenWidth, screenHeight, aspect);
-    cString iconName("");
-    switch (screenWidth) {
-        case 7680: // 7680 x 4320 = 8K UHD
-        case 3840: // 3840 x 2160 = 4K UHD
-            iconName = "skinIcons/uhd4k";
-            break;
-        case 1920:
-        case 1440:
-            iconName = "skinIcons/hd1080i";
-            break;
-        case 1280:
-            if (screenHeight == 720)
-                iconName = "skinIcons/hd720p";
-            else
-                iconName = "skinIcons/hd1080i";
-            break;
-        case 720:
-            iconName = "skinIcons/sd576i";
-            break;
-        default:
-            iconName = "skinIcons/sd576i";
-            break;
-    }
-    return iconName;
 }
 
 void cNopacityDisplayChannelView::ClearStatusIcons(void) {

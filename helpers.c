@@ -168,3 +168,33 @@ cPlugin *GetScraperPlugin(void) {
         pScraper = cPluginManager::GetPlugin("tvscraper");
     return pScraper;
 }
+
+cString GetScreenResolutionIcon(void) {
+    int screenWidth = 0;
+    int screenHeight = 0;
+    double aspect = 0;
+    cDevice::PrimaryDevice()->GetVideoSize(screenWidth, screenHeight, aspect);
+    cString iconName("");
+    switch (screenHeight) {
+        case 4320: // 7680 x 4320 = 8K UHD
+        case 2160: // 3840 x 2160 = 4K UHD
+            iconName = "skinIcons/uhd4k";
+            break;
+        case 1440: // 2560 x 1440 = QHD
+        case 1080: // "hd1080i"; // 'i' is default, 'p' can't be detected currently
+            iconName = "skinIcons/hd1080i";
+            break;
+        case 720: // "hd720p"; // 'i' is not defined in standards
+            iconName = "skinIcons/hd720p";
+            break;
+        case 576: // "sd576i"; // assumed 'i'
+            iconName = "skinIcons/sd576i";
+            break;
+        case 480: // "sd480i"; // assumed 'i'
+            iconName = "skinIcons/sd576i";
+            break;
+        default:
+            break;
+    }
+    return iconName;
+}

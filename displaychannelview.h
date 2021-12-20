@@ -34,7 +34,6 @@ private:
     cPixmap *pixmapPoster;
     cNopacityMessageBox *messageBox;
     tColor DrawProgressbarProgress(int left, int top, int width, int height);
-    cString GetScreenResolutionIcon(void);
     std::string GetChannelSep(const cChannel *channel, bool prev);
     void CreatePixmaps(void);
     void DrawBackground(void);
