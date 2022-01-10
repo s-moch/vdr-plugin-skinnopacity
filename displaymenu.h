@@ -18,6 +18,7 @@ private:
     int menuFadeOutTime = 0;
     bool fadeout;
     bool initial;
+    bool deatilViewRenderDone = false;
     bool diskUsageDrawn;
     int lastDiskUsageState;
     int lastTimersState;
