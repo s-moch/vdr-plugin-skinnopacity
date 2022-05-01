@@ -1,5 +1,13 @@
 VDR Plugin 'nOpacity' Revision History
 ---------------------------------------
+Version 1.1.10
+
+- Height and width confused (thx to @LotharE at vdr-portal.de)
+- Prevents "invalid lock sequence" in the recording info menu when Skinnopacitys SetRecording is called
+- Optimize display timers in main menu
+- Optimize display channellogo in displaychannel
+- Added number of errors to recording item in the recordings menu
+- Size of channel logos is now configureable in setup to better fit in postion
 
 Version 1.1.9
 
