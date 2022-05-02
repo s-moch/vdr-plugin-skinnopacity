@@ -639,10 +639,10 @@ msgid "Adjust Font Size - Channel Source Info"
 msgstr "Schriftgröße anpassen - Kanalquelleninfo"
 
 msgid "Adjust Font Size - Channel Group"
-msgstr "Schriftgräße Anpassen - Kanalgruppen"
+msgstr "Schriftgröße Anpassen - Kanalgruppen"
 
 msgid "Adjust Font Size - Next/Prev Channel Group"
-msgstr "Schriftgräße Anpassen - vorh./nächste Kanalgruppe"
+msgstr "Schriftgröße Anpassen - vorh./nächste Kanalgruppe"
 
 msgid "Height of Replay Display (Percent of OSD Height)"
 msgstr "Höhe der Wiedergabe Anzeige (% der OSD Höhe)"
