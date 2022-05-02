@@ -336,12 +336,13 @@ void cNopacitySetupMenuDisplayRecordings::Set(void) {
     Clear();
 
     Add(new cMenuEditBoolItem(tr("Use narrow menu"), tmpConf->GetValueRef("narrowRecordingMenu")));
-    if (tmpConf->GetValue("narrowRecordingMenu"))
+    if (tmpConf->GetValue("narrowRecordingMenu")) {
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Width (Percent of OSD Width)")), tmpConf->GetValueRef("menuWidthRecordings"), 10, 97));
+        Add(new cMenuEditStraItem(cString::sprintf("%s%s", *spacer, tr("Show number of errors in the recordings menu")), tmpConf->GetValueRef("menuRecordingsErrorMode"), 3, errorMode));
+        Add(new cMenuEditBoolItem(cString::sprintf("%s%s", *spacer, tr("Display Error 0")), tmpConf->GetValueRef("menuRecordingsDisplayError0")));
+    }
     Add(new cMenuEditIntItem(tr("Number of entires per page"), tmpConf->GetValueRef("numRecordingsMenuItems"), 3, 20));
     Add(new cMenuEditStraItem(tr("Mode of recording Window"), tmpConf->GetValueRef("menuRecordingsWindowMode"), 2, windowMode));
-    Add(new cMenuEditStraItem(tr("Show number of errors in the recordings menu"), tmpConf->GetValueRef("menuRecordingsErrorMode"), 3, errorMode));
-    Add(new cMenuEditBoolItem(tr("Display Error 0"), tmpConf->GetValueRef("menuRecordingsDisplayError0")));
     Add(new cMenuEditIntItem(tr("Border around detailed recording view"), tmpConf->GetValueRef("borderDetailedRecordings"), 1, 300));
     Add(new cMenuEditBoolItem(tr("Use folder poster if available"), tmpConf->GetValueRef("useFolderPoster")));
     Add(new cMenuEditIntItem(tr("Width of manually set recording poster"), tmpConf->GetValueRef("posterWidth"), 100, 1000));
