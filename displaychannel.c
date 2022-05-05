@@ -16,7 +16,7 @@ cNopacityDisplayChannel::cNopacityDisplayChannel(bool WithInfo) : cThread("Displ
     fadeout = false;
     initial = true;
 
-    osd = CreateOsd(geoManager->osdLeft, geoManager->osdTop, geoManager->osdWidth, geoManager->osdHeight);
+    osd = CreateOsd(geoManager->channelOsdLeft, geoManager->channelOsdTop, geoManager->channelOsdWidth, geoManager->channelOsdHeight);
     channelView = new cNopacityDisplayChannelView(osd);
 }
 

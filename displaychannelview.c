@@ -109,8 +109,8 @@ void cNopacityDisplayChannelView::CreatePixmaps(void) {
                                     geoManager->channelEpgInfoHeight)
                             );
     int statusIconsWidth = 8 * statusIconSize + 6 * statusIconBorder;
-    int statusIconX = geoManager->osdWidth
-                      - config.GetValue("channelBorderVertical")
+    int statusIconX = geoManager->channelX
+                      + geoManager->channelWidth
                       - statusIconsWidth
                       - 3*statusIconBorder;
     if (config.GetValue("logoPosition") == lpRight)
