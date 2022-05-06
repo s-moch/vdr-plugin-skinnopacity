@@ -120,16 +120,14 @@ void cNopacityDisplayTracks::DrawHeader(const char *Title) {
 }
 
 void cNopacityDisplayTracks::SetAlpha(int Alpha, bool Force) {
-    if (config.GetValue("tracksFadeTime")) {
-        pixmapContainer->SetAlpha(Alpha);
-        pixmapHeader->SetAlpha(Alpha);
-        pixmapHeaderAudio->SetAlpha(Alpha);
-        pixmapIcon->SetAlpha(Alpha);
-        for (auto i = menuItems.begin(); i != menuItems.end(); ++i) {
-            if (*i && (Force || Running())) {
-                cNopacityMenuItem *item = i->get();
-                item->SetAlpha(Alpha);
-            }
+    pixmapContainer->SetAlpha(Alpha);
+    pixmapHeader->SetAlpha(Alpha);
+    pixmapHeaderAudio->SetAlpha(Alpha);
+    pixmapIcon->SetAlpha(Alpha);
+    for (auto i = menuItems.begin(); i != menuItems.end(); ++i) {
+        if (*i && (Force || Running())) {
+            cNopacityMenuItem *item = i->get();
+            item->SetAlpha(Alpha);
         }
     }
 }
