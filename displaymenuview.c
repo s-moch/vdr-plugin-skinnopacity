@@ -438,7 +438,7 @@ int cNopacityDisplayMenuView::DrawHeaderIcon(eMenuCategory menuCat, bool initial
         int iconX = (menuAdjustLeft) ? 0 : (geoManager->osdWidth - geoManager->menuHeaderHeight);
         pixmapHeaderIcon = osd->CreatePixmap(2, cRect(iconX, 2, iconSize, iconSize));
         pixmapHeaderIcon->Fill(clrTransparent);
-        if (initial && config.GetValue("menuFadeTime")) {
+        if (initial && config.GetValue("animation") && config.GetValue("menuFadeTime")) {
             pixmapHeaderIcon->SetAlpha(0);
         }
         cImage *imgIcon = imgCache->GetSkinIcon(*icon);
@@ -461,7 +461,7 @@ int cNopacityDisplayMenuView::ShowHeaderIconChannelLogo(const char *Title, bool 
     int iconX = (menuAdjustLeft) ? 0 : (geoManager->osdWidth - logoWidth);
     pixmapHeaderIcon = osd->CreatePixmap(2, cRect(iconX, 2, logoWidth, logoHeight));
     pixmapHeaderIcon->Fill(clrTransparent);
-    if (initial && config.GetValue("menuFadeTime")) {
+    if (initial && config.GetValue("animation") && config.GetValue("menuFadeTime")) {
         pixmapHeaderIcon->SetAlpha(0);
     }
     std::string channel = Title;

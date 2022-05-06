@@ -575,8 +575,9 @@ void cNopacityDisplayChannelView::DrawPoster(const cEvent *event, bool initial) 
                                                       config.GetValue("channelBorderBottom"),
                                                       mediaWidth + 2 * border,
                                                       mediaHeight + 2 * border));
-            if (initial && config.GetValue("channelFadeTime"))
+            if (initial && config.GetValue("animation") && config.GetValue("channelFadeTime")) {
                 pixmapPoster->SetAlpha(0);
+            }
             cImageLoader imgLoader;
             if (imgLoader.LoadPoster(mediaPath.c_str(), mediaWidth, mediaHeight)) {
                 pixmapPoster->Fill(Theme.Color(clrChannelBackground));
@@ -629,7 +630,7 @@ void cNopacityDisplayChannelView::DrawSignalMeter(void) {
         pixmapSignalQuality->Fill(Theme.Color(clrProgressBarBack));
         pixmapSignalMeter->Fill(clrTransparent);
         pixmapSignalLabel->Fill(clrTransparent);
-        if (config.GetValue("channelFadeTime")) {
+        if (config.GetValue("animation") && config.GetValue("channelFadeTime")) {
             pixmapSignalStrength->SetAlpha(0);
             pixmapSignalQuality->SetAlpha(0);
             pixmapSignalMeter->SetAlpha(0);

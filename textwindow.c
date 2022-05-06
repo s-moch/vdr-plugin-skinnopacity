@@ -172,7 +172,7 @@ void cNopacityTextWindow::CreatePixmap(void) {
     pixmapBackground->Fill(Theme.Color(clrMenuBorder));
     pixmapBackground->DrawRectangle(cRect(1, 1, geometry->Width(), geometry->Height()), clrBlack);
     pixmap->Fill(Theme.Color(clrMenuBack));
-    if (config.GetValue("menuEPGWindowFadeTime"))
+    if (config.GetValue("animation") && config.GetValue("menuEPGWindowFadeTime"))
         SetAlpha();
     cPixmap::Unlock();
 }
