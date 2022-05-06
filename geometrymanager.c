@@ -109,7 +109,7 @@ void cGeometryManager::SetGeometry(void) {
     channelHeight = osdHeight * config.GetValue("channelHeight") / 100;
     channelTop = osdHeight - channelHeight - config.GetValue("channelBorderBottom");
 
-    if (!config.GetValue("displayPoster")) {
+    if (!(config.GetValue("scraperInfo") && config.GetValue("displayPoster"))) {
         channelOsdLeft += channelX;
         channelOsdTop += channelTop;
         channelOsdWidth = channelWidth;
