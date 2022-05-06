@@ -148,7 +148,7 @@ void cNopacityDisplayVolume::Flush(void) {
 
 void cNopacityDisplayVolume::Action(void) {
     int x = (fadeout) ? 255 : 0;
-    int FadeTime = (fadeout) ? config.GetValue("replayFadeOutTime") : config.GetValue("replayFadeTime");
+    int FadeTime = (fadeout) ? config.GetValue("volumeFadeOutTime") : config.GetValue("volumeFadeTime");
     int FrameTime = FadeTime / 10;
     uint64_t First = cTimeMs::Now();
     cPixmap::Lock();
