@@ -645,6 +645,8 @@ void cNopacityDisplayChannelView::DrawSignalMeter(void) {
 }
 
 void cNopacityDisplayChannelView::DrawSignal(void) {
+    if (!pixmapSignalMeter)
+        return;
     time_t Now = time(NULL);
     if (Now != lastSignalDisplay) {
         int SignalStrength = cDevice::ActualDevice()->SignalStrength();
