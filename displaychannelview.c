@@ -225,14 +225,17 @@ void cNopacityDisplayChannelView::DrawBackground(void) {
 }
 
 void cNopacityDisplayChannelView::DrawChannelLogo(const cChannel *Channel) {
-    if (config.GetValue("displayType") != dtFlat && config.GetValue("channelUseLogoBackground")) {
-        cImage *imgLogoBack = imgCache->GetSkinElement(seChannelLogoBack);
-        if (imgLogoBack)
-            pixmapLogoBackground->DrawImage(cPoint((geoManager->channelLogoBgWidth - imgLogoBack->Width()) / 2, (geoManager->channelLogoBgHeight - imgLogoBack->Height()) / 2), *imgLogoBack);
-    }
     cImage *imgLogo = imgCache->GetLogo(ctLogo, Channel);
     if (imgLogo) {
         pixmapLogo->DrawImage(cPoint((geoManager->channelLogoWidth - imgLogo->Width()) / 2, (geoManager->channelLogoHeight - imgLogo->Height()) / 2), *imgLogo);
+    }
+
+    if (config.GetValue("displayType") != dtFlat && ((config.GetValue("channelUseLogoBackground") == 1)
+                                                 || ((config.GetValue("channelUseLogoBackground") == 2) && imgLogo)
+                                                 || ((config.GetValue("channelUseLogoBackground") == 3) && !imgLogo))) {
+        cImage *imgLogoBack = imgCache->GetSkinElement(seChannelLogoBack);
+        if (imgLogoBack)
+            pixmapLogoBackground->DrawImage(cPoint((geoManager->channelLogoBgWidth - imgLogoBack->Width()) / 2, (geoManager->channelLogoBgHeight - imgLogoBack->Height()) / 2), *imgLogoBack);
     }
 }
 

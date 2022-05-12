@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2022-01-12 15:39+0100\n"
+"POT-Creation-Date: 2022-05-12 13:42+0200\n"
 "PO-Revision-Date: 2012-11-11 17:49+0200\n"
 "Last-Translator: louis\n"
 "Language-Team: \n"
@@ -479,14 +479,14 @@ msgstr "Zeile 2"
 msgid "row 3"
 msgstr "Zeile 3"
 
-msgid "Mode of recording Window"
-msgstr "Aufnahme Fenster Modus"
-
 msgid "Show number of errors in the recordings menu"
 msgstr "Anzahl Fehler im Aufzeichnungsnmenü anzeigen"
 
 msgid "Display Error 0"
 msgstr "0 Fehler anzeigen"
+
+msgid "Mode of recording Window"
+msgstr "Aufnahme Fenster Modus"
 
 msgid "Border around detailed recording view"
 msgstr "Rahmen um detailierte Aufnahmeansicht"
@@ -571,6 +571,12 @@ msgstr "mittig"
 
 msgid "bottom"
 msgstr "unten"
+
+msgid "if channel logo is present"
+msgstr "wenn ein Kanallogo existiert"
+
+msgid "if channel logo is not present"
+msgstr "wenn kein Kanallogo existiert"
 
 msgid "show elapsed time"
 msgstr "vergangene Zeit anzeigen"

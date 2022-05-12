@@ -405,6 +405,10 @@ cNopacitySetupChannelDisplay::cNopacitySetupChannelDisplay(cNopacityConfig* data
     logoVerticalPos[0] = tr("top");
     logoVerticalPos[1] = tr("middle");
     logoVerticalPos[2] = tr("bottom");
+    useLogoBackground[0] = tr("never");
+    useLogoBackground[1] = tr("always"); // default
+    useLogoBackground[2] = tr("if channel logo is present");
+    useLogoBackground[3] = tr("if channel logo is not present");
     progressStyleCurrentSchedule[0] = tr("show elapsed time");
     progressStyleCurrentSchedule[1] = tr("show remaining time");
     Set();
@@ -429,7 +433,7 @@ void cNopacitySetupChannelDisplay::Set(void) {
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Channel Logo original Width")), tmpConf->GetValueRef("logoWidthOriginal"), 30, 500));
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Channel Logo original Height")), tmpConf->GetValueRef("logoHeightOriginal"), 30, 500));
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Size of the Channel Logo in Percent")), tmpConf->GetValueRef("logoScale"), 50, 100));
-        Add(new cMenuEditBoolItem(cString::sprintf("%s%s", *spacer, tr("Use Channel Logo background")), tmpConf->GetValueRef("channelUseLogoBackground")));
+        Add(new cMenuEditStraItem(cString::sprintf("%s%s", *spacer, tr("Use Channel Logo background")), tmpConf->GetValueRef("channelUseLogoBackground"), 4, useLogoBackground));
     }
     Add(new cMenuEditStraItem(tr("Kind of time display for current schedule"), tmpConf->GetValueRef("progressCurrentSchedule"), 2, progressStyleCurrentSchedule));
     Add(new cMenuEditBoolItem(tr("Display Signal Strength & Quality"), tmpConf->GetValueRef("displaySignalStrength")));
