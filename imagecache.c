@@ -598,7 +598,7 @@ void cImageCache::CreateSkinElementsGraphics(void) {
     std::string imgChannelLogoBack = "skinElements/channellogoback";
     success = LoadIcon(ctSkinElement, imgChannelLogoBack);
     if (success)
-        InsertIntoSkinElementCache(seChannelLogoBack, geoManager->channelLogoWidth, geoManager->channelLogoHeight);
+        InsertIntoSkinElementCache(seChannelLogoBack, geoManager->channelLogoBgWidth, geoManager->channelLogoBgHeight);
 
     //DisplayReplay Background and Foreground
     std::string imgReplayBackground = "skinElements/displayreplayback";

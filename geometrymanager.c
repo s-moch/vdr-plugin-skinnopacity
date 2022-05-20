@@ -123,17 +123,17 @@ void cGeometryManager::SetGeometry(void) {
     channelContentHeight = channelHeight - channelHeaderHeight - channelFooterHeight;
 
     int logoWidthTotalPercent = 16;
-    channelLogoWidthTotal = logoWidthTotalPercent * channelWidth /100;
+    channelLogoWidthTotal = logoWidthTotalPercent * channelWidth / 100;
 
-    int logoMaxWidth = channelLogoWidthTotal - 10;
-    int logoMaxHeight;
-    if (config.GetValue("displayType") == dtGraphical) {
-        logoMaxHeight = channelHeight - channelHeaderHeight - 2;
-    } else {
-        logoMaxHeight = channelHeight - 2;
+    // 184x130 logo background for 1250x180 graphical display channel window (default theme)
+    channelLogoBgWidth = channelWidth * 184 / 1250;
+    channelLogoBgHeight = channelHeight * 130 / 180;
+    channelLogoBgX = (channelLogoWidthTotal - channelLogoBgWidth) / 2;
+    if (config.GetValue("displayType") != dtGraphical) {
+        channelLogoBgHeight += channelHeaderHeight;
     }
-    cSize channelLogoSize = ScaleToFit(logoMaxWidth,
-                                logoMaxHeight,
+    cSize channelLogoSize = ScaleToFit(channelLogoBgWidth,
+                                channelLogoBgHeight,
                                 config.GetValue("logoWidthOriginal"),
                                 config.GetValue("logoHeightOriginal"));
     channelLogoWidth = channelLogoSize.Width();
@@ -143,12 +143,15 @@ void cGeometryManager::SetGeometry(void) {
     switch (config.GetValue("logoVerticalAlignment")) {
         case lvTop:
             channelLogoY = channelTop + (channelHeight - channelHeaderHeight - channelLogoHeight)/2;
+            channelLogoBgY = channelTop + (channelHeight - channelHeaderHeight - channelLogoBgHeight)/2;
             break;
         case lvMiddle:
             channelLogoY = channelTop + (channelHeight - channelLogoHeight)/2;
+            channelLogoBgY = channelTop + (channelHeight - channelLogoBgHeight)/2;
             break;
         case lvBottom:
             channelLogoY = (channelTop + channelHeaderHeight) + (channelHeight - channelHeaderHeight - channelLogoHeight)/2;
+            channelLogoBgY = (channelTop + channelHeaderHeight) + (channelHeight - channelHeaderHeight - channelLogoBgHeight)/2;
             break;
     }
 

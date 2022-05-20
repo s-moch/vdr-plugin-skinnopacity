@@ -77,10 +77,10 @@ void cNopacityDisplayChannelView::CreatePixmaps(void) {
                                     geoManager->channelLogoHeight)
                             );
     pixmapLogoBackground  = osd->CreatePixmap(2,
-                              cRect(geoManager->channelX + geoManager->channelLogoX,
-                                    geoManager->channelLogoY,
-                                    geoManager->channelLogoWidth,
-                                    geoManager->channelLogoHeight)
+                              cRect(geoManager->channelX + geoManager->channelLogoBgX,
+                                    geoManager->channelLogoBgY,
+                                    geoManager->channelLogoBgWidth,
+                                    geoManager->channelLogoBgHeight)
                             );
     pixmapChannelName = osd->CreatePixmap(2,
                               cRect(geoManager->channelX + geoManager->channelContentX,
@@ -228,7 +228,7 @@ void cNopacityDisplayChannelView::DrawChannelLogo(const cChannel *Channel) {
     if (config.GetValue("displayType") != dtFlat && config.GetValue("channelUseLogoBackground")) {
         cImage *imgLogoBack = imgCache->GetSkinElement(seChannelLogoBack);
         if (imgLogoBack)
-            pixmapLogoBackground->DrawImage(cPoint(0,0), *imgLogoBack);
+            pixmapLogoBackground->DrawImage(cPoint((geoManager->channelLogoBgWidth - imgLogoBack->Width()) / 2, (geoManager->channelLogoBgHeight - imgLogoBack->Height()) / 2), *imgLogoBack);
     }
     cImage *imgLogo = imgCache->GetLogo(ctLogo, Channel);
     if (imgLogo) {

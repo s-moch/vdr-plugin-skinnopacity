@@ -68,6 +68,8 @@ class cGeometryManager {
         int channelLogoWidthTotal;
         int channelLogoX, channelLogoY;
         int channelLogoWidth, channelLogoHeight;
+        int channelLogoBgX, channelLogoBgY;
+        int channelLogoBgWidth, channelLogoBgHeight;
         int channelChannelNameWidth;
         int channelDateWidth;
         int channelFooterY;
