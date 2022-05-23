@@ -1,5 +1,16 @@
 VDR Plugin 'nOpacity' Revision History
 ---------------------------------------
+Version 1.1.11
+
+- Fix typo in po/de_DE.po
+- Show menue items "Show number of errors in the recordings menu" and
+  "Display Error 0" only if narrow recording menu is activ
+- [S:oren] Optimize channelview OSD size
+- [S:oren] Align channel logo background
+- Fix a segfault if "signal.png" is not found in the resource directory "icons/skinIcons/"
+- Also checks "Use animation" and "Use scraperinfos and pictures" in various functions
+- Add setup option to display the channellogobackground only if a channellogo ist present or not present
+
 Version 1.1.10
 
 - Height and width confused (thx to @LotharE at vdr-portal.de)
