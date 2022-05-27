@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: vdr-skinnopacity\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2022-06-05 15:09+0200\n"
+"POT-Creation-Date: 2022-06-01 17:59+0200\n"
 "PO-Revision-Date: 2013-11-11 20:52+0100\n"
 "Last-Translator: Milan Hrala <hrala.milan@gmail.com>\n"
 "Language-Team: \n"
@@ -283,6 +283,12 @@ msgstr "Vý¹ka hlavièky (percento z èasti OSD vý¹ky)"
 
 msgid "Footer Height (Percent of OSD Height)"
 msgstr "Vý¹ka zápätia (percento z èasti OSD vý¹ky)"
+
+msgid "Display Volume"
+msgstr ""
+
+msgid "Bottom Volume Border Height"
+msgstr ""
 
 msgid "Rounded Corners for menu items and buttons"
 msgstr "Zaoblené rohy pre polo¾ky menu a tlaèidiel"

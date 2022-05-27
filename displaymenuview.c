@@ -1,3 +1,4 @@
+#include "status.h"
 #include "displaymenuview.h"
 
 cNopacityDisplayMenuView::cNopacityDisplayMenuView(cOsd *osd) {
@@ -5,6 +6,9 @@ cNopacityDisplayMenuView::cNopacityDisplayMenuView(cOsd *osd) {
     diskUsageAlert = 95;
     pixmapHeaderIcon = NULL;
     messageBox = NULL;
+    volumeBox = NULL;
+    lastVolume = statusMonitor->GetVolume();
+    lastVolumeTime = time(NULL);
     menuAdjustLeft = config.GetValue("menuAdjustLeft");
     SetDescriptionTextWindowSize();
     CreatePixmaps();
@@ -29,6 +33,7 @@ cNopacityDisplayMenuView::~cNopacityDisplayMenuView(void) {
     if (pixmapHeaderIcon)
         osd->DestroyPixmap(pixmapHeaderIcon);
     delete messageBox;
+    delete volumeBox;
 }
 
 void cNopacityDisplayMenuView::SetDescriptionTextWindowSize(void) {
@@ -195,6 +200,8 @@ void cNopacityDisplayMenuView::SetAlpha(int Alpha) {
     pixmapDiskUsageLabel->SetAlpha(Alpha);
     if (pixmapHeaderIcon)
         pixmapHeaderIcon->SetAlpha(Alpha);
+    if (volumeBox)
+        volumeBox->SetAlpha(Alpha);
 }
 
 void cNopacityDisplayMenuView::GetMenuItemSize(eMenuCategory menuCat, cPoint *itemSize) {
@@ -652,6 +659,7 @@ void cNopacityDisplayMenuView::ClearScrollbar(void) {
 
 
 void cNopacityDisplayMenuView::DrawMessage(eMessageType Type, const char *Text) {
+    DELETENULL(volumeBox);
     DELETENULL(messageBox);
     if (!Text)
         return;
@@ -660,4 +668,22 @@ void cNopacityDisplayMenuView::DrawMessage(eMessageType Type, const char *Text) 
 					       geoManager->osdHeight * 9/10 - geoManager->messageHeight,
 					       geoManager->messageWidth, geoManager->messageHeight),
 					 Type, Text, true);
+}
+
+void cNopacityDisplayMenuView::DrawVolume(void) {
+    int volume = statusMonitor->GetVolume();
+    if (volume != lastVolume) {
+        if (!volumeBox) {
+            int left = (geoManager->osdWidth - geoManager->volumeWidth) / 2;
+            int top = geoManager->osdHeight - geoManager->volumeHeight - config.GetValue("menuBorderVolumeBottom");
+            volumeBox = new cNopacityVolumeBox(osd, cRect(left, top, geoManager->volumeWidth, geoManager->volumeHeight), fontManager->volumeText);
+        }
+        volumeBox->SetVolume(volume, MAXVOLUME, volume ? false : true);
+        lastVolumeTime = time(NULL);
+        lastVolume = volume;
+    }
+    else {
+        if (volumeBox && (time(NULL) - lastVolumeTime > 2))
+            DELETENULL(volumeBox);
+    }
 }

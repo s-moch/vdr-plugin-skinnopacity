@@ -164,6 +164,9 @@ void cNopacitySetupMenuDisplay::Set(void) {
     Add(new cMenuEditStraItem(tr("Scale Video size to fit into menu window"), tmpConf->GetValueRef("scalePicture"), 3, scalePic));
     Add(new cMenuEditIntItem(tr("Header Height (Percent of OSD Height)"), tmpConf->GetValueRef("headerHeight"), 5, 30));
     Add(new cMenuEditIntItem(tr("Footer Height (Percent of OSD Height)"), tmpConf->GetValueRef("footerHeight"), 5, 30));
+    Add(new cMenuEditBoolItem(tr("Display Volume"), tmpConf->GetValueRef("displayMenuVolume")));
+    if (tmpConf->GetValue("displayMenuVolume"))
+        Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Bottom Volume Border Height")), tmpConf->GetValueRef("menuBorderVolumeBottom"), 0, 1000));
     Add(new cMenuEditBoolItem(tr("Rounded Corners for menu items and buttons"), tmpConf->GetValueRef("roundedCorners")));
     if (tmpConf->GetValue("roundedCorners"))
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Radius of rounded corners")), tmpConf->GetValueRef("cornerRadius"), 5, 30));

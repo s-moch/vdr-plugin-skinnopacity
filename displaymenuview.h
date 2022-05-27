@@ -10,6 +10,7 @@
 #include "imagecache.h"
 #include "imageloader.h"
 #include "messagebox.h"
+#include "volumebox.h"
 
 class cNopacityDisplayMenuView {
     private:
@@ -17,6 +18,8 @@ class cNopacityDisplayMenuView {
         cString lastDate;
         int diskUsageAlert;
 	bool menuAdjustLeft;
+        int lastVolume;
+        time_t lastVolumeTime;
         cPixmap *pixmapHeader;
         cPixmap *pixmapHeaderForeground;
         cPixmap *pixmapHeaderLogo;
@@ -33,6 +36,7 @@ class cNopacityDisplayMenuView {
         cPixmap *pixmapDiskUsageIcon;
         cPixmap *pixmapDiskUsageLabel;
 	cNopacityMessageBox *messageBox;
+        cNopacityVolumeBox *volumeBox;
         int feedNameLength;
         cRect textWindowSizeSchedules;
         cRect textWindowSizeRecordings;
@@ -75,6 +79,7 @@ class cNopacityDisplayMenuView {
         void DrawScrollbar(double Height, double Offset);
         void ClearScrollbar(void);
         void DrawMessage(eMessageType Type, const char *Text);
+        void DrawVolume(void);
         cPixmap *GetPixmapScrollbar(void) { return pixmapScrollbar; };
         cPixmap *GetPixmapScrollbarBack(void) { return pixmapScrollbarBack; };
 };

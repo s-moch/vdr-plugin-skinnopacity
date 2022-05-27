@@ -651,6 +651,8 @@ void cNopacityDisplayMenu::Flush(void) {
             Start();
         }
     }
+    if (config.GetValue("displayMenuVolume"))
+        menuView->DrawVolume();
     osd->Flush();
     initial = false;
     cDevice::PrimaryDevice()->ScaleVideo(videoWindowRect);

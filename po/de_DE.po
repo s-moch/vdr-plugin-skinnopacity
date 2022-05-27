@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2022-06-05 15:09+0200\n"
+"POT-Creation-Date: 2022-06-01 17:59+0200\n"
 "PO-Revision-Date: 2012-11-11 17:49+0200\n"
 "Last-Translator: louis\n"
 "Language-Team: \n"
@@ -283,6 +283,12 @@ msgstr "Header Höhe (in % der OSD Höhe)"
 
 msgid "Footer Height (Percent of OSD Height)"
 msgstr "Footer Höhe (in % der OSD Höhe)"
+
+msgid "Display Volume"
+msgstr "Lautstärke anzeigen"
+
+msgid "Bottom Volume Border Height"
+msgstr "Höhe des unteren Randes der Lautstärkeanzeige"
 
 msgid "Rounded Corners for menu items and buttons"
 msgstr "Abgerundete Ecken für Menüelemente und Buttons"
