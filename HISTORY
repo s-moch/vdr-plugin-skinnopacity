@@ -1,5 +1,13 @@
 VDR Plugin 'nOpacity' Revision History
 ---------------------------------------
+Version 1.1.12
+
+- Add display volume to DisplayMenu, DisplayChannel and DisplayReplay
+- Display number of recordings in recordings main menu
+- Some optical optimitation
+- Fix segfault when tvscraper returns "call->type = tNone"
+- Fix segfault when selecting invisibile menu items
+
 Version 1.1.11
 
 - Fix typo in po/de_DE.po
