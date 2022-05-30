@@ -103,28 +103,29 @@ tColor cNopacityDisplayVolume::DrawProgressbarBackground(int left, int top, int 
     tColor clr1 = Theme.Color(clrProgressBar);
     tColor clr2 = Theme.Color(clrProgressBarBlend);
     tColor clr = 0x00000000;
-    int step = width / 256;
-    int alpha = 0x0;
-    int alphaStep;
-    int maximum = 0;
-    if (step == 0) {    //width < 256
-        step = 1;
-        alphaStep = 256 / width;
-        maximum = width;
-    } else {            //width > 256
-        alphaStep = 0x1;
-        maximum = 256;
+
+    int alpha = 0x0;                                    // 0...255
+    int alphaStep = 0x1;
+    int maximumsteps = 256;                             // alphaStep * maximumsteps <= 256
+    int factor = 2;                                     // max. 128 steps
+
+    double step = width / maximumsteps;
+    if (width < 128) {                                  // width < 128
+        factor = 4 * factor;                            // 32 steps
+    } else if (width < 256) {                           // width < 256
+        factor = 2 * factor;                            // 64 steps
     }
-    int x = 0;
-    for (int i = 0; i < maximum; i++) {
-        x = left + i*step;
+
+    step = step * factor;
+    alphaStep = alphaStep * factor;
+    maximumsteps = maximumsteps / factor;
+
+    int x = left + height / 2;
+    for (int i = 0; i < maximumsteps; i++) {
+        x = left + height / 2 + i * step;
         clr = AlphaBlend(clr1, clr2, alpha);
-        pixmapProgressBar->DrawRectangle(cRect(x,top,step,height), clr);
+        pixmapProgressBar->DrawRectangle(cRect(x, top, step + 1, height), clr);
         alpha += alphaStep;
-    }
-    if (step > 0) {
-        int rest = width - step*256;
-        pixmapProgressBar->DrawRectangle(cRect(left+step*256, top, rest, height), clr);
     }
     return clr;
 }
