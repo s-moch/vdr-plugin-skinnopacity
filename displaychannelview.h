@@ -33,7 +33,6 @@ private:
     cPixmap *pixmapSourceInfo;
     cPixmap *pixmapPoster;
     cNopacityMessageBox *messageBox;
-    tColor DrawProgressbarProgress(int left, int top, int width, int height);
     std::string GetChannelSep(const cChannel *channel, bool prev);
     void CreatePixmaps(void);
     void DrawBackground(void);

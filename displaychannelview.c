@@ -274,84 +274,29 @@ void cNopacityDisplayChannelView::DrawDate(void) {
 }
 
 void cNopacityDisplayChannelView::DrawProgressBar(int Current, int Total) {
-    int barHeight = pixmapProgressBar->ViewPort().Height()-8;
-    if (barHeight%2 != 0)
+    int barHeight = pixmapProgressBar->ViewPort().Height() - 8;
+    if (barHeight % 2 != 0)
         barHeight++;
     if (barHeight < 3)
         return;
-    int barFullWidth = pixmapProgressBar->ViewPort().Width() - 20 - barHeight;
     if (Current > Total)
         Current = Total;
     if ((Current > 0) || (Total > 0)) {
-        double percentSeen = ((double)Current) / (double)Total;
-        pixmapProgressBar->DrawEllipse(cRect(10,
-                                             4,
-                                             barHeight,
-                                             barHeight),
-                                       Theme.Color(clrChannelProgressBarBlend));
-        if (Current > 0) {
-            tColor colAct = DrawProgressbarProgress(10 + barHeight/2, 4, barFullWidth * percentSeen, barHeight-1);
-            pixmapProgressBar->DrawEllipse(cRect(10 + barFullWidth * percentSeen,
-                                                 4,
-                                                 barHeight,
-                                                 barHeight),
-                                           colAct);
-        }
+        int barWidth = pixmapProgressBar->ViewPort().Width() - 24;
+        DrawProgressbar(pixmapProgressBar, 11, 4, barWidth, barHeight, Current, Total, Theme.Color(clrProgressBar), Theme.Color(clrProgressBarBlend), false);
     }
 }
 
 void cNopacityDisplayChannelView::DrawProgressbarBackground(void) {
-    int barHeight = pixmapProgressBar->ViewPort().Height()-8;
-    if (barHeight%2 != 0)
+    int barHeight = pixmapProgressBar->ViewPort().Height() - 6;
+    if (barHeight % 2 != 0)
         barHeight++;
     if (barHeight < 3)
         return;
-    int barFullWidth = pixmapProgressBar->ViewPort().Width() - 20 - barHeight;
-    pixmapProgressBar->DrawEllipse(cRect(9,
-                                         3,
-                                         barHeight+2,
-                                         barHeight+2),
-                                   Theme.Color(clrChannelProgressBarBack));
-    pixmapProgressBar->DrawEllipse(cRect(9 + barFullWidth,
-                                         3, barHeight+2,
-                                         barHeight+2),
-                                   Theme.Color(clrChannelProgressBarBack));
-    pixmapProgressBar->DrawRectangle(cRect(9 + barHeight/2,
-                                           3,
-                                           barFullWidth,
-                                           barHeight+1),
-                                     Theme.Color(clrChannelProgressBarBack));
-}
-
-tColor cNopacityDisplayChannelView::DrawProgressbarProgress(int left, int top, int width, int height) {
-    tColor clr1 = Theme.Color(clrChannelProgressBar);
-    tColor clr2 = Theme.Color(clrChannelProgressBarBlend);
-    tColor clr = 0x00000000;
-    width = (width==0)?1:width;
-    int step = width / 256;
-    int alpha = 0x0;
-    int alphaStep;
-    int maximum = 0;
-    if (step == 0) {    //width < 256
-        step = 1;
-        alphaStep = 256 / width;
-        maximum = width;
-    } else {            //width > 256
-        alphaStep = 0x1;
-        maximum = 256;
-    }
-    int x = 0;
-    for (int i = 0; i < maximum; i++) {
-        x = left + i*step;
-        clr = AlphaBlend(clr1, clr2, alpha);
-        pixmapProgressBar->DrawRectangle(cRect(x,top,step,height), clr);
-        alpha += alphaStep;
-    }
-    if (step > 0) {
-        int rest = width - step*256;
-        pixmapProgressBar->DrawRectangle(cRect(left+step*256, top, rest, height), clr);
-    }
-    return clr;
+    int barWidth = pixmapProgressBar->ViewPort().Width() - 20;
+    pixmapProgressBar->DrawEllipse(cRect(9, 3, barHeight, barHeight), Theme.Color(clrChannelProgressBarBack));
+    pixmapProgressBar->DrawEllipse(cRect(9 + barWidth - barHeight, 3, barHeight, barHeight), Theme.Color(clrChannelProgressBarBack));
+    pixmapProgressBar->DrawRectangle(cRect(9 + barHeight / 2, 3, barWidth - barHeight, barHeight), Theme.Color(clrChannelProgressBarBack));
 }
 
 void cNopacityDisplayChannelView::ClearProgressBar(void) {
