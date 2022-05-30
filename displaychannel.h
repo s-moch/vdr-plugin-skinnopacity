@@ -16,7 +16,6 @@ private:
     int lastSignalStrength;
     int lastSignalQuality;
     int lastScreenWidth;
-    int currentLast;
     bool showSignal;
     const cEvent *present;
     const cEvent *following;

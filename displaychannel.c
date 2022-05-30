@@ -11,7 +11,6 @@ cNopacityDisplayChannel::cNopacityDisplayChannel(bool WithInfo) : cThread("Displ
     groupSep = false;
     present = NULL;
     following = NULL;
-    currentLast = 0;
     channelChange = false;
     fadeout = false;
     initial = true;
@@ -93,10 +92,7 @@ void cNopacityDisplayChannel::SetProgressBar(const cEvent *present) {
     if (t > present->StartTime())
         Current = t - present->StartTime();
     Total = present->Duration();
-    if ((Current > currentLast + 3) || initial || channelChange){
-        currentLast = Current;
-        channelView->DrawProgressBar(Current, Total);
-    }
+    channelView->DrawProgressBar(Current, Total);
 }
 
 
