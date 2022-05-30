@@ -8,6 +8,7 @@ cOsd *CreateOsd(int Left, int Top, int Width, int Height);
 void DrawBlendedBackground(cPixmap *pixmap, int xStart, int width, tColor color, tColor colorBlending, bool fromTop);
 void DrawRoundedCorners(cPixmap *p, int radius, int x, int y, int width, int height);
 void DrawRoundedCornersWithBorder(cPixmap *p, tColor borderColor, int radius, int width, int height);
+void DrawProgressbar(cPixmap *p, int left, int top, int width, int height, int Current, int Total, tColor color, tColor colorBlending, bool blend = false);
 cSize ScaleToFit(int widthMax, int heightMax, int widthOriginal, int heightOriginal);
 int Minimum(int a, int b, int c, int d, int e, int f);
 std::string CutText(std::string text, int width, const cFont *font);

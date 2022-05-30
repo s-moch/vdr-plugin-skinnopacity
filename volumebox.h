@@ -10,8 +10,7 @@ private:
   cPixmap *pixmapBackgroundVolume;
   cPixmap *pixmapProgressBarVolume;
   cPixmap *pixmapLabelVolume;
-  void DrawProgressBar(int Current, int Total);
-  tColor DrawProgressbarBackground(int left, int top, int width, int height);
+  void DrawProgressBarBackground(int Current, int Total);
 public:
   cNopacityVolumeBox(cOsd *Osd, const cRect &Rect);
   ~cNopacityVolumeBox(void);

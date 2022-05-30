@@ -1,6 +1,7 @@
 #include <string>
 #include <sstream>
 #include <vector>
+#include "config.h"
 #include "helpers.h"
 #include <vdr/skins.h>
 
@@ -64,6 +65,52 @@ void DrawRoundedCornersWithBorder(cPixmap *p, tColor borderColor, int radius, in
 
     p->DrawEllipse(cRect(width-radius,height-radius,radius,radius), borderColor, -4);
     p->DrawEllipse(cRect(width-radius+1,height-radius+1,radius,radius), clrTransparent, -4);
+}
+
+void DrawProgressbar(cPixmap *p, int left, int top, int width, int height, int Current, int Total, tColor clr1, tColor clr2, bool blend) {
+    if (Current == 0) {
+        p->DrawEllipse(cRect(left, top, height, height), blend ? clr2 : clr1);
+        return;
+    } else
+        p->DrawEllipse(cRect(left, top, height, height), clr2);
+
+    width = width - height;                             // width of gradient (width - ellipse)
+    double percent = ((double)Current) / (double)Total;
+    double progresswidth = width * percent;
+
+    tColor clr = blend ? clr2 : clr1;
+    int alpha = 0x0;                                    // 0...255
+    int alphaStep = 0x1;
+    int maximumsteps = 256;                             // alphaStep * maximumsteps <= 256
+    int factor = 2;                                     // max. 128 steps
+
+    bool partial = false;
+    double step = 0;
+    if (partial) {
+        step = (double)width / maximumsteps;            // shows a progresswidth part of color gradient
+        maximumsteps = (double)maximumsteps * percent;
+    } else
+        step = progresswidth / maximumsteps;            // shows a progresswidth full color gradient
+
+    if (!partial && progresswidth < 128) {              // width < 128
+        factor = 4 * factor;                            // 32 steps
+    } else if (progresswidth < 256) {                   // width < 256
+        factor = 2 * factor;                            // 64 steps
+    }
+
+    step = step * factor;
+    alphaStep = alphaStep * factor;
+    maximumsteps = maximumsteps / factor;
+
+    int x = left + height / 2;
+    for (int i = 0; i < maximumsteps; i++) {
+        x = left + height / 2 + i * step;
+        clr = AlphaBlend(clr1, clr2, alpha);
+        p->DrawRectangle(cRect(x, top, step + 1, height), clr);
+        alpha += alphaStep;
+    }
+    x = x + step - height / 2;
+    p->DrawEllipse(cRect(x, top, height, height), clr);
 }
 
 cSize ScaleToFit(int widthMax, int heightMax, int widthOriginal, int heightOriginal) {
