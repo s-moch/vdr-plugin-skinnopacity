@@ -312,16 +312,16 @@ msgid "Fade-Out Time in ms (Zero for switching off fading)"
 msgstr ""
 
 msgid "Info Window Fade-In Time in ms (Zero for switching off fading)"
-msgstr ""
+msgstr "Èas efektu zmiznutia Info okna v ms (nula vypne efekt)"
 
 msgid "Info Window Display Delay in s"
-msgstr ""
+msgstr "Okno Info zobrazi» z oneskorením (s)"
 
 msgid "Info Window Scroll Delay in s"
-msgstr ""
+msgstr "Okno Info zobrazi» z oneskorením (s)"
 
 msgid "Info Window Text Scrolling Speed"
-msgstr ""
+msgstr "Rýchlos» rolovania textu v okne Info"
 
 msgid "Menu Items Scroll Style"
 msgstr "©týl rolovania menu polo¾iek"
@@ -739,33 +739,3 @@ msgstr "konflikt"
 
 msgid "conflicts"
 msgstr "konflikty"
-
-#~ msgid "EPG Window Fade-In Time in ms (Zero for switching off fading)"
-#~ msgstr "Èas efektu zmiznutia EPG okna v ms (nula vypne efekt)"
-
-#~ msgid "EPG Window Display Delay in s"
-#~ msgstr "Okno EPG zobrazi» z oneskorením (s)"
-
-#~ msgid "EPG Window Scroll Delay in s"
-#~ msgstr "Oneskorenie rolovania textu v okne EPG. (s)"
-
-#~ msgid "EPG Window Text Scrolling Speed"
-#~ msgstr "Rýchlos» rolovania textu v okne EPG"
-
-#~ msgid "Border around detailed EPG view"
-#~ msgstr "Okraj okolo podrobného zobrazenia EPG"
-
-#~ msgid "Detail EPG View EPG Image Width"
-#~ msgstr "©írka obrázku v podrobnom zobrazení EPG"
-
-#~ msgid "Detail EPG View EPG Image Height"
-#~ msgstr "Vý¹ka obrázku v podrobnom zobrazení EPG"
-
-#~ msgid "Detail EPG View additional EPG Image Width"
-#~ msgstr "©írka ïal¹ieho obrázku v podrobnom zobrazení EPG"
-
-#~ msgid "Detail EPG View additional EPG Image Height"
-#~ msgstr "Vý¹ka ïal¹ieho obrázku v podrobnom zobrazení EPG"
-
-#~ msgid "Display Channel Source information"
-#~ msgstr "Zobrazi» zdroj kanálu"

@@ -315,16 +315,16 @@ msgid "Fade-Out Time in ms (Zero for switching off fading)"
 msgstr ""
 
 msgid "Info Window Fade-In Time in ms (Zero for switching off fading)"
-msgstr ""
+msgstr "Fosa d'entrada finestra Info, temps en ms (0 per desactivació)"
 
 msgid "Info Window Display Delay in s"
-msgstr ""
+msgstr "Temps visualització finestra Info en s"
 
 msgid "Info Window Scroll Delay in s"
-msgstr ""
+msgstr "Temps retard desplaçament finestra Info en s"
 
 msgid "Info Window Text Scrolling Speed"
-msgstr ""
+msgstr "Velocitat desplaçament text finestra Info"
 
 msgid "Menu Items Scroll Style"
 msgstr "Estil del Menu desplaçament"
@@ -742,33 +742,3 @@ msgstr "conflicte"
 
 msgid "conflicts"
 msgstr "conflictes"
-
-#~ msgid "EPG Window Fade-In Time in ms (Zero for switching off fading)"
-#~ msgstr "Fosa d'entrada finestra EPG, temps en ms (0 per desactivació)"
-
-#~ msgid "EPG Window Display Delay in s"
-#~ msgstr "Temps visualització finestra EPG en s"
-
-#~ msgid "EPG Window Scroll Delay in s"
-#~ msgstr "Temps retard desplaçament finestra EPG en s"
-
-#~ msgid "EPG Window Text Scrolling Speed"
-#~ msgstr "Velocitat desplaçament text finestra EPG"
-
-#~ msgid "Border around detailed EPG view"
-#~ msgstr "Vora al voltant de vista detallada EPG"
-
-#~ msgid "Detail EPG View EPG Image Width"
-#~ msgstr "Amplada imatges a vista detallada EPG"
-
-#~ msgid "Detail EPG View EPG Image Height"
-#~ msgstr "Alçada imatges a vista detallada EPG"
-
-#~ msgid "Detail EPG View additional EPG Image Width"
-#~ msgstr "Amplada imatges addicionals a vista detallada EPG"
-
-#~ msgid "Detail EPG View additional EPG Image Height"
-#~ msgstr "Alçada imatges addicionals a vista detallada EPG"
-
-#~ msgid "Display Channel Source information"
-#~ msgstr "Mostra informació del canal"

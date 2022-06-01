@@ -315,16 +315,16 @@ msgid "Fade-Out Time in ms (Zero for switching off fading)"
 msgstr ""
 
 msgid "Info Window Fade-In Time in ms (Zero for switching off fading)"
-msgstr ""
+msgstr "Tempo comparsa finestra Info in ms (0 per disattivazione)"
 
 msgid "Info Window Display Delay in s"
-msgstr ""
+msgstr "Ritardo schermo finestra Info in sec"
 
 msgid "Info Window Scroll Delay in s"
-msgstr ""
+msgstr "Ritardo scorrimento finestra Info in sec"
 
 msgid "Info Window Text Scrolling Speed"
-msgstr ""
+msgstr "Velocità scorrimento testo finestra Info"
 
 msgid "Menu Items Scroll Style"
 msgstr ""
@@ -742,27 +742,3 @@ msgstr "conflitto"
 
 msgid "conflicts"
 msgstr "conflitti"
-
-#~ msgid "EPG Window Fade-In Time in ms (Zero for switching off fading)"
-#~ msgstr "Tempo comparsa finestra EPG in ms (0 per disattivazione)"
-
-#~ msgid "EPG Window Display Delay in s"
-#~ msgstr "Ritardo schermo finestra EPG in sec"
-
-#~ msgid "EPG Window Scroll Delay in s"
-#~ msgstr "Ritardo scorrimento finestra EPG in sec"
-
-#~ msgid "EPG Window Text Scrolling Speed"
-#~ msgstr "Velocità scorrimento testo finestra EPG"
-
-#~ msgid "Detail EPG View EPG Image Width"
-#~ msgstr "Larghezza immagine vista dettagli EPG"
-
-#~ msgid "Detail EPG View EPG Image Height"
-#~ msgstr "Altezza immagine vista dettagli EPG"
-
-#~ msgid "Detail EPG View additional EPG Image Width"
-#~ msgstr "Larghezza immagine EPG aggiuntivo vista dettagli EPG"
-
-#~ msgid "Detail EPG View additional EPG Image Height"
-#~ msgstr "Altezza immagine EPG aggiuntivo vista dettagli EPG"
