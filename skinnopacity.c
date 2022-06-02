@@ -10,7 +10,7 @@
 #include "config.h"
 #include "nopacity.h"
 #include "setup.h"
-
+#include "status.h"
 
 #if defined(APIVERSNUM) && APIVERSNUM < 10734
 #error "VDR-1.7.34 API version or greater is required!"
@@ -49,10 +49,12 @@ public:
 
 cPluginNopacity::cPluginNopacity(void)
 {
+  statusMonitor = NULL;
 }
 
 cPluginNopacity::~cPluginNopacity()
 {
+  delete statusMonitor;
 }
 
 const char *cPluginNopacity::CommandLineHelp(void)
@@ -106,6 +108,7 @@ bool cPluginNopacity::Start(void) {
     } else
         dsyslog("nopacity: TrueColor OSD found");
 
+    statusMonitor = new cNopacityStatusMonitor;
     return new cNopacity();
 }
 
