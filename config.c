@@ -203,6 +203,8 @@ void cNopacityConfig::LoadDefaults(void) {
     conf.insert(std::pair<std::string, int>("replayBorderBottom", 15));
     conf.insert(std::pair<std::string, int>("replayFadeTime", 300));
     conf.insert(std::pair<std::string, int>("replayFadeOutTime", 300));
+    conf.insert(std::pair<std::string, int>("displayReplayVolume", 1));
+    conf.insert(std::pair<std::string, int>("replayBorderVolumeBottom", 0));
     conf.insert(std::pair<std::string, int>("fontReplayHeader", 0));
     conf.insert(std::pair<std::string, int>("fontReplay", 0));
     //DisplayMessage

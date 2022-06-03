@@ -2,6 +2,7 @@
 #include "config.h"
 #include "helpers.h"
 #include "imageloader.h"
+#include "status.h"
 
 cNopacityDisplayReplay::cNopacityDisplayReplay(bool ModeOnly) : cThread("DisplayReplay") {
     initial = true;
@@ -13,6 +14,9 @@ cNopacityDisplayReplay::cNopacityDisplayReplay(bool ModeOnly) : cThread("Display
     DrawBackground();
     LoadControlIcons();
     messageBox = NULL;
+    volumeBox = NULL;
+    lastVolume = statusMonitor->GetVolume();
+    lastVolumeTime = time(NULL);
 }
 
 cNopacityDisplayReplay::~cNopacityDisplayReplay() {
@@ -46,6 +50,7 @@ cNopacityDisplayReplay::~cNopacityDisplayReplay() {
     osd->DestroyPixmap(pixmapPlay);
     osd->DestroyPixmap(pixmapFwd);
     delete messageBox;
+    delete volumeBox;
     delete osd;
 }
 
@@ -176,6 +181,8 @@ void cNopacityDisplayReplay::SetAlpha(int Alpha) {
     pixmapPause->SetAlpha(Alpha);
     pixmapPlay->SetAlpha(Alpha);
     pixmapFwd->SetAlpha(Alpha);
+    if (volumeBox)
+        volumeBox->SetAlpha(Alpha);
 }
 
 void cNopacityDisplayReplay::DrawBackground(void) {
@@ -461,6 +468,7 @@ void cNopacityDisplayReplay::SetJump(const char *Jump) {
 }
 
 void cNopacityDisplayReplay::SetMessage(eMessageType Type, const char *Text) {
+    DELETENULL(volumeBox);
     DELETENULL(messageBox);
     if (!Text)
         return;
@@ -471,6 +479,24 @@ void cNopacityDisplayReplay::SetMessage(eMessageType Type, const char *Text) {
 					 Type, Text);
 }
 
+void cNopacityDisplayReplay::DrawVolume(void) {
+    int volume = statusMonitor->GetVolume();
+    if (volume != lastVolume) {
+        if (!volumeBox) {
+            int left = (geoManager->replayWidth - geoManager->volumeWidth) / 2;
+            int top = geoManager->replayHeight - geoManager->volumeHeight - config.GetValue("replayBorderVolumeBottom");
+            volumeBox = new cNopacityVolumeBox(osd, cRect(left, top, geoManager->volumeWidth, geoManager->volumeHeight), fontManager->volumeText);
+        }
+        volumeBox->SetVolume(volume, MAXVOLUME, volume ? false : true);
+        lastVolumeTime = time(NULL);
+        lastVolume = volume;
+    }
+    else {
+        if (volumeBox && (time(NULL) - lastVolumeTime > 2))
+            DELETENULL(volumeBox);
+    }
+}
+
 void cNopacityDisplayReplay::Flush(void) {
     if (Running())
         return;
@@ -478,6 +504,10 @@ void cNopacityDisplayReplay::Flush(void) {
     if (!modeOnly) {
         DrawDate();
     }
+
+    if (config.GetValue("displayReplayVolume"))
+        DrawVolume();
+
     if (initial && config.GetValue("animation") && config.GetValue("replayFadeTime")) {
         SetAlpha(0);
         Start();

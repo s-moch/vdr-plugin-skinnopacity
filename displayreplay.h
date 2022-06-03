@@ -5,6 +5,7 @@
 #include <vdr/thread.h>
 #include "imagecache.h"
 #include "messagebox.h"
+#include "volumebox.h"
 
 class cNopacityDisplayReplay : public cSkinDisplayReplay , cThread{
 private:
@@ -13,6 +14,8 @@ private:
     bool modeOnly;
     cString lastDate;
     bool fadeout;
+    int lastVolume;
+    time_t lastVolumeTime;
     cPixmap *pixmapBackground;
     cPixmap *pixmapTop;
     cPixmap *pixmapInfo;
@@ -30,6 +33,7 @@ private:
     cPixmap *pixmapFwd;
     cPixmap *pixmapJump;
     cNopacityMessageBox *messageBox;
+    cNopacityVolumeBox *volumeBox;
     virtual void Action(void);
     void createOSD(void);
     void CreatePixmaps(void);
@@ -38,6 +42,7 @@ private:
     void DrawDate(void);
     void LoadControlIcons(void);
     void DrawScreenResolution(void);
+    void DrawVolume(void);
 public:
   cNopacityDisplayReplay(bool ModeOnly);
   virtual ~cNopacityDisplayReplay(void);
