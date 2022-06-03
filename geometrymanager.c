@@ -102,12 +102,12 @@ void cGeometryManager::SetGeometry(void) {
     channelOsdLeft = osdLeft;
     channelOsdTop = osdTop;
     channelOsdWidth = osdWidth;
-    channelOsdHeight = osdHeight;
+    channelOsdHeight = osdHeight - config.GetValue("channelBorderBottom");
 
     channelX = config.GetValue("channelBorderVertical");
-    channelWidth = osdWidth - 2 * config.GetValue("channelBorderVertical");
-    channelHeight = osdHeight * config.GetValue("channelHeight") / 100;
-    channelTop = osdHeight - channelHeight - config.GetValue("channelBorderBottom");
+    channelWidth = channelOsdWidth - 2 * config.GetValue("channelBorderVertical");
+    channelHeight = channelOsdHeight * config.GetValue("channelHeight") / 100;
+    channelTop = channelOsdHeight - channelHeight;
 
     if (!(config.GetValue("scraperInfo") && config.GetValue("displayPoster"))) {
         channelOsdLeft += channelX;

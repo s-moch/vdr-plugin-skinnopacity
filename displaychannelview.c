@@ -5,6 +5,7 @@
 #include "fontmanager.h"
 #include "geometrymanager.h"
 #include "imageloader.h"
+#include "status.h"
 #include <vdr/menu.h>
 
 cNopacityDisplayChannelView::cNopacityDisplayChannelView(cOsd *osd) {
@@ -25,6 +26,9 @@ cNopacityDisplayChannelView::cNopacityDisplayChannelView(cOsd *osd) {
     pixmapSignalLabel = NULL;
     pixmapPoster = NULL;
     messageBox = NULL;
+    volumeBox = NULL;
+    lastVolume = statusMonitor->GetVolume();
+    lastVolumeTime = time(NULL);
     CreatePixmaps();
     DrawBackground();
     if (config.GetValue("displaySignalStrength")) {
@@ -55,6 +59,7 @@ cNopacityDisplayChannelView::~cNopacityDisplayChannelView(void) {
     if (pixmapPoster)
         osd->DestroyPixmap(pixmapPoster);
     delete messageBox;
+    delete volumeBox;
 }
 
 void cNopacityDisplayChannelView::CreatePixmaps(void) {
@@ -171,6 +176,8 @@ void cNopacityDisplayChannelView::SetAlpha(int alpha) {
         pixmapSignalLabel->SetAlpha(alpha);
     if (pixmapPoster)
         pixmapPoster->SetAlpha(alpha);
+    if (volumeBox)
+        volumeBox->SetAlpha(alpha);
 }
 
 void cNopacityDisplayChannelView::DrawBackground(void) {
@@ -770,4 +777,22 @@ void cNopacityDisplayChannelView::DisplayMessage(eMessageType Type, const char *
 					       geoManager->channelTop + geoManager->channelHeight - geoManager->messageHeight - 20,
 					       geoManager->messageWidth, geoManager->messageHeight),
 					 Type, Text);
+}
+
+void cNopacityDisplayChannelView::DrawVolume(void) {
+    int volume = statusMonitor->GetVolume();
+    if (volume != lastVolume) {
+        if (!volumeBox) {
+            int left = (geoManager->channelOsdWidth - geoManager->volumeWidth) / 2;
+            int top = geoManager->channelOsdHeight - geoManager->volumeHeight - config.GetValue("channelBorderVolumeBottom");
+            volumeBox = new cNopacityVolumeBox(osd, cRect(left, top, geoManager->volumeWidth, geoManager->volumeHeight), fontManager->volumeText);
+        }
+        volumeBox->SetVolume(volume, MAXVOLUME, volume ? false : true);
+        lastVolumeTime = time(NULL);
+        lastVolume = volume;
+    }
+    else {
+        if (volumeBox && (time(NULL) - lastVolumeTime > 2))
+            DELETENULL(volumeBox);
+    }
 }

@@ -441,6 +441,10 @@ void cNopacitySetupChannelDisplay::Set(void) {
     Add(new cMenuEditStraItem(tr("Kind of time display for current schedule"), tmpConf->GetValueRef("progressCurrentSchedule"), 2, progressStyleCurrentSchedule));
     Add(new cMenuEditBoolItem(tr("Display Signal Strength & Quality"), tmpConf->GetValueRef("displaySignalStrength")));
     Add(new cMenuEditBoolItem(tr("Display Channel Source & Rec. Info"), tmpConf->GetValueRef("displaySourceInfo")));
+    Add(new cMenuEditBoolItem(tr("Display Volume"), tmpConf->GetValueRef("displayChannelVolume")));
+    if (tmpConf->GetValue("displayChannelVolume"))
+        Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Bottom Volume Border Height")), tmpConf->GetValueRef("channelBorderVolumeBottom"), 0, 1000));
+
     Add(new cMenuEditBoolItem(tr("Display Poster or Fanart from TVScraper"), tmpConf->GetValueRef("displayPoster")));
     if (tmpConf->GetValue("displayPoster")) {
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Border in Pixel")), tmpConf->GetValueRef("channelPosterBorder"), 0, 200));

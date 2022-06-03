@@ -136,6 +136,9 @@ void cNopacityDisplayChannel::Flush(void) {
     } else
         channelView->ClearSourceInfo();
 
+    if (config.GetValue("displayChannelVolume"))
+        channelView->DrawVolume();
+
     if (initial && config.GetValue("animation") && config.GetValue("channelFadeTime")) {
         channelView->SetAlpha(0);
         Start();

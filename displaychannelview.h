@@ -3,6 +3,7 @@
 
 #include "imagecache.h"
 #include "messagebox.h"
+#include "volumebox.h"
 #include <vdr/osd.h>
 
 class cNopacityDisplayChannelView {
@@ -16,6 +17,8 @@ private:
     int lastSignalDisplay;
     int lastSignalStrength;
     int lastSignalQuality;
+    int lastVolume;
+    time_t lastVolumeTime;
     cPixmap *pixmapBackground;
     cPixmap *pixmapTop;
     cPixmap *pixmapLogo;
@@ -33,6 +36,7 @@ private:
     cPixmap *pixmapSourceInfo;
     cPixmap *pixmapPoster;
     cNopacityMessageBox *messageBox;
+    cNopacityVolumeBox *volumeBox;
     std::string GetChannelSep(const cChannel *channel, bool prev);
     void CreatePixmaps(void);
     void DrawBackground(void);
@@ -63,5 +67,6 @@ public:
     void DrawSourceInfo(void);
     void ClearSourceInfo(void);
     void DisplayMessage(eMessageType Type, const char *Text);
+    void DrawVolume(void);
 };
 #endif //__NOPACITY_DISPLAYCHANNELVIEW_H
