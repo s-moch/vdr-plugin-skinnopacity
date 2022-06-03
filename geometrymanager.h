@@ -81,6 +81,8 @@ class cGeometryManager {
         int channelStatusIconsWidth;
         int channelStatusIconX;
         int channelSourceInfoX;
+        int channelVolumeLeft, channelVolumeTop;
+        int channelVolumeWidth, channelVolumeHeight;
         //DisplayReplay Sizes
         int replayOsdLeft, replayOsdTop;
         int replayOsdWidth, replayOsdHeight;

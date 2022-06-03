@@ -98,6 +98,7 @@ class cNopacitySetupChannelDisplay : public cMenuSetupSubMenu {
         const char *logoPos[3];
         const char *logoVerticalPos[3];
         const char *useLogoBackground[4];
+        const char *displayVolume[3];
         const char *progressStyleCurrentSchedule[2];
         const char *bgStyle[2];
         void Set(void);

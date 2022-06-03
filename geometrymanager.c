@@ -243,6 +243,21 @@ void cGeometryManager::SetGeometry(void) {
     if (volumeProgressBarHeight % 2 != 0)
         volumeProgressBarHeight++;
 
+    // Volume Sizes for Channel
+    if (config.GetValue("displayChannelVolume") == vbSimple) {
+        channelVolumeLeft = channelX + channelContentX + channelWidth * 0.2 + 10;
+        channelVolumeTop = channelTop + channelHeaderHeight + channelProgressBarHeight + channelEpgInfoHeight;
+        channelVolumeWidth = channelX + channelWidth - channelStatusIconsWidth - 3 * channelStatusIconBorder - channelVolumeLeft - 25;
+	if (config.GetValue("logoPosition") == lpRight)
+            channelVolumeWidth -= channelLogoWidthTotal;
+        channelVolumeHeight = channelFooterHeight;
+    } else {
+        channelVolumeLeft = (channelOsdWidth - volumeWidth) / 2;
+        channelVolumeTop = channelOsdHeight - volumeHeight - config.GetValue("channelBorderVolumeBottom");
+        channelVolumeWidth = volumeWidth;
+        channelVolumeHeight = volumeHeight;
+    }
+
     // Volume Sizes for Replay
     if (config.GetValue("displayReplayVolume") == vbSimple) {
         replayVolumeLeft = replayOsdWidth / 3;

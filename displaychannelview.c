@@ -714,6 +714,8 @@ std::string cNopacityDisplayChannelView::GetChannelSep(const cChannel *channel, 
 }
 
 void cNopacityDisplayChannelView::DrawSourceInfo(void) {
+    if (volumeBox && (config.GetValue("displayChannelVolume") == vbSimple))
+        return;
     const cChannel *channel = cDevice::ActualDevice()->GetCurrentlyTunedTransponder();
     const cSource *source = (channel) ? Sources.Get(channel->Source()) : NULL;
     cString channelInfo = "";
@@ -772,9 +774,18 @@ void cNopacityDisplayChannelView::DrawVolume(void) {
     int volume = statusMonitor->GetVolume();
     if (volume != lastVolume) {
         if (!volumeBox) {
-            int left = (geoManager->channelOsdWidth - geoManager->volumeWidth) / 2;
-            int top = geoManager->channelOsdHeight - geoManager->volumeHeight - config.GetValue("channelBorderVolumeBottom");
-            volumeBox = new cNopacityVolumeBox(osd, cRect(left, top, geoManager->volumeWidth, geoManager->volumeHeight), fontManager->volumeText);
+            bool simple = false;
+            if (config.GetValue("displayChannelVolume") == vbSimple) {
+                ClearSourceInfo();
+                simple = true;
+            }
+            volumeBox = new cNopacityVolumeBox(osd,
+                                               cRect(geoManager->channelVolumeLeft,
+                                                     geoManager->channelVolumeTop,
+                                                     geoManager->channelVolumeWidth,
+                                                     geoManager->channelVolumeHeight),
+                                               simple ? fontManager->channelSourceInfo : fontManager->volumeText,
+                                               simple);
         }
         volumeBox->SetVolume(volume, MAXVOLUME, volume ? false : true);
         lastVolumeTime = time(NULL);

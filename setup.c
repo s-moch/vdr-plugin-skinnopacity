@@ -414,6 +414,9 @@ cNopacitySetupChannelDisplay::cNopacitySetupChannelDisplay(cNopacityConfig* data
     useLogoBackground[3] = tr("if channel logo is not present");
     progressStyleCurrentSchedule[0] = tr("show elapsed time");
     progressStyleCurrentSchedule[1] = tr("show remaining time");
+    displayVolume[0] = tr("no");
+    displayVolume[1] = tr("simple");
+    displayVolume[2] = tr("full");
     Set();
 }
 
@@ -441,10 +444,10 @@ void cNopacitySetupChannelDisplay::Set(void) {
     Add(new cMenuEditStraItem(tr("Kind of time display for current schedule"), tmpConf->GetValueRef("progressCurrentSchedule"), 2, progressStyleCurrentSchedule));
     Add(new cMenuEditBoolItem(tr("Display Signal Strength & Quality"), tmpConf->GetValueRef("displaySignalStrength")));
     Add(new cMenuEditBoolItem(tr("Display Channel Source & Rec. Info"), tmpConf->GetValueRef("displaySourceInfo")));
-    Add(new cMenuEditBoolItem(tr("Display Volume"), tmpConf->GetValueRef("displayChannelVolume")));
-    if (tmpConf->GetValue("displayChannelVolume"))
+    Add(new cMenuEditStraItem(tr("Display Volume"), tmpConf->GetValueRef("displayChannelVolume"), 3, displayVolume));
+    if (tmpConf->GetValue("displayChannelVolume") == vbFull) {
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Bottom Volume Border Height")), tmpConf->GetValueRef("channelBorderVolumeBottom"), 0, 1000));
-
+    }
     Add(new cMenuEditBoolItem(tr("Display Poster or Fanart from TVScraper"), tmpConf->GetValueRef("displayPoster")));
     if (tmpConf->GetValue("displayPoster")) {
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Border in Pixel")), tmpConf->GetValueRef("channelPosterBorder"), 0, 200));

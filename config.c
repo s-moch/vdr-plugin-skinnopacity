@@ -195,7 +195,7 @@ void cNopacityConfig::LoadDefaults(void) {
     conf.insert(std::pair<std::string, int>("progressCurrentSchedule", 0));
     conf.insert(std::pair<std::string, int>("displayPoster", 1));
     conf.insert(std::pair<std::string, int>("channelPosterBorder", 10));
-    conf.insert(std::pair<std::string, int>("displayChannelVolume", 1));
+    conf.insert(std::pair<std::string, int>("displayChannelVolume", 2));
     conf.insert(std::pair<std::string, int>("channelBorderVolumeBottom", 10));
     //Display Replay
     conf.insert(std::pair<std::string, int>("replayHeight", 25));
