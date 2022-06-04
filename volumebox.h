@@ -7,10 +7,10 @@
 class cNopacityVolumeBox {
 private:
   cOsd *osd;
+  int barWidth, barHeight;
   cPixmap *pixmapBackgroundVolume;
   cPixmap *pixmapProgressBarVolume;
   cPixmap *pixmapLabelVolume;
-  void DrawProgressBarBackground(int Current, int Total);
 public:
   cNopacityVolumeBox(cOsd *Osd, const cRect &Rect);
   ~cNopacityVolumeBox(void);
