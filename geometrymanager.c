@@ -163,7 +163,8 @@ void cGeometryManager::SetGeometry(void) {
         case lpRight:
             channelContentX = 0;
             channelContentWidth = channelWidth - channelLogoWidthTotal;
-            channelLogoX = channelContentWidth;
+            channelLogoX = channelContentWidth + (channelLogoWidthTotal - channelLogoWidth) / 2;
+            channelLogoBgX = channelContentWidth + (channelLogoWidthTotal - channelLogoBgWidth) / 2;
             break;
         case lpNone:
             channelContentX = 0;
