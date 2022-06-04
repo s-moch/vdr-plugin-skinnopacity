@@ -242,4 +242,18 @@ void cGeometryManager::SetGeometry(void) {
     volumeProgressBarHeight = 0.3 * volumeHeight;
     if (volumeProgressBarHeight % 2 != 0)
         volumeProgressBarHeight++;
+
+    // Volume Sizes for Replay
+    if (config.GetValue("displayReplayVolume") == vbSimple) {
+        replayVolumeLeft = replayOsdWidth / 3;
+        replayVolumeTop = replayHeight - replayFooterHeight;
+        replayVolumeWidth = replayOsdWidth / 3;
+        replayVolumeHeight = replayFooterHeight;
+    } else {
+        replayVolumeLeft = (replayOsdWidth - volumeWidth) / 2;
+        replayVolumeTop = replayOsdHeight - volumeHeight - config.GetValue("replayBorderVolumeBottom");
+        replayVolumeWidth = volumeWidth;
+        replayVolumeHeight = volumeHeight;
+    }
+
 }

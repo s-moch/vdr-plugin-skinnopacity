@@ -476,9 +476,14 @@ void cNopacityDisplayReplay::DrawVolume(void) {
     int volume = statusMonitor->GetVolume();
     if (volume != lastVolume) {
         if (!volumeBox) {
-            int left = (geoManager->replayWidth - geoManager->volumeWidth) / 2;
-            int top = geoManager->replayHeight - geoManager->volumeHeight - config.GetValue("replayBorderVolumeBottom");
-            volumeBox = new cNopacityVolumeBox(osd, cRect(left, top, geoManager->volumeWidth, geoManager->volumeHeight), fontManager->volumeText);
+            bool simple = (config.GetValue("displayReplayVolume") == vbSimple) ? true : false;
+            volumeBox = new cNopacityVolumeBox(osd,
+                                               cRect(geoManager->replayVolumeLeft,
+                                                     geoManager->replayVolumeTop,
+                                                     geoManager->replayVolumeWidth,
+                                                     geoManager->replayVolumeHeight),
+                                               simple ? fontManager->channelSourceInfo : fontManager->volumeText,
+                                               simple);
         }
         volumeBox->SetVolume(volume, MAXVOLUME, volume ? false : true);
         lastVolumeTime = time(NULL);

@@ -464,6 +464,9 @@ void cNopacitySetupChannelDisplay::Set(void) {
 //-----ReplayDisplay-------------------------------------------------------------------------------------------------------------
 
 cNopacitySetupReplayDisplay::cNopacitySetupReplayDisplay(cNopacityConfig* data)  : cMenuSetupSubMenu(tr("Replay"), data) {
+    displayVolume[0] = tr("no");
+    displayVolume[1] = tr("simple");
+    displayVolume[2] = tr("full");
     Set();
 }
 
@@ -476,9 +479,10 @@ void cNopacitySetupReplayDisplay::Set(void) {
     Add(new cMenuEditIntItem(tr("Height of Replay Display (Percent of OSD Height)"), tmpConf->GetValueRef("replayHeight"), 15, 80));
     Add(new cMenuEditIntItem(tr("Left & Right Border Width"), tmpConf->GetValueRef("replayBorderVertical"), 0, 300));
     Add(new cMenuEditIntItem(tr("Bottom Border Height"), tmpConf->GetValueRef("replayBorderBottom"), 0, 300));
-    Add(new cMenuEditBoolItem(tr("Display Volume"), tmpConf->GetValueRef("displayReplayVolume")));
-    if (tmpConf->GetValue("displayReplayVolume"))
+    Add(new cMenuEditStraItem(tr("Display Volume"), tmpConf->GetValueRef("displayReplayVolume"), 3, displayVolume));
+    if (tmpConf->GetValue("displayReplayVolume") == vbFull) {
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Bottom Volume Border Height")), tmpConf->GetValueRef("replayBorderVolumeBottom"), 0, 1000));
+    }
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Header"), tmpConf->GetValueRef("fontReplayHeader"), -20, 20));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Text"), tmpConf->GetValueRef("fontReplay"), -20, 20));
 

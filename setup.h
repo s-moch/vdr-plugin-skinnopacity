@@ -107,6 +107,7 @@ class cNopacitySetupChannelDisplay : public cMenuSetupSubMenu {
 
 class cNopacitySetupReplayDisplay : public cMenuSetupSubMenu {
     protected:
+        const char *displayVolume[3];
         void Set(void);
     public:
         cNopacitySetupReplayDisplay(cNopacityConfig *data);

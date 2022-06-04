@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2022-06-01 17:59+0200\n"
+"POT-Creation-Date: 2022-06-06 15:32+0200\n"
 "PO-Revision-Date: 2013-03-19 22:56+0100\n"
 "Last-Translator: Gabychan <gbonich@gmail.com>\n"
 "Language-Team: \n"
@@ -658,6 +658,12 @@ msgstr "Ajusta mida de la Font - Grup de canals"
 
 msgid "Adjust Font Size - Next/Prev Channel Group"
 msgstr "Ajusta mida de la Font - Post/Ant Grup Canals"
+
+msgid "simple"
+msgstr ""
+
+msgid "full"
+msgstr ""
 
 msgid "Height of Replay Display (Percent of OSD Height)"
 msgstr "Alçada Visualització Reproducció (% alcada OSD)"
