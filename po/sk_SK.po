@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: vdr-skinnopacity\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2022-05-12 13:42+0200\n"
+"POT-Creation-Date: 2022-06-05 15:09+0200\n"
 "PO-Revision-Date: 2013-11-11 20:52+0100\n"
 "Last-Translator: Milan Hrala <hrala.milan@gmail.com>\n"
 "Language-Team: \n"
@@ -122,9 +122,6 @@ msgstr ""
 msgid "free"
 msgstr "voµné"
 
-msgid "Volume"
-msgstr "Hlasitos»"
-
 msgid "images"
 msgstr "obrázkov"
 
@@ -235,6 +232,9 @@ msgstr "Zvuková stopa"
 
 msgid "Messages"
 msgstr "Správy"
+
+msgid "Volume"
+msgstr "Hlasitos»"
 
 msgid "Image Caching"
 msgstr "Vyrovnávacia pamä» obrázkov"

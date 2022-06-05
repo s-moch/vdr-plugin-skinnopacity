@@ -16,6 +16,8 @@ enum eDisplayType {
     dtGraphical
 };
 
+enum eVolumeBoxStyle {vbNone = 0, vbSimple, vbFull};
+
 class cNopacityConfig {
     private:
         std::map<std::string, int> conf;

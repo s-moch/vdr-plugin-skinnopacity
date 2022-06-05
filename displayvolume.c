@@ -12,7 +12,7 @@ cNopacityDisplayVolume::cNopacityDisplayVolume(void) : cThread("DisplayVolume") 
     int top = geoManager->osdTop + geoManager->osdHeight - geoManager->volumeHeight - config.GetValue("volumeBorderBottom");
     int left = geoManager->osdLeft + ((geoManager->osdWidth - geoManager->volumeWidth) / 2);
     osd = CreateOsd(left, top, geoManager->volumeWidth, geoManager->volumeHeight);
-    volumeBox = new cNopacityVolumeBox(osd, cRect(0, 0, geoManager->volumeWidth, geoManager->volumeHeight));
+    volumeBox = new cNopacityVolumeBox(osd, cRect(0, 0, geoManager->volumeWidth, geoManager->volumeHeight), fontManager->volumeText);
 }
 
 cNopacityDisplayVolume::~cNopacityDisplayVolume(void) {
