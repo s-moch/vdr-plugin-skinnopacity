@@ -537,7 +537,7 @@ void cNopacityDisplayChannelView::DrawPoster(const cEvent *event, bool initial) 
 
 void cNopacityDisplayChannelView::DrawSignalMeter(void) {
     signalWidth = geoManager->channelWidth * 0.15;
-    signalHeight = signalWidth *15 / 200;
+    signalHeight = signalWidth * 15 / 200;
     cFont *fontInfoline = cFont::CreateFont(config.fontName, signalHeight - 2);
     cString signalStrength = "STR";
     cString signalQuality = "SNR";
@@ -546,7 +546,7 @@ void cNopacityDisplayChannelView::DrawSignalMeter(void) {
         signalWidth = imgSignal->Width();
         signalHeight = imgSignal->Height();
         int signalMeterY = geoManager->channelFooterY +
-                           (geoManager->channelFooterHeight - 2*signalHeight - 5)/2;
+                           (geoManager->channelFooterHeight - 2 * signalHeight - 7) / 2; // 2 * (signalHeight + 2) + 3 + 2
         int labelWidth = std::max(fontInfoline->Width(*signalStrength),
                              fontInfoline->Width(*signalQuality)) + 2;
         signalX = geoManager->channelFooterHeight / 2 + labelWidth;
@@ -562,14 +562,14 @@ void cNopacityDisplayChannelView::DrawSignalMeter(void) {
                                                        signalHeight + 2));
         pixmapSignalMeter    = osd->CreatePixmap(4,
                                                  cRect(geoManager->channelContentX + 10 + signalX + 1,
-                                                       signalMeterY + 3, signalWidth,
-                                                       2*signalHeight + 3));
+                                                       signalMeterY + 3,
+                                                       signalWidth,
+                                                       2 * signalHeight + 3));
         pixmapSignalLabel    = osd->CreatePixmap(3,
-                                                 cRect(geoManager->channelContentX + 10
-                                                       + geoManager->channelFooterHeight / 2,
+                                                 cRect(geoManager->channelContentX + 10 + geoManager->channelFooterHeight / 2,
                                                        signalMeterY + 2,
                                                        labelWidth,
-                                                       2*signalHeight + 3));
+                                                       2 * signalHeight + 3));
         pixmapSignalStrength->Fill(Theme.Color(clrProgressBarBack));
         pixmapSignalQuality->Fill(Theme.Color(clrProgressBarBack));
         pixmapSignalMeter->Fill(clrTransparent);
