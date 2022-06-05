@@ -515,8 +515,8 @@ void cNopacityDisplayChannelView::DrawPoster(const cEvent *event, bool initial) 
             } else
                 return;
             int border = config.GetValue("channelPosterBorder");
-            pixmapPoster = osd->CreatePixmap(1, cRect(config.GetValue("channelBorderVertical"),
-                                                      config.GetValue("channelBorderBottom"),
+            pixmapPoster = osd->CreatePixmap(1, cRect(0,
+                                                      0,
                                                       mediaWidth + 2 * border,
                                                       mediaHeight + 2 * border));
             if (initial && config.GetValue("animation") && config.GetValue("channelFadeTime")) {

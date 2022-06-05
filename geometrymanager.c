@@ -99,22 +99,19 @@ void cGeometryManager::SetGeometry(void) {
     menuTimersLogoHeight = timersLogoSize.Height();
 
     // DisplayChannel Sizes
-    channelOsdLeft = osdLeft;
-    channelOsdTop = osdTop;
-    channelOsdWidth = osdWidth;
-    channelOsdHeight = osdHeight - config.GetValue("channelBorderBottom");
+    channelOsdLeft = osdLeft + config.GetValue("channelBorderVertical");
+    channelOsdTop = osdTop + config.GetValue("channelBorderBottom");
+    channelOsdWidth = osdWidth - 2 * config.GetValue("channelBorderVertical");
+    channelOsdHeight = osdHeight - 2 * config.GetValue("channelBorderBottom");
 
-    channelX = config.GetValue("channelBorderVertical");
-    channelWidth = channelOsdWidth - 2 * config.GetValue("channelBorderVertical");
+    channelX = 0;
+    channelWidth = channelOsdWidth;
     channelHeight = channelOsdHeight * config.GetValue("channelHeight") / 100;
     channelTop = channelOsdHeight - channelHeight;
 
     if (!(config.GetValue("scraperInfo") && config.GetValue("displayPoster"))) {
-        channelOsdLeft += channelX;
         channelOsdTop += channelTop;
-        channelOsdWidth = channelWidth;
         channelOsdHeight = channelHeight;
-        channelX = 0;
         channelTop = 0;
     }
 
