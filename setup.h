@@ -35,6 +35,7 @@ class cNopacitySetupMenuDisplay : public cMenuSetupSubMenu {
         const char *scrollMode[2];
         const char *scrollSpeed[4];
         const char *scalePic[3];
+        const char *displayVolume[3];
         void Set(void);
     public:
         cNopacitySetupMenuDisplay(cNopacityConfig *data);

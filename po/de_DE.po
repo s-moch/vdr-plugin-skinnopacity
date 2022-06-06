@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2022-06-06 15:32+0200\n"
+"POT-Creation-Date: 2022-06-06 17:02+0200\n"
 "PO-Revision-Date: 2012-11-11 17:49+0200\n"
 "Last-Translator: louis\n"
 "Language-Team: \n"
@@ -265,6 +265,12 @@ msgstr "schnell"
 
 msgid "auto"
 msgstr "auto"
+
+msgid "simple"
+msgstr "vereinfacht"
+
+msgid "full"
+msgstr "vollständig"
 
 msgid "Number of Default Menu Entries per Page"
 msgstr "Anzahl der Default-Menüelemente pro Seite"
@@ -655,12 +661,6 @@ msgstr "Schriftgröße Anpassen - Kanalgruppen"
 
 msgid "Adjust Font Size - Next/Prev Channel Group"
 msgstr "Schriftgröße Anpassen - vorh./nächste Kanalgruppe"
-
-msgid "simple"
-msgstr "vereinfacht"
-
-msgid "full"
-msgstr "vollständig"
 
 msgid "Height of Replay Display (Percent of OSD Height)"
 msgstr "Höhe der Wiedergabe Anzeige (% der OSD Höhe)"

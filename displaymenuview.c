@@ -674,9 +674,15 @@ void cNopacityDisplayMenuView::DrawVolume(void) {
     int volume = statusMonitor->GetVolume();
     if (volume != lastVolume) {
         if (!volumeBox) {
-            int left = (geoManager->osdWidth - geoManager->volumeWidth) / 2;
-            int top = geoManager->osdHeight - geoManager->volumeHeight - config.GetValue("menuBorderVolumeBottom");
-            volumeBox = new cNopacityVolumeBox(osd, cRect(left, top, geoManager->volumeWidth, geoManager->volumeHeight), fontManager->volumeText);
+            bool simple = (config.GetValue("displayMenuVolume") == vbSimple) ? true : false;
+            volumeBox = new cNopacityVolumeBox(osd,
+                                               cRect(geoManager->menuVolumeLeft,
+                                                     geoManager->menuVolumeTop,
+                                                     geoManager->menuVolumeWidth,
+                                                     geoManager->menuVolumeHeight),
+                                               fontManager->volumeText,
+                                               simple,
+                                               simple);
         }
         volumeBox->SetVolume(volume, MAXVOLUME, volume ? false : true);
         lastVolumeTime = time(NULL);

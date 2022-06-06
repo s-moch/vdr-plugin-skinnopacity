@@ -129,8 +129,9 @@ void cNopacityConfig::LoadDefaults(void) {
     conf.insert(std::pair<std::string, int>("posterHeight", 750));
     conf.insert(std::pair<std::string, int>("useFolderPoster", 1));
     conf.insert(std::pair<std::string, int>("menuChannelLogoBackground", 1));
-    conf.insert(std::pair<std::string, int>("displayMenuVolume", 1));
+    conf.insert(std::pair<std::string, int>("displayMenuVolume", 2));
     conf.insert(std::pair<std::string, int>("menuBorderVolumeBottom", 10));
+    conf.insert(std::pair<std::string, int>("menuBorderVolumeBottomSimple", 50));
     conf.insert(std::pair<std::string, int>("borderDetailedEPG", 30));
     conf.insert(std::pair<std::string, int>("borderDetailedRecordings", 30));
     conf.insert(std::pair<std::string, int>("headerDetailedEPG", 20));

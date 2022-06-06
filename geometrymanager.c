@@ -271,4 +271,19 @@ void cGeometryManager::SetGeometry(void) {
         replayVolumeHeight = volumeHeight;
     }
 
+    // Volume Sizes for Menu
+    if (config.GetValue("displayMenuVolume") == vbSimple) {
+        int vHeight = osdHeight * 5 / 100;
+        if (vHeight % 2 != 0)
+            vHeight++;
+        menuVolumeLeft = osdWidth / 3;
+        menuVolumeTop = osdHeight - vHeight - config.GetValue("menuBorderVolumeBottomSimple");
+        menuVolumeWidth = osdWidth / 3;
+        menuVolumeHeight = vHeight;
+    } else {
+        menuVolumeLeft = (osdWidth - volumeWidth) / 2;
+        menuVolumeTop = osdHeight - volumeHeight - config.GetValue("menuBorderVolumeBottom");
+        menuVolumeWidth = volumeWidth;
+        menuVolumeHeight = volumeHeight;
+    }
 }
