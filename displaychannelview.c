@@ -64,50 +64,50 @@ cNopacityDisplayChannelView::~cNopacityDisplayChannelView(void) {
 
 void cNopacityDisplayChannelView::CreatePixmaps(void) {
     pixmapBackground = osd->CreatePixmap(1,
-                              cRect(geoManager->channelX,
+                              cRect(0,
                                     geoManager->channelTop,
-                                    geoManager->channelWidth,
+                                    geoManager->channelOsdWidth,
                                     geoManager->channelHeight)
                             );
     pixmapTop = osd->CreatePixmap(5,
-                              cRect(geoManager->channelX,
+                              cRect(0,
                                     geoManager->channelTop,
-                                    geoManager->channelWidth,
+                                    geoManager->channelOsdWidth,
                                     geoManager->channelHeight)
                             );
     pixmapLogo  = osd->CreatePixmap(3,
-                              cRect(geoManager->channelX + geoManager->channelLogoX,
+                              cRect(geoManager->channelLogoX,
                                     geoManager->channelLogoY,
                                     geoManager->channelLogoWidth,
                                     geoManager->channelLogoHeight)
                             );
     pixmapLogoBackground  = osd->CreatePixmap(2,
-                              cRect(geoManager->channelX + geoManager->channelLogoBgX,
+                              cRect(geoManager->channelLogoBgX,
                                     geoManager->channelLogoBgY,
                                     geoManager->channelLogoBgWidth,
                                     geoManager->channelLogoBgHeight)
                             );
     pixmapChannelName = osd->CreatePixmap(2,
-                              cRect(geoManager->channelX + geoManager->channelContentX,
+                              cRect(geoManager->channelContentX,
                                     geoManager->channelTop,
                                     geoManager->channelChannelNameWidth,
                                     geoManager->channelHeaderHeight)
                             );
     pixmapDate  = osd->CreatePixmap(2,
-                              cRect(geoManager->channelX + geoManager->channelContentX +
+                              cRect(geoManager->channelContentX +
                                     geoManager->channelChannelNameWidth,
                                     geoManager->channelTop,
                                     geoManager->channelDateWidth,
                                     geoManager->channelHeaderHeight)
                             );
     pixmapProgressBar  = osd->CreatePixmap(2,
-                              cRect(geoManager->channelX + geoManager->channelContentX,
+                              cRect(geoManager->channelContentX,
                                     geoManager->channelTop + geoManager->channelHeaderHeight,
                                     geoManager->channelContentWidth,
                                     geoManager->channelProgressBarHeight)
                             );
     pixmapEPGInfo  = osd->CreatePixmap(2,
-                              cRect(geoManager->channelX + geoManager->channelContentX,
+                              cRect(geoManager->channelContentX,
                                     geoManager->channelTop + geoManager->channelHeaderHeight +
                                     geoManager->channelProgressBarHeight,
                                     geoManager->channelContentWidth,
@@ -184,7 +184,7 @@ void cNopacityDisplayChannelView::DrawBackground(void) {
         int backgroundWidth;
         if (config.GetValue("backgroundStyle") == bsFull) {
             backgroundX = 0;
-            backgroundWidth = geoManager->channelWidth;
+            backgroundWidth = geoManager->channelOsdWidth;
         } else {
             backgroundX = geoManager->channelContentX;
             backgroundWidth = geoManager->channelContentWidth;
@@ -536,7 +536,7 @@ void cNopacityDisplayChannelView::DrawPoster(const cEvent *event, bool initial) 
 }
 
 void cNopacityDisplayChannelView::DrawSignalMeter(void) {
-    signalWidth = geoManager->channelWidth * 0.15;
+    signalWidth = geoManager->channelOsdWidth * 0.15;
     signalHeight = signalWidth * 15 / 200;
     cFont *fontInfoline = cFont::CreateFont(config.fontName, signalHeight - 2);
     cString signalStrength = "STR";
@@ -764,7 +764,7 @@ void cNopacityDisplayChannelView::DisplayMessage(eMessageType Type, const char *
     if (!Text)
         return;
     messageBox = new cNopacityMessageBox(osd,
-					 cRect((geoManager->channelWidth - geoManager->messageWidth) / 2,
+					 cRect((geoManager->channelOsdWidth - geoManager->messageWidth) / 2,
 					       geoManager->channelTop + geoManager->channelHeight - geoManager->messageHeight - 20,
 					       geoManager->messageWidth, geoManager->messageHeight),
 					 Type, Text);

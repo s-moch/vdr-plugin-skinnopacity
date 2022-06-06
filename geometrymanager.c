@@ -104,8 +104,6 @@ void cGeometryManager::SetGeometry(void) {
     channelOsdWidth = osdWidth - 2 * config.GetValue("channelBorderVertical");
     channelOsdHeight = osdHeight - 2 * config.GetValue("channelBorderBottom");
 
-    channelX = 0;
-    channelWidth = channelOsdWidth;
     channelHeight = channelOsdHeight * config.GetValue("channelHeight") / 100;
     channelTop = channelOsdHeight - channelHeight;
 
@@ -120,10 +118,10 @@ void cGeometryManager::SetGeometry(void) {
     channelContentHeight = channelHeight - channelHeaderHeight - channelFooterHeight;
 
     int logoWidthTotalPercent = 16;
-    channelLogoWidthTotal = logoWidthTotalPercent * channelWidth / 100;
+    channelLogoWidthTotal = logoWidthTotalPercent * channelOsdWidth / 100;
 
     // 184x130 logo background for 1250x180 graphical display channel window (default theme)
-    channelLogoBgWidth = channelWidth * 184 / 1250;
+    channelLogoBgWidth = channelOsdWidth * 184 / 1250;
     channelLogoBgHeight = channelHeight * 130 / 180;
     channelLogoBgX = (channelLogoWidthTotal - channelLogoBgWidth) / 2;
     if (config.GetValue("displayType") != dtGraphical) {
@@ -155,30 +153,30 @@ void cGeometryManager::SetGeometry(void) {
     channelStatusIconBorder = 5;
     channelStatusIconSize = channelFooterHeight - 2 * channelStatusIconBorder;
     channelStatusIconsWidth = 8 * channelStatusIconSize + 6 * channelStatusIconBorder;
-    channelStatusIconX = channelX + channelWidth - channelStatusIconsWidth - channelFooterHeight / 2;
-    channelSourceInfoX = channelX + 10;
+    channelStatusIconX = channelOsdWidth - channelStatusIconsWidth - channelFooterHeight / 2;
+    channelSourceInfoX = 10;
 
     switch (config.GetValue("logoPosition")) {
         case lpLeft:
             channelContentX = channelLogoWidthTotal;
-            channelContentWidth = channelWidth - channelLogoWidthTotal;
+            channelContentWidth = channelOsdWidth - channelLogoWidthTotal;
             channelSourceInfoX += channelContentX;
             break;
         case lpRight:
             channelContentX = 0;
-            channelContentWidth = channelWidth - channelLogoWidthTotal;
+            channelContentWidth = channelOsdWidth - channelLogoWidthTotal;
             channelLogoX = channelContentWidth + (channelLogoWidthTotal - channelLogoWidth) / 2;
             channelLogoBgX = channelContentWidth + (channelLogoWidthTotal - channelLogoBgWidth) / 2;
             channelStatusIconX -= channelLogoWidthTotal;
             break;
         case lpNone:
             channelContentX = 0;
-            channelContentWidth = channelWidth;
+            channelContentWidth = channelOsdWidth;
             break;
     }
 
     if (config.GetValue("displaySignalStrength")) 
-        channelSourceInfoX += channelWidth * 0.2;
+        channelSourceInfoX += channelOsdWidth * 0.2;
 
     channelChannelNameWidth = channelContentWidth * 70 / 100;
     channelDateWidth = channelContentWidth - channelChannelNameWidth;
@@ -192,36 +190,34 @@ void cGeometryManager::SetGeometry(void) {
     replayOsdWidth = osdWidth - 2 * config.GetValue("replayBorderVertical");
     replayOsdTop = osdTop + osdHeight - replayOsdHeight - config.GetValue("replayBorderBottom");
     replayOsdLeft = osdLeft + config.GetValue("replayBorderVertical"),
-    replayWidth = replayOsdWidth;
-    replayHeight = replayOsdHeight;
-    replayHeaderHeight = replayHeight * 0.2;
+    replayHeaderHeight = replayOsdHeight * 0.2;
     if (replayHeaderHeight % 2 != 0)
         replayHeaderHeight++;
     replayFooterHeight = replayHeaderHeight;
     replayResolutionSize = replayHeaderHeight - 10;
-    replayResolutionX = replayWidth - replayResolutionSize * 3 - replayHeaderHeight / 2;
-    replayResolutionY = replayHeight - replayFooterHeight;
+    replayResolutionX = replayOsdWidth - replayResolutionSize * 3 - replayHeaderHeight / 2;
+    replayResolutionY = replayOsdHeight - replayFooterHeight;
     replayInfo2Height = replayHeaderHeight;
-    replayProgressBarHeight = 0.1 * replayHeight;
+    replayProgressBarHeight = 0.1 * replayOsdHeight;
     if (replayProgressBarHeight % 2 != 0)
         replayProgressBarHeight++;
     replayCurrentHeight = replayProgressBarHeight + config.GetValue("fontReplay");
-    replayControlsHeight = replayHeight - replayHeaderHeight - replayInfo2Height - replayFooterHeight - replayProgressBarHeight;
+    replayControlsHeight = replayOsdHeight - replayHeaderHeight - replayInfo2Height - replayFooterHeight - replayProgressBarHeight;
     if (replayControlsHeight < 11)
         replayControlsHeight = 11;
-    replayInfoWidth = 0.75 * replayWidth;
-    replayDateWidth = replayWidth - replayInfoWidth;
+    replayInfoWidth = 0.75 * replayOsdWidth;
+    replayDateWidth = replayOsdWidth - replayInfoWidth;
 
-    replayJumpX = (replayWidth - 4 * replayControlsHeight)/2 + 5*replayControlsHeight;
+    replayJumpX = (replayOsdWidth - 4 * replayControlsHeight)/2 + 5*replayControlsHeight;
     replayJumpY = replayHeaderHeight + replayInfo2Height + replayProgressBarHeight;
-    replayJumpWidth = replayWidth - replayJumpX;
+    replayJumpWidth = replayOsdWidth - replayJumpX;
     replayJumpHeight = replayControlsHeight;
 
     replayIconBorder = 5;
     replayIconSize = std::min(replayControlsHeight - 2*replayIconBorder, 128);
 
-    replayMessageY = replayHeight - replayFooterHeight;
-    replayMessageWidth = replayWidth * 75 / 100;
+    replayMessageY = replayOsdHeight - replayFooterHeight;
+    replayMessageWidth = replayOsdWidth * 75 / 100;
     replayMessageHeight = replayFooterHeight;
 
     // DisplayMessage Sizes
@@ -242,7 +238,7 @@ void cGeometryManager::SetGeometry(void) {
 
     // Volume Sizes for Channel
     if (config.GetValue("displayChannelVolume") == vbSimple) {
-        channelVolumeLeft = channelX + channelContentX + channelWidth * 0.2 + 10;
+        channelVolumeLeft = channelContentX + channelOsdWidth * 0.2 + 10;
         channelVolumeTop = channelTop + channelHeaderHeight + channelProgressBarHeight + channelEpgInfoHeight;
         channelVolumeWidth = channelStatusIconX - channelVolumeLeft - 5 * channelStatusIconBorder;
 	if (config.GetValue("logoPosition") == lpRight)
@@ -258,7 +254,7 @@ void cGeometryManager::SetGeometry(void) {
     // Volume Sizes for Replay
     if (config.GetValue("displayReplayVolume") == vbSimple) {
         replayVolumeLeft = replayOsdWidth / 3;
-        replayVolumeTop = replayHeight - replayFooterHeight;
+        replayVolumeTop = replayOsdHeight - replayFooterHeight;
         replayVolumeWidth = replayOsdWidth / 3;
         replayVolumeHeight = replayFooterHeight;
     } else {

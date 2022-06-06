@@ -588,11 +588,11 @@ void cImageCache::CreateSkinElementsGraphics(void) {
     }
     success = LoadIcon(ctSkinElement, imgChannelBackground);
     if (success)
-        InsertIntoSkinElementCache(seChannelBackground, geoManager->channelWidth, geoManager->channelHeight);
+        InsertIntoSkinElementCache(seChannelBackground, geoManager->channelOsdWidth, geoManager->channelHeight);
 
     success = LoadIcon(ctSkinElement, imgChannelTop);
     if (success)
-        InsertIntoSkinElementCache(seChannelTop, geoManager->channelWidth, geoManager->channelHeight);
+        InsertIntoSkinElementCache(seChannelTop, geoManager->channelOsdWidth, geoManager->channelHeight);
 
     //ChannelLogo Background
     std::string imgChannelLogoBack = "skinElements/channellogoback";
@@ -604,11 +604,11 @@ void cImageCache::CreateSkinElementsGraphics(void) {
     std::string imgReplayBackground = "skinElements/displayreplayback";
     success = LoadIcon(ctSkinElement, imgReplayBackground);
     if (success)
-        InsertIntoSkinElementCache(seReplayBackground, geoManager->replayWidth, geoManager->replayHeight);
+        InsertIntoSkinElementCache(seReplayBackground, geoManager->replayOsdWidth, geoManager->replayOsdHeight);
     std::string imgReplayTop = "skinElements/displayreplaytop";
     success = LoadIcon(ctSkinElement, imgReplayTop);
     if (success)
-        InsertIntoSkinElementCache(seReplayTop, geoManager->replayWidth, geoManager->replayHeight);
+        InsertIntoSkinElementCache(seReplayTop, geoManager->replayOsdWidth, geoManager->replayOsdHeight);
 
     //DisplayVolume Background
     std::string imgVolumeBackground = "skinElements/displayvolume";

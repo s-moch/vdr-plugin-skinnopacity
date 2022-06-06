@@ -61,8 +61,8 @@ class cGeometryManager {
         //DisplayChannel Sizes
         int channelOsdLeft, channelOsdTop;
         int channelOsdWidth, channelOsdHeight;
-        int channelX, channelTop;
-        int channelWidth, channelHeight;
+        int channelTop;
+        int channelHeight;
         int channelHeaderHeight;
         int channelFooterHeight;
         int channelContentHeight;
@@ -88,8 +88,6 @@ class cGeometryManager {
         //DisplayReplay Sizes
         int replayOsdLeft, replayOsdTop;
         int replayOsdWidth, replayOsdHeight;
-        int replayWidth;
-        int replayHeight;
         int replayHeaderHeight;
         int replayInfo2Height;
         int replayProgressBarHeight;
