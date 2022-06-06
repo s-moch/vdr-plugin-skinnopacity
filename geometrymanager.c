@@ -158,7 +158,7 @@ void cGeometryManager::SetGeometry(void) {
     channelStatusIconBorder = 5;
     channelStatusIconSize = channelFooterHeight - 2 * channelStatusIconBorder;
     channelStatusIconsWidth = 8 * channelStatusIconSize + 6 * channelStatusIconBorder;
-    channelStatusIconX = channelX + channelWidth - channelStatusIconsWidth - 3 * channelStatusIconBorder;
+    channelStatusIconX = channelX + channelWidth - channelStatusIconsWidth - channelFooterHeight / 2;
     channelSourceInfoX = channelX + 10;
 
     switch (config.GetValue("logoPosition")) {
@@ -247,7 +247,7 @@ void cGeometryManager::SetGeometry(void) {
     if (config.GetValue("displayChannelVolume") == vbSimple) {
         channelVolumeLeft = channelX + channelContentX + channelWidth * 0.2 + 10;
         channelVolumeTop = channelTop + channelHeaderHeight + channelProgressBarHeight + channelEpgInfoHeight;
-        channelVolumeWidth = channelX + channelWidth - channelStatusIconsWidth - 3 * channelStatusIconBorder - channelVolumeLeft - 25;
+        channelVolumeWidth = channelStatusIconX - channelVolumeLeft - 5 * channelStatusIconBorder;
 	if (config.GetValue("logoPosition") == lpRight)
             channelVolumeWidth -= channelLogoWidthTotal;
         channelVolumeHeight = channelFooterHeight;
