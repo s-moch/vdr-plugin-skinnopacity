@@ -76,7 +76,14 @@ class cGeometryManager {
         int channelProgressBarHeight;
         int channelEpgInfoHeight;
         int channelEpgInfoLineHeight;
+        int channelStatusIconBorder;
+        int channelStatusIconSize;
+        int channelStatusIconsWidth;
+        int channelStatusIconX;
+        int channelSourceInfoX;
         //DisplayReplay Sizes
+        int replayOsdLeft, replayOsdTop;
+        int replayOsdWidth, replayOsdHeight;
         int replayWidth;
         int replayHeight;
         int replayHeaderHeight;

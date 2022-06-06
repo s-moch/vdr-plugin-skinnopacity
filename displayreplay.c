@@ -55,14 +55,7 @@ cNopacityDisplayReplay::~cNopacityDisplayReplay() {
 }
 
 void cNopacityDisplayReplay::createOSD(void) {
-    int top = geoManager->osdTop
-              + geoManager->osdHeight
-              - geoManager->replayHeight
-              - config.GetValue("replayBorderBottom");
-    osd = CreateOsd(geoManager->osdLeft + config.GetValue("replayBorderVertical"),
-                    top,
-                    geoManager->replayWidth,
-                    geoManager->replayHeight);
+    osd = CreateOsd(geoManager->replayOsdLeft, geoManager->replayOsdTop, geoManager->replayWidth, geoManager->replayHeight);
 }
 
 void cNopacityDisplayReplay::CreatePixmaps(void) {

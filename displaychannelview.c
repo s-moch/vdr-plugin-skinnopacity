@@ -12,8 +12,8 @@ cNopacityDisplayChannelView::cNopacityDisplayChannelView(cOsd *osd) {
     this->osd = osd;
     lastDate = "";
     isRadioChannel = false;
-    statusIconBorder = 5;
-    statusIconSize = geoManager->channelFooterHeight - 2 * statusIconBorder;
+    statusIconBorder = geoManager->channelStatusIconBorder;
+    statusIconSize = geoManager->channelStatusIconSize;
     signalWidth = 0;
     signalHeight = 0;
     signalX = 0;
@@ -113,39 +113,28 @@ void cNopacityDisplayChannelView::CreatePixmaps(void) {
                                     geoManager->channelContentWidth,
                                     geoManager->channelEpgInfoHeight)
                             );
-    int statusIconsWidth = 8 * statusIconSize + 6 * statusIconBorder;
-    int statusIconX = geoManager->channelX
-                      + geoManager->channelWidth
-                      - statusIconsWidth
-                      - 3*statusIconBorder;
-    if (config.GetValue("logoPosition") == lpRight)
-        statusIconX -= geoManager->channelLogoWidthTotal;
-
     pixmapStatusIcons  = osd->CreatePixmap(3,
-                              cRect(statusIconX,
+                              cRect(geoManager->channelStatusIconX,
                                     geoManager->channelTop + geoManager->channelHeaderHeight +
                                     geoManager->channelProgressBarHeight +
                                     geoManager->channelEpgInfoHeight,
-                                    statusIconsWidth,
+                                    geoManager->channelStatusIconsWidth,
                                     geoManager->channelFooterHeight)
                             );
     pixmapStatusIconsBackground = osd->CreatePixmap(2,
-                              cRect(statusIconX - 2*statusIconBorder,
+                              cRect(geoManager->channelStatusIconX - 2 * statusIconBorder,
                                     geoManager->channelTop + geoManager->channelHeaderHeight +
                                     geoManager->channelProgressBarHeight +
                                     geoManager->channelEpgInfoHeight + 1,
-                                    statusIconsWidth + 3*statusIconBorder,
+                                    geoManager->channelStatusIconsWidth + 3 * geoManager->channelStatusIconBorder,
                                     geoManager->channelFooterHeight - 2)
                             );
-    int sourceInfoX = geoManager->channelX + geoManager->channelContentX + 10;
-    if (config.GetValue("displaySignalStrength")) 
-        sourceInfoX +=geoManager->channelWidth * 0.2;
     pixmapSourceInfo  = osd->CreatePixmap(2,
-                              cRect(sourceInfoX,
+                              cRect(geoManager->channelSourceInfoX,
                                     geoManager->channelTop + geoManager->channelHeaderHeight +
                                     geoManager->channelProgressBarHeight +
                                     geoManager->channelEpgInfoHeight,
-                                    statusIconX - sourceInfoX,
+                                    geoManager->channelStatusIconX - geoManager->channelSourceInfoX,
                                     geoManager->channelFooterHeight)
                             );
 
@@ -790,8 +779,7 @@ void cNopacityDisplayChannelView::DrawVolume(void) {
         volumeBox->SetVolume(volume, MAXVOLUME, volume ? false : true);
         lastVolumeTime = time(NULL);
         lastVolume = volume;
-    }
-    else {
+    } else {
         if (volumeBox && (time(NULL) - lastVolumeTime > 2))
             DELETENULL(volumeBox);
     }

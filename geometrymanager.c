@@ -155,22 +155,33 @@ void cGeometryManager::SetGeometry(void) {
             break;
     }
 
+    channelStatusIconBorder = 5;
+    channelStatusIconSize = channelFooterHeight - 2 * channelStatusIconBorder;
+    channelStatusIconsWidth = 8 * channelStatusIconSize + 6 * channelStatusIconBorder;
+    channelStatusIconX = channelX + channelWidth - channelStatusIconsWidth - 3 * channelStatusIconBorder;
+    channelSourceInfoX = channelX + 10;
+
     switch (config.GetValue("logoPosition")) {
         case lpLeft:
             channelContentX = channelLogoWidthTotal;
             channelContentWidth = channelWidth - channelLogoWidthTotal;
+            channelSourceInfoX += channelContentX;
             break;
         case lpRight:
             channelContentX = 0;
             channelContentWidth = channelWidth - channelLogoWidthTotal;
             channelLogoX = channelContentWidth + (channelLogoWidthTotal - channelLogoWidth) / 2;
             channelLogoBgX = channelContentWidth + (channelLogoWidthTotal - channelLogoBgWidth) / 2;
+            channelStatusIconX -= channelLogoWidthTotal;
             break;
         case lpNone:
             channelContentX = 0;
             channelContentWidth = channelWidth;
             break;
     }
+
+    if (config.GetValue("displaySignalStrength")) 
+        channelSourceInfoX += channelWidth * 0.2;
 
     channelChannelNameWidth = channelContentWidth * 70 / 100;
     channelDateWidth = channelContentWidth - channelChannelNameWidth;
@@ -180,18 +191,22 @@ void cGeometryManager::SetGeometry(void) {
     channelFooterY = channelTop + channelHeaderHeight + channelContentHeight;
 
     // DisplayReplay Sizes
-    replayHeight = osdHeight * config.GetValue("replayHeight") / 100;
-    replayWidth = osdWidth - 2 * config.GetValue("replayBorderVertical");
+    replayOsdHeight = osdHeight * config.GetValue("replayHeight") / 100;
+    replayOsdWidth = osdWidth - 2 * config.GetValue("replayBorderVertical");
+    replayOsdTop = osdTop + osdHeight - replayOsdHeight - config.GetValue("replayBorderBottom");
+    replayOsdLeft = osdLeft + config.GetValue("replayBorderVertical"),
+    replayWidth = replayOsdWidth;
+    replayHeight = replayOsdHeight;
     replayHeaderHeight = replayHeight * 0.2;
-    if (replayHeaderHeight%2 != 0)
+    if (replayHeaderHeight % 2 != 0)
         replayHeaderHeight++;
     replayFooterHeight = replayHeaderHeight;
     replayResolutionSize = replayHeaderHeight - 10;
-    replayResolutionX = replayWidth - replayResolutionSize*3 - replayHeaderHeight/2;
+    replayResolutionX = replayWidth - replayResolutionSize * 3 - replayHeaderHeight / 2;
     replayResolutionY = replayHeight - replayFooterHeight;
     replayInfo2Height = replayHeaderHeight;
     replayProgressBarHeight = 0.1 * replayHeight;
-    if (replayProgressBarHeight%2 != 0)
+    if (replayProgressBarHeight % 2 != 0)
         replayProgressBarHeight++;
     replayCurrentHeight = replayProgressBarHeight + config.GetValue("fontReplay");
     replayControlsHeight = replayHeight - replayHeaderHeight - replayInfo2Height - replayFooterHeight - replayProgressBarHeight;
@@ -222,9 +237,9 @@ void cGeometryManager::SetGeometry(void) {
     // DisplayVolume Sizes
     volumeWidth = osdWidth * config.GetValue("volumeWidth") / 100;
     volumeHeight = osdHeight * config.GetValue("volumeHeight") / 100;
-    volumeLabelHeight = volumeHeight/3;
+    volumeLabelHeight = volumeHeight / 3;
     volumeProgressBarWidth = 0.9 * volumeWidth;
     volumeProgressBarHeight = 0.3 * volumeHeight;
-    if (volumeProgressBarHeight%2 != 0)
+    if (volumeProgressBarHeight % 2 != 0)
         volumeProgressBarHeight++;
 }
