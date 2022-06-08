@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2022-06-06 17:02+0200\n"
+"POT-Creation-Date: 2022-06-08 13:07+0200\n"
 "PO-Revision-Date: 2012-11-11 17:49+0200\n"
 "Last-Translator: louis\n"
 "Language-Team: \n"
@@ -496,6 +496,9 @@ msgstr "Anzahl Fehler im Aufzeichnungsnmenü anzeigen"
 
 msgid "Display Error 0"
 msgstr "0 Fehler anzeigen"
+
+msgid "Display number of recordings"
+msgstr "Anzahl der Aufnahmen anzeigen"
 
 msgid "Mode of recording Window"
 msgstr "Aufnahme Fenster Modus"

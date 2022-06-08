@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: vdr-skinnopacity\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2022-06-06 17:02+0200\n"
+"POT-Creation-Date: 2022-06-08 13:07+0200\n"
 "PO-Revision-Date: 2013-11-11 20:52+0100\n"
 "Last-Translator: Milan Hrala <hrala.milan@gmail.com>\n"
 "Language-Team: \n"
@@ -495,6 +495,9 @@ msgid "Show number of errors in the recordings menu"
 msgstr ""
 
 msgid "Display Error 0"
+msgstr ""
+
+msgid "Display number of recordings"
 msgstr ""
 
 msgid "Mode of recording Window"

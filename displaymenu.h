@@ -20,6 +20,7 @@ private:
     bool initial;
     bool deatilViewRenderDone = false;
     bool diskUsageDrawn;
+    int countRecordings = 0;
     int lastDiskUsageState;
     int lastTimersState;
     bool timersDrawn;

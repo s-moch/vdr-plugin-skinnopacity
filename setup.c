@@ -349,6 +349,7 @@ void cNopacitySetupMenuDisplayRecordings::Set(void) {
         Add(new cMenuEditStraItem(cString::sprintf("%s%s", *spacer, tr("Show number of errors in the recordings menu")), tmpConf->GetValueRef("menuRecordingsErrorMode"), 3, errorMode));
         Add(new cMenuEditBoolItem(cString::sprintf("%s%s", *spacer, tr("Display Error 0")), tmpConf->GetValueRef("menuRecordingsDisplayError0")));
     }
+    Add(new cMenuEditBoolItem(tr("Display number of recordings"), tmpConf->GetValueRef("displayNumberOfRecordings")));
     Add(new cMenuEditIntItem(tr("Number of entires per page"), tmpConf->GetValueRef("numRecordingsMenuItems"), 3, 20));
     Add(new cMenuEditStraItem(tr("Mode of recording Window"), tmpConf->GetValueRef("menuRecordingsWindowMode"), 2, windowMode));
     Add(new cMenuEditIntItem(tr("Border around detailed recording view"), tmpConf->GetValueRef("borderDetailedRecordings"), 1, 300));

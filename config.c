@@ -118,6 +118,7 @@ void cNopacityConfig::LoadDefaults(void) {
     conf.insert(std::pair<std::string, int>("numMainMenuItems", 10));
     conf.insert(std::pair<std::string, int>("numSchedulesMenuItems", 10));
     conf.insert(std::pair<std::string, int>("numRecordingsMenuItems", 10));
+    conf.insert(std::pair<std::string, int>("displayNumberOfRecordings", 1));
     conf.insert(std::pair<std::string, int>("menuHeaderLogoWidth", 160));
     conf.insert(std::pair<std::string, int>("menuHeaderLogoHeight", 70));
     conf.insert(std::pair<std::string, int>("logoMenuScale", 100));

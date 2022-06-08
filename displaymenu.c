@@ -290,10 +290,21 @@ void cNopacityDisplayMenu::SetTitle(const char *Title) {
                 menuView->ShowHeaderLogo(false);
                 left += menuView->ShowHeaderIconChannelLogo(Title, initial);
                 break;
-            case mcRecording:
+            case mcRecording: {
                 menuView->ShowHeaderLogo(false);
-                title = cString::sprintf("%s (%s)", Title, *cVideoDiskUsage::String());
+                cString Text = cString::sprintf(" %s", trVDR("Recordings"));
+                if (config.GetValue("displayNumberOfRecordings") && (strcmp(Text, title) == 0)) {
+                    {
+#if APIVERSNUM > 20300
+                    LOCK_RECORDINGS_READ;
+#endif
+                    countRecordings = Recordings->Count();
+                    }
+                    title = cString::sprintf("%i %s (%s)", countRecordings, Title, *cVideoDiskUsage::String());
+                } else
+                    title = cString::sprintf("%s (%s)", Title, *cVideoDiskUsage::String());
                 left += menuView->DrawHeaderIcon(MenuCategory(), initial);
+                }
                 break;
             default:
                 menuView->ShowHeaderLogo(false);
