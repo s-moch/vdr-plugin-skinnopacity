@@ -111,9 +111,11 @@ void cNopacityDetailView::InitiateViewType(void) {
                     view = new cNopacityMovieView(osd, call.movieId);
                 } else if (call.type == tSeries) {
                     view = new cNopacitySeriesView(osd, call.seriesId, call.episodeId);
+                } else {
+                    view = new cNopacityEPGView(osd);
                 }
             } else {
-                view = new cNopacityEPGView(osd);                
+                view = new cNopacityEPGView(osd);
             }
             view->SetTitle(ev->Title());
             view->SetSubTitle(ev->ShortText());
@@ -141,9 +143,11 @@ void cNopacityDetailView::InitiateViewType(void) {
                     view = new cNopacityMovieView(osd, call.movieId);
                 } else if (call.type == tSeries) {
                     view = new cNopacitySeriesView(osd, call.seriesId, call.episodeId);
-                }
+                } else {
+                    view = new cNopacityEPGView(osd);
+                }		    
             } else {
-                view = new cNopacityEPGView(osd);                
+                view = new cNopacityEPGView(osd);
             }
             const cRecordingInfo *info = rec->Info();
             if (info) {
