@@ -489,10 +489,15 @@ bool cNopacityDisplayMenu::SetItemRecording(const cRecording *Recording, int Ind
     return true;
 }
 
-
 void cNopacityDisplayMenu::SetItem(const char *Text, int Index, bool Current, bool Selectable) {
-    bool hasIcons = false;
-    bool MainOrSetup = false;
+    if (Index < 0)
+        return;
+    if ((int)menuItems.size() <= Index) {
+        int maxitems = MaxItems();
+        if (maxitems <= Index)
+            return;
+        menuItems.resize(maxitems);
+    }
     cString *strItems = new cString[MaxTabs];
     int *tabItems = new int[2*MaxTabs];
     for (int i=0; i<MaxTabs; i++) {
@@ -501,10 +506,10 @@ void cNopacityDisplayMenu::SetItem(const char *Text, int Index, bool Current, bo
         tabItems[i+MaxTabs] = 0;
     }
     SplitItem(Text, strItems, tabItems);
-    if ((int)menuItems.size() <= Index)
-        menuItems.resize(MaxItems());
     menuItems[Index].reset();
     if (*Text != '\0') {
+        bool hasIcons = false;
+        bool MainOrSetup = false;
         cNopacityMenuItem *item;
         cPoint itemSize;
         if (((MenuCategory() == mcMain)&&(config.GetValue("narrowMainMenu"))) || ((MenuCategory() == mcSetup)&&(config.GetValue("narrowSetupMenu")))){
