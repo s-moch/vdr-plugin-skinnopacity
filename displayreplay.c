@@ -125,25 +125,25 @@ void cNopacityDisplayReplay::CreatePixmaps(void) {
                                                     geoManager->replayControlsHeight));
     } else {
         pixmapControls = osd->CreatePixmap(2, cRect((geoManager->replayOsdWidth
-                                                     - (5 * iconWidth))/2,
+                                                     - (5 * iconWidth)) / 2,
                                                     controlY - 10,
                                                     5 * iconWidth,
                                                     geoManager->replayControlsHeight + 20));
     }
-    int iconX = (geoManager->replayOsdWidth - 4 * iconWidth)/2;
-    pixmapRew = osd->CreatePixmap(4, cRect(iconX + iconBorder,
+    int iconX = (geoManager->replayOsdWidth - (4 * iconSize + 3 * iconBorder)) / 2;
+    pixmapRew = osd->CreatePixmap(4, cRect(iconX,
                                            controlY + iconBorder,
                                            iconSize,
                                            iconSize));
-    pixmapPause = osd->CreatePixmap(4, cRect(iconX + iconSize + 3*iconBorder,
+    pixmapPause = osd->CreatePixmap(4, cRect(iconX + iconSize + iconBorder,
                                              controlY + iconBorder,
                                              iconSize,
                                              iconSize));
-    pixmapPlay = osd->CreatePixmap(4, cRect(iconX + 2*iconSize + 3*iconBorder,
+    pixmapPlay = osd->CreatePixmap(4, cRect(iconX + 2 * (iconSize + iconBorder),
                                             controlY + iconBorder,
                                             iconSize,
                                             iconSize));
-    pixmapFwd = osd->CreatePixmap(4, cRect(iconX + 3*iconSize + 3*iconBorder,
+    pixmapFwd = osd->CreatePixmap(4, cRect(iconX + 3 * (iconSize + iconBorder),
                                            controlY + iconBorder,
                                            iconSize,
                                            iconSize));
