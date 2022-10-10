@@ -524,17 +524,36 @@ int cNopacityMenuDetailViewLight::HeightActorPics(void) {
     if (numActors < 1)
         return 0;
     if (isMovie) {
-        actorThumbWidth = movie.actors[0].actorThumb.width/2;
-        actorThumbHeight = movie.actors[0].actorThumb.height/2;        
+        actorThumbWidth = movie.actors[0].actorThumb.width / 2;
+        actorThumbHeight = movie.actors[0].actorThumb.height / 2;        
     } else if (isSeries) {
-        actorThumbWidth = series.actors[0].actorThumb.width/2;
-        actorThumbHeight = series.actors[0].actorThumb.height/2;        
+        actorThumbWidth = series.actors[0].actorThumb.width / 2;
+        actorThumbHeight = series.actors[0].actorThumb.height / 2;        
     }
     int picsPerLine = contentWidth / (actorThumbWidth + 2 * border);
     if (picsPerLine < 1)
         return 0;
-    int picLines = numActors / picsPerLine;
-    if (numActors%picsPerLine != 0)
+
+// Count actors with picture
+    cImageLoader imgLoader;
+    int actorsToView = 0;
+    for (int a = 0; a < numActors; a++) {
+        if (a == numActors)
+            break;
+        std::string path = "";
+        if (isMovie) {
+            path = movie.actors[a].actorThumb.path;
+        } else if (isSeries) {
+            path = series.actors[a].actorThumb.path;
+        }
+
+        if (imgLoader.LoadPoster(path.c_str(), actorThumbWidth, actorThumbHeight, false)) {
+            actorsToView++;
+        }
+    }
+
+    int picLines = actorsToView / picsPerLine;
+    if (actorsToView % picsPerLine != 0)
         picLines++;
     int actorsHeight = picLines * (actorThumbHeight + 2 * fontSmall->Height()) + fontHeader->Height();
     return actorsHeight;
@@ -807,6 +826,8 @@ void cNopacityMenuDetailViewLight::DrawAdditionalBanners(int top, int bottom) {
 }
 
 void cNopacityMenuDetailViewLight::DrawActors(int height) {
+    if (!pixmapContent)
+        return;
     int numActors = 0;
     if (isMovie)
         numActors = movie.actors.size();
@@ -816,18 +837,18 @@ void cNopacityMenuDetailViewLight::DrawActors(int height) {
         return;
 
     cString header = cString::sprintf("%s:", tr("Actors"));
-    pixmapContent->DrawText(cPoint(border, height), *header, Theme.Color(clrMenuFontDetailViewText), clrTransparent, fontHeader);
+    pixmapContent->DrawText(cPoint(border, height), *header, Theme.Color(clrMenuFontDetailViewText), clrTransparent, font);
 
-    int picsPerLine = contentWidth / (actorThumbWidth + 2*border);
+    int picsPerLine = contentWidth / (actorThumbWidth + 2 * border);
     int picLines = numActors / picsPerLine;
-    if (numActors%picsPerLine != 0)
+    if (numActors % picsPerLine != 0)
         picLines++;
     int x = 0;
-    int y = height + fontHeader->Height();
+    int y = height + font->Height();
     cImageLoader imgLoader;
     int actor = 0;
     for (int row = 0; row < picLines; row++) {
-        for (int col = 0; col < picsPerLine; col++) {
+        for (int col = 0; col < picsPerLine;) {
             if (actor == numActors)
                 break;
             std::string path = "";
@@ -844,20 +865,17 @@ void cNopacityMenuDetailViewLight::DrawActors(int height) {
             }
             std::string role = sstrRole.str();
             if (imgLoader.LoadPoster(path.c_str(), actorThumbWidth, actorThumbHeight)) {
-                if (pixmapContent)
-                    pixmapContent->DrawImage(cPoint(x + border, y), imgLoader.GetImage());
-            }
-
-            if (fontSmall->Width(name.c_str()) > actorThumbWidth + 2*border)
-                name = CutText(name, actorThumbWidth + 2*border, fontSmall);
-            if (fontSmall->Width(role.c_str()) > actorThumbWidth + 2*border)
-                role = CutText(role, actorThumbWidth + 2*border, fontSmall);
-            int xName = x + ((actorThumbWidth+2*border) - fontSmall->Width(name.c_str()))/2;
-            int xRole = x + ((actorThumbWidth+2*border) - fontSmall->Width(role.c_str()))/2;
-            if (pixmapContent) {
+                pixmapContent->DrawImage(cPoint(x + border, y), imgLoader.GetImage());
+                if (fontSmall->Width(name.c_str()) > actorThumbWidth + 2 * border)
+                    name = CutText(name, actorThumbWidth + 2 * border, fontSmall);
+                if (fontSmall->Width(role.c_str()) > actorThumbWidth + 2 * border)
+                    role = CutText(role, actorThumbWidth + 2 * border, fontSmall);
+                int xName = x + ((actorThumbWidth + 2 * border) - fontSmall->Width(name.c_str())) / 2;
+                int xRole = x + ((actorThumbWidth + 2 * border) - fontSmall->Width(role.c_str())) / 2;
                 pixmapContent->DrawText(cPoint(xName, y + actorThumbHeight), name.c_str(), Theme.Color(clrMenuFontDetailViewText), clrTransparent, fontSmall);
                 pixmapContent->DrawText(cPoint(xRole, y + actorThumbHeight + fontSmall->Height()), role.c_str(), Theme.Color(clrMenuFontDetailViewText), clrTransparent, fontSmall);
-                x += actorThumbWidth + 2*border;
+                x += actorThumbWidth + 2 * border;
+                col++;
             }
             actor++;
         }

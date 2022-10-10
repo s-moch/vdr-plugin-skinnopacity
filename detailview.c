@@ -276,6 +276,7 @@ void cNopacityView::DrawActors(std::vector<cActor> *actors) {
         pixmapContent->DrawText(cPoint(border, border), tr("No Cast available"), Theme.Color(clrMenuFontDetailViewText), clrTransparent, fontHeaderLarge);
         return;
     }
+
     int thumbWidth = actors->at(0).actorThumb.width;
     int thumbHeight = actors->at(0).actorThumb.height;
     
@@ -283,11 +284,22 @@ void cNopacityView::DrawActors(std::vector<cActor> *actors) {
     if (picsPerLine < 1)
         return;
 
-    int picLines = numActors / picsPerLine;
-    if (numActors%picsPerLine != 0)
+    cImageLoader imgLoader;
+    int actorsToView = 0;
+    for (int a = 0; a < numActors; a++) {
+        if (a == numActors)
+            break;
+        std::string path = actors->at(a).actorThumb.path;
+        if (imgLoader.LoadPoster(path.c_str(), thumbWidth, thumbHeight, false)) {
+            actorsToView++;
+        }
+    }
+
+    int picLines = actorsToView / picsPerLine;
+    if (actorsToView % picsPerLine != 0)
         picLines++;
     
-    int totalHeight = picLines * (thumbHeight + 2*fontSmall->Height() + border + border/2) + 2*border + fontHeaderLarge->Height();
+    int totalHeight = picLines * (thumbHeight + 2 * fontSmall->Height() + border + border / 2) + 2 * border + fontHeaderLarge->Height();
 
     CreateContent(totalHeight);
     cString header = cString::sprintf("%s:", tr("Cast"));
@@ -295,10 +307,9 @@ void cNopacityView::DrawActors(std::vector<cActor> *actors) {
 
     int x = 0;
     int y = 2 * border + fontHeaderLarge->Height();
-    cImageLoader imgLoader;
     int actor = 0;
     for (int row = 0; row < picLines; row++) {
-        for (int col = 0; col < picsPerLine; col++) {
+        for (int col = 0; col < picsPerLine;) {
             if (actor == numActors)
                 break;
             std::string path = actors->at(actor).actorThumb.path;
@@ -307,25 +318,22 @@ void cNopacityView::DrawActors(std::vector<cActor> *actors) {
             sstrRole << "\"" << actors->at(actor).role << "\"";
             std::string role = sstrRole.str();
             if (imgLoader.LoadPoster(path.c_str(), thumbWidth, thumbHeight)) {
-                if (pixmapContent)
-                    pixmapContent->DrawImage(cPoint(x + border, y), imgLoader.GetImage());
-            }
-
-            if (fontSmall->Width(name.c_str()) > thumbWidth + 2*border)
-                name = CutText(name, thumbWidth + 2*border, fontSmall);
-            if (fontSmall->Width(role.c_str()) > thumbWidth + 2*border)
-                role = CutText(role, thumbWidth + 2*border, fontSmall);
-            int xName = x + ((thumbWidth+2*border) - fontSmall->Width(name.c_str()))/2;
-            int xRole = x + ((thumbWidth+2*border) - fontSmall->Width(role.c_str()))/2;
-            if (pixmapContent) {
-                pixmapContent->DrawText(cPoint(xName, y + thumbHeight + border/2), name.c_str(), Theme.Color(clrMenuFontDetailViewText), clrTransparent, fontSmall);
-                pixmapContent->DrawText(cPoint(xRole, y + thumbHeight + border/2 + fontSmall->Height()), role.c_str(), Theme.Color(clrMenuFontDetailViewText), clrTransparent, fontSmall);
-                x += thumbWidth + 2*border;
+                pixmapContent->DrawImage(cPoint(x + border, y), imgLoader.GetImage());
+                if (fontSmall->Width(name.c_str()) > thumbWidth + 2 * border)
+                    name = CutText(name, thumbWidth + 2 * border, fontSmall);
+                if (fontSmall->Width(role.c_str()) > thumbWidth + 2 * border)
+                    role = CutText(role, thumbWidth + 2 * border, fontSmall);
+                int xName = x + ((thumbWidth + 2 * border) - fontSmall->Width(name.c_str())) / 2;
+                int xRole = x + ((thumbWidth + 2 * border) - fontSmall->Width(role.c_str())) / 2;
+                pixmapContent->DrawText(cPoint(xName, y + thumbHeight + border / 2), name.c_str(), Theme.Color(clrMenuFontDetailViewText), clrTransparent, fontSmall);
+                pixmapContent->DrawText(cPoint(xRole, y + thumbHeight + border / 2 + fontSmall->Height()), role.c_str(), Theme.Color(clrMenuFontDetailViewText), clrTransparent, fontSmall);
+                x += thumbWidth + 2 * border;
+                col++;
             }
             actor++;
         }
         x = 0;
-        y += thumbHeight + 2 * fontSmall->Height() + border + border/2;
+        y += thumbHeight + 2 * fontSmall->Height() + border + border / 2;
     }
 }
 

@@ -119,9 +119,10 @@ bool cImageLoader::LoadAdditionalRecordingImage(cString path, cString name) {
     return false;
 }
 
-bool cImageLoader::LoadPoster(const char *poster, int width, int height) {
+bool cImageLoader::LoadPoster(const char *poster, int width, int height, bool scale) {
     if (LoadImage(poster)) {
-        buffer.sample(Geometry(width, height));
+        if (scale)
+            buffer.sample(Geometry(width, height));
         return true;
     }
     return false;

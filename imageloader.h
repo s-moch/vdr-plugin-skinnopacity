@@ -20,7 +20,7 @@ public:
     bool LoadAdditionalEPGImage(cString name);
     bool LoadRecordingImage(cString Path);
     bool LoadAdditionalRecordingImage(cString path, cString name);
-    bool LoadPoster(const char *poster, int width, int height);
+    bool LoadPoster(const char *poster, int width, int height, bool scale = true);
     bool SearchRecordingPoster(cString recPath, cString &found);
 private:
     bool FirstImageInFolder(cString Path, cString Extension, cString *recImage);
