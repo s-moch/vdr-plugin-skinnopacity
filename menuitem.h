@@ -34,6 +34,7 @@ protected:
     cNopacityTextWindow *infoTextWindow;
     virtual void SetTextFull(void) {};
     virtual void SetTextShort(void) {};
+    virtual void DrawBackground(eSkinElementType type, eSkinElementType fgType);
     void DrawDelimiter(const char *del, const char *icon, eSkinElementType seType);
     void DrawRoundedCorners(tColor borderColor);
     void DrawChannelLogoBackground(void);
@@ -70,7 +71,7 @@ private:
     std::string strEntryFull;
     static std::string items[16];
     cString GetIconName();
-    void DrawBackground(void);
+    void DrawBackgroundMainMenu(void);
     void SetTextFull(void);
     void SetTextShort(void);
 public:
@@ -97,7 +98,7 @@ private:
     bool scrollTitle;
     bool scrollSubTitle;
     int titleY;
-    void DrawBackground(int textLeft);
+    void DrawStatic(int textLeft);
     void DrawRemaining(int x, int y, int width);
     void SetTextFull(void);
     void SetTextShort(void);
@@ -123,7 +124,7 @@ private:
     cRect *vidWin;
     void SetTextFull(void);
     void SetTextShort(void);
-    void DrawBackground(void);
+    void DrawStatic(void);
     void readCurrentEPG(void);
     std::string readEPG(void);
 public:
@@ -144,7 +145,7 @@ private:
     cRect *vidWin;
     void SetTextFull(void);
     void SetTextShort(void);
-    void DrawBackground(int textLeft);
+    void DrawStatic(int textLeft);
     std::string CreateDate(void);
 public:
     cNopacityTimerMenuItem(cOsd *osd, const cTimer *Timer, bool sel, cRect *vidWin);
@@ -175,7 +176,6 @@ private:
     void SetTextShortFolder(void);
     void SetTextFullRecording(void);
     void SetTextShortRecording(void);
-    void DrawBackground(void);
     void DrawRecordingIcons(void);
     void DrawFolderIcon(void);
     void DrawRecDateTime(void);
@@ -196,7 +196,6 @@ public:
 class cNopacityDefaultMenuItem : public cNopacityMenuItem {
 private:
     bool CheckProgressBar(const char *text);
-    void DrawBackground(void);
     void DrawProgressBar(int x, int width, const char *bar, tColor color);
     bool DrawHeaderElement(void);
     std::string strEntry;
