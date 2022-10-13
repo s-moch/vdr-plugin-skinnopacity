@@ -18,10 +18,10 @@ private:
     int currentIndex;
     int numTracks;
     int audioChannelLast;
-    cPixmap *pixmapContainer;
-    cPixmap *pixmapHeader;
-    cPixmap *pixmapHeaderAudio;
-    cPixmap *pixmapIcon;
+    cPixmap *pixmapContainer = NULL;
+    cPixmap *pixmapHeader = NULL;
+    cPixmap *pixmapHeaderAudio = NULL;
+    cPixmap *pixmapIcon = NULL;
     std::vector<std::unique_ptr<cNopacityMenuItem>> menuItems;
     virtual void Action(void);
     void SetItem(const char *Text, int Index, bool Current);

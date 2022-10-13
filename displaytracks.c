@@ -32,8 +32,7 @@ cNopacityDisplayTracks::~cNopacityDisplayTracks() {
     osd->DestroyPixmap(pixmapContainer);
     osd->DestroyPixmap(pixmapHeader);
     osd->DestroyPixmap(pixmapHeaderAudio);
-    if (pixmapIcon)
-        osd->DestroyPixmap(pixmapIcon);
+    osd->DestroyPixmap(pixmapIcon);
     menuItems.clear();
     delete osd;
 }
@@ -88,42 +87,47 @@ void cNopacityDisplayTracks::SetGeometry(void) {
 }
 
 void cNopacityDisplayTracks::CreatePixmaps(void) {
-    pixmapContainer = osd->CreatePixmap(1, cRect(0, 0, width, height));
-    pixmapHeader = osd->CreatePixmap(2, cRect(2, 2, menuItemWidth, menuItemHeight));
-    pixmapHeaderAudio = osd->CreatePixmap(3, cRect(menuItemWidth - menuItemHeight, 2, menuItemHeight, menuItemHeight));
+    pixmapContainer = CreatePixmap(osd, "pixmapContainer", 1, cRect(0, 0, width, height));
+    pixmapHeader = CreatePixmap(osd, "pixmapHeader", 2, cRect(2, 2, menuItemWidth, menuItemHeight));
+    pixmapHeaderAudio = CreatePixmap(osd, "pixmapHeaderAudio", 3, cRect(menuItemWidth - menuItemHeight, 2, menuItemHeight, menuItemHeight));
 }
 
 void cNopacityDisplayTracks::DrawHeader(const char *Title) {
-    pixmapHeaderAudio->Fill(clrTransparent);
-    pixmapContainer->Fill(Theme.Color(clrMenuBorder));
-    pixmapContainer->DrawRectangle(cRect(1, 1, width-2, height-2), Theme.Color(clrMenuBack));
+    PixmapFill(pixmapHeaderAudio, clrTransparent);
+    PixmapFill(pixmapContainer, Theme.Color(clrMenuBorder));
+
+    if (pixmapContainer)
+        pixmapContainer->DrawRectangle(cRect(1, 1, width - 2, height - 2), Theme.Color(clrMenuBack));
     if (config.GetValue("displayType") == dtBlending) {
-        pixmapHeader->Fill(Theme.Color(clrMenuItem));
+        PixmapFill(pixmapHeader, Theme.Color(clrMenuItem));
         cImage *back = imgCache->GetSkinElement(seTracks);
-        if (back)
+        if (pixmapHeader && back)
             pixmapHeader->DrawImage(cPoint(1, 1), *back);
     } else if (config.GetValue("displayType") == dtGraphical) {
         cImage *back = imgCache->GetSkinElement(seTracks);
-        if (back)
+        if (pixmapHeader && back)
             pixmapHeader->DrawImage(cPoint(0, 0), *back);
     } else {
-        pixmapHeader->Fill(Theme.Color(clrMenuItem));
-        pixmapHeader->DrawRectangle(cRect(1, 1, width-2, height-2), Theme.Color(clrAudioMenuHeader));
+        PixmapFill(pixmapHeader, Theme.Color(clrMenuItem));
+	if (pixmapHeader)
+            pixmapHeader->DrawRectangle(cRect(1, 1, width - 2, height - 2), Theme.Color(clrAudioMenuHeader));
     }
-    pixmapIcon = osd->CreatePixmap(3, cRect(2, 2, menuItemHeight-2, menuItemHeight-2));
-    pixmapIcon->Fill(clrTransparent);
 
-    cImage *imgTracks = imgCache->GetSkinIcon("skinIcons/tracks", menuItemHeight-6, menuItemHeight-6);
-    if (imgTracks)
-        pixmapIcon->DrawImage(cPoint(3,3), *imgTracks);
-    pixmapHeader->DrawText(cPoint((width - fontManager->trackHeader->Width(Title)) / 2, (menuItemHeight - fontManager->trackHeader->Height()) / 2), Title, Theme.Color(clrTracksFontHead), clrTransparent, fontManager->trackHeader);
+    pixmapIcon = CreatePixmap(osd, "pixmapIcon", 3, cRect(2, 2, menuItemHeight - 2, menuItemHeight - 2));
+    PixmapFill(pixmapIcon, clrTransparent);
+
+    cImage *imgTracks = imgCache->GetSkinIcon("skinIcons/tracks", menuItemHeight - 6, menuItemHeight - 6);
+    if (pixmapIcon && imgTracks)
+        pixmapIcon->DrawImage(cPoint(3, 3), *imgTracks);
+    if (pixmapHeader)
+        pixmapHeader->DrawText(cPoint((width - fontManager->trackHeader->Width(Title)) / 2, (menuItemHeight - fontManager->trackHeader->Height()) / 2), Title, Theme.Color(clrTracksFontHead), clrTransparent, fontManager->trackHeader);
 }
 
 void cNopacityDisplayTracks::SetAlpha(int Alpha, bool Force) {
-    pixmapContainer->SetAlpha(Alpha);
-    pixmapHeader->SetAlpha(Alpha);
-    pixmapHeaderAudio->SetAlpha(Alpha);
-    pixmapIcon->SetAlpha(Alpha);
+    PixmapSetAlpha(pixmapContainer, Alpha);
+    PixmapSetAlpha(pixmapHeader, Alpha);
+    PixmapSetAlpha(pixmapHeaderAudio, Alpha);
+    PixmapSetAlpha(pixmapIcon, Alpha);
     for (auto i = menuItems.begin(); i != menuItems.end(); ++i) {
         if (*i && (Force || Running())) {
             cNopacityMenuItem *item = i->get();
@@ -163,7 +167,7 @@ void cNopacityDisplayTracks::SetTrack(int Index, const char * const *Tracks) {
 void cNopacityDisplayTracks::SetAudioChannel(int AudioChannel) {
     if (AudioChannel != audioChannelLast) {
         audioChannelLast = AudioChannel;
-        pixmapHeaderAudio->Fill(clrTransparent);
+        PixmapFill(pixmapHeaderAudio, clrTransparent);
         cString icon("");
         switch (AudioChannel) {
             case -1:
@@ -177,7 +181,7 @@ void cNopacityDisplayTracks::SetAudioChannel(int AudioChannel) {
                 break;
         }
         cImage *imgIcon = imgCache->GetSkinIcon(*icon, menuItemHeight-2, menuItemHeight-2);
-        if (imgIcon)
+        if (pixmapHeaderAudio && imgIcon)
             pixmapHeaderAudio->DrawImage(cPoint(1,1), *imgIcon);
 
     }
