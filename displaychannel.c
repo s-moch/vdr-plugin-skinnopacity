@@ -67,7 +67,7 @@ void cNopacityDisplayChannel::SetChannel(const cChannel *Channel, int Number) {
         if (Channel)
             channelView->DrawStatusIcons(Channel);
     } else {
-        channelView->HideSignalMeter();
+        channelView->ShowSignalMeter(false);
         channelView->ClearProgressBar();
         if (Channel)
             channelView->DrawChannelGroups(Channel, ChannelName);
@@ -128,7 +128,7 @@ void cNopacityDisplayChannel::Flush(void) {
         channelView->ShowSignalMeter();
         channelView->DrawSignal();
     } else
-        channelView->HideSignalMeter();
+        channelView->ShowSignalMeter(false);
 
     if (config.GetValue("displaySourceInfo") && !groupSep) {
         channelView->ClearSourceInfo();

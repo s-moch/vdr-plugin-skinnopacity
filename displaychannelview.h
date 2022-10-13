@@ -61,8 +61,7 @@ public:
     void ClearStatusIcons(void);
     void DrawPoster(const cEvent *event, bool initial);
     void DrawSignal(void);
-    void ShowSignalMeter(void);
-    void HideSignalMeter(void);
+    void ShowSignalMeter(bool show = true);
     void DrawChannelGroups(const cChannel *Channel, cString ChannelName);
     void DrawSourceInfo(void);
     void ClearSourceInfo(void);

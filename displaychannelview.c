@@ -610,27 +610,11 @@ void cNopacityDisplayChannelView::DrawSignal(void) {
     }
 }
 
-
-void cNopacityDisplayChannelView::ShowSignalMeter(void) {
-    if(pixmapSignalStrength)
-        pixmapSignalStrength->SetLayer(3);
-    if(pixmapSignalQuality)
-        pixmapSignalQuality->SetLayer(3);
-    if(pixmapSignalMeter)
-        pixmapSignalMeter->SetLayer(4);
-    if(pixmapSignalLabel)
-        pixmapSignalLabel->SetLayer(3);
-}
-
-void cNopacityDisplayChannelView::HideSignalMeter(void) {
-    if(pixmapSignalStrength)
-        pixmapSignalStrength->SetLayer(-1);
-    if(pixmapSignalQuality)
-        pixmapSignalQuality->SetLayer(-1);
-    if(pixmapSignalMeter)
-        pixmapSignalMeter->SetLayer(-1);
-    if(pixmapSignalLabel)
-        pixmapSignalLabel->SetLayer(-1);
+void cNopacityDisplayChannelView::ShowSignalMeter(bool show) {
+    if(pixmapSignalStrength) pixmapSignalStrength->SetLayer((show) ? 3 : -1);
+    if(pixmapSignalQuality)  pixmapSignalQuality->SetLayer((show) ? 3 : -1);
+    if(pixmapSignalMeter)    pixmapSignalMeter->SetLayer((show) ? 4 : -1);
+    if(pixmapSignalLabel)    pixmapSignalLabel->SetLayer((show) ? 3 : -1);
 }
 
 void cNopacityDisplayChannelView::DrawChannelGroups(const cChannel *Channel, cString ChannelName) {
