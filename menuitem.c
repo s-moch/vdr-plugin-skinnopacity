@@ -20,9 +20,6 @@ cNopacityMenuItem::cNopacityMenuItem(cOsd *osd, const char *text, bool sel) : cT
     scrollable = false;
     itemTabs = NULL;
     tabWidth = NULL;
-    pixmapStatic = NULL;
-    pixmapTextScroller = NULL;
-    pixmapForeground = NULL;
     infoTextWindow = NULL;
 }
 
@@ -36,15 +33,9 @@ cNopacityMenuItem::~cNopacityMenuItem(void) {
     delete [] itemTabs;
     delete [] tabWidth;
     osd->DestroyPixmap(pixmapBackground);
-    if (pixmapStatic) {
-        osd->DestroyPixmap(pixmapStatic);
-    }
-    if (pixmapTextScroller) {
-        osd->DestroyPixmap(pixmapTextScroller);
-    }
-    if (pixmapForeground) {
-        osd->DestroyPixmap(pixmapForeground);
-    }
+    osd->DestroyPixmap(pixmapStatic);
+    osd->DestroyPixmap(pixmapTextScroller);
+    osd->DestroyPixmap(pixmapForeground);
 }
 
 void cNopacityMenuItem::SetCurrent(bool cur) {
@@ -61,29 +52,29 @@ void cNopacityMenuItem::SetGeometry(int index, int top, int left, int width, int
     this->spaceMenu = spaceMenu;
 }
 
-void cNopacityMenuItem::CreatePixmapBackground() {
-    pixmapBackground = osd->CreatePixmap(3, cRect(left, top + index * (height + spaceMenu), width, height));
+void cNopacityMenuItem::CreatePixmapBackground(void) {
+    pixmapBackground = CreatePixmap(osd, "pixmapBackground", 3, cRect(left, top + index * (height + spaceMenu), width, height));
 }
 
-void cNopacityMenuItem::CreatePixmapForeground() {
-    pixmapForeground = osd->CreatePixmap(6, cRect(left, top + index * (height + spaceMenu), width, height));
+void cNopacityMenuItem::CreatePixmapForeground(void) {
+    pixmapForeground = CreatePixmap(osd, "pixmapForeground", 6, cRect(left, top + index * (height + spaceMenu), width, height));
 }
 
 void cNopacityMenuItem::CreatePixmapStatic(void) {
-    pixmapStatic = osd->CreatePixmap(5, cRect(left, top + index * (height + spaceMenu), width, height));
-    pixmapStatic->Fill(clrTransparent);
+    pixmapStatic = CreatePixmap(osd, "pixmapStatic", 5, cRect(left, top + index * (height + spaceMenu), width, height));
+    PixmapFill(pixmapStatic, clrTransparent);
 }
 
 void cNopacityMenuItem::CreatePixmapTextScroller(int totalWidth) {
-    pixmapTextScroller = osd->CreatePixmap(4, cRect(left, top + index * (height + spaceMenu), width, height), cRect(0, 0, totalWidth, height));
-    pixmapTextScroller->Fill(clrTransparent);
+    pixmapTextScroller = CreatePixmap(osd, "pixmapTextScroller", 4, cRect(left, top + index * (height + spaceMenu), width, height), cRect(0, 0, totalWidth, height));
+    PixmapFill(pixmapTextScroller, clrTransparent);
 }
 
 void cNopacityMenuItem::SetAlpha(int alpha) {
-    if (pixmapBackground) pixmapBackground->SetAlpha(alpha);
-    if (pixmapForeground) pixmapForeground->SetAlpha(alpha);
-    if (pixmapStatic) pixmapStatic->SetAlpha(alpha);
-    if (pixmapTextScroller) pixmapTextScroller->SetAlpha(alpha);
+    PixmapSetAlpha(pixmapBackground, alpha);
+    PixmapSetAlpha(pixmapForeground, alpha);
+    PixmapSetAlpha(pixmapStatic, alpha);
+    PixmapSetAlpha(pixmapTextScroller, alpha);
     if (infoTextWindow) infoTextWindow->SetAlpha(alpha);
 }
 
@@ -98,8 +89,11 @@ void cNopacityMenuItem::SetTabs(cString *tabs, int *tabWidths, int numtabs) {
 }
 
 void cNopacityMenuItem::DrawDelimiter(const char *del, const char *icon, eSkinElementType seType) {
+    if (!pixmapBackground)
+        goto Next;
+
     if ((config.GetValue("displayType") == dtBlending) && (seType != seNone)) {
-        pixmapBackground->Fill(Theme.Color(clrSeparatorBorder));
+        PixmapFill(pixmapBackground, Theme.Color(clrSeparatorBorder));
         cImage *back = imgCache->GetSkinElement(seType);
         if (back)
             pixmapBackground->DrawImage(cPoint(1, 1), *back);
@@ -110,21 +104,24 @@ void cNopacityMenuItem::DrawDelimiter(const char *del, const char *icon, eSkinEl
         if (back)
             pixmapBackground->DrawImage(cPoint(0, 0), *back);
         else
-            pixmapBackground->Fill(clrTransparent);
-        pixmapForeground->Fill(clrTransparent);
+            PixmapFill(pixmapBackground, clrTransparent);
+        PixmapFill(pixmapForeground, clrTransparent);
     } else {
-        pixmapBackground->Fill(Theme.Color(clrSeparatorBorder));
+        PixmapFill(pixmapBackground, Theme.Color(clrSeparatorBorder));
         pixmapBackground->DrawRectangle(cRect(1, 1, width-2, height-2), Theme.Color(clrMenuItem));
         if (config.GetValue("roundedCorners"))
             DrawRoundedCorners(Theme.Color(clrSeparatorBorder));
     }
+Next:
+    if (!pixmapStatic)
+        return;
     if (!drawn) {
         cImage *imgIcon = imgCache->GetSkinIcon(icon, height-2*geoManager->menuSpace, height-2*geoManager->menuSpace);
         if (imgIcon) {
-            if (pixmapStatic == NULL) {
-                pixmapStatic = osd->CreatePixmap(5, cRect(left, top + index * (height + spaceMenu), width, height));
+/*            if (pixmapStatic == NULL) {
+                pixmapStatic = CreatePixmap(osd, "pixmapStatic", 5, cRect(left, top + index * (height + spaceMenu), width, height));
                 pixmapStatic->Fill(clrTransparent);
-            }
+            }*/
             pixmapStatic->DrawImage(cPoint(geoManager->menuSpace, geoManager->menuSpace), *imgIcon);
         }
         drawn = true;
@@ -142,6 +139,9 @@ void cNopacityMenuItem::DrawDelimiter(const char *del, const char *icon, eSkinEl
 }
 
 void cNopacityMenuItem::Action(void) {
+    if (!pixmapTextScroller)
+        return;
+
     bool carriageReturn = (config.GetValue("scrollMode") == 0) ? true : false;
     int scrollDelta = 1;
     int scrollDelay = config.GetValue("menuScrollDelay") * 1000;
@@ -210,8 +210,9 @@ void cNopacityMenuItem::DoSleep(int duration) {
 
 void cNopacityMenuItem::DrawRoundedCorners(tColor borderColor) {
     int radius = config.GetValue("cornerRadius");
-    if (radius < 3)
+    if (!pixmapBackground || radius < 3)
         return;
+
     pixmapBackground->DrawEllipse(cRect(0,0,radius,radius), borderColor, -2);
     pixmapBackground->DrawEllipse(cRect(-1,-1,radius,radius), clrTransparent, -2);
 
@@ -226,13 +227,16 @@ void cNopacityMenuItem::DrawRoundedCorners(tColor borderColor) {
 }
 
 void cNopacityMenuItem::DrawChannelLogoBackground(void) {
-    if (!config.GetValue("menuChannelLogoBackground"))
+    if (!pixmapBackground || !config.GetValue("menuChannelLogoBackground"))
         return;
     int logoWidth = geoManager->menuLogoWidth;
     pixmapBackground->DrawRectangle(cRect(4,6,logoWidth-4, height-12), Theme.Color(clrMenuChannelLogoBack));
 }
 
 void cNopacityMenuItem::DrawLogo(const cChannel *Channel, int logoWidth, int logoHeight, cFont *font, bool drawText) {
+    if (!pixmapStatic)
+        return;
+
     cImage *logo = imgCache->GetLogo(ctLogoMenuItem, Channel);
     if (logo) {
         pixmapStatic->DrawImage(cPoint(2 + (logoWidth - logo->Width()) / 2, (logoHeight - logo->Height()) / 2), *logo);
@@ -260,6 +264,9 @@ cNopacityMainMenuItem::~cNopacityMainMenuItem(void) {
 }
 
 void cNopacityMainMenuItem::DrawBackground(void) {
+    if (!pixmapBackground)
+        return;
+
     cImage *back = NULL;
     if ((config.GetValue("displayType") == dtBlending) || (config.GetValue("displayType") == dtGraphical)){
         eSkinElementType type;
@@ -273,7 +280,7 @@ void cNopacityMainMenuItem::DrawBackground(void) {
         }
     }
     if (config.GetValue("displayType") == dtBlending) {
-        pixmapBackground->Fill(Theme.Color(clrMenuBorder));
+        PixmapFill(pixmapBackground, Theme.Color(clrMenuBorder));
         if (back) {
             pixmapBackground->DrawImage(cPoint(1, 1), *back);
         }
@@ -283,7 +290,7 @@ void cNopacityMainMenuItem::DrawBackground(void) {
         if (back) {
             pixmapBackground->DrawImage(cPoint(0, 0), *back);
         } else {
-            pixmapBackground->Fill(clrTransparent);
+            PixmapFill(pixmapBackground, clrTransparent);
         }
         eSkinElementType menuButtonTop;
         if (!isSetup)
@@ -291,14 +298,14 @@ void cNopacityMainMenuItem::DrawBackground(void) {
         else
             menuButtonTop = seSetupTop;
         cImage *fore = imgCache->GetSkinElement(menuButtonTop);
-        if (fore) {
+        if (pixmapForeground && fore) {
             pixmapForeground->DrawImage(cPoint(0, 0), *fore);
         } else {
-            pixmapForeground->Fill(clrTransparent);
+            PixmapFill(pixmapForeground, clrTransparent);
         }
     } else {
-        pixmapBackground->Fill(Theme.Color(clrMenuBorder));
-        tColor col = (current)?Theme.Color(clrMenuItemHigh):Theme.Color(clrMenuItem);
+        PixmapFill(pixmapBackground, Theme.Color(clrMenuBorder));
+        tColor col = (current) ? Theme.Color(clrMenuItemHigh) : Theme.Color(clrMenuItem);
         pixmapBackground->DrawRectangle(cRect(1, 1, width-2, height-2), col);
         if (config.GetValue("roundedCorners"))
             DrawRoundedCorners(Theme.Color(clrMenuBorder));
@@ -354,8 +361,11 @@ void cNopacityMainMenuItem::CreatePixmapTextScroller(int totalWidth) {
     if (config.GetValue("useMenuIcons"))
         pixmapWidth -= geoManager->menuMainMenuIconSize;
     int drawPortWidth = totalWidth + 10;
-    pixmapTextScroller = osd->CreatePixmap(4, cRect(pixmapLeft, top + index * (height + spaceMenu), pixmapWidth, height), cRect(0, 0, drawPortWidth, height));
-    pixmapTextScroller->Fill(clrTransparent);
+    pixmapTextScroller = CreatePixmap(osd, "pixmapTextScroller", 4, cRect(pixmapLeft,
+                                                                          top + index * (height + spaceMenu),
+                                                                          pixmapWidth, height),
+                                                                    cRect(0, 0, drawPortWidth, height));
+    PixmapFill(pixmapTextScroller, clrTransparent);
 }
 
 void cNopacityMainMenuItem::CreateText() {
@@ -411,8 +421,11 @@ int cNopacityMainMenuItem::CheckScrollable(bool hasIcon) {
 }
 
 void cNopacityMainMenuItem::SetTextFull(void) {
+    if (!pixmapTextScroller)
+        return;
+
     tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
-    pixmapTextScroller->Fill(clrTransparent);
+    PixmapFill(pixmapTextScroller, clrTransparent);
     int x = 0;
     int numberTotalWidth = font->Width("xxx");
     int numberWidth = font->Width(*menuNumber);
@@ -422,8 +435,11 @@ void cNopacityMainMenuItem::SetTextFull(void) {
 }
 
 void cNopacityMainMenuItem::SetTextShort(void) {
+    if (!pixmapTextScroller)
+        return;
+
     tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
-    pixmapTextScroller->Fill(clrTransparent);
+    PixmapFill(pixmapTextScroller, clrTransparent);
     int x = 0;
     int numberTotalWidth = font->Width("xxx");
     int numberWidth = font->Width(*menuNumber);
@@ -439,7 +455,7 @@ void cNopacityMainMenuItem::Render(bool initial, bool fadeout) {
             cString cIcon = GetIconName();
             if (!drawn) {
                 cImage *imgIcon = imgCache->GetMenuIcon(*cIcon);
-                if (imgIcon)
+                if (pixmapStatic && imgIcon)
                     pixmapStatic->DrawImage(cPoint(geoManager->menuSpace, geoManager->menuSpace), *imgIcon);
                 drawn = true;
             }
@@ -449,7 +465,7 @@ void cNopacityMainMenuItem::Render(bool initial, bool fadeout) {
             if (current && scrollable && !Running())
                 Start();
         }
-        if (wasCurrent && !current && scrollable && Running()) {
+        if (pixmapTextScroller && wasCurrent && !current && scrollable && Running()) {
             pixmapTextScroller->SetDrawPortPoint(cPoint(0, 0));
             SetTextShort();
             Cancel(-1);
@@ -492,8 +508,11 @@ void cNopacityScheduleMenuItem::CreatePixmapTextScroller(int totalWidth) {
         pixmapLeft += geoManager->menuLogoWidth + geoManager->menuSpace;
         pixmapWidth = pixmapWidth - geoManager->menuLogoWidth - geoManager->menuSpace;
     }
-    pixmapTextScroller = osd->CreatePixmap(4, cRect(pixmapLeft, top + index * (height + spaceMenu), pixmapWidth, height), cRect(0, 0, drawPortWidth, height));
-    pixmapTextScroller->Fill(clrTransparent);
+    pixmapTextScroller = CreatePixmap(osd, "pixmapTextScroller", 4, cRect(pixmapLeft,
+                                                                          top + index * (height + spaceMenu),
+                                                                          pixmapWidth, height),
+                                                                    cRect(0, 0, drawPortWidth, height));
+    PixmapFill(pixmapTextScroller, clrTransparent);
 }
 
 void cNopacityScheduleMenuItem::CreateText() {
@@ -542,15 +561,21 @@ int cNopacityScheduleMenuItem::CheckScrollable(bool hasIcon) {
 }
 
 void cNopacityScheduleMenuItem::SetTextFull(void) {
+    if (!pixmapTextScroller)
+        return;
+
     tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
-    pixmapTextScroller->Fill(clrTransparent);
+    PixmapFill(pixmapTextScroller, clrTransparent);
     pixmapTextScroller->DrawText(cPoint(5, titleY), strTitleFull.c_str(), clrFont, clrTransparent, font);
     pixmapTextScroller->DrawText(cPoint(5, titleY + font->Height() - 2), strSubTitleFull.c_str(), clrFont, clrTransparent, fontSmall);
 }
 
 void cNopacityScheduleMenuItem::SetTextShort(void) {
+    if (!pixmapTextScroller)
+        return;
+
     tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
-    pixmapTextScroller->Fill(clrTransparent);
+    PixmapFill(pixmapTextScroller, clrTransparent);
     pixmapTextScroller->DrawText(cPoint(5, titleY), strTitle.c_str(), clrFont, clrTransparent, font);
     pixmapTextScroller->DrawText(cPoint(5, titleY + font->Height() - 2), strSubTitle.c_str(), clrFont, clrTransparent, fontSmall);
 }
@@ -581,7 +606,7 @@ void cNopacityScheduleMenuItem::Render(bool initial, bool fadeout) {
             if (current && scrollable && !Running())
                 Start();
         }
-        if (wasCurrent && !current && scrollable && Running()) {
+        if (pixmapTextScroller && wasCurrent && !current && scrollable && Running()) {
             pixmapTextScroller->SetDrawPortPoint(cPoint(0, 0));
             SetTextShort();
             Cancel(-1);
@@ -620,9 +645,13 @@ void cNopacityScheduleMenuItem::Render(bool initial, bool fadeout) {
 }
 
 void cNopacityScheduleMenuItem::DrawBackground(int textLeft) {
-    eSkinElementType type = (current)?seSchedulesHigh:seSchedules;
+    eSkinElementType type = (current) ? seSchedulesHigh : seSchedules;
+
+    if (!pixmapBackground)
+        goto Next;
+
     if (config.GetValue("displayType") == dtBlending) {
-        pixmapBackground->Fill(Theme.Color(clrMenuBorder));
+        PixmapFill(pixmapBackground, Theme.Color(clrMenuBorder));
         cImage *back = imgCache->GetSkinElement(type);
         if (back)
             pixmapBackground->DrawImage(cPoint(1, 1), *back);
@@ -633,21 +662,25 @@ void cNopacityScheduleMenuItem::DrawBackground(int textLeft) {
         if (back) {
             pixmapBackground->DrawImage(cPoint(0, 0), *back);
         } else {
-            pixmapBackground->Fill(clrTransparent);
+            PixmapFill(pixmapBackground, clrTransparent);
         }
         cImage *fore = imgCache->GetSkinElement(seSchedulesTop);
         if (fore) {
             pixmapForeground->DrawImage(cPoint(0, 0), *fore);
         } else {
-            pixmapForeground->Fill(clrTransparent);
+            PixmapFill(pixmapForeground, clrTransparent);
         }
     } else {
-        pixmapBackground->Fill(Theme.Color(clrMenuBorder));
+        PixmapFill(pixmapBackground, Theme.Color(clrMenuBorder));
         tColor col = (current)?Theme.Color(clrMenuItemHigh):Theme.Color(clrMenuItem);
-        pixmapBackground->DrawRectangle(cRect(1, 1, width-2, height-2), col);
+        pixmapBackground->DrawRectangle(cRect(1, 1, width - 2, height - 2), col);
         if (config.GetValue("roundedCorners"))
             DrawRoundedCorners(Theme.Color(clrMenuBorder));
     }
+
+Next:
+    if (!pixmapStatic)
+        return;
 
     if (TimerMatch == tmFull) {
         cImage *imgIcon = imgCache->GetSkinIcon("skinIcons/activetimer", 64, 64);
@@ -664,8 +697,9 @@ void cNopacityScheduleMenuItem::DrawBackground(int textLeft) {
 }
 
 void cNopacityScheduleMenuItem::DrawRemaining(int x, int y, int width) {
-    if (!Event)
+    if (!pixmapBackground || !Event)
         return;
+
     time_t now = time(NULL);
     if ((now < Event->StartTime()) || (now > Event->EndTime()))
         return;
@@ -675,12 +709,12 @@ void cNopacityScheduleMenuItem::DrawRemaining(int x, int y, int width) {
         return;
     double percentSeen = (double)seen/total;
 
-    tColor clrBack = (current)?Theme.Color(clrProgressBarBackHigh):Theme.Color(clrProgressBarBack);
-    tColor clrBar = (current)?Theme.Color(clrProgressBarHigh):Theme.Color(clrProgressBar);
+    tColor clrBack = (current) ? Theme.Color(clrProgressBarBackHigh) : Theme.Color(clrProgressBarBack);
+    tColor clrBar = (current) ? Theme.Color(clrProgressBarHigh) : Theme.Color(clrProgressBar);
     pixmapBackground->DrawEllipse(cRect(x, y, 7, 7), clrBack);
-    pixmapBackground->DrawEllipse(cRect(x+width, y, 7, 7), clrBack);
-    pixmapBackground->DrawRectangle(cRect(x+4, y, width-1, 7), clrBack);
-    pixmapBackground->DrawEllipse(cRect(x+1, y+1, 5, 5), clrBar);
+    pixmapBackground->DrawEllipse(cRect(x + width, y, 7, 7), clrBack);
+    pixmapBackground->DrawRectangle(cRect(x + 4, y, width - 1, 7), clrBack);
+    pixmapBackground->DrawEllipse(cRect(x + 1, y + 1, 5, 5), clrBar);
 
     if (percentSeen > 0.0)
         pixmapBackground->DrawEllipse(cRect(x+(width*percentSeen), y+1, 5, 5), clrBar);
@@ -711,8 +745,11 @@ void cNopacityChannelMenuItem::CreatePixmapTextScroller(int totalWidth) {
     int pixmapLeft = left + geoManager->menuLogoWidth + geoManager->menuSpace;
     int pixmapWidth = width - geoManager->menuLogoWidth - geoManager->menuSpace;
     int drawPortWidth = totalWidth + 10;
-    pixmapTextScroller = osd->CreatePixmap(4, cRect(pixmapLeft, top + index * (height + spaceMenu), pixmapWidth, height), cRect(0, 0, drawPortWidth, height));
-    pixmapTextScroller->Fill(clrTransparent);
+    pixmapTextScroller = CreatePixmap(osd, "pixmapTextScroller", 4, cRect(pixmapLeft,
+                                                                          top + index * (height + spaceMenu),
+                                                                          pixmapWidth, height),
+                                                                    cRect(0, 0, drawPortWidth, height));
+    PixmapFill(pixmapTextScroller, clrTransparent);
 }
 
 void cNopacityChannelMenuItem::CreateText() {
@@ -754,8 +791,11 @@ int cNopacityChannelMenuItem::CheckScrollable(bool hasIcon) {
 }
 
 void cNopacityChannelMenuItem::SetTextFull(void) {
-    tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
-    pixmapTextScroller->Fill(clrTransparent);
+    if (!pixmapTextScroller)
+        return;
+
+    tColor clrFont = (current) ? Theme.Color(clrMenuFontMenuItemHigh) : Theme.Color(clrMenuFontMenuItem);
+    PixmapFill(pixmapTextScroller, clrTransparent);
     int heightChannelName = 0;
     if (config.GetValue("menuChannelDisplayMode") == 2) {
         heightChannelName = (height - font->Height())/2;
@@ -780,8 +820,11 @@ void cNopacityChannelMenuItem::SetTextFull(void) {
 }
 
 void cNopacityChannelMenuItem::SetTextShort(void) {
+    if (!pixmapTextScroller)
+        return;
+
     tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
-    pixmapTextScroller->Fill(clrTransparent);
+    PixmapFill(pixmapTextScroller, clrTransparent);
     int heightChannelName = 0;
     if (config.GetValue("menuChannelDisplayMode") == 2) {
         heightChannelName = (height - font->Height())/2;
@@ -807,8 +850,11 @@ void cNopacityChannelMenuItem::SetTextShort(void) {
 
 void cNopacityChannelMenuItem::DrawBackground(void) {
     eSkinElementType type = (current)?seChannelsHigh:seChannels;
+    if (!pixmapBackground)
+        goto Next;
+
     if (config.GetValue("displayType") == dtBlending) {
-        pixmapBackground->Fill(Theme.Color(clrMenuBorder));
+        PixmapFill(pixmapBackground, Theme.Color(clrMenuBorder));
         cImage *back = imgCache->GetSkinElement(type);
         if (back)
             pixmapBackground->DrawImage(cPoint(1, 1), *back);
@@ -819,21 +865,25 @@ void cNopacityChannelMenuItem::DrawBackground(void) {
         if (back) {
             pixmapBackground->DrawImage(cPoint(0, 0), *back);
         } else {
-            pixmapBackground->Fill(clrTransparent);
+            PixmapFill(pixmapBackground, clrTransparent);
         }
         cImage *fore = imgCache->GetSkinElement(seChannelsTop);
         if (fore) {
             pixmapForeground->DrawImage(cPoint(0, 0), *fore);
         } else {
-            pixmapForeground->Fill(clrTransparent);
+            PixmapFill(pixmapForeground, clrTransparent);
         }
     } else {
-        pixmapBackground->Fill(Theme.Color(clrMenuBorder));
+        PixmapFill(pixmapBackground, Theme.Color(clrMenuBorder));
         tColor col = (current)?Theme.Color(clrMenuItemHigh):Theme.Color(clrMenuItem);
         pixmapBackground->DrawRectangle(cRect(1, 1, width-2, height-2), col);
         if (config.GetValue("roundedCorners"))
             DrawRoundedCorners(Theme.Color(clrMenuBorder));
     }
+
+Next:
+    if (!pixmapStatic)
+        return;
 
     if (config.GetValue("menuChannelDisplayMode") == 0) {
         int encryptedSize = height/4-2;
@@ -916,7 +966,7 @@ void cNopacityChannelMenuItem::Render(bool initial, bool fadeout) {
             if (current && scrollable && !Running())
                 Start();
         }
-        if (wasCurrent && !current && scrollable && Running()) {
+        if (pixmapTextScroller && wasCurrent && !current && scrollable && Running()) {
             pixmapTextScroller->SetDrawPortPoint(cPoint(0, 0));
             SetTextShort();
             Cancel(-1);
@@ -958,8 +1008,11 @@ void cNopacityTimerMenuItem::CreatePixmapTextScroller(int totalWidth) {
     int pixmapLeft = left + geoManager->menuLogoWidth + geoManager->menuSpace;
     int pixmapWidth = width - geoManager->menuLogoWidth - geoManager->menuSpace;
     int drawPortWidth = totalWidth + 10;
-    pixmapTextScroller = osd->CreatePixmap(4, cRect(pixmapLeft, top + index * (height + spaceMenu), pixmapWidth, height), cRect(0, 0, drawPortWidth, height));
-    pixmapTextScroller->Fill(clrTransparent);
+    pixmapTextScroller = CreatePixmap(osd, "pixmapTextScroller", 4, cRect(pixmapLeft,
+                                                                          top + index * (height + spaceMenu),
+                                                                          pixmapWidth, height),
+                                                                    cRect(0, 0, drawPortWidth, height));
+    PixmapFill(pixmapTextScroller, clrTransparent);
 }
 
 void cNopacityTimerMenuItem::CreateText() {
@@ -1010,21 +1063,31 @@ int cNopacityTimerMenuItem::CheckScrollable(bool hasIcon) {
 }
 
 void cNopacityTimerMenuItem::SetTextFull(void) {
+    if (!pixmapTextScroller)
+        return;
+
     tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
-    pixmapTextScroller->Fill(clrTransparent);
+    PixmapFill(pixmapTextScroller, clrTransparent);
     pixmapTextScroller->DrawText(cPoint(0, height/2 + (height/2 - font->Height())/2), strEntryFull.c_str(), clrFont, clrTransparent, font);
 }
 
 void cNopacityTimerMenuItem::SetTextShort(void) {
+    if (!pixmapTextScroller)
+        return;
+
     tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
-    pixmapTextScroller->Fill(clrTransparent);
+    PixmapFill(pixmapTextScroller, clrTransparent);
     pixmapTextScroller->DrawText(cPoint(0, height/2 + (height/2 - font->Height())/2), strEntry.c_str(), clrFont, clrTransparent, font);
 }
 
 void cNopacityTimerMenuItem::DrawBackground(int textLeft) {
-    eSkinElementType type = (current)?seTimersHigh:seTimers;
+    eSkinElementType type = (current) ? seTimersHigh : seTimers;
+
+    if (!pixmapBackground)
+        goto Next;
+
     if (config.GetValue("displayType") == dtBlending) {
-        pixmapBackground->Fill(Theme.Color(clrMenuBorder));
+        PixmapFill(pixmapBackground, Theme.Color(clrMenuBorder));
         cImage *back = imgCache->GetSkinElement(type);
         if (back)
             pixmapBackground->DrawImage(cPoint(1, 1), *back);
@@ -1035,21 +1098,26 @@ void cNopacityTimerMenuItem::DrawBackground(int textLeft) {
         if (back) {
             pixmapBackground->DrawImage(cPoint(0, 0), *back);
         } else {
-            pixmapBackground->Fill(clrTransparent);
+            PixmapFill(pixmapBackground, clrTransparent);
         }
         cImage *fore = imgCache->GetSkinElement(seTimersTop);
         if (fore) {
             pixmapForeground->DrawImage(cPoint(0, 0), *fore);
         } else {
-            pixmapForeground->Fill(clrTransparent);
+            PixmapFill(pixmapForeground, clrTransparent);
         }
     } else {
-        pixmapBackground->Fill(Theme.Color(clrMenuBorder));
-        tColor col = (current)?Theme.Color(clrMenuItemHigh):Theme.Color(clrMenuItem);
-        pixmapBackground->DrawRectangle(cRect(1, 1, width-2, height-2), col);
+        PixmapFill(pixmapBackground, Theme.Color(clrMenuBorder));
+        tColor col = (current) ? Theme.Color(clrMenuItemHigh) : Theme.Color(clrMenuItem);
+        pixmapBackground->DrawRectangle(cRect(1, 1, width - 2, height - 2), col);
         if (config.GetValue("roundedCorners"))
             DrawRoundedCorners(Theme.Color(clrMenuBorder));
     }
+
+Next:
+    if (!pixmapStatic)
+        return;
+
     int iconSize = height/2;
     cString iconName("");
     bool firstDay = false;
@@ -1094,7 +1162,7 @@ void cNopacityTimerMenuItem::Render(bool initial, bool fadeout) {
             if (current && scrollable && !Running())
                 Start();
         }
-        if (wasCurrent && !current && scrollable && Running()) {
+        if (pixmapTextScroller && wasCurrent && !current && scrollable && Running()) {
             pixmapTextScroller->SetDrawPortPoint(cPoint(0, 0));
             SetTextShort();
             Cancel(-1);
@@ -1157,8 +1225,11 @@ void cNopacityRecordingMenuItem::CreatePixmapTextScroller(int totalWidth) {
     int drawPortWidth = totalWidth + 10;
     pixmapLeft = posterWidth + left + 20;
     pixmapWidth = width - posterWidth - 20;
-    pixmapTextScroller = osd->CreatePixmap(4, cRect(pixmapLeft, top + index * (height + spaceMenu), pixmapWidth, height), cRect(0, 0, drawPortWidth, height));
-    pixmapTextScroller->Fill(clrTransparent);
+    pixmapTextScroller = CreatePixmap(osd, "pixmapTextScroller", 4, cRect(pixmapLeft,
+                                                                          top + index * (height + spaceMenu),
+                                                                          pixmapWidth, height),
+                                                                    cRect(0, 0, drawPortWidth, height));
+    PixmapFill(pixmapTextScroller, clrTransparent);
 }
 
 void cNopacityRecordingMenuItem::CreateText() {
@@ -1244,9 +1315,12 @@ void cNopacityRecordingMenuItem::SetTextFull(void) {
 }
 
 void cNopacityRecordingMenuItem::DrawBackground(void) {
-    eSkinElementType type = (current)?seRecordingsHigh:seRecordings;
+    if (!pixmapBackground)
+        return;
+
+    eSkinElementType type = (current) ? seRecordingsHigh : seRecordings;
     if (config.GetValue("displayType") == dtBlending) {
-        pixmapBackground->Fill(Theme.Color(clrMenuBorder));
+        PixmapFill(pixmapBackground, Theme.Color(clrMenuBorder));
         cImage *back = imgCache->GetSkinElement(type);
         if (back)
             pixmapBackground->DrawImage(cPoint(1, 1), *back);
@@ -1257,17 +1331,17 @@ void cNopacityRecordingMenuItem::DrawBackground(void) {
         if (back) {
             pixmapBackground->DrawImage(cPoint(0, 0), *back);
         } else {
-            pixmapBackground->Fill(clrTransparent);
+            PixmapFill(pixmapBackground, clrTransparent);
         }
         cImage *fore = imgCache->GetSkinElement(seRecordingsTop);
         if (fore) {
             pixmapForeground->DrawImage(cPoint(0, 0), *fore);
         } else {
-            pixmapForeground->Fill(clrTransparent);
+            PixmapFill(pixmapForeground, clrTransparent);
         }
 
     } else {
-        pixmapBackground->Fill(Theme.Color(clrMenuBorder));
+        PixmapFill(pixmapBackground, Theme.Color(clrMenuBorder));
         tColor col = (current)?Theme.Color(clrMenuItemHigh):Theme.Color(clrMenuItem);
         pixmapBackground->DrawRectangle(cRect(1, 1, width-2, height-2), col);
         if (config.GetValue("roundedCorners"))
@@ -1276,8 +1350,11 @@ void cNopacityRecordingMenuItem::DrawBackground(void) {
 }
 
 void cNopacityRecordingMenuItem::SetTextFullFolder(void) {
+    if (!pixmapTextScroller)
+        return;
+
     tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
-    pixmapTextScroller->Fill(clrTransparent);
+    PixmapFill(pixmapTextScroller, clrTransparent);
     if (config.GetValue("useFolderPoster") && (hasPoster || hasThumb || hasManualPoster))
         DrawPoster();
     else
@@ -1287,8 +1364,11 @@ void cNopacityRecordingMenuItem::SetTextFullFolder(void) {
 }
 
 void cNopacityRecordingMenuItem::SetTextFullRecording(void) {
+    if (!pixmapTextScroller)
+        return;
+
     tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
-    pixmapTextScroller->Fill(clrTransparent);
+    PixmapFill(pixmapTextScroller, clrTransparent);
     int textLeft = 5;
     int heightRecName = (height / 2 - font->Height())/2;
     pixmapTextScroller->DrawText(cPoint(textLeft, heightRecName), strRecNameFull.c_str(), clrFont, clrTransparent, font);
@@ -1303,8 +1383,11 @@ void cNopacityRecordingMenuItem::SetTextShort(void) {
 }
 
 void cNopacityRecordingMenuItem::SetTextShortFolder(void) {
+    if (!pixmapTextScroller)
+        return;
+
     tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
-    pixmapTextScroller->Fill(clrTransparent);
+    PixmapFill(pixmapTextScroller, clrTransparent);
     if (config.GetValue("useFolderPoster") && (hasPoster || hasThumb || hasManualPoster))
         DrawPoster();
     else
@@ -1314,14 +1397,20 @@ void cNopacityRecordingMenuItem::SetTextShortFolder(void) {
 }
 
 void cNopacityRecordingMenuItem::SetTextShortRecording(void) {
+    if (!pixmapTextScroller)
+        return;
+
     tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
-    pixmapTextScroller->Fill(clrTransparent);
+    PixmapFill(pixmapTextScroller, clrTransparent);
     int textLeft = 5;
     int heightRecName = (height / 2 - font->Height())/2;
     pixmapTextScroller->DrawText(cPoint(textLeft, heightRecName), strRecName.c_str(), clrFont, clrTransparent, font);
 }
 
 void cNopacityRecordingMenuItem::DrawRecordingIcons(void) {
+    if (!pixmapStatic)
+	return;
+
     int iconSize = height / 3;
     int iconX = pixmapStatic->ViewPort().Width();
     int iconY = height - iconSize - fontSmall->Height();
@@ -1349,6 +1438,9 @@ void cNopacityRecordingMenuItem::DrawRecordingIcons(void) {
 }
 
 void cNopacityRecordingMenuItem::DrawFolderIcon(void) {
+    if (!pixmapStatic)
+        return;
+
     cImage *imgIcon = imgCache->GetSkinIcon("skinIcons/recfolder", posterWidth, posterHeight);
     if (imgIcon) {
         pixmapStatic->DrawImage(cPoint(10, 1), *imgIcon);
@@ -1356,6 +1448,9 @@ void cNopacityRecordingMenuItem::DrawFolderIcon(void) {
 }
 
 void cNopacityRecordingMenuItem::DrawRecDateTime(void) {
+    if (!pixmapStatic)
+        return;
+
     int left = posterWidth + 20;
     pixmapStatic->DrawRectangle(cRect(left, 0, width, height), clrTransparent);
     const cEvent *Event = NULL;
@@ -1397,6 +1492,9 @@ void cNopacityRecordingMenuItem::DrawRecDateTime(void) {
 }
 
 void cNopacityRecordingMenuItem::DrawFolderNewSeen(void) {
+    if (!pixmapStatic)
+        return;
+
     int textHeight = 2*height/3 + (height/3 - fontSmall->Height())/2 - 10;
     cString strTotalNew = cString::sprintf("%d %s (%d %s)", Total, (Total > 1)?tr("recordings"):tr("recording"), New, tr("new"));
     tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
@@ -1404,6 +1502,9 @@ void cNopacityRecordingMenuItem::DrawFolderNewSeen(void) {
 }
 
 void cNopacityRecordingMenuItem::DrawPoster(void) {
+    if (!pixmapStatic)
+        return;
+
     cImageLoader imgLoader;
     bool posterDrawn = false;
     if (hasManualPoster) {
@@ -1440,7 +1541,7 @@ void cNopacityRecordingMenuItem::Render(bool initial, bool fadeout) {
             if (current && scrollable && !Running())
                 Start();
         }
-        if (wasCurrent && !current && scrollable && Running()) {
+        if (pixmapTextScroller && wasCurrent && !current && scrollable && Running()) {
             pixmapTextScroller->SetDrawPortPoint(cPoint(0, 0));
             SetTextShort();
             Cancel(-1);
@@ -1498,9 +1599,12 @@ bool cNopacityDefaultMenuItem::CheckProgressBar(const char *text) {
 }
 
 void cNopacityDefaultMenuItem::DrawBackground(void) {
-    eSkinElementType type = (current)?seDefaultHigh:seDefault;
+    if (!pixmapBackground) 
+        return;
+
+    eSkinElementType type = (current) ? seDefaultHigh : seDefault;
     if (config.GetValue("displayType") == dtBlending) {
-        pixmapBackground->Fill(Theme.Color(clrMenuBorder));
+        PixmapFill(pixmapBackground, Theme.Color(clrMenuBorder));
         cImage *back = imgCache->GetSkinElement(type);
         if (back)
             pixmapBackground->DrawImage(cPoint(1, 1), *back);
@@ -1511,10 +1615,10 @@ void cNopacityDefaultMenuItem::DrawBackground(void) {
         if (back) {
             pixmapBackground->DrawImage(cPoint(0, 0), *back);
         } else {
-            pixmapBackground->Fill(clrTransparent);
+            PixmapFill(pixmapBackground, clrTransparent);
         }
     } else {
-        pixmapBackground->Fill(Theme.Color(clrMenuBorder));
+        PixmapFill(pixmapBackground, Theme.Color(clrMenuBorder));
         tColor col = (current)?Theme.Color(clrMenuItemHigh):Theme.Color(clrMenuItem);
         pixmapBackground->DrawRectangle(cRect(1, 1, width-2, height-2), col);
         if (config.GetValue("roundedCorners"))
@@ -1537,7 +1641,7 @@ void cNopacityDefaultMenuItem::DrawProgressBar(int x, int width, const char *bar
             break;
         }
     }
-    if (isProgressbar) {
+    if (pixmapStatic && isProgressbar) {
         pixmapStatic->DrawRectangle(cRect(x+5, height/4, width-10, height/2), color);
         pixmapStatic->DrawRectangle(cRect(x+7, height/4+2, width-14, height/2-4), clrTransparent);
         double progress = (double)now/(double)total;
@@ -1547,16 +1651,22 @@ void cNopacityDefaultMenuItem::DrawProgressBar(int x, int width, const char *bar
 }
 
 void cNopacityDefaultMenuItem::SetTextFull(void) {
+    if (!pixmapTextScroller)
+        return;
+
     tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
-    pixmapTextScroller->Fill(clrTransparent);
-    int x = (scrollCol == 0)?5:0;
+    PixmapFill(pixmapTextScroller, clrTransparent);
+    int x = (scrollCol == 0) ? 5 : 0;
     pixmapTextScroller->DrawText(cPoint(x, (height - font->Height()) / 2), strEntryFull.c_str(), clrFont, clrTransparent, font);
 }
 
 void cNopacityDefaultMenuItem::SetTextShort(void) {
+    if (!pixmapTextScroller)
+        return;
+
     tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
-    pixmapTextScroller->Fill(clrTransparent);
-    int x = (scrollCol == 0)?5:0;
+    PixmapFill(pixmapTextScroller, clrTransparent);
+    int x = (scrollCol == 0) ? 5 : 0;
     pixmapTextScroller->DrawText(cPoint(x, (height - font->Height()) / 2), strEntry.c_str(), clrFont, clrTransparent, font);
 }
 
@@ -1586,8 +1696,9 @@ int cNopacityDefaultMenuItem::CheckScrollable(bool hasIcon) {
     }
     if (scrollable) {
         if (!pixmapTextScroller) {
-            pixmapTextScroller = osd->CreatePixmap(4, cRect(left + tabWidth[scrollCol], top + index * (height + spaceMenu), tabWidth[scrollCol+numTabs], height), cRect(0, 0, colTextWidth+10, height));
-            pixmapTextScroller->Fill(clrTransparent);
+            pixmapTextScroller = CreatePixmap(osd, "pixmapTextScroller", 4, cRect(left + tabWidth[scrollCol], top + index * (height + spaceMenu), tabWidth[scrollCol+numTabs], height),
+                                                                            cRect(0, 0, colTextWidth+10, height));
+            PixmapFill(pixmapTextScroller, clrTransparent);
         }
     } else {
         if (pixmapTextScroller) {
@@ -1604,6 +1715,9 @@ int cNopacityDefaultMenuItem::CheckScrollable(bool hasIcon) {
 }
 
 bool cNopacityDefaultMenuItem::DrawHeaderElement(void) {
+    if (!pixmapStatic)
+        return false;
+
     const char *c = Text + 3;
     while (*c == '-')
         c++;
@@ -1629,8 +1743,6 @@ bool cNopacityDefaultMenuItem::DrawHeaderElement(void) {
 
 void cNopacityDefaultMenuItem::Render(bool initial, bool fadeout) {
     DrawBackground();
-    pixmapStatic->Fill(clrTransparent);
-
     tColor clrFont;
     if (current)
         clrFont = Theme.Color(clrMenuFontMenuItemHigh);
@@ -1646,6 +1758,12 @@ void cNopacityDefaultMenuItem::Render(bool initial, bool fadeout) {
     int colWidth = 0;
     int colTextWidth = 0;
     cString itemText("");
+
+    if (!pixmapStatic)
+        goto Next;
+        
+    PixmapFill(pixmapStatic, clrTransparent);
+
     for (int i=0; i<numTabs; i++) {
         if (tabWidth[i] > 0) {
             colWidth = tabWidth[i+cSkinDisplayMenu::MaxTabs];
@@ -1676,11 +1794,12 @@ void cNopacityDefaultMenuItem::Render(bool initial, bool fadeout) {
             break;
     }
 
+Next:
     if (config.GetValue("animation") && config.GetValue("menuScrollSpeed")) {
         if (current && scrollable && !Running())
             Start();
     }
-    if (wasCurrent && !current && scrollable && Running()) {
+    if (pixmapTextScroller && wasCurrent && !current && scrollable && Running()) {
         pixmapTextScroller->SetDrawPortPoint(cPoint(0, 0));
         SetTextShort();
         Cancel(-1);
@@ -1697,9 +1816,13 @@ cNopacityTrackMenuItem::~cNopacityTrackMenuItem(void) {
 }
 
 void cNopacityTrackMenuItem::Render(bool initial, bool fadeout) {
-    eSkinElementType type = (current)?seTracksHigh:seTracks;
+    eSkinElementType type = (current) ? seTracksHigh : seTracks;
+
+    if (!pixmapBackground)
+        goto Next;
+
     if (config.GetValue("displayType") == dtBlending) {
-        pixmapBackground->Fill(Theme.Color(clrMenuBorder));
+        PixmapFill(pixmapBackground, Theme.Color(clrMenuBorder));
         cImage *back = imgCache->GetSkinElement(type);
         if (back)
             pixmapBackground->DrawImage(cPoint(1, 1), *back);
@@ -1710,21 +1833,26 @@ void cNopacityTrackMenuItem::Render(bool initial, bool fadeout) {
         if (back) {
             pixmapBackground->DrawImage(cPoint(0, 0), *back);
         } else {
-            pixmapBackground->Fill(clrTransparent);
+            PixmapFill(pixmapBackground, clrTransparent);
         }
         cImage *fore = imgCache->GetSkinElement(seTracksTop);
         if (fore) {
             pixmapForeground->DrawImage(cPoint(0, 0), *fore);
         } else {
-            pixmapForeground->Fill(clrTransparent);
+            PixmapFill(pixmapForeground, clrTransparent);
         }
     } else {
-        pixmapBackground->Fill(Theme.Color(clrMenuBorder));
+        PixmapFill(pixmapBackground, Theme.Color(clrMenuBorder));
         tColor col = (current)?Theme.Color(clrMenuItemHigh):Theme.Color(clrMenuItem);
         pixmapBackground->DrawRectangle(cRect(1, 1, width-2, height-2), col);
         if (config.GetValue("roundedCorners"))
             DrawRoundedCorners(Theme.Color(clrMenuBorder));
     }
+
+Next:
+    if (!pixmapStatic)
+        return;
+
     tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrTracksFontButtons);
     pixmapStatic->DrawText(cPoint(5, (height - font->Height())/2), Text, clrFont, clrTransparent, font);
 }

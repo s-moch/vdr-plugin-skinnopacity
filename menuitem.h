@@ -8,10 +8,10 @@
 class cNopacityMenuItem : public cThread {
 protected:
     cOsd *osd;
-    cPixmap *pixmapBackground;
-    cPixmap *pixmapStatic;
-    cPixmap *pixmapTextScroller;
-    cPixmap *pixmapForeground;
+    cPixmap *pixmapBackground = NULL;
+    cPixmap *pixmapStatic = NULL;
+    cPixmap *pixmapTextScroller = NULL;
+    cPixmap *pixmapForeground = NULL;
     const char *Text;
     bool selectable;
     bool current;
@@ -43,8 +43,8 @@ protected:
 public:
     cNopacityMenuItem(cOsd *osd, const char *text, bool sel);
     virtual ~cNopacityMenuItem(void);
-    void CreatePixmapBackground();
-    void CreatePixmapForeground();
+    void CreatePixmapBackground(void);
+    void CreatePixmapForeground(void);
     void CreatePixmapStatic(void);
     virtual void CreatePixmapTextScroller(int totalWidth);
     void SetGeometry(int index, int top, int left, int width, int height, int spaceMenu);
