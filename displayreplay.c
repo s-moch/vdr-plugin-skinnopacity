@@ -60,55 +60,72 @@ void cNopacityDisplayReplay::createOSD(void) {
 
 void cNopacityDisplayReplay::CreatePixmaps(void) {
     if (!modeOnly) {
-        pixmapBackground = osd->CreatePixmap(1, cRect(0,
-                                                      0,
-                                                      geoManager->replayOsdWidth,
-                                                      geoManager->replayOsdHeight));
-        pixmapTop = osd->CreatePixmap(5, cRect(0,
-                                               0,
-                                               geoManager->replayOsdWidth,
-                                               geoManager->replayOsdHeight));
-        pixmapInfo = osd->CreatePixmap(2, cRect(0,
-                                                0,
-                                                geoManager->replayInfoWidth,
-                                                geoManager->replayHeaderHeight));
-        pixmapDate = osd->CreatePixmap(2, cRect(geoManager->replayInfoWidth,
-                                                0,
-                                                geoManager->replayDateWidth,
-                                                geoManager->replayHeaderHeight));
-        pixmapInfo2 = osd->CreatePixmap(2, cRect(0,
-                                                 geoManager->replayHeaderHeight,
-                                                 geoManager->replayInfoWidth,
-                                                 geoManager->replayInfo2Height));
-        pixmapProgressBar = osd->CreatePixmap(2, cRect(0,
-                                                       geoManager->replayHeaderHeight
-                                                       + geoManager->replayInfo2Height,
-                                                       geoManager->replayOsdWidth,
-                                                       geoManager->replayProgressBarHeight));
-        pixmapCurrent = osd->CreatePixmap(3, cRect(0,
-                                                   geoManager->replayHeaderHeight
-                                                   + geoManager->replayInfo2Height
-                                                   + geoManager->replayProgressBarHeight,
-                                                   geoManager->replayOsdWidth/5,
-                                                   geoManager->replayCurrentHeight));
-        pixmapTotal = osd->CreatePixmap(3, cRect(4*geoManager->replayOsdWidth/5,
-                                                 geoManager->replayHeaderHeight
-                                                 + geoManager->replayInfo2Height
-                                                 + geoManager->replayProgressBarHeight,
-                                                 geoManager->replayOsdWidth/5,
-                                                 geoManager->replayCurrentHeight));
-        pixmapScreenResBackground = osd->CreatePixmap(3, cRect(geoManager->replayResolutionX - 10,
-                                                     geoManager->replayResolutionY - 5,
-                                                     geoManager->replayResolutionSize * 3 + 20,
-                                                     geoManager->replayResolutionSize + 10));
-        pixmapScreenRes = osd->CreatePixmap(4, cRect(geoManager->replayResolutionX,
-                                                     geoManager->replayResolutionY,
-                                                     geoManager->replayResolutionSize * 3,
-                                                     geoManager->replayResolutionSize));
-        pixmapJump = osd->CreatePixmap(4, cRect(geoManager->replayJumpX,
-                                                geoManager->replayJumpY,
-                                                geoManager->replayJumpWidth,
-                                                geoManager->replayJumpHeight));
+        pixmapBackground = CreatePixmap(osd, "pixmapBackground", 1,
+                                        cRect(0,
+                                              0,
+                                              geoManager->replayOsdWidth,
+                                              geoManager->replayOsdHeight));
+
+        pixmapTop = CreatePixmap(osd, "pixmapTop", 5,
+                                        cRect(0,
+                                              0,
+                                              geoManager->replayOsdWidth,
+                                              geoManager->replayOsdHeight));
+
+        pixmapInfo = CreatePixmap(osd, "pixmapInfo", 2,
+                                        cRect(0,
+                                              0,
+                                              geoManager->replayInfoWidth,
+                                              geoManager->replayHeaderHeight));
+
+        pixmapDate = CreatePixmap(osd, "pixmapDate", 2,
+                                        cRect(geoManager->replayInfoWidth,
+                                              0,
+                                              geoManager->replayDateWidth,
+                                              geoManager->replayHeaderHeight));
+
+        pixmapInfo2 = CreatePixmap(osd, "pixmapInfo2", 2,
+                                        cRect(0,
+                                              geoManager->replayHeaderHeight,
+                                              geoManager->replayInfoWidth,
+                                              geoManager->replayInfo2Height));
+
+        pixmapProgressBar = CreatePixmap(osd, "pixmapProgressBar", 2,
+                                        cRect(0,
+                                              geoManager->replayHeaderHeight + geoManager->replayInfo2Height,
+                                              geoManager->replayOsdWidth,
+                                              geoManager->replayProgressBarHeight));
+
+        int y = geoManager->replayHeaderHeight + geoManager->replayInfo2Height + geoManager->replayProgressBarHeight;
+        pixmapCurrent = CreatePixmap(osd, "pixmapCurrent", 3,
+                                        cRect(0,
+                                              y,
+                                              geoManager->replayOsdWidth / 5,
+                                              geoManager->replayCurrentHeight));
+
+        pixmapTotal = CreatePixmap(osd, "pixmapTotal", 3,
+                                        cRect(4 * geoManager->replayOsdWidth / 5,
+                                              y,
+                                              geoManager->replayOsdWidth / 5,
+                                              geoManager->replayCurrentHeight));
+
+        pixmapScreenResBackground = CreatePixmap(osd, "pixmapScreenResBackground", 3,
+                                        cRect(geoManager->replayResolutionX - 10,
+                                              geoManager->replayResolutionY - 5,
+                                              geoManager->replayResolutionSize * 3 + 20,
+                                              geoManager->replayResolutionSize + 10));
+
+        pixmapScreenRes = CreatePixmap(osd, "pixmapScreenRes", 4,
+                                        cRect(geoManager->replayResolutionX,
+                                              geoManager->replayResolutionY,
+                                              geoManager->replayResolutionSize * 3,
+                                              geoManager->replayResolutionSize));
+
+        pixmapJump = CreatePixmap(osd, "pixmapJump", 4,
+                                        cRect(geoManager->replayJumpX,
+                                              geoManager->replayJumpY,
+                                              geoManager->replayJumpWidth,
+                                              geoManager->replayJumpHeight));
     }
 
     int controlY = geoManager->replayHeaderHeight
@@ -119,79 +136,75 @@ void cNopacityDisplayReplay::CreatePixmaps(void) {
     int iconWidth = 2 * iconBorder + iconSize;
 
     if (!modeOnly) {
-        pixmapControls = osd->CreatePixmap(2, cRect(0,
-                                                    controlY,
-                                                    geoManager->replayOsdWidth,
-                                                    geoManager->replayControlsHeight));
+        pixmapControls = CreatePixmap(osd, "pixmapControls", 2,
+                                        cRect(0,
+                                              controlY,
+                                              geoManager->replayOsdWidth,
+                                              geoManager->replayControlsHeight));
     } else {
-        pixmapControls = osd->CreatePixmap(2, cRect((geoManager->replayOsdWidth
-                                                     - (5 * iconWidth)) / 2,
-                                                    controlY - 10,
-                                                    5 * iconWidth,
-                                                    geoManager->replayControlsHeight + 20));
+        pixmapControls = CreatePixmap(osd, "pixmapControls", 2,
+                                       cRect((geoManager->replayOsdWidth - (5 * iconWidth)) / 2,
+                                              controlY - 10,
+                                              5 * iconWidth,
+                                              geoManager->replayControlsHeight + 20));
     }
+
     int iconX = (geoManager->replayOsdWidth - (4 * iconSize + 3 * iconBorder)) / 2;
-    pixmapRew = osd->CreatePixmap(4, cRect(iconX,
-                                           controlY + iconBorder,
-                                           iconSize,
-                                           iconSize));
-    pixmapPause = osd->CreatePixmap(4, cRect(iconX + iconSize + iconBorder,
-                                             controlY + iconBorder,
-                                             iconSize,
-                                             iconSize));
-    pixmapPlay = osd->CreatePixmap(4, cRect(iconX + 2 * (iconSize + iconBorder),
-                                            controlY + iconBorder,
-                                            iconSize,
-                                            iconSize));
-    pixmapFwd = osd->CreatePixmap(4, cRect(iconX + 3 * (iconSize + iconBorder),
-                                           controlY + iconBorder,
-                                           iconSize,
-                                           iconSize));
+    int iconY = controlY + iconBorder;
+    pixmapRew = CreatePixmap(osd, "pixmapRew", 4, cRect(iconX, iconY, iconSize, iconSize));
+
+    iconX = iconX + iconSize + iconBorder;
+    pixmapPause = CreatePixmap(osd, "pixmapPause", 4, cRect(iconX, iconY, iconSize, iconSize));
+
+    iconX = iconX + iconSize + iconBorder;
+    pixmapPlay = CreatePixmap(osd, "pixmapPlay", 4, cRect(iconX, iconY, iconSize, iconSize));
+
+    iconX = iconX + iconSize + iconBorder;
+    pixmapFwd = CreatePixmap(osd, "pixmapFwd", 4, cRect(iconX, iconY, iconSize, iconSize));
 
     if (!modeOnly) {
         int alphaBack = (100 - config.GetValue("channelBackgroundTransparency"))*255/100;
-        pixmapBackground->SetAlpha(alphaBack);
+        PixmapSetAlpha(pixmapBackground, alphaBack);
     }
 }
 
 void cNopacityDisplayReplay::SetAlpha(int Alpha) {
     if (!modeOnly) {
         int alphaBack = (100 - config.GetValue("channelBackgroundTransparency"))*Alpha/100;
-        pixmapBackground->SetAlpha(alphaBack);
-        pixmapTop->SetAlpha(Alpha);
-        pixmapInfo->SetAlpha(Alpha);
-        pixmapDate->SetAlpha(Alpha);
-        pixmapInfo2->SetAlpha(Alpha);
-        pixmapProgressBar->SetAlpha(Alpha);
-        pixmapCurrent->SetAlpha(Alpha);
-        pixmapTotal->SetAlpha(Alpha);
-        pixmapScreenResBackground->SetAlpha(Alpha);
-        pixmapScreenRes->SetAlpha(Alpha);
-        pixmapJump->SetAlpha(Alpha);
+        PixmapSetAlpha(pixmapBackground, alphaBack);
+        PixmapSetAlpha(pixmapTop, Alpha);
+        PixmapSetAlpha(pixmapInfo, Alpha);
+        PixmapSetAlpha(pixmapInfo2, Alpha);
+        PixmapSetAlpha(pixmapDate, Alpha);
+        PixmapSetAlpha(pixmapProgressBar, Alpha);
+        PixmapSetAlpha(pixmapCurrent, Alpha);
+        PixmapSetAlpha(pixmapTotal, Alpha);
+        PixmapSetAlpha(pixmapScreenResBackground, Alpha);
+        PixmapSetAlpha(pixmapScreenRes, Alpha);
+        PixmapSetAlpha(pixmapJump, Alpha);
     }
-    pixmapControls->SetAlpha(Alpha);
-    pixmapRew->SetAlpha(Alpha);
-    pixmapPause->SetAlpha(Alpha);
-    pixmapPlay->SetAlpha(Alpha);
-    pixmapFwd->SetAlpha(Alpha);
-    if (volumeBox)
-        volumeBox->SetAlpha(Alpha);
+    PixmapSetAlpha(pixmapControls, Alpha);
+    PixmapSetAlpha(pixmapRew, Alpha);
+    PixmapSetAlpha(pixmapPause, Alpha);
+    PixmapSetAlpha(pixmapPlay, Alpha);
+    PixmapSetAlpha(pixmapFwd, Alpha);
+    if (volumeBox) volumeBox->SetAlpha(Alpha);
 }
 
 void cNopacityDisplayReplay::DrawBackground(void) {
     if (!modeOnly) {
         if (config.GetValue("displayType") == dtGraphical) {
             cImage *imgBack = imgCache->GetSkinElement(seReplayBackground);
-            if (imgBack)
+            if (pixmapBackground && imgBack)
                 pixmapBackground->DrawImage(cPoint(0,0), *imgBack);
             cImage *imgTop = imgCache->GetSkinElement(seReplayTop);
-            if (imgTop)
+            if (pixmapTop && imgTop)
                 pixmapTop->DrawImage(cPoint(0,0), *imgTop);
             else
-	        pixmapTop->Fill(clrTransparent);
+	        PixmapFill(pixmapTop, clrTransparent);
         } else {
-            pixmapBackground->Fill(Theme.Color(clrReplayBackground));
-            pixmapTop->Fill(clrTransparent);
+            PixmapFill(pixmapBackground, Theme.Color(clrReplayBackground));
+            PixmapFill(pixmapTop, clrTransparent);
             if (config.GetValue("displayType") == dtBlending &&
                    (Theme.Color(clrReplayBackground) != Theme.Color(clrReplayBackBlend))) {
                 DrawBlendedBackground(pixmapBackground,
@@ -219,46 +232,51 @@ void cNopacityDisplayReplay::DrawBackground(void) {
                 }
             }
         }
-        pixmapControls->Fill(clrTransparent);
-        pixmapProgressBar->Fill(clrTransparent);
-        pixmapScreenResBackground->Fill(clrTransparent);
-        pixmapScreenRes->Fill(clrTransparent);
-        pixmapJump->Fill(clrTransparent);
+        PixmapFill(pixmapControls, clrTransparent);
+        PixmapFill(pixmapProgressBar, clrTransparent);
+        PixmapFill(pixmapScreenResBackground, clrTransparent);
+        PixmapFill(pixmapScreenRes, clrTransparent);
+        PixmapFill(pixmapJump, clrTransparent);
     } else {
-        pixmapControls->Fill(Theme.Color(clrMenuBorder));
-        pixmapControls->DrawRectangle(cRect(2, 2, pixmapControls->ViewPort().Width() - 4, pixmapControls->ViewPort().Height() - 4),Theme.Color(clrReplayBackground));
+        PixmapFill(pixmapControls, Theme.Color(clrMenuBorder));
+	if (pixmapControls)
+            pixmapControls->DrawRectangle(cRect(2, 2, pixmapControls->ViewPort().Width() - 4, pixmapControls->ViewPort().Height() - 4),Theme.Color(clrReplayBackground));
     }
 }
 
 void cNopacityDisplayReplay::LoadControlIcons(void) {
-    pixmapRew->Fill(clrTransparent);
-    pixmapPause->Fill(clrTransparent);
-    pixmapPlay->Fill(clrTransparent);
-    pixmapFwd->Fill(clrTransparent);
+    PixmapFill(pixmapRew, clrTransparent);
+    PixmapFill(pixmapPause, clrTransparent);
+    PixmapFill(pixmapPlay, clrTransparent);
+    PixmapFill(pixmapFwd, clrTransparent);
+
     int iconSize = geoManager->replayIconSize;
     cImage *imgRew = imgCache->GetSkinIcon("skinIcons/rewInactive", iconSize, iconSize);
-    if (imgRew)
+    if (pixmapRew && imgRew)
         pixmapRew->DrawImage(cPoint(0,0), *imgRew);
     cImage *imgPause = imgCache->GetSkinIcon("skinIcons/pauseInactive", iconSize, iconSize);
-    if (imgPause)
+    if (pixmapPause && imgPause)
         pixmapPause->DrawImage(cPoint(0,0), *imgPause);
     cImage *imgPlay = imgCache->GetSkinIcon("skinIcons/playInactive", iconSize, iconSize);
-    if (imgPlay)
+    if (pixmapPlay && imgPlay)
         pixmapPlay->DrawImage(cPoint(0,0), *imgPlay);
     cImage *imgFwd = imgCache->GetSkinIcon("skinIcons/fwdInactive", iconSize, iconSize);
-    if (imgFwd)
+    if (pixmapFwd && imgFwd)
         pixmapFwd->DrawImage(cPoint(0,0), *imgFwd);
 }
 
 
 void cNopacityDisplayReplay::DrawDate(void) {
+    if (!pixmapDate)
+        return;
+
     cString curDate = DayDateTime();
     if (initial || strcmp(curDate, lastDate)) {
         int strDateWidth = fontManager->replayText->Width(curDate);
         int strDateHeight = fontManager->replayText->Height();
         int x = geoManager->replayDateWidth - strDateWidth - geoManager->replayHeaderHeight/2;
         int y = (geoManager->replayHeaderHeight - strDateHeight) / 2;
-        pixmapDate->Fill(clrTransparent);
+        PixmapFill(pixmapDate, clrTransparent);
         pixmapDate->DrawText(cPoint(x, y),
                              curDate,
                              Theme.Color(clrReplayHead),
@@ -278,17 +296,17 @@ void cNopacityDisplayReplay::DrawScreenResolution(void) {
        return;
     int replaySize = geoManager->replayResolutionSize;
     cImage *imgRes = imgCache->GetSkinIcon(*iconName, 3 * replaySize, replaySize);
-    if (imgRes) {
-        pixmapScreenResBackground->Fill(Theme.Color(clrStatusIconsBack));
+    PixmapFill(pixmapScreenResBackground, Theme.Color(clrStatusIconsBack));
+    if (pixmapScreenResBackground) {
         DrawRoundedCorners(pixmapScreenResBackground,
-                       5,
-                       0,
-                       0,
-                       pixmapScreenResBackground->ViewPort().Width(),
-                       pixmapScreenResBackground->ViewPort().Height()
-                      );
-        pixmapScreenRes->DrawImage(cPoint(0,0), *imgRes);
+                           5,
+                           0,
+                           0,
+                           pixmapScreenResBackground->ViewPort().Width(),
+                           pixmapScreenResBackground->ViewPort().Height());
     }
+    if (pixmapScreenRes && imgRes)
+        pixmapScreenRes->DrawImage(cPoint(0,0), *imgRes);
 }
 
 void cNopacityDisplayReplay::SetRecording(const cRecording *Recording) {
@@ -304,23 +322,26 @@ void cNopacityDisplayReplay::SetRecording(const cRecording *Recording) {
     else
         info2 = cString::sprintf("%s %s", *ShortDateString(Recording->Start()), *TimeString(Recording->Start()));
 
-    pixmapInfo2->Fill(clrTransparent);
-    pixmapInfo2->DrawText(cPoint(geoManager->replayHeaderHeight/2,
-                                 std::max((geoManager->replayInfo2Height
-                                           - fontManager->replayText->Height()) / 2 - 10,
-                                          0)),
-                          *info2,
-                          Theme.Color(clrReplayDescription),
-                          clrTransparent,
-                          fontManager->replayText);
+    PixmapFill(pixmapInfo2, clrTransparent);
+    if (pixmapInfo2) {
+        pixmapInfo2->DrawText(cPoint(geoManager->replayHeaderHeight / 2,
+                                     std::max((geoManager->replayInfo2Height
+                                               - fontManager->replayText->Height()) / 2 - 10,
+                                               0)),
+                              *info2,
+                              Theme.Color(clrReplayDescription),
+                              clrTransparent,
+                              fontManager->replayText);
+    }
     DrawScreenResolution();
 }
 
 void cNopacityDisplayReplay::SetTitle(const char *Title) {
-    pixmapInfo->Fill(clrTransparent);
-    pixmapInfo2->Fill(clrTransparent);
-    if (!Title)
+    PixmapFill(pixmapInfo, clrTransparent);
+    PixmapFill(pixmapInfo2, clrTransparent);
+    if (!pixmapInfo || !Title)
         return;
+
     int titleLength = fontManager->replayHeader->Width(Title);
     int titleSpace = geoManager->replayInfoWidth - geoManager->replayHeaderHeight/2;
     std::string strTitle = Title;
@@ -338,58 +359,59 @@ void cNopacityDisplayReplay::SetMode(bool Play, bool Forward, int Speed) {
     int iconSize = geoManager->replayIconSize;
     if (Speed == -1) {
         if (Play) {
-            pixmapPlay->Fill(clrTransparent);
+            PixmapFill(pixmapPlay, clrTransparent);
             cImage *imgIcon = imgCache->GetSkinIcon("skinIcons/play", iconSize, iconSize);
-            if (imgIcon)
+            if (pixmapPlay && imgIcon)
                 pixmapPlay->DrawImage(cPoint(0,0), *imgIcon);
         } else {
-            pixmapPause->Fill(clrTransparent);
+            PixmapFill(pixmapPause, clrTransparent);
             cImage *imgIcon = imgCache->GetSkinIcon("skinIcons/pause", iconSize, iconSize);
-            if (imgIcon)
+            if (pixmapPause && imgIcon)
                 pixmapPause->DrawImage(cPoint(0,0), *imgIcon);
         }
     } else if (Forward) {
         if (!Play) {
-            pixmapPause->Fill(clrTransparent);
+            PixmapFill(pixmapPause, clrTransparent);
             cImage *imgIcon = imgCache->GetSkinIcon("skinIcons/pause", iconSize, iconSize);
-            if (imgIcon)
+            if (pixmapPause && imgIcon)
                 pixmapPause->DrawImage(cPoint(0,0), *imgIcon);
         }
-        pixmapFwd->Fill(clrTransparent);
+        PixmapFill(pixmapFwd, clrTransparent);
         if (Speed > 0) {
             cString trickIcon = cString::sprintf("skinIcons/fwdx%d", Speed);
             cImage *imgIcon = imgCache->GetSkinIcon(*trickIcon, iconSize, iconSize);
-            if (imgIcon)
+            if (pixmapFwd && imgIcon)
                 pixmapFwd->DrawImage(cPoint(0,0), *imgIcon);
         } else {
             cImage *imgIcon = imgCache->GetSkinIcon("skinIcons/fwd", iconSize, iconSize);
-            if (imgIcon)
+            if (pixmapFwd && imgIcon)
                 pixmapFwd->DrawImage(cPoint(0,0), *imgIcon);
         }
     } else {
         if (!Play) {
-            pixmapPause->Fill(clrTransparent);
+            PixmapFill(pixmapPause, clrTransparent);
             cImage *imgIcon = imgCache->GetSkinIcon("skinIcons/pause", iconSize, iconSize);
-            if (imgIcon)
+            if (pixmapPause && imgIcon)
                 pixmapPause->DrawImage(cPoint(0,0), *imgIcon);
         }
-        pixmapRew->Fill(clrTransparent);
+        PixmapFill(pixmapRew, clrTransparent);
         if (Speed > 0) {
             cString trickIcon = cString::sprintf("skinIcons/rewx%d", Speed);
             cImage *imgIcon = imgCache->GetSkinIcon(*trickIcon, iconSize, iconSize);
-            if (imgIcon)
+            if (pixmapRew && imgIcon)
                 pixmapRew->DrawImage(cPoint(0,0), *imgIcon);
         } else {
             cImage *imgIcon = imgCache->GetSkinIcon("skinIcons/rew", iconSize, iconSize);
-            if (imgIcon)
+            if (pixmapRew && imgIcon)
                 pixmapRew->DrawImage(cPoint(0,0), *imgIcon);
         }
     }
 }
 
 void cNopacityDisplayReplay::SetProgress(int Current, int Total) {
-    if (Running() || geoManager->replayProgressBarHeight < 5)
+    if (Running() || !pixmapProgressBar || geoManager->replayProgressBarHeight < 5)
         return;
+
     int barWidth = geoManager->replayOsdWidth - 2*geoManager->replayProgressBarHeight;
     cProgressBar pb(barWidth,
                     geoManager->replayProgressBarHeight-2,
@@ -427,29 +449,34 @@ void cNopacityDisplayReplay::SetProgress(int Current, int Total) {
 void cNopacityDisplayReplay::SetCurrent(const char *Current) {
     if (Running())
         return;
-    pixmapCurrent->Fill(clrTransparent);
-    pixmapCurrent->DrawText(cPoint(geoManager->replayHeaderHeight/2, 0),
-                            Current,
-                            Theme.Color(clrReplayCurrentTotal),
-                            clrTransparent,
-                            fontManager->replayText);
+
+    PixmapFill(pixmapCurrent, clrTransparent);
+    if (pixmapCurrent && Current) {
+        pixmapCurrent->DrawText(cPoint(geoManager->replayHeaderHeight/2, 0),
+                                Current,
+                                Theme.Color(clrReplayCurrentTotal),
+                                clrTransparent,
+                                fontManager->replayText);
+    }
 }
 
 void cNopacityDisplayReplay::SetTotal(const char *Total) {
-    pixmapTotal->Fill(clrTransparent);
-    pixmapTotal->DrawText(cPoint(geoManager->replayOsdWidth/5
-                                 - (fontManager->replayText->Width(Total)
-                                 + geoManager->replayHeaderHeight/2),
-                                 0),
-                          Total,
-                          Theme.Color(clrReplayCurrentTotal),
-                          clrTransparent,
-                          fontManager->replayText);
+    PixmapFill(pixmapTotal, clrTransparent);
+    if (pixmapTotal && Total) {
+        pixmapTotal->DrawText(cPoint(geoManager->replayOsdWidth/5
+                                     - (fontManager->replayText->Width(Total)
+                                     + geoManager->replayHeaderHeight/2),
+                                     0),
+                              Total,
+                              Theme.Color(clrReplayCurrentTotal),
+                              clrTransparent,
+                              fontManager->replayText);
+    }
 }
 
 void cNopacityDisplayReplay::SetJump(const char *Jump) {
-    pixmapJump->Fill(clrTransparent);
-    if (Jump) {
+    PixmapFill(pixmapJump, clrTransparent);
+    if (pixmapJump && Jump) {
         pixmapJump->DrawText(cPoint(0,
                                     (geoManager->replayJumpHeight
                                     - fontManager->replayHeader->Height())/2),
