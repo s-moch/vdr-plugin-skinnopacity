@@ -16,6 +16,35 @@ cOsd *CreateOsd(int Left, int Top, int Width, int Height) {
     return NULL;
 }
 
+cPixmap *CreatePixmap(cOsd *osd, cString Name, int Layer, const cRect &ViewPort, const cRect &DrawPort) {
+    if (osd) {
+        if (cPixmap *pixmap = osd->CreatePixmap(Layer, ViewPort, DrawPort)) {
+            return pixmap;
+        } else {
+            esyslog("nopacity: Could not create pixmap \"%s\" of size %i x %i", *Name, DrawPort.Size().Width(), DrawPort.Size().Height());
+            cRect NewDrawPort = DrawPort;
+            int width = std::min(DrawPort.Size().Width(), osd->MaxPixmapSize().Width());
+            int height = std::min(DrawPort.Size().Height(), osd->MaxPixmapSize().Height());
+            NewDrawPort.SetSize(width, height);
+            if (cPixmap *pixmap = osd->CreatePixmap(Layer, ViewPort, NewDrawPort)) {
+                esyslog("nopacity: Create pixmap \"%s\" of reduced size %i x %i", *Name, width, height);
+                return pixmap;
+            } else {
+                esyslog("nopacity: Could not create pixmap \"%s\" of reduced size %i x %i", *Name, width, height);
+            }
+        }
+    }
+    return NULL;
+}
+
+void PixmapSetAlpha(cPixmap *pixmap, int Alpha) {
+    if (pixmap) pixmap->SetAlpha(Alpha);
+}
+
+void PixmapFill(cPixmap *pixmap, tColor Color) {
+    if (pixmap) pixmap->Fill(Color);
+}
+
 void DrawBlendedBackground(cPixmap *pixmap, int xStart, int width, tColor color, tColor colorBlending, bool fromTop) {
     int height = pixmap->ViewPort().Height();
     int numSteps = 16;

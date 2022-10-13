@@ -5,6 +5,9 @@
 #include <vdr/plugin.h>
 
 cOsd *CreateOsd(int Left, int Top, int Width, int Height);
+cPixmap *CreatePixmap(cOsd *osd, cString Name = "", int Layer = 0, const cRect &ViewPort = cRect::Null, const cRect &DrawPort = cRect::Null);
+void PixmapSetAlpha(cPixmap *pixmap, int Alpha);
+void PixmapFill(cPixmap *pixmap, tColor Color);
 void DrawBlendedBackground(cPixmap *pixmap, int xStart, int width, tColor color, tColor colorBlending, bool fromTop);
 void DrawRoundedCorners(cPixmap *p, int radius, int x, int y, int width, int height);
 void DrawRoundedCornersWithBorder(cPixmap *p, tColor borderColor, int radius, int width, int height);
