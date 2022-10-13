@@ -504,8 +504,9 @@ void cNopacityMenuDetailViewLight::SetFonts(void) {
 }
 
 void cNopacityMenuDetailViewLight::DrawTextWrapper(cTextWrapper *wrapper, int top) {
-    if (top > contentDrawPortHeight)
+    if (!pixmapContent || top > contentDrawPortHeight)
         return;
+
     int linesText = wrapper->Lines();
     int textHeight = font->Height();
     int currentHeight = top;
@@ -828,6 +829,7 @@ void cNopacityMenuDetailViewLight::DrawAdditionalBanners(int top, int bottom) {
 void cNopacityMenuDetailViewLight::DrawActors(int height) {
     if (!pixmapContent)
         return;
+
     int numActors = 0;
     if (isMovie)
         numActors = movie.actors.size();
@@ -952,6 +954,7 @@ void cNopacityMenuDetailViewLight::DrawScrollbar(void) {
     ClearScrollbar();
     if (!hasScrollbar || !pixmapContent)
         return;
+
     int totalBarHeight = scrollBar->ViewPort().Height() - 6;
 
     int aktHeight = (-1)*pixmapContent->DrawPort().Point().Y();
@@ -974,8 +977,9 @@ void cNopacityMenuDetailViewLight::DrawScrollbar(void) {
 }
 
 void cNopacityMenuDetailViewLight::KeyInput(bool Up, bool Page) {
-    if (!hasScrollbar)
+    if (!hasScrollbar || !pixmapContent)
         return;
+
     int aktHeight = pixmapContent->DrawPort().Point().Y();
     int totalHeight = pixmapContent->DrawPort().Height();
     int screenHeight = pixmapContent->ViewPort().Height();
@@ -1013,10 +1017,10 @@ void cNopacityMenuDetailViewLight::KeyInput(bool Up, bool Page) {
 }
 
 void cNopacityMenuDetailViewLight::SetAlpha(int Alpha) {
-    pixmapContent->SetAlpha(Alpha);
-    if (pixmapHeader) pixmapHeader->SetAlpha(Alpha);
-    if (pixmapPoster) pixmapPoster->SetAlpha(Alpha);
-    if (pixmapLogo) pixmapLogo->SetAlpha(Alpha);
+    PixmapSetAlpha(pixmapContent, Alpha);
+    PixmapSetAlpha(pixmapHeader, Alpha);
+    PixmapSetAlpha(pixmapPoster, Alpha);
+    PixmapSetAlpha(pixmapLogo, Alpha);
 }
 
 //---------------cNopacityMenuDetailEventViewLight---------------------
@@ -1030,9 +1034,7 @@ cNopacityMenuDetailEventViewLight::~cNopacityMenuDetailEventViewLight(void) {
     osd->DestroyPixmap(pixmapHeader);
     osd->DestroyPixmap(pixmapContent);
     osd->DestroyPixmap(pixmapLogo);
-    if (pixmapPoster) {
-        osd->DestroyPixmap(pixmapPoster);
-    }
+    osd->DestroyPixmap(pixmapPoster);
 }
 
 void cNopacityMenuDetailEventViewLight::SetContent(void) {
@@ -1143,20 +1145,26 @@ void cNopacityMenuDetailEventViewLight::SetContentHeight(void) {
 
 void cNopacityMenuDetailEventViewLight::CreatePixmaps(void) {
     contentHeight = contentHeight - border;
-    pixmapHeader =  osd->CreatePixmap(3, cRect(x, top, width, headerHeight));
-    pixmapContent = osd->CreatePixmap(3, cRect(x + contentX, top + headerHeight + border, contentWidth, contentHeight),
-                                      cRect(0, 0, contentWidth, contentDrawPortHeight));
-    pixmapLogo =    osd->CreatePixmap(4, cRect(x + border, top + max((headerHeight-config.GetValue("logoHeightOriginal"))/2,1), config.GetValue("logoWidthOriginal"), config.GetValue("logoHeightOriginal")));
+    pixmapHeader = CreatePixmap(osd, "pixmapHeader", 3, cRect(x, top, width, headerHeight));
 
-    pixmapHeader->Fill(clrTransparent);
-    pixmapHeader->DrawRectangle(cRect(0, headerHeight - 2, width, 2), Theme.Color(clrMenuBorder));
-    pixmapContent->Fill(clrTransparent);
-    pixmapLogo->Fill(clrTransparent);
+    pixmapContent = CreatePixmap(osd, "pixmapContent", 3, cRect(x + contentX, top + headerHeight + border, contentWidth, contentHeight),
+                                                          cRect(0, 0, contentWidth, contentDrawPortHeight));
+
+    pixmapLogo = CreatePixmap(osd, "pixmapLogo", 4, cRect(x + border,
+                                                          top + max((headerHeight - config.GetValue("logoHeightOriginal")) / 2, 1),
+                                                          config.GetValue("logoWidthOriginal"),
+                                                          config.GetValue("logoHeightOriginal")));
 
     if (isSeries || isMovie) {
-        pixmapPoster = osd->CreatePixmap(4, cRect(x, top + headerHeight, widthPoster, contentHeight));
-        pixmapPoster->Fill(clrTransparent);
+        pixmapPoster = CreatePixmap(osd, "pixmapPoster", 4, cRect(x, top + headerHeight, widthPoster, contentHeight));
     }
+
+    PixmapFill(pixmapHeader, clrTransparent);
+    PixmapFill(pixmapContent, clrTransparent);
+    PixmapFill(pixmapLogo, clrTransparent);
+    PixmapFill(pixmapPoster, clrTransparent);
+    if (pixmapHeader)
+        pixmapHeader->DrawRectangle(cRect(0, headerHeight - 2, width, 2), Theme.Color(clrMenuBorder));
 }
 
 void cNopacityMenuDetailEventViewLight::Render(void) {
@@ -1233,10 +1241,13 @@ void cNopacityMenuDetailEventViewLight::DrawHeader(void) {
     const cChannel *channel = Channels->GetByChannelID(event->ChannelID(), true);
     if (channel) {
         cImage *logo = imgCache->GetLogo(ctLogo, channel);
-        if (logo) {
+        if (pixmapLogo && logo) {
             pixmapLogo->DrawImage(cPoint(0, max((headerHeight - config.GetValue("logoHeightOriginal") - border)/2, 0)), *logo);
         }
     }
+    if (!pixmapHeader)
+        return;
+
     int widthTextHeader = width - 4 * border - logoWidth;
     cImageLoader imgLoader;
     if (isSeries && series.episode.episodeImage.path.size() > 0) {
@@ -1344,6 +1355,9 @@ void cNopacityMenuDetailEventViewLight::LoadReruns(void) {
 }
 
 void cNopacityMenuDetailEventViewLight::DrawEPGPictures(int height) {
+    if (!pixmapContent)
+        return;
+
     int picsPerLine = contentWidth / (config.GetValue("epgImageWidthLarge") + border);
     int currentX = border;
     int currentY = height + border;
@@ -1381,8 +1395,7 @@ cNopacityMenuDetailRecordingViewLight::cNopacityMenuDetailRecordingViewLight(cOs
 cNopacityMenuDetailRecordingViewLight::~cNopacityMenuDetailRecordingViewLight(void) {
     osd->DestroyPixmap(pixmapHeader);
     osd->DestroyPixmap(pixmapContent);
-    if (pixmapPoster)
-        osd->DestroyPixmap(pixmapPoster);
+    osd->DestroyPixmap(pixmapPoster);
 }
 
 void cNopacityMenuDetailRecordingViewLight::SetContent(void) {
@@ -1497,17 +1510,20 @@ void cNopacityMenuDetailRecordingViewLight::SetContentHeight(void) {
 
 void cNopacityMenuDetailRecordingViewLight::CreatePixmaps(void) {
     contentHeight = contentHeight - border;
-    pixmapHeader =  osd->CreatePixmap(3, cRect(x, top, width, headerHeight));
-    pixmapContent = osd->CreatePixmap(3, cRect(x + contentX, top + headerHeight + border, contentWidth, contentHeight),
-                                         cRect(0, 0, contentWidth, contentDrawPortHeight));
+    pixmapHeader = CreatePixmap(osd, "pixmapHeader", 3, cRect(x, top, width, headerHeight));
 
-    pixmapHeader->Fill(clrTransparent);
-    pixmapHeader->DrawRectangle(cRect(0, headerHeight - 2, width, 2), Theme.Color(clrMenuBorder));
-    pixmapContent->Fill(clrTransparent);
+    pixmapContent = CreatePixmap(osd, "pixmapContent", 3, cRect(x + contentX, top + headerHeight + border, contentWidth, contentHeight),
+                                                          cRect(0, 0, contentWidth, contentDrawPortHeight));
+
     if (hasManualPoster || isMovie || isSeries) {
-        pixmapPoster = osd->CreatePixmap(4, cRect(x, top + headerHeight, widthPoster, contentHeight));
-        pixmapPoster->Fill(clrTransparent);
+        pixmapPoster = CreatePixmap(osd, "pixmapPoster", 4, cRect(x, top + headerHeight, widthPoster, contentHeight));
     }
+
+    PixmapFill(pixmapHeader, clrTransparent);
+    PixmapFill(pixmapContent, clrTransparent);
+    PixmapFill(pixmapPoster, clrTransparent);
+    if (pixmapHeader)
+        pixmapHeader->DrawRectangle(cRect(0, headerHeight - 2, width, 2), Theme.Color(clrMenuBorder));
 }
 
 void cNopacityMenuDetailRecordingViewLight::Render(void) {
@@ -1586,6 +1602,9 @@ int cNopacityMenuDetailRecordingViewLight::HeightEPGPics(void) {
 }
 
 void cNopacityMenuDetailRecordingViewLight::DrawEPGPictures(int height) {
+    if (pixmapContent)
+        return;
+
     int picsPerLine = contentWidth / (config.GetValue("epgImageWidthLarge") + border);
     int currentX = border;
     int currentY = height + border;
@@ -1615,6 +1634,9 @@ void cNopacityMenuDetailRecordingViewLight::DrawEPGPictures(int height) {
 }
 
 void cNopacityMenuDetailRecordingViewLight::DrawHeader(void) {
+    if (!pixmapHeader)
+        return;
+
     cImageLoader imgLoader;
     int widthTextHeader = width - 2 * border;
     if (isSeries && series.episode.episodeImage.path.size() > 0) {
