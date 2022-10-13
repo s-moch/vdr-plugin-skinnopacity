@@ -31,13 +31,15 @@ enum eMediaViewTabs {
 class cNopacityView {
 protected:
     cOsd *osd;
-    cPixmap *pixmapHeader;
-    cPixmap *pixmapHeaderLogo;
-    cPixmap *pixmapContent;
-    cPixmap *pixmapContentBack;
-    cPixmap *pixmapScrollbar;
-    cPixmap *pixmapScrollbarBack;
-    cPixmap *pixmapTabs;
+    cPixmap *pixmapHeader = NULL;
+    cPixmap *pixmapContent = NULL;
+    cPixmap *pixmapContentBack = NULL;
+    cPixmap *pixmapScrollbar = NULL;
+    cPixmap *pixmapScrollbarBack = NULL;
+    cPixmap *pixmapTabs = NULL;
+    cPixmap *pixmapHeaderEPGImage = NULL;
+    cPixmap *pixmapHeaderBanner = NULL;
+    cPixmap *pixmapHeaderPoster = NULL;
     cFont *font, *fontSmall, *fontHeader, *fontHeaderLarge;
     int activeView;
     bool scrollable;
@@ -70,7 +72,7 @@ protected:
 public:    
     cNopacityView(cOsd *osd);
     virtual ~cNopacityView(void);
-    virtual void SetAlpha(int Alpha) {};
+    void SetAlpha(int Alpha = 0);
     void SetTitle(const char *t) { title = t ? t : ""; };
     void SetSubTitle(const char *s) { subTitle = s ? s : ""; };
     void SetDateTime(const char *dt) { dateTime = dt; };
@@ -92,7 +94,6 @@ public:
 
 class cNopacityEPGView : public cNopacityView {
 protected:
-    cPixmap *pixmapHeaderEPGImage;
     std::vector<std::string> epgPics;
     int numEPGPics;
     int numTabs;
@@ -102,8 +103,7 @@ protected:
     void DrawImages(void);
 public:    
     cNopacityEPGView(cOsd *osd);
-    virtual ~cNopacityEPGView(void);
-    void SetAlpha(int Alpha = 0);
+    virtual ~cNopacityEPGView(void) {};
     void KeyLeft(void);
     void KeyRight(void);
     void Render(void);
@@ -111,7 +111,6 @@ public:
 
 class cNopacitySeriesView : public cNopacityView {
 protected:
-    cPixmap *pixmapHeaderBanner;
     int seriesId;
     int episodeId;
     cSeries series;
@@ -123,8 +122,7 @@ protected:
     int GetRandomPoster(void);
 public:    
     cNopacitySeriesView(cOsd *osd, int seriesId, int episodeId);
-    virtual ~cNopacitySeriesView(void);
-    void SetAlpha(int Alpha = 0);
+    virtual ~cNopacitySeriesView(void) {};
     void LoadMedia(void);
     void KeyLeft(void);
     void KeyRight(void);
@@ -133,7 +131,6 @@ public:
 
 class cNopacityMovieView : public cNopacityView {
 protected:
-    cPixmap *pixmapHeaderPoster;
     int movieId;
     cMovie movie;
     std::string movieDBInfo;
@@ -143,8 +140,7 @@ protected:
     void DrawImages(void);
 public:    
     cNopacityMovieView(cOsd *osd, int movieId);
-    virtual ~cNopacityMovieView(void);
-    void SetAlpha(int Alpha = 0);
+    virtual ~cNopacityMovieView(void) {};
     void LoadMedia(void);
     void KeyLeft(void);
     void KeyRight(void);
@@ -155,8 +151,7 @@ class cNopacityTextView : public cNopacityView {
 protected:
 public:    
     cNopacityTextView(cOsd *osd);
-    virtual ~cNopacityTextView(void);
-    void SetAlpha(int Alpha = 0);
+    virtual ~cNopacityTextView(void) {};
     void KeyLeft(void);
     void KeyRight(void);
     void Render(void);

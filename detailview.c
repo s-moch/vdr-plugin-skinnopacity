@@ -13,10 +13,6 @@ cNopacityView::cNopacityView(cOsd *osd) {
     fontSmall = NULL;
     fontHeader = NULL;
     fontHeaderLarge = NULL;
-    pixmapHeader = NULL;
-    pixmapContent = NULL;
-    pixmapContentBack = NULL;
-    pixmapTabs = NULL;
     title = "";
     subTitle = "";
     dateTime = "";
@@ -44,14 +40,13 @@ cNopacityView::~cNopacityView(void) {
         delete fontHeader;
     if (fontHeaderLarge)
         delete fontHeaderLarge;
-    if (pixmapHeader)
-        osd->DestroyPixmap(pixmapHeader);
-    if (pixmapContent)
-        osd->DestroyPixmap(pixmapContent);
-    if (pixmapContentBack)
-        osd->DestroyPixmap(pixmapContentBack);
-    if (pixmapTabs)
-        osd->DestroyPixmap(pixmapTabs);
+    osd->DestroyPixmap(pixmapHeader);
+    osd->DestroyPixmap(pixmapContent);
+    osd->DestroyPixmap(pixmapContentBack);
+    osd->DestroyPixmap(pixmapTabs);
+    osd->DestroyPixmap(pixmapHeaderEPGImage);
+    osd->DestroyPixmap(pixmapHeaderBanner);
+    osd->DestroyPixmap(pixmapHeaderPoster);
 }
 
 void cNopacityView::SetGeometry(int x, int y, int width, int height, int border, int headerHeight) {
@@ -67,6 +62,18 @@ void cNopacityView::SetGeometry(int x, int y, int width, int height, int border,
     SetFonts();
 }
 
+void cNopacityView::SetAlpha(int Alpha) {
+    PixmapSetAlpha(pixmapHeader, Alpha);
+    PixmapSetAlpha(pixmapTabs, Alpha);
+    PixmapSetAlpha(pixmapContentBack, Alpha);
+    PixmapSetAlpha(pixmapContent, Alpha);
+    PixmapSetAlpha(pixmapScrollbar, Alpha);
+    PixmapSetAlpha(pixmapScrollbarBack, Alpha);
+    PixmapSetAlpha(pixmapHeaderEPGImage, Alpha);
+    PixmapSetAlpha(pixmapHeaderBanner, Alpha);
+    PixmapSetAlpha(pixmapHeaderPoster, Alpha);
+}
+
 void cNopacityView::SetFonts(void) {
     font = cFont::CreateFont(config.fontName, contentHeight / 25 + 3 + config.GetValue("fontDetailView"));
     fontSmall = cFont::CreateFont(config.fontName, contentHeight / 30 + config.GetValue("fontDetailViewSmall"));
@@ -76,9 +83,12 @@ void cNopacityView::SetFonts(void) {
 
 void cNopacityView::DrawHeader(void) {
     if (!pixmapHeader) {
-        pixmapHeader = osd->CreatePixmap(4, cRect(x, y, width, headerHeight));
+        if (!(pixmapHeader = CreatePixmap(osd, "pixmapHeader", 4, cRect(x, y, width, headerHeight)))) {
+            return;
+        }
     }
-    pixmapHeader->Fill(Theme.Color(clrMenuDetailViewBack));
+    PixmapFill(pixmapHeader, Theme.Color(clrMenuDetailViewBack));
+
     //Channel Logo
     int logoWidth = geoManager->channelLogoWidth;
     int xText = border;
@@ -100,10 +110,13 @@ void cNopacityView::DrawHeader(void) {
 
 void cNopacityView::DrawTabs(void) {
     if (!pixmapTabs) {
-        pixmapTabs = osd->CreatePixmap(4, cRect(0, y + height - tabHeight, width, tabHeight));
+        if (!(pixmapTabs = CreatePixmap(osd, "pixmapTabs", 4, cRect(0, y + height - tabHeight, width, tabHeight)))) {
+            return;
+        }
     }
+    PixmapFill(pixmapTabs, clrTransparent);
+
     tColor bgColor = Theme.Color(clrMenuDetailViewTabs);
-    pixmapTabs->Fill(clrTransparent);
     pixmapTabs->DrawRectangle(cRect(0, 0, width, 2), bgColor);
     int numTabs = tabs.size();
     int xCurrent = 0;
@@ -140,11 +153,11 @@ void cNopacityView::CreateContent(int fullHeight) {
         scrollable = true;
     }
     if (!pixmapContentBack) {
-        pixmapContentBack = osd->CreatePixmap(3, cRect(x, y + headerHeight, width, contentHeight + tabHeight));
-        pixmapContentBack->Fill(Theme.Color(clrMenuDetailViewBack));
+        pixmapContentBack = CreatePixmap(osd, "pixmapContentBack", 3, cRect(x, y + headerHeight, width, contentHeight + tabHeight));
+        PixmapFill(pixmapContentBack, Theme.Color(clrMenuDetailViewBack));
     }
-    pixmapContent = osd->CreatePixmap(4, cRect(x, y + headerHeight, width, contentHeight), cRect(0, 0, width, drawPortHeight));
-    pixmapContent->Fill(clrTransparent);
+    pixmapContent = CreatePixmap(osd, "pixmapContent", 4, cRect(x, y + headerHeight, width, contentHeight), cRect(0, 0, width, drawPortHeight));
+    PixmapFill(pixmapContent, clrTransparent);
 }
 
 void cNopacityView::DrawContent(std::string *text) {
@@ -152,10 +165,14 @@ void cNopacityView::DrawContent(std::string *text) {
     wText.Set(text->c_str(), font, width - 2 * border);
     int lineHeight = font->Height();
     int textLines = wText.Lines();
-    int textHeight = lineHeight * textLines + 2*border;
+    int textHeight = lineHeight * textLines + 2 * border;
     int yText = border;
+
     CreateContent(textHeight);
-    for (int i=0; i < textLines; i++) {
+    if (!pixmapContent)
+        return;
+
+    for (int i = 0; i < textLines; i++) {
         pixmapContent->DrawText(cPoint(border, yText), wText.GetLine(i), Theme.Color(clrMenuFontDetailViewText), clrTransparent, font);
         yText += lineHeight;
     }
@@ -182,14 +199,18 @@ void cNopacityView::DrawFloatingContent(std::string *infoText, cTvMedia *img, cT
     int lineHeight = font->Height();
     int textLinesTall = wTextTall.Lines();
     int textLinesFull = wTextFull.Lines();
-    int textHeight = lineHeight * (textLinesTall + textLinesFull) + 2*border;
+    int textHeight = lineHeight * (textLinesTall + textLinesFull) + 2 * border;
     int yText = border;
-    CreateContent(std::max(textHeight, imgHeight + 2*border));
-    for (int i=0; i < textLinesTall; i++) {
+
+    CreateContent(std::max(textHeight, imgHeight + 2 * border));
+    if (!pixmapContent)
+        return;
+
+    for (int i = 0; i < textLinesTall; i++) {
         pixmapContent->DrawText(cPoint(border, yText), wTextTall.GetLine(i), Theme.Color(clrMenuFontDetailViewText), clrTransparent, font);
         yText += lineHeight;
     }
-    for (int i=0; i < textLinesFull; i++) {
+    for (int i = 0; i < textLinesFull; i++) {
         pixmapContent->DrawText(cPoint(border, yText), wTextFull.GetLine(i), Theme.Color(clrMenuFontDetailViewText), clrTransparent, font);
         yText += lineHeight;
     }
@@ -273,7 +294,8 @@ void cNopacityView::DrawActors(std::vector<cActor> *actors) {
     int numActors = actors->size();
     if (numActors < 1) {
         CreateContent(100);
-        pixmapContent->DrawText(cPoint(border, border), tr("No Cast available"), Theme.Color(clrMenuFontDetailViewText), clrTransparent, fontHeaderLarge);
+        if (pixmapContent)
+            pixmapContent->DrawText(cPoint(border, border), tr("No Cast available"), Theme.Color(clrMenuFontDetailViewText), clrTransparent, fontHeaderLarge);
         return;
     }
 
@@ -302,6 +324,9 @@ void cNopacityView::DrawActors(std::vector<cActor> *actors) {
     int totalHeight = picLines * (thumbHeight + 2 * fontSmall->Height() + border + border / 2) + 2 * border + fontHeaderLarge->Height();
 
     CreateContent(totalHeight);
+    if (!pixmapContent)
+        return;
+
     cString header = cString::sprintf("%s:", tr("Cast"));
     pixmapContent->DrawText(cPoint(border, border), *header, Theme.Color(clrMenuFontDetailViewText), clrTransparent, fontHeaderLarge);
 
@@ -338,14 +363,15 @@ void cNopacityView::DrawActors(std::vector<cActor> *actors) {
 }
 
 void cNopacityView::ClearScrollbar(void) {
-    pixmapScrollbar->Fill(clrTransparent);
-    pixmapScrollbarBack->Fill(clrTransparent);
+    PixmapFill(pixmapScrollbar, clrTransparent);
+    PixmapFill(pixmapScrollbarBack, clrTransparent);
 }
 
 void cNopacityView::DrawScrollbar(void) {
     ClearScrollbar();
-    if (!scrollable || !pixmapContent)
+    if (!scrollable || !pixmapContent || !pixmapScrollbar || !pixmapScrollbarBack)
         return;
+
     int totalBarHeight = pixmapScrollbar->ViewPort().Height() - 6;
     
     int aktHeight = (-1)*pixmapContent->DrawPort().Point().Y();
@@ -360,15 +386,15 @@ void cNopacityView::DrawScrollbar(void) {
         if (image)
             pixmapScrollbarBack->DrawImage(cPoint(0, 0), *image);
     } else {
-        pixmapScrollbarBack->Fill(Theme.Color(clrMenuScrollBar));
-        pixmapScrollbarBack->DrawRectangle(cRect(2,2,geoManager->menuWidthScrollbar-4, pixmapScrollbarBack->ViewPort().Height() - 4), Theme.Color(clrMenuScrollBarBack));
+        PixmapFill(pixmapScrollbarBack, Theme.Color(clrMenuScrollBar));
+        pixmapScrollbarBack->DrawRectangle(cRect(2, 2, geoManager->menuWidthScrollbar - 4, pixmapScrollbarBack->ViewPort().Height() - 4), Theme.Color(clrMenuScrollBarBack));
     }
 
-    pixmapScrollbar->DrawRectangle(cRect(3,3 + barTop,geoManager->menuWidthScrollbar-6,barHeight), Theme.Color(clrMenuScrollBar));
+    pixmapScrollbar->DrawRectangle(cRect(3, 3 + barTop, geoManager->menuWidthScrollbar - 6, barHeight), Theme.Color(clrMenuScrollBar));
 }
 
 bool cNopacityView::KeyUp(void) {
-    if (!scrollable)
+    if (!scrollable || !pixmapContent)
         return false;
     int aktHeight = pixmapContent->DrawPort().Point().Y();
 //    int lineHeight = font->Height();
@@ -384,7 +410,7 @@ bool cNopacityView::KeyUp(void) {
 }
 
 bool cNopacityView::KeyDown(void) {
-    if (!scrollable)
+    if (!scrollable || !pixmapContent)
         return false;
     int aktHeight = pixmapContent->DrawPort().Point().Y();
     int totalHeight = pixmapContent->DrawPort().Height();
@@ -407,27 +433,8 @@ bool cNopacityView::KeyDown(void) {
 
 cNopacityEPGView::cNopacityEPGView(cOsd *osd) : cNopacityView(osd) {
     tabbed = true;
-    pixmapHeaderEPGImage = NULL;
     numEPGPics = -1;
     numTabs = 0;
-}
-
-cNopacityEPGView::~cNopacityEPGView(void) {
-    if (pixmapHeaderEPGImage)
-        osd->DestroyPixmap(pixmapHeaderEPGImage);
-}
-
-void cNopacityEPGView::SetAlpha(int Alpha) {
-    pixmapHeader->SetAlpha(Alpha);
-    pixmapTabs->SetAlpha(Alpha);
-    pixmapContentBack->SetAlpha(Alpha);
-    pixmapContent->SetAlpha(Alpha);
-    if (pixmapHeaderEPGImage)
-        pixmapHeaderEPGImage->SetAlpha(Alpha);
-    if (pixmapScrollbar)
-        pixmapScrollbar->SetAlpha(Alpha);
-    if (pixmapScrollbarBack)
-        pixmapScrollbarBack->SetAlpha(Alpha);
 }
 
 void cNopacityEPGView::SetTabs(void) {
@@ -453,7 +460,9 @@ void cNopacityEPGView::DrawHeaderEPGImage(void) {
         return;
 
     if (!pixmapHeaderEPGImage) {
-        pixmapHeaderEPGImage = osd->CreatePixmap(3, cRect(x, y, width, headerHeight));
+        if (!(pixmapHeaderEPGImage = CreatePixmap(osd, "pixmapHeaderEPGImage", 3, cRect(x, y, width, headerHeight)))) {
+            return;
+        }
     }
 
     int imgWidthOrig = config.GetValue("epgImageWidth");
@@ -467,7 +476,7 @@ void cNopacityEPGView::DrawHeaderEPGImage(void) {
         imgWidth = imgWidthOrig * ((double)imgHeight / (double)imgHeightOrig);     
     }
 
-    pixmapHeaderEPGImage->Fill(clrTransparent);
+    PixmapFill(pixmapHeaderEPGImage, clrTransparent);
     pixmapHeaderEPGImage->DrawImage(cPoint(width - imgWidth - border, (headerHeight - imgHeight)/2), imgLoader.GetImage());
 }
 
@@ -525,6 +534,9 @@ void cNopacityEPGView::DrawImages(void) {
 
     CreateContent(totalHeight);
     
+    if (!pixmapContent)
+        return;
+
     cImageLoader imgLoader;
     int yPic = border;
     for (int pic = 0; pic < numEPGPics; pic++) {
@@ -592,26 +604,7 @@ cNopacitySeriesView::cNopacitySeriesView(cOsd *osd, int seriesId, int episodeId)
     this->seriesId = seriesId;
     this->episodeId = episodeId;
     tvdbInfo = "";
-    pixmapHeaderBanner = NULL;
     tabbed = true;
-}
-
-cNopacitySeriesView::~cNopacitySeriesView(void) {
-    if (pixmapHeaderBanner)
-        osd->DestroyPixmap(pixmapHeaderBanner);
-}
-
-void cNopacitySeriesView::SetAlpha(int Alpha) {
-    pixmapHeader->SetAlpha(Alpha);
-    pixmapTabs->SetAlpha(Alpha);
-    pixmapContentBack->SetAlpha(Alpha);
-    pixmapContent->SetAlpha(Alpha);
-    if (pixmapHeaderBanner)
-        pixmapHeaderBanner->SetAlpha(Alpha);
-    if (pixmapScrollbar)
-        pixmapScrollbar->SetAlpha(Alpha);
-    if (pixmapScrollbarBack)
-        pixmapScrollbarBack->SetAlpha(Alpha);
 }
 
 void cNopacitySeriesView::LoadMedia(void) {
@@ -701,9 +694,11 @@ void cNopacitySeriesView::DrawHeaderBanner(void) {
     int bannerY = (headerHeight - bannerHeight) / 2;
 
     if (!pixmapHeaderBanner) {
-        pixmapHeaderBanner = osd->CreatePixmap(3, cRect(x, y, width, headerHeight));
+        if (!(pixmapHeaderBanner = CreatePixmap(osd, "pixmapHeaderBanner", 3, cRect(x, y, width, headerHeight)))){
+            return;
+        }
     }
-    pixmapHeaderBanner->Fill(clrTransparent);
+    PixmapFill(pixmapHeaderBanner, clrTransparent);
 
     cImageLoader imgLoader;
     if (imgLoader.LoadPoster(bannerPath.c_str(), bannerWidth, bannerHeight)) {
@@ -745,6 +740,9 @@ void cNopacitySeriesView::DrawImages(void) {
        
     CreateContent(totalHeight);
     
+    if (!pixmapContent)
+        return;
+
     cImageLoader imgLoader;
     int yPic = border;
     for (int i=0; i < numFanarts; i++) {
@@ -850,26 +848,7 @@ void cNopacitySeriesView::Render(void) {
 
 cNopacityMovieView::cNopacityMovieView(cOsd *osd, int movieId) : cNopacityView(osd) {
     this->movieId = movieId;
-    pixmapHeaderPoster = NULL;
     tabbed = true;
-}
-
-cNopacityMovieView::~cNopacityMovieView(void) {
-    if (pixmapHeaderPoster)
-        osd->DestroyPixmap(pixmapHeaderPoster);
-}
-
-void cNopacityMovieView::SetAlpha(int Alpha) {
-    pixmapHeader->SetAlpha(Alpha);
-    pixmapTabs->SetAlpha(Alpha);
-    pixmapContentBack->SetAlpha(Alpha);
-    pixmapContent->SetAlpha(Alpha);
-    if (pixmapHeaderPoster)
-        pixmapHeaderPoster->SetAlpha(Alpha);
-    if (pixmapScrollbar)
-        pixmapScrollbar->SetAlpha(Alpha);
-    if (pixmapScrollbarBack)
-        pixmapScrollbarBack->SetAlpha(Alpha);
 }
 
 void cNopacityMovieView::LoadMedia(void) {
@@ -947,9 +926,11 @@ void cNopacityMovieView::DrawHeaderPoster(void) {
     int posterY = (headerHeight - posterHeight) / 2;
 
     if (!pixmapHeaderPoster) {
-        pixmapHeaderPoster = osd->CreatePixmap(3, cRect(x, y, width, headerHeight));
+        if (!(pixmapHeaderPoster = CreatePixmap(osd, "pixmapHeaderPoster", 3, cRect(x, y, width, headerHeight)))) {
+            return;
+        }
     }
-    pixmapHeaderPoster->Fill(clrTransparent);
+    PixmapFill(pixmapHeaderPoster, clrTransparent);
 
     cImageLoader imgLoader;
     if (imgLoader.LoadPoster(movie.poster.path.c_str(), posterWidth, posterHeight)) {
@@ -994,6 +975,9 @@ void cNopacityMovieView::DrawImages(void) {
 
     CreateContent(totalHeight);
     
+    if (!pixmapContent)
+        return;
+
     cImageLoader imgLoader;
     int yPic = border;
     if (movie.fanart.width > 0 && movie.fanart.height > 0 && movie.fanart.path.size() > 0) {
@@ -1079,20 +1063,6 @@ void cNopacityMovieView::Render(void) {
 ********************************************************************************************/
 
 cNopacityTextView::cNopacityTextView(cOsd *osd) : cNopacityView(osd) {
-}
-
-cNopacityTextView::~cNopacityTextView(void) {
-}
-
-void cNopacityTextView::SetAlpha(int Alpha) {
-    pixmapHeader->SetAlpha(Alpha);
-    pixmapTabs->SetAlpha(Alpha);
-    pixmapContentBack->SetAlpha(Alpha);
-    pixmapContent->SetAlpha(Alpha);
-    if (pixmapScrollbar)
-        pixmapScrollbar->SetAlpha(Alpha);
-    if (pixmapScrollbarBack)
-        pixmapScrollbarBack->SetAlpha(Alpha);
 }
 
 void cNopacityTextView::KeyLeft(void) {
