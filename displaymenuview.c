@@ -30,8 +30,7 @@ cNopacityDisplayMenuView::~cNopacityDisplayMenuView(void) {
     osd->DestroyPixmap(pixmapDiskUsage);
     osd->DestroyPixmap(pixmapDiskUsageIcon);
     osd->DestroyPixmap(pixmapDiskUsageLabel);
-    if (pixmapHeaderIcon)
-        osd->DestroyPixmap(pixmapHeaderIcon);
+    osd->DestroyPixmap(pixmapHeaderIcon);
     delete messageBox;
     delete volumeBox;
 }
@@ -156,52 +155,62 @@ int cNopacityDisplayMenuView::GetContentWidth(eMenuCategory menuCat) {
 
 
 void cNopacityDisplayMenuView::CreatePixmaps(void) {
-    pixmapHeader = osd->CreatePixmap(1, cRect(0, 0, geoManager->osdWidth, geoManager->menuHeaderHeight));
-    pixmapHeaderForeground = osd->CreatePixmap(3, cRect(0, 0, geoManager->osdWidth, geoManager->menuHeaderHeight));
-    int dateX = (menuAdjustLeft) ? (geoManager->osdWidth - geoManager->menuDateWidth) : 0;
-    pixmapDate = osd->CreatePixmap(2, cRect(dateX, 0, geoManager->menuDateWidth, geoManager->menuHeaderHeight));
-    int logoX = (menuAdjustLeft) ? 0 : (geoManager->osdWidth - geoManager->menuHeaderVDRLogoWidth);
-    pixmapHeaderLogo = osd->CreatePixmap(-1, cRect(logoX, 2, geoManager->menuHeaderVDRLogoWidth, geoManager->menuHeaderHeight - 4));
-    int labelX = (menuAdjustLeft) ? 0 : geoManager->menuDateWidth;
-    pixmapHeaderLabel = osd->CreatePixmap(2, cRect(labelX, 0, geoManager->osdWidth - geoManager->menuDateWidth, geoManager->menuHeaderHeight));
-    pixmapFooter = osd->CreatePixmap(2, cRect(0, geoManager->osdHeight - geoManager->menuFooterHeight, geoManager->osdWidth, geoManager->menuFooterHeight));
-    pixmapFooterBack = osd->CreatePixmap(1, cRect(0, geoManager->osdHeight - geoManager->menuFooterHeight, geoManager->osdWidth, geoManager->menuFooterHeight));
-    int drawPortWidth = geoManager->osdWidth + geoManager->menuContentWidthFull - geoManager->menuContentWidthMinimum;
-    pixmapContent = osd->CreatePixmap(1, cRect(0, geoManager->menuHeaderHeight, geoManager->osdWidth, geoManager->menuContentHeight),
-                                         cRect(0, 0, drawPortWidth, geoManager->menuContentHeight));
-    int diskUsageX = (menuAdjustLeft) ? (geoManager->osdWidth - geoManager->menuDiskUsageWidth - 10) : 10;
-    pixmapDiskUsage = osd->CreatePixmap(2, cRect(diskUsageX, geoManager->menuHeaderHeight + geoManager->menuSpace, geoManager->menuDiskUsageWidth, geoManager->menuDiskUsageHeight));
-    pixmapDiskUsageIcon = osd->CreatePixmap(3, cRect(diskUsageX + 2, geoManager->menuHeaderHeight + geoManager->menuSpace + 2, geoManager->menuDiskUsageWidth - 4, geoManager->menuDiskUsageHeight - 4));
-    pixmapDiskUsageLabel = osd->CreatePixmap(4, cRect(diskUsageX + 2, geoManager->menuHeaderHeight + geoManager->menuSpace + 2, geoManager->menuDiskUsageWidth - 4, geoManager->menuDiskUsageHeight - 4));
-    int scrollbarX = (menuAdjustLeft) ? geoManager->menuContentWidthMain : (geoManager->osdWidth - geoManager->menuContentWidthMain);
-    pixmapScrollbar = osd->CreatePixmap(3, cRect(scrollbarX, geoManager->menuHeaderHeight + geoManager->menuSpace, geoManager->menuWidthScrollbar, geoManager->menuContentHeight - 2 * geoManager->menuSpace));
-    pixmapScrollbarBack = osd->CreatePixmap(2, cRect(scrollbarX, geoManager->menuHeaderHeight + geoManager->menuSpace, geoManager->menuWidthScrollbar, geoManager->menuContentHeight - 2 * geoManager->menuSpace));
+    pixmapHeader = CreatePixmap(osd, "pixmapHeader", 1, cRect(0, 0, geoManager->osdWidth, geoManager->menuHeaderHeight));
 
-    pixmapHeaderLogo->Fill(clrTransparent);
-    pixmapHeaderLabel->Fill(clrTransparent);
-    pixmapDiskUsage->Fill(clrTransparent);
-    pixmapDiskUsageIcon->Fill(clrTransparent);
-    pixmapDiskUsageLabel->Fill(clrTransparent);
+    pixmapHeaderForeground = CreatePixmap(osd, "pixmapHeaderForeground", 3, cRect(0, 0, geoManager->osdWidth, geoManager->menuHeaderHeight));
+
+    int dateX = (menuAdjustLeft) ? (geoManager->osdWidth - geoManager->menuDateWidth) : 0;
+    pixmapDate = CreatePixmap(osd, "pixmapDate", 2, cRect(dateX, 0, geoManager->menuDateWidth, geoManager->menuHeaderHeight));
+
+    int logoX = (menuAdjustLeft) ? 0 : (geoManager->osdWidth - geoManager->menuHeaderVDRLogoWidth);
+    pixmapHeaderLogo = CreatePixmap(osd, "pixmapHeaderLogo", -1, cRect(logoX, 2, geoManager->menuHeaderVDRLogoWidth, geoManager->menuHeaderHeight - 4));
+
+    int labelX = (menuAdjustLeft) ? 0 : geoManager->menuDateWidth;
+    pixmapHeaderLabel = CreatePixmap(osd, "pixmapHeaderLabel", 2, cRect(labelX, 0, geoManager->osdWidth - geoManager->menuDateWidth, geoManager->menuHeaderHeight));
+
+    pixmapFooter = CreatePixmap(osd, "pixmapFooter", 2, cRect(0, geoManager->osdHeight - geoManager->menuFooterHeight, geoManager->osdWidth, geoManager->menuFooterHeight));
+
+    pixmapFooterBack = CreatePixmap(osd, "pixmapFooterBack", 1, cRect(0, geoManager->osdHeight - geoManager->menuFooterHeight, geoManager->osdWidth, geoManager->menuFooterHeight));
+
+    int drawPortWidth = geoManager->osdWidth + geoManager->menuContentWidthFull - geoManager->menuContentWidthMinimum;
+    pixmapContent = CreatePixmap(osd, "pixmapContent", 1, cRect(0, geoManager->menuHeaderHeight, geoManager->osdWidth, geoManager->menuContentHeight),
+                                                          cRect(0, 0, drawPortWidth, geoManager->menuContentHeight));
+
+    int diskUsageX = (menuAdjustLeft) ? (geoManager->osdWidth - geoManager->menuDiskUsageWidth - 10) : 10;
+    pixmapDiskUsage = CreatePixmap(osd, "pixmapDiskUsage", 2, cRect(diskUsageX, geoManager->menuHeaderHeight + geoManager->menuSpace, geoManager->menuDiskUsageWidth, geoManager->menuDiskUsageHeight));
+
+    pixmapDiskUsageIcon = CreatePixmap(osd, "pixmapDiskUsageIcon", 3, cRect(diskUsageX + 2, geoManager->menuHeaderHeight + geoManager->menuSpace + 2, geoManager->menuDiskUsageWidth - 4, geoManager->menuDiskUsageHeight - 4));
+
+    pixmapDiskUsageLabel = CreatePixmap(osd, "pixmapDiskUsageLabel", 4, cRect(diskUsageX + 2, geoManager->menuHeaderHeight + geoManager->menuSpace + 2, geoManager->menuDiskUsageWidth - 4, geoManager->menuDiskUsageHeight - 4));
+
+    int scrollbarX = (menuAdjustLeft) ? geoManager->menuContentWidthMain : (geoManager->osdWidth - geoManager->menuContentWidthMain);
+    pixmapScrollbar = CreatePixmap(osd, "pixmapScrollbar", 3, cRect(scrollbarX, geoManager->menuHeaderHeight + geoManager->menuSpace, geoManager->menuWidthScrollbar, geoManager->menuContentHeight - 2 * geoManager->menuSpace));
+
+    pixmapScrollbarBack = CreatePixmap(osd, "pixmapScrollbarBack", 2, cRect(scrollbarX, geoManager->menuHeaderHeight + geoManager->menuSpace, geoManager->menuWidthScrollbar, geoManager->menuContentHeight - 2 * geoManager->menuSpace));
+
+    PixmapFill(pixmapHeaderLogo, clrTransparent);
+    PixmapFill(pixmapHeaderLabel, clrTransparent);
+    PixmapFill(pixmapDiskUsage, clrTransparent);
+    PixmapFill(pixmapDiskUsageIcon, clrTransparent);
+    PixmapFill(pixmapDiskUsageLabel, clrTransparent);
 }
 
 void cNopacityDisplayMenuView::SetAlpha(int Alpha) {
-    pixmapHeader->SetAlpha(Alpha);
-    pixmapHeaderForeground->SetAlpha(Alpha);
-    pixmapHeaderLogo->SetAlpha(Alpha);
-    pixmapHeaderLabel->SetAlpha(Alpha);
-    pixmapDate->SetAlpha(Alpha);
-    pixmapContent->SetAlpha(Alpha);
-    pixmapFooter->SetAlpha(Alpha);
-    pixmapFooterBack->SetAlpha(Alpha);
-    pixmapScrollbarBack->SetAlpha(Alpha);
-    pixmapScrollbar->SetAlpha(Alpha);
-    pixmapDiskUsage->SetAlpha(Alpha);
-    pixmapDiskUsageIcon->SetAlpha(Alpha);
-    pixmapDiskUsageLabel->SetAlpha(Alpha);
-    if (pixmapHeaderIcon)
-        pixmapHeaderIcon->SetAlpha(Alpha);
-    if (volumeBox)
-        volumeBox->SetAlpha(Alpha);
+    PixmapSetAlpha(pixmapHeader, Alpha);
+    PixmapSetAlpha(pixmapHeaderForeground, Alpha);
+    PixmapSetAlpha(pixmapHeaderLogo, Alpha);
+    PixmapSetAlpha(pixmapHeaderLabel, Alpha);
+    PixmapSetAlpha(pixmapDate, Alpha);
+    PixmapSetAlpha(pixmapContent, Alpha);
+    PixmapSetAlpha(pixmapFooter, Alpha);
+    PixmapSetAlpha(pixmapFooterBack, Alpha);
+    PixmapSetAlpha(pixmapScrollbarBack, Alpha);
+    PixmapSetAlpha(pixmapScrollbar, Alpha);
+    PixmapSetAlpha(pixmapDiskUsage, Alpha);
+    PixmapSetAlpha(pixmapDiskUsageIcon, Alpha);
+    PixmapSetAlpha(pixmapDiskUsageLabel, Alpha);
+    PixmapSetAlpha(pixmapHeaderIcon, Alpha);
+    if (volumeBox) volumeBox->SetAlpha(Alpha);
 }
 
 void cNopacityDisplayMenuView::GetMenuItemSize(eMenuCategory menuCat, cPoint *itemSize) {
@@ -286,34 +295,43 @@ const cFont *cNopacityDisplayMenuView::GetTextAreaFont(bool FixedFont) {
 
 void cNopacityDisplayMenuView::DrawBorderDecoration() {
     if (config.GetValue("displayType") == dtGraphical) {
-        cImage *headerImageBack = imgCache->GetSkinElement(seMenuHeader);
-        if (headerImageBack)
-            pixmapHeader->DrawImage(cPoint(0, 0), *headerImageBack);
-        else
-            pixmapHeader->Fill(Theme.Color(clrMenuBack));
-        cImage *headerImageTop = imgCache->GetSkinElement(seMenuHeaderTop);
-        if (headerImageTop)
-            pixmapHeaderForeground->DrawImage(cPoint(0, 0), *headerImageTop);
-        else
-            pixmapHeaderForeground->Fill(clrTransparent);
+        if (pixmapHeader) {
+            cImage *headerImageBack = imgCache->GetSkinElement(seMenuHeader);
+            if (headerImageBack)
+                pixmapHeader->DrawImage(cPoint(0, 0), *headerImageBack);
+            else
+                PixmapFill(pixmapHeader, Theme.Color(clrMenuBack));
+        }
+        if (pixmapHeaderForeground) {
+            cImage *headerImageTop = imgCache->GetSkinElement(seMenuHeaderTop);
+            if (headerImageTop)
+                pixmapHeaderForeground->DrawImage(cPoint(0, 0), *headerImageTop);
+            else
+                PixmapFill(pixmapHeaderForeground, clrTransparent);
+        }
     } else if (config.GetValue("displayType") == dtBlending) {
-        pixmapHeaderForeground->Fill(clrTransparent);
-        cImage *headerImage = imgCache->GetSkinElement(seMenuHeader);
-        if (headerImage)
-            pixmapHeader->DrawImage(cPoint(0, 0), *headerImage);
-        else
-            pixmapHeader->Fill(Theme.Color(clrMenuBack));
+        PixmapFill(pixmapHeaderForeground, clrTransparent);
+        if (pixmapHeader) {
+            cImage *headerImage = imgCache->GetSkinElement(seMenuHeader);
+            if (headerImage)
+                pixmapHeader->DrawImage(cPoint(0, 0), *headerImage);
+            else
+                PixmapFill(pixmapHeader, Theme.Color(clrMenuBack));
+        }
     } else {
-        pixmapHeaderForeground->Fill(clrTransparent);
-        pixmapHeader->Fill(Theme.Color(clrMenuBack));
+        PixmapFill(pixmapHeaderForeground, clrTransparent);
+        PixmapFill(pixmapHeader, Theme.Color(clrMenuBack));
     }
-    pixmapFooter->Fill(clrTransparent);
-    pixmapFooterBack->Fill(Theme.Color(clrMenuBack));
+    PixmapFill(pixmapFooter, clrTransparent);
+    PixmapFill(pixmapFooterBack, Theme.Color(clrMenuBack));
 
     int borderWidth = 2;
     int radius = 10;
 
-    pixmapContent->Fill(clrTransparent);
+    if (!pixmapContent)
+        return;
+
+    PixmapFill(pixmapContent, clrTransparent);
 
     if (menuAdjustLeft) {
         //Background
@@ -364,9 +382,9 @@ void cNopacityDisplayMenuView::AdjustContentBackground(eMenuCategory menuCat, eM
     int contentWidth = GetContentWidth(menuCat);
     int contentWidthLast = GetContentWidth(menuCatLast);
     int drawportX;
-    if ((contentWidth != contentWidthLast)||(menuCatLast == mcUndefined)) {
+    if (pixmapContent && (contentWidth != contentWidthLast) || (menuCatLast == mcUndefined)) {
         if (contentWidth == geoManager->menuContentWidthFull) {
-            drawportX = (menuAdjustLeft)?0:(geoManager->menuContentWidthMinimum - geoManager->menuContentWidthFull);
+            drawportX = (menuAdjustLeft) ? 0 : (geoManager->menuContentWidthMinimum - geoManager->menuContentWidthFull);
             pixmapContent->SetDrawPortPoint(cPoint(drawportX, 0));
             if (config.GetValue("scalePicture")) {
                 // ask output device to restore full size
@@ -388,27 +406,33 @@ void cNopacityDisplayMenuView::AdjustContentBackground(eMenuCategory menuCat, eM
             }
         }
     }
+
     osd->DestroyPixmap(pixmapScrollbar);
     osd->DestroyPixmap(pixmapScrollbarBack);
-    int scrollbarX = (menuAdjustLeft)?(contentWidth):(geoManager->osdWidth - contentWidth - geoManager->menuWidthScrollbar);
-    pixmapScrollbar = osd->CreatePixmap(3, cRect(scrollbarX , geoManager->menuHeaderHeight + geoManager->menuSpace, geoManager->menuWidthScrollbar, geoManager->menuContentHeight - 2*geoManager->menuSpace));
-    pixmapScrollbarBack = osd->CreatePixmap(2, cRect(scrollbarX , geoManager->menuHeaderHeight + geoManager->menuSpace, geoManager->menuWidthScrollbar, geoManager->menuContentHeight - 2*geoManager->menuSpace));
-    pixmapScrollbar->Fill(clrTransparent);
-    pixmapScrollbarBack->Fill(clrTransparent);
+
+    int scrollbarX = (menuAdjustLeft) ? (contentWidth) : (geoManager->osdWidth - contentWidth - geoManager->menuWidthScrollbar);
+    pixmapScrollbar = CreatePixmap(osd, "pixmapScrollbar", 3, cRect(scrollbarX , geoManager->menuHeaderHeight + geoManager->menuSpace, geoManager->menuWidthScrollbar, geoManager->menuContentHeight - 2 * geoManager->menuSpace));
+
+    pixmapScrollbarBack = CreatePixmap(osd, "pixmapScrollbarBack", 2, cRect(scrollbarX , geoManager->menuHeaderHeight + geoManager->menuSpace, geoManager->menuWidthScrollbar, geoManager->menuContentHeight - 2 * geoManager->menuSpace));
+
+    PixmapFill(pixmapScrollbar, clrTransparent);
+    PixmapFill(pixmapScrollbarBack, clrTransparent);
 }
 
 void cNopacityDisplayMenuView::DrawHeaderLogo(void) {
+    if (!pixmapHeaderLogo)
+        return;
+
     cImage *imgIcon = imgCache->GetSkinIcon("skinIcons/vdrlogo");
     if (imgIcon)
         pixmapHeaderLogo->DrawImage(cPoint(0,0), *imgIcon);
 }
 
 int cNopacityDisplayMenuView::ShowHeaderLogo(bool show) {
-    if (show) {
-        pixmapHeaderLogo->SetLayer(2);
-    } else {
-        pixmapHeaderLogo->SetLayer(-1);
-    }
+    if (!pixmapHeaderLogo)
+        return 0;
+
+    pixmapHeaderLogo->SetLayer(show ? 2 : -1);
     return geoManager->menuHeaderVDRLogoWidth + geoManager->menuSpace;
 }
 
@@ -443,8 +467,11 @@ int cNopacityDisplayMenuView::DrawHeaderIcon(eMenuCategory menuCat, bool initial
     if (drawIcon) {
         int iconSize = geoManager->menuHeaderHeight - 4;
         int iconX = (menuAdjustLeft) ? 0 : (geoManager->osdWidth - geoManager->menuHeaderHeight);
-        pixmapHeaderIcon = osd->CreatePixmap(2, cRect(iconX, 2, iconSize, iconSize));
-        pixmapHeaderIcon->Fill(clrTransparent);
+        if (!(pixmapHeaderIcon = CreatePixmap(osd, "pixmapHeaderIcon", 2, cRect(iconX, 2, iconSize, iconSize)))) {
+            return left;
+        }
+        PixmapFill(pixmapHeaderIcon, clrTransparent);
+
         if (initial && config.GetValue("animation") && config.GetValue("menuFadeTime")) {
             pixmapHeaderIcon->SetAlpha(0);
         }
@@ -466,8 +493,11 @@ int cNopacityDisplayMenuView::ShowHeaderIconChannelLogo(const char *Title, bool 
                                 config.GetValue("logoHeight"));
     int logoWidth = logoSize.Width();
     int iconX = (menuAdjustLeft) ? 0 : (geoManager->osdWidth - logoWidth);
-    pixmapHeaderIcon = osd->CreatePixmap(2, cRect(iconX, 2, logoWidth, logoHeight));
-    pixmapHeaderIcon->Fill(clrTransparent);
+    if (!(pixmapHeaderIcon = CreatePixmap(osd, "pixmapHeaderIcon", 2, cRect(iconX, 2, logoWidth, logoHeight)))) {
+         return left;
+    }
+    PixmapFill(pixmapHeaderIcon, clrTransparent);
+
     if (initial && config.GetValue("animation") && config.GetValue("menuFadeTime")) {
         pixmapHeaderIcon->SetAlpha(0);
     }
@@ -488,14 +518,15 @@ int cNopacityDisplayMenuView::ShowHeaderIconChannelLogo(const char *Title, bool 
 }
 
 void cNopacityDisplayMenuView::DestroyHeaderIcon(void) {
-    if (pixmapHeaderIcon) {
-        osd->DestroyPixmap(pixmapHeaderIcon);
-        pixmapHeaderIcon = NULL;
-    }
+    osd->DestroyPixmap(pixmapHeaderIcon);
+    pixmapHeaderIcon = NULL;
 }
 
 void cNopacityDisplayMenuView::DrawHeaderLabel(int left, cString label) {
-    pixmapHeaderLabel->Fill(clrTransparent);
+    if (!pixmapHeaderLabel)
+        return;
+
+    PixmapFill(pixmapHeaderLabel, clrTransparent);
     int labelW = fontManager->menuHeader->Width(label);
     int labelX = (menuAdjustLeft) ? (left)
                 : (geoManager->osdWidth - geoManager->menuDateWidth - labelW - left - 2*geoManager->menuSpace);
@@ -508,9 +539,12 @@ void cNopacityDisplayMenuView::DrawHeaderLabel(int left, cString label) {
 }
 
 void cNopacityDisplayMenuView::DrawDate(bool initial) {
+    if (!pixmapDate)
+        return;
+
     cString date = DayDateTime();
     if (initial || strcmp(date, lastDate)) {
-        pixmapDate->Fill(clrTransparent);
+        PixmapFill(pixmapDate, clrTransparent);
         int dateW = fontManager->menuDate->Width(date);
         int dateX = (menuAdjustLeft) ? (geoManager->menuDateWidth - dateW - 2*geoManager->menuSpace) : (geoManager->menuSpace);
         pixmapDate->DrawText(cPoint(dateX, (geoManager->menuHeaderHeight - fontManager->menuDate->Height()) / 2), date, Theme.Color(clrMenuFontDate), clrTransparent, fontManager->menuDate);
@@ -519,11 +553,14 @@ void cNopacityDisplayMenuView::DrawDate(bool initial) {
 }
 
 void cNopacityDisplayMenuView::DrawDiskUsage(void) {
+    if (!(pixmapDiskUsage && pixmapDiskUsageIcon && pixmapDiskUsageLabel))
+        return;
+
     int iconWidth = geoManager->menuDiskUsageWidth * 3/4;
     int DiskUsage = cVideoDiskUsage::UsedPercent();
     bool DiskAlert = DiskUsage > diskUsageAlert;
     tColor bgColor = DiskAlert ? Theme.Color(clrDiskAlert) : Theme.Color(clrMenuBack);
-    pixmapDiskUsage->Fill(Theme.Color(clrMenuBorder));
+    PixmapFill(pixmapDiskUsage, Theme.Color(clrMenuBorder));
     pixmapDiskUsage->DrawRectangle(cRect(2,2,geoManager->menuDiskUsageWidth-4, geoManager->menuDiskUsageHeight-4), bgColor);
     cImage *imgDisc = imgCache->GetSkinIcon("skinIcons/DiskUsage");
     if (imgDisc)
@@ -531,7 +568,7 @@ void cNopacityDisplayMenuView::DrawDiskUsage(void) {
     cImage *imgDiscPerc = imgCache->GetSkinIcon("skinIcons/discpercent");
     if (imgDiscPerc)
         pixmapDiskUsageIcon->DrawImage(cPoint(0,4*geoManager->menuDiskUsageHeight/5), *imgDiscPerc);
-    pixmapDiskUsageLabel->Fill(clrTransparent);
+    PixmapFill(pixmapDiskUsageLabel, clrTransparent);
     cString usage = cString::sprintf("%d%%", DiskUsage);
     cString rest;
     if (config.GetValue("discUsageStyle") == 0)
@@ -548,20 +585,18 @@ void cNopacityDisplayMenuView::DrawDiskUsage(void) {
 }
 
 void cNopacityDisplayMenuView::ShowDiskUsage(bool show) {
-    if (show) {
-        pixmapDiskUsage->SetLayer(2);
-        pixmapDiskUsageIcon->SetLayer(3);
-        pixmapDiskUsageLabel->SetLayer(4);
-    } else {
-        pixmapDiskUsage->SetLayer(-1);
-        pixmapDiskUsageIcon->SetLayer(-1);
-        pixmapDiskUsageLabel->SetLayer(-1);
-    }
+    if (!(pixmapDiskUsage && pixmapDiskUsageIcon && pixmapDiskUsageLabel))
+        return;
+
+    pixmapDiskUsage->SetLayer(show ? 2 : -1);
+    pixmapDiskUsageIcon->SetLayer(show ? 3 : -1);
+    pixmapDiskUsageLabel->SetLayer(show ? 4 : -1);
 }
 
 void cNopacityDisplayMenuView::DrawButton(const char *text, eSkinElementType seButton, tColor buttonColor, tColor borderColor, tColor fontColor, int num) {
-    if (num < 0)
+    if (!pixmapFooter || num < 0)
         return;
+
     int top = 2*geoManager->menuButtonsBorder;
     int left = num * geoManager->menuButtonWidth + (2*num + 1) * geoManager->menuButtonsBorder;
     if (config.GetValue("displayType") == dtBlending) {
@@ -599,7 +634,7 @@ void cNopacityDisplayMenuView::DrawButton(const char *text, eSkinElementType seB
 }
 
 void cNopacityDisplayMenuView::ClearButton(void) {
-    pixmapFooter->Fill(clrTransparent);
+    PixmapFill(pixmapFooter, clrTransparent);
 }
 
 int cNopacityDisplayMenuView::GetTimersInitHeight(void) {
@@ -637,6 +672,9 @@ cNopacityTimer *cNopacityDisplayMenuView::DrawTimer(const cTimer *Timer, int y) 
 }
 
 void cNopacityDisplayMenuView::DrawScrollbar(double Height, double Offset) {
+    if (!(pixmapScrollbar && pixmapScrollbarBack))
+        return;
+
     int totalHeight = pixmapScrollbar->ViewPort().Height() - 6;
     int height = Height * totalHeight;
     int offset = Offset * totalHeight;
@@ -645,16 +683,16 @@ void cNopacityDisplayMenuView::DrawScrollbar(double Height, double Offset) {
         if (image)
             pixmapScrollbarBack->DrawImage(cPoint(0, 0), *image);
     } else {
-        pixmapScrollbarBack->Fill(Theme.Color(clrMenuScrollBar));
+        PixmapFill(pixmapScrollbarBack, Theme.Color(clrMenuScrollBar));
         pixmapScrollbarBack->DrawRectangle(cRect(2,2,geoManager->menuWidthScrollbar-4,totalHeight+2), Theme.Color(clrMenuScrollBarBack));
     }
-    pixmapScrollbar->Fill(clrTransparent);
+    PixmapFill(pixmapScrollbar, clrTransparent);
     pixmapScrollbar->DrawRectangle(cRect(3,3 + offset,geoManager->menuWidthScrollbar-6,height), Theme.Color(clrMenuScrollBar));
 }
 
 void cNopacityDisplayMenuView::ClearScrollbar(void) {
-    pixmapScrollbar->Fill(clrTransparent);
-    pixmapScrollbarBack->Fill(clrTransparent);
+    PixmapFill(pixmapScrollbar, clrTransparent);
+    PixmapFill(pixmapScrollbarBack, clrTransparent);
 }
 
 
