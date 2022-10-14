@@ -310,8 +310,8 @@ cString cNopacityConfig::checkSlashAtEnd(std::string path) {
     try {
         if (!(path.at(path.size()-1) == '/'))
             return cString::sprintf("%s/", path.c_str());
-    } catch (...) {return path.c_str();}
-    return path.c_str();
+    } catch (...) {return cString::sprintf("%s", path.c_str());}
+    return cString::sprintf("%s", path.c_str());
 }
 
 void cNopacityConfig::LoadThemeSpecificConfigs(void) {
