@@ -10,8 +10,8 @@ private:
     cOsd *osd;
     cFont *font;
     cFont *fontHeader;
-    cPixmap *pixmapBackground;
-    cPixmap *pixmap;
+    cPixmap *pixmapBackground = NULL;
+    cPixmap *pixmap = NULL;
     cRect *geometry;
     int drawportHeight;
     cRect *vidWin;
@@ -29,7 +29,7 @@ private:
     ScraperGetPoster posterScraper2Vdr;
     int posterWidth, posterHeight;
     bool SetTextScroller(int border, int left);
-    void CreatePixmap(void);
+    void CreatePixmapWindow(void);
     void CreatePixmapFullScreen(void);
     void DrawText(int border, int left);
     void DrawPoster(int border);

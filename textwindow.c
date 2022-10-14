@@ -10,8 +10,6 @@ cNopacityTextWindow::cNopacityTextWindow(cOsd *osd, cFont *font, cRect *vidWin) 
     this->font = font;
     this->fontHeader = NULL;
     this->vidWin = vidWin;
-    pixmapBackground = NULL;
-    pixmap = NULL;
     scaledWindow = false;
     posterWidth = 0;
     posterHeight = 0;
@@ -25,8 +23,6 @@ cNopacityTextWindow::cNopacityTextWindow(cOsd *osd, cFont *font, cFont *fontHead
     this->font = font;
     this->fontHeader = fontHeader;
     this->vidWin = NULL;
-    pixmapBackground = NULL;
-    pixmap = NULL;
     scaledWindow = false;
     posterWidth = 0;
     posterHeight = 0;
@@ -39,14 +35,8 @@ cNopacityTextWindow::~cNopacityTextWindow(void) {
     Cancel(-1);
     while (Active())
         cCondWait::SleepMs(10);
-    if (pixmapBackground) {
-        osd->DestroyPixmap(pixmapBackground);
-        pixmapBackground = NULL;
-    }
-    if (pixmap) {
-        osd->DestroyPixmap(pixmap);
-        pixmap = NULL;
-    }
+    osd->DestroyPixmap(pixmapBackground);
+    osd->DestroyPixmap(pixmap);
     if ((config.GetValue("scalePicture") == 2) && scaledWindow) {
         cRect vidWinNew = cDevice::PrimaryDevice()->CanScaleVideo(oldVidWin);
         if (vidWinNew != cRect::Null) {
@@ -164,33 +154,38 @@ bool cNopacityTextWindow::SetTextScroller(int border, int left) {
     return scrolling;
 }
 
-void cNopacityTextWindow::CreatePixmap(void) {
+void cNopacityTextWindow::CreatePixmapWindow(void) {
     cPixmap::Lock();
-    pixmapBackground = osd->CreatePixmap(4, cRect(geometry->X()-1, geometry->Y()-1, geometry->Width()+2, geometry->Height()+2));
-    pixmap = osd->CreatePixmap(5, cRect(geometry->X(), geometry->Y(), geometry->Width(), geometry->Height()),
-                                  cRect(0, 0, geometry->Width(), drawportHeight));
-    pixmapBackground->Fill(Theme.Color(clrMenuBorder));
-    pixmapBackground->DrawRectangle(cRect(1, 1, geometry->Width(), geometry->Height()), clrBlack);
-    pixmap->Fill(Theme.Color(clrMenuBack));
+    pixmapBackground = CreatePixmap(osd, "pixmapBackground", 4, cRect(geometry->X()-1, geometry->Y()-1, geometry->Width()+2, geometry->Height()+2));
+    pixmap = CreatePixmap(osd, "pixmap", 5, cRect(geometry->X(), geometry->Y(), geometry->Width(), geometry->Height()),
+                                            cRect(0, 0, geometry->Width(), drawportHeight));
+    PixmapFill(pixmapBackground, Theme.Color(clrMenuBorder));
+    PixmapFill(pixmap, Theme.Color(clrMenuBack));
+    if (pixmapBackground)
+        pixmapBackground->DrawRectangle(cRect(1, 1, geometry->Width(), geometry->Height()), clrBlack);
     if (config.GetValue("animation") && config.GetValue("menuEPGWindowFadeTime"))
         SetAlpha();
     cPixmap::Unlock();
 }
 
 void cNopacityTextWindow::CreatePixmapFullScreen(void) {
-    pixmapBackground = osd->CreatePixmap(4, cRect(geometry->X()-1, geometry->Y()-1, geometry->Width()+2, geometry->Height()+2));
-    pixmap = osd->CreatePixmap(5, cRect(geometry->X(), geometry->Y(), geometry->Width(), geometry->Height()));
-    pixmapBackground->Fill(Theme.Color(clrMenuBorder));
-    pixmapBackground->DrawRectangle(cRect(1, 1, geometry->Width(), geometry->Height()), Theme.Color(clrMenuTextWindow));
-    pixmap->Fill(clrTransparent);
+    pixmapBackground = CreatePixmap(osd, "pixmapBackground", 4, cRect(geometry->X()-1, geometry->Y()-1, geometry->Width()+2, geometry->Height()+2));
+    pixmap = CreatePixmap(osd, "pixmap", 5, cRect(geometry->X(), geometry->Y(), geometry->Width(), geometry->Height()));
+    PixmapFill(pixmapBackground, Theme.Color(clrMenuBorder));
+    PixmapFill(pixmap, clrTransparent);
+    if (pixmapBackground)
+        pixmapBackground->DrawRectangle(cRect(1, 1, geometry->Width(), geometry->Height()), Theme.Color(clrMenuTextWindow));
 }
 
 void cNopacityTextWindow::SetAlpha(int Alpha) {
-    if (pixmapBackground) pixmapBackground->SetAlpha(Alpha);
-    if (pixmap) pixmap->SetAlpha(Alpha);
+    PixmapSetAlpha(pixmapBackground, Alpha);
+    PixmapSetAlpha(pixmap, Alpha);
 }
 
 void cNopacityTextWindow::DrawText(int border, int left) {
+    if (!pixmap)
+        return;
+
     int lineHeight = font->Height();
     int currentLineHeight = lineHeight/2;
     tColor clrFontBack = (config.GetValue("displayType") != dtFlat)?(clrTransparent):(Theme.Color(clrMenuBack));
@@ -213,7 +208,11 @@ void cNopacityTextWindow::DrawText(int border, int left) {
 void cNopacityTextWindow::SetEvent(const cEvent *event) {
     if (!event)
         return;
+
     CreatePixmapFullScreen();
+    if (!pixmap)
+        return;
+
     int border = config.GetValue("borderDetailedEPG");
     int width = geometry->Width();
     int height = geometry->Height();
@@ -257,6 +256,9 @@ void cNopacityTextWindow::SetRecording(const cRecording *recording) {
     if (!recording)
         return;
     CreatePixmapFullScreen();
+    if (!pixmap)
+        return;
+
     int border = config.GetValue("borderDetailedRecordings");
     int width = geometry->Width();
     int height = geometry->Height();
@@ -384,6 +386,9 @@ void cNopacityTextWindow::DrawTextWrapperFloat(const char *text, int widthSmall,
 }
 
 void cNopacityTextWindow::DrawPoster(int border) {
+    if (!pixmap)
+        return;
+
     int posterY = font->Height() / 2;
     cImageLoader imgLoader;
     if (hasManualPoster) {
@@ -435,7 +440,7 @@ void cNopacityTextWindow::Action(void) {
     bool scrolling = false;
     if (Running()) {
         scrolling = SetTextScroller(border, left);
-        CreatePixmap();
+        CreatePixmapWindow();
     }
     if (Running()) {
         DrawText(border, left);
@@ -466,7 +471,7 @@ void cNopacityTextWindow::Action(void) {
         }
     }
 
-    if (scrolling && Running()) {
+    if (pixmap && scrolling && Running()) {
         int scrollDelay = config.GetValue("menuInfoScrollDelay") * 1000;
         DoSleep(scrollDelay);
         int drawPortY;
