@@ -5,8 +5,11 @@
 
 cNopacityMessageBox::cNopacityMessageBox(cOsd *Osd, const cRect &Rect, eMessageType Type, const char *Text, bool isMenuMessage) {
   osd = Osd;
-  pixmap = osd->CreatePixmap(7, Rect);
-  pixmapBackground = osd->CreatePixmap(6, Rect);
+  pixmap = CreatePixmap(osd, "pixmap", 7, Rect);
+  pixmapBackground = CreatePixmap(osd, "pixmapBackground", 6, Rect);
+
+  if (!pixmap || !pixmapBackground)
+      return;
 
   tColor col;
   tColor colFont;
@@ -34,15 +37,15 @@ cNopacityMessageBox::cNopacityMessageBox(cOsd *Osd, const cRect &Rect, eMessageT
     break;
   }
 
-  pixmap->Fill(clrTransparent);
+  PixmapFill(pixmap, clrTransparent);
   if (config.GetValue("displayType") == dtGraphical) {
-    pixmapBackground->Fill(clrTransparent);
+    PixmapFill(pixmapBackground, clrTransparent);
     cImage *imgBack = imgCache->GetSkinElement(seType);
     if (imgBack) {
       pixmapBackground->DrawImage(cPoint(0, 0), *imgBack);
     }
   } else {
-    pixmapBackground->Fill(col);
+    PixmapFill(pixmapBackground, col);
     if (config.GetValue("displayType") == dtBlending) {
       cImage imgBack = imgCache->GetBackground(Theme.Color(clrMessageBlend), col, Rect.Width()-2, Rect.Height()-2, true);
       pixmapBackground->DrawImage(cPoint(1, 1), imgBack);
@@ -66,6 +69,6 @@ cNopacityMessageBox::~cNopacityMessageBox() {
 }
 
 void cNopacityMessageBox::SetAlpha(int Alpha) {
-  pixmap->SetAlpha(Alpha);
-  pixmapBackground->SetAlpha(Alpha);
+  PixmapSetAlpha(pixmap, Alpha);
+  PixmapSetAlpha(pixmapBackground, Alpha);
 }
