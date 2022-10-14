@@ -46,6 +46,9 @@ void PixmapFill(cPixmap *pixmap, tColor Color) {
 }
 
 void DrawBlendedBackground(cPixmap *pixmap, int xStart, int width, tColor color, tColor colorBlending, bool fromTop) {
+    if (!pixmap)
+        return;
+
     int height = pixmap->ViewPort().Height();
     int numSteps = 16;
     int alphaStep = 0x0F;
@@ -72,7 +75,7 @@ void DrawBlendedBackground(cPixmap *pixmap, int xStart, int width, tColor color,
 }
 
 void DrawRoundedCorners(cPixmap *p, int radius, int x, int y, int width, int height) {
-    if (radius > 2) {
+    if (p && (radius > 2)) {
         p->DrawEllipse(cRect(x, y, radius, radius), clrTransparent, -2);
         p->DrawEllipse(cRect(x + width - radius, y , radius, radius), clrTransparent, -1);
         p->DrawEllipse(cRect(x, y + height - radius, radius, radius), clrTransparent, -3);
@@ -81,8 +84,9 @@ void DrawRoundedCorners(cPixmap *p, int radius, int x, int y, int width, int hei
 }
 
 void DrawRoundedCornersWithBorder(cPixmap *p, tColor borderColor, int radius, int width, int height) {
-    if (radius < 3)
+    if (!p || (radius < 3))
         return;
+
     p->DrawEllipse(cRect(0,0,radius,radius), borderColor, -2);
     p->DrawEllipse(cRect(-1,-1,radius,radius), clrTransparent, -2);
 
@@ -97,6 +101,9 @@ void DrawRoundedCornersWithBorder(cPixmap *p, tColor borderColor, int radius, in
 }
 
 void DrawProgressbar(cPixmap *p, int left, int top, int width, int height, int Current, int Total, tColor clr1, tColor clr2, bool blend) {
+    if (!p)
+        return;
+
     if (Current == 0) {
         p->DrawEllipse(cRect(left, top, height, height), blend ? clr2 : clr1);
         return;
