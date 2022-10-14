@@ -33,10 +33,10 @@ void cNopacityTimer::SetGeometry(int width, int y) {
 }
 
 void cNopacityTimer::SetAlpha(int alpha) {
-    pixmapBackground->SetAlpha(alpha);
-    pixmap->SetAlpha(alpha);
-    pixmapLogo->SetAlpha(alpha);
-    pixmapText->SetAlpha(alpha);
+    PixmapSetAlpha(pixmapBackground, alpha);
+    PixmapSetAlpha(pixmap, alpha);
+    PixmapSetAlpha(pixmapLogo, alpha);
+    PixmapSetAlpha(pixmapText, alpha);
 }
 
 void cNopacityTimer::Show(void) {
@@ -124,18 +124,21 @@ void cNopacityTimer::CalculateHeight(int space) {
 }
 
 void cNopacityTimer::CreatePixmaps(int x) {
-    pixmapBackground = osd->CreatePixmap(2, cRect(x, y, width, height));
-    pixmap = osd->CreatePixmap(3, cRect(x, y, width, height));
-    pixmapLogo = osd->CreatePixmap(4, cRect(x, y, width, height));
-    pixmapText = osd->CreatePixmap(5, cRect(x, y, width, height));
+    pixmapBackground = CreatePixmap(osd, "pixmapBackground", 2, cRect(x, y, width, height));
+    pixmap = CreatePixmap(osd, "pixmap", 3, cRect(x, y, width, height));
+    pixmapLogo = CreatePixmap(osd, "pixmapLogo", 4, cRect(x, y, width, height));
+    pixmapText = CreatePixmap(osd, "pixmapText", 5, cRect(x, y, width, height));
 }
 
 void cNopacityTimer::Render(void) {
-    pixmapBackground->Fill(clrTransparent);
-    pixmapText->Fill(clrTransparent);
+    PixmapFill(pixmapBackground, clrTransparent);
+    PixmapFill(pixmapText, clrTransparent);
+    if (!pixmap || !pixmapText)
+        return;
+
     if (isTimerConflict) {
-        pixmapLogo->Fill(clrTransparent);
-        pixmap->Fill(Theme.Color(clrDiskAlert));
+        PixmapFill(pixmapLogo, clrTransparent);
+        PixmapFill(pixmap, Theme.Color(clrDiskAlert));
         if (config.GetValue("displayType") == dtBlending) {
             cImage imgBack = imgCache->GetBackground(Theme.Color(clrDiskAlert), Theme.Color(clrMenuItemHigh), width-2, height-2);
             pixmap->DrawImage(cPoint(1,1), imgBack);
@@ -183,6 +186,9 @@ void cNopacityTimer::Render(void) {
 }
 
 int cNopacityTimer::DrawLogo(void) {
+    if (!pixmapLogo)
+       return 0;
+
     int totalHeight = 0;
     pixmapLogo->Fill(clrTransparent);
     int showTimerLogo = (config.GetValue("showTimers") < 2) ? 1 : 0;
