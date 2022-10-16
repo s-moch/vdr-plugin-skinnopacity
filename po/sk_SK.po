@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: vdr-skinnopacity\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2022-11-04 17:06+0100\n"
+"POT-Creation-Date: 2022-11-13 11:08+0100\n"
 "PO-Revision-Date: 2013-11-11 20:52+0100\n"
 "Last-Translator: Milan Hrala <hrala.milan@gmail.com>\n"
 "Language-Team: \n"
@@ -119,20 +119,14 @@ msgstr ""
 msgid "TheMovieDB Vote Average"
 msgstr ""
 
-msgid "free"
-msgstr "voµné"
-
-msgid "images"
-msgstr "obrázkov"
+msgid "Actors"
+msgstr "Herci"
 
 msgid "min"
 msgstr "min"
 
-msgid "Reruns of "
-msgstr ""
-
-msgid "No reruns found"
-msgstr ""
+msgid "RERUNS OF THIS SHOW"
+msgstr "Repríza"
 
 msgid "Size"
 msgstr "Veµkos»"
@@ -155,11 +149,17 @@ msgstr ""
 msgid "Search timer"
 msgstr "Vyhµada» plán"
 
-msgid "Actors"
-msgstr "Herci"
+msgid "free"
+msgstr "voµné"
 
-msgid "RERUNS OF THIS SHOW"
-msgstr "Repríza"
+msgid "images"
+msgstr "obrázkov"
+
+msgid "Reruns of "
+msgstr ""
+
+msgid "No reruns found"
+msgstr ""
 
 msgid "Transp."
 msgstr "Transp."

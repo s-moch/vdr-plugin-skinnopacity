@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2022-11-04 17:06+0100\n"
+"POT-Creation-Date: 2022-11-13 11:08+0100\n"
 "PO-Revision-Date: 2013-03-19 22:56+0100\n"
 "Last-Translator: Gabychan <gbonich@gmail.com>\n"
 "Language-Team: \n"
@@ -122,20 +122,14 @@ msgstr ""
 msgid "TheMovieDB Vote Average"
 msgstr ""
 
-msgid "free"
-msgstr "lliure"
-
-msgid "images"
-msgstr "imatges"
+msgid "Actors"
+msgstr "Actors"
 
 msgid "min"
 msgstr "min"
 
-msgid "Reruns of "
-msgstr ""
-
-msgid "No reruns found"
-msgstr ""
+msgid "RERUNS OF THIS SHOW"
+msgstr "REEMISSIONS"
 
 msgid "Size"
 msgstr "Mida"
@@ -158,11 +152,17 @@ msgstr ""
 msgid "Search timer"
 msgstr "Cerca timer"
 
-msgid "Actors"
-msgstr "Actors"
+msgid "free"
+msgstr "lliure"
 
-msgid "RERUNS OF THIS SHOW"
-msgstr "REEMISSIONS"
+msgid "images"
+msgstr "imatges"
+
+msgid "Reruns of "
+msgstr ""
+
+msgid "No reruns found"
+msgstr ""
 
 msgid "Transp."
 msgstr "Transponedor"

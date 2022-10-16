@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2022-11-04 15:58+0100\n"
+"POT-Creation-Date: 2022-11-13 11:08+0100\n"
 "PO-Revision-Date: 2012-11-11 17:49+0200\n"
 "Last-Translator: louis\n"
 "Language-Team: \n"
@@ -119,20 +119,14 @@ msgstr "TheMovieDB Popularität"
 msgid "TheMovieDB Vote Average"
 msgstr "TheMovieDB durchschnittliche Bewertung"
 
-msgid "free"
-msgstr "frei"
-
-msgid "images"
-msgstr "Bilder"
+msgid "Actors"
+msgstr "Schauspieler"
 
 msgid "min"
 msgstr "min"
 
-msgid "Reruns of "
-msgstr "Wiederholungen der Sendung "
-
-msgid "No reruns found"
-msgstr "Keine Wiederholungen gefunden"
+msgid "RERUNS OF THIS SHOW"
+msgstr "Wiederholungen dieser Sendung"
 
 msgid "Size"
 msgstr "Größe"
@@ -155,11 +149,17 @@ msgstr "TS Fehler"
 msgid "Search timer"
 msgstr "Suchtimer"
 
-msgid "Actors"
-msgstr "Schauspieler"
+msgid "free"
+msgstr "frei"
 
-msgid "RERUNS OF THIS SHOW"
-msgstr "Wiederholungen dieser Sendung"
+msgid "images"
+msgstr "Bilder"
+
+msgid "Reruns of "
+msgstr "Wiederholungen der Sendung "
+
+msgid "No reruns found"
+msgstr "Keine Wiederholungen gefunden"
 
 msgid "Transp."
 msgstr "Transp."
