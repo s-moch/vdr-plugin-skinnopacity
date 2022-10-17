@@ -81,6 +81,19 @@ void cNopacityView::SetFonts(void) {
     fontHeader = cFont::CreateFont(config.fontName, headerHeight / 6 + config.GetValue("fontDetailViewHeader"));
 }
 
+void cNopacityView::DrawTextWrapper(cTextWrapper *wrapper, int y) {
+    if (!pixmapContent || y > contentDrawPortHeight)
+        return;
+           
+    int linesText = wrapper->Lines();
+    int textHeight = font->Height();
+    int currentHeight = y;
+    for (int i = 0; i < linesText; i++) {
+        pixmapContent->DrawText(cPoint(border, currentHeight), wrapper->GetLine(i), Theme.Color(clrMenuFontDetailViewText), clrTransparent, font);
+        currentHeight += textHeight;
+    }
+}      
+
 void cNopacityView::DrawHeader(void) {
     if (!pixmapHeader) {
         if (!(pixmapHeader = CreatePixmap(osd, "pixmapHeader", 4, cRect(x, y, width, headerHeight)))) {
@@ -1133,19 +1146,6 @@ void cNopacityMenuDetailViewLight::SetGeometry(int x, int top, int width, int he
     SetContent();
     SetContentHeight();
     CreatePixmaps();
-}
-
-void cNopacityMenuDetailViewLight::DrawTextWrapper(cTextWrapper *wrapper, int top) {
-    if (!pixmapContent || top > contentDrawPortHeight)
-        return;
-
-    int linesText = wrapper->Lines();
-    int textHeight = font->Height();
-    int currentHeight = top;
-    for (int i=0; i < linesText; i++) {
-        pixmapContent->DrawText(cPoint(border, currentHeight), wrapper->GetLine(i), Theme.Color(clrMenuFontDetailViewText), clrTransparent, font);
-        currentHeight += textHeight;
-    }
 }
 
 int cNopacityMenuDetailViewLight::HeightActorPics(void) {

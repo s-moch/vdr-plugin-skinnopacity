@@ -48,6 +48,7 @@ protected:
     int width, height;
     int border;
     int headerHeight, contentHeight, tabHeight;
+    int contentDrawPortHeight;
     std::vector<std::string> tabs;
     std::string title;
     std::string subTitle;
@@ -59,6 +60,8 @@ protected:
     std::string recFileName;
     bool headerDrawn;
     void SetFonts(void);
+    cTextWrapper scrapInfo;
+    void DrawTextWrapper(cTextWrapper *wrapper, int top);
     void DrawHeader(void);
     void ClearContent(void);
     void CreateContent(int fullHeight);
@@ -165,8 +168,6 @@ protected:
     int headerHeight;
     int contentWidth;
     int contentX;
-    int contentHeight;
-    int contentDrawPortHeight;
     int widthPoster;
     int border;
     int yBanner;
@@ -190,8 +191,6 @@ protected:
     cSeries series;
     bool isMovie;
     bool isSeries;
-    cTextWrapper scrapInfo;
-    void DrawTextWrapper(cTextWrapper *wrapper, int top);
     int HeightActorPics(void);
     int HeightScraperInfo(void);
     int HeightFanart(void);
