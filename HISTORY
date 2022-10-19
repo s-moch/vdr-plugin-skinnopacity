@@ -1,5 +1,10 @@
 VDR Plugin 'nOpacity' Revision History
 ---------------------------------------
+Version 1.1.13
+
+- Added NULL checking of all pixmaps to prevent a possible segfault
+- Don't show emty actor pictures in detailview
+
 Version 1.1.12
 
 - Add display volume to DisplayMenu, DisplayChannel and DisplayReplay
