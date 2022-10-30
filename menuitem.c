@@ -875,17 +875,20 @@ void cNopacityChannelMenuItem::DrawStatic(void) {
 void cNopacityChannelMenuItem::readCurrentEPG(void) {
     LOCK_SCHEDULES_READ;
     const cSchedule *Schedule = Schedules->GetSchedule(Channel);
-	if (!Schedule) {
-		strEpgInfo = tr("No EPG Information found");
+    if (!Schedule) {
+        strEpgInfo = tr("No EPG Information found");
         strTimeInfo = "";
-	} else {
+    } else {
         const cEvent *PresentEvent = Schedule->GetPresentEvent();
         if (!PresentEvent) {
             strEpgInfo = tr("No EPG Information found");
             strTimeInfo = "";
-        } else {
+        } else if (PresentEvent->Title()) {
             strEpgInfo = PresentEvent->Title();
             strTimeInfo = *cString::sprintf("%s - %s:", *PresentEvent->GetTimeString(), *PresentEvent->GetEndTimeString());
+        } else {
+            strEpgInfo = "";
+            strTimeInfo = "";
         }
     }
 }
@@ -894,9 +897,9 @@ std::string cNopacityChannelMenuItem::readEPG(void) {
     std::stringstream sstrText;
     LOCK_SCHEDULES_READ;
     const cSchedule *Schedule = Schedules->GetSchedule(Channel);
-	if (!Schedule) {
-		sstrText << tr("No EPG Information found");
-	} else {
+    if (!Schedule) {
+        sstrText << tr("No EPG Information found");
+    } else {
         const cEvent *PresentEvent = Schedule->GetPresentEvent();
         int i=0;
         if (!PresentEvent) {
