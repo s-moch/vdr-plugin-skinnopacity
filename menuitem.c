@@ -1298,13 +1298,13 @@ void cNopacityRecordingMenuItem::SetTextShortFolder(void) {
     if (!pixmapTextScroller)
         return;
 
-    tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
+    tColor clrFont = (current) ? Theme.Color(clrMenuFontMenuItemHigh) : Theme.Color(clrMenuFontMenuItem);
     PixmapFill(pixmapTextScroller, clrTransparent);
     if (config.GetValue("useFolderPoster") && (hasPoster || hasThumb || hasManualPoster))
         DrawPoster();
     else
         DrawFolderIcon();
-    int heightRecName = (2*height/3 - font->Height())/2 + 10;
+    int heightRecName = (7 * height / 10 - font->Height()) / 2;
     pixmapTextScroller->DrawText(cPoint(5, heightRecName), strRecName.c_str(), clrFont, clrTransparent, font);
 }
 
@@ -1312,16 +1312,20 @@ void cNopacityRecordingMenuItem::SetTextShortRecording(void) {
     if (!pixmapTextScroller)
         return;
 
-    tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
+    tColor clrFont = (current) ? Theme.Color(clrMenuFontMenuItemHigh) : Theme.Color(clrMenuFontMenuItem);
     PixmapFill(pixmapTextScroller, clrTransparent);
     int textLeft = 5;
-    int heightRecName = (height / 2 - font->Height())/2;
+    int heightRecName = (height - font->Height()) / 2;
+    if (config.GetValue("menuRecordingsShowLine2") && config.GetValue("menuRecordingsShowLine3"))
+        heightRecName = (height / 2 - font->Height()) / 2;
+    else if (config.GetValue("menuRecordingsShowLine2") || config.GetValue("menuRecordingsShowLine3"))
+        heightRecName = (2 * height / 3 - font->Height()) / 2;
     pixmapTextScroller->DrawText(cPoint(textLeft, heightRecName), strRecName.c_str(), clrFont, clrTransparent, font);
 }
 
-void cNopacityRecordingMenuItem::DrawRecordingIcons(void) {
+int cNopacityRecordingMenuItem::DrawRecordingIcons(void) {
     if (!pixmapStatic)
-	return;
+        return 0;
 
     int iconSize = height / 3;
     int iconX = pixmapStatic->ViewPort().Width();
@@ -1347,6 +1351,7 @@ void cNopacityRecordingMenuItem::DrawRecordingIcons(void) {
         pixmapStatic->DrawImage(cPoint(iconX, iconY), *imgIconErr);
     }
 #endif
+    return iconX;
 }
 
 void cNopacityRecordingMenuItem::DrawFolderIcon(void) {
@@ -1355,7 +1360,8 @@ void cNopacityRecordingMenuItem::DrawFolderIcon(void) {
 
     cImage *imgIcon = imgCache->GetSkinIcon("skinIcons/recfolder", posterWidth, posterHeight);
     if (imgIcon) {
-        pixmapStatic->DrawImage(cPoint(10, 1), *imgIcon);
+        int y = (height - imgIcon->Height()) /2;
+        pixmapStatic->DrawImage(cPoint(10, y), *imgIcon);
     }
 }
 
@@ -1386,30 +1392,37 @@ void cNopacityRecordingMenuItem::DrawRecDateTime(void) {
         } else {
             strDateTime = cString::sprintf("%s - %s", strDate.c_str(), *strTime);
         }
-        if (config.GetValue("menuRecordingsErrorMode") == 1)
+        if (config.GetValue("menuRecordingsErrorMode") == 1 && !isempty(strError))
             strDateTime = cString::sprintf("%s, %s", *strDateTime, *strError);
         int duration = Event->Duration() / 60;
         int recDuration = Recording->LengthInSeconds();
         recDuration = (recDuration > 0) ? (recDuration / 60) : 0;
-	if (config.GetValue("menuRecordingsErrorMode") == 2)
-           strDuration = cString::sprintf("%s: %d %s, %s: %d %s, %s", tr("Duration"), duration, tr("min"), tr("recording"), recDuration, tr("min"), *strError);
-        else
-           strDuration = cString::sprintf("%s: %d %s, %s: %d %s", tr("Duration"), duration, tr("min"), tr("recording"), recDuration, tr("min"));
+	strDuration = cString::sprintf("%s: %d %s, %s: %d %s", tr("Duration"), duration, tr("min"), tr("recording"), recDuration, tr("min"));
+	if (config.GetValue("menuRecordingsErrorMode") == 2 && !isempty(strError))
+            strDuration = cString::sprintf("%s, %s", *strDuration, *strError);
     }
-    int textHeight = height / 2 + (height / 4 - fontSmall->Height()) / 2;
-    tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
-    pixmapStatic->DrawText(cPoint(10 + left, textHeight), *strDateTime, clrFont, clrTransparent, fontSmall);
-    textHeight += height / 4;
-    pixmapStatic->DrawText(cPoint(10 + left, textHeight), *strDuration, clrFont, clrTransparent, fontSmall);
+    int textHeight = 0;
+    tColor clrFont = (current) ? Theme.Color(clrMenuFontMenuItemHigh) : Theme.Color(clrMenuFontMenuItem);
+    if (config.GetValue("menuRecordingsShowLine2") && config.GetValue("menuRecordingsShowLine3"))
+        textHeight = height / 2 + (height / 4 - fontSmall->Height()) / 2;
+    else if (config.GetValue("menuRecordingsShowLine2") || config.GetValue("menuRecordingsShowLine3"))
+        textHeight = 2 * height / 3 + (height / 3 - fontSmall->Height()) / 2;
+    if (config.GetValue("menuRecordingsShowLine2")) {
+        pixmapStatic->DrawText(cPoint(10 + left, textHeight), *strDateTime, clrFont, clrTransparent, fontSmall);
+        textHeight += height / 4;
+    }
+    if (config.GetValue("menuRecordingsShowLine3")) {
+        pixmapStatic->DrawText(cPoint(10 + left, textHeight), *strDuration, clrFont, clrTransparent, fontSmall);
+    }
 }
 
 void cNopacityRecordingMenuItem::DrawFolderNewSeen(void) {
     if (!pixmapStatic)
         return;
 
-    int textHeight = 2*height/3 + (height/3 - fontSmall->Height())/2 - 10;
-    cString strTotalNew = cString::sprintf("%d %s (%d %s)", Total, (Total > 1)?tr("recordings"):tr("recording"), New, tr("new"));
-    tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
+    int textHeight = 7 * height / 10; // + (3 * height / 10 - fontSmall->Height()) / 3;
+    cString strTotalNew = cString::sprintf("%d %s (%d %s)", Total, (Total > 1) ? tr("recordings") : tr("recording"), New, tr("new"));
+    tColor clrFont = (current) ? Theme.Color(clrMenuFontMenuItemHigh) : Theme.Color(clrMenuFontMenuItem);
     pixmapStatic->DrawText(cPoint(posterWidth + 30, textHeight), *strTotalNew, clrFont, clrTransparent, fontSmall);
 }
 
@@ -1422,23 +1435,25 @@ void cNopacityRecordingMenuItem::DrawPoster(void) {
     if (hasManualPoster) {
         if (imgLoader.LoadPoster(*manualPosterPath, posterWidth, posterHeight)) {
             posterDrawn = true;
-            pixmapStatic->DrawImage(cPoint(10, 5), imgLoader.GetImage());
         }
     } else if (hasThumb) {
         if (imgLoader.LoadPoster(thumb.poster.path.c_str(), posterWidth, posterHeight)) {
             posterDrawn = true;
-            pixmapStatic->DrawImage(cPoint(10, 5), imgLoader.GetImage());
         }
     }
-    if (!posterDrawn) {
-        cImage *imgIcon = imgCache->GetSkinIcon("skinIcons/defaultPoster", posterWidth, posterHeight);
-        if (imgIcon)
-            pixmapStatic->DrawImage(cPoint(10,5), *imgIcon);
+    if (posterDrawn) {
+        cImage img = imgLoader.GetImage();
+        pixmapStatic->DrawImage(cPoint(10, (height - img.Height()) /2), img);
+        return;
     }
+    cImage *imgIcon = imgCache->GetSkinIcon("skinIcons/defaultPoster", posterWidth, posterHeight);
+    if (imgIcon)
+        pixmapStatic->DrawImage(cPoint(10, (height - imgIcon->Height()) /2), *imgIcon);
 }
 
 void cNopacityRecordingMenuItem::Render(bool initial, bool fadeout) {
     if (selectable) {
+        int xIcons = 0;
         eSkinElementType type = (current) ? seRecordingsHigh : seRecordings;
         DrawBackground(type, seRecordingsTop);
 
@@ -1448,7 +1463,7 @@ void cNopacityRecordingMenuItem::Render(bool initial, bool fadeout) {
         } else {
             DrawPoster();
             DrawRecDateTime();
-            DrawRecordingIcons();
+	    xIcons = DrawRecordingIcons();
             SetTextShort();
         }
         if (config.GetValue("animation") && config.GetValue("menuScrollSpeed")) {

@@ -174,7 +174,7 @@ private:
     void SetTextShortFolder(void);
     void SetTextFullRecording(void);
     void SetTextShortRecording(void);
-    void DrawRecordingIcons(void);
+    int DrawRecordingIcons(void);
     void DrawFolderIcon(void);
     void DrawRecDateTime(void);
     void DrawFolderNewSeen(void);
