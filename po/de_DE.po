@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2022-06-08 13:07+0200\n"
+"POT-Creation-Date: 2022-11-04 14:02+0100\n"
 "PO-Revision-Date: 2012-11-11 17:49+0200\n"
 "Last-Translator: louis\n"
 "Language-Team: \n"
@@ -448,6 +448,15 @@ msgstr "Vollbild"
 
 msgid "Use narrow menu"
 msgstr "Schmales Menü verwenden"
+
+msgid "Show time"
+msgstr "Zeit anzeigen"
+
+msgid "Show short text"
+msgstr "Kurztext anzeigen"
+
+msgid "Show progress bar"
+msgstr "Fortschrittsbalken anzeigen"
 
 msgid "Mode of EPG Window"
 msgstr "EPG Fenster Modus"

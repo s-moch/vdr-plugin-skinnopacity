@@ -263,8 +263,12 @@ void cNopacitySetupMenuDisplaySchedules::Set(void) {
     Clear();
 
     Add(new cMenuEditBoolItem(tr("Use narrow menu"), tmpConf->GetValueRef("narrowScheduleMenu")));
-    if (tmpConf->GetValue("narrowScheduleMenu"))
+    if (tmpConf->GetValue("narrowScheduleMenu")) {
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Width (Percent of OSD Width)")), tmpConf->GetValueRef("menuWidthSchedules"), 10, 97));
+        Add(new cMenuEditBoolItem(cString::sprintf("%s%s", *spacer, tr("Show time")), tmpConf->GetValueRef("menuSchedulesShowTime")));
+        Add(new cMenuEditBoolItem(cString::sprintf("%s%s", *spacer, tr("Show short text")), tmpConf->GetValueRef("menuSchedulesShowShortText")));
+        Add(new cMenuEditBoolItem(cString::sprintf("%s%s", *spacer, tr("Show progress bar")), tmpConf->GetValueRef("menuSchedulesShowProgressBar")));
+    }
     Add(new cMenuEditIntItem(tr("Number of entires per page"), tmpConf->GetValueRef("numSchedulesMenuItems"), 3, 20));
     Add(new cMenuEditStraItem(tr("Mode of EPG Window"), tmpConf->GetValueRef("menuSchedulesWindowMode"), 2, windowMode));
     Add(new cMenuEditIntItem(tr("Height of EPG Info Window (Percent of OSD Height)"), tmpConf->GetValueRef("menuHeightInfoWindow"), 10, 100));

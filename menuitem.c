@@ -598,6 +598,8 @@ void cNopacityScheduleMenuItem::SetTextFull(void) {
     tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
     PixmapFill(pixmapTextScroller, clrTransparent);
     pixmapTextScroller->DrawText(cPoint(5, titleY), strTitleFull.c_str(), clrFont, clrTransparent, font);
+    if (!config.GetValue("menuSchedulesShowShortText"))
+        return;
     pixmapTextScroller->DrawText(cPoint(5, titleY + font->Height() - 2), strSubTitleFull.c_str(), clrFont, clrTransparent, fontSmall);
 }
 
@@ -608,6 +610,8 @@ void cNopacityScheduleMenuItem::SetTextShort(void) {
     tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
     PixmapFill(pixmapTextScroller, clrTransparent);
     pixmapTextScroller->DrawText(cPoint(5, titleY), strTitle.c_str(), clrFont, clrTransparent, font);
+    if (!config.GetValue("menuSchedulesShowShortText"))
+        return;
     pixmapTextScroller->DrawText(cPoint(5, titleY + font->Height() - 2), strSubTitle.c_str(), clrFont, clrTransparent, fontSmall);
 }
 
@@ -619,7 +623,7 @@ void cNopacityScheduleMenuItem::Render(bool initial, bool fadeout) {
         textLeft = logoWidth + 10;
 
     if (selectable) {
-        titleY = (height - font->Height()) / 2 - 2;
+        titleY = (height - font->Height()) / 2;
         eSkinElementType type = (current) ? seSchedulesHigh : seSchedules;
         DrawBackground(type, seSchedulesTop);
 
@@ -692,12 +696,14 @@ void cNopacityScheduleMenuItem::DrawStatic(int textLeft) {
             pixmapStatic->DrawImage(cPoint(width - 34, 2), *imgIcon);
 
     }
+    if (!config.GetValue("menuSchedulesShowTime")) 
+        return;
     tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
-    pixmapStatic->DrawText(cPoint(textLeft, 3), strDateTime.c_str(), clrFont, clrTransparent, font);
+    pixmapStatic->DrawText(cPoint(textLeft, 0), strDateTime.c_str(), clrFont, clrTransparent, font);
 }
 
 void cNopacityScheduleMenuItem::DrawRemaining(int x, int y, int width) {
-    if (!pixmapBackground || !Event)
+    if (!config.GetValue("menuSchedulesShowProgressBar") || !pixmapBackground || !Event)
         return;
 
     time_t now = time(NULL);

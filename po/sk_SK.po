@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: vdr-skinnopacity\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2022-06-08 13:07+0200\n"
+"POT-Creation-Date: 2022-11-04 14:02+0100\n"
 "PO-Revision-Date: 2013-11-11 20:52+0100\n"
 "Last-Translator: Milan Hrala <hrala.milan@gmail.com>\n"
 "Language-Team: \n"
@@ -448,6 +448,15 @@ msgstr "na celej obrazovke"
 
 msgid "Use narrow menu"
 msgstr "Pou¾i» úzku ponuku"
+
+msgid "Show time"
+msgstr ""
+
+msgid "Show short text"
+msgstr ""
+
+msgid "Show progress bar"
+msgstr ""
 
 msgid "Mode of EPG Window"
 msgstr "Spôsob zobrazenia EPG okna"
