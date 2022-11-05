@@ -1220,29 +1220,7 @@ void cNopacityRecordingMenuItem::SetPoster(void) {
 }
 
 int cNopacityRecordingMenuItem::CheckScrollable(bool hasIcon) {
-    int totalWidth = 0;
-    if (isFolder)
-        totalWidth = CheckScrollableFolder();
-    else
-        totalWidth = CheckScrollableRecording();
-    return totalWidth;
-}
-
-int cNopacityRecordingMenuItem::CheckScrollableRecording(void) {
-    int spaceLeft = spaceMenu + posterWidth + 15;
-    int iconWidth = 0;
-    int totalTextWidth = width - spaceLeft;
-    strRecNameFull = strRecName.c_str();
-    if (font->Width(strRecName.c_str()) + iconWidth > (width - spaceLeft)) {
-        scrollable = true;
-        totalTextWidth = std::max(font->Width(strRecName.c_str()) + iconWidth, totalTextWidth);
-        strRecName = CutText(strRecName, width - spaceLeft - iconWidth, font);
-    }
-    return totalTextWidth;
-}
-
-int cNopacityRecordingMenuItem::CheckScrollableFolder(void) {
-    int spaceLeft = spaceMenu + posterWidth + 15;
+    int spaceLeft = left + posterWidth + 25;
     int totalTextWidth = width - spaceLeft;
     strRecNameFull = strRecName.c_str();
     if (font->Width(strRecName.c_str()) > (width - spaceLeft)) {

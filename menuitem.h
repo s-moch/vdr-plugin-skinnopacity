@@ -179,15 +179,13 @@ private:
     void DrawRecDateTime(void);
     void DrawFolderNewSeen(void);
     void DrawPoster(void);
-    int CheckScrollableRecording(void);
-    int CheckScrollableFolder(void);
+    int CheckScrollable(bool hasIcon);
 public:
     cNopacityRecordingMenuItem(cOsd *osd, const cRecording *Recording, bool sel, int Level, int Total, int New, cRect *vidWin);
     ~cNopacityRecordingMenuItem(void);
     void CreatePixmapTextScroller(int totalWidth);
     void CreateText(void);
     void SetPoster(void);
-    int CheckScrollable(bool hasIcon);
     void Render(bool initial = false, bool fadeout = false);
 };
 
