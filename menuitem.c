@@ -1156,32 +1156,10 @@ cNopacityRecordingMenuItem::cNopacityRecordingMenuItem(cOsd *osd, const cRecordi
     this->Total = Total;
     this->New = New;
     this->vidWin = vidWin;
-    posterWidth = 0;
-    posterHeight = 0;
-    hasManualPoster = false;
-    manualPosterPath = "";
-    hasPoster = false;
-    hasThumb = false;
     font = fontManager->menuItemRecordings;
     fontSmall = fontManager->menuItemRecordingsSmall;
     fontEPGWindow = fontManager->menuEPGInfoWindow;
     fontEPGWindowLarge = fontManager->menuEPGInfoWindowLarge;
-}
-
-cNopacityRecordingMenuItem::~cNopacityRecordingMenuItem(void) {
-}
-
-void cNopacityRecordingMenuItem::CreatePixmapTextScroller(int totalWidth) {
-    int pixmapLeft = 0;
-    int pixmapWidth = 0;
-    int drawPortWidth = totalWidth + 10;
-    pixmapLeft = posterWidth + left + 20;
-    pixmapWidth = width - posterWidth - 20;
-    pixmapTextScroller = CreatePixmap(osd, "pixmapTextScroller", 4, cRect(pixmapLeft,
-                                                                          top + index * (height + spaceMenu),
-                                                                          pixmapWidth, height),
-                                                                    cRect(0, 0, drawPortWidth, height));
-    PixmapFill(pixmapTextScroller, clrTransparent);
 }
 
 void cNopacityRecordingMenuItem::CreateText() {
@@ -1224,27 +1202,25 @@ void cNopacityRecordingMenuItem::SetPoster(void) {
     }
 }
 
-int cNopacityRecordingMenuItem::CheckScrollable(bool hasIcon) {
-    int spaceLeft = left + posterWidth + 25;
-    int totalTextWidth = width - spaceLeft;
+int cNopacityRecordingMenuItem::CheckScrollable1(int maxwidth) {
+    int totalTextWidth = maxwidth;
     strRecNameFull = strRecName.c_str();
-    if (font->Width(strRecName.c_str()) > (width - spaceLeft)) {
+    if (font->Width(strRecName.c_str()) > (maxwidth)) {
         scrollable = true;
-        totalTextWidth = std::max(font->Width(strRecName.c_str()), totalTextWidth);
-        strRecName = CutText(strRecName, width - spaceLeft, font);
+	totalTextWidth = std::max(font->Width(strRecName.c_str()), totalTextWidth);
+        strRecName = CutText(strRecName, (maxwidth), font);
     }
     return totalTextWidth;
 }
 
-
-void cNopacityRecordingMenuItem::SetTextFull(void) {
+void cNopacityRecordingMenuItem::SetText(bool full) {
     if (isFolder)
-        SetTextFullFolder();
+        SetTextFolder(full);
     else
-        SetTextFullRecording();
+        SetTextRecording(full);
 }
 
-void cNopacityRecordingMenuItem::SetTextFullFolder(void) {
+void cNopacityRecordingMenuItem::SetTextFolder(bool full) {
     if (!pixmapTextScroller)
         return;
 
@@ -1254,64 +1230,31 @@ void cNopacityRecordingMenuItem::SetTextFullFolder(void) {
         DrawPoster();
     else
         DrawFolderIcon();
-    int heightRecName = (2*height/3 - font->Height())/2 + 10;
-    pixmapTextScroller->DrawText(cPoint(5, heightRecName), strRecNameFull.c_str(), clrFont, clrTransparent, font);
+    int heightRecName = (2 * height / 3 - font->Height()) / 2;
+//    int heightRecName = (7 * height / 10 - font->Height()) / 2;
+    pixmapTextScroller->DrawText(cPoint(0, heightRecName), (full) ? strRecNameFull.c_str() : strRecName.c_str(), clrFont, clrTransparent, font);
 }
 
-void cNopacityRecordingMenuItem::SetTextFullRecording(void) {
+void cNopacityRecordingMenuItem::SetTextRecording(bool full) {
     if (!pixmapTextScroller)
         return;
 
     tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
     PixmapFill(pixmapTextScroller, clrTransparent);
-    int textLeft = 5;
-    int heightRecName = (height / 2 - font->Height())/2;
-    pixmapTextScroller->DrawText(cPoint(textLeft, heightRecName), strRecNameFull.c_str(), clrFont, clrTransparent, font);
-}
-
-
-void cNopacityRecordingMenuItem::SetTextShort(void) {
-    if (isFolder)
-        SetTextShortFolder();
-    else
-        SetTextShortRecording();
-}
-
-void cNopacityRecordingMenuItem::SetTextShortFolder(void) {
-    if (!pixmapTextScroller)
-        return;
-
-    tColor clrFont = (current) ? Theme.Color(clrMenuFontMenuItemHigh) : Theme.Color(clrMenuFontMenuItem);
-    PixmapFill(pixmapTextScroller, clrTransparent);
-    if (config.GetValue("useFolderPoster") && (hasPoster || hasThumb || hasManualPoster))
-        DrawPoster();
-    else
-        DrawFolderIcon();
-    int heightRecName = (7 * height / 10 - font->Height()) / 2;
-    pixmapTextScroller->DrawText(cPoint(5, heightRecName), strRecName.c_str(), clrFont, clrTransparent, font);
-}
-
-void cNopacityRecordingMenuItem::SetTextShortRecording(void) {
-    if (!pixmapTextScroller)
-        return;
-
-    tColor clrFont = (current) ? Theme.Color(clrMenuFontMenuItemHigh) : Theme.Color(clrMenuFontMenuItem);
-    PixmapFill(pixmapTextScroller, clrTransparent);
-    int textLeft = 5;
     int heightRecName = (height - font->Height()) / 2;
     if (config.GetValue("menuRecordingsShowLine2") && config.GetValue("menuRecordingsShowLine3"))
         heightRecName = (height / 2 - font->Height()) / 2;
     else if (config.GetValue("menuRecordingsShowLine2") || config.GetValue("menuRecordingsShowLine3"))
         heightRecName = (2 * height / 3 - font->Height()) / 2;
-    pixmapTextScroller->DrawText(cPoint(textLeft, heightRecName), strRecName.c_str(), clrFont, clrTransparent, font);
+    pixmapTextScroller->DrawText(cPoint(0, heightRecName), (full) ? strRecNameFull.c_str() : strRecName.c_str(), clrFont, clrTransparent, font);
 }
 
-int cNopacityRecordingMenuItem::DrawRecordingIcons(void) {
+void cNopacityRecordingMenuItem::DrawRecordingIcons(void) {
     if (!pixmapStatic)
-        return 0;
+        return;
 
     int iconSize = height / 3;
-    int iconX = pixmapStatic->ViewPort().Width();
+    int iconX = width - spaceMenu;
     int iconY = height - iconSize - fontSmall->Height();
 
     cImage *imgIconNew = imgCache->GetSkinIcon("skinIcons/newrecording", iconSize, iconSize);
@@ -1334,7 +1277,7 @@ int cNopacityRecordingMenuItem::DrawRecordingIcons(void) {
         pixmapStatic->DrawImage(cPoint(iconX, iconY), *imgIconErr);
     }
 #endif
-    return iconX;
+    iconwidth = width - iconX;
 }
 
 void cNopacityRecordingMenuItem::DrawFolderIcon(void) {
@@ -1343,8 +1286,8 @@ void cNopacityRecordingMenuItem::DrawFolderIcon(void) {
 
     cImage *imgIcon = imgCache->GetSkinIcon("skinIcons/recfolder", posterWidth, posterHeight);
     if (imgIcon) {
-        int y = (height - imgIcon->Height()) /2;
-        pixmapStatic->DrawImage(cPoint(10, y), *imgIcon);
+        int y = (height - imgIcon->Height()) / 2;
+        pixmapStatic->DrawImage(cPoint(2 * spaceMenu, y), *imgIcon);
     }
 }
 
@@ -1352,8 +1295,6 @@ void cNopacityRecordingMenuItem::DrawRecDateTime(void) {
     if (!pixmapStatic)
         return;
 
-    int left = posterWidth + 20;
-    pixmapStatic->DrawRectangle(cRect(left, 0, width, height), clrTransparent);
     const cEvent *Event = NULL;
     Event = Recording->Info()->GetEvent();
     cString strDateTime("");
@@ -1384,6 +1325,7 @@ void cNopacityRecordingMenuItem::DrawRecDateTime(void) {
 	if (config.GetValue("menuRecordingsErrorMode") == 2 && !isempty(strError))
             strDuration = cString::sprintf("%s, %s", *strDuration, *strError);
     }
+    int textleft = textLeft + spaceMenu / 2;
     int textHeight = 0;
     tColor clrFont = (current) ? Theme.Color(clrMenuFontMenuItemHigh) : Theme.Color(clrMenuFontMenuItem);
     if (config.GetValue("menuRecordingsShowLine2") && config.GetValue("menuRecordingsShowLine3"))
@@ -1391,11 +1333,11 @@ void cNopacityRecordingMenuItem::DrawRecDateTime(void) {
     else if (config.GetValue("menuRecordingsShowLine2") || config.GetValue("menuRecordingsShowLine3"))
         textHeight = 2 * height / 3 + (height / 3 - fontSmall->Height()) / 2;
     if (config.GetValue("menuRecordingsShowLine2")) {
-        pixmapStatic->DrawText(cPoint(10 + left, textHeight), *strDateTime, clrFont, clrTransparent, fontSmall);
+        pixmapStatic->DrawText(cPoint(textleft, textHeight), *strDateTime, clrFont, clrTransparent, fontSmall);
         textHeight += height / 4;
     }
     if (config.GetValue("menuRecordingsShowLine3")) {
-        pixmapStatic->DrawText(cPoint(10 + left, textHeight), *strDuration, clrFont, clrTransparent, fontSmall);
+        pixmapStatic->DrawText(cPoint(textleft, textHeight), *strDuration, clrFont, clrTransparent, fontSmall);
     }
 }
 
@@ -1403,10 +1345,11 @@ void cNopacityRecordingMenuItem::DrawFolderNewSeen(void) {
     if (!pixmapStatic)
         return;
 
-    int textHeight = 7 * height / 10; // + (3 * height / 10 - fontSmall->Height()) / 3;
+    int textleft = textLeft + spaceMenu / 2;
+    int textHeight = 7 * height / 10;
     cString strTotalNew = cString::sprintf("%d %s (%d %s)", Total, (Total > 1) ? tr("recordings") : tr("recording"), New, tr("new"));
     tColor clrFont = (current) ? Theme.Color(clrMenuFontMenuItemHigh) : Theme.Color(clrMenuFontMenuItem);
-    pixmapStatic->DrawText(cPoint(posterWidth + 30, textHeight), *strTotalNew, clrFont, clrTransparent, fontSmall);
+    pixmapStatic->DrawText(cPoint(textleft, textHeight), *strTotalNew, clrFont, clrTransparent, fontSmall);
 }
 
 void cNopacityRecordingMenuItem::DrawPoster(void) {
@@ -1426,36 +1369,43 @@ void cNopacityRecordingMenuItem::DrawPoster(void) {
     }
     if (posterDrawn) {
         cImage img = imgLoader.GetImage();
-        pixmapStatic->DrawImage(cPoint(10, (height - img.Height()) /2), img);
+        pixmapStatic->DrawImage(cPoint(2 * spaceMenu, (height - img.Height()) /2), img);
         return;
     }
     cImage *imgIcon = imgCache->GetSkinIcon("skinIcons/defaultPoster", posterWidth, posterHeight);
     if (imgIcon)
-        pixmapStatic->DrawImage(cPoint(10, (height - imgIcon->Height()) /2), *imgIcon);
+        pixmapStatic->DrawImage(cPoint(2 * spaceMenu, (height - imgIcon->Height()) /2), *imgIcon);
 }
 
 void cNopacityRecordingMenuItem::Render(bool initial, bool fadeout) {
+    textLeft = posterWidth + 5 * spaceMenu;
     if (selectable) {
-        int xIcons = 0;
         eSkinElementType type = (current) ? seRecordingsHigh : seRecordings;
         DrawBackground(type, seRecordingsTop);
 
         if (isFolder) {
             DrawFolderNewSeen();
-            SetTextShort();
         } else {
             DrawPoster();
             DrawRecDateTime();
-	    xIcons = DrawRecordingIcons();
-            SetTextShort();
+            DrawRecordingIcons();
         }
+        if (!drawn) {
+            int pixmapWidth = width - textLeft - iconwidth - 2 * spaceMenu;
+            int textWidth = CheckScrollable1(pixmapWidth);
+            if (textWidth > 0)
+                CreatePixmapTextScroller(textWidth, textLeft, pixmapWidth);
+            drawn = true;
+        }
+        if (!Running())
+            SetText();
         if (config.GetValue("animation") && config.GetValue("menuScrollSpeed")) {
             if (current && scrollable && !Running())
                 Start();
         }
         if (pixmapTextScroller && wasCurrent && !current && scrollable && Running()) {
             pixmapTextScroller->SetDrawPortPoint(cPoint(0, 0));
-            SetTextShort();
+            SetText();
             Cancel(-1);
         }
         if (!isFolder) {
