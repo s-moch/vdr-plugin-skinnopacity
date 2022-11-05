@@ -144,10 +144,7 @@ void cNopacityDisplayTracks::SetItem(const char *Text, int Index, bool Current) 
     menuItems[Index].reset(item);
     item->SetCurrent(Current);
     item->SetGeometry(Index, menuItemHeight+4, 2, menuItemWidth, menuItemHeight, 4);
-    item->CreatePixmapBackground();
-    item->CreatePixmapStatic();
-    if (config.GetValue("displayType") == dtGraphical)
-        item->CreatePixmapForeground();
+    item->CreatePixmaps();
     item->Render();
 }
 

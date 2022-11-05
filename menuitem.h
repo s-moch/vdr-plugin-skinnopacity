@@ -44,9 +44,7 @@ protected:
 public:
     cNopacityMenuItem(cOsd *osd, const char *text, bool sel);
     virtual ~cNopacityMenuItem(void);
-    void CreatePixmapBackground(void);
-    void CreatePixmapForeground(void);
-    void CreatePixmapStatic(void);
+    void CreatePixmaps(bool createPixmapFg = true);
     virtual void CreatePixmapTextScroller(int totalWidth);
     void SetGeometry(int index, int top, int left, int width, int height, int spaceMenu);
     void SetCurrent(bool cur);

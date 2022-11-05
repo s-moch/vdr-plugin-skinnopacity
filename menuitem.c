@@ -52,15 +52,11 @@ void cNopacityMenuItem::SetGeometry(int index, int top, int left, int width, int
     this->spaceMenu = spaceMenu;
 }
 
-void cNopacityMenuItem::CreatePixmapBackground(void) {
+void cNopacityMenuItem::CreatePixmaps(bool createPixmapFg) {
     pixmapBackground = CreatePixmap(osd, "pixmapBackground", 3, cRect(left, top + index * (height + spaceMenu), width, height));
-}
-
-void cNopacityMenuItem::CreatePixmapForeground(void) {
-    pixmapForeground = CreatePixmap(osd, "pixmapForeground", 6, cRect(left, top + index * (height + spaceMenu), width, height));
-}
-
-void cNopacityMenuItem::CreatePixmapStatic(void) {
+    if (config.GetValue("displayType") == dtGraphical && createPixmapFg) {
+        pixmapForeground = CreatePixmap(osd, "pixmapForeground", 6, cRect(left, top + index * (height + spaceMenu), width, height));
+    }
     pixmapStatic = CreatePixmap(osd, "pixmapStatic", 5, cRect(left, top + index * (height + spaceMenu), width, height));
     PixmapFill(pixmapStatic, clrTransparent);
 }

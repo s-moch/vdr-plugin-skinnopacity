@@ -378,13 +378,10 @@ bool cNopacityDisplayMenu::SetItemEvent(const cEvent *Event, int Index, bool Cur
         item->SetTextWindow(menuView->GetDescriptionTextWindowSize(mcSchedule));
         item->SetCurrent(Current);
         item->CreateText();
+        item->CreatePixmaps();
         int textWidth = item->CheckScrollable((Channel)?true:false);
-        item->CreatePixmapBackground();
-        if (config.GetValue("displayType") == dtGraphical) {
-            item->CreatePixmapForeground();
-        }
-        item->CreatePixmapStatic();
-        item->CreatePixmapTextScroller(textWidth);
+        if (textWidth > 0)
+            item->CreatePixmapTextScroller(textWidth);
         item->Render(initial, fadeout);
     } else {
         cNopacityMenuItem *item = menuItems[Index].get();
@@ -409,13 +406,10 @@ bool cNopacityDisplayMenu::SetItemTimer(const cTimer *Timer, int Index, bool Cur
         item->SetTextWindow(menuView->GetDescriptionTextWindowSize(mcTimer));
         item->SetCurrent(Current);
         item->CreateText();
+        item->CreatePixmaps();
         int textWidth = item->CheckScrollable(true);
-        item->CreatePixmapBackground();
-        if (config.GetValue("displayType") == dtGraphical) {
-            item->CreatePixmapForeground();
-        }
-        item->CreatePixmapStatic();
-        item->CreatePixmapTextScroller(textWidth);
+        if (textWidth > 0)
+            item->CreatePixmapTextScroller(textWidth);
         item->Render(initial, fadeout);
     } else {
         cNopacityMenuItem *item = menuItems[Index].get();
@@ -440,13 +434,10 @@ bool cNopacityDisplayMenu::SetItemChannel(const cChannel *Channel, int Index, bo
         item->SetTextWindow(menuView->GetDescriptionTextWindowSize(mcChannel));
         item->SetCurrent(Current);
         item->CreateText();
+        item->CreatePixmaps();
         int textWidth = item->CheckScrollable(true);
-        item->CreatePixmapBackground();
-        item->CreatePixmapStatic();
-        item->CreatePixmapTextScroller(textWidth);
-        if (config.GetValue("displayType") == dtGraphical) {
-            item->CreatePixmapForeground();
-        }
+        if (textWidth > 0)
+            item->CreatePixmapTextScroller(textWidth);
         item->Render(initial, fadeout);
     } else {
         cNopacityMenuItem *item = menuItems[Index].get();
@@ -473,13 +464,10 @@ bool cNopacityDisplayMenu::SetItemRecording(const cRecording *Recording, int Ind
         item->SetCurrent(Current);
         item->CreateText();
         item->SetPoster();
+        item->CreatePixmaps();
         int textWidth = item->CheckScrollable(false);
-        item->CreatePixmapBackground();
-        item->CreatePixmapStatic();
-        item->CreatePixmapTextScroller(textWidth);
-        if (config.GetValue("displayType") == dtGraphical) {
-            item->CreatePixmapForeground();
-        }
+        if (textWidth > 0)
+	    item->CreatePixmapTextScroller(textWidth);
         item->Render(initial, fadeout);
     } else {
         cNopacityMenuItem *item = menuItems[Index].get();
@@ -530,12 +518,8 @@ void cNopacityDisplayMenu::SetItem(const char *Text, int Index, bool Current, bo
         item->SetCurrent(Current);
         item->SetTabs(strItems, tabItems, MaxTabs);
         item->CreateText();
+        item->CreatePixmaps(MainOrSetup);
         int textWidth = item->CheckScrollable(hasIcons);
-        item->CreatePixmapBackground();
-        if (config.GetValue("displayType") == dtGraphical && MainOrSetup) {
-            item->CreatePixmapForeground();
-        }
-        item->CreatePixmapStatic();
         if (textWidth > 0)
             item->CreatePixmapTextScroller(textWidth);
         item->Render(initial, fadeout);
