@@ -116,23 +116,22 @@ private:
     const cChannel *Channel;
     std::string strEntry;
     std::string strEntryFull;
-    cString strChannelSource;
-    cString strChannelInfo;
+    cString strChannelSource = "";
+    cString strChannelInfo = "";
     std::string strEpgInfo;
     std::string strEpgInfoFull;
     std::string strTimeInfo;
     cRect *vidWin;
-    void SetTextFull(void);
-    void SetTextShort(void);
+    void SetText(bool full = false);
+    void SetTextFull(void) { SetText(true); };
     void DrawStatic(void);
     void readCurrentEPG(void);
+    int CheckScrollable1(int maxwidth = 0);
     std::string readEPG(void);
 public:
     cNopacityChannelMenuItem(cOsd *osd, const cChannel *Channel, bool sel, cRect *vidWin);
-    ~cNopacityChannelMenuItem(void);
-    void CreatePixmapTextScroller(int totalWidth, int pixmapLeft = 0, int pixmapWidth = 0);
+    ~cNopacityChannelMenuItem(void) {};
     void CreateText(void);
-    int CheckScrollable(bool hasIcon);
     void Render(bool initial = false, bool fadeout = false);
 };
 

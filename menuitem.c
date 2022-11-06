@@ -749,20 +749,6 @@ cNopacityChannelMenuItem::cNopacityChannelMenuItem(cOsd *osd, const cChannel *Ch
     fontEPGWindow = fontManager->menuEPGInfoWindow;
 }
 
-cNopacityChannelMenuItem::~cNopacityChannelMenuItem(void) {
-}
-
-void cNopacityChannelMenuItem::CreatePixmapTextScroller(int totalWidth, int Left, int Width) {
-    int pixmapLeft = left + geoManager->menuLogoWidth + geoManager->menuSpace;
-    int pixmapWidth = width - geoManager->menuLogoWidth - geoManager->menuSpace;
-    int drawPortWidth = totalWidth + 10;
-    pixmapTextScroller = CreatePixmap(osd, "pixmapTextScroller", 4, cRect(pixmapLeft,
-                                                                          top + index * (height + spaceMenu),
-                                                                          pixmapWidth, height),
-                                                                    cRect(0, 0, drawPortWidth, height));
-    PixmapFill(pixmapTextScroller, clrTransparent);
-}
-
 void cNopacityChannelMenuItem::CreateText() {
     strEntry = cString::sprintf("%d %s", Channel->Number(), Channel->Name());
     if (config.GetValue("menuChannelDisplayMode") == 0) {
@@ -771,37 +757,34 @@ void cNopacityChannelMenuItem::CreateText() {
             strChannelSource = cString::sprintf("%s - %s", *cSource::ToString(source->Code()),  source->Description());
         else
             strChannelSource = "";
-        strChannelInfo = cString::sprintf("%s %d, %d MHz", tr("Transp."), Channel->Transponder(), Channel->Frequency()/1000);
+        strChannelInfo = cString::sprintf("%s %d, %d MHz", tr("Transp."), Channel->Transponder(), Channel->Frequency() / 1000);
     } else {
         readCurrentEPG();
     }
 }
 
-int cNopacityChannelMenuItem::CheckScrollable(bool hasIcon) {
-    int spaceLeft = spaceMenu;
-    if (hasIcon)
-        spaceLeft += geoManager->menuLogoWidth;
-    int totalTextWidth = width - spaceLeft;
-    if (font->Width(strEntry.c_str()) > (width - spaceLeft)) {
+int cNopacityChannelMenuItem::CheckScrollable1(int maxwidth) {
+    int totalTextWidth = maxwidth;
+    if (font->Width(strEntry.c_str()) > (maxwidth)) {
         scrollable = true;
         totalTextWidth = std::max(font->Width(strEntry.c_str()), totalTextWidth);
         strEntryFull = strEntry.c_str();
-        strEntry = CutText(strEntry, width - spaceLeft, font);
+        strEntry = CutText(strEntry, maxwidth, font);
     } else
         strEntryFull = strEntry;
 
-    if (fontSmall->Width(strEpgInfo.c_str()) > (width - spaceLeft)) {
+    if (fontSmall->Width(strEpgInfo.c_str()) > (maxwidth)) {
         scrollable = true;
         totalTextWidth = std::max(fontSmall->Width(strEpgInfo.c_str()), totalTextWidth);
         strEpgInfoFull = strEpgInfo.c_str();
-        strEpgInfo = CutText(strEpgInfo, width - spaceLeft, fontSmall);
+        strEpgInfo = CutText(strEpgInfo, maxwidth, fontSmall);
     } else
         strEpgInfoFull = strEpgInfo;
 
     return totalTextWidth;
 }
 
-void cNopacityChannelMenuItem::SetTextFull(void) {
+void cNopacityChannelMenuItem::SetText(bool full) {
     if (!pixmapTextScroller)
         return;
 
@@ -809,74 +792,45 @@ void cNopacityChannelMenuItem::SetTextFull(void) {
     PixmapFill(pixmapTextScroller, clrTransparent);
     int heightChannelName = 0;
     if (config.GetValue("menuChannelDisplayMode") == 2) {
-        heightChannelName = (height - font->Height())/2;
+        heightChannelName = (height - font->Height()) / 2;
     } else {
-        heightChannelName = (height/2 - font->Height())/2;
+        heightChannelName = (height / 2 - font->Height()) / 2;
     }
-    pixmapTextScroller->DrawText(cPoint(5, heightChannelName), strEntryFull.c_str(), clrFont, clrTransparent, font);
-    if (config.GetValue("menuChannelDisplayMode") == 1) {
-        int heightTimeInfo = 0;
-        int heightEPGInfo = 0;
-        if (config.GetValue("menuChannelDisplayTime")) {
-            heightTimeInfo = height/2 + (height/4 - fontSmall->Height())/2;
-            heightEPGInfo = 3*height/4 + (height/4 - fontSmall->Height())/2;
-        } else {
-            heightEPGInfo = height/2 + (height/4 - fontSmall->Height())/2;
-        }
-        if (config.GetValue("menuChannelDisplayTime")) {
-            pixmapTextScroller->DrawText(cPoint(5, heightTimeInfo), strTimeInfo.c_str(), clrFont, clrTransparent, fontSmall);
-        }
-        pixmapTextScroller->DrawText(cPoint(5, heightEPGInfo), strEpgInfoFull.c_str(), clrFont, clrTransparent, fontSmall);
-    }
-}
+    pixmapTextScroller->DrawText(cPoint(0, heightChannelName), (full) ? strEntryFull.c_str() : strEntry.c_str(), clrFont, clrTransparent, font);
 
-void cNopacityChannelMenuItem::SetTextShort(void) {
-    if (!pixmapTextScroller)
+    if (!(config.GetValue("menuChannelDisplayMode") == 1))
         return;
 
-    tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
-    PixmapFill(pixmapTextScroller, clrTransparent);
-    int heightChannelName = 0;
-    if (config.GetValue("menuChannelDisplayMode") == 2) {
-        heightChannelName = (height - font->Height())/2;
+    int heightTimeInfo = 0;
+    int heightEPGInfo = 0;
+    if (config.GetValue("menuChannelDisplayTime")) {
+        heightTimeInfo = height / 2 + (height / 4 - fontSmall->Height()) / 2;
+        heightEPGInfo = 3 * height / 4 + (height / 4 - fontSmall->Height()) / 2;
     } else {
-        heightChannelName = (height/2 - font->Height())/2;
+        heightEPGInfo = height / 2 + (height / 4 - fontSmall->Height()) / 2;
     }
-    pixmapTextScroller->DrawText(cPoint(5, heightChannelName), strEntry.c_str(), clrFont, clrTransparent, font);
-    if (config.GetValue("menuChannelDisplayMode") == 1) {
-        int heightTimeInfo = 0;
-        int heightEPGInfo = 0;
-        if (config.GetValue("menuChannelDisplayTime")) {
-            heightTimeInfo = height/2 + (height/4 - fontSmall->Height())/2;
-            heightEPGInfo = 3*height/4 + (height/4 - fontSmall->Height())/2;
-        } else {
-            heightEPGInfo = height/2 + (height/4 - fontSmall->Height())/2;
-        }
-        if (config.GetValue("menuChannelDisplayTime")) {
-            pixmapTextScroller->DrawText(cPoint(5, heightTimeInfo), strTimeInfo.c_str(), clrFont, clrTransparent, fontSmall);
-        }
-        pixmapTextScroller->DrawText(cPoint(5, heightEPGInfo), strEpgInfo.c_str(), clrFont, clrTransparent, fontSmall);
+    if (config.GetValue("menuChannelDisplayTime")) {
+        pixmapTextScroller->DrawText(cPoint(0, heightTimeInfo), strTimeInfo.c_str(), clrFont, clrTransparent, fontSmall);
     }
+    pixmapTextScroller->DrawText(cPoint(0, heightEPGInfo), (full) ? strEpgInfoFull.c_str() : strEpgInfo.c_str(), clrFont, clrTransparent, fontSmall);
 }
 
 void cNopacityChannelMenuItem::DrawStatic(void) {
-    if (!pixmapStatic)
+    if (!pixmapStatic || !config.GetValue("menuChannelDisplayMode") == 0)
         return;
 
-    if (config.GetValue("menuChannelDisplayMode") == 0) {
-        int encryptedSize = height/4-2;
-        int sourceX = geoManager->menuLogoWidth + 15;
-        tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
-        pixmapStatic->DrawText(cPoint(sourceX, 3*height/4 + (height/4 - fontSmall->Height())/2), *strChannelInfo, clrFont, clrTransparent, fontSmall);
-        if (Channel->Ca()) {
-            cImage *imgIcon = imgCache->GetSkinIcon("skinIcons/encrypted", encryptedSize, encryptedSize);
-            if (imgIcon) {
-                pixmapStatic->DrawImage(cPoint(sourceX, height/2+1), *imgIcon);
-                sourceX += encryptedSize + 10;
-            }
+    int x = textLeft + spaceMenu;
+    int encryptedSize = height / 4 - 2;
+    tColor clrFont = (current) ? Theme.Color(clrMenuFontMenuItemHigh) : Theme.Color(clrMenuFontMenuItem);
+    pixmapStatic->DrawText(cPoint(x, 3 * height / 4 + (height / 4 - fontSmall->Height()) / 2), *strChannelInfo, clrFont, clrTransparent, fontSmall);
+    if (Channel->Ca()) {
+        cImage *imgIcon = imgCache->GetSkinIcon("skinIcons/encrypted", encryptedSize, encryptedSize);
+        if (imgIcon) {
+            pixmapStatic->DrawImage(cPoint(x, height / 2 + 1), *imgIcon);
+            x += encryptedSize + 10;
         }
-        pixmapStatic->DrawText(cPoint(sourceX, height/2 + (height/4 - fontSmall->Height())/2), *strChannelSource, clrFont, clrTransparent, fontSmall);
     }
+    pixmapStatic->DrawText(cPoint(x, height / 2 + (height / 4 - fontSmall->Height()) / 2), *strChannelSource, clrFont, clrTransparent, fontSmall);
 }
 
 void cNopacityChannelMenuItem::readCurrentEPG(void) {
@@ -934,24 +888,30 @@ std::string cNopacityChannelMenuItem::readEPG(void) {
 void cNopacityChannelMenuItem::Render(bool initial, bool fadeout) {
     int logoWidth = geoManager->menuLogoWidth;
     int logoHeight = geoManager->menuLogoHeight;
+    textLeft = logoWidth + 3 * spaceMenu;
     if (selectable) { //Channels
         eSkinElementType type = (current) ? seChannelsHigh : seChannels;
         DrawBackground(type, seChannelsTop);
-
+        DrawStatic();
         DrawChannelLogoBackground();
         if (!drawn) {
             if (Channel && Channel->Name())
                 DrawLogo(Channel, logoWidth, logoHeight, font);
+            int pixmapWidth = width - textLeft - 2 * spaceMenu;
+            int textWidth = CheckScrollable1(pixmapWidth);
+            if (textWidth > 0)
+                CreatePixmapTextScroller(textWidth, textLeft, pixmapWidth);
             drawn = true;
         }
-        SetTextShort();
+        if (!Running())
+            SetText();
         if (config.GetValue("animation") && config.GetValue("menuScrollSpeed")) {
             if (current && scrollable && !Running())
                 Start();
         }
         if (pixmapTextScroller && wasCurrent && !current && scrollable && Running()) {
             pixmapTextScroller->SetDrawPortPoint(cPoint(0, 0));
-            SetTextShort();
+            SetText();
             Cancel(-1);
         }
         if (wasCurrent)
