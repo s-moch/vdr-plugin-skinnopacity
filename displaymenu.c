@@ -484,18 +484,15 @@ void cNopacityDisplayMenu::SetItem(const char *Text, int Index, bool Current, bo
     SplitItem(Text, strItems, tabItems);
     menuItems[Index].reset();
     if (*Text != '\0') {
-        bool hasIcons = false;
         bool MainOrSetup = false;
         cNopacityMenuItem *item;
         cPoint itemSize;
         if (((MenuCategory() == mcMain)&&(config.GetValue("narrowMainMenu"))) || ((MenuCategory() == mcSetup)&&(config.GetValue("narrowSetupMenu")))){
             MainOrSetup = true;
-            bool isSetup = (MenuCategory() == mcSetup)?true:false;
+            bool isSetup = (MenuCategory() == mcSetup) ? true : false;
             item = new cNopacityMainMenuItem(osd, Text, Selectable, isSetup);
             menuItems[Index].reset(item);
             menuView->GetMenuItemSize(MenuCategory(), &itemSize);
-            if (config.GetValue("useMenuIcons"))
-                hasIcons = true;
         } else {
             item = new cNopacityDefaultMenuItem(osd, Text, Selectable);
             menuItems[Index].reset(item);
@@ -507,9 +504,11 @@ void cNopacityDisplayMenu::SetItem(const char *Text, int Index, bool Current, bo
         item->SetTabs(strItems, tabItems, MaxTabs);
         item->CreateText();
         item->CreatePixmaps(MainOrSetup);
-        int textWidth = item->CheckScrollable(hasIcons);
-        if (textWidth > 0)
-            item->CreatePixmapTextScroller(textWidth);
+	if (!MainOrSetup) {
+            int textWidth = item->CheckScrollable1();
+            if (textWidth > 0)
+                item->CreatePixmapTextScroller(textWidth);
+        }
         item->Render(initial, fadeout);
     }
     SetEditableWidth(menuView->GetEditableWidth());

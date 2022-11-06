@@ -65,7 +65,7 @@ inline void swap(cNopacityMenuItem*& a, cNopacityMenuItem*& b) {std::swap(a,b);}
 
 class cNopacityMainMenuItem : public cNopacityMenuItem {
 private:
-    bool isSetup;
+    bool isSetup = false;
     cString menuNumber;
     cString menuEntry;
     std::string strEntry;
@@ -73,14 +73,13 @@ private:
     static std::string items[16];
     cString GetIconName();
     void DrawBackgroundMainMenu(void);
-    void SetTextFull(void);
-    void SetTextShort(void);
+    void SetText(bool full = false);
+    void SetTextFull(void) { SetText(true); };
+    int CheckScrollable1(int maxwidth = 0);
 public:
     cNopacityMainMenuItem(cOsd *osd, const char *text, bool sel, bool setup);
-    ~cNopacityMainMenuItem(void);
-    void CreatePixmapTextScroller(int totalWidth, int pixmapLeft = 0, int pixmapWidth = 0);
+    ~cNopacityMainMenuItem(void) {};
     void CreateText(void);
-    int CheckScrollable(bool hasIcon);
     void Render(bool initial = false, bool fadeout = false);
 };
 

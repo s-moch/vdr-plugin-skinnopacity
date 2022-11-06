@@ -299,9 +299,6 @@ cNopacityMainMenuItem::cNopacityMainMenuItem(cOsd *osd, const char *text, bool s
     font = fontManager->menuItemLarge;
 }
 
-cNopacityMainMenuItem::~cNopacityMainMenuItem(void) {
-}
-
 void cNopacityMainMenuItem::DrawBackgroundMainMenu(void) {
     if (!pixmapBackground)
         return;
@@ -392,21 +389,6 @@ cString cNopacityMainMenuItem::GetIconName() {
     return cString::sprintf("extraIcons/%s", *menuEntry);
 }
 
-void cNopacityMainMenuItem::CreatePixmapTextScroller(int totalWidth, int Left, int Width) {
-    int pixmapLeft = left + 10;
-    if (config.GetValue("useMenuIcons"))
-        pixmapLeft += geoManager->menuMainMenuIconSize;
-    int pixmapWidth = width - 10;
-    if (config.GetValue("useMenuIcons"))
-        pixmapWidth -= geoManager->menuMainMenuIconSize;
-    int drawPortWidth = totalWidth + 10;
-    pixmapTextScroller = CreatePixmap(osd, "pixmapTextScroller", 4, cRect(pixmapLeft,
-                                                                          top + index * (height + spaceMenu),
-                                                                          pixmapWidth, height),
-                                                                    cRect(0, 0, drawPortWidth, height));
-    PixmapFill(pixmapTextScroller, clrTransparent);
-}
-
 void cNopacityMainMenuItem::CreateText() {
     std::string text = skipspace(Text);
     bool found = false;
@@ -443,23 +425,20 @@ void cNopacityMainMenuItem::CreateText() {
     strEntry = *menuEntry;
 }
 
-int cNopacityMainMenuItem::CheckScrollable(bool hasIcon) {
-    int spaceLeft = spaceMenu;
-    if (hasIcon)
-        spaceLeft += geoManager->menuMainMenuIconSize;
-    int totalTextWidth = width - spaceLeft;
+int cNopacityMainMenuItem::CheckScrollable1(int maxwidth) {
+    int totalTextWidth = maxwidth;
     int numberWidth = font->Width("xxx");
     int textWidth = font->Width(*menuEntry);
-    if ((numberWidth +  textWidth) > (width - spaceLeft)) {
+    if ((numberWidth + textWidth) > (maxwidth)) {
         scrollable = true;
         totalTextWidth = std::max(numberWidth + textWidth, totalTextWidth);
         strEntryFull = strEntry.c_str();
-        strEntry = CutText(strEntry, width - spaceLeft - numberWidth, font);
+        strEntry = CutText(strEntry, maxwidth - numberWidth, font);
     }
     return totalTextWidth;
 }
 
-void cNopacityMainMenuItem::SetTextFull(void) {
+void cNopacityMainMenuItem::SetText(bool full) {
     if (!pixmapTextScroller)
         return;
 
@@ -468,49 +447,42 @@ void cNopacityMainMenuItem::SetTextFull(void) {
     int x = 0;
     int numberTotalWidth = font->Width("xxx");
     int numberWidth = font->Width(*menuNumber);
-    pixmapTextScroller->DrawText(cPoint(x + (numberTotalWidth - numberWidth)/2, (height - font->Height())/2), *menuNumber, clrFont, clrTransparent, font);
+    pixmapTextScroller->DrawText(cPoint(x + (numberTotalWidth - numberWidth) / 2, (height - font->Height()) / 2), *menuNumber, clrFont, clrTransparent, font);
     x += numberTotalWidth;
-    pixmapTextScroller->DrawText(cPoint(x, (height - font->Height())/2), strEntryFull.c_str(), clrFont, clrTransparent, font);
-}
-
-void cNopacityMainMenuItem::SetTextShort(void) {
-    if (!pixmapTextScroller)
-        return;
-
-    tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
-    PixmapFill(pixmapTextScroller, clrTransparent);
-    int x = 0;
-    int numberTotalWidth = font->Width("xxx");
-    int numberWidth = font->Width(*menuNumber);
-    pixmapTextScroller->DrawText(cPoint(x + (numberTotalWidth - numberWidth)/2, (height - font->Height())/2), *menuNumber, clrFont, clrTransparent, font);
-    x += numberTotalWidth;
-    pixmapTextScroller->DrawText(cPoint(x, (height - font->Height())/2), strEntry.c_str(), clrFont, clrTransparent, font);
+    pixmapTextScroller->DrawText(cPoint(x, (height - font->Height()) / 2), (full) ? strEntryFull.c_str() : strEntry.c_str(), clrFont, clrTransparent, font);
 }
 
 void cNopacityMainMenuItem::Render(bool initial, bool fadeout) {
+    textLeft = 2 * spaceMenu;
     DrawBackgroundMainMenu();
     if (selectable) {
-        if (config.GetValue("useMenuIcons")) {
-            cString cIcon = GetIconName();
-            if (!drawn) {
+        if (!drawn) {
+            if (config.GetValue("useMenuIcons")) {
+                cString cIcon = GetIconName();
                 cImage *imgIcon = imgCache->GetMenuIcon(*cIcon);
                 if (pixmapStatic && imgIcon)
-                    pixmapStatic->DrawImage(cPoint(geoManager->menuSpace, geoManager->menuSpace), *imgIcon);
-                drawn = true;
+                    pixmapStatic->DrawImage(cPoint(spaceMenu, spaceMenu), *imgIcon);
+                textLeft += geoManager->menuMainMenuIconSize + spaceMenu;
             }
+            int pixmapWidth = width - textLeft - 2 * spaceMenu;
+            int textWidth = CheckScrollable1(pixmapWidth);
+            if (textWidth > 0)
+                CreatePixmapTextScroller(textWidth, textLeft, pixmapWidth);
+            drawn = true;
         }
-        SetTextShort();
+        if (!Running())
+            SetText();
         if (config.GetValue("animation") && config.GetValue("menuScrollSpeed")) {
             if (current && scrollable && !Running())
                 Start();
         }
         if (pixmapTextScroller && wasCurrent && !current && scrollable && Running()) {
             pixmapTextScroller->SetDrawPortPoint(cPoint(0, 0));
-            SetTextShort();
+            SetText();
             Cancel(-1);
         }
     } else {
-        DrawDelimiter(strEntry.c_str(), "skinIcons/channeldelimiter", (config.GetValue("displayType") != dtFlat)?seNone:(isSetup?seSetup:seMain));
+        DrawDelimiter(strEntry.c_str(), "skinIcons/channeldelimiter", (config.GetValue("displayType") != dtFlat) ? seNone : (isSetup ? seSetup : seMain));
     }
 }
 
@@ -1415,10 +1387,10 @@ void cNopacityDefaultMenuItem::DrawProgressBar(int x, int width, const char *bar
         }
     }
     if (pixmapStatic && isProgressbar) {
-        pixmapStatic->DrawRectangle(cRect(x+5, height/4, width-10, height/2), color);
-        pixmapStatic->DrawRectangle(cRect(x+7, height/4+2, width-14, height/2-4), clrTransparent);
+        pixmapStatic->DrawRectangle(cRect(x + 5, height / 4, width - 10, height / 2), color);
+        pixmapStatic->DrawRectangle(cRect(x + 7, height / 4 + 2, width - 14, height / 2 - 4), clrTransparent);
         double progress = (double)now/(double)total;
-        pixmapStatic->DrawRectangle(cRect(x+8, height/4+3, (width-16)*progress, height/2-6), color);
+        pixmapStatic->DrawRectangle(cRect(x + 8, height / 4 + 3, (width - 16)*progress, height / 2 - 6), color);
 
     }
 }
@@ -1427,7 +1399,7 @@ void cNopacityDefaultMenuItem::SetTextFull(void) {
     if (!pixmapTextScroller)
         return;
 
-    tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
+    tColor clrFont = (current) ? Theme.Color(clrMenuFontMenuItemHigh) : Theme.Color(clrMenuFontMenuItem);
     PixmapFill(pixmapTextScroller, clrTransparent);
     int x = (scrollCol == 0) ? 5 : 0;
     pixmapTextScroller->DrawText(cPoint(x, (height - font->Height()) / 2), strEntryFull.c_str(), clrFont, clrTransparent, font);
@@ -1437,7 +1409,7 @@ void cNopacityDefaultMenuItem::SetTextShort(void) {
     if (!pixmapTextScroller)
         return;
 
-    tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
+    tColor clrFont = (current) ? Theme.Color(clrMenuFontMenuItemHigh) : Theme.Color(clrMenuFontMenuItem);
     PixmapFill(pixmapTextScroller, clrTransparent);
     int x = (scrollCol == 0) ? 5 : 0;
     pixmapTextScroller->DrawText(cPoint(x, (height - font->Height()) / 2), strEntry.c_str(), clrFont, clrTransparent, font);
@@ -1449,7 +1421,7 @@ int cNopacityDefaultMenuItem::CheckScrollable(bool hasIcon) {
     scrollable = false;
     int colWidth = 0;
     int colTextWidth = 0;
-    for (int i=0; i<numTabs; i++) {
+    for (int i = 0; i < numTabs; i++) {
         if (tabWidth[i] > 0) {
             if (CheckProgressBar(*itemTabs[i]))
                 continue;
@@ -1540,7 +1512,7 @@ void cNopacityDefaultMenuItem::Render(bool initial, bool fadeout) {
         
     PixmapFill(pixmapStatic, clrTransparent);
 
-    for (int i=0; i<numTabs; i++) {
+    for (int i = 0; i < numTabs; i++) {
         if (tabWidth[i] > 0) {
             colWidth = tabWidth[i+cSkinDisplayMenu::MaxTabs];
             int posX = tabWidth[i];
