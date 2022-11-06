@@ -143,16 +143,15 @@ private:
     std::string strEntryFull;
     std::string strDateTime;
     cRect *vidWin;
-    void SetTextFull(void);
-    void SetTextShort(void);
+    void SetText(bool full = false);
+    void SetTextFull(void) { SetText(true); };
     void DrawStatic(int textLeft);
+    int CheckScrollable1(int maxwidth = 0);
     std::string CreateDate(void);
 public:
     cNopacityTimerMenuItem(cOsd *osd, const cTimer *Timer, bool sel, cRect *vidWin);
-    ~cNopacityTimerMenuItem(void);
-    void CreatePixmapTextScroller(int totalWidth, int pixmapLeft = 0, int pixmapWidth = 0);
+    ~cNopacityTimerMenuItem(void) {};
     void CreateText(void);
-    int CheckScrollable(bool hasIcon);
     void Render(bool initial = false, bool fadeout = false);
 };
 

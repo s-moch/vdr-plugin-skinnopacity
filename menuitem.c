@@ -984,20 +984,6 @@ cNopacityTimerMenuItem::cNopacityTimerMenuItem(cOsd *osd, const cTimer *Timer, b
     fontEPGWindowLarge = fontManager->menuEPGInfoWindowLarge;
 }
 
-cNopacityTimerMenuItem::~cNopacityTimerMenuItem(void) {
-}
-
-void cNopacityTimerMenuItem::CreatePixmapTextScroller(int totalWidth, int Left, int Width) {
-    int pixmapLeft = left + geoManager->menuLogoWidth + geoManager->menuSpace;
-    int pixmapWidth = width - geoManager->menuLogoWidth - geoManager->menuSpace;
-    int drawPortWidth = totalWidth + 10;
-    pixmapTextScroller = CreatePixmap(osd, "pixmapTextScroller", 4, cRect(pixmapLeft,
-                                                                          top + index * (height + spaceMenu),
-                                                                          pixmapWidth, height),
-                                                                    cRect(0, 0, drawPortWidth, height));
-    PixmapFill(pixmapTextScroller, clrTransparent);
-}
-
 void cNopacityTimerMenuItem::CreateText() {
     const char *File = Setup.FoldersInTimerMenu ? NULL : strrchr(Timer->File(), FOLDERDELIMCHAR);
     if (File && strcmp(File + 1, TIMERMACRO_TITLE) && strcmp(File + 1, TIMERMACRO_EPISODE))
@@ -1031,43 +1017,31 @@ std::string cNopacityTimerMenuItem::CreateDate(void) {
     return *dateString;
 }
 
-int cNopacityTimerMenuItem::CheckScrollable(bool hasIcon) {
-    int spaceLeft = spaceMenu;
-    if (hasIcon)
-        spaceLeft += geoManager->menuLogoWidth;
-    int totalTextWidth = width - spaceLeft;
-    if (font->Width(strEntry.c_str()) > (width - spaceLeft)) {
+int cNopacityTimerMenuItem::CheckScrollable1(int maxwidth) {
+    int totalTextWidth = maxwidth;
+    if (font->Width(strEntry.c_str()) > (maxwidth)) {
         scrollable = true;
         totalTextWidth = std::max(font->Width(strEntry.c_str()), totalTextWidth);
         strEntryFull = strEntry.c_str();
-        strEntry = CutText(strEntry, width - spaceLeft, font);
+        strEntry = CutText(strEntry, maxwidth, font);
     }
     return totalTextWidth;
 }
 
-void cNopacityTimerMenuItem::SetTextFull(void) {
+void cNopacityTimerMenuItem::SetText(bool full) {
     if (!pixmapTextScroller)
         return;
 
-    tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
+    tColor clrFont = (current) ? Theme.Color(clrMenuFontMenuItemHigh) : Theme.Color(clrMenuFontMenuItem);
     PixmapFill(pixmapTextScroller, clrTransparent);
-    pixmapTextScroller->DrawText(cPoint(0, height/2 + (height/2 - font->Height())/2), strEntryFull.c_str(), clrFont, clrTransparent, font);
-}
-
-void cNopacityTimerMenuItem::SetTextShort(void) {
-    if (!pixmapTextScroller)
-        return;
-
-    tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
-    PixmapFill(pixmapTextScroller, clrTransparent);
-    pixmapTextScroller->DrawText(cPoint(0, height/2 + (height/2 - font->Height())/2), strEntry.c_str(), clrFont, clrTransparent, font);
+    pixmapTextScroller->DrawText(cPoint(0, height / 2 + (height / 2 - font->Height()) / 2), (full) ? strEntryFull.c_str() : strEntry.c_str(), clrFont, clrTransparent, font);
 }
 
 void cNopacityTimerMenuItem::DrawStatic(int textLeft) {
     if (!pixmapStatic)
         return;
 
-    int iconSize = height/2;
+    int iconSize = height / 2;
     cString iconName("");
     bool firstDay = false;
     if (!(Timer->HasFlags(tfActive)))
@@ -1090,33 +1064,37 @@ void cNopacityTimerMenuItem::DrawStatic(int textLeft) {
     else
         dateTime = strDateTime.c_str();
     tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
-    pixmapStatic->DrawText(cPoint(textLeft + iconSize, (height/2 - fontSmall->Height())/2), *dateTime, clrFont, clrTransparent, fontSmall);
+    pixmapStatic->DrawText(cPoint(textLeft + iconSize + spaceMenu, (height / 2 - fontSmall->Height()) / 2), *dateTime, clrFont, clrTransparent, fontSmall);
 }
 
 void cNopacityTimerMenuItem::Render(bool initial, bool fadeout) {
-    textLeft = geoManager->menuLogoWidth + geoManager->menuSpace;
+    int logoWidth = geoManager->menuLogoWidth;
+    int logoHeight = geoManager->menuLogoHeight;
+    textLeft = logoWidth + 3 * spaceMenu;
     if (selectable) {
         eSkinElementType type = (current) ? seTimersHigh : seTimers;
         DrawBackground(type, seTimersTop);
 
-	DrawStatic(textLeft);
+        DrawStatic(textLeft);
         DrawChannelLogoBackground();
-        int logoWidth = geoManager->menuLogoWidth;
-        int logoHeight = geoManager->menuLogoHeight;
         if (!drawn) {
             if (Timer && Timer->Channel() && Timer->Channel()->Name())
                 DrawLogo(Timer->Channel(), logoWidth, logoHeight, font, true);
+            int pixmapWidth = width - textLeft - 2 * spaceMenu;
+            int textWidth = CheckScrollable1(pixmapWidth);
+            if (textWidth > 0)
+                CreatePixmapTextScroller(textWidth, textLeft, pixmapWidth);
             drawn = true;
         }
         if (!Running())
-            SetTextShort();
+            SetText();
         if (config.GetValue("animation") && config.GetValue("menuScrollSpeed")) {
             if (current && scrollable && !Running())
                 Start();
         }
         if (pixmapTextScroller && wasCurrent && !current && scrollable && Running()) {
             pixmapTextScroller->SetDrawPortPoint(cPoint(0, 0));
-            SetTextShort();
+            SetText();
             Cancel(-1);
         }
         if (wasCurrent)
