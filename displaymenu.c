@@ -379,9 +379,6 @@ bool cNopacityDisplayMenu::SetItemEvent(const cEvent *Event, int Index, bool Cur
         item->SetCurrent(Current);
         item->CreateText();
         item->CreatePixmaps();
-        int textWidth = item->CheckScrollable((Channel)?true:false);
-        if (textWidth > 0)
-            item->CreatePixmapTextScroller(textWidth);
         item->Render(initial, fadeout);
     } else {
         cNopacityMenuItem *item = menuItems[Index].get();

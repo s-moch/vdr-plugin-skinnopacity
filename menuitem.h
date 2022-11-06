@@ -27,6 +27,7 @@ protected:
     int spaceMenu;
     int textLeft;
     int iconwidth = 0;
+    int textRight;
     int index;
     cString *itemTabs;
     int *tabWidth;
@@ -95,19 +96,22 @@ private:
     std::string strSubTitle;
     std::string strTitleFull;
     std::string strSubTitleFull;
-    bool scrollTitle;
-    bool scrollSubTitle;
-    int titleY;
+    bool scrollTitle = false;
+    bool scrollSubTitle = false;
+    int dateTimeY = 0;
+    int titleY = 0;
+    int subTitleY = 0;
+    int progressBarY = 0;
+    void SetY(void);
     void DrawStatic(int textLeft);
     void DrawRemaining(int x, int y, int width);
-    void SetTextFull(void);
-    void SetTextShort(void);
+    void SetText(bool full = false);
+    void SetTextFull(void) { SetText(true); };
+    int CheckScrollable1(int maxwidth = 0);
 public:
     cNopacityScheduleMenuItem(cOsd *osd, const cEvent *Event, const cChannel *Channel, eTimerMatch TimerMatch, bool sel, eMenuCategory category, cRect *vidWin);
-    ~cNopacityScheduleMenuItem(void);
-    void CreatePixmapTextScroller(int totalWidth, int pixmapLeft = 0, int pixmapWidth = 0);
+    ~cNopacityScheduleMenuItem(void) {};
     void CreateText(void);
-    int CheckScrollable(bool hasIcon);
     void Render(bool initial = false, bool fadeout = false);
 };
 

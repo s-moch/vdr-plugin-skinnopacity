@@ -50,6 +50,8 @@ void cNopacityMenuItem::SetGeometry(int index, int top, int left, int width, int
     this->width = width;
     this->height = height;
     this->spaceMenu = spaceMenu;
+    textLeft = spaceMenu;
+    textRight = spaceMenu;
 }
 
 void cNopacityMenuItem::CreatePixmaps(bool createPixmapFg) {
@@ -266,7 +268,7 @@ void cNopacityMenuItem::DrawChannelLogoBackground(void) {
     if (!pixmapBackground || !config.GetValue("menuChannelLogoBackground"))
         return;
     int logoWidth = geoManager->menuLogoWidth;
-    pixmapBackground->DrawRectangle(cRect(4,6,logoWidth-4, height-12), Theme.Color(clrMenuChannelLogoBack));
+    pixmapBackground->DrawRectangle(cRect(spaceMenu, spaceMenu, logoWidth, height - 2 * spaceMenu), Theme.Color(clrMenuChannelLogoBack));
 }
 
 void cNopacityMenuItem::DrawLogo(const cChannel *Channel, int logoWidth, int logoHeight, cFont *font, bool drawText) {
@@ -278,14 +280,15 @@ void cNopacityMenuItem::DrawLogo(const cChannel *Channel, int logoWidth, int log
         pixmapStatic->DrawImage(cPoint(2 + (logoWidth - logo->Width()) / 2, (logoHeight - logo->Height()) / 2), *logo);
     } else if (drawText) {
         cTextWrapper channel;
-        channel.Set(Channel->Name(), font, logoWidth);
+        channel.Set(Channel->Name(), fontSmall, logoWidth);
         int lines = channel.Lines();
         int lineHeight = height / 3;
-        int heightChannel = lines * lineHeight;
-        int y = (heightChannel > height) ? 0 : (height-heightChannel) / 2;
+        int heightChannel = std::min(3, lines) * lineHeight;
+        int y = spaceMenu + (height - heightChannel) / 2;
         for (int line = 0; line < lines; line++) {
-            pixmapStatic->DrawText(cPoint((logoWidth - font->Width(channel.GetLine(line))) / 2, y + lineHeight * line),
-                                   channel.GetLine(line), Theme.Color(clrMenuFontMenuItemHigh), clrTransparent, font);
+            int x = spaceMenu + (logoWidth - fontSmall->Width(channel.GetLine(line))) / 2;
+            pixmapStatic->DrawText(cPoint(x, y + lineHeight * line),
+                                   channel.GetLine(line), Theme.Color(clrMenuFontMenuItemHigh), clrTransparent, fontSmall);
         }
     }
 }
@@ -520,35 +523,10 @@ cNopacityScheduleMenuItem::cNopacityScheduleMenuItem(cOsd *osd, const cEvent *Ev
     this->Channel = Channel;
     this->TimerMatch = TimerMatch;
     this->vidWin = vidWin;
-    strDateTime = "";
-    strTitle = "";
-    strSubTitle = "";
-    strTitleFull = "";
-    strSubTitleFull = "";
-    scrollTitle = false;
-    scrollSubTitle = false;
     font = fontManager->menuItemSchedule;
     fontSmall = fontManager->menuItemScheduleSmall;
     fontEPGWindow = fontManager->menuEPGInfoWindow;
     fontEPGWindowLarge = fontManager->menuEPGInfoWindowLarge;
-}
-
-cNopacityScheduleMenuItem::~cNopacityScheduleMenuItem(void) {
-}
-
-void cNopacityScheduleMenuItem::CreatePixmapTextScroller(int totalWidth, int Left, int Width) {
-    int drawPortWidth = totalWidth + 10;
-    int pixmapLeft = left;
-    int pixmapWidth = width;
-    if (Channel) {
-        pixmapLeft += geoManager->menuLogoWidth + geoManager->menuSpace;
-        pixmapWidth = pixmapWidth - geoManager->menuLogoWidth - geoManager->menuSpace;
-    }
-    pixmapTextScroller = CreatePixmap(osd, "pixmapTextScroller", 4, cRect(pixmapLeft,
-                                                                          top + index * (height + spaceMenu),
-                                                                          pixmapWidth, height),
-                                                                    cRect(0, 0, drawPortWidth, height));
-    PixmapFill(pixmapTextScroller, clrTransparent);
 }
 
 void cNopacityScheduleMenuItem::CreateText() {
@@ -569,20 +547,19 @@ void cNopacityScheduleMenuItem::CreateText() {
         strSubTitle = Event->ShortText();
 }
 
-int cNopacityScheduleMenuItem::CheckScrollable(bool hasIcon) {
-    int spaceLeft = spaceMenu;
-    if (hasIcon)
-        spaceLeft += geoManager->menuLogoWidth;
-    int totalTextWidth = width - spaceLeft;
-    if (font->Width(strTitle.c_str()) > (width - spaceLeft)) {
+int cNopacityScheduleMenuItem::CheckScrollable1(int maxwidth) {
+    int totalTextWidth = maxwidth;
+    if (font->Width(strTitle.c_str()) > (maxwidth)) {
         scrollable = true;
         scrollTitle = true;
         totalTextWidth = std::max(font->Width(strTitle.c_str()), totalTextWidth);
         strTitleFull = strTitle.c_str();
         strSubTitleFull = strSubTitle.c_str();
-        strTitle = CutText(strTitle, width - spaceLeft, font);
+        strTitle = CutText(strTitle, maxwidth, font);
     }
-    if (fontSmall->Width(strSubTitle.c_str()) > (width - spaceLeft)) {
+    if (!config.GetValue("menuSchedulesShowShortText"))
+        return totalTextWidth;
+    if (fontSmall->Width(strSubTitle.c_str()) > (maxwidth)) {
         if (!scrollable) {
             scrollable = true;
             strTitleFull = strTitle.c_str();
@@ -590,68 +567,135 @@ int cNopacityScheduleMenuItem::CheckScrollable(bool hasIcon) {
         }
         scrollSubTitle = true;
         totalTextWidth = std::max(fontSmall->Width(strSubTitle.c_str()), totalTextWidth);
-        strSubTitle = CutText(strSubTitle, width - spaceLeft, fontSmall);
+        strSubTitle = CutText(strSubTitle, maxwidth, fontSmall);
     }
     return totalTextWidth;
 
 }
 
-void cNopacityScheduleMenuItem::SetTextFull(void) {
+void cNopacityScheduleMenuItem::SetText(bool full) {
     if (!pixmapTextScroller)
         return;
 
-    tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
+    tColor clrFont = (current) ? Theme.Color(clrMenuFontMenuItemHigh) : Theme.Color(clrMenuFontMenuItem);
     PixmapFill(pixmapTextScroller, clrTransparent);
-    pixmapTextScroller->DrawText(cPoint(5, titleY), strTitleFull.c_str(), clrFont, clrTransparent, font);
+    pixmapTextScroller->DrawText(cPoint(0, titleY), (full) ? strTitleFull.c_str() : strTitle.c_str(), clrFont, clrTransparent, font);
     if (!config.GetValue("menuSchedulesShowShortText"))
         return;
-    pixmapTextScroller->DrawText(cPoint(5, titleY + font->Height() - 2), strSubTitleFull.c_str(), clrFont, clrTransparent, fontSmall);
+    pixmapTextScroller->DrawText(cPoint(0, subTitleY), (full) ? strSubTitleFull.c_str() : strSubTitle.c_str(), clrFont, clrTransparent, fontSmall);
 }
 
-void cNopacityScheduleMenuItem::SetTextShort(void) {
-    if (!pixmapTextScroller)
+void cNopacityScheduleMenuItem::DrawRemaining(int x, int y, int width) {
+    if (!config.GetValue("menuSchedulesShowProgressBar") || !pixmapBackground || !Event)
         return;
 
-    tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
-    PixmapFill(pixmapTextScroller, clrTransparent);
-    pixmapTextScroller->DrawText(cPoint(5, titleY), strTitle.c_str(), clrFont, clrTransparent, font);
-    if (!config.GetValue("menuSchedulesShowShortText"))
+    time_t now = time(NULL);
+    if ((now < Event->StartTime()) || (now > Event->EndTime()))
         return;
-    pixmapTextScroller->DrawText(cPoint(5, titleY + font->Height() - 2), strSubTitle.c_str(), clrFont, clrTransparent, fontSmall);
+    int seen = now - Event->StartTime();
+    int total = Event->EndTime() - Event->StartTime();
+    if (total == 0)
+        return;
+    double percentSeen = (double)seen/total;
+
+    tColor clrBack = (current) ? Theme.Color(clrProgressBarBackHigh) : Theme.Color(clrProgressBarBack);
+    tColor clrBar = (current) ? Theme.Color(clrProgressBarHigh) : Theme.Color(clrProgressBar);
+    pixmapBackground->DrawEllipse(cRect(x, y, 7, 7), clrBack);
+    pixmapBackground->DrawEllipse(cRect(x + width, y, 7, 7), clrBack);
+    pixmapBackground->DrawRectangle(cRect(x + 4, y, width - 1, 7), clrBack);
+    pixmapBackground->DrawEllipse(cRect(x + 1, y + 1, 5, 5), clrBar);
+
+    if (percentSeen > 0.0)
+        pixmapBackground->DrawEllipse(cRect(x + (width * percentSeen), y + 1, 5, 5), clrBar);
+    pixmapBackground->DrawRectangle(cRect(x + 4, y + 1, (width - 1) * percentSeen, 5), clrBar);
+}
+
+void cNopacityScheduleMenuItem::DrawStatic(int textLeft) {
+    if (!pixmapStatic)
+        return;
+
+    if (TimerMatch == tmFull) {
+        cImage *imgIcon = imgCache->GetSkinIcon("skinIcons/activetimer", 64, 64);
+        if (imgIcon) {
+            int iconLeft = width - (spaceMenu + 64);
+            pixmapStatic->DrawImage(cPoint(iconLeft, (pixmapStatic->ViewPort().Height() - imgIcon->Height()) / 2), *imgIcon);
+            iconwidth = width - iconLeft;
+        }
+    }
+    if (TimerMatch == tmPartial) {
+        cImage *imgIcon = imgCache->GetSkinIcon("skinIcons/activetimersmall", 32, 32);
+        if (imgIcon) {
+            int iconLeft = width - (spaceMenu + 32);
+            pixmapStatic->DrawImage(cPoint(iconLeft, (pixmapStatic->ViewPort().Height() - imgIcon->Height()) / 2), *imgIcon);
+            iconwidth = width - iconLeft;
+        }
+    }
+    if (!config.GetValue("menuSchedulesShowTime"))
+        return;
+    tColor clrFont = (current) ? Theme.Color(clrMenuFontMenuItemHigh) : Theme.Color(clrMenuFontMenuItem);
+    pixmapStatic->DrawText(cPoint(textLeft, dateTimeY), strDateTime.c_str(), clrFont, clrTransparent, font);
+}
+
+void cNopacityScheduleMenuItem::SetY(void) {
+    dateTimeY = 0;
+    titleY = (height - font->Height()) / 2;
+    subTitleY = titleY + font->Height() - 2;
+    progressBarY = 7 * height / 8;
+    if (config.GetValue("menuSchedulesShowTime")) {
+        if (!config.GetValue("menuSchedulesShowShortText")) {
+            dateTimeY = (7 * height / 16 - font->Height()) / 2;
+            titleY = 7 * height / 16 + dateTimeY;
+        }
+        if (!config.GetValue("menuSchedulesShowProgressBar") && !config.GetValue("menuSchedulesShowShortText")) {
+            dateTimeY = 2 * (height / 2 - font->Height()) / 3;
+            titleY = height / 2 + (height / 2 - font->Height()) / 3;
+        }
+    }
+    if (!config.GetValue("menuSchedulesShowTime") && config.GetValue("menuSchedulesShowShortText")) {
+        titleY = (3 * height / 4 - font->Height()) / 2;
+        subTitleY = titleY + font->Height() + 2;
+    }
 }
 
 void cNopacityScheduleMenuItem::Render(bool initial, bool fadeout) {
-    int logoWidth = geoManager->menuLogoWidth;
-    int logoHeight = geoManager->menuLogoHeight;
-    textLeft = 5;
-    if (Channel && Channel->Name())
-        textLeft = logoWidth + 10;
+    textLeft = 2 * spaceMenu;
 
     if (selectable) {
-        titleY = (height - font->Height()) / 2;
+        if (!drawn)
+            SetY();
         eSkinElementType type = (current) ? seSchedulesHigh : seSchedules;
         DrawBackground(type, seSchedulesTop);
-
-        DrawStatic(textLeft);
-        if (Channel && Channel->Name())
-            DrawChannelLogoBackground();
+        if (Channel && Channel->Name()) {
+	    DrawChannelLogoBackground();
+            int logoWidth = geoManager->menuLogoWidth;
+            int logoHeight = geoManager->menuLogoHeight;
+            if (!drawn) {
+                DrawLogo(Channel, logoWidth, logoHeight, font, true);
+            }
+            textLeft += logoWidth + spaceMenu;
+        }
+        DrawStatic(textLeft);	
+        if (!drawn) {
+            int pixmapWidth = width - textLeft - iconwidth - 2 * spaceMenu;
+            int textWidth = CheckScrollable1(pixmapWidth);
+            if (textWidth > 0) {
+                CreatePixmapTextScroller(textWidth, textLeft, pixmapWidth);
+            }
+            drawn = true;
+        }
         int progressBarDelta = 0;
         if (config.GetValue("displayType") == dtGraphical && textLeft < 20)
             progressBarDelta = 10;
-        DrawRemaining(textLeft + progressBarDelta, height*7/8, width - textLeft - 20 - progressBarDelta);
-        if (!drawn) {
-            if (Channel && Channel->Name())
-                DrawLogo(Channel, logoWidth, logoHeight, font, true);
-            drawn = true;
-        }
-        SetTextShort();
+        DrawRemaining(textLeft + progressBarDelta, progressBarY, width - textLeft - 20 - progressBarDelta);
+        if (!Running())
+            SetText();
         if (config.GetValue("animation") && config.GetValue("menuScrollSpeed")) {
             if (current && scrollable && !Running())
                 Start();
         }
         if (pixmapTextScroller && wasCurrent && !current && scrollable && Running()) {
             pixmapTextScroller->SetDrawPortPoint(cPoint(0, 0));
-            SetTextShort();
+            SetText();
             Cancel(-1);
         }
         if (wasCurrent)
@@ -680,56 +724,13 @@ void cNopacityScheduleMenuItem::Render(bool initial, bool fadeout) {
         }
     } else {
         if (Event) {
-            DrawDelimiter(Event->Title(), "skinIcons/daydelimiter", (config.GetValue("displayType")!=dtFlat)?seSchedules:seNone);
-        } else if (Channel) {
-            DrawDelimiter(Channel->Name(), "skinIcons/channeldelimiter", (config.GetValue("displayType")!=dtFlat)?seSchedules:seNone);
+            DrawDelimiter(Event->Title(), "skinIcons/daydelimiter", (config.GetValue("displayType") != dtFlat) ? seSchedules : seNone);
+            return;
+        }
+       	if (Channel) {
+            DrawDelimiter(Channel->Name(), "skinIcons/channeldelimiter", (config.GetValue("displayType") != dtFlat) ? seSchedules : seNone);
         }
     }
-}
-
-void cNopacityScheduleMenuItem::DrawStatic(int textLeft) {
-    if (!pixmapStatic)
-        return;
-
-    if (TimerMatch == tmFull) {
-        cImage *imgIcon = imgCache->GetSkinIcon("skinIcons/activetimer", 64, 64);
-        if (imgIcon)
-            pixmapStatic->DrawImage(cPoint(width - 66, 2), *imgIcon);
-    } else if (TimerMatch == tmPartial) {
-        cImage *imgIcon = imgCache->GetSkinIcon("skinIcons/activetimersmall", 32, 32);
-        if (imgIcon)
-            pixmapStatic->DrawImage(cPoint(width - 34, 2), *imgIcon);
-
-    }
-    if (!config.GetValue("menuSchedulesShowTime")) 
-        return;
-    tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
-    pixmapStatic->DrawText(cPoint(textLeft, 0), strDateTime.c_str(), clrFont, clrTransparent, font);
-}
-
-void cNopacityScheduleMenuItem::DrawRemaining(int x, int y, int width) {
-    if (!config.GetValue("menuSchedulesShowProgressBar") || !pixmapBackground || !Event)
-        return;
-
-    time_t now = time(NULL);
-    if ((now < Event->StartTime()) || (now > Event->EndTime()))
-        return;
-    int seen = now - Event->StartTime();
-    int total = Event->EndTime() - Event->StartTime();
-    if (total == 0)
-        return;
-    double percentSeen = (double)seen/total;
-
-    tColor clrBack = (current) ? Theme.Color(clrProgressBarBackHigh) : Theme.Color(clrProgressBarBack);
-    tColor clrBar = (current) ? Theme.Color(clrProgressBarHigh) : Theme.Color(clrProgressBar);
-    pixmapBackground->DrawEllipse(cRect(x, y, 7, 7), clrBack);
-    pixmapBackground->DrawEllipse(cRect(x + width, y, 7, 7), clrBack);
-    pixmapBackground->DrawRectangle(cRect(x + 4, y, width - 1, 7), clrBack);
-    pixmapBackground->DrawEllipse(cRect(x + 1, y + 1, 5, 5), clrBar);
-
-    if (percentSeen > 0.0)
-        pixmapBackground->DrawEllipse(cRect(x+(width*percentSeen), y+1, 5, 5), clrBar);
-    pixmapBackground->DrawRectangle(cRect(x+4, y+1, (width-1)*percentSeen, 5), clrBar);
 }
 
 // cNopacityChannelMenuItem  -------------
