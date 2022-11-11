@@ -1354,11 +1354,7 @@ void cNopacityRecordingMenuItem::Render(bool initial, bool fadeout) {
 // cNopacityDefaultMenuItem  -------------
 
 cNopacityDefaultMenuItem::cNopacityDefaultMenuItem(cOsd *osd, const char *text, bool sel) : cNopacityMenuItem (osd, text, sel) {
-    scrollCol = -1;
     font = fontManager->menuItemDefault;
-}
-
-cNopacityDefaultMenuItem::~cNopacityDefaultMenuItem(void) {
 }
 
 bool cNopacityDefaultMenuItem::CheckProgressBar(const char *text) {
@@ -1395,29 +1391,19 @@ void cNopacityDefaultMenuItem::DrawProgressBar(int x, int width, const char *bar
     }
 }
 
-void cNopacityDefaultMenuItem::SetTextFull(void) {
+void cNopacityDefaultMenuItem::SetText(bool full) {
     if (!pixmapTextScroller)
         return;
 
     tColor clrFont = (current) ? Theme.Color(clrMenuFontMenuItemHigh) : Theme.Color(clrMenuFontMenuItem);
     PixmapFill(pixmapTextScroller, clrTransparent);
-    int x = (scrollCol == 0) ? 5 : 0;
-    pixmapTextScroller->DrawText(cPoint(x, (height - font->Height()) / 2), strEntryFull.c_str(), clrFont, clrTransparent, font);
+    pixmapTextScroller->DrawText(cPoint(0, (height - font->Height()) / 2), (full) ? strEntryFull.c_str() : strEntry.c_str(), clrFont, clrTransparent, font);
 }
 
-void cNopacityDefaultMenuItem::SetTextShort(void) {
-    if (!pixmapTextScroller)
-        return;
-
-    tColor clrFont = (current) ? Theme.Color(clrMenuFontMenuItemHigh) : Theme.Color(clrMenuFontMenuItem);
-    PixmapFill(pixmapTextScroller, clrTransparent);
-    int x = (scrollCol == 0) ? 5 : 0;
-    pixmapTextScroller->DrawText(cPoint(x, (height - font->Height()) / 2), strEntry.c_str(), clrFont, clrTransparent, font);
-}
-
-int cNopacityDefaultMenuItem::CheckScrollable(bool hasIcon) {
+int cNopacityDefaultMenuItem::CheckScrollable1(int maxwidth) {
     if (!selectable)
         return 0;
+
     scrollable = false;
     int colWidth = 0;
     int colTextWidth = 0;
@@ -1425,7 +1411,7 @@ int cNopacityDefaultMenuItem::CheckScrollable(bool hasIcon) {
         if (tabWidth[i] > 0) {
             if (CheckProgressBar(*itemTabs[i]))
                 continue;
-            colWidth = tabWidth[i+cSkinDisplayMenu::MaxTabs];
+            colWidth = tabWidth[i + cSkinDisplayMenu::MaxTabs] - spaceMenu;
             colTextWidth = font->Width(*itemTabs[i]);
             if (colTextWidth > colWidth) {
                 cTextWrapper itemTextWrapped;
@@ -1441,8 +1427,9 @@ int cNopacityDefaultMenuItem::CheckScrollable(bool hasIcon) {
     }
     if (scrollable) {
         if (!pixmapTextScroller) {
-            pixmapTextScroller = CreatePixmap(osd, "pixmapTextScroller", 4, cRect(left + tabWidth[scrollCol], top + index * (height + spaceMenu), tabWidth[scrollCol+numTabs], height),
-                                                                            cRect(0, 0, colTextWidth+10, height));
+            int posX = tabWidth[scrollCol] + ((scrollCol == 0) ? 2 * spaceMenu : 0);
+            int pixmapWidth = tabWidth[scrollCol + cSkinDisplayMenu::MaxTabs] - ((scrollCol == 0 || scrollCol == numTabs - 1) ? 4 : 2) * spaceMenu;
+            CreatePixmapTextScroller(colTextWidth, posX, pixmapWidth);
             PixmapFill(pixmapTextScroller, clrTransparent);
         }
     } else {
@@ -1479,7 +1466,7 @@ bool cNopacityDefaultMenuItem::DrawHeaderElement(void) {
             c2--;
         *(c2 + 1) = 0;
 
-        int left = 5 + tabWidth[0];
+        int left = 2 * spaceMenu + tabWidth[0];
         pixmapStatic->DrawText(cPoint(left, (height - font->Height()) / 2), c, Theme.Color(clrMenuFontMenuItemSep), clrTransparent, font);
         return true;
     }
@@ -1512,9 +1499,11 @@ void cNopacityDefaultMenuItem::Render(bool initial, bool fadeout) {
         
     PixmapFill(pixmapStatic, clrTransparent);
 
+    CheckScrollable1();
+
     for (int i = 0; i < numTabs; i++) {
         if (tabWidth[i] > 0) {
-            colWidth = tabWidth[i+cSkinDisplayMenu::MaxTabs];
+            colWidth = tabWidth[i + cSkinDisplayMenu::MaxTabs] - spaceMenu;
             int posX = tabWidth[i];
             if (CheckProgressBar(*itemTabs[i])) {
                     DrawProgressBar(posX, colWidth, *itemTabs[i], clrFont);
@@ -1532,11 +1521,11 @@ void cNopacityDefaultMenuItem::Render(bool initial, bool fadeout) {
                 } else {
                     itemText = itemTabs[i];
                 }
-                if (i==0) posX += 5;
+                if (i == 0) posX += 2 * spaceMenu;
                 pixmapStatic->DrawText(cPoint(posX, (height - font->Height()) / 2), *itemText, clrFont, clrTransparent, font);
             } else {
                 if (!Running())
-                    SetTextShort();
+                    SetText();
             }
         } else
             break;
@@ -1549,7 +1538,7 @@ Next:
     }
     if (pixmapTextScroller && wasCurrent && !current && scrollable && Running()) {
         pixmapTextScroller->SetDrawPortPoint(cPoint(0, 0));
-        SetTextShort();
+        SetText();
         Cancel(-1);
     }
 }

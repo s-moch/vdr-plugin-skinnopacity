@@ -198,13 +198,13 @@ private:
     bool DrawHeaderElement(void);
     std::string strEntry;
     std::string strEntryFull;
-    int scrollCol;
-    void SetTextFull(void);
-    void SetTextShort(void);
+    int scrollCol = -1;
+    void SetText(bool full = false);
+    void SetTextFull(void) { SetText(true); };
 public:
     cNopacityDefaultMenuItem(cOsd *osd, const char *text, bool sel);
-    ~cNopacityDefaultMenuItem(void);
-    int CheckScrollable(bool hasIcon);
+    ~cNopacityDefaultMenuItem(void) {};
+    int CheckScrollable1(int maxwidth = 0);
     void Render(bool initial = false, bool fadeout = false);
 };
 
