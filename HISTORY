@@ -1,5 +1,20 @@
 VDR Plugin 'nOpacity' Revision History
 ---------------------------------------
+Version 1.1.14
+
+- Rework of various menu items
+- Merge of tabbed and non tabbed detail view started
+- Optimized positioning of elements in the detail view
+- Various redundant code reduced
+- Add "TVScraper" and "VDRadmin-AM" details to recording info
+- Fix display non selectable items in  the recordings menu
+- Fix timers in the main menu
+- Added a configuration option for the number of actors per row in the detail view
+- EPG short text in display channel can be switched off in the setup
+- In the narrow recordings menu line 2 and line 3 can be switched off in the setup
+- In the narrow schedules menu time, shorttext and progressbar can be switched off in the setup
+- Various things cleaned up
+
 Version 1.1.13
 
 - Added NULL checking of all pixmaps to prevent a possible segfault
