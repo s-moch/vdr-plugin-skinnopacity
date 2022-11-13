@@ -479,6 +479,52 @@ void cNopacityView::CreateFloatingTextWrapper(cTextWrapper *twNarrow, cTextWrapp
     twFull->Set(sstrTextFull.str().c_str(), font, width - 2 * border);
 }
 
+void cNopacityView::DrawBanner(int height) {
+    int bannerWidthOrig = 0;
+    int bannerHeightOrig = 0;
+    std::string bannerPath = "";
+    int seasonPosterWidth = 0;
+    int seasonPosterHeight = 0;
+    std::string seasonPoster = "";
+    if (isSeries && series.banners.size() > 0) {
+        bannerWidthOrig = series.banners[0].width;
+        bannerHeightOrig = series.banners[0].height;
+        bannerPath = series.banners[0].path;
+        seasonPoster = series.seasonPoster.path;
+        seasonPosterWidth = series.seasonPoster.width / 2;
+        seasonPosterHeight = series.seasonPoster.height / 2;
+    }
+
+    if (bannerWidthOrig == 0)
+        return;
+
+    int bannerWidth = bannerWidthOrig;
+    int bannerHeight = bannerHeightOrig;
+    int bannerX = (contentWidth - bannerWidth) / 2;
+
+    if (isSeries && seasonPoster.size() > 0) {
+        int spaceBanner = contentWidth - 3 * border - seasonPosterWidth;
+        if (spaceBanner < bannerWidthOrig) {
+            bannerWidth = spaceBanner;
+            bannerHeight = bannerHeightOrig * ((double)bannerWidth / (double)bannerWidthOrig);
+            bannerX = ((contentWidth - seasonPosterWidth) - bannerWidth)/2;
+        }
+    } else if (bannerWidthOrig > contentWidth - 2*border) {
+        bannerWidth = contentWidth - 2*border;
+        bannerHeight = bannerHeightOrig * ((double)bannerWidth / (double)bannerWidthOrig);
+        bannerX = (contentWidth - bannerWidth) / 2;
+    }
+    cImageLoader imgLoader;
+    if (imgLoader.LoadPoster(bannerPath.c_str(), bannerWidth, bannerHeight)) {
+        if (pixmapContent)
+            pixmapContent->DrawImage(cPoint(bannerX, height), imgLoader.GetImage());
+    }
+    if (imgLoader.LoadPoster(seasonPoster.c_str(), seasonPosterWidth, seasonPosterHeight)) {
+        if (pixmapContent)
+            pixmapContent->DrawImage(cPoint(contentWidth - seasonPosterWidth - border, height), imgLoader.GetImage());
+    }
+}
+
 void cNopacityView::DrawActors(std::vector<cActor> *actors) {
     int numActors = actors->size();
     if (numActors < 1) {
@@ -1378,52 +1424,6 @@ void cNopacityMenuDetailViewLight::DrawPoster(void) {
         if (pixmapPoster)
             pixmapPoster->DrawImage(cPoint(posterX, posterY), imgLoader.GetImage());        
     }
-}
-
-void cNopacityMenuDetailViewLight::DrawBanner(int height) {
-    int bannerWidthOrig = 0;
-    int bannerHeightOrig = 0;
-    std::string bannerPath = "";
-    int seasonPosterWidth = 0;
-    int seasonPosterHeight = 0;
-    std::string seasonPoster = "";
-    if (isSeries && series.banners.size() > 0) {
-        bannerWidthOrig = series.banners[0].width;
-        bannerHeightOrig = series.banners[0].height;
-        bannerPath = series.banners[0].path;
-        seasonPoster = series.seasonPoster.path;
-        seasonPosterWidth = series.seasonPoster.width / 2;
-        seasonPosterHeight = series.seasonPoster.height / 2;
-    }
-
-    if (bannerWidthOrig == 0)
-        return;
-
-    int bannerWidth = bannerWidthOrig;
-    int bannerHeight = bannerHeightOrig;
-    int bannerX = (contentWidth - bannerWidth) / 2;
-
-    if (isSeries && seasonPoster.size() > 0) {
-        int spaceBanner = contentWidth - 3 * border - seasonPosterWidth;
-        if (spaceBanner < bannerWidthOrig) {
-            bannerWidth = spaceBanner;
-            bannerHeight = bannerHeightOrig * ((double)bannerWidth / (double)bannerWidthOrig);
-            bannerX = ((contentWidth - seasonPosterWidth) - bannerWidth)/2;
-        }
-    } else if (bannerWidthOrig > contentWidth - 2*border) {
-        bannerWidth = contentWidth - 2*border;
-        bannerHeight = bannerHeightOrig * ((double)bannerWidth / (double)bannerWidthOrig);
-        bannerX = (contentWidth - bannerWidth) / 2;
-    }
-    cImageLoader imgLoader;
-    if (imgLoader.LoadPoster(bannerPath.c_str(), bannerWidth, bannerHeight)) {
-        if (pixmapContent)
-            pixmapContent->DrawImage(cPoint(bannerX, height), imgLoader.GetImage());
-    }
-    if (imgLoader.LoadPoster(seasonPoster.c_str(), seasonPosterWidth, seasonPosterHeight)) {
-        if (pixmapContent)
-            pixmapContent->DrawImage(cPoint(contentWidth - seasonPosterWidth - border, height), imgLoader.GetImage());
-    }    
 }
 
 void cNopacityMenuDetailViewLight::DrawAdditionalBanners(int top, int bottom) {

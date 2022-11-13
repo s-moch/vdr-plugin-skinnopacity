@@ -77,6 +77,7 @@ protected:
     void DrawContent(std::string *text);
     void DrawFloatingContent(std::string *infoText, cTvMedia *img, cTvMedia *img2 = NULL);
     void CreateFloatingTextWrapper(cTextWrapper *twNarrow, cTextWrapper *twFull, std::string *text, int widthImg, int heightImg);
+    void DrawBanner(int height);
     void DrawActors(std::vector<cActor> *actors);
     void ClearScrollbar(void);
     virtual void SetTabs(void) {};
@@ -194,7 +195,6 @@ protected:
     bool hasManualPoster;
     cString manualPosterPath;
     void DrawPoster(void);
-    void DrawBanner(int height);
     void DrawAdditionalBanners(int top, int bottom);
     void DrawActors(int height);
     void DrawFanart(int height);
