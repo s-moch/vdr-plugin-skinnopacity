@@ -41,6 +41,7 @@ cNopacityView::~cNopacityView(void) {
     if (fontHeaderLarge)
         delete fontHeaderLarge;
     osd->DestroyPixmap(pixmapHeader);
+    osd->DestroyPixmap(pixmapLogo);
     osd->DestroyPixmap(pixmapContent);
     osd->DestroyPixmap(pixmapContentBack);
     osd->DestroyPixmap(pixmapTabs);
@@ -1554,9 +1555,6 @@ cNopacityMenuDetailViewLight::cNopacityMenuDetailViewLight(cOsd *osd, cPixmap *s
     contentHeight = height - headerHeight;
 }
 
-cNopacityMenuDetailViewLight::~cNopacityMenuDetailViewLight(void) {
-}
-
 void cNopacityMenuDetailViewLight::KeyInput(bool Up, bool Page) {
     if (!hasScrollbar || !pixmapContent)
         return;
@@ -1602,13 +1600,6 @@ void cNopacityMenuDetailViewLight::KeyInput(bool Up, bool Page) {
 cNopacityMenuDetailEventViewLight::cNopacityMenuDetailEventViewLight(cOsd *osd, const cEvent *Event, cPixmap *s, cPixmap *sBack) : cNopacityMenuDetailViewLight(osd, s, sBack) {
     event = Event;
     numEPGPics = 0;
-}
-
-cNopacityMenuDetailEventViewLight::~cNopacityMenuDetailEventViewLight(void) {
-    osd->DestroyPixmap(pixmapHeader);
-    osd->DestroyPixmap(pixmapContent);
-    osd->DestroyPixmap(pixmapLogo);
-    osd->DestroyPixmap(pixmapPoster);
 }
 
 void cNopacityMenuDetailEventViewLight::SetContent(void) {
@@ -1967,12 +1958,6 @@ void cNopacityMenuDetailEventViewLight::DrawEPGPictures(int height) {
 cNopacityMenuDetailRecordingViewLight::cNopacityMenuDetailRecordingViewLight(cOsd *osd, const cRecording *Recording, cPixmap *s, cPixmap *sBack) : cNopacityMenuDetailViewLight(osd, s, sBack) {
     recording = Recording;
     info = Recording->Info();
-}
-
-cNopacityMenuDetailRecordingViewLight::~cNopacityMenuDetailRecordingViewLight(void) {
-    osd->DestroyPixmap(pixmapHeader);
-    osd->DestroyPixmap(pixmapContent);
-    osd->DestroyPixmap(pixmapPoster);
 }
 
 void cNopacityMenuDetailRecordingViewLight::SetContent(void) {

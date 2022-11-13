@@ -199,7 +199,7 @@ protected:
     int yEPGPics;
 public:
     cNopacityMenuDetailViewLight(cOsd *osd, cPixmap *s, cPixmap *sBack);
-    virtual ~cNopacityMenuDetailViewLight(void);
+    virtual ~cNopacityMenuDetailViewLight(void) {};
     void KeyInput(bool Up, bool Page);
     virtual void Render(void) = 0;
 };
@@ -216,7 +216,7 @@ private:
     void DrawEPGPictures(int height);
 public:
     cNopacityMenuDetailEventViewLight(cOsd *osd, const cEvent *Event, cPixmap *s, cPixmap *sBack);
-    virtual ~cNopacityMenuDetailEventViewLight(void);
+    virtual ~cNopacityMenuDetailEventViewLight(void) {};
     void SetContent(void);
     void SetContentHeight(void);
     void CreatePixmaps(void);
@@ -239,7 +239,7 @@ private:
     void DrawEPGPictures(int height);
 public:
     cNopacityMenuDetailRecordingViewLight(cOsd *osd, const cRecording *Recording, cPixmap *s, cPixmap *sBack);
-    virtual ~cNopacityMenuDetailRecordingViewLight(void);
+    virtual ~cNopacityMenuDetailRecordingViewLight(void) {};
     void SetContent(void);
     void SetContentHeight(void);
     void CreatePixmaps(void);
