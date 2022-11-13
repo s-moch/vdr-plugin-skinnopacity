@@ -106,10 +106,11 @@ public:
     virtual void LoadMedia(void) {};
     void SetGeometry(int x, int y, int width, int height, int border, int headerHeight);
     void SetScrollbarPixmaps(cPixmap *s, cPixmap *sb) { pixmapScrollbar = s; pixmapScrollbarBack = sb; };
-    virtual bool KeyUp(void);
-    virtual bool KeyDown(void);
+    bool KeyUp(bool Page = false);
+    bool KeyDown(bool Page = false);
     virtual void KeyLeft(void) {};
     virtual void KeyRight(void) {};
+    void KeyInput(bool Up, bool Page);
     void DrawScrollbar(void);
     virtual void SetContent(void) {};
     virtual void SetContentHeight(void) {};
@@ -185,7 +186,6 @@ public:
 class cNopacityMenuDetailViewLight : public cNopacityView {
 protected:
     cOsd *osd;
-    bool hasScrollbar;
     int x, y, width, height;
     int headerHeight;
     int contentX;
@@ -200,7 +200,6 @@ protected:
 public:
     cNopacityMenuDetailViewLight(cOsd *osd, cPixmap *s, cPixmap *sBack);
     virtual ~cNopacityMenuDetailViewLight(void) {};
-    void KeyInput(bool Up, bool Page);
     virtual void Render(void) = 0;
 };
 

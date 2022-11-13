@@ -840,15 +840,19 @@ void cNopacityView::DrawScrollbar(void) {
     pixmapScrollbar->DrawRectangle(cRect(3, 3 + barTop, geoManager->menuWidthScrollbar - 6, barHeight), Theme.Color(clrMenuScrollBar));
 }
 
-bool cNopacityView::KeyUp(void) {
+bool cNopacityView::KeyUp(bool Page) {
     if (!scrollable || !pixmapContent)
         return false;
+
     int aktHeight = pixmapContent->DrawPort().Point().Y();
-//    int lineHeight = font->Height();
+    int screenHeight = pixmapContent->ViewPort().Height();
     if (aktHeight >= 0) {
         return false;
     }
+
     int step = config.GetValue("detailedViewScrollStep") * font->Height();
+    if (Page)
+        step = screenHeight;
     int newY = aktHeight + step;
     if (newY > 0)
         newY = 0;
@@ -856,22 +860,51 @@ bool cNopacityView::KeyUp(void) {
     return true;
 }
 
-bool cNopacityView::KeyDown(void) {
+bool cNopacityView::KeyDown(bool Page) {
     if (!scrollable || !pixmapContent)
         return false;
+
     int aktHeight = pixmapContent->DrawPort().Point().Y();
     int totalHeight = pixmapContent->DrawPort().Height();
     int screenHeight = pixmapContent->ViewPort().Height();
-    
-    if (totalHeight - ((-1)*aktHeight) == screenHeight) {
+    if (totalHeight - ((-1) * aktHeight) == screenHeight) {
         return false;
-    } 
+    }
+
     int step = config.GetValue("detailedViewScrollStep") * font->Height();
+    if (Page)
+        step = screenHeight;
     int newY = aktHeight - step;
-    if ((-1)*newY > totalHeight - screenHeight)
-        newY = (-1)*(totalHeight - screenHeight);
+    if ((-1) * newY > totalHeight - screenHeight)
+        newY = (-1) * (totalHeight - screenHeight);
     pixmapContent->SetDrawPortPoint(cPoint(0, newY));
     return true;
+}
+
+void cNopacityView::KeyInput(bool Up, bool Page) {
+    bool scrolled = false;
+    if (Up && Page) {
+        if ((config.GetValue("tabsInDetailView") == 0)) {
+            scrolled = KeyUp(Page);
+        } else {
+            KeyLeft();
+            Render();
+        }
+    } else if (!Up && Page) {
+        if ((config.GetValue("tabsInDetailView") == 0)) {
+            scrolled = KeyDown(Page);
+        } else {
+            KeyRight();
+            Render();
+        }
+    } else if (Up && !Page) {
+        scrolled = KeyUp();
+    } else if (!Up && !Page) {
+        scrolled = KeyDown();
+    }
+    if (scrolled)
+        DrawScrollbar();
+    osd->Flush();
 }
 
 /********************************************************************************************
@@ -1551,48 +1584,7 @@ cNopacityMenuDetailViewLight::cNopacityMenuDetailViewLight(cOsd *osd, cPixmap *s
     this->osd = osd;
     this->pixmapScrollbar = s;
     this->pixmapScrollbarBack = sBack;
-    hasScrollbar = false;
     contentHeight = height - headerHeight;
-}
-
-void cNopacityMenuDetailViewLight::KeyInput(bool Up, bool Page) {
-    if (!hasScrollbar || !pixmapContent)
-        return;
-
-    int aktHeight = pixmapContent->DrawPort().Point().Y();
-    int totalHeight = pixmapContent->DrawPort().Height();
-    int screenHeight = pixmapContent->ViewPort().Height();
-    int lineHeight = font->Height();
-    bool scrolled = false;
-    if (Up) {
-        if (Page) {
-            int newY = aktHeight + screenHeight;
-            if (newY > 0)
-                newY = 0;
-            pixmapContent->SetDrawPortPoint(cPoint(0, newY));
-            scrolled = true;
-        } else {
-            if (aktHeight < 0) {
-                pixmapContent->SetDrawPortPoint(cPoint(0, aktHeight + lineHeight));
-                scrolled = true;
-            }
-        }
-    } else {
-        if (Page) {
-            int newY = aktHeight - screenHeight;
-            if ((-1)*newY > totalHeight - screenHeight)
-                newY = (-1)*(totalHeight - screenHeight);
-            pixmapContent->SetDrawPortPoint(cPoint(0, newY));
-            scrolled = true;
-        } else {
-            if (totalHeight - ((-1) * aktHeight) > screenHeight) {
-                pixmapContent->SetDrawPortPoint(cPoint(0, aktHeight - lineHeight));
-                scrolled = true;
-            }
-        }
-    }
-    if (scrolled)
-        DrawScrollbar();
 }
 
 //---------------cNopacityMenuDetailEventViewLight---------------------
@@ -1702,7 +1694,7 @@ void cNopacityMenuDetailEventViewLight::SetContentHeight(void) {
     //check if pixmap content has to be scrollable
     if (totalHeight > contentHeight) {
         contentDrawPortHeight = totalHeight;
-        hasScrollbar = true;
+        scrollable = true;
     } else {
         contentDrawPortHeight = contentHeight;
     }
@@ -2063,7 +2055,7 @@ void cNopacityMenuDetailRecordingViewLight::SetContentHeight(void) {
     //check if pixmap content has to be scrollable
     if (totalHeight > contentHeight) {
         contentDrawPortHeight = totalHeight;
-        hasScrollbar = true;
+        scrollable = true;
     } else {
         contentDrawPortHeight = contentHeight;
     }
