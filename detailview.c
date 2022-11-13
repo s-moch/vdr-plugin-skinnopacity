@@ -818,7 +818,7 @@ void cNopacityView::DrawScrollbar(void) {
 
     int totalBarHeight = pixmapScrollbar->ViewPort().Height() - 6;
     
-    int aktHeight = (-1)*pixmapContent->DrawPort().Point().Y();
+    int aktHeight = (-1) * pixmapContent->DrawPort().Point().Y();
     int totalHeight = pixmapContent->DrawPort().Height();
     int screenHeight = pixmapContent->ViewPort().Height();
 
@@ -1546,8 +1546,8 @@ void cNopacityTextView::Render(void) {
 ********************************************************************************************/
 cNopacityMenuDetailViewLight::cNopacityMenuDetailViewLight(cOsd *osd, cPixmap *s, cPixmap *sBack) : cNopacityView(osd) {
     this->osd = osd;
-    this->scrollBar = s;
-    this->scrollBarBack = sBack;
+    this->pixmapScrollbar = s;
+    this->pixmapScrollbarBack = sBack;
     hasScrollbar = false;
     pixmapContent = NULL;
     pixmapHeader = NULL;
@@ -1557,37 +1557,6 @@ cNopacityMenuDetailViewLight::cNopacityMenuDetailViewLight(cOsd *osd, cPixmap *s
 }
 
 cNopacityMenuDetailViewLight::~cNopacityMenuDetailViewLight(void) {
-}
-
-void cNopacityMenuDetailViewLight::ClearScrollbar(void) {
-    scrollBar->Fill(clrTransparent);
-    scrollBarBack->Fill(clrTransparent);
-}
-
-void cNopacityMenuDetailViewLight::DrawScrollbar(void) {
-    ClearScrollbar();
-    if (!hasScrollbar || !pixmapContent)
-        return;
-
-    int totalBarHeight = scrollBar->ViewPort().Height() - 6;
-
-    int aktHeight = (-1)*pixmapContent->DrawPort().Point().Y();
-    int totalHeight = pixmapContent->DrawPort().Height();
-    int screenHeight = pixmapContent->ViewPort().Height();
-
-    int barHeight = (double)(screenHeight * totalBarHeight) / (double)totalHeight ;
-    int barTop = (double)(aktHeight * totalBarHeight) / (double)totalHeight ;
-
-    if (config.GetValue("displayType") == dtGraphical) {
-        cImage *image = imgCache->GetSkinElement(seScrollbar);
-        if (image)
-            scrollBarBack->DrawImage(cPoint(0, 0), *image);
-        } else {
-            scrollBarBack->Fill(Theme.Color(clrMenuScrollBar));
-            scrollBarBack->DrawRectangle(cRect(2,2,geoManager->menuWidthScrollbar-4, scrollBarBack->ViewPort().Height() - 4), Theme.Color(clrMenuScrollBarBack));
-        }
-
-    scrollBar->DrawRectangle(cRect(3,3 + barTop,geoManager->menuWidthScrollbar-6,barHeight), Theme.Color(clrMenuScrollBar));
 }
 
 void cNopacityMenuDetailViewLight::KeyInput(bool Up, bool Page) {

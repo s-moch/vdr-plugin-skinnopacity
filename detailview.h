@@ -199,10 +199,6 @@ protected:
     cPixmap *pixmapHeader;
     cPixmap *pixmapLogo;
     cPixmap *pixmapContent;
-    cPixmap *scrollBar;
-    cPixmap *scrollBarBack;
-    void ClearScrollbar(void);
-    void DrawScrollbar(void);
 public:
     cNopacityMenuDetailViewLight(cOsd *osd, cPixmap *s, cPixmap *sBack);
     virtual ~cNopacityMenuDetailViewLight(void);
