@@ -1578,18 +1578,10 @@ void cNopacityTextView::Render(void) {
 }
 
 /********************************************************************************************
-* cNopacityDetailViewLight
+* cNopacityMenuDetailEventViewLight
 ********************************************************************************************/
-cNopacityMenuDetailViewLight::cNopacityMenuDetailViewLight(cOsd *osd, cPixmap *s, cPixmap *sBack) : cNopacityView(osd) {
-    this->osd = osd;
-    this->pixmapScrollbar = s;
-    this->pixmapScrollbarBack = sBack;
-    contentHeight = height - headerHeight;
-}
 
-//---------------cNopacityMenuDetailEventViewLight---------------------
-
-cNopacityMenuDetailEventViewLight::cNopacityMenuDetailEventViewLight(cOsd *osd, const cEvent *Event, cPixmap *s, cPixmap *sBack) : cNopacityMenuDetailViewLight(osd, s, sBack) {
+cNopacityMenuDetailEventViewLight::cNopacityMenuDetailEventViewLight(cOsd *osd, const cEvent *Event) : cNopacityView(osd) {
     event = Event;
     numEPGPics = 0;
 }
@@ -1945,9 +1937,11 @@ void cNopacityMenuDetailEventViewLight::DrawEPGPictures(int height) {
     }
 }
 
-//------------------cNopacityMenuDetailRecordingViewLight------------------
+/********************************************************************************************
+* cNopacityMenuDetailRecordingViewLight
+********************************************************************************************/
 
-cNopacityMenuDetailRecordingViewLight::cNopacityMenuDetailRecordingViewLight(cOsd *osd, const cRecording *Recording, cPixmap *s, cPixmap *sBack) : cNopacityMenuDetailViewLight(osd, s, sBack) {
+cNopacityMenuDetailRecordingViewLight::cNopacityMenuDetailRecordingViewLight(cOsd *osd, const cRecording *Recording) : cNopacityView(osd) {
     recording = Recording;
     info = Recording->Info();
 }

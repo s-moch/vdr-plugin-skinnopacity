@@ -19,8 +19,6 @@ enum eDetailViewType {
     dvText
 };
 
-class cNopacityMenuDetailViewLight;
-
 class cNopacityDetailView {
 protected:
     eDetailViewType type;
@@ -28,7 +26,6 @@ protected:
     const cEvent *ev;
     const cRecording *rec;
     const char *text;
-    cNopacityMenuDetailViewLight *viewLight;
     cNopacityView *view;
     cPixmap *scrollBar;
     cPixmap *scrollBarBack;

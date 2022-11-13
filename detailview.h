@@ -57,6 +57,14 @@ protected:
     int actorThumbWidth;
     int actorThumbHeight;
     int contentDrawPortHeight;
+    int contentX = 0;;
+    int yBanner = 0;
+    int yEPGText = 0;
+    int yActors = 0;
+    int yScrapInfo = 0;
+    int yFanart = 0;
+    int yAddInf = 0;
+    int yEPGPics = 0;
     bool hasManualPoster = false;
     int widthPoster = 0;
     cString manualPosterPath = "";
@@ -183,27 +191,7 @@ public:
     void Render(void);
 };
 
-class cNopacityMenuDetailViewLight : public cNopacityView {
-protected:
-    cOsd *osd;
-    int x, y, width, height;
-    int headerHeight;
-    int contentX;
-    int border;
-    int yBanner;
-    int yEPGText;
-    int yActors;
-    int yScrapInfo;
-    int yFanart;
-    int yAddInf;
-    int yEPGPics;
-public:
-    cNopacityMenuDetailViewLight(cOsd *osd, cPixmap *s, cPixmap *sBack);
-    virtual ~cNopacityMenuDetailViewLight(void) {};
-    virtual void Render(void) = 0;
-};
-
-class cNopacityMenuDetailEventViewLight : public cNopacityMenuDetailViewLight {
+class cNopacityMenuDetailEventViewLight : public cNopacityView {
 private:
     const cEvent *event;
     cTextWrapper epgText;
@@ -214,7 +202,7 @@ private:
     int HeightEPGPics(void);
     void DrawEPGPictures(int height);
 public:
-    cNopacityMenuDetailEventViewLight(cOsd *osd, const cEvent *Event, cPixmap *s, cPixmap *sBack);
+    cNopacityMenuDetailEventViewLight(cOsd *osd, const cEvent *Event);
     virtual ~cNopacityMenuDetailEventViewLight(void) {};
     void SetContent(void);
     void SetContentHeight(void);
@@ -222,7 +210,7 @@ public:
     void Render(void);
 };
 
-class cNopacityMenuDetailRecordingViewLight : public cNopacityMenuDetailViewLight {
+class cNopacityMenuDetailRecordingViewLight : public cNopacityView {
 private:
     const cRecording *recording;
     const cRecordingInfo *info;
@@ -237,7 +225,7 @@ private:
     int HeightEPGPics(void);
     void DrawEPGPictures(int height);
 public:
-    cNopacityMenuDetailRecordingViewLight(cOsd *osd, const cRecording *Recording, cPixmap *s, cPixmap *sBack);
+    cNopacityMenuDetailRecordingViewLight(cOsd *osd, const cRecording *Recording);
     virtual ~cNopacityMenuDetailRecordingViewLight(void) {};
     void SetContent(void);
     void SetContentHeight(void);

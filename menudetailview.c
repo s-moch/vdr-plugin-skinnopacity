@@ -12,7 +12,6 @@ cNopacityDetailView::cNopacityDetailView(cOsd *osd, const cEvent *ev, cPixmap *s
     this->rec = NULL;
     this->text = NULL;
     view = NULL;
-    viewLight = NULL;
     Init();
 }
 
@@ -25,7 +24,6 @@ cNopacityDetailView::cNopacityDetailView(cOsd *osd, const cRecording *rec, cPixm
     this->rec = rec;
     this->text = NULL;
     view = NULL;
-    viewLight = NULL;
     Init();
 }
 
@@ -38,7 +36,6 @@ cNopacityDetailView::cNopacityDetailView(cOsd *osd, const char *text, cPixmap *s
     this->rec = NULL;
     this->text = text;
     view = NULL;
-    viewLight = NULL;
     Init();
 }
 
@@ -71,51 +68,36 @@ void cNopacityDetailView::Init(void) {
 cNopacityDetailView::~cNopacityDetailView(void) {
     if (view)
         delete view;
-    if (viewLight)
-        delete viewLight;
 }
 
 void cNopacityDetailView::SetAlpha(int Alpha) {
     if (view) view->SetAlpha(Alpha);
-    if (viewLight)
-        viewLight->SetAlpha(Alpha);
 }
 
 void cNopacityDetailView::InitiateViewType(void) {
-    if ((config.GetValue("tabsInDetailView") == 0) && !(type == dvText)) {
-        switch (type) {
-            case dvEvent:
-                viewLight = new cNopacityMenuDetailEventViewLight(osd, ev, scrollBar, scrollBarBack);
-                break;
-            case dvRecording:
-                viewLight = new cNopacityMenuDetailRecordingViewLight(osd, rec, scrollBar, scrollBarBack);
-                break;
-            default:
-                break;
-        }
-        viewLight->SetGeometry(x, top, width, height, border, headerHeight);
-        viewLight->Render();
-        return;
-    }
     static cPlugin *pScraper = GetScraperPlugin();
     ScraperGetEventType call;
     switch (type) {
         case dvEvent: {
             if (!ev)
                 break;
-            call.event = ev;
-            if (!pScraper || (config.GetValue("scraperInfo") == 0)) {
-                view = new cNopacityEPGView(osd);
-            } else if (pScraper->Service("GetEventType", &call)) {
-                if (call.type == tMovie) {
-                    view = new cNopacityMovieView(osd, call.movieId);
-                } else if (call.type == tSeries) {
-                    view = new cNopacitySeriesView(osd, call.seriesId, call.episodeId);
+            if (config.GetValue("tabsInDetailView") == 1) {
+                call.event = ev;
+                if (!pScraper || (config.GetValue("scraperInfo") == 0)) {
+                    view = new cNopacityEPGView(osd);
+                } else if (pScraper->Service("GetEventType", &call)) {
+                    if (call.type == tMovie) {
+                        view = new cNopacityMovieView(osd, call.movieId);
+                    } else if (call.type == tSeries) {
+                        view = new cNopacitySeriesView(osd, call.seriesId, call.episodeId);
+                    } else {
+                        view = new cNopacityEPGView(osd);
+                    }
                 } else {
                     view = new cNopacityEPGView(osd);
                 }
             } else {
-                view = new cNopacityEPGView(osd);
+                view = new cNopacityMenuDetailEventViewLight(osd, ev);
             }
             view->SetTitle(ev->Title());
             view->SetSubTitle(ev->ShortText());
@@ -135,19 +117,23 @@ void cNopacityDetailView::InitiateViewType(void) {
         case dvRecording: {
             if (!rec)
                 break;
-            call.recording = rec;
-            if (!pScraper || (config.GetValue("scraperInfo") == 0)) {
-                view = new cNopacityEPGView(osd);
-            } else if (pScraper->Service("GetEventType", &call)) {
-                if (call.type == tMovie) {
-                    view = new cNopacityMovieView(osd, call.movieId);
-                } else if (call.type == tSeries) {
-                    view = new cNopacitySeriesView(osd, call.seriesId, call.episodeId);
+            if (config.GetValue("tabsInDetailView") == 1) {
+                call.recording = rec;
+                if (!pScraper || (config.GetValue("scraperInfo") == 0)) {
+                    view = new cNopacityEPGView(osd);
+                } else if (pScraper->Service("GetEventType", &call)) {
+                    if (call.type == tMovie) {
+                        view = new cNopacityMovieView(osd, call.movieId);
+                    } else if (call.type == tSeries) {
+                        view = new cNopacitySeriesView(osd, call.seriesId, call.episodeId);
+                    } else {
+                        view = new cNopacityEPGView(osd);
+                    }
                 } else {
                     view = new cNopacityEPGView(osd);
-                }		    
+                }
             } else {
-                view = new cNopacityEPGView(osd);
+                view = new cNopacityMenuDetailRecordingViewLight(osd, rec);
             }
             const cRecordingInfo *info = rec->Info();
             if (info) {
@@ -160,7 +146,7 @@ void cNopacityDetailView::InitiateViewType(void) {
                 view->SetTitle(rec->Name());
             }
             int recDuration = rec->LengthInSeconds();
-            recDuration = (recDuration>0)?(recDuration / 60):0;
+            recDuration = (recDuration > 0) ? (recDuration / 60) : 0;
             cString dateTime = cString::sprintf("%s  %s (%d %s)", *DateString(rec->Start()), *TimeString(rec->Start()), recDuration, tr("min"));
             view->SetDateTime(*dateTime);
             view->SetRecFileName(rec->FileName());
@@ -174,34 +160,8 @@ void cNopacityDetailView::InitiateViewType(void) {
     }
 }
 void cNopacityDetailView::KeyInput(bool Up, bool Page) {
-    if (viewLight) {
-        viewLight->KeyInput(Up, Page);
-        return;
-    }
-    if (!view)
-        return;
-    if (Up && Page) {
-        view->KeyLeft();
-        view->Render();
-        osd->Flush();
-    } else if (!Up && Page) {
-        view->KeyRight();
-        view->Render();
-        osd->Flush();
-    } else if (Up && !Page) {
-        bool scrolled = view->KeyUp();
-        if (scrolled) {
-            view->SetScrollbarPixmaps(scrollBar, scrollBarBack);
-            view->DrawScrollbar();
-            osd->Flush();
-        }
-    }else if (!Up && !Page) {
-        bool scrolled = view->KeyDown();
-        if (scrolled) {
-            view->SetScrollbarPixmaps(scrollBar, scrollBarBack);
-            view->DrawScrollbar();
-            osd->Flush();
-        }
+    if (view) {
+        view->KeyInput(Up, Page);
     }
 }
 
@@ -217,12 +177,12 @@ std::string cNopacityDetailView::LoadReruns(void) {
         return "";
     
     std::stringstream sstrReruns;
-    sstrReruns << tr("Reruns of ") << "\"" << ev->Title() << "\":" << std::endl << std::endl;
 
     Epgsearch_searchresults_v1_0 data;
     std::string strQuery = ev->Title();
 
     if (config.GetValue("useSubtitleRerun") > 0) {
+//        if (config.GetValue("useSubtitleRerun") == 2 || !isempty(ev->ShortText()))
         if (config.GetValue("useSubtitleRerun") == 2 && !isempty(ev->ShortText())) {
             strQuery += "~";
             strQuery += ev->ShortText();
@@ -241,30 +201,44 @@ std::string cNopacityDetailView::LoadReruns(void) {
     if (epgSearchPlugin->Service("Epgsearch-searchresults-v1.0", &data)) {
         cList<Epgsearch_searchresults_v1_0::cServiceSearchResult>* list = data.pResultList;
         if (list && (list->Count() > 1)) {
+            sstrReruns << tr("Reruns of this show") << ':' << std::endl;
             foundRerun = true;
             int i = 0;
             for (Epgsearch_searchresults_v1_0::cServiceSearchResult *r = list->First(); r && i < config.GetValue("numReruns"); r = list->Next(r)) {
                 if ((ev->ChannelID() == r->event->ChannelID()) && (ev->StartTime() == r->event->StartTime()))
                     continue;
                 i++;
-                sstrReruns  << *DayDateTime(r->event->StartTime());
-                LOCK_CHANNELS_READ;
-                const cChannel *channel = Channels->GetByChannelID(r->event->ChannelID(), true, true);
-                if (channel) {
-                    sstrReruns << ", " << trVDR("Channel") << " " << channel->Number() << ":";
-                    sstrReruns << " " << channel->ShortName(true);
+                if (config.GetValue("tabsInDetailView")) {
+                    sstrReruns  << *DayDateTime(r->event->StartTime());
+                    LOCK_CHANNELS_READ;
+                    const cChannel *channel = Channels->GetByChannelID(r->event->ChannelID(), true, true);
+                    if (channel) {
+                        sstrReruns << ", " << trVDR("Channel") << " " << channel->Number() << ":";
+                        sstrReruns << " " << channel->ShortName(true);
+                    }
+                    sstrReruns << "\n";
+                } else {
+                    sstrReruns  << "- "
+                                << *DayDateTime(r->event->StartTime());
+                    LOCK_CHANNELS_READ;
+                    const cChannel *channel = Channels->GetByChannelID(r->event->ChannelID(), true, true);
+                    if (channel) {
+                        sstrReruns << ", " << channel->Number() << ".";
+                        sstrReruns << " " << channel->ShortName(true);
+                    }
+                    sstrReruns << ":  ";
                 }
-                sstrReruns << "\n" << r->event->Title();
+                sstrReruns << r->event->Title();
                 if (!isempty(r->event->ShortText()))
                     sstrReruns << "~" << r->event->ShortText();
-                sstrReruns << std::endl << std::endl;
+                sstrReruns << std::endl;
             }
             delete list;
         }
     }
 
     if (!foundRerun) {
-        sstrReruns << std::endl << tr("No reruns found");        
+        sstrReruns << tr("No reruns found") << std::endl;
     }
     return sstrReruns.str();
 }
@@ -443,7 +417,8 @@ void cNopacityDetailView::Render(void) {
         return;
     view->SetGeometry(x, top, width, height, border, headerHeight);
     view->SetScrollbarPixmaps(scrollBar, scrollBarBack);
-    view->LoadMedia();
+    if (config.GetValue("tabsInDetailView"))
+        view->LoadMedia();
     if (ev)
         view->SetAdditionalInfoText(LoadReruns());
     else if (rec)
