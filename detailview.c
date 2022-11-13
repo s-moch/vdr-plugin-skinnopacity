@@ -223,6 +223,40 @@ int cNopacityView::HeightScraperInfo(void) {
     return heightScraperInfo;
 }
 
+int cNopacityView::HeightFanart(void) {
+    int retVal = 0;
+    int fanartWidthOrig = 0;
+    int fanartHeightOrig = 0;
+
+    if (isMovie) {
+        fanartWidthOrig = movie.fanart.width;
+        fanartHeightOrig = movie.fanart.height;
+    } else if (isSeries && series.fanarts.size() > 0) {
+        fanartWidthOrig = series.fanarts[0].width;
+        fanartHeightOrig = series.fanarts[0].height;
+    }
+
+    if (fanartWidthOrig == 0)
+        return retVal;
+
+    int fanartWidth = fanartWidthOrig;
+    int fanartHeight = fanartHeightOrig;
+    retVal = fanartHeight;
+    if (fanartWidthOrig > 0 && fanartWidthOrig > (contentWidth - 2*border)) {
+        fanartWidth = contentWidth - 2*border;
+        fanartHeight = fanartHeightOrig * ((double)fanartWidth / (double)fanartWidthOrig);
+        retVal = fanartHeight;
+    }
+    if (isSeries) {
+        retVal = (retVal + font->Height()) * series.fanarts.size();
+    } else if (isMovie) {
+        if (movie.collectionFanart.path.size() > 0) {
+            retVal = (retVal + font->Height()) * 2;
+        }
+    }
+    return retVal;
+}
+
 void cNopacityView::DrawTextWrapper(cTextWrapper *wrapper, int y) {
     if (!pixmapContent || y > contentDrawPortHeight)
         return;
@@ -1286,40 +1320,6 @@ void cNopacityMenuDetailViewLight::SetGeometry(int x, int top, int width, int he
     SetContent();
     SetContentHeight();
     CreatePixmaps();
-}
-
-int cNopacityMenuDetailViewLight::HeightFanart(void) {
-    int retVal = 0;
-    int fanartWidthOrig = 0;
-    int fanartHeightOrig = 0;
-    
-    if (isMovie) {
-        fanartWidthOrig = movie.fanart.width;
-        fanartHeightOrig = movie.fanart.height;
-    } else if (isSeries && series.fanarts.size() > 0) {
-        fanartWidthOrig = series.fanarts[0].width;
-        fanartHeightOrig = series.fanarts[0].height;
-    }
-
-    if (fanartWidthOrig == 0)
-        return retVal;
-
-    int fanartWidth = fanartWidthOrig;
-    int fanartHeight = fanartHeightOrig;
-    retVal = fanartHeight;
-    if (fanartWidthOrig > 0 && fanartWidthOrig > (contentWidth - 2*border)) {
-        fanartWidth = contentWidth - 2*border;
-        fanartHeight = fanartHeightOrig * ((double)fanartWidth / (double)fanartWidthOrig);
-        retVal = fanartHeight;
-    }
-    if (isSeries) {
-        retVal = (retVal + font->Height()) * series.fanarts.size();
-    } else if (isMovie) {
-        if (movie.collectionFanart.path.size() > 0) {
-            retVal = (retVal + font->Height()) * 2;
-        }
-    }
-    return retVal;
 }
 
 void cNopacityMenuDetailViewLight::DrawPoster(void) {
