@@ -81,6 +81,50 @@ void cNopacityView::SetFonts(void) {
     fontHeader = cFont::CreateFont(config.fontName, headerHeight / 6 + config.GetValue("fontDetailViewHeader"));
 }
 
+int cNopacityView::HeightActorPics(void) {
+    int numActors = 0;
+    if (isMovie)
+        numActors = movie.actors.size();
+    else if (isSeries)
+        numActors = series.actors.size();
+    if (numActors < 1)
+        return 0;
+    if (isMovie) {
+        actorThumbWidth = movie.actors[0].actorThumb.width / 2;
+        actorThumbHeight = movie.actors[0].actorThumb.height / 2;
+    } else if (isSeries) {
+        actorThumbWidth = series.actors[0].actorThumb.width / 2;
+        actorThumbHeight = series.actors[0].actorThumb.height / 2;
+    }
+    int picsPerLine = contentWidth / (actorThumbWidth + 2 * border);
+    if (picsPerLine < 1)
+        return 0;
+
+// Count actors with picture
+    cImageLoader imgLoader;
+    int actorsToView = 0;
+    for (int a = 0; a < numActors; a++) {
+        if (a == numActors)
+            break;
+        std::string path = "";
+        if (isMovie) {
+            path = movie.actors[a].actorThumb.path;
+        } else if (isSeries) {
+            path = series.actors[a].actorThumb.path;
+        }
+
+        if (imgLoader.LoadPoster(path.c_str(), actorThumbWidth, actorThumbHeight, false)) {
+            actorsToView++;
+        }
+    }
+
+    int picLines = actorsToView / picsPerLine;
+    if (actorsToView % picsPerLine != 0)
+        picLines++;
+    int actorsHeight = picLines * (actorThumbHeight + 2 * fontSmall->Height()) + fontHeader->Height();
+    return actorsHeight;
+}
+
 void cNopacityView::DrawTextWrapper(cTextWrapper *wrapper, int y) {
     if (!pixmapContent || y > contentDrawPortHeight)
         return;
@@ -1124,8 +1168,6 @@ cNopacityMenuDetailViewLight::cNopacityMenuDetailViewLight(cOsd *osd, cPixmap *s
     pixmapHeader = NULL;
     pixmapPoster = NULL;
     pixmapLogo = NULL;
-    isMovie = false;
-    isSeries = false;
     contentHeight = height - headerHeight;
     widthPoster = 30 * width / 100;
 }
@@ -1146,50 +1188,6 @@ void cNopacityMenuDetailViewLight::SetGeometry(int x, int top, int width, int he
     SetContent();
     SetContentHeight();
     CreatePixmaps();
-}
-
-int cNopacityMenuDetailViewLight::HeightActorPics(void) {
-    int numActors = 0;
-    if (isMovie)
-        numActors = movie.actors.size();
-    else if (isSeries)
-        numActors = series.actors.size();
-    if (numActors < 1)
-        return 0;
-    if (isMovie) {
-        actorThumbWidth = movie.actors[0].actorThumb.width / 2;
-        actorThumbHeight = movie.actors[0].actorThumb.height / 2;        
-    } else if (isSeries) {
-        actorThumbWidth = series.actors[0].actorThumb.width / 2;
-        actorThumbHeight = series.actors[0].actorThumb.height / 2;        
-    }
-    int picsPerLine = contentWidth / (actorThumbWidth + 2 * border);
-    if (picsPerLine < 1)
-        return 0;
-
-// Count actors with picture
-    cImageLoader imgLoader;
-    int actorsToView = 0;
-    for (int a = 0; a < numActors; a++) {
-        if (a == numActors)
-            break;
-        std::string path = "";
-        if (isMovie) {
-            path = movie.actors[a].actorThumb.path;
-        } else if (isSeries) {
-            path = series.actors[a].actorThumb.path;
-        }
-
-        if (imgLoader.LoadPoster(path.c_str(), actorThumbWidth, actorThumbHeight, false)) {
-            actorsToView++;
-        }
-    }
-
-    int picLines = actorsToView / picsPerLine;
-    if (actorsToView % picsPerLine != 0)
-        picLines++;
-    int actorsHeight = picLines * (actorThumbHeight + 2 * fontSmall->Height()) + fontHeader->Height();
-    return actorsHeight;
 }
 
 int cNopacityMenuDetailViewLight::HeightScraperInfo(void) {

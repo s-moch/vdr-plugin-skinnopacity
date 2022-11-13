@@ -41,13 +41,19 @@ protected:
     cPixmap *pixmapHeaderBanner = NULL;
     cPixmap *pixmapHeaderPoster = NULL;
     cFont *font, *fontSmall, *fontHeader, *fontHeaderLarge;
+    cMovie movie;
+    cSeries series;
     int activeView;
     bool scrollable;
     bool tabbed;
+    bool isMovie = false;
+    bool isSeries = false;
     int x, y;
     int width, height;
     int border;
-    int headerHeight, contentHeight, tabHeight;
+    int headerHeight, contentHeight, contentWidth, tabHeight;
+    int actorThumbWidth;
+    int actorThumbHeight;
     int contentDrawPortHeight;
     std::vector<std::string> tabs;
     std::string title;
@@ -60,6 +66,7 @@ protected:
     std::string recFileName;
     bool headerDrawn;
     void SetFonts(void);
+    int HeightActorPics(void);
     cTextWrapper scrapInfo;
     void DrawTextWrapper(cTextWrapper *wrapper, int top);
     void DrawHeader(void);
@@ -166,7 +173,6 @@ protected:
     bool hasScrollbar;
     int x, width, height, top;
     int headerHeight;
-    int contentWidth;
     int contentX;
     int widthPoster;
     int border;
@@ -177,8 +183,6 @@ protected:
     int yFanart;
     int yAddInf;
     int yEPGPics;
-    int actorThumbWidth;
-    int actorThumbHeight;
     cPixmap *pixmapHeader;
     cPixmap *pixmapLogo;
     cPixmap *pixmapContent;
@@ -187,11 +191,6 @@ protected:
     cPixmap *scrollBarBack;
     bool hasManualPoster;
     cString manualPosterPath;
-    cMovie movie;
-    cSeries series;
-    bool isMovie;
-    bool isSeries;
-    int HeightActorPics(void);
     int HeightScraperInfo(void);
     int HeightFanart(void);
     void DrawPoster(void);
