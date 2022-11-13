@@ -723,29 +723,31 @@ void cNopacityView::DrawAdditionalBanners(int y, int bottom) {
 
 void cNopacityView::DrawActors(std::vector<cActor> *actors) {
     int numActors = actors->size();
-    if (numActors < 1) {
+    int picsPerLine = config.GetValue("numPicturesPerLine");
+    int actorsToView = 0;
+    int thumbWidth = 0;
+    int thumbHeight = 0;
+    cImageLoader imgLoader;
+
+    if (numActors > 0) {
+        thumbWidth = (width - 2 * picsPerLine * border) / picsPerLine;
+        thumbHeight = ((double)actors->at(0).actorThumb.height / (double)actors->at(0).actorThumb.width) * thumbWidth;
+
+        for (int a = 0; a < numActors; a++) {
+            if (a == numActors)
+                break;
+            std::string path = actors->at(a).actorThumb.path;
+            if (imgLoader.LoadPoster(path.c_str(), thumbWidth, thumbHeight, false)) {
+                actorsToView++;
+            }
+        }
+    }
+
+    if (actorsToView < 1) {
         CreateContent(100);
         if (pixmapContent)
             pixmapContent->DrawText(cPoint(border, border), tr("No Cast available"), Theme.Color(clrMenuFontDetailViewText), clrTransparent, fontHeaderLarge);
         return;
-    }
-
-    int thumbWidth = actors->at(0).actorThumb.width;
-    int thumbHeight = actors->at(0).actorThumb.height;
-    
-    int picsPerLine = width / (thumbWidth + 2 * border);
-    if (picsPerLine < 1)
-        return;
-
-    cImageLoader imgLoader;
-    int actorsToView = 0;
-    for (int a = 0; a < numActors; a++) {
-        if (a == numActors)
-            break;
-        std::string path = actors->at(a).actorThumb.path;
-        if (imgLoader.LoadPoster(path.c_str(), thumbWidth, thumbHeight, false)) {
-            actorsToView++;
-        }
     }
 
     int picLines = actorsToView / picsPerLine;
@@ -769,12 +771,12 @@ void cNopacityView::DrawActors(std::vector<cActor> *actors) {
             if (actor == numActors)
                 break;
             std::string path = actors->at(actor).actorThumb.path;
-            std::string name = actors->at(actor).name;
-            std::stringstream sstrRole;
-            sstrRole << "\"" << actors->at(actor).role << "\"";
-            std::string role = sstrRole.str();
             if (imgLoader.LoadPoster(path.c_str(), thumbWidth, thumbHeight)) {
                 pixmapContent->DrawImage(cPoint(x + border, y), imgLoader.GetImage());
+                std::string name = actors->at(actor).name;
+                std::stringstream sstrRole;
+                sstrRole << "\"" << actors->at(actor).role << "\"";
+                std::string role = sstrRole.str();
                 if (fontSmall->Width(name.c_str()) > thumbWidth + 2 * border)
                     name = CutText(name, thumbWidth + 2 * border, fontSmall);
                 if (fontSmall->Width(role.c_str()) > thumbWidth + 2 * border)
@@ -794,7 +796,7 @@ void cNopacityView::DrawActors(std::vector<cActor> *actors) {
 }
 
 void cNopacityView::DrawActors(int height) {
-    if (!pixmapContent)
+    if (!pixmapContent || (isSeries && series.fanarts.size() < 1))
         return;
 
     int numActors = 0;

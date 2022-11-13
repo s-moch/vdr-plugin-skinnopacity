@@ -81,6 +81,8 @@ void cNopacityConfig::LoadDefaults(void) {
     conf.insert(std::pair<std::string, int>("displayRerunsDetailEPGView", 1));
     conf.insert(std::pair<std::string, int>("numReruns", 5));
     conf.insert(std::pair<std::string, int>("useSubtitleRerun", 1));
+    conf.insert(std::pair<std::string, int>("numPicturesPerLineLight", 4));
+    conf.insert(std::pair<std::string, int>("numPicturesPerLine", 5));
     conf.insert(std::pair<std::string, int>("displayAdditionalEPGPictures", 1));
     conf.insert(std::pair<std::string, int>("numAdditionalEPGPictures", 9));
     conf.insert(std::pair<std::string, int>("displayAdditionalRecEPGPictures", 1));

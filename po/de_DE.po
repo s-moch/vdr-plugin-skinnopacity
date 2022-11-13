@@ -560,6 +560,9 @@ msgstr "Anzahl der dargestellten Wiederholungen"
 msgid "Use Subtitle for reruns"
 msgstr "Untertitel für Wiederholungssuche nutzen"
 
+msgid "Number of actor pictures to display per row"
+msgstr "Anzahl der Schauspielerbilder pro Zeile"
+
 msgid "Display additional EPG Pictures in detailed EPG View"
 msgstr "Weitere EPG Bilder in der detaillierten EPG Ansicht anzeigen"
 

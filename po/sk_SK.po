@@ -560,6 +560,9 @@ msgstr "Poèet repríz na zobrazenie"
 msgid "Use Subtitle for reruns"
 msgstr "Pou¾i» titulky pre reprízu"
 
+msgid "Number of actor pictures to display per row"
+msgstr ""
+
 msgid "Display additional EPG Pictures in detailed EPG View"
 msgstr "Zobrazi» viac obrázkov v podrobnostiach EPG"
 

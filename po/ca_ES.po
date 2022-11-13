@@ -563,6 +563,9 @@ msgstr "Nombre de reemissions a mostrar"
 msgid "Use Subtitle for reruns"
 msgstr "Utilitza subtítols a les reemissions"
 
+msgid "Number of actor pictures to display per row"
+msgstr ""
+
 msgid "Display additional EPG Pictures in detailed EPG View"
 msgstr "Mostra imatges addicionals a vista detallada EPG"
 

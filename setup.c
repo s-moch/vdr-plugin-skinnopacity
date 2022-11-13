@@ -394,6 +394,10 @@ void cNopacitySetupDetailedView::Set(void) {
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Number of reruns to display")), tmpConf->GetValueRef("numReruns"), 1, 10));
         Add(new cMenuEditStraItem(cString::sprintf("%s%s", *spacer, tr("Use Subtitle for reruns")), tmpConf->GetValueRef("useSubtitleRerun"), 3, useSubtitleRerunTexts));
     }
+    if (tmpConf->GetValue("tabsInDetailView"))
+        Add(new cMenuEditIntItem(tr("Number of actor pictures to display per row"), tmpConf->GetValueRef("numPicturesPerLine"), 1, 9));
+    else
+        Add(new cMenuEditIntItem(tr("Number of actor pictures to display per row"), tmpConf->GetValueRef("numPicturesPerLineLight"), 1, 9));
     Add(new cMenuEditStraItem(tr("Display additional EPG Pictures in detailed EPG View"), tmpConf->GetValueRef("displayAdditionalEPGPictures"), 3, displayEPGPictures));
     if (tmpConf->GetValue("displayAdditionalEPGPictures"))
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Number of EPG pictures to display")), tmpConf->GetValueRef("numAdditionalEPGPictures"), 1, 9));
