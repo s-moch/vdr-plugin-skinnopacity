@@ -148,7 +148,6 @@ int cNopacityView::HeightActorPics(void) {
 }
 
 int cNopacityView::HeightScraperInfo(void) {
-    int heightScraperInfo = 0;
     std::stringstream info, info1;
     if (isSeries) {
         if (series.overview.size() > 0) {
@@ -235,14 +234,7 @@ int cNopacityView::HeightScraperInfo(void) {
     }
     scrapInfo.Set(info1.str().c_str(), font, contentWidth - 2 * border);
     int lineHeight = font->Height();
-    heightScraperInfo = (scrapInfo.Lines() + 1) * lineHeight;
-    if (isSeries) {
-        if (series.banners.size() == 2)
-            heightScraperInfo += (series.banners[1].height + lineHeight);
-        else if (series.banners.size() == 3)
-            heightScraperInfo += (series.banners[1].height + series.banners[2].height + 2*lineHeight);
-    }
-    return heightScraperInfo;
+    return scrapInfo.Lines() * lineHeight;
 }
 
 int cNopacityView::HeightFanart(void) {
