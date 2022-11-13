@@ -264,16 +264,17 @@ int cNopacityView::HeightFanart(void) {
     int fanartWidth = fanartWidthOrig;
     int fanartHeight = fanartHeightOrig;
     retVal = fanartHeight;
-    if (fanartWidthOrig > 0 && fanartWidthOrig > (contentWidth - 2*border)) {
-        fanartWidth = contentWidth - 2*border;
+    if (fanartWidthOrig > 0 && fanartWidthOrig > (contentWidth - 2 * border)) {
+        fanartWidth = contentWidth - 2 * border;
         fanartHeight = fanartHeightOrig * ((double)fanartWidth / (double)fanartWidthOrig);
         retVal = fanartHeight;
     }
     if (isSeries) {
-        retVal = (retVal + font->Height()) * series.fanarts.size();
-    } else if (isMovie) {
+        return retVal = (retVal + font->Height()) * series.fanarts.size();
+    }
+    if (isMovie) {
         if (movie.collectionFanart.path.size() > 0) {
-            retVal = (retVal + font->Height()) * 2;
+            return retVal += font->Height() + fanartHeight;
         }
     }
     return retVal;
