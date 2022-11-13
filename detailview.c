@@ -125,6 +125,104 @@ int cNopacityView::HeightActorPics(void) {
     return actorsHeight;
 }
 
+int cNopacityView::HeightScraperInfo(void) {
+    int heightScraperInfo = 0;
+    std::stringstream info, info1;
+    if (isSeries) {
+        if (series.overview.size() > 0) {
+            info << tr("Series Overview") << ": " << series.overview << "\n";
+        }
+        if (series.firstAired.size() > 0) {
+            info << tr("First aired") << ": " << series.firstAired << "\n";
+        }
+        if (series.genre.size() > 0) {
+            info << tr("Genre") << ": " << series.genre << "\n";
+        }
+        if (series.network.size() > 0) {
+            info << tr("Network") << ": " << series.network << "\n";
+        }
+        if (series.rating > 0) {
+            info << tr("TheMovieDB Rating") << ": " << series.rating << "\n";
+        }
+        if (series.status.size() > 0) {
+            info << tr("Status") << ": " << series.status << "\n";
+        }
+        if (series.episode.name.size() > 0) {
+            info << "\n" << tr("Episode") << ": " << series.episode.name << " (" << tr("Season") << " " << series.episode.season << ", " << tr("Episode") << " " << series.episode.number << ")\n";
+        }
+        if (series.episode.overview.size() > 0) {
+            info << tr("Episode Overview") << ": " << series.episode.overview << "\n";
+        }
+        if (series.episode.firstAired.size() > 0) {
+            info << tr("First aired") << ": " << series.episode.firstAired << "\n";
+        }
+        if (series.episode.guestStars.size() > 0) {
+            info << tr("Guest Stars") << ": " << series.episode.guestStars << "\n";
+        }
+        if (series.episode.rating > 0) {
+            info << tr("TheMovieDB Rating") << ": " << series.episode.rating << "\n";
+        }
+        if (!(info.tellp() == 0)) {
+            info1 << tr("TheTVDB Information") << ":\n" << info.str();
+        }
+    } else if (isMovie) {
+        if (movie.originalTitle.size() > 0) {
+            info << tr("Original Title") << ": " << movie.originalTitle << "\n";
+        }
+        if (movie.tagline.size() > 0) {
+            info << tr("Tagline") << ": " << movie.tagline << "\n";
+        }
+        if (movie.overview.size() > 0) {
+            info << tr("Overview") << ": " << movie.overview << "\n";
+        }
+        if (movie.adult) {
+            info << tr("Adult") << ": " << tr("yes") << "\n";
+        } else if (info.gcount() > 0) {
+            info << tr("Adult") << ": " << tr("no") << "\n";
+        }
+        if (movie.collectionName.size() > 0) {
+            info << tr("Collection") << ": " << movie.collectionName << "\n";
+        }
+        if (movie.budget > 0) {
+            info << tr("Budget") << ": " << movie.budget << "$\n";
+        }
+        if (movie.revenue > 0) {
+            info << tr("Revenue") << ": " << movie.revenue << "$\n";
+        }
+        if (movie.genres.size() > 0) {
+            info << tr("Genre") << ": " << movie.genres << "\n";
+        }
+        if (movie.homepage.size() > 0) {
+            info << tr("Homepage") << ": " << movie.homepage << "\n";
+        }
+        if (movie.releaseDate.size() > 0) {
+            info << tr("Release Date") << ": " << movie.releaseDate << "\n";
+        }
+        if (movie.runtime > 0) {
+            info << tr("Runtime") << ": " << movie.runtime << " " << tr("minutes") << "\n";
+        }
+        if (movie.popularity > 0) {
+            info << tr("TheMovieDB Popularity") << ": " << movie.popularity << "\n";
+        }
+        if (movie.voteAverage > 0) {
+            info << tr("TheMovieDB Vote Average") << ": " << movie.voteAverage << "\n";
+        }
+        if (!(info.tellp() == 0)) {
+            info1 << tr("TheMovieDB Information") << ":\n" << info.str();
+        }
+    }
+    scrapInfo.Set(info1.str().c_str(), font, contentWidth - 2 * border);
+    int lineHeight = font->Height();
+    heightScraperInfo = (scrapInfo.Lines() + 1) * lineHeight;
+    if (isSeries) {
+        if (series.banners.size() == 2)
+            heightScraperInfo += (series.banners[1].height + lineHeight);
+        else if (series.banners.size() == 3)
+            heightScraperInfo += (series.banners[1].height + series.banners[2].height + 2*lineHeight);
+    }
+    return heightScraperInfo;
+}
+
 void cNopacityView::DrawTextWrapper(cTextWrapper *wrapper, int y) {
     if (!pixmapContent || y > contentDrawPortHeight)
         return;
@@ -1188,104 +1286,6 @@ void cNopacityMenuDetailViewLight::SetGeometry(int x, int top, int width, int he
     SetContent();
     SetContentHeight();
     CreatePixmaps();
-}
-
-int cNopacityMenuDetailViewLight::HeightScraperInfo(void) {
-    int heightScraperInfo = 0;
-    std::stringstream info, info1;
-    if (isSeries) {
-        if (series.overview.size() > 0) {
-            info << tr("Series Overview") << ": " << series.overview << "\n";
-        }
-        if (series.firstAired.size() > 0) {
-            info << tr("First aired") << ": " << series.firstAired << "\n";
-        }
-        if (series.genre.size() > 0) {
-            info << tr("Genre") << ": " << series.genre << "\n";
-        }
-        if (series.network.size() > 0) {
-            info << tr("Network") << ": " << series.network << "\n";
-        }
-        if (series.rating > 0) {
-            info << tr("TheMovieDB Rating") << ": " << series.rating << "\n";
-        }
-        if (series.status.size() > 0) {
-            info << tr("Status") << ": " << series.status << "\n";
-        }
-        if (series.episode.name.size() > 0) {
-            info << "\n" << tr("Episode") << ": " << series.episode.name << " (" << tr("Season") << " " << series.episode.season << ", " << tr("Episode") << " " << series.episode.number << ")\n";
-        }
-        if (series.episode.overview.size() > 0) {
-            info << tr("Episode Overview") << ": " << series.episode.overview << "\n";
-        }
-        if (series.episode.firstAired.size() > 0) {
-            info << tr("First aired") << ": " << series.episode.firstAired << "\n";
-        }
-        if (series.episode.guestStars.size() > 0) {
-            info << tr("Guest Stars") << ": " << series.episode.guestStars << "\n";
-        }
-        if (series.episode.rating > 0) {
-            info << tr("TheMovieDB Rating") << ": " << series.episode.rating << "\n";
-        }
-	if (!(info.tellp() == 0)) {
-            info1 << tr("TheTVDB Information") << ":\n" << info.str();
-        }
-    } else if (isMovie) {
-        if (movie.originalTitle.size() > 0) {
-            info << tr("Original Title") << ": " << movie.originalTitle << "\n";
-        }
-        if (movie.tagline.size() > 0) {
-            info << tr("Tagline") << ": " << movie.tagline << "\n";
-        }
-        if (movie.overview.size() > 0) {
-            info << tr("Overview") << ": " << movie.overview << "\n";
-        }
-        if (movie.adult) {
-            info << tr("Adult") << ": " << tr("yes") << "\n";
-        } else if (info.gcount() > 0) {
-            info << tr("Adult") << ": " << tr("no") << "\n";
-        }
-        if (movie.collectionName.size() > 0) {
-            info << tr("Collection") << ": " << movie.collectionName << "\n";
-        }
-        if (movie.budget > 0) {
-            info << tr("Budget") << ": " << movie.budget << "$\n";
-        }
-        if (movie.revenue > 0) {
-            info << tr("Revenue") << ": " << movie.revenue << "$\n";
-        }
-        if (movie.genres.size() > 0) {
-            info << tr("Genre") << ": " << movie.genres << "\n";
-        }
-        if (movie.homepage.size() > 0) {
-            info << tr("Homepage") << ": " << movie.homepage << "\n";
-        }
-        if (movie.releaseDate.size() > 0) {
-            info << tr("Release Date") << ": " << movie.releaseDate << "\n";
-        }
-        if (movie.runtime > 0) {
-            info << tr("Runtime") << ": " << movie.runtime << " " << tr("minutes") << "\n";
-        }
-        if (movie.popularity > 0) {
-            info << tr("TheMovieDB Popularity") << ": " << movie.popularity << "\n";
-        }
-        if (movie.voteAverage > 0) {
-            info << tr("TheMovieDB Vote Average") << ": " << movie.voteAverage << "\n";
-        }
-        if (!(info.tellp() == 0)) {
-            info1 << tr("TheMovieDB Information") << ":\n" << info.str();
-        }
-    }
-    scrapInfo.Set(info1.str().c_str(), font, contentWidth - 2 * border);
-    int lineHeight = font->Height();
-    heightScraperInfo = (scrapInfo.Lines() + 1) * lineHeight;
-    if (isSeries) {
-        if (series.banners.size() == 2)
-            heightScraperInfo += (series.banners[1].height + lineHeight);
-        else if (series.banners.size() == 3)
-            heightScraperInfo += (series.banners[1].height + series.banners[2].height + 2*lineHeight);
-    } 
-    return heightScraperInfo;
 }
 
 int cNopacityMenuDetailViewLight::HeightFanart(void) {

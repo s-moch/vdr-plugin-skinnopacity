@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2022-11-13 11:08+0100\n"
+"POT-Creation-Date: 2022-11-13 12:04+0100\n"
 "PO-Revision-Date: 2012-11-11 17:49+0200\n"
 "Last-Translator: louis\n"
 "Language-Team: \n"
@@ -17,29 +17,23 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-msgid "No Cast available"
-msgstr "Keine Besetzung vorhanden"
+msgid "Series Overview"
+msgstr "Serienüberblick"
 
-msgid "Cast"
-msgstr "Besetzung"
+msgid "First aired"
+msgstr "Erstausstrahlung"
 
-msgid "EPG Info"
-msgstr "EPG Info"
+msgid "Genre"
+msgstr "Genre"
 
-msgid "Reruns"
-msgstr "Wiederholungen"
+msgid "Network"
+msgstr "Sendeanstalt"
 
-msgid "Recording Information"
-msgstr "Aufnahme Infos"
+msgid "TheMovieDB Rating"
+msgstr "TheMovieDB Wertung"
 
-msgid "Image Galery"
-msgstr "Bildergalerie"
-
-msgid "TheTVDB Info"
-msgstr "TheTVDB Info"
-
-msgid "TheTVDB Information"
-msgstr "TheTVDB Information"
+msgid "Status"
+msgstr "Status"
 
 msgid "Episode"
 msgstr "Episode"
@@ -50,29 +44,11 @@ msgstr "Staffel"
 msgid "Episode Overview"
 msgstr "Episodenüberblick"
 
-msgid "First aired"
-msgstr "Erstausstrahlung"
-
 msgid "Guest Stars"
 msgstr "Gast Stars"
 
-msgid "TheMovieDB Rating"
-msgstr "TheMovieDB Wertung"
-
-msgid "Series Overview"
-msgstr "Serienüberblick"
-
-msgid "Genre"
-msgstr "Genre"
-
-msgid "Network"
-msgstr "Sendeanstalt"
-
-msgid "Status"
-msgstr "Status"
-
-msgid "TheMovieDB Information"
-msgstr "TheMovieDB Information"
+msgid "TheTVDB Information"
+msgstr "TheTVDB Information"
 
 msgid "Original Title"
 msgstr "Original Titel"
@@ -83,14 +59,14 @@ msgstr "Zusammenfassung"
 msgid "Overview"
 msgstr "Überblick"
 
+msgid "Adult"
+msgstr "Nur für Erwachsene"
+
 msgid "yes"
 msgstr "ja"
 
 msgid "no"
 msgstr "nein"
-
-msgid "Adult"
-msgstr "Nur für Erwachsene"
 
 msgid "Collection"
 msgstr "Kollektion"
@@ -118,6 +94,30 @@ msgstr "TheMovieDB Popularität"
 
 msgid "TheMovieDB Vote Average"
 msgstr "TheMovieDB durchschnittliche Bewertung"
+
+msgid "TheMovieDB Information"
+msgstr "TheMovieDB Information"
+
+msgid "No Cast available"
+msgstr "Keine Besetzung vorhanden"
+
+msgid "Cast"
+msgstr "Besetzung"
+
+msgid "EPG Info"
+msgstr "EPG Info"
+
+msgid "Reruns"
+msgstr "Wiederholungen"
+
+msgid "Recording Information"
+msgstr "Aufnahme Infos"
+
+msgid "Image Galery"
+msgstr "Bildergalerie"
+
+msgid "TheTVDB Info"
+msgstr "TheTVDB Info"
 
 msgid "Actors"
 msgstr "Schauspieler"

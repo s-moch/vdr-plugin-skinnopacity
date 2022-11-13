@@ -67,6 +67,7 @@ protected:
     bool headerDrawn;
     void SetFonts(void);
     int HeightActorPics(void);
+    int HeightScraperInfo(void);
     cTextWrapper scrapInfo;
     void DrawTextWrapper(cTextWrapper *wrapper, int top);
     void DrawHeader(void);
@@ -191,7 +192,6 @@ protected:
     cPixmap *scrollBarBack;
     bool hasManualPoster;
     cString manualPosterPath;
-    int HeightScraperInfo(void);
     int HeightFanart(void);
     void DrawPoster(void);
     void DrawBanner(int height);

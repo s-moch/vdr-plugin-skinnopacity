@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2022-11-13 11:08+0100\n"
+"POT-Creation-Date: 2022-11-13 12:04+0100\n"
 "PO-Revision-Date: 2013-03-19 22:56+0100\n"
 "Last-Translator: Gabychan <gbonich@gmail.com>\n"
 "Language-Team: \n"
@@ -20,28 +20,22 @@ msgstr ""
 "X-Poedit-Country: Catalunya\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-msgid "No Cast available"
+msgid "Series Overview"
 msgstr ""
 
-msgid "Cast"
+msgid "First aired"
 msgstr ""
 
-msgid "EPG Info"
+msgid "Genre"
 msgstr ""
 
-msgid "Reruns"
+msgid "Network"
 msgstr ""
 
-msgid "Recording Information"
+msgid "TheMovieDB Rating"
 msgstr ""
 
-msgid "Image Galery"
-msgstr ""
-
-msgid "TheTVDB Info"
-msgstr ""
-
-msgid "TheTVDB Information"
+msgid "Status"
 msgstr ""
 
 msgid "Episode"
@@ -53,28 +47,10 @@ msgstr ""
 msgid "Episode Overview"
 msgstr ""
 
-msgid "First aired"
-msgstr ""
-
 msgid "Guest Stars"
 msgstr ""
 
-msgid "TheMovieDB Rating"
-msgstr ""
-
-msgid "Series Overview"
-msgstr ""
-
-msgid "Genre"
-msgstr ""
-
-msgid "Network"
-msgstr ""
-
-msgid "Status"
-msgstr ""
-
-msgid "TheMovieDB Information"
+msgid "TheTVDB Information"
 msgstr ""
 
 msgid "Original Title"
@@ -86,14 +62,14 @@ msgstr ""
 msgid "Overview"
 msgstr ""
 
+msgid "Adult"
+msgstr ""
+
 msgid "yes"
 msgstr "sí"
 
 msgid "no"
 msgstr "no"
-
-msgid "Adult"
-msgstr ""
 
 msgid "Collection"
 msgstr ""
@@ -120,6 +96,30 @@ msgid "TheMovieDB Popularity"
 msgstr ""
 
 msgid "TheMovieDB Vote Average"
+msgstr ""
+
+msgid "TheMovieDB Information"
+msgstr ""
+
+msgid "No Cast available"
+msgstr ""
+
+msgid "Cast"
+msgstr ""
+
+msgid "EPG Info"
+msgstr ""
+
+msgid "Reruns"
+msgstr ""
+
+msgid "Recording Information"
+msgstr ""
+
+msgid "Image Galery"
+msgstr ""
+
+msgid "TheTVDB Info"
 msgstr ""
 
 msgid "Actors"
