@@ -56,7 +56,9 @@ void cNopacityView::SetGeometry(int x, int y, int width, int height, int border,
     this->height = height;
     this->border = border;
     this->headerHeight = headerHeight;
-    if (tabbed)
+    widthPoster = 30 * width / 100;
+    tabHeight = 0;
+    if (config.GetValue("tabsInDetailView") && tabbed)
         tabHeight = 2 * border;
     contentHeight = height - headerHeight - tabHeight;
     SetFonts();
@@ -1557,21 +1559,6 @@ cNopacityMenuDetailViewLight::cNopacityMenuDetailViewLight(cOsd *osd, cPixmap *s
 cNopacityMenuDetailViewLight::~cNopacityMenuDetailViewLight(void) {
 }
 
-void cNopacityMenuDetailViewLight::SetGeometry(int x, int top, int width, int height, int border, int headerHeight) {
-    this->x = x;
-    this->top = top;
-    this->width = width;
-    this->height = height;
-    this->border = border;
-    this->headerHeight = headerHeight;
-    contentHeight = height - headerHeight;
-    widthPoster = 30 * width / 100;
-    SetFonts();
-    SetContent();
-    SetContentHeight();
-    CreatePixmaps();
-}
-
 void cNopacityMenuDetailViewLight::ClearScrollbar(void) {
     scrollBar->Fill(clrTransparent);
     scrollBarBack->Fill(clrTransparent);
@@ -1772,18 +1759,18 @@ void cNopacityMenuDetailEventViewLight::SetContentHeight(void) {
 
 void cNopacityMenuDetailEventViewLight::CreatePixmaps(void) {
     contentHeight = contentHeight - border;
-    pixmapHeader = CreatePixmap(osd, "pixmapHeader", 3, cRect(x, top, width, headerHeight));
+    pixmapHeader = CreatePixmap(osd, "pixmapHeader", 3, cRect(x, y, width, headerHeight));
 
-    pixmapContent = CreatePixmap(osd, "pixmapContent", 3, cRect(x + contentX, top + headerHeight + border, contentWidth, contentHeight),
+    pixmapContent = CreatePixmap(osd, "pixmapContent", 3, cRect(x + contentX, y + headerHeight + border, contentWidth, contentHeight),
                                                           cRect(0, 0, contentWidth, contentDrawPortHeight));
 
     pixmapLogo = CreatePixmap(osd, "pixmapLogo", 4, cRect(x + border,
-                                                          top + max((headerHeight - config.GetValue("logoHeightOriginal")) / 2, 1),
+                                                          y + max((headerHeight - config.GetValue("logoHeightOriginal")) / 2, 1),
                                                           config.GetValue("logoWidthOriginal"),
                                                           config.GetValue("logoHeightOriginal")));
 
     if (isSeries || isMovie) {
-        pixmapPoster = CreatePixmap(osd, "pixmapPoster", 4, cRect(x, top + headerHeight, widthPoster, contentHeight));
+        pixmapPoster = CreatePixmap(osd, "pixmapPoster", 4, cRect(x, y + headerHeight, widthPoster, contentHeight));
     }
 
     PixmapFill(pixmapHeader, clrTransparent);
@@ -1795,6 +1782,9 @@ void cNopacityMenuDetailEventViewLight::CreatePixmaps(void) {
 }
 
 void cNopacityMenuDetailEventViewLight::Render(void) {
+    SetContent();
+    SetContentHeight();
+    CreatePixmaps();
     DrawHeader();
     //draw EPG text
     DrawTextWrapper(&epgText, yEPGText);
@@ -2137,13 +2127,13 @@ void cNopacityMenuDetailRecordingViewLight::SetContentHeight(void) {
 
 void cNopacityMenuDetailRecordingViewLight::CreatePixmaps(void) {
     contentHeight = contentHeight - border;
-    pixmapHeader = CreatePixmap(osd, "pixmapHeader", 3, cRect(x, top, width, headerHeight));
+    pixmapHeader = CreatePixmap(osd, "pixmapHeader", 3, cRect(x, y, width, headerHeight));
 
-    pixmapContent = CreatePixmap(osd, "pixmapContent", 3, cRect(x + contentX, top + headerHeight + border, contentWidth, contentHeight),
+    pixmapContent = CreatePixmap(osd, "pixmapContent", 3, cRect(x + contentX, y + headerHeight + border, contentWidth, contentHeight),
                                                           cRect(0, 0, contentWidth, contentDrawPortHeight));
 
     if (hasManualPoster || isMovie || isSeries) {
-        pixmapPoster = CreatePixmap(osd, "pixmapPoster", 4, cRect(x, top + headerHeight, widthPoster, contentHeight));
+        pixmapPoster = CreatePixmap(osd, "pixmapPoster", 4, cRect(x, y + headerHeight, widthPoster, contentHeight));
     }
 
     PixmapFill(pixmapHeader, clrTransparent);
@@ -2154,6 +2144,9 @@ void cNopacityMenuDetailRecordingViewLight::CreatePixmaps(void) {
 }
 
 void cNopacityMenuDetailRecordingViewLight::Render(void) {
+    SetContent();
+    SetContentHeight();
+    CreatePixmaps();
     DrawHeader();
     //draw Recording EPG text
     DrawTextWrapper(&recInfo, yEPGText);

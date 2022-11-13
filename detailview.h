@@ -110,6 +110,9 @@ public:
     virtual void KeyLeft(void) {};
     virtual void KeyRight(void) {};
     void DrawScrollbar(void);
+    virtual void SetContent(void) {};
+    virtual void SetContentHeight(void) {};
+    virtual void CreatePixmaps(void) {};
     virtual void Render(void) {};
 };
 
@@ -182,7 +185,7 @@ class cNopacityMenuDetailViewLight : public cNopacityView {
 protected:
     cOsd *osd;
     bool hasScrollbar;
-    int x, width, height, top;
+    int x, y, width, height;
     int headerHeight;
     int contentX;
     int border;
@@ -203,12 +206,8 @@ protected:
 public:
     cNopacityMenuDetailViewLight(cOsd *osd, cPixmap *s, cPixmap *sBack);
     virtual ~cNopacityMenuDetailViewLight(void);
-    void SetGeometry(int x, int y, int width, int height, int border, int headerHeight);
     void SetAlpha(int Alpha = 0);
     void KeyInput(bool Up, bool Page);
-    virtual void SetContent(void) = 0;
-    virtual void SetContentHeight(void) = 0;
-    virtual void CreatePixmaps(void) = 0;
     virtual void Render(void) = 0;
 };
 
