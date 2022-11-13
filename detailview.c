@@ -1260,7 +1260,7 @@ int cNopacitySeriesView::DrawHeaderBanner(void) {
     int bannerHeight = headerHeight - 2 * imageBorder;
     int maxBannerWidth = 0.25 * width;
 
-    cImageLoader imgLoader;                                     
+    cImageLoader imgLoader;
     if (!(imgLoader.LoadPoster(series.banners[0].path.c_str(), maxBannerWidth, bannerHeight))) {
         return 0;
     }
