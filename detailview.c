@@ -111,16 +111,13 @@ int cNopacityView::HeightActorPics(void) {
         numActors = series.actors.size();
     if (numActors < 1)
         return 0;
+    int picsPerLine = config.GetValue("numPicturesPerLineLight");
+    actorThumbWidth = (contentWidth - 2 * picsPerLine * border) / picsPerLine;
     if (isMovie) {
-        actorThumbWidth = movie.actors[0].actorThumb.width / 2;
-        actorThumbHeight = movie.actors[0].actorThumb.height / 2;
+        actorThumbHeight = ((double)movie.actors[0].actorThumb.height / (double)movie.actors[0].actorThumb.width) * actorThumbWidth;
     } else if (isSeries) {
-        actorThumbWidth = series.actors[0].actorThumb.width / 2;
-        actorThumbHeight = series.actors[0].actorThumb.height / 2;
+        actorThumbHeight = ((double)series.actors[0].actorThumb.height / (double)series.actors[0].actorThumb.width) * actorThumbWidth;
     }
-    int picsPerLine = contentWidth / (actorThumbWidth + 2 * border);
-    if (picsPerLine < 1)
-        return 0;
 
 // Count actors with picture
     cImageLoader imgLoader;
