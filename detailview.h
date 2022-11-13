@@ -40,6 +40,7 @@ protected:
     cPixmap *pixmapHeaderEPGImage = NULL;
     cPixmap *pixmapHeaderBanner = NULL;
     cPixmap *pixmapHeaderPoster = NULL;
+    cPixmap *pixmapPoster = NULL;
     cFont *font, *fontSmall, *fontHeader, *fontHeaderLarge;
     cMovie movie;
     cSeries series;
@@ -55,6 +56,9 @@ protected:
     int actorThumbWidth;
     int actorThumbHeight;
     int contentDrawPortHeight;
+    bool hasManualPoster = false;
+    int widthPoster = 0;
+    cString manualPosterPath = "";
     std::vector<std::string> tabs;
     std::string title;
     std::string subTitle;
@@ -77,6 +81,7 @@ protected:
     void DrawContent(std::string *text);
     void DrawFloatingContent(std::string *infoText, cTvMedia *img, cTvMedia *img2 = NULL);
     void CreateFloatingTextWrapper(cTextWrapper *twNarrow, cTextWrapper *twFull, std::string *text, int widthImg, int heightImg);
+    void DrawPoster(void);
     void DrawBanner(int height);
     void DrawAdditionalBanners(int top, int bottom);
     void DrawActors(std::vector<cActor> *actors);
@@ -178,7 +183,6 @@ protected:
     int x, width, height, top;
     int headerHeight;
     int contentX;
-    int widthPoster;
     int border;
     int yBanner;
     int yEPGText;
@@ -190,12 +194,8 @@ protected:
     cPixmap *pixmapHeader;
     cPixmap *pixmapLogo;
     cPixmap *pixmapContent;
-    cPixmap *pixmapPoster;
     cPixmap *scrollBar;
     cPixmap *scrollBarBack;
-    bool hasManualPoster;
-    cString manualPosterPath;
-    void DrawPoster(void);
     void DrawActors(int height);
     void DrawFanart(int height);
     void ClearScrollbar(void);

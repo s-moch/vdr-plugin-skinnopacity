@@ -479,6 +479,64 @@ void cNopacityView::CreateFloatingTextWrapper(cTextWrapper *twNarrow, cTextWrapp
     twFull->Set(sstrTextFull.str().c_str(), font, width - 2 * border);
 }
 
+void cNopacityView::DrawPoster(void) {
+    int posterWidthOrig = 0;
+    int posterHeightOrig = 0;
+    if (hasManualPoster) {
+        posterWidthOrig = config.GetValue("posterWidth");
+        posterHeightOrig = config.GetValue("posterHeight");
+    } else if (isMovie) {
+        if ((movie.poster.width == 0) || (movie.poster.height == 0) || (movie.poster.path.size() < 1))
+            return;
+        posterWidthOrig = movie.poster.width;
+        posterHeightOrig = movie.poster.height;
+    } else if (isSeries) {
+        if (series.posters.size() < 1)
+            return;
+        posterWidthOrig = series.posters[0].width;
+        posterHeightOrig = series.posters[0].height;
+    }
+
+    if (posterWidthOrig == 0)
+        return;
+
+    int posterWidth = posterWidthOrig;
+    int posterHeight = posterHeightOrig;
+
+    if ((posterWidthOrig > widthPoster) && (posterHeightOrig < contentHeight)) {
+        posterWidth = widthPoster - 2*border;
+        posterHeight = posterHeightOrig * ((double)posterWidth / (double)posterWidthOrig);
+    } else if ((posterWidthOrig < widthPoster) && (posterHeightOrig > contentHeight)) {
+        posterHeight = contentHeight - 2*border;
+        posterWidth = posterWidthOrig * ((double)posterHeight / (double)posterHeightOrig);
+    } else if ((posterWidthOrig > widthPoster) && (posterHeightOrig > contentHeight)) {
+        int overlapWidth = posterWidthOrig - widthPoster;
+        int overlapHeight = posterHeightOrig - contentHeight;
+        if (overlapWidth >= overlapHeight) {
+            posterWidth = widthPoster - 2*border;
+            posterHeight = posterHeightOrig * ((double)posterWidth / (double)posterWidthOrig);
+        } else {
+            posterHeight = contentHeight - 2*border;
+            posterWidth = posterWidthOrig * ((double)posterHeight / (double)posterHeightOrig);
+        }
+    }
+    int posterX = (widthPoster - posterWidth) / 2;
+    int posterY = (contentHeight - posterHeight) / 2;
+    cImageLoader imgLoader;
+    bool drawPoster = false;
+    if (hasManualPoster && imgLoader.LoadPoster(*manualPosterPath, posterWidth, posterHeight)) {
+        drawPoster = true;
+    } else if (isSeries && imgLoader.LoadPoster(series.posters[0].path.c_str(), posterWidth, posterHeight)) {
+        drawPoster = true;
+    } else if (isMovie && imgLoader.LoadPoster(movie.poster.path.c_str(), posterWidth, posterHeight)) {
+        drawPoster = true;
+    }
+    if (drawPoster) {
+        if (pixmapPoster)
+            pixmapPoster->DrawImage(cPoint(posterX, posterY), imgLoader.GetImage());
+    }
+}
+
 void cNopacityView::DrawBanner(int height) {
     int bannerWidthOrig = 0;
     int bannerHeightOrig = 0;
@@ -1370,14 +1428,11 @@ cNopacityMenuDetailViewLight::cNopacityMenuDetailViewLight(cOsd *osd, cPixmap *s
     this->scrollBar = s;
     this->scrollBarBack = sBack;
     hasScrollbar = false;
-    hasManualPoster = false;
-    manualPosterPath = "";
     pixmapContent = NULL;
     pixmapHeader = NULL;
     pixmapPoster = NULL;
     pixmapLogo = NULL;
     contentHeight = height - headerHeight;
-    widthPoster = 30 * width / 100;
 }
 
 cNopacityMenuDetailViewLight::~cNopacityMenuDetailViewLight(void) {
@@ -1396,64 +1451,6 @@ void cNopacityMenuDetailViewLight::SetGeometry(int x, int top, int width, int he
     SetContent();
     SetContentHeight();
     CreatePixmaps();
-}
-
-void cNopacityMenuDetailViewLight::DrawPoster(void) {
-    int posterWidthOrig = 0;
-    int posterHeightOrig = 0;
-    if (hasManualPoster) {
-        posterWidthOrig = config.GetValue("posterWidth");
-        posterHeightOrig = config.GetValue("posterHeight");
-    } else if (isMovie) {
-        if ((movie.poster.width == 0) || (movie.poster.height == 0) || (movie.poster.path.size() < 1))
-            return;
-        posterWidthOrig = movie.poster.width;
-        posterHeightOrig = movie.poster.height;
-    } else if (isSeries) {
-        if (series.posters.size() < 1)
-            return;
-        posterWidthOrig = series.posters[0].width;
-        posterHeightOrig = series.posters[0].height;
-    }
-
-    if (posterWidthOrig == 0)
-        return;
-
-    int posterWidth = posterWidthOrig;
-    int posterHeight = posterHeightOrig;
-
-    if ((posterWidthOrig > widthPoster) && (posterHeightOrig < contentHeight)) {
-        posterWidth = widthPoster - 2*border;
-        posterHeight = posterHeightOrig * ((double)posterWidth / (double)posterWidthOrig);
-    } else if ((posterWidthOrig < widthPoster) && (posterHeightOrig > contentHeight)) {
-        posterHeight = contentHeight - 2*border;
-        posterWidth = posterWidthOrig * ((double)posterHeight / (double)posterHeightOrig);
-    } else if ((posterWidthOrig > widthPoster) && (posterHeightOrig > contentHeight)) {
-        int overlapWidth = posterWidthOrig - widthPoster;
-        int overlapHeight = posterHeightOrig - contentHeight;
-        if (overlapWidth >= overlapHeight) {
-            posterWidth = widthPoster - 2*border;
-            posterHeight = posterHeightOrig * ((double)posterWidth / (double)posterWidthOrig);
-        } else {
-            posterHeight = contentHeight - 2*border;
-            posterWidth = posterWidthOrig * ((double)posterHeight / (double)posterHeightOrig);
-        }
-    }
-    int posterX = (widthPoster - posterWidth) / 2;
-    int posterY = (contentHeight - posterHeight) / 2;
-    cImageLoader imgLoader;
-    bool drawPoster = false;
-    if (hasManualPoster && imgLoader.LoadPoster(*manualPosterPath, posterWidth, posterHeight)) {
-        drawPoster = true;
-    } else if (isSeries && imgLoader.LoadPoster(series.posters[0].path.c_str(), posterWidth, posterHeight)) {
-        drawPoster = true;
-    } else if (isMovie && imgLoader.LoadPoster(movie.poster.path.c_str(), posterWidth, posterHeight)) {
-        drawPoster = true;
-    }
-    if (drawPoster) {
-        if (pixmapPoster)
-            pixmapPoster->DrawImage(cPoint(posterX, posterY), imgLoader.GetImage());        
-    }
 }
 
 void cNopacityMenuDetailViewLight::DrawActors(int height) {
