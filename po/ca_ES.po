@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2022-11-13 12:04+0100\n"
+"POT-Creation-Date: 2022-11-13 12:51+0100\n"
 "PO-Revision-Date: 2013-03-19 22:56+0100\n"
 "Last-Translator: Gabychan <gbonich@gmail.com>\n"
 "Language-Team: \n"
@@ -107,6 +107,9 @@ msgstr ""
 msgid "Cast"
 msgstr ""
 
+msgid "Actors"
+msgstr "Actors"
+
 msgid "EPG Info"
 msgstr ""
 
@@ -121,9 +124,6 @@ msgstr ""
 
 msgid "TheTVDB Info"
 msgstr ""
-
-msgid "Actors"
-msgstr "Actors"
 
 msgid "min"
 msgstr "min"

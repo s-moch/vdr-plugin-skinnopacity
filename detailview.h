@@ -85,6 +85,8 @@ protected:
     void DrawBanner(int height);
     void DrawAdditionalBanners(int top, int bottom);
     void DrawActors(std::vector<cActor> *actors);
+    void DrawActors(int height);
+    void DrawFanart(int height);
     void ClearScrollbar(void);
     virtual void SetTabs(void) {};
     void DrawTabs(void);
@@ -196,8 +198,6 @@ protected:
     cPixmap *pixmapContent;
     cPixmap *scrollBar;
     cPixmap *scrollBarBack;
-    void DrawActors(int height);
-    void DrawFanart(int height);
     void ClearScrollbar(void);
     void DrawScrollbar(void);
 public:
