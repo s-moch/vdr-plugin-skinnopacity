@@ -698,9 +698,10 @@ void cNopacityView::DrawBanner(int height) {
     }
 }
 
-void cNopacityView::DrawAdditionalBanners(int top, int bottom) {
-    if (series.banners.size() < 2)
+void cNopacityView::DrawAdditionalBanners(int y, int bottom) {
+    if (!pixmapContent || series.banners.size() < 2)
         return;
+
     int bannerWidthOrig = series.banners[1].width;
     int bannerHeightOrig = series.banners[1].height;
     int bannerWidth = bannerWidthOrig;
@@ -709,22 +710,22 @@ void cNopacityView::DrawAdditionalBanners(int top, int bottom) {
     if (bannerWidthOrig == 0)
         return;
 
-    if (bannerWidthOrig > contentWidth - 2*border) {
-        bannerWidth = contentWidth - 2*border;
+    if (bannerWidthOrig > contentWidth - 2 * border) {
+        bannerWidth = contentWidth - 2 * border;
         bannerHeight = bannerHeightOrig * ((double)bannerWidth / (double)bannerWidthOrig);
     }
     int bannerX = (contentWidth - bannerWidth) / 2;
+
     cImageLoader imgLoader;
     if (imgLoader.LoadPoster(series.banners[1].path.c_str(), bannerWidth, bannerHeight)) {
-        if (pixmapContent)
-            pixmapContent->DrawImage(cPoint(bannerX, top), imgLoader.GetImage());
+        pixmapContent->DrawImage(cPoint(bannerX, y), imgLoader.GetImage());
     }
 
     if (series.banners.size() < 3)
         return;
+
     if (imgLoader.LoadPoster(series.banners[2].path.c_str(), bannerWidth, bannerHeight)) {
-        if (pixmapContent)
-            pixmapContent->DrawImage(cPoint(bannerX, bottom - bannerHeight - font->Height()), imgLoader.GetImage());
+        pixmapContent->DrawImage(cPoint(bannerX, bottom - bannerHeight - font->Height()), imgLoader.GetImage());
     }
 }
 
