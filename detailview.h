@@ -32,6 +32,7 @@ class cNopacityView {
 protected:
     cOsd *osd;
     cPixmap *pixmapHeader = NULL;
+    cPixmap *pixmapHeaderBack = NULL;
     cPixmap *pixmapLogo = NULL;
     cPixmap *pixmapContent = NULL;
     cPixmap *pixmapContentBack = NULL;
@@ -41,6 +42,7 @@ protected:
     cPixmap *pixmapHeaderEPGImage = NULL;
     cPixmap *pixmapHeaderBanner = NULL;
     cPixmap *pixmapHeaderPoster = NULL;
+    cPixmap *pixmapHeaderImage = NULL;
     cPixmap *pixmapPoster = NULL;
     cFont *font, *fontSmall, *fontHeader, *fontHeaderLarge;
     cMovie movie;
@@ -86,12 +88,13 @@ protected:
     cTextWrapper addInfo;
     cTextWrapper scrapInfo;
     void DrawTextWrapper(cTextWrapper *wrapper, int top);
-    void DrawHeader(void);
+    void DrawHeader(int wP = 0);
     void ClearContent(void);
     void CreateContent(int fullHeight);
     void DrawContent(std::string *text, int y = 0);
     void DrawFloatingContent(std::string *infoText, cTvMedia *img, cTvMedia *img2 = NULL);
     void CreateFloatingTextWrapper(cTextWrapper *twNarrow, cTextWrapper *twFull, std::string *text, int widthImg, int heightImg);
+    int DrawHeaderPosterLight(void);
     void DrawPoster(void);
     void DrawBanner(int height);
     void DrawAdditionalBanners(int top, int bottom);
@@ -134,7 +137,7 @@ protected:
     int numEPGPics;
     int numTabs;
     void SetTabs(void);
-    void DrawHeaderEPGImage(void);
+    int DrawHeaderEPGImage(void);
     void CheckEPGImages(void);
     void DrawImages(void);
 public:    
@@ -153,7 +156,7 @@ protected:
     std::string tvdbInfo;
     void SetTabs(void);
     void CreateTVDBInfo(void);
-    void DrawHeaderBanner(void);
+    int DrawHeaderBanner(void);
     void DrawImages(void);
     int GetRandomPoster(void);
 public:    
@@ -172,7 +175,7 @@ protected:
     std::string movieDBInfo;
     void SetTabs(void);
     void CreateMovieDBInfo(void);
-    void DrawHeaderPoster(void);
+    int DrawHeaderPoster(void);
     void DrawImages(void);
 public:    
     cNopacityMovieView(cOsd *osd, int movieId);
@@ -198,7 +201,6 @@ private:
     const cEvent *event;
     cTextWrapper epgText;
     int numEPGPics;
-    void DrawHeader(void);
     int HeightEPGPics(void);
     void DrawEPGPictures(int height);
 public:
@@ -215,7 +217,6 @@ private:
     const cRecording *recording;
     const cRecordingInfo *info;
     cTextWrapper recInfo;
-    void DrawHeader(void);
     std::vector<std::string> epgpics;
     bool LoadEPGPics(void);
     int HeightEPGPics(void);

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2022-11-13 16:35+0100\n"
+"POT-Creation-Date: 2022-11-13 18:08+0100\n"
 "PO-Revision-Date: 2012-11-11 17:49+0200\n"
 "Last-Translator: louis\n"
 "Language-Team: \n"
@@ -122,14 +122,14 @@ msgstr "Bildergalerie"
 msgid "TheTVDB Info"
 msgstr "TheTVDB Info"
 
-msgid "min"
-msgstr "min"
-
 msgid "free"
 msgstr "frei"
 
 msgid "images"
 msgstr "Bilder"
+
+msgid "min"
+msgstr "min"
 
 msgid "Reruns of this show"
 msgstr ""

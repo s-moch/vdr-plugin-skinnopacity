@@ -41,6 +41,7 @@ cNopacityView::~cNopacityView(void) {
     if (fontHeaderLarge)
         delete fontHeaderLarge;
     osd->DestroyPixmap(pixmapHeader);
+    osd->DestroyPixmap(pixmapHeaderBack);
     osd->DestroyPixmap(pixmapLogo);
     osd->DestroyPixmap(pixmapContent);
     osd->DestroyPixmap(pixmapContentBack);
@@ -48,6 +49,8 @@ cNopacityView::~cNopacityView(void) {
     osd->DestroyPixmap(pixmapHeaderEPGImage);
     osd->DestroyPixmap(pixmapHeaderBanner);
     osd->DestroyPixmap(pixmapHeaderPoster);
+    osd->DestroyPixmap(pixmapHeaderImage);
+    osd->DestroyPixmap(pixmapPoster);
 }
 
 void cNopacityView::SetGeometry(int x, int y, int width, int height, int border, int headerHeight) {
@@ -67,6 +70,7 @@ void cNopacityView::SetGeometry(int x, int y, int width, int height, int border,
 
 void cNopacityView::SetAlpha(int Alpha) {
     PixmapSetAlpha(pixmapHeader, Alpha);
+    PixmapSetAlpha(pixmapHeaderBack, Alpha);
     PixmapSetAlpha(pixmapLogo, Alpha);
     PixmapSetAlpha(pixmapTabs, Alpha);
     PixmapSetAlpha(pixmapContentBack, Alpha);
@@ -76,6 +80,7 @@ void cNopacityView::SetAlpha(int Alpha) {
     PixmapSetAlpha(pixmapHeaderEPGImage, Alpha);
     PixmapSetAlpha(pixmapHeaderBanner, Alpha);
     PixmapSetAlpha(pixmapHeaderPoster, Alpha);
+    PixmapSetAlpha(pixmapHeaderImage, Alpha);
     PixmapSetAlpha(pixmapPoster, Alpha);
 }
 
@@ -282,31 +287,73 @@ void cNopacityView::DrawTextWrapper(cTextWrapper *wrapper, int y) {
     }
 }      
 
-void cNopacityView::DrawHeader(void) {
+void cNopacityView::DrawHeader(int wP) {
+    if (!pixmapHeaderBack) {
+        if (pixmapHeaderBack = CreatePixmap(osd, "pixmapHeaderBack", 4, cRect(x, y, width, headerHeight))) {
+            PixmapFill(pixmapHeaderBack, config.GetValue("tabsInDetailView") ? Theme.Color(clrMenuDetailViewBack) : clrTransparent);
+            pixmapHeaderBack->DrawRectangle(cRect(0, headerHeight - 2, width, 2), Theme.Color(clrMenuBorder));
+        }
+    }
+
+    //Channel Logo
+    int xText = border;
+    if (channel) {
+        if (!pixmapLogo)
+            pixmapLogo = CreatePixmap(osd, "pixmapLogo", 5, cRect(x + border,
+                                                                  y + std::max((headerHeight - geoManager->channelLogoHeight) / 2, 1),
+                                                                  geoManager->channelLogoWidth,
+                                                                  geoManager->channelLogoHeight));
+        PixmapFill(pixmapLogo, clrTransparent);
+        cImage *logo = imgCache->GetLogo(ctLogo, channel);
+        if (pixmapLogo && logo) {
+            int xLogo = std::max((geoManager->channelLogoWidth - logo->Width()) / 2, 0);
+            int yLogo = std::max((geoManager->channelLogoHeight - logo->Height()) / 2, 0);
+            pixmapLogo->DrawImage(cPoint(xLogo , yLogo), *logo);
+            xText += geoManager->channelLogoWidth + border;
+        }
+    }
+
+    // Text
+    int textLength = width - xText - wP;
     if (!pixmapHeader) {
-        if (!(pixmapHeader = CreatePixmap(osd, "pixmapHeader", 4, cRect(x, y, width, headerHeight)))) {
+        if (!(pixmapHeader = CreatePixmap(osd, "pixmapHeader", 5, cRect(xText, y, textLength, headerHeight - 2)))) {
             return;
         }
     }
-    PixmapFill(pixmapHeader, Theme.Color(clrMenuDetailViewBack));
+    PixmapFill(pixmapHeader, clrTransparent);
 
-    //Channel Logo
-    int logoWidth = geoManager->channelLogoWidth;
-    int xText = border;
-    if (channel) {
-        cImage *logo = imgCache->GetLogo(ctLogo, channel);
-        if (logo) {
-            pixmapHeader->DrawImage(cPoint(border, std::max((headerHeight - geoManager->channelLogoHeight - border) / 2, 0)), *logo);
-            xText += logoWidth + border;
+    //Date and Time, Title, Subtitle
+    if (config.GetValue("tabsInDetailView")) {
+        int yDateTime = border;
+        int yTitle = (headerHeight - fontHeaderLarge->Height()) / 2;
+        int ySubtitle = headerHeight - fontHeader->Height() - border;
+        pixmapHeader->DrawText(cPoint(0, yDateTime), dateTime.c_str(), Theme.Color(clrMenuFontDetailViewHeader), clrTransparent, fontHeader);
+        pixmapHeader->DrawText(cPoint(0, yTitle), title.c_str(), Theme.Color(clrMenuFontDetailViewHeaderTitle), clrTransparent, fontHeaderLarge);
+        pixmapHeader->DrawText(cPoint(0, ySubtitle), subTitle.c_str(), Theme.Color(clrMenuFontDetailViewHeader), clrTransparent, fontHeader);
+    } else {
+        int lineHeight = fontHeaderLarge->Height();
+
+        pixmapHeader->DrawText(cPoint(0, (lineHeight - fontHeader->Height()) / 2), dateTime.c_str(), Theme.Color(clrMenuFontDetailViewHeader), clrTransparent, fontHeader);
+
+        cTextWrapper wtitle;
+        wtitle.Set(title.c_str(), fontHeaderLarge, textLength);
+        int currentLineHeight = lineHeight;
+        for (int i = 0; i < wtitle.Lines(); i++) {
+            pixmapHeader->DrawText(cPoint(0, currentLineHeight), wtitle.GetLine(i), Theme.Color(clrMenuFontDetailViewHeaderTitle), clrTransparent, fontHeaderLarge);
+            currentLineHeight += lineHeight;
+        }
+
+        cTextWrapper shortText;
+        shortText.Set(subTitle.c_str(), fontHeader, textLength);
+        currentLineHeight += (lineHeight - fontHeader->Height()) / 2;
+        for (int i = 0; i < shortText.Lines(); i++) {
+            if ((currentLineHeight + fontHeader->Height()) < headerHeight) {
+                pixmapHeader->DrawText(cPoint(0, currentLineHeight), shortText.GetLine(i), Theme.Color(clrMenuFontDetailViewHeader), clrTransparent, fontHeader);
+                currentLineHeight += fontHeader->Height();
+            } else
+                break;
         }
     }
-    //Date and Time, Title, Subtitle
-    int yDateTime = border;
-    int yTitle = (headerHeight - fontHeaderLarge->Height()) / 2;
-    int ySubtitle = headerHeight - fontHeader->Height() - border;
-    pixmapHeader->DrawText(cPoint(xText, yDateTime), dateTime.c_str(), Theme.Color(clrMenuFontDetailViewHeader), Theme.Color(clrMenuDetailViewBack), fontHeader);
-    pixmapHeader->DrawText(cPoint(xText, yTitle), title.c_str(), Theme.Color(clrMenuFontDetailViewHeaderTitle), Theme.Color(clrMenuDetailViewBack), fontHeaderLarge);
-    pixmapHeader->DrawText(cPoint(xText, ySubtitle), subTitle.c_str(), Theme.Color(clrMenuFontDetailViewHeader), Theme.Color(clrMenuDetailViewBack), fontHeader);
 }
 
 void cNopacityView::DrawTabs(void) {
@@ -492,6 +539,52 @@ void cNopacityView::CreateFloatingTextWrapper(cTextWrapper *twNarrow, cTextWrapp
     }
     twNarrow->Set(sstrTextTall.str().c_str(), font, widthNarrow);
     twFull->Set(sstrTextFull.str().c_str(), font, width - 2 * border);
+}
+
+int cNopacityView::DrawHeaderPosterLight(void) {
+    int imageBorder = 4;
+    int posterHeight = headerHeight - 2 * imageBorder;
+    int maxPosterWidth = 0.25 * width;
+    bool roundedCorner = false;
+    bool poster = false;
+
+    cImageLoader imgLoader;
+    if (isSeries && series.episode.episodeImage.path.size() > 0) {
+        if (imgLoader.LoadPoster(series.episode.episodeImage.path.c_str(), maxPosterWidth, posterHeight)) {
+            poster = true;
+        }
+    } else if (isSeries && series.seasonPoster.path.size() > 0) {
+        if (imgLoader.LoadPoster(series.seasonPoster.path.c_str(), maxPosterWidth, posterHeight)) {
+            poster = true;
+        }
+    } else if (((config.GetValue("displayAdditionalRecEPGPictures") == 1) && imgLoader.LoadRecordingImage(recFileName.c_str(), maxPosterWidth, posterHeight))
+               || ((config.GetValue("displayAdditionalEPGPictures") == 1) && imgLoader.LoadEPGImage(eventID, maxPosterWidth, posterHeight))) {
+        poster = true;
+        roundedCorner = true;
+    }
+
+    if (!poster)
+        return 0;
+
+    cImage image = imgLoader.GetImage();
+    int posterWidth = image.Width();
+    int xP = width - posterWidth - border;
+
+    if (!pixmapHeaderImage) {
+        if (!(pixmapHeaderImage = CreatePixmap(osd, "pixmapHeaderImage", 5, cRect(xP, y + imageBorder, posterWidth, posterHeight)))) {
+            return 0;
+        }
+    }
+    PixmapFill(pixmapHeaderImage, clrTransparent);
+
+    int posterY = std::max((posterHeight - image.Height()) / 2, 0);
+    pixmapHeaderImage->DrawImage(cPoint(0, posterY), image);
+
+    if (roundedCorner && config.GetValue("roundedCorners")) {
+        int radius = config.GetValue("cornerRadius");
+        DrawRoundedCorners(pixmapHeaderImage, radius, 0, 0, posterWidth, posterHeight);
+    }
+    return posterWidth + 2 * border;
 }
 
 void cNopacityView::DrawPoster(void) {
@@ -938,36 +1031,36 @@ void cNopacityEPGView::SetTabs(void) {
     numTabs = tabs.size();
 }
 
-void cNopacityEPGView::DrawHeaderEPGImage(void) {
+int cNopacityEPGView::DrawHeaderEPGImage(void) {
+    int imageBorder = 4;
+    int imgHeight = headerHeight - 2 * imageBorder;
+    int maxImgWidth = 0.25 * width;
+
     cImageLoader imgLoader;
     if (eventID > 0) {
-        if (!imgLoader.LoadEPGImage(eventID))
-            return;
+        if (!imgLoader.LoadEPGImage(eventID, maxImgWidth, imgHeight))
+            return 0;
     } else if (recFileName.size() > 0) {
-        if (!imgLoader.LoadRecordingImage(recFileName.c_str()))
-            return;    
+        if (!imgLoader.LoadRecordingImage(recFileName.c_str(), maxImgWidth, imgHeight))
+            return 0;
     } else
-        return;
+        return 0;
+
+    cImage image = imgLoader.GetImage();
+    int imgWidth = image.Width();
+    int xImage = width - imgWidth - border;
 
     if (!pixmapHeaderEPGImage) {
-        if (!(pixmapHeaderEPGImage = CreatePixmap(osd, "pixmapHeaderEPGImage", 3, cRect(x, y, width, headerHeight)))) {
-            return;
+        if (!(pixmapHeaderEPGImage = CreatePixmap(osd, "pixmapHeaderEPGImage", 5, cRect(xImage, y + imageBorder, imgWidth, imgHeight)))) {
+            return 0;
         }
     }
 
-    int imgWidthOrig = config.GetValue("epgImageWidth");
-    int imgHeightOrig =  config.GetValue("epgImageHeight");
-
-    int imgWidth =  imgWidthOrig;
-    int imgHeight = imgHeightOrig;
-
-    if (imgHeight > (headerHeight-10)) {
-        imgHeight = headerHeight - 10;
-        imgWidth = imgWidthOrig * ((double)imgHeight / (double)imgHeightOrig);     
-    }
-
     PixmapFill(pixmapHeaderEPGImage, clrTransparent);
-    pixmapHeaderEPGImage->DrawImage(cPoint(width - imgWidth - border, (headerHeight - imgHeight)/2), imgLoader.GetImage());
+
+    int bannerY = std::max((imgHeight - image.Height()) / 2, 0);
+    pixmapHeaderEPGImage->DrawImage(cPoint(0, bannerY), image);
+    return imgWidth + 2 * border;
 }
 
 void cNopacityEPGView::CheckEPGImages(void) {
@@ -1063,8 +1156,8 @@ void cNopacityEPGView::KeyRight(void) {
 void cNopacityEPGView::Render(void) {
     ClearContent();
     if (!headerDrawn) {
-        DrawHeader();
-        DrawHeaderEPGImage();
+        int widthPixmap = DrawHeaderEPGImage();
+        DrawHeader(widthPixmap);
         headerDrawn = true;
     }
     if (tabs.size() == 0) {
@@ -1159,41 +1252,33 @@ void cNopacitySeriesView::CreateTVDBInfo(void) {
     tvdbInfo = info.str();
 }
 
-void cNopacitySeriesView::DrawHeaderBanner(void) {
-    if (series.banners.size() == 0)
-        return;
-    if (series.banners[0].height == 0)
-        return;
+int cNopacitySeriesView::DrawHeaderBanner(void) {
+    if (series.banners.size() == 0 || series.banners[0].height == 0 || series.banners[0].width == 0)
+        return 0;
  
-    int bannerWidthOrig = series.banners[0].width;
-    int bannerHeightOrig = series.banners[0].height;
-    std::string bannerPath = series.banners[0].path;
+    int imageBorder = 4;
+    int bannerHeight = headerHeight - 2 * imageBorder;
+    int maxBannerWidth = 0.25 * width;
 
-    if (bannerWidthOrig == 0)
-        return;
-
-    int bannerWidth = bannerWidthOrig;
-    int bannerHeight = bannerHeightOrig;
-
-    if (headerHeight < bannerHeightOrig) {
-        bannerHeight = headerHeight;
-        bannerWidth = bannerWidthOrig * ((double)bannerHeight / (double)bannerHeightOrig);
+    cImageLoader imgLoader;                                     
+    if (!(imgLoader.LoadPoster(series.banners[0].path.c_str(), maxBannerWidth, bannerHeight))) {
+        return 0;
     }
 
-    int bannerX = width - bannerWidth - border;
-    int bannerY = (headerHeight - bannerHeight) / 2;
+    cImage banner = imgLoader.GetImage();
+    int bannerWidth = banner.Width();
+    int xBanner = width - bannerWidth - border;
 
     if (!pixmapHeaderBanner) {
-        if (!(pixmapHeaderBanner = CreatePixmap(osd, "pixmapHeaderBanner", 3, cRect(x, y, width, headerHeight)))){
-            return;
+        if (!(pixmapHeaderBanner = CreatePixmap(osd, "pixmapHeaderBanner", 5, cRect(xBanner, y + imageBorder, bannerWidth, bannerHeight)))){
+            return 0;
         }
     }
     PixmapFill(pixmapHeaderBanner, clrTransparent);
 
-    cImageLoader imgLoader;
-    if (imgLoader.LoadPoster(bannerPath.c_str(), bannerWidth, bannerHeight)) {
-        pixmapHeaderBanner->DrawImage(cPoint(bannerX, bannerY), imgLoader.GetImage());
-    }   
+    int bannerY = std::max((bannerHeight - banner.Height()) / 2, 0);
+    pixmapHeaderBanner->DrawImage(cPoint(0, bannerY), banner);
+    return bannerWidth + 2 * border;
 }
 
 void cNopacitySeriesView::DrawImages(void) {
@@ -1287,8 +1372,8 @@ void cNopacitySeriesView::KeyRight(void) {
 void cNopacitySeriesView::Render(void) {
     ClearContent();
     if (!headerDrawn) {
-        DrawHeader();
-        DrawHeaderBanner();
+        int widthPixmap = DrawHeaderBanner();
+        DrawHeader(widthPixmap);
         headerDrawn = true;
     }
     if (tabs.size() == 0) {
@@ -1406,26 +1491,33 @@ void cNopacityMovieView::CreateMovieDBInfo(void) {
     movieDBInfo = info.str();
 }
 
-void cNopacityMovieView::DrawHeaderPoster(void) {
+int cNopacityMovieView::DrawHeaderPoster(void) {
     if (movie.poster.width == 0 || movie.poster.height == 0 || movie.poster.path.size() == 0)
-        return;
+        return 0;
  
-    int posterHeight = headerHeight - 10;
-    int posterWidth = movie.poster.width * ((double)posterHeight / (double)movie.poster.height);;
-    int posterX = width - posterWidth - border;
-    int posterY = (headerHeight - posterHeight) / 2;
+    int imageBorder = 4;
+    int posterHeight = headerHeight - 2 * imageBorder;
+    int maxPosterWidth = 0.25 * width;
+
+    cImageLoader imgLoader;
+    if (!(imgLoader.LoadPoster(movie.poster.path.c_str(), maxPosterWidth, posterHeight))) {
+        return 0;
+    }
+
+    cImage poster = imgLoader.GetImage();
+    int posterWidth = poster.Width();
+    int xPoster = width - posterWidth - border;
 
     if (!pixmapHeaderPoster) {
-        if (!(pixmapHeaderPoster = CreatePixmap(osd, "pixmapHeaderPoster", 3, cRect(x, y, width, headerHeight)))) {
-            return;
+        if (!(pixmapHeaderPoster = CreatePixmap(osd, "pixmapHeaderPoster", 5, cRect(xPoster, y + imageBorder, posterWidth, posterHeight)))) {
+            return 0;
         }
     }
     PixmapFill(pixmapHeaderPoster, clrTransparent);
 
-    cImageLoader imgLoader;
-    if (imgLoader.LoadPoster(movie.poster.path.c_str(), posterWidth, posterHeight)) {
-        pixmapHeaderPoster->DrawImage(cPoint(posterX, posterY), imgLoader.GetImage());
-    }   
+    int posterY = std::max((posterHeight - poster.Height()) / 2, 0);
+    pixmapHeaderPoster->DrawImage(cPoint(0, posterY), poster);
+    return posterWidth + 2 * border;
 }
 
 void cNopacityMovieView::DrawImages(void) {
@@ -1509,8 +1601,8 @@ void cNopacityMovieView::KeyRight(void) {
 void cNopacityMovieView::Render(void) {
     ClearContent();
     if (!headerDrawn) {
-        DrawHeader();
-        DrawHeaderPoster();
+        int widthPixmap = DrawHeaderPoster();
+        DrawHeader(widthPixmap);
         headerDrawn = true;
     }
     if (tabs.size() == 0) {
@@ -1728,7 +1820,8 @@ void cNopacityMenuDetailEventViewLight::Render(void) {
     SetContent();
     SetContentHeight();
     CreatePixmaps();
-    DrawHeader();
+    int widthPixmap = DrawHeaderPosterLight();
+    DrawHeader(widthPixmap);
     //draw EPG text
     DrawTextWrapper(&epgText, yEPGText);
     //draw reruns
@@ -1793,74 +1886,6 @@ int cNopacityMenuDetailEventViewLight::HeightEPGPics(void) {
     if (numPicsAvailable % picsPerLine != 0)
         picLines++;
     return picLines * (config.GetValue("epgImageHeightLarge") + border);
-}
-
-void cNopacityMenuDetailEventViewLight::DrawHeader(void) {
-    int logoWidth = config.GetValue("logoWidthOriginal");
-    LOCK_CHANNELS_READ;
-    const cChannel *channel = Channels->GetByChannelID(event->ChannelID(), true);
-    if (channel) {
-        cImage *logo = imgCache->GetLogo(ctLogo, channel);
-        if (pixmapLogo && logo) {
-            pixmapLogo->DrawImage(cPoint(0, max((headerHeight - config.GetValue("logoHeightOriginal") - border)/2, 0)), *logo);
-        }
-    }
-    if (!pixmapHeader)
-        return;
-
-    int widthTextHeader = width - 4 * border - logoWidth;
-    cImageLoader imgLoader;
-    if (isSeries && series.episode.episodeImage.path.size() > 0) {
-        int imgWidth = series.episode.episodeImage.width;
-        int imgHeight = series.episode.episodeImage.height;
-        if (imgHeight > headerHeight) {
-            imgHeight = headerHeight - 6;
-            imgWidth = imgWidth * ((double)imgHeight / (double)series.episode.episodeImage.height);
-        }
-        if (imgLoader.LoadPoster(series.episode.episodeImage.path.c_str(), imgWidth, imgHeight)) {
-            pixmapHeader->DrawImage(cPoint(width - imgWidth - border, (headerHeight - imgHeight)/2), imgLoader.GetImage());
-            widthTextHeader -= imgWidth;
-        }
-    } else if (imgLoader.LoadEPGImage(event->EventID())) {
-        pixmapHeader->DrawImage(cPoint(width - config.GetValue("epgImageWidth") - border, (headerHeight-config.GetValue("epgImageHeight"))/2), imgLoader.GetImage());
-        if (config.GetValue("roundedCorners")) {
-            int radius = config.GetValue("cornerRadius");
-            int x = width - config.GetValue("epgImageWidth") - border;
-            int y = (headerHeight-config.GetValue("epgImageHeight"))/2;
-            DrawRoundedCorners(pixmapHeader, radius, x, y, config.GetValue("epgImageWidth"), config.GetValue("epgImageHeight"));
-        }
-        widthTextHeader -= config.GetValue("epgImageWidth");
-    }
-    int lineHeight = fontHeaderLarge->Height();
-
-    cString dateTime;
-    time_t vps = event->Vps();
-    if (vps) {
-        dateTime = cString::sprintf("%s  %s - %s (%d %s) VPS: %s", *event->GetDateString(), *event->GetTimeString(), *event->GetEndTimeString(), event->Duration()/60, tr("min"), *TimeString(vps));
-    } else {
-        dateTime = cString::sprintf("%s  %s - %s (%d %s)", *event->GetDateString(), *event->GetTimeString(), *event->GetEndTimeString(), event->Duration()/60, tr("min"));
-    }
-    pixmapHeader->DrawText(cPoint(logoWidth + 2*border, (lineHeight - fontHeader->Height())/2), *dateTime, Theme.Color(clrMenuFontDetailViewHeader), clrTransparent, fontHeader);
-
-    cTextWrapper title;
-    title.Set(event->Title(), fontHeaderLarge, widthTextHeader);
-    int currentLineHeight = lineHeight;
-    for (int i=0; i < title.Lines(); i++) {
-        pixmapHeader->DrawText(cPoint(logoWidth + 2*border, currentLineHeight), title.GetLine(i), Theme.Color(clrMenuFontDetailViewHeaderTitle), clrTransparent, fontHeaderLarge);
-        currentLineHeight += lineHeight;
-    }
-
-    cTextWrapper shortText;
-    shortText.Set(event->ShortText(), fontHeader, widthTextHeader);
-    currentLineHeight += (lineHeight - fontHeader->Height())/2;
-    for (int i=0; i < shortText.Lines(); i++) {
-        if ((currentLineHeight + fontHeader->Height()) < headerHeight) {
-            pixmapHeader->DrawText(cPoint(logoWidth + 2*border, currentLineHeight), shortText.GetLine(i), Theme.Color(clrMenuFontDetailViewHeader), clrTransparent, fontHeader);
-            currentLineHeight += fontHeader->Height();
-        } else
-            break;
-    }
-
 }
 
 void cNopacityMenuDetailEventViewLight::DrawEPGPictures(int height) {
@@ -2035,7 +2060,8 @@ void cNopacityMenuDetailRecordingViewLight::Render(void) {
     SetContent();
     SetContentHeight();
     CreatePixmaps();
-    DrawHeader();
+    int widthPixmap = DrawHeaderPosterLight();
+    DrawHeader(widthPixmap);
     //draw Recording EPG text
     DrawTextWrapper(&recInfo, yEPGText);
     //draw additional Info
@@ -2136,63 +2162,6 @@ void cNopacityMenuDetailRecordingViewLight::DrawEPGPictures(int height) {
                 currentPicsPerLine = 1;
             }
         } else {
-            break;
-        }
-    }
-}
-
-void cNopacityMenuDetailRecordingViewLight::DrawHeader(void) {
-    if (!pixmapHeader)
-        return;
-
-    cImageLoader imgLoader;
-    int widthTextHeader = width - 2 * border;
-    if (isSeries && series.episode.episodeImage.path.size() > 0) {
-        int imgWidth = series.episode.episodeImage.width;
-        int imgHeight = series.episode.episodeImage.height;
-        if (imgHeight > headerHeight) {
-            imgHeight = headerHeight - 6;
-            imgWidth = imgWidth * ((double)imgHeight / (double)series.episode.episodeImage.height);
-        }
-        if (imgLoader.LoadPoster(series.episode.episodeImage.path.c_str(), imgWidth, imgHeight)) {
-            pixmapHeader->DrawImage(cPoint(width - imgWidth - border, (headerHeight - imgHeight)/2), imgLoader.GetImage());
-            widthTextHeader -= imgWidth;
-        }
-    } else if ((config.GetValue("displayAdditionalRecEPGPictures") == 1) && imgLoader.LoadRecordingImage(recording->FileName())) {
-        pixmapHeader->DrawImage(cPoint(width - config.GetValue("epgImageWidth") - border, (headerHeight-config.GetValue("epgImageHeight"))/2), imgLoader.GetImage());
-        if (config.GetValue("roundedCorners")) {
-            int radius = config.GetValue("cornerRadius");
-            int x = width - config.GetValue("epgImageWidth") - border;
-            int y = (headerHeight-config.GetValue("epgImageHeight"))/2;
-            DrawRoundedCorners(pixmapHeader, radius, x, y, config.GetValue("epgImageWidth"), config.GetValue("epgImageHeight"));
-        }
-        widthTextHeader -= config.GetValue("epgImageWidth");
-    }
-    int lineHeight = fontHeaderLarge->Height();
-    int recDuration = recording->LengthInSeconds();
-    recDuration = (recDuration>0)?(recDuration / 60):0;
-    cString dateTime = cString::sprintf("%s  %s (%d %s)", *DateString(recording->Start()), *TimeString(recording->Start()), recDuration, tr("min"));
-    pixmapHeader->DrawText(cPoint(border, (lineHeight - fontHeader->Height())/2), *dateTime, Theme.Color(clrMenuFontDetailViewHeader), clrTransparent, fontHeader);
-
-    const char *Title = info->Title();
-    if (isempty(Title))
-        Title = recording->Name();
-    cTextWrapper title;
-    title.Set(Title, fontHeaderLarge, widthTextHeader);
-    int currentLineHeight = lineHeight;
-	for (int i=0; i < title.Lines(); i++) {
-        pixmapHeader->DrawText(cPoint(border, currentLineHeight), title.GetLine(i), Theme.Color(clrMenuFontDetailViewHeaderTitle), clrTransparent, fontHeaderLarge);
-        currentLineHeight += lineHeight;
-    }
-	
-    if (!isempty(info->ShortText())) {
-        cTextWrapper shortText;
-        shortText.Set(info->ShortText(), fontHeader, widthTextHeader);
-        for (int i=0; i < shortText.Lines(); i++) {
-            if ((currentLineHeight + fontHeader->Height()) < headerHeight) {
-                pixmapHeader->DrawText(cPoint(border, currentLineHeight), shortText.GetLine(i), Theme.Color(clrMenuFontDetailViewHeader), clrTransparent, fontHeader);
-                currentLineHeight += fontHeader->Height();
-        } else
             break;
         }
     }
