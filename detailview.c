@@ -856,7 +856,7 @@ void cNopacityView::DrawActors(int height) {
 }
 
 void cNopacityView::DrawFanart(int height) {
-    if (isSeries && series.fanarts.size() < 1)
+    if (!pixmapContent || (isSeries && series.fanarts.size() < 1))
         return;
 
     int fanartWidthOrig = 0;
@@ -878,39 +878,37 @@ void cNopacityView::DrawFanart(int height) {
     int fanartWidth = fanartWidthOrig;
     int fanartHeight = fanartHeightOrig;
 
-    if (fanartWidthOrig > contentWidth - 2*border) {
-        fanartWidth = contentWidth - 2*border;
+    if (fanartWidthOrig > contentWidth - 2 * border) {
+        fanartWidth = contentWidth - 2 * border;
         fanartHeight = fanartHeightOrig * ((double)fanartWidth / (double)fanartWidthOrig);
     }
     cImageLoader imgLoader;
     if (isMovie) {
         int fanartX = (contentWidth - fanartWidth) / 2;
         if (imgLoader.LoadPoster(fanartPath.c_str(), fanartWidth, fanartHeight)) {
-            if (pixmapContent)
-                pixmapContent->DrawImage(cPoint(fanartX, height), imgLoader.GetImage());
+            pixmapContent->DrawImage(cPoint(fanartX, height), imgLoader.GetImage());
         }
         if (movie.collectionFanart.path.size() > 0) {
             if (imgLoader.LoadPoster(movie.collectionFanart.path.c_str(), fanartWidth, fanartHeight)) {
-                if (pixmapContent)
-                    pixmapContent->DrawImage(cPoint(fanartX, height + fanartHeight + font->Size()), imgLoader.GetImage());
+                pixmapContent->DrawImage(cPoint(fanartX, height + fanartHeight + font->Size()), imgLoader.GetImage());
             }
         }
-    } else if (isSeries) {
+        return;
+    }
+    if (isSeries) {
         int fanartX = (contentWidth - fanartWidth) / 2;
         for (std::vector<cTvMedia>::iterator f = series.fanarts.begin(); f != series.fanarts.end(); f++) {
             cTvMedia m = *f;
             if (imgLoader.LoadPoster(m.path.c_str(), fanartWidth, fanartHeight)) {
-                if (pixmapContent)
-                    pixmapContent->DrawImage(cPoint(fanartX, height), imgLoader.GetImage());
+                pixmapContent->DrawImage(cPoint(fanartX, height), imgLoader.GetImage());
                 height += fanartHeight + font->Height();
             }
         }
-    } else {
-        if (imgLoader.LoadPoster(fanartPath.c_str(), fanartWidth, fanartHeight)) {
-            int fanartX = (contentWidth - fanartWidth) / 2;
-            if (pixmapContent)
-                pixmapContent->DrawImage(cPoint(fanartX, height), imgLoader.GetImage());
-        }
+        return;
+    }
+    if (imgLoader.LoadPoster(fanartPath.c_str(), fanartWidth, fanartHeight)) {
+        int fanartX = (contentWidth - fanartWidth) / 2;
+        pixmapContent->DrawImage(cPoint(fanartX, height), imgLoader.GetImage());
     }
 }
 
