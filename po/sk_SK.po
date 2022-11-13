@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: vdr-skinnopacity\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2022-11-13 15:19+0100\n"
+"POT-Creation-Date: 2022-11-13 16:35+0100\n"
 "PO-Revision-Date: 2013-11-11 20:52+0100\n"
 "Last-Translator: Milan Hrala <hrala.milan@gmail.com>\n"
 "Language-Team: \n"
@@ -125,8 +125,17 @@ msgstr ""
 msgid "min"
 msgstr "min"
 
-msgid "RERUNS OF THIS SHOW"
-msgstr "Repríza"
+msgid "free"
+msgstr "voµné"
+
+msgid "images"
+msgstr "obrázkov"
+
+msgid "Reruns of this show"
+msgstr ""
+
+msgid "No reruns found"
+msgstr ""
 
 msgid "Size"
 msgstr "Veµkos»"
@@ -148,18 +157,6 @@ msgstr ""
 
 msgid "Search timer"
 msgstr "Vyhµada» plán"
-
-msgid "free"
-msgstr "voµné"
-
-msgid "images"
-msgstr "obrázkov"
-
-msgid "Reruns of this show"
-msgstr ""
-
-msgid "No reruns found"
-msgstr ""
 
 msgid "Transp."
 msgstr "Transp."
@@ -760,3 +757,6 @@ msgstr "konflikt"
 
 msgid "conflicts"
 msgstr "konflikty"
+
+#~ msgid "RERUNS OF THIS SHOW"
+#~ msgstr "Repríza"

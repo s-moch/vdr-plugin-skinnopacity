@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2022-11-13 15:19+0100\n"
+"POT-Creation-Date: 2022-11-13 16:35+0100\n"
 "PO-Revision-Date: 2013-03-19 22:56+0100\n"
 "Last-Translator: Diego Pierotto <vdr-italian@tiscali.it>\n"
 "Language-Team: \n"
@@ -128,8 +128,17 @@ msgstr ""
 msgid "min"
 msgstr "min"
 
-msgid "RERUNS OF THIS SHOW"
-msgstr "REPLICHE DI QUESTO SPETTACOLO"
+msgid "free"
+msgstr "disponibili"
+
+msgid "images"
+msgstr ""
+
+msgid "Reruns of this show"
+msgstr ""
+
+msgid "No reruns found"
+msgstr ""
 
 msgid "Size"
 msgstr "Dimensione"
@@ -150,18 +159,6 @@ msgid "TS Errors"
 msgstr ""
 
 msgid "Search timer"
-msgstr ""
-
-msgid "free"
-msgstr "disponibili"
-
-msgid "images"
-msgstr ""
-
-msgid "Reruns of this show"
-msgstr ""
-
-msgid "No reruns found"
 msgstr ""
 
 msgid "Transp."
@@ -763,3 +760,6 @@ msgstr "conflitto"
 
 msgid "conflicts"
 msgstr "conflitti"
+
+#~ msgid "RERUNS OF THIS SHOW"
+#~ msgstr "REPLICHE DI QUESTO SPETTACOLO"

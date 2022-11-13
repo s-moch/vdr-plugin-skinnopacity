@@ -79,15 +79,17 @@ protected:
     std::string recFileName;
     bool headerDrawn;
     void SetFonts(void);
+    void LoadAddInfo(std::string *text);
     int HeightActorPics(void);
     int HeightScraperInfo(void);
     int HeightFanart(void);
+    cTextWrapper addInfo;
     cTextWrapper scrapInfo;
     void DrawTextWrapper(cTextWrapper *wrapper, int top);
     void DrawHeader(void);
     void ClearContent(void);
     void CreateContent(int fullHeight);
-    void DrawContent(std::string *text);
+    void DrawContent(std::string *text, int y = 0);
     void DrawFloatingContent(std::string *infoText, cTvMedia *img, cTvMedia *img2 = NULL);
     void CreateFloatingTextWrapper(cTextWrapper *twNarrow, cTextWrapper *twFull, std::string *text, int widthImg, int heightImg);
     void DrawPoster(void);
@@ -195,10 +197,8 @@ class cNopacityMenuDetailEventViewLight : public cNopacityView {
 private:
     const cEvent *event;
     cTextWrapper epgText;
-    cTextWrapper reruns;
     int numEPGPics;
     void DrawHeader(void);
-    void LoadReruns(void);
     int HeightEPGPics(void);
     void DrawEPGPictures(int height);
 public:
@@ -215,11 +215,7 @@ private:
     const cRecording *recording;
     const cRecordingInfo *info;
     cTextWrapper recInfo;
-    cTextWrapper additionalInfo;
     void DrawHeader(void);
-    void LoadRecordingInformation(void);
-    std::string StripXmlTag(std::string &Line, const char *Tag);
-    int ReadSizeVdr(const char *strPath);
     std::vector<std::string> epgpics;
     bool LoadEPGPics(void);
     int HeightEPGPics(void);
