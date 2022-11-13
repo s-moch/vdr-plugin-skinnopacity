@@ -1118,13 +1118,6 @@ cNopacityMenuDetailViewLight::cNopacityMenuDetailViewLight(cOsd *osd, cPixmap *s
 }
 
 cNopacityMenuDetailViewLight::~cNopacityMenuDetailViewLight(void) {
-    delete font;
-    if (fontSmall)
-        delete fontSmall;
-    if (fontHeader)
-        delete fontHeader;
-    if (fontHeaderLarge)
-        delete fontHeaderLarge;
 }
 
 void cNopacityMenuDetailViewLight::SetGeometry(int x, int top, int width, int height, int border, int headerHeight) {
@@ -1140,13 +1133,6 @@ void cNopacityMenuDetailViewLight::SetGeometry(int x, int top, int width, int he
     SetContent();
     SetContentHeight();
     CreatePixmaps();
-}
-
-void cNopacityMenuDetailViewLight::SetFonts(void) {
-    font = cFont::CreateFont(config.fontName, contentHeight / 25 + 3 + config.GetValue("fontDetailView"));
-    fontSmall = cFont::CreateFont(config.fontName, contentHeight / 30 + config.GetValue("fontDetailViewSmall"));
-    fontHeaderLarge = cFont::CreateFont(config.fontName, headerHeight / 4 + config.GetValue("fontDetailViewHeaderLarge"));
-    fontHeader = cFont::CreateFont(config.fontName, headerHeight / 6 + config.GetValue("fontDetailViewHeader"));
 }
 
 void cNopacityMenuDetailViewLight::DrawTextWrapper(cTextWrapper *wrapper, int top) {

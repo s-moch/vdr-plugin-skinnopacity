@@ -178,7 +178,6 @@ protected:
     int yEPGPics;
     int actorThumbWidth;
     int actorThumbHeight;
-    cFont *font, *fontSmall, *fontHeader, *fontHeaderLarge;
     cPixmap *pixmapHeader;
     cPixmap *pixmapLogo;
     cPixmap *pixmapContent;
@@ -192,7 +191,6 @@ protected:
     bool isMovie;
     bool isSeries;
     cTextWrapper scrapInfo;
-    void SetFonts(void);
     void DrawTextWrapper(cTextWrapper *wrapper, int top);
     int HeightActorPics(void);
     int HeightScraperInfo(void);
