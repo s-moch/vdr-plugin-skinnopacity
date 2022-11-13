@@ -32,6 +32,7 @@ class cNopacityView {
 protected:
     cOsd *osd;
     cPixmap *pixmapHeader = NULL;
+    cPixmap *pixmapLogo = NULL;
     cPixmap *pixmapContent = NULL;
     cPixmap *pixmapContentBack = NULL;
     cPixmap *pixmapScrollbar = NULL;
@@ -196,13 +197,9 @@ protected:
     int yFanart;
     int yAddInf;
     int yEPGPics;
-    cPixmap *pixmapHeader;
-    cPixmap *pixmapLogo;
-    cPixmap *pixmapContent;
 public:
     cNopacityMenuDetailViewLight(cOsd *osd, cPixmap *s, cPixmap *sBack);
     virtual ~cNopacityMenuDetailViewLight(void);
-    void SetAlpha(int Alpha = 0);
     void KeyInput(bool Up, bool Page);
     virtual void Render(void) = 0;
 };

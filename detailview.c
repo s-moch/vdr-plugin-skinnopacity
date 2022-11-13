@@ -66,6 +66,7 @@ void cNopacityView::SetGeometry(int x, int y, int width, int height, int border,
 
 void cNopacityView::SetAlpha(int Alpha) {
     PixmapSetAlpha(pixmapHeader, Alpha);
+    PixmapSetAlpha(pixmapLogo, Alpha);
     PixmapSetAlpha(pixmapTabs, Alpha);
     PixmapSetAlpha(pixmapContentBack, Alpha);
     PixmapSetAlpha(pixmapContent, Alpha);
@@ -74,6 +75,7 @@ void cNopacityView::SetAlpha(int Alpha) {
     PixmapSetAlpha(pixmapHeaderEPGImage, Alpha);
     PixmapSetAlpha(pixmapHeaderBanner, Alpha);
     PixmapSetAlpha(pixmapHeaderPoster, Alpha);
+    PixmapSetAlpha(pixmapPoster, Alpha);
 }
 
 void cNopacityView::SetFonts(void) {
@@ -1549,10 +1551,6 @@ cNopacityMenuDetailViewLight::cNopacityMenuDetailViewLight(cOsd *osd, cPixmap *s
     this->pixmapScrollbar = s;
     this->pixmapScrollbarBack = sBack;
     hasScrollbar = false;
-    pixmapContent = NULL;
-    pixmapHeader = NULL;
-    pixmapPoster = NULL;
-    pixmapLogo = NULL;
     contentHeight = height - headerHeight;
 }
 
@@ -1597,13 +1595,6 @@ void cNopacityMenuDetailViewLight::KeyInput(bool Up, bool Page) {
     }
     if (scrolled)
         DrawScrollbar();
-}
-
-void cNopacityMenuDetailViewLight::SetAlpha(int Alpha) {
-    PixmapSetAlpha(pixmapContent, Alpha);
-    PixmapSetAlpha(pixmapHeader, Alpha);
-    PixmapSetAlpha(pixmapPoster, Alpha);
-    PixmapSetAlpha(pixmapLogo, Alpha);
 }
 
 //---------------cNopacityMenuDetailEventViewLight---------------------
