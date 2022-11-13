@@ -27,7 +27,11 @@ cNopacityView::cNopacityView(cOsd *osd) {
     border = 0;
     headerHeight = 0;
     contentHeight = 0;
+    contentWidth = 0;
     tabHeight = 0;
+    actorThumbWidth = 0;
+    actorThumbHeight = 0;
+    contentDrawPortHeight = 0;
     headerDrawn = false;
 }
 
@@ -65,6 +69,7 @@ void cNopacityView::SetGeometry(int x, int y, int width, int height, int border,
     if (config.GetValue("tabsInDetailView") && tabbed)
         tabHeight = 2 * border;
     contentHeight = height - headerHeight - tabHeight;
+    contentWidth = width;
     SetFonts();
 }
 
