@@ -593,6 +593,9 @@ int cNopacityView::DrawHeaderPosterLight(void) {
 }
 
 void cNopacityView::DrawPoster(void) {
+    if (!pixmapPoster)
+        return;
+
     int posterWidthOrig = 0;
     int posterHeightOrig = 0;
     if (hasManualPoster) {
@@ -617,19 +620,19 @@ void cNopacityView::DrawPoster(void) {
     int posterHeight = posterHeightOrig;
 
     if ((posterWidthOrig > widthPoster) && (posterHeightOrig < contentHeight)) {
-        posterWidth = widthPoster - 2*border;
+        posterWidth = widthPoster - 2 * border;
         posterHeight = posterHeightOrig * ((double)posterWidth / (double)posterWidthOrig);
     } else if ((posterWidthOrig < widthPoster) && (posterHeightOrig > contentHeight)) {
-        posterHeight = contentHeight - 2*border;
+        posterHeight = contentHeight - 2 * border;
         posterWidth = posterWidthOrig * ((double)posterHeight / (double)posterHeightOrig);
     } else if ((posterWidthOrig > widthPoster) && (posterHeightOrig > contentHeight)) {
         int overlapWidth = posterWidthOrig - widthPoster;
         int overlapHeight = posterHeightOrig - contentHeight;
         if (overlapWidth >= overlapHeight) {
-            posterWidth = widthPoster - 2*border;
+            posterWidth = widthPoster - 2 * border;
             posterHeight = posterHeightOrig * ((double)posterWidth / (double)posterWidthOrig);
         } else {
-            posterHeight = contentHeight - 2*border;
+            posterHeight = contentHeight - 2 * border;
             posterWidth = posterWidthOrig * ((double)posterHeight / (double)posterHeightOrig);
         }
     }
@@ -645,8 +648,7 @@ void cNopacityView::DrawPoster(void) {
         drawPoster = true;
     }
     if (drawPoster) {
-        if (pixmapPoster)
-            pixmapPoster->DrawImage(cPoint(posterX, posterY), imgLoader.GetImage());
+        pixmapPoster->DrawImage(cPoint(posterX, posterY), imgLoader.GetImage());
     }
 }
 
