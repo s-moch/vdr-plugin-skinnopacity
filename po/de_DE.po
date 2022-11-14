@@ -132,7 +132,7 @@ msgid "min"
 msgstr "min"
 
 msgid "Reruns of this show"
-msgstr ""
+msgstr "Wiederholungen dieser Sendung"
 
 msgid "No reruns found"
 msgstr "Keine Wiederholungen gefunden"
@@ -760,9 +760,3 @@ msgstr "Konflikt"
 
 msgid "conflicts"
 msgstr "Konflikte"
-
-#~ msgid "RERUNS OF THIS SHOW"
-#~ msgstr "Wiederholungen dieser Sendung"
-
-#~ msgid "Reruns of "
-#~ msgstr "Wiederholungen der Sendung "
