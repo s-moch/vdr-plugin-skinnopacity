@@ -376,7 +376,8 @@ void cNopacityDisplayChannelView::DrawEPGInfo(const cEvent *e, bool present, boo
 
     pixmapEPGInfo->DrawText(cPoint(xEPG + widthRecIcon, yEPG), *strEPG, fontColor, clrTransparent, fontManager->channelEPG);
 
-    pixmapEPGInfo->DrawText(cPoint(xEPG, yEPGSmall), *strEPGShort, fontColorInfo, clrTransparent, fontManager->channelEPGSmall);
+    if (config.GetValue("displayShortText"))
+        pixmapEPGInfo->DrawText(cPoint(xEPG, yEPGSmall), *strEPGShort, fontColorInfo, clrTransparent, fontManager->channelEPGSmall);
 
     int x = geoManager->channelContentWidth - 2 * indent - seenWidth;
 

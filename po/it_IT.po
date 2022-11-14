@@ -650,6 +650,9 @@ msgstr ""
 msgid "Size of the Channel Logo in Percent"
 msgstr ""
 
+msgid "Display EPG Shorttext"
+msgstr ""
+
 msgid "Kind of time display for current schedule"
 msgstr ""
 
@@ -671,7 +674,7 @@ msgstr ""
 msgid "Adjust Font Size - EPG Text"
 msgstr "Adatta dim. caratteri - Testo EPG"
 
-msgid "Adjust Font Size - EPG Infotext"
+msgid "Adjust Font Size - EPG Shorttext"
 msgstr "Adatta dim. caratteri - Info testo EPG"
 
 msgid "Adjust Font Size - Channel Source Info"

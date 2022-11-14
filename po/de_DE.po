@@ -647,6 +647,9 @@ msgstr "Kanallogo original Höhe"
 msgid "Size of the Channel Logo in Percent"
 msgstr "Größe des Kanal Logo in %"
 
+msgid "Display EPG Shorttext"
+msgstr "EPG Kurztext anzeigen"
+
 msgid "Kind of time display for current schedule"
 msgstr "Art der Zeitanzeige für die laufende Sendung"
 
@@ -668,8 +671,8 @@ msgstr "Vorherige und nächste Kanalgruppe anzeigen"
 msgid "Adjust Font Size - EPG Text"
 msgstr "Schriftgröße anpassen - EPG Text"
 
-msgid "Adjust Font Size - EPG Infotext"
-msgstr "Schriftgröße anpassen - EPG Infotext"
+msgid "Adjust Font Size - EPG Shorttext"
+msgstr "Schriftgröße anpassen - EPG Kurztext"
 
 msgid "Adjust Font Size - Channel Source Info"
 msgstr "Schriftgröße anpassen - Kanalquelleninfo"

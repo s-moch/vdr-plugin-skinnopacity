@@ -199,6 +199,7 @@ void cNopacityConfig::LoadDefaults(void) {
     conf.insert(std::pair<std::string, int>("fontChannelSourceInfoSize", 0));
     conf.insert(std::pair<std::string, int>("fontChannelGroupSize", 0));
     conf.insert(std::pair<std::string, int>("fontChannelGroupSmallSize", 0));
+    conf.insert(std::pair<std::string, int>("displayShortText", 1));
     conf.insert(std::pair<std::string, int>("progressCurrentSchedule", 0));
     conf.insert(std::pair<std::string, int>("displayPoster", 1));
     conf.insert(std::pair<std::string, int>("channelPosterBorder", 10));

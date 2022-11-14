@@ -453,6 +453,7 @@ void cNopacitySetupChannelDisplay::Set(void) {
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Size of the Channel Logo in Percent")), tmpConf->GetValueRef("logoScale"), 50, 100));
         Add(new cMenuEditStraItem(cString::sprintf("%s%s", *spacer, tr("Use Channel Logo background")), tmpConf->GetValueRef("channelUseLogoBackground"), 4, useLogoBackground));
     }
+    Add(new cMenuEditBoolItem(tr("Display EPG Shorttext"), tmpConf->GetValueRef("displayShortText")));
     Add(new cMenuEditStraItem(tr("Kind of time display for current schedule"), tmpConf->GetValueRef("progressCurrentSchedule"), 2, progressStyleCurrentSchedule));
     Add(new cMenuEditBoolItem(tr("Display Signal Strength & Quality"), tmpConf->GetValueRef("displaySignalStrength")));
     Add(new cMenuEditBoolItem(tr("Display Channel Source & Rec. Info"), tmpConf->GetValueRef("displaySourceInfo")));
@@ -468,7 +469,7 @@ void cNopacitySetupChannelDisplay::Set(void) {
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Header"), tmpConf->GetValueRef("fontChannelHeaderSize"), -20, 20));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Date"), tmpConf->GetValueRef("fontChannelDateSize"), -20, 20));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - EPG Text"), tmpConf->GetValueRef("fontEPGSize"), -20, 20));
-    Add(new cMenuEditIntItem(tr("Adjust Font Size - EPG Infotext"), tmpConf->GetValueRef("fontEPGSmallSize"), -20, 20));
+    Add(new cMenuEditIntItem(tr("Adjust Font Size - EPG Shorttext"), tmpConf->GetValueRef("fontEPGSmallSize"), -20, 20));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Channel Source Info"), tmpConf->GetValueRef("fontChannelSourceInfoSize"), -20, 20));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Channel Group"), tmpConf->GetValueRef("fontChannelGroupSize"), -20, 20));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Next/Prev Channel Group"), tmpConf->GetValueRef("fontChannelGroupSmallSize"), -20, 20));

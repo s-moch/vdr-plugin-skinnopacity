@@ -647,6 +647,9 @@ msgstr "Pôvodná vý¹ka loga kanála"
 msgid "Size of the Channel Logo in Percent"
 msgstr ""
 
+msgid "Display EPG Shorttext"
+msgstr ""
+
 msgid "Kind of time display for current schedule"
 msgstr "Druh zobrazenia èasu pre aktuálnu reláciu"
 
@@ -668,7 +671,7 @@ msgstr "Zobrazi» predchádzajúcu a nasledujúcu skupinu kanálu"
 msgid "Adjust Font Size - EPG Text"
 msgstr "Nastavenie veµkosti písma - EPG text"
 
-msgid "Adjust Font Size - EPG Infotext"
+msgid "Adjust Font Size - EPG Shorttext"
 msgstr "Nastavenie veµkosti písma - EPG informaèný text"
 
 msgid "Adjust Font Size - Channel Source Info"
