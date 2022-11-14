@@ -2071,31 +2071,22 @@ void cNopacityMenuDetailRecordingViewLight::Render(void) {
     CreatePixmaps();
     int widthPixmap = DrawHeaderPosterLight();
     DrawHeader(widthPixmap);
-    //draw Recording EPG text
-    DrawTextWrapper(&recInfo, yEPGText);
-    //draw additional Info
-    if (config.GetValue("displayRerunsDetailEPGView")) {
-        DrawContent(&addInfoText, yAddInf);
-    }
-    //draw additional scraper info
-    if (isMovie) {
-        DrawTextWrapper(&scrapInfo, yScrapInfo);
-    } else if (isSeries) {
-        int yInfo = yScrapInfo + font->Height();
-        if (series.banners.size() > 1)
-            yInfo += series.banners[1].height;
-        DrawTextWrapper(&scrapInfo, yInfo);
-    } 
-    if ((hasManualPoster || isSeries || isMovie)) {
+    if (hasManualPoster || isSeries || isMovie) {
         DrawPoster();
     }
     //draw banner only for series
     if (!hasManualPoster && isSeries) {
         DrawBanner(yBanner);
     }
+    //draw Recording EPG text
+    DrawTextWrapper(&recInfo, yEPGText);
     //draw actors
     if (!hasManualPoster && (isSeries || isMovie)) {
         DrawActors(yActors);
+    }
+    //draw additional scraper info
+    if (isSeries || isMovie) {
+        DrawTextWrapper(&scrapInfo, yScrapInfo);
     }
     //draw fanart
     if (!hasManualPoster && (isSeries || isMovie)) {
@@ -2104,6 +2095,10 @@ void cNopacityMenuDetailRecordingViewLight::Render(void) {
     //draw additional EPG Pictures
     if (((config.GetValue("displayAdditionalRecEPGPictures") == 1) || ((config.GetValue("displayAdditionalRecEPGPictures") == 2) && !(!isMovie && !isSeries)))) {
         DrawEPGPictures(yEPGPics);
+    }
+    //draw additional Info
+    if (config.GetValue("displayRerunsDetailEPGView")) {
+        DrawContent(&addInfoText, yAddInf);
     }
     DrawScrollbar();
 }
