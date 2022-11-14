@@ -670,7 +670,7 @@ void cNopacityScheduleMenuItem::Render(bool initial, bool fadeout) {
               if (config.GetValue("animation") && !fadeout) {
                 //window mode
                 infoTextWindow = new cNopacityTextWindow(osd, fontEPGWindow, vidWin);
-                infoTextWindow->SetGeometry(textWindow);
+                infoTextWindow->SetGeometry(textWindow, config.GetValue("borderDetailedEPG"));
                 infoTextWindow->SetText(Event->Description());
                 infoTextWindow->SetPoster(Event, NULL);
                 infoTextWindow->SetInitial(initial);
@@ -679,7 +679,7 @@ void cNopacityScheduleMenuItem::Render(bool initial, bool fadeout) {
             } else {
                 //fullscreen mode
                 infoTextWindow = new cNopacityTextWindow(osd, fontEPGWindow, fontEPGWindowLarge);
-                infoTextWindow->SetGeometry(textWindow);
+                infoTextWindow->SetGeometry(textWindow, config.GetValue("borderDetailedEPG"));
                 infoTextWindow->SetPoster(Event, NULL, true);
                 infoTextWindow->SetEvent(Event);
             }
@@ -878,7 +878,7 @@ void cNopacityChannelMenuItem::Render(bool initial, bool fadeout) {
         if (current && Channel && (config.GetValue("menuChannelDisplayMode") == 0)) {
           if (config.GetValue("animation") && !fadeout) {
             infoTextWindow = new cNopacityTextWindow(osd, fontEPGWindow, vidWin);
-            infoTextWindow->SetGeometry(textWindow);
+            infoTextWindow->SetGeometry(textWindow, config.GetValue("borderDetailedEPG"));
             infoTextWindow->SetText(readEPG().c_str());
             infoTextWindow->SetInitial(initial);
             infoTextWindow->Start();
@@ -1024,7 +1024,7 @@ void cNopacityTimerMenuItem::Render(bool initial, bool fadeout) {
               if (config.GetValue("animation") && !fadeout) {
                 //window mode
                 infoTextWindow = new cNopacityTextWindow(osd, fontEPGWindow, vidWin);
-                infoTextWindow->SetGeometry(textWindow);
+                infoTextWindow->SetGeometry(textWindow, config.GetValue("borderDetailedEPG"));
                 infoTextWindow->SetText(Event->Description());
                 infoTextWindow->SetPoster(Event, NULL, false);
                 infoTextWindow->SetInitial(initial);
@@ -1033,7 +1033,7 @@ void cNopacityTimerMenuItem::Render(bool initial, bool fadeout) {
             } else {
                 //fullscreen mode
                 infoTextWindow = new cNopacityTextWindow(osd, fontEPGWindow, fontEPGWindowLarge);
-                infoTextWindow->SetGeometry(textWindow);
+                infoTextWindow->SetGeometry(textWindow, config.GetValue("borderDetailedEPG"));
                 infoTextWindow->SetPoster(Event, NULL, true);
                 infoTextWindow->SetEvent(Event);
             }
@@ -1313,7 +1313,7 @@ void cNopacityRecordingMenuItem::Render(bool initial, bool fadeout) {
                   if (config.GetValue("animation") && !fadeout) {
                     //window mode
                     infoTextWindow = new cNopacityTextWindow(osd, fontEPGWindow, vidWin);
-                    infoTextWindow->SetGeometry(textWindow);
+                    infoTextWindow->SetGeometry(textWindow, config.GetValue("borderDetailedRecordings"));
                     infoTextWindow->SetText(Recording->Info()->Description());
                     if (!infoTextWindow->SetManualPoster(Recording))
                         infoTextWindow->SetPoster(NULL, Recording);
@@ -1323,7 +1323,7 @@ void cNopacityRecordingMenuItem::Render(bool initial, bool fadeout) {
                 } else {
                     //fullscreen mode
                     infoTextWindow = new cNopacityTextWindow(osd, fontEPGWindow, fontEPGWindowLarge);
-                    infoTextWindow->SetGeometry(textWindow);
+                    infoTextWindow->SetGeometry(textWindow, config.GetValue("borderDetailedRecordings"));
                     if (!infoTextWindow->SetManualPoster(Recording, true))
                         infoTextWindow->SetPoster(NULL, Recording, true);
                     infoTextWindow->SetRecording(Recording);
