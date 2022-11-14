@@ -1804,26 +1804,16 @@ void cNopacityMenuDetailEventViewLight::SetContentHeight(void) {
 
 void cNopacityMenuDetailEventViewLight::CreatePixmaps(void) {
     contentHeight = contentHeight - border;
-    pixmapHeader = CreatePixmap(osd, "pixmapHeader", 3, cRect(x, y, width, headerHeight));
 
     pixmapContent = CreatePixmap(osd, "pixmapContent", 3, cRect(x + contentX, y + headerHeight + border, contentWidth, contentHeight),
                                                           cRect(0, 0, contentWidth, contentDrawPortHeight));
-
-    pixmapLogo = CreatePixmap(osd, "pixmapLogo", 4, cRect(x + border,
-                                                          y + max((headerHeight - config.GetValue("logoHeightOriginal")) / 2, 1),
-                                                          config.GetValue("logoWidthOriginal"),
-                                                          config.GetValue("logoHeightOriginal")));
 
     if (isSeries || isMovie) {
         pixmapPoster = CreatePixmap(osd, "pixmapPoster", 4, cRect(x, y + headerHeight, widthPoster, contentHeight));
     }
 
-    PixmapFill(pixmapHeader, clrTransparent);
     PixmapFill(pixmapContent, clrTransparent);
-    PixmapFill(pixmapLogo, clrTransparent);
     PixmapFill(pixmapPoster, clrTransparent);
-    if (pixmapHeader)
-        pixmapHeader->DrawRectangle(cRect(0, headerHeight - 2, width, 2), Theme.Color(clrMenuBorder));
 }
 
 void cNopacityMenuDetailEventViewLight::Render(void) {
