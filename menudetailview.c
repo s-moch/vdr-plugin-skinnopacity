@@ -48,13 +48,13 @@ void cNopacityDetailView::Init(void) {
     headerHeight = 0;
     switch (type) {
         case dvEvent:
-            headerHeight = (config.GetValue("tabsInDetailView")) ? config.GetValue("headerDetailedEPG") * height / 100
-                                                                : std::max(config.GetValue("logoHeightOriginal"), config.GetValue("epgImageHeight")) + 4;
+            headerHeight = (config.GetValue("tabsInDetailView")) ? std::max(config.GetValue("logoHeightOriginal"), config.GetValue("headerDetailedEPG") * height / 100) + 4
+                                                                 : std::max(config.GetValue("logoHeightOriginal"), config.GetValue("epgImageHeight")) + 4;
             border = config.GetValue("borderDetailedEPG");
             break;
         case dvRecording:
-            headerHeight = (config.GetValue("tabsInDetailView")) ? config.GetValue("headerDetailedRecordings") * height / 100
-                                                                : config.GetValue("epgImageHeight") + 4;
+            headerHeight = (config.GetValue("tabsInDetailView")) ? std::max(config.GetValue("logoHeightOriginal"), config.GetValue("headerDetailedRecordings") * height / 100) + 4
+                                                                 : std::max(config.GetValue("logoHeightOriginal"), config.GetValue("epgImageHeight")) + 4;
             border = config.GetValue("borderDetailedRecordings");
             break;
         case dvText:
