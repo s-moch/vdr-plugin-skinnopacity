@@ -1994,49 +1994,63 @@ void cNopacityMenuDetailRecordingViewLight::SetContent(void) {
 
 void cNopacityMenuDetailRecordingViewLight::SetContentHeight(void) {
     int lineHeight = font->Height();
+    int totalHeight = 0;
+
+    yBanner = 0;
+
     //Height of banner (only for series)
-    int heightBanner = 0;
     if (!hasManualPoster && isSeries) {
         if (isSeries && series.banners.size() > 0) {
-            heightBanner = series.banners[0].height;
+            totalHeight  += lineHeight + series.banners[0].height;
         }
     }
+    yEPGText = totalHeight;
+
     //Height of Recording EPG Info
-    int heightEPG = recInfo.Lines() * lineHeight;
+    if (recInfo.Lines() > 0) {
+        totalHeight  += lineHeight + recInfo.Lines() * lineHeight;
+    }
+    yActors = totalHeight;
+
     //Height of actor pictures
-    int heightActors = 0;
     if (!hasManualPoster && (isMovie || isSeries)) {
-        heightActors = HeightActorPics();
+        int heightActorPics = HeightActorPics();
+        if (heightActorPics)
+            totalHeight += lineHeight + heightActorPics;
     }
+    yScrapInfo = totalHeight;
+
     //Height of additional scraper info
-    int heightScraperInfo = 0;
     if (isMovie || isSeries) {
-        heightScraperInfo = HeightScraperInfo();
+        int heightScraperInfo = HeightScraperInfo();
+        if (heightScraperInfo)
+            totalHeight += lineHeight + heightScraperInfo;
     }
+    yFanart = totalHeight;
+
     //Height of fanart
-    int heightFanart = 0;
     if (!hasManualPoster && (isMovie || isSeries)) {
-        heightFanart = HeightFanart();
+        int heightFanart = HeightFanart();
+        if (heightFanart)
+            totalHeight += heightFanart;
     }
+    yEPGPics = totalHeight;
+
     //Height of EPG Pictures
-    int heightEPGPics = 0;
-    if ((config.GetValue("displayAdditionalRecEPGPictures") == 1)) {
+    if (((config.GetValue("displayAdditionalRecEPGPictures") == 1) || ((config.GetValue("displayAdditionalRecEPGPictures") == 2) && !(!isMovie && !isSeries)))) {
+//    if ((config.GetValue("displayAdditionalRecEPGPictures") == 1)) {
         if (LoadEPGPics())
-            heightEPGPics = HeightEPGPics();
+            totalHeight += HeightEPGPics();
     }
+    yAddInf = totalHeight;
+
     //additional recording Info
-    LoadAddInfo(&addInfoText);
-    int heightAdditionalInfo = addInfo.Lines() * lineHeight;
-
-    yBanner  = 0;
-    yEPGText = yBanner + heightBanner + ((heightBanner) ? lineHeight : 0);
-    yActors  = yEPGText + heightEPG + ((heightEPG) ? lineHeight : 0);
-    yScrapInfo = yActors + heightActors + ((heightActors) ? lineHeight : 0);
-    yFanart  = yScrapInfo + heightScraperInfo + ((heightScraperInfo) ? lineHeight : 0);
-    yEPGPics = yFanart + heightFanart + ((heightFanart) ? lineHeight : 0);
-    yAddInf  = yEPGPics + heightEPGPics + ((heightEPGPics) ? lineHeight : 0);
-
-    int totalHeight = yAddInf + heightAdditionalInfo + border;
+    if (config.GetValue("displayRerunsDetailEPGView")) {
+        LoadAddInfo(&addInfoText);
+        if (addInfo.Lines() > 0) {
+            totalHeight += addInfo.Lines() * lineHeight;
+        }
+    }
 
     //check if pixmap content has to be scrollable
     if (totalHeight > contentHeight) {
@@ -2045,7 +2059,6 @@ void cNopacityMenuDetailRecordingViewLight::SetContentHeight(void) {
     } else {
         contentDrawPortHeight = contentHeight;
     }
-
 }
 
 void cNopacityMenuDetailRecordingViewLight::CreatePixmaps(void) {
