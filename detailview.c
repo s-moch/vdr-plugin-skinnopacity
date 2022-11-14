@@ -1735,53 +1735,63 @@ void cNopacityMenuDetailEventViewLight::SetContent(void) {
 
 void cNopacityMenuDetailEventViewLight::SetContentHeight(void) {
     int lineHeight = font->Height();
+    int totalHeight = 0;
+
+    yBanner = 0;
+
     //Height of banner (only for series)
-    int heightBanner = 0;
     if (isSeries) {
         if (isSeries && series.banners.size() > 0) {
-            heightBanner = series.banners[0].height;
+            totalHeight  += lineHeight + series.banners[0].height;
         }
     }
+    yEPGText = totalHeight;
+
     //Height of EPG Text
-    int heightEPG = epgText.Lines() * lineHeight;
+    if (epgText.Lines() > 0) {
+        totalHeight  += lineHeight + epgText.Lines() * lineHeight;
+    }
+    yAddInf = totalHeight;
+
     //Height of rerun information
-    int heightReruns = 0;
     if (config.GetValue("displayRerunsDetailEPGView")) {
         LoadAddInfo(&addInfoText);
-        heightReruns = addInfo.Lines() * lineHeight;
+        if (addInfo.Lines() > 0) {
+            totalHeight += lineHeight + addInfo.Lines() * lineHeight;
+        }
     }
+    yActors = totalHeight;
+
     //Height of actor pictures
-    int heightActors = 0;
     if (isMovie || isSeries) {
-        heightActors = HeightActorPics();
+        int heightActorPics = HeightActorPics();
+        if (heightActorPics)
+            totalHeight += lineHeight + heightActorPics;
     }
+    yScrapInfo = totalHeight;
 
     //Height of additional scraper info
-    int heightScraperInfo = 0;
     if (isMovie || isSeries) {
-        heightScraperInfo = HeightScraperInfo();
+        int heightScraperInfo = HeightScraperInfo();
+        if (heightScraperInfo)
+            totalHeight += lineHeight + heightScraperInfo;
     }
+    yFanart = totalHeight;
 
     //Height of fanart
-    int heightFanart = 0;
     if (isMovie || isSeries) {
-        heightFanart = HeightFanart();
+        int heightFanart = HeightFanart();
+        if (heightFanart)
+            totalHeight += heightFanart;
     }
+    yEPGPics = totalHeight;
+
     //Height of EPG Pictures
-    int heightEPGPics = 0;
     if ((config.GetValue("displayAdditionalEPGPictures") == 1) || ((config.GetValue("displayAdditionalEPGPictures") == 2) && !isMovie &&  !isSeries)) {
-        heightEPGPics = HeightEPGPics();
+        int heightEPGPics = HeightEPGPics();
+        if (heightEPGPics)
+            totalHeight += HeightEPGPics();
     }
-
-    yBanner    = 0;
-    yEPGText   = yBanner     + heightBanner + ((heightBanner) ? lineHeight : 0);
-    yAddInf    = yEPGText    + heightEPG + ((heightEPG) ? lineHeight : 0);
-    yActors    = yAddInf     + heightReruns + ((heightReruns) ? lineHeight : 0);
-    yScrapInfo = yActors     + heightActors + ((heightActors) ? lineHeight : 0);
-    yFanart    = yScrapInfo  + heightScraperInfo + ((heightScraperInfo) ? lineHeight : 0);
-    yEPGPics   = yFanart     + heightFanart + ((heightFanart) ? lineHeight : 0);
-
-    int totalHeight = yEPGPics + heightEPGPics + border;
 
     //check if pixmap content has to be scrollable
     if (totalHeight > contentHeight) {
