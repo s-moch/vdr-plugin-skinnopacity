@@ -2053,7 +2053,6 @@ void cNopacityMenuDetailRecordingViewLight::SetContentHeight(void) {
 
 void cNopacityMenuDetailRecordingViewLight::CreatePixmaps(void) {
     contentHeight = contentHeight - border;
-    pixmapHeader = CreatePixmap(osd, "pixmapHeader", 3, cRect(x, y, width, headerHeight));
 
     pixmapContent = CreatePixmap(osd, "pixmapContent", 3, cRect(x + contentX, y + headerHeight + border, contentWidth, contentHeight),
                                                           cRect(0, 0, contentWidth, contentDrawPortHeight));
@@ -2062,11 +2061,8 @@ void cNopacityMenuDetailRecordingViewLight::CreatePixmaps(void) {
         pixmapPoster = CreatePixmap(osd, "pixmapPoster", 4, cRect(x, y + headerHeight, widthPoster, contentHeight));
     }
 
-    PixmapFill(pixmapHeader, clrTransparent);
     PixmapFill(pixmapContent, clrTransparent);
     PixmapFill(pixmapPoster, clrTransparent);
-    if (pixmapHeader)
-        pixmapHeader->DrawRectangle(cRect(0, headerHeight - 2, width, 2), Theme.Color(clrMenuBorder));
 }
 
 void cNopacityMenuDetailRecordingViewLight::Render(void) {
