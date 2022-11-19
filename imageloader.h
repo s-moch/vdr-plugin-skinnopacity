@@ -16,9 +16,9 @@ public:
     ~cImageLoader();
     cImage GetImage();
     bool LoadLogo(const char *logo, int width = config.GetValue("logoWidthOriginal"), int height = config.GetValue("logoHeightOriginal"));
-    bool LoadEPGImage(int eventID);
+    bool LoadEPGImage(int eventID, int w = 0, int h = 0);
     bool LoadAdditionalEPGImage(cString name);
-    bool LoadRecordingImage(cString Path);
+    bool LoadRecordingImage(cString Path, int w = 0, int h = 0);
     bool LoadAdditionalRecordingImage(cString path, cString name);
     bool LoadPoster(const char *poster, int width, int height, bool scale = true);
     bool SearchRecordingPoster(cString recPath, cString &found);

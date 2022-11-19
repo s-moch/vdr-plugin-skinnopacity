@@ -45,11 +45,12 @@ bool cImageLoader::LoadLogo(const char *logo, int width, int height ) {
     return true;
 }
 
-bool cImageLoader::LoadEPGImage(int eventID) {
-    int width = config.GetValue("epgImageWidth");
-    int height = config.GetValue("epgImageHeight");
-    if ((width == 0)||(height==0))
+bool cImageLoader::LoadEPGImage(int eventID, int w, int h) {
+    int width = (w) ?  w : config.GetValue("epgImageWidth");
+    int height = (h) ?  h : config.GetValue("epgImageHeight");
+    if ((width == 0) || (height == 0))
         return false;
+
     bool success = false;
     if (config.epgImagePathSet) {
         success = LoadImage(*cString::sprintf("%d", eventID), *config.epgImagePath, "jpg");
@@ -74,8 +75,9 @@ bool cImageLoader::LoadEPGImage(int eventID) {
 bool cImageLoader::LoadAdditionalEPGImage(cString name) {
     int width = config.GetValue("epgImageWidthLarge");
     int height = config.GetValue("epgImageHeightLarge");
-    if ((width == 0)||(height==0))
+    if ((width == 0) || (height == 0))
         return false;
+
     bool success = false;
     if (config.epgImagePathSet) {
         success = LoadImage(*name, *config.epgImagePath, "jpg");
@@ -91,11 +93,12 @@ bool cImageLoader::LoadAdditionalEPGImage(cString name) {
     return true;
 }
 
-bool cImageLoader::LoadRecordingImage(cString Path) {
-    int width = config.GetValue("epgImageWidth");
-    int height = config.GetValue("epgImageHeight");
-    if ((width == 0)||(height==0))
+bool cImageLoader::LoadRecordingImage(cString Path, int w, int h) {
+    int width = (w) ?  w : config.GetValue("epgImageWidth");
+    int height = (h) ?  h : config.GetValue("epgImageHeight");
+    if ((width == 0) || (height == 0))
         return false;
+
     cString recImage("");
     if (FirstImageInFolder(Path, "jpg", &recImage)) {
         recImage = cString::sprintf("/%s", *recImage);
@@ -110,8 +113,9 @@ bool cImageLoader::LoadRecordingImage(cString Path) {
 bool cImageLoader::LoadAdditionalRecordingImage(cString path, cString name) {
     int width = config.GetValue("epgImageWidthLarge");
     int height = config.GetValue("epgImageHeightLarge");
-    if ((width == 0)||(height==0))
+    if ((width == 0) || (height == 0))
         return false;
+
     if (LoadImage(*name, *path, "jpg")) {
         buffer.sample( Geometry(width, height));
         return true;
@@ -120,6 +124,8 @@ bool cImageLoader::LoadAdditionalRecordingImage(cString path, cString name) {
 }
 
 bool cImageLoader::LoadPoster(const char *poster, int width, int height, bool scale) {
+    if ((width == 0) || (height==0))
+        return false;
     if (LoadImage(poster)) {
         if (scale)
             buffer.sample(Geometry(width, height));
