@@ -277,8 +277,10 @@ void cNopacityMenuItem::DrawLogo(const cChannel *Channel, int logoWidth, int log
 
     cImage *logo = imgCache->GetLogo(ctLogoMenuItem, Channel);
     if (logo) {
-        pixmapStatic->DrawImage(cPoint(2 + (logoWidth - logo->Width()) / 2, (logoHeight - logo->Height()) / 2), *logo);
-    } else if (drawText) {
+        pixmapStatic->DrawImage(cPoint(spaceMenu + (logoWidth - logo->Width()) / 2, (height - logo->Height()) / 2), *logo);
+        return;
+    }
+    if (drawText) {
         cTextWrapper channel;
         channel.Set(Channel->Name(), fontSmall, logoWidth);
         int lines = channel.Lines();
