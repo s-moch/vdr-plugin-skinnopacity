@@ -45,7 +45,7 @@ public:
     cNopacityMenuItem(cOsd *osd, const char *text, bool sel);
     virtual ~cNopacityMenuItem(void);
     void CreatePixmaps(bool createPixmapFg = true);
-    virtual void CreatePixmapTextScroller(int totalWidth);
+    virtual void CreatePixmapTextScroller(int totalWidth, int pixmapLeft = 0, int pixmapWidth = 0);
     void SetGeometry(int index, int top, int left, int width, int height, int spaceMenu);
     void SetCurrent(bool cur);
     void SetAlpha(int alpha = 0);
@@ -75,7 +75,7 @@ private:
 public:
     cNopacityMainMenuItem(cOsd *osd, const char *text, bool sel, bool setup);
     ~cNopacityMainMenuItem(void);
-    void CreatePixmapTextScroller(int totalWidth);
+    void CreatePixmapTextScroller(int totalWidth, int pixmapLeft = 0, int pixmapWidth = 0);
     void CreateText(void);
     int CheckScrollable(bool hasIcon);
     void Render(bool initial = false, bool fadeout = false);
@@ -103,7 +103,7 @@ private:
 public:
     cNopacityScheduleMenuItem(cOsd *osd, const cEvent *Event, const cChannel *Channel, eTimerMatch TimerMatch, bool sel, eMenuCategory category, cRect *vidWin);
     ~cNopacityScheduleMenuItem(void);
-    void CreatePixmapTextScroller(int totalWidth);
+    void CreatePixmapTextScroller(int totalWidth, int pixmapLeft = 0, int pixmapWidth = 0);
     void CreateText(void);
     int CheckScrollable(bool hasIcon);
     void Render(bool initial = false, bool fadeout = false);
@@ -128,7 +128,7 @@ private:
 public:
     cNopacityChannelMenuItem(cOsd *osd, const cChannel *Channel, bool sel, cRect *vidWin);
     ~cNopacityChannelMenuItem(void);
-    void CreatePixmapTextScroller(int totalWidth);
+    void CreatePixmapTextScroller(int totalWidth, int pixmapLeft = 0, int pixmapWidth = 0);
     void CreateText(void);
     int CheckScrollable(bool hasIcon);
     void Render(bool initial = false, bool fadeout = false);
@@ -148,7 +148,7 @@ private:
 public:
     cNopacityTimerMenuItem(cOsd *osd, const cTimer *Timer, bool sel, cRect *vidWin);
     ~cNopacityTimerMenuItem(void);
-    void CreatePixmapTextScroller(int totalWidth);
+    void CreatePixmapTextScroller(int totalWidth, int pixmapLeft = 0, int pixmapWidth = 0);
     void CreateText(void);
     int CheckScrollable(bool hasIcon);
     void Render(bool initial = false, bool fadeout = false);

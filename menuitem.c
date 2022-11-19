@@ -61,8 +61,13 @@ void cNopacityMenuItem::CreatePixmaps(bool createPixmapFg) {
     PixmapFill(pixmapStatic, clrTransparent);
 }
 
-void cNopacityMenuItem::CreatePixmapTextScroller(int totalWidth) {
-    pixmapTextScroller = CreatePixmap(osd, "pixmapTextScroller", 4, cRect(left, top + index * (height + spaceMenu), width, height), cRect(0, 0, totalWidth, height));
+void cNopacityMenuItem::CreatePixmapTextScroller(int totalWidth, int pixmapLeft, int pixmapWidth) {
+    int pixmapleft = (pixmapLeft) ? left + pixmapLeft : left;
+    int pixmapwidth =(pixmapWidth) ? pixmapWidth : width;
+    pixmapTextScroller = CreatePixmap(osd, "pixmapTextScroller", 4, cRect(pixmapleft,
+                                                                          top + index * (height + spaceMenu),
+                                                                          pixmapwidth, height),
+                                                                    cRect(0, 0, totalWidth, height));
     PixmapFill(pixmapTextScroller, clrTransparent);
 }
 
@@ -384,7 +389,7 @@ cString cNopacityMainMenuItem::GetIconName() {
     return cString::sprintf("extraIcons/%s", *menuEntry);
 }
 
-void cNopacityMainMenuItem::CreatePixmapTextScroller(int totalWidth) {
+void cNopacityMainMenuItem::CreatePixmapTextScroller(int totalWidth, int Left, int Width) {
     int pixmapLeft = left + 10;
     if (config.GetValue("useMenuIcons"))
         pixmapLeft += geoManager->menuMainMenuIconSize;
@@ -531,7 +536,7 @@ cNopacityScheduleMenuItem::cNopacityScheduleMenuItem(cOsd *osd, const cEvent *Ev
 cNopacityScheduleMenuItem::~cNopacityScheduleMenuItem(void) {
 }
 
-void cNopacityScheduleMenuItem::CreatePixmapTextScroller(int totalWidth) {
+void cNopacityScheduleMenuItem::CreatePixmapTextScroller(int totalWidth, int Left, int Width) {
     int drawPortWidth = totalWidth + 10;
     int pixmapLeft = left;
     int pixmapWidth = width;
@@ -747,7 +752,7 @@ cNopacityChannelMenuItem::cNopacityChannelMenuItem(cOsd *osd, const cChannel *Ch
 cNopacityChannelMenuItem::~cNopacityChannelMenuItem(void) {
 }
 
-void cNopacityChannelMenuItem::CreatePixmapTextScroller(int totalWidth) {
+void cNopacityChannelMenuItem::CreatePixmapTextScroller(int totalWidth, int Left, int Width) {
     int pixmapLeft = left + geoManager->menuLogoWidth + geoManager->menuSpace;
     int pixmapWidth = width - geoManager->menuLogoWidth - geoManager->menuSpace;
     int drawPortWidth = totalWidth + 10;
@@ -982,7 +987,7 @@ cNopacityTimerMenuItem::cNopacityTimerMenuItem(cOsd *osd, const cTimer *Timer, b
 cNopacityTimerMenuItem::~cNopacityTimerMenuItem(void) {
 }
 
-void cNopacityTimerMenuItem::CreatePixmapTextScroller(int totalWidth) {
+void cNopacityTimerMenuItem::CreatePixmapTextScroller(int totalWidth, int Left, int Width) {
     int pixmapLeft = left + geoManager->menuLogoWidth + geoManager->menuSpace;
     int pixmapWidth = width - geoManager->menuLogoWidth - geoManager->menuSpace;
     int drawPortWidth = totalWidth + 10;
