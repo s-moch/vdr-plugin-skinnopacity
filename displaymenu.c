@@ -475,36 +475,42 @@ void cNopacityDisplayMenu::SetItem(const char *Text, int Index, bool Current, bo
         menuItems.resize(maxitems);
     }
     cString *strItems = new cString[MaxTabs];
-    int *tabItems = new int[2*MaxTabs];
-    for (int i=0; i<MaxTabs; i++) {
+    int *tabItems = new int[2 * MaxTabs];
+    for (int i = 0; i < MaxTabs; i++) {
         strItems[i] = "";
         tabItems[i] = 0;
         tabItems[i+MaxTabs] = 0;
     }
     SplitItem(Text, strItems, tabItems);
-    menuItems[Index].reset();
     if (*Text != '\0') {
-        bool MainOrSetup = false;
-        cNopacityMenuItem *item;
-        cPoint itemSize;
-        if (((MenuCategory() == mcMain)&&(config.GetValue("narrowMainMenu"))) || ((MenuCategory() == mcSetup)&&(config.GetValue("narrowSetupMenu")))){
-            MainOrSetup = true;
-            bool isSetup = (MenuCategory() == mcSetup) ? true : false;
-            item = new cNopacityMainMenuItem(osd, Text, Selectable, isSetup);
-            menuItems[Index].reset(item);
-            menuView->GetMenuItemSize(MenuCategory(), &itemSize);
+        if (!menuItems[Index]) {
+            bool MainOrSetup = false;
+            cNopacityMenuItem *item;
+            cPoint itemSize;
+            if (((MenuCategory() == mcMain) && (config.GetValue("narrowMainMenu"))) || ((MenuCategory() == mcSetup) && (config.GetValue("narrowSetupMenu")))){
+                MainOrSetup = true;
+                bool isSetup = (MenuCategory() == mcSetup) ? true : false;
+                item = new cNopacityMainMenuItem(osd, Text, Selectable, isSetup);
+                menuItems[Index].reset(item);
+                menuView->GetMenuItemSize(MenuCategory(), &itemSize);
+            } else {
+                item = new cNopacityDefaultMenuItem(osd, Text, Selectable);
+                menuItems[Index].reset(item);
+                menuView->GetMenuItemSize(mcUnknown, &itemSize);
+            }
+            int spaceTop = menuView->GetMenuTop(currentNumItems, itemSize.Y());
+            item->SetGeometry(Index, spaceTop, menuView->GetMenuItemLeft(itemSize.X()), itemSize.X(), itemSize.Y(), geoManager->menuSpace);
+            item->SetCurrent(Current);
+            item->SetTabs(strItems, tabItems, MaxTabs);
+            item->CreateText();
+            item->CreatePixmaps(MainOrSetup);
+            item->Render(initial, fadeout);
         } else {
-            item = new cNopacityDefaultMenuItem(osd, Text, Selectable);
-            menuItems[Index].reset(item);
-            menuView->GetMenuItemSize(mcUnknown, &itemSize);
+            cNopacityMenuItem *item = menuItems[Index].get();
+            item->SetCurrent(Current);
+            item->SetTabs(strItems, tabItems, MaxTabs);
+            item->Render();
         }
-        int spaceTop = menuView->GetMenuTop(currentNumItems, itemSize.Y());
-        item->SetGeometry(Index, spaceTop, menuView->GetMenuItemLeft(itemSize.X()), itemSize.X(), itemSize.Y(), geoManager->menuSpace);
-        item->SetCurrent(Current);
-        item->SetTabs(strItems, tabItems, MaxTabs);
-        item->CreateText();
-        item->CreatePixmaps(MainOrSetup);
-        item->Render(initial, fadeout);
     }
     SetEditableWidth(menuView->GetEditableWidth());
 }
