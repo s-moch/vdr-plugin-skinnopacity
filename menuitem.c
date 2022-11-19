@@ -1551,9 +1551,6 @@ cNopacityTrackMenuItem::cNopacityTrackMenuItem(cOsd *osd, const char *text) : cN
     font = fontManager->trackText;
 }
 
-cNopacityTrackMenuItem::~cNopacityTrackMenuItem(void) {
-}
-
 void cNopacityTrackMenuItem::Render(bool initial, bool fadeout) {
 
     eSkinElementType type = (current) ? seTracksHigh : seTracks;

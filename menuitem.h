@@ -212,7 +212,7 @@ class cNopacityTrackMenuItem : public cNopacityMenuItem {
 private:
 public:
     cNopacityTrackMenuItem(cOsd *osd, const char *text);
-    ~cNopacityTrackMenuItem(void);
+    ~cNopacityTrackMenuItem(void) {};
     void Render(bool initial = false, bool fadeout = false);
 };
 #endif //__NOPACITY_MENUITEM_H
