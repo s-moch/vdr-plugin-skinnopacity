@@ -12,15 +12,8 @@
 
 cNopacityMenuItem::cNopacityMenuItem(cOsd *osd, const char *text, bool sel) : cThread("MenuItem") {
     this->osd = osd;
-    drawn = false;
     Text = text;
     selectable = sel;
-    current = false;
-    wasCurrent = false;
-    scrollable = false;
-    itemTabs = NULL;
-    tabWidth = NULL;
-    infoTextWindow = NULL;
 }
 
 cNopacityMenuItem::~cNopacityMenuItem(void) {
@@ -51,7 +44,6 @@ void cNopacityMenuItem::SetGeometry(int index, int top, int left, int width, int
     this->height = height;
     this->spaceMenu = spaceMenu;
     textLeft = spaceMenu;
-    textRight = spaceMenu;
 }
 
 void cNopacityMenuItem::CreatePixmaps(bool createPixmapFg) {
@@ -146,7 +138,7 @@ void cNopacityMenuItem::DrawDelimiter(const char *del, const char *icon, eSkinEl
         PixmapFill(pixmapForeground, clrTransparent);
     } else {
         PixmapFill(pixmapBackground, Theme.Color(clrSeparatorBorder));
-        pixmapBackground->DrawRectangle(cRect(1, 1, width-2, height-2), Theme.Color(clrMenuItem));
+        pixmapBackground->DrawRectangle(cRect(1, 1, width - 2, height - 2), Theme.Color(clrMenuItem));
         if (config.GetValue("roundedCorners"))
             DrawRoundedCorners(Theme.Color(clrSeparatorBorder));
     }
@@ -154,12 +146,8 @@ Next:
     if (!pixmapStatic)
         return;
     if (!drawn) {
-        cImage *imgIcon = imgCache->GetSkinIcon(icon, height-2*geoManager->menuSpace, height-2*geoManager->menuSpace);
+        cImage *imgIcon = imgCache->GetSkinIcon(icon, height - 2 * geoManager->menuSpace, height - 2 * geoManager->menuSpace);
         if (imgIcon) {
-/*            if (pixmapStatic == NULL) {
-                pixmapStatic = CreatePixmap(osd, "pixmapStatic", 5, cRect(left, top + index * (height + spaceMenu), width, height));
-                pixmapStatic->Fill(clrTransparent);
-            }*/
             pixmapStatic->DrawImage(cPoint(geoManager->menuSpace, geoManager->menuSpace), *imgIcon);
         }
         drawn = true;
@@ -167,9 +155,9 @@ Next:
     std::string delimiter = del;
     try {
         if (delimiter.find_first_not_of("-") > 0)
-            delimiter.erase(0, delimiter.find_first_not_of("-")+1);
+            delimiter.erase(0, delimiter.find_first_not_of("-") + 1);
         if (delimiter.find_last_not_of("-") != std::string::npos)
-            delimiter.erase(delimiter.find_last_not_of("-")+1);
+            delimiter.erase(delimiter.find_last_not_of("-") + 1);
     } catch (...) {}
     int x = height + 3;
     int y = (height - font->Height()) / 2;
@@ -427,7 +415,7 @@ void cNopacityMainMenuItem::CreateText() {
     strEntry = *menuEntry;
 }
 
-int cNopacityMainMenuItem::CheckScrollable1(int maxwidth) {
+int cNopacityMainMenuItem::CheckScrollable(int maxwidth) {
     int totalTextWidth = maxwidth;
     int numberWidth = font->Width("xxx");
     int textWidth = font->Width(*menuEntry);
@@ -467,7 +455,7 @@ void cNopacityMainMenuItem::Render(bool initial, bool fadeout) {
                 textLeft += geoManager->menuMainMenuIconSize + spaceMenu;
             }
             int pixmapWidth = width - textLeft - 2 * spaceMenu;
-            int textWidth = CheckScrollable1(pixmapWidth);
+            int textWidth = CheckScrollable(pixmapWidth);
             if (textWidth > 0)
                 CreatePixmapTextScroller(textWidth, textLeft, pixmapWidth);
             drawn = true;
@@ -521,7 +509,7 @@ void cNopacityScheduleMenuItem::CreateText() {
         strSubTitle = Event->ShortText();
 }
 
-int cNopacityScheduleMenuItem::CheckScrollable1(int maxwidth) {
+int cNopacityScheduleMenuItem::CheckScrollable(int maxwidth) {
     int totalTextWidth = maxwidth;
     if (font->Width(strTitle.c_str()) > (maxwidth)) {
         scrollable = true;
@@ -651,7 +639,7 @@ void cNopacityScheduleMenuItem::Render(bool initial, bool fadeout) {
         DrawStatic(textLeft);	
         if (!drawn) {
             int pixmapWidth = width - textLeft - iconwidth - 2 * spaceMenu;
-            int textWidth = CheckScrollable1(pixmapWidth);
+            int textWidth = CheckScrollable(pixmapWidth);
             if (textWidth > 0) {
                 CreatePixmapTextScroller(textWidth, textLeft, pixmapWidth);
             }
@@ -712,13 +700,6 @@ void cNopacityScheduleMenuItem::Render(bool initial, bool fadeout) {
 cNopacityChannelMenuItem::cNopacityChannelMenuItem(cOsd *osd, const cChannel *Channel, bool sel, cRect *vidWin) : cNopacityMenuItem (osd, "", sel) {
     this->Channel = Channel;
     this->vidWin = vidWin;
-    strEntry = "";
-    strEntryFull = "";
-    strChannelSource = "";
-    strChannelInfo = "";
-    strEpgInfo = "";
-    strEpgInfoFull = "";
-    strTimeInfo = "";
     font = fontManager->menuItemChannel;
     fontSmall = fontManager->menuItemChannelSmall;
     fontEPGWindow = fontManager->menuEPGInfoWindow;
@@ -738,7 +719,7 @@ void cNopacityChannelMenuItem::CreateText() {
     }
 }
 
-int cNopacityChannelMenuItem::CheckScrollable1(int maxwidth) {
+int cNopacityChannelMenuItem::CheckScrollable(int maxwidth) {
     int totalTextWidth = maxwidth;
     if (font->Width(strEntry.c_str()) > (maxwidth)) {
         scrollable = true;
@@ -873,7 +854,7 @@ void cNopacityChannelMenuItem::Render(bool initial, bool fadeout) {
             if (Channel && Channel->Name())
                 DrawLogo(Channel, logoWidth, logoHeight, font);
             int pixmapWidth = width - textLeft - 2 * spaceMenu;
-            int textWidth = CheckScrollable1(pixmapWidth);
+            int textWidth = CheckScrollable(pixmapWidth);
             if (textWidth > 0)
                 CreatePixmapTextScroller(textWidth, textLeft, pixmapWidth);
             drawn = true;
@@ -952,7 +933,7 @@ std::string cNopacityTimerMenuItem::CreateDate(void) {
     return *dateString;
 }
 
-int cNopacityTimerMenuItem::CheckScrollable1(int maxwidth) {
+int cNopacityTimerMenuItem::CheckScrollable(int maxwidth) {
     int totalTextWidth = maxwidth;
     if (font->Width(strEntry.c_str()) > (maxwidth)) {
         scrollable = true;
@@ -1016,7 +997,7 @@ void cNopacityTimerMenuItem::Render(bool initial, bool fadeout) {
             if (Timer && Timer->Channel() && Timer->Channel()->Name())
                 DrawLogo(Timer->Channel(), logoWidth, logoHeight, font, true);
             int pixmapWidth = width - textLeft - 2 * spaceMenu;
-            int textWidth = CheckScrollable1(pixmapWidth);
+            int textWidth = CheckScrollable(pixmapWidth);
             if (textWidth > 0)
                 CreatePixmapTextScroller(textWidth, textLeft, pixmapWidth);
             drawn = true;
@@ -1115,7 +1096,7 @@ void cNopacityRecordingMenuItem::SetPoster(void) {
     }
 }
 
-int cNopacityRecordingMenuItem::CheckScrollable1(int maxwidth) {
+int cNopacityRecordingMenuItem::CheckScrollable(int maxwidth) {
     int totalTextWidth = maxwidth;
     strRecNameFull = strRecName.c_str();
     if (font->Width(strRecName.c_str()) > (maxwidth)) {
@@ -1305,7 +1286,7 @@ void cNopacityRecordingMenuItem::Render(bool initial, bool fadeout) {
         }
         if (!drawn) {
             int pixmapWidth = width - textLeft - iconwidth - 2 * spaceMenu;
-            int textWidth = CheckScrollable1(pixmapWidth);
+            int textWidth = CheckScrollable(pixmapWidth);
             if (textWidth > 0)
                 CreatePixmapTextScroller(textWidth, textLeft, pixmapWidth);
             drawn = true;
@@ -1402,7 +1383,7 @@ void cNopacityDefaultMenuItem::SetText(bool full) {
     pixmapTextScroller->DrawText(cPoint(0, (height - font->Height()) / 2), (full) ? strEntryFull.c_str() : strEntry.c_str(), clrFont, clrTransparent, font);
 }
 
-int cNopacityDefaultMenuItem::CheckScrollable1(int maxwidth) {
+int cNopacityDefaultMenuItem::CheckScrollable(int maxwidth) {
     if (!selectable)
         return 0;
 
@@ -1501,7 +1482,7 @@ void cNopacityDefaultMenuItem::Render(bool initial, bool fadeout) {
         
     PixmapFill(pixmapStatic, clrTransparent);
 
-    CheckScrollable1();
+    CheckScrollable();
 
     for (int i = 0; i < numTabs; i++) {
         if (tabWidth[i] > 0) {

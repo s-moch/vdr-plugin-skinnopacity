@@ -14,26 +14,28 @@ protected:
     cPixmap *pixmapForeground = NULL;
     const char *Text;
     bool selectable;
-    bool current;
-    bool wasCurrent;
-    bool scrollable;
-    bool drawn;
+    bool current = false;
+    bool wasCurrent = false;
+    bool scrollable = false;
+    bool drawn = false;
     cFont *font = NULL;
     cFont *fontSmall = NULL;
     cFont *fontEPGWindow = NULL;
     cFont *fontEPGWindowLarge = NULL;
-    int width, height;
-    int top, left;
-    int spaceMenu;
-    int textLeft;
+    int width = 0;
+    int height = 0;
+    int top = 0;
+    int left = 0;
+    int spaceMenu = 0;
+    int textLeft = 0;
     int iconwidth = 0;
-    int textRight;
-    int index;
-    cString *itemTabs;
-    int *tabWidth;
-    int numTabs;
-    cRect *textWindow;
-    cNopacityTextWindow *infoTextWindow;
+    int index = 0;
+    cString *itemTabs = NULL;
+    int *tabWidth = NULL;
+    int numTabs = 0;
+    cRect *textWindow = NULL;
+    cNopacityTextWindow *infoTextWindow = NULL;
+    virtual void SetText(bool full = false) {};
     virtual void SetTextFull(void) {};
     virtual void SetTextShort(void) {};
     virtual void DrawBackground(eSkinElementType type, eSkinElementType fgType);
@@ -47,7 +49,7 @@ public:
     cNopacityMenuItem(cOsd *osd, const char *text, bool sel);
     virtual ~cNopacityMenuItem(void);
     void CreatePixmaps(bool createPixmapFg = true);
-    virtual void CreatePixmapTextScroller(int totalWidth, int pixmapLeft = 0, int pixmapWidth = 0);
+    void CreatePixmapTextScroller(int totalWidth, int pixmapLeft = 0, int pixmapWidth = 0);
     void SetGeometry(int index, int top, int left, int width, int height, int spaceMenu);
     void SetCurrent(bool cur);
     void SetAlpha(int alpha = 0);
@@ -55,8 +57,7 @@ public:
     void SetTextWindow(cRect *window) {textWindow = window;};
     virtual void CreateText(void) {};
     virtual void SetPoster(void) {};
-    virtual int CheckScrollable1(int maxwidth = 0) { return 0; };
-    virtual int CheckScrollable(bool hasIcon) {return 0;};
+    virtual int CheckScrollable(int maxwidth = 0) { return 0; };
     virtual void Render(bool initial = false, bool fadeout = false) = 0;
 };
 
@@ -75,7 +76,7 @@ private:
     void DrawBackgroundMainMenu(void);
     void SetText(bool full = false);
     void SetTextFull(void) { SetText(true); };
-    int CheckScrollable1(int maxwidth = 0);
+    int CheckScrollable(int maxwidth = 0);
 public:
     cNopacityMainMenuItem(cOsd *osd, const char *text, bool sel, bool setup);
     ~cNopacityMainMenuItem(void) {};
@@ -106,7 +107,7 @@ private:
     void DrawRemaining(int x, int y, int width);
     void SetText(bool full = false);
     void SetTextFull(void) { SetText(true); };
-    int CheckScrollable1(int maxwidth = 0);
+    int CheckScrollable(int maxwidth = 0);
 public:
     cNopacityScheduleMenuItem(cOsd *osd, const cEvent *Event, const cChannel *Channel, eTimerMatch TimerMatch, bool sel, eMenuCategory category, cRect *vidWin);
     ~cNopacityScheduleMenuItem(void) {};
@@ -129,7 +130,7 @@ private:
     void SetTextFull(void) { SetText(true); };
     void DrawStatic(void);
     void readCurrentEPG(void);
-    int CheckScrollable1(int maxwidth = 0);
+    int CheckScrollable(int maxwidth = 0);
     std::string readEPG(void);
 public:
     cNopacityChannelMenuItem(cOsd *osd, const cChannel *Channel, bool sel, cRect *vidWin);
@@ -148,7 +149,7 @@ private:
     void SetText(bool full = false);
     void SetTextFull(void) { SetText(true); };
     void DrawStatic(int textLeft);
-    int CheckScrollable1(int maxwidth = 0);
+    int CheckScrollable(int maxwidth = 0);
     std::string CreateDate(void);
 public:
     cNopacityTimerMenuItem(cOsd *osd, const cTimer *Timer, bool sel, cRect *vidWin);
@@ -182,7 +183,7 @@ private:
     void DrawRecDateTime(void);
     void DrawFolderNewSeen(void);
     void DrawPoster(void);
-    int CheckScrollable1(int maxwidth = 0);
+    int CheckScrollable(int maxwidth = 0);
 public:
     cNopacityRecordingMenuItem(cOsd *osd, const cRecording *Recording, bool sel, int Level, int Total, int New, cRect *vidWin);
     ~cNopacityRecordingMenuItem(void) {};
@@ -204,7 +205,7 @@ private:
 public:
     cNopacityDefaultMenuItem(cOsd *osd, const char *text, bool sel);
     ~cNopacityDefaultMenuItem(void) {};
-    int CheckScrollable1(int maxwidth = 0);
+    int CheckScrollable(int maxwidth = 0);
     void Render(bool initial = false, bool fadeout = false);
 };
 

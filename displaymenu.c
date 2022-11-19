@@ -504,11 +504,6 @@ void cNopacityDisplayMenu::SetItem(const char *Text, int Index, bool Current, bo
         item->SetTabs(strItems, tabItems, MaxTabs);
         item->CreateText();
         item->CreatePixmaps(MainOrSetup);
-	if (!MainOrSetup) {
-            int textWidth = item->CheckScrollable1();
-            if (textWidth > 0)
-                item->CreatePixmapTextScroller(textWidth);
-        }
         item->Render(initial, fadeout);
     }
     SetEditableWidth(menuView->GetEditableWidth());
