@@ -511,7 +511,8 @@ int cNopacityDisplayMenuView::ShowHeaderIconChannelLogo(const char *Title, bool 
     } catch (...) {}
     cImageLoader imgLoader;
     if (imgLoader.LoadLogo(channel.c_str(), logoWidth, logoHeight)) {
-        pixmapHeaderIcon->DrawImage(cPoint(0, 0), imgLoader.GetImage());
+        cImage logo = imgLoader.GetImage();
+        pixmapHeaderIcon->DrawImage(cPoint((logoWidth - logo.Width()) / 2, (logoHeight - logo.Height()) / 2), logo);
         left =  logoWidth + geoManager->menuSpace;
     }
     return left;
