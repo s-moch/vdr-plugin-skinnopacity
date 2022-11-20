@@ -368,6 +368,22 @@ std::string cNopacityDetailView::LoadRecordingInformation(void) {
                     sstrInfo << tr("Search timer") << ": " << searchTimer << std::endl;
                 }
             }
+            std::string str_tvscraper = StripXmlTag(strAux, "tvscraper");
+            if (!str_tvscraper.empty()) {
+                std::string causedby = StripXmlTag(str_tvscraper, "causedBy");
+                std::string reason = StripXmlTag(str_tvscraper, "reason");
+                if (!causedby.empty() && !reason.empty()) {  // TVScraper
+                    sstrInfo << "TVScraper: " << tr("caused by") << ": " << causedby << ", "
+                             << tr("reason") << ": " << reason << std::endl;
+                }
+            }
+            std::string str_vdradmin = StripXmlTag(strAux, "vdradmin-am");
+            if (!str_vdradmin.empty()) {
+                std::string pattern = StripXmlTag(str_vdradmin, "pattern");
+                if (!pattern.empty()) {
+                    sstrInfo << "VDRadmin-AM: " << tr("search pattern") << ": " << pattern << std::endl;
+                }
+            }
         }
     }
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2022-11-13 18:08+0100\n"
+"POT-Creation-Date: 2022-11-20 15:12+0100\n"
 "PO-Revision-Date: 2012-11-11 17:49+0200\n"
 "Last-Translator: louis\n"
 "Language-Team: \n"
@@ -157,6 +157,15 @@ msgstr "TS Fehler"
 
 msgid "Search timer"
 msgstr "Suchtimer"
+
+msgid "caused by"
+msgstr "Ausgelöst durch"
+
+msgid "reason"
+msgstr "Grund"
+
+msgid "search pattern"
+msgstr "Suchmuster"
 
 msgid "Transp."
 msgstr "Transp."

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: vdr-skinnopacity\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2022-11-13 18:08+0100\n"
+"POT-Creation-Date: 2022-11-20 15:12+0100\n"
 "PO-Revision-Date: 2013-11-11 20:52+0100\n"
 "Last-Translator: Milan Hrala <hrala.milan@gmail.com>\n"
 "Language-Team: \n"
@@ -157,6 +157,15 @@ msgstr ""
 
 msgid "Search timer"
 msgstr "Vyhµada» plán"
+
+msgid "caused by"
+msgstr ""
+
+msgid "reason"
+msgstr ""
+
+msgid "search pattern"
+msgstr ""
 
 msgid "Transp."
 msgstr "Transp."
