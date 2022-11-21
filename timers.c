@@ -106,20 +106,28 @@ void cNopacityTimer::CalculateHeight(int space) {
     int numLines = showName.Lines();
     if (isTimerConflict) {
         int lineHeight = fontLarge->Height();
-        height = numLines * lineHeight + 2*space;
+        height = numLines * lineHeight + 2 * space;
     } else {
         int lineHeight = font->Height();
         int channelLogoHeight = geoManager->menuTimersLogoHeight;
-        if (config.GetValue("showTimers") == 2) {
+        if (config.GetValue("showTimers") >= 1) {
             const cChannel *Channel = timer->Channel();
             if (Channel) {
+                if (config.GetValue("showTimers") == 1) {
+                    cImage *logo = imgCache->GetLogo(ctLogoTimer, Channel);
+                    if (logo) {
+                        height = channelLogoHeight + (numLines + 1) * lineHeight + 2 * space;
+                        return;
+                    }
+                }
                 cTextWrapper channel;
                 channel.Set(Channel->Name(), fontLarge, width - 10);
                 int lines = channel.Lines();
-                channelLogoHeight = fontLarge->Height() * lines;
+                height = numLines * lineHeight + fontLarge->Height() * (lines + 1) + 2 * space;
+                return;
             }
         }
-        height = channelLogoHeight + (numLines +1)* lineHeight + 2*space;
+        height = channelLogoHeight + (numLines + 1) * lineHeight + 2 * space;
     }
 }
 
@@ -140,48 +148,48 @@ void cNopacityTimer::Render(void) {
         PixmapFill(pixmapLogo, clrTransparent);
         PixmapFill(pixmap, Theme.Color(clrDiskAlert));
         if (config.GetValue("displayType") == dtBlending) {
-            cImage imgBack = imgCache->GetBackground(Theme.Color(clrDiskAlert), Theme.Color(clrMenuItemHigh), width-2, height-2);
-            pixmap->DrawImage(cPoint(1,1), imgBack);
+            cImage imgBack = imgCache->GetBackground(Theme.Color(clrDiskAlert), Theme.Color(clrMenuItemHigh), width - 2, height - 2);
+            pixmap->DrawImage(cPoint(1, 1), imgBack);
         } else {
-            pixmap->DrawRectangle(cRect(1, 1, width-2, height-2), Theme.Color(clrDiskAlert));
+            pixmap->DrawRectangle(cRect(1, 1, width - 2, height - 2), Theme.Color(clrDiskAlert));
         }
         int numLines = showName.Lines();
         int textWidth = 0;
         int x = 0;
         int y = 5;
-        for (int line=0; line<numLines; line++) {
+        for (int line = 0; line < numLines; line++) {
             textWidth = fontLarge->Width(showName.GetLine(line));
-            x = (width - textWidth)/2;
-            y += line*fontLarge->Height();
+            x = (width - textWidth) / 2;
+            y += line * fontLarge->Height();
             pixmapText->DrawText(cPoint(x, y), showName.GetLine(line), Theme.Color(clrMenuFontTimersHeader), clrTransparent, fontLarge);
         }
     } else {
-        int logoHeight = DrawLogo();
+        int y = DrawLogo();
         if (timer->Recording()) {
             pixmap->Fill(Theme.Color(clrDiskAlert));
             if (config.GetValue("displayType") == dtBlending) {
-                cImage imgBack = imgCache->GetBackground(Theme.Color(clrDiskAlert), Theme.Color(clrMenuItemHigh), width-2, height-2);
-                pixmap->DrawImage(cPoint(1,1), imgBack);
+                cImage imgBack = imgCache->GetBackground(Theme.Color(clrDiskAlert), Theme.Color(clrMenuItemHigh), width - 2, height - 2);
+                pixmap->DrawImage(cPoint(1, 1), imgBack);
             } else {
-                pixmap->DrawRectangle(cRect(1, 1, width-2, height-2), Theme.Color(clrDiskAlert));
+                pixmap->DrawRectangle(cRect(1, 1, width - 2, height - 2), Theme.Color(clrDiskAlert));
             }
         } else {
             pixmap->Fill(Theme.Color(clrMenuBorder));
             if (config.GetValue("displayType") == dtBlending) {
-                cImage imgBack = imgCache->GetBackground(Theme.Color(clrTimersBack), Theme.Color(clrTimersBackBlend), width-2, height-2);
-                pixmap->DrawImage(cPoint(1,1), imgBack);
+                cImage imgBack = imgCache->GetBackground(Theme.Color(clrTimersBack), Theme.Color(clrTimersBackBlend), width - 2, height - 2);
+                pixmap->DrawImage(cPoint(1, 1), imgBack);
             } else {
-                pixmap->DrawRectangle(cRect(1, 1, width-2, height-2), Theme.Color(clrTimersBack));
+                pixmap->DrawRectangle(cRect(1, 1, width - 2, height - 2), Theme.Color(clrTimersBack));
             }
         }
 
-        pixmapText->DrawText(cPoint(5, logoHeight), *Date, Theme.Color(clrMenuFontTimersHeader), clrTransparent, fontLarge);
+        pixmapText->DrawText(cPoint(5, y), *Date, Theme.Color(clrMenuFontTimersHeader), clrTransparent, fontLarge);
 
         int lineHeight = font->Height();
-        int yStart = logoHeight + lineHeight + 3;
+        int yStart = y + lineHeight + 3;
         int numLines = showName.Lines();
-        for (int line=0; line<numLines; line++)
-            pixmapText->DrawText(cPoint(5, yStart+line*(lineHeight-2)), showName.GetLine(line), Theme.Color(clrMenuFontTimers), clrTransparent, font);
+        for (int line = 0; line < numLines; line++)
+            pixmapText->DrawText(cPoint(5, yStart + line * (lineHeight - 2)), showName.GetLine(line), Theme.Color(clrMenuFontTimers), clrTransparent, font);
     }
 }
 
@@ -189,33 +197,26 @@ int cNopacityTimer::DrawLogo(void) {
     if (!pixmapLogo)
        return 0;
 
-    int totalHeight = 0;
     pixmapLogo->Fill(clrTransparent);
-    int showTimerLogo = (config.GetValue("showTimers") < 2) ? 1 : 0;
     int logoHeight = geoManager->menuTimersLogoHeight;
     const cChannel *Channel = timer->Channel();
     if (Channel) {
-        bool logoFound = false;
-        if (showTimerLogo) {
+        if (config.GetValue("showTimers") == 1) {
             cImage *logo = imgCache->GetLogo(ctLogoTimer, Channel);
             if (logo) {
-                logoFound = true;
                 pixmapLogo->DrawImage(cPoint((width - logo->Width()) / 2, (logoHeight - logo->Height()) / 2), *logo);
+		return logoHeight;
             }
         }
-        if (!showTimerLogo || !logoFound) {
-            cTextWrapper channel;
-            channel.Set(Channel->Name(), fontLarge, width - 10);
-            int lines = channel.Lines();
-            int lineHeight = fontLarge->Height();
-            int y = 5;
-            for (int line = 0; line < lines; line++) {
-                pixmapLogo->DrawText(cPoint((width - fontLarge->Width(channel.GetLine(line))) / 2, y + lineHeight * line), channel.GetLine(line), Theme.Color(clrMenuFontMenuItemHigh), clrTransparent, fontLarge);
-            }
-            totalHeight = std::max(logoHeight, lineHeight * lines + 10);
-        } else {
-            totalHeight = logoHeight;
+        cTextWrapper channel;
+        channel.Set(Channel->Name(), fontLarge, width - 10);
+        int lines = channel.Lines();
+        int lineHeight = fontLarge->Height();
+        int y = 5;
+        for (int line = 0; line < lines; line++) {
+            pixmapLogo->DrawText(cPoint((width - fontLarge->Width(channel.GetLine(line))) / 2, y + lineHeight * line), channel.GetLine(line), Theme.Color(clrMenuFontMenuItemHigh), clrTransparent, fontLarge);
         }
+        return lineHeight * lines + 10;
     }
-    return totalHeight;
+    return 0;
 }
