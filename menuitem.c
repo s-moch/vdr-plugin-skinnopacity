@@ -1133,7 +1133,7 @@ void cNopacityRecordingMenuItem::SetTextRecording(bool full) {
     if (!pixmapTextScroller)
         return;
 
-    tColor clrFont = (current)?Theme.Color(clrMenuFontMenuItemHigh):Theme.Color(clrMenuFontMenuItem);
+    tColor clrFont = (selectable) ? (current) ? Theme.Color(clrMenuFontMenuItemHigh) : Theme.Color(clrMenuFontMenuItem) : Theme.Color(clrMenuFontMenuItemSep);
     PixmapFill(pixmapTextScroller, clrTransparent);
     int heightRecName = (height - font->Height()) / 2;
     if (config.GetValue("menuRecordingsShowLine2") && config.GetValue("menuRecordingsShowLine3"))
@@ -1221,7 +1221,7 @@ void cNopacityRecordingMenuItem::DrawRecDateTime(void) {
     }
     int textleft = textLeft + spaceMenu / 2;
     int textHeight = 0;
-    tColor clrFont = (current) ? Theme.Color(clrMenuFontMenuItemHigh) : Theme.Color(clrMenuFontMenuItem);
+    tColor clrFont = (selectable) ? (current) ? Theme.Color(clrMenuFontMenuItemHigh) : Theme.Color(clrMenuFontMenuItem) : Theme.Color(clrMenuFontMenuItemSep);
     if (config.GetValue("menuRecordingsShowLine2") && config.GetValue("menuRecordingsShowLine3"))
         textHeight = height / 2 + (height / 4 - fontSmall->Height()) / 2;
     else if (config.GetValue("menuRecordingsShowLine2") || config.GetValue("menuRecordingsShowLine3"))
@@ -1273,24 +1273,24 @@ void cNopacityRecordingMenuItem::DrawPoster(void) {
 
 void cNopacityRecordingMenuItem::Render(bool initial, bool fadeout) {
     textLeft = posterWidth + 5 * spaceMenu;
-    if (selectable) {
-        eSkinElementType type = (current) ? seRecordingsHigh : seRecordings;
-        DrawBackground(type, seRecordingsTop);
+    eSkinElementType type = (selectable) ? (current) ? seRecordingsHigh : seRecordings : seRecordings;
+    DrawBackground(type, seRecordingsTop);
 
-        if (isFolder) {
-            DrawFolderNewSeen();
-        } else {
-            DrawPoster();
-            DrawRecDateTime();
-            DrawRecordingIcons();
-        }
-        if (!drawn) {
-            int pixmapWidth = width - textLeft - iconwidth - 2 * spaceMenu;
-            int textWidth = CheckScrollable(pixmapWidth);
-            if (textWidth > 0)
-                CreatePixmapTextScroller(textWidth, textLeft, pixmapWidth);
-            drawn = true;
-        }
+    if (isFolder) {
+        DrawFolderNewSeen();
+    } else {
+        DrawPoster();
+        DrawRecDateTime();
+        DrawRecordingIcons();
+    }
+    if (!drawn) {
+        int pixmapWidth = width - textLeft - iconwidth - 2 * spaceMenu;
+        int textWidth = CheckScrollable(pixmapWidth);
+        if (textWidth > 0)
+            CreatePixmapTextScroller(textWidth, textLeft, pixmapWidth);
+        drawn = true;
+    }
+    if (selectable) {
         if (!Running())
             SetText();
         if (config.GetValue("animation") && config.GetValue("menuScrollSpeed")) {
@@ -1329,6 +1329,12 @@ void cNopacityRecordingMenuItem::Render(bool initial, bool fadeout) {
                     infoTextWindow->SetRecording(Recording);
                 }
             }
+        }
+    } else {
+        if (pixmapTextScroller) {
+            pixmapTextScroller->SetDrawPortPoint(cPoint(0, 0));
+            SetText();
+            Cancel(-1);
         }
     }
 }
