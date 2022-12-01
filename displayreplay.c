@@ -549,7 +549,7 @@ void cNopacityDisplayReplay::Action(void) {
     cPixmap::Lock();
     cPixmap::Unlock();
     uint64_t Start = cTimeMs::Now();
-    dsyslog ("skinnopacity: First Lock(): %lims \n", Start - First);
+    dsyslog ("skinnopacity: First Lock(): %llums \n", (long long)(Start - First));
     while (Running()) {
         uint64_t Now = cTimeMs::Now();
         double t = std::min(double(Now - Start) / FadeTime, 1.0);
