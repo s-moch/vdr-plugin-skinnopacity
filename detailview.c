@@ -44,6 +44,8 @@ cNopacityView::~cNopacityView(void) {
         delete fontHeader;
     if (fontHeaderLarge)
         delete fontHeaderLarge;
+    if (fontFixed)
+        delete fontFixed;
     osd->DestroyPixmap(pixmapHeader);
     osd->DestroyPixmap(pixmapHeaderBack);
     osd->DestroyPixmap(pixmapLogo);
@@ -90,10 +92,11 @@ void cNopacityView::SetAlpha(int Alpha) {
 }
 
 void cNopacityView::SetFonts(void) {
-    font = cFont::CreateFont(config.fontName, contentHeight / 25 + 3 + config.GetValue("fontDetailView"));
+    font = cFont::CreateFont(config.fontName, (textView) ? contentHeight / 30 + config.GetValue("fontTextView") : contentHeight / 25 + 3 + config.GetValue("fontDetailView"));
     fontSmall = cFont::CreateFont(config.fontName, contentHeight / 30 + config.GetValue("fontDetailViewSmall"));
     fontHeaderLarge = cFont::CreateFont(config.fontName, headerHeight / 4 + 5 + config.GetValue("fontDetailViewHeaderLarge"));
     fontHeader = cFont::CreateFont(config.fontName, headerHeight / 6 + config.GetValue("fontDetailViewHeader"));
+    fontFixed = cFont::CreateFont(config.fontFixedName, contentHeight / 30 + config.GetValue("fontFixedTextView"));
 }
 
 void cNopacityView::LoadAddInfo(std::string *text) {
@@ -403,10 +406,11 @@ void cNopacityView::CreateContent(int fullHeight) {
     PixmapFill(pixmapContent, clrTransparent);
 }
 
-void cNopacityView::DrawContent(std::string *text, int y) {
+void cNopacityView::DrawContent(std::string *text, int y, bool useFixedFont) {
+    const cFont *viewFont = useFixedFont ? fontFixed : font;
     cTextWrapper wText;
-    wText.Set(text->c_str(), font, contentWidth - 2 * border);
-    int lineHeight = font->Height();
+    wText.Set(text->c_str(), viewFont, contentWidth - 2 * border);
+    int lineHeight = viewFont->Height();
     int textLines = wText.Lines();
 
     if (!pixmapContent) {
@@ -419,7 +423,7 @@ void cNopacityView::DrawContent(std::string *text, int y) {
 
     int yText = (y) ? y : border;
     for (int i = 0; i < textLines; i++) {
-        pixmapContent->DrawText(cPoint(border, yText), wText.GetLine(i), Theme.Color(clrMenuFontDetailViewText), clrTransparent, font);
+        pixmapContent->DrawText(cPoint(border, yText), wText.GetLine(i), Theme.Color(clrMenuFontDetailViewText), clrTransparent, viewFont);
         yText += lineHeight;
     }
 }
@@ -1645,6 +1649,7 @@ void cNopacityMovieView::Render(void) {
 ********************************************************************************************/
 
 cNopacityTextView::cNopacityTextView(cOsd *osd) : cNopacityView(osd) {
+    textView = true;
 }
 
 void cNopacityTextView::KeyLeft(void) {
@@ -1675,7 +1680,7 @@ void cNopacityTextView::KeyRight(void) {
 void cNopacityTextView::Render(void) {
     if (pixmapContent)
         return;
-    DrawContent(&infoText);
+    DrawContent(&infoText, 0, FixedFont);
     DrawScrollbar();
 }
 

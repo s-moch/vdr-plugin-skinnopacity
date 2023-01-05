@@ -44,14 +44,20 @@ protected:
     cPixmap *pixmapHeaderPoster = NULL;
     cPixmap *pixmapHeaderImage = NULL;
     cPixmap *pixmapPoster = NULL;
-    cFont *font, *fontSmall, *fontHeader, *fontHeaderLarge;
+    cFont *font = NULL;
+    cFont *fontSmall = NULL;
+    cFont *fontHeader = NULL;
+    cFont *fontHeaderLarge = NULL;
+    cFont *fontFixed = NULL;
     cMovie movie;
     cSeries series;
+    bool textView = false;
     int activeView;
     bool scrollable;
     bool tabbed;
     bool isMovie = false;
     bool isSeries = false;
+    bool FixedFont = false;
     int x, y;
     int width, height;
     int border;
@@ -91,7 +97,7 @@ protected:
     void DrawHeader(int wP = 0);
     void ClearContent(void);
     void CreateContent(int fullHeight);
-    void DrawContent(std::string *text, int y = 0);
+    void DrawContent(std::string *text, int y = 0, bool useFixedFont = false);
     void DrawFloatingContent(std::string *infoText, cTvMedia *img, cTvMedia *img2 = NULL);
     void CreateFloatingTextWrapper(cTextWrapper *twNarrow, cTextWrapper *twFull, std::string *text, int widthImg, int heightImg);
     int DrawHeaderPosterLight(void);
@@ -108,6 +114,7 @@ public:
     cNopacityView(cOsd *osd);
     virtual ~cNopacityView(void);
     void SetAlpha(int Alpha = 0);
+    void SetFixedFont(bool FixedFont) { this->FixedFont = FixedFont; };
     void SetTitle(const char *t) { title = t ? t : ""; };
     void SetSubTitle(const char *s) { subTitle = s ? s : ""; };
     void SetDateTime(const char *dt) { dateTime = dt; };

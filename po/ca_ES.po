@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2022-11-20 15:12+0100\n"
+"POT-Creation-Date: 2023-01-06 15:57+0100\n"
 "PO-Revision-Date: 2013-03-19 22:56+0100\n"
 "Last-Translator: Gabychan <gbonich@gmail.com>\n"
 "Language-Team: \n"
@@ -197,6 +197,9 @@ msgstr ""
 msgid "Font"
 msgstr "Font"
 
+msgid "Fixed font"
+msgstr ""
+
 msgid "Create Log Messages for image loading"
 msgstr "Crea Log d'imatges carregades"
 
@@ -364,6 +367,12 @@ msgstr "Ajusta mida de la Font - Vista detall capçalera"
 
 msgid "Adjust Font Size - Detail View Header Large"
 msgstr "Ajusta mida de la Font - Vista més detall capçalera"
+
+msgid "Adjust Font Size - Text View"
+msgstr ""
+
+msgid "Adjust Font Size - Text View Fixed"
+msgstr ""
 
 msgid "\"VDR\" plus VDR version"
 msgstr "\"VDR\" versió plus VDR"

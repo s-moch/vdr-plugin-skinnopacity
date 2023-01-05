@@ -27,7 +27,7 @@ cNopacityDetailView::cNopacityDetailView(cOsd *osd, const cRecording *rec, cPixm
     Init();
 }
 
-cNopacityDetailView::cNopacityDetailView(cOsd *osd, const char *text, cPixmap *s, cPixmap *sBack) {
+cNopacityDetailView::cNopacityDetailView(cOsd *osd, const char *text, cPixmap *s, cPixmap *sBack, bool fixedFont) {
     type = dvText;
     this->osd = osd;
     this->scrollBar = s;
@@ -35,6 +35,7 @@ cNopacityDetailView::cNopacityDetailView(cOsd *osd, const char *text, cPixmap *s
     this->ev = NULL;
     this->rec = NULL;
     this->text = text;
+    this->fixedFont = fixedFont;
     view = NULL;
     Init();
 }
@@ -154,6 +155,7 @@ void cNopacityDetailView::InitiateViewType(void) {
         case dvText:
             view = new cNopacityTextView(osd);
             view->SetInfoText(text);
+            view->SetFixedFont(fixedFont);
             break;
         default:
             break;

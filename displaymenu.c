@@ -595,7 +595,7 @@ void cNopacityDisplayMenu::SetText(const char *Text, bool FixedFont) {
     if (!Text)
         return;
     menuView->AdjustContentBackground(this->MenuCategory(), menuCategoryLast, videoWindowRect);
-    detailView = new cNopacityDetailView(osd, Text, menuView->GetPixmapScrollbar(), menuView->GetPixmapScrollbarBack());
+    detailView = new cNopacityDetailView(osd, Text, menuView->GetPixmapScrollbar(), menuView->GetPixmapScrollbarBack(), FixedFont);
     deatilViewRenderDone = false;
 }
 

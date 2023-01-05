@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2022-11-20 15:12+0100\n"
+"POT-Creation-Date: 2023-01-06 15:57+0100\n"
 "PO-Revision-Date: 2012-11-11 17:49+0200\n"
-"Last-Translator: louis\n"
+"Last-Translator: Stefan Hofmann\n"
 "Language-Team: \n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -192,7 +192,10 @@ msgid "Theme-specific setup parameters can only be changed if this skin is activ
 msgstr "Themen spezifische Parameter können nur geändert werden, wenn dieser Skin aktiv ist!"
 
 msgid "Font"
-msgstr "Schriftart"
+msgstr "Standard-Schriftart"
+
+msgid "Fixed font"
+msgstr "Festbreiten-Schriftart"
 
 msgid "Create Log Messages for image loading"
 msgstr "Log Nachrichten beim Bilder laden erzeugen"
@@ -351,16 +354,22 @@ msgid "Adjust Font Size - Messages"
 msgstr "Schriftgröße anpassen - Nachrichten"
 
 msgid "Adjust Font Size - Detail View Text"
-msgstr "Schriftgröße anpassen - Text EPG Detailanzeige"
+msgstr "Schriftgröße anpassen - Text Detailanzeige"
 
 msgid "Adjust Font Size - Detail View Text Small"
-msgstr "Schriftgröße anpassen - Text EPG Detailanzeige klein"
+msgstr "Schriftgröße anpassen - Text klein Detailanzeige"
 
 msgid "Adjust Font Size - Detail View Header"
-msgstr "Schriftgröße anpassen - Header EPG Detailanzeige"
+msgstr "Schriftgröße anpassen - Header Detailanzeige"
 
 msgid "Adjust Font Size - Detail View Header Large"
-msgstr "Schriftgröße anpassen - Header Groß EPG Detailanzeige"
+msgstr "Schriftgröße anpassen - Header groß Detailanzeige"
+
+msgid "Adjust Font Size - Text View"
+msgstr "Schriftgröße anpassen - Textfenster"
+
+msgid "Adjust Font Size - Text View Fixed"
+msgstr "Schriftgröße anpassen - Textfenster Festbreite"
 
 msgid "\"VDR\" plus VDR version"
 msgstr "\"VDR\" und VDR Version"

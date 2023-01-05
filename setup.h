@@ -12,6 +12,7 @@ class cNopacitySetup : public cMenuSetupPage {
         bool isNopacity = false;
         cNopacityConfig tmpConf;
         cStringList fontNames;
+        cStringList fontFixedNames;
         void Setup(void);
     protected:
         virtual eOSState ProcessKey(eKeys Key);

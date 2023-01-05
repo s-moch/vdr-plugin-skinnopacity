@@ -14,8 +14,8 @@ cNopacityConfig::cNopacityConfig() {
     iconPathSet = false;
     //Common
     mainMenuEntry = false;
-    fontName = NULL;
     fontDefaultName = "VDRSymbols Sans:Book";
+    fontFixedDefaultName = Setup.FontFix;
     logoExtension = "png";
     LoadDefaults();
 }
@@ -30,6 +30,7 @@ void cNopacityConfig::Init(void) {
     SetThemeSetup();
     SetPathes();
     SetFontName();
+    SetFontFixedName();
 }
 
 int cNopacityConfig::GetValue(std::string name) {
@@ -58,6 +59,7 @@ void cNopacityConfig::LoadDefaults(void) {
     //Common Values
     conf.insert(std::pair<std::string, int>("displayType", dtBlending));
     conf.insert(std::pair<std::string, int>("fontIndex", 0));
+    conf.insert(std::pair<std::string, int>("fontFixedIndex", 0));
     conf.insert(std::pair<std::string, int>("debugImageLoading", 0));
     conf.insert(std::pair<std::string, int>("scraperInfo", 1));
     conf.insert(std::pair<std::string, int>("animation", 1));
@@ -172,6 +174,8 @@ void cNopacityConfig::LoadDefaults(void) {
     conf.insert(std::pair<std::string, int>("fontDetailViewSmall", 0));
     conf.insert(std::pair<std::string, int>("fontDetailViewHeader", 0));
     conf.insert(std::pair<std::string, int>("fontDetailViewHeaderLarge", 0));
+    conf.insert(std::pair<std::string, int>("fontTextView", 0));
+    conf.insert(std::pair<std::string, int>("fontFixedTextView", 0));
     conf.insert(std::pair<std::string, int>("fontEPGInfoWindow", 0));
     conf.insert(std::pair<std::string, int>("fontEPGInfoWindowLarge", 0));
     //DisplayChannel
@@ -259,6 +263,21 @@ void cNopacityConfig::SetFontName() {
             fontName = strdup(availableFonts[GetValue("fontIndex")-1]);
         } else
             fontName = strdup(fontDefaultName);
+    }
+}
+
+void cNopacityConfig::SetFontFixedName() {
+    if (fontFixedName)
+        free(fontFixedName);
+    if (GetValue("fontFixedIndex") == 0) {
+        fontFixedName = strdup(fontFixedDefaultName);
+    } else {
+        cStringList availableFonts;
+        cFont::GetAvailableFontNames(&availableFonts);
+        if (availableFonts[GetValue("fontFixedIndex")-1]) {
+            fontFixedName = strdup(availableFonts[GetValue("fontFixedIndex")-1]);
+        } else
+            fontFixedName = strdup(fontFixedDefaultName);
     }
 }
 

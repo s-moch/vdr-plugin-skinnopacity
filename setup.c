@@ -9,6 +9,8 @@ cNopacitySetup::cNopacitySetup(void) {
         tmpConf = config;
         cFont::GetAvailableFontNames(&fontNames);
         fontNames.Insert(strdup(config.fontDefaultName));
+        cFont::GetAvailableFontNames(&fontFixedNames);
+        fontFixedNames.Insert(strdup(config.fontFixedDefaultName));
         Setup();
     } else {
         Add(new cOsdItem(tr("Theme-specific setup parameters can only be changed if this skin is active!"), osUnknown, false));
@@ -17,6 +19,7 @@ cNopacitySetup::cNopacitySetup(void) {
 
 cNopacitySetup::~cNopacitySetup(void) {
     config.SetFontName();
+    config.SetFontFixedName();
     delete fontManager;
     delete imgCache;
     if (isNopacity) {
@@ -36,6 +39,7 @@ void cNopacitySetup::Setup(void) {
     int currentItem = Current();
     Clear();
     Add(new cMenuEditStraItem(tr("Font"), tmpConf.GetValueRef("fontIndex"), fontNames.Size(), &fontNames[0]));
+    Add(new cMenuEditStraItem(tr("Fixed font"), tmpConf.GetValueRef("fontFixedIndex"), fontFixedNames.Size(), &fontFixedNames[0]));
     Add(new cMenuEditBoolItem(tr("Create Log Messages for image loading"), tmpConf.GetValueRef("debugImageLoading")));
     Add(new cMenuEditBoolItem(tr("Use scraper infos and pictures"), tmpConf.GetValueRef("scraperInfo")));
     Add(new cMenuEditBoolItem(tr("Use animation"), tmpConf.GetValueRef("animation")));
@@ -193,6 +197,8 @@ void cNopacitySetupMenuDisplay::Set(void) {
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Detail View Text Small"), tmpConf->GetValueRef("fontDetailViewSmall"), -20, 20));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Detail View Header"), tmpConf->GetValueRef("fontDetailViewHeader"), -20, 20));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Detail View Header Large"), tmpConf->GetValueRef("fontDetailViewHeaderLarge"), -20, 20));
+    Add(new cMenuEditIntItem(tr("Adjust Font Size - Text View"), tmpConf->GetValueRef("fontTextView"), -20, 20));
+    Add(new cMenuEditIntItem(tr("Adjust Font Size - Text View Fixed"), tmpConf->GetValueRef("fontFixedTextView"), -20, 20));
 
     SetCurrent(Get(currentItem));
     Display();

@@ -26,6 +26,7 @@ protected:
     const cEvent *ev;
     const cRecording *rec;
     const char *text;
+    bool fixedFont = false;
     cNopacityView *view;
     cPixmap *scrollBar;
     cPixmap *scrollBarBack;
@@ -40,7 +41,7 @@ protected:
 public:
     cNopacityDetailView(cOsd *osd, const cEvent *ev, cPixmap *s, cPixmap *sBack);
     cNopacityDetailView(cOsd *osd, const cRecording *rec, cPixmap *s, cPixmap *sBack);
-    cNopacityDetailView(cOsd *osd, const char *text, cPixmap *s, cPixmap *sBack);
+    cNopacityDetailView(cOsd *osd, const char *text, cPixmap *s, cPixmap *sBack, bool fixedFont = false);
     virtual ~cNopacityDetailView(void);
     void SetAlpha(int Alpha = 0);
     void KeyInput(bool Up, bool Page);

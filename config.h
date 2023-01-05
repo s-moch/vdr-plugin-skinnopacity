@@ -53,8 +53,11 @@ class cNopacityConfig {
         void DumpConfig(void);
         void DumpThemeConfig(void);
         void SetFontName();
-        const char *fontDefaultName;
-        char *fontName;
+        void SetFontFixedName();
+        const char *fontDefaultName = NULL;
+        const char *fontFixedDefaultName = NULL;
+        char *fontName = NULL;
+        char *fontFixedName = NULL;
         cString logoPath;
         cString logoExtension;
         cString iconPath;
