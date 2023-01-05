@@ -132,6 +132,9 @@ cImage *cImageCache::GetLogo(eCacheType type, const cChannel *channel) {
     else if (type == ctLogoTimer)
         cache = &logoTimerCache;
 
+    if (cache->empty())
+        return NULL;
+
     std::map<std::string, cImage*>::iterator hit = cache->find(*channel->GetChannelID().ToString());
 
     if (hit != cache->end()) {
