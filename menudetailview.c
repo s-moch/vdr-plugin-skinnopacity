@@ -255,10 +255,11 @@ std::string cNopacityDetailView::LoadRecordingInformation(void) {
     cString filename;
     int rc = 0;
     do {
+        i++;
         if (rec->IsPesRecording())
-            filename = cString::sprintf("%s/%03d.vdr", rec->FileName(), ++i);
+            filename = cString::sprintf("%s/%03d.vdr", rec->FileName(), i);
         else
-            filename = cString::sprintf("%s/%05d.ts", rec->FileName(), ++i);
+            filename = cString::sprintf("%s/%05d.ts", rec->FileName(), i);
         rc = stat(filename, &filebuf);
         if (rc == 0)
             nFileSize[i] = nFileSize[i-1] + filebuf.st_size;
