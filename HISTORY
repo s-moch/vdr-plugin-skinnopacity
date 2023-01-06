@@ -1,5 +1,15 @@
 VDR Plugin 'nOpacity' Revision History
 ---------------------------------------
+Version 1.1.15
+
+- Added a fixed font to detailview (thx to @shofmann at vdr-portal.de)
+- Add support for ImageMagick 7
+- Use ScraperGetPosterBannerV2 insteed of ScraperGetPosterBanner
+- Fix error: Array 'nFileSize[1000]' accessed at index -1, which is out of bounds. [negativeIndex]
+- Change maxFiles limit
+- Prevents *magick from occupying the segfaults
+- Adaptation to tvscraper commit a4287558
+
 Version 1.1.14
 
 - Rework of various menu items
