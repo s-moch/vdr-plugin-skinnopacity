@@ -512,9 +512,10 @@ void cNopacityDisplayChannelView::DrawPoster(const cEvent *event, bool initial) 
 
     static cPlugin *pScraper = GetScraperPlugin();
     if (pScraper && (config.GetValue("scraperInfo") == 1)) {
-        ScraperGetPosterBanner call;
+        ScraperGetPosterBannerV2 call;
         call.event = event;
-        if (pScraper->Service("GetPosterBanner", &call)) {
+	call.recording = NULL;
+        if (pScraper->Service("GetPosterBannerV2", &call)) {
             int mediaWidth = 0;
             int mediaHeight = 0;
             std::string mediaPath = "";
