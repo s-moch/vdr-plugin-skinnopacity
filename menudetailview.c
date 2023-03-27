@@ -247,6 +247,7 @@ std::string cNopacityDetailView::LoadReruns(void) {
 
 std::string cNopacityDetailView::LoadRecordingInformation(void) {
     const cRecordingInfo *Info = rec->Info();
+    uint16_t maxFiles = (rec->IsPesRecording()) ? 999 : 65535; // 65535 should be enough
     unsigned long long nRecSize = -1;
     unsigned long long nFileSize[1000];
     nFileSize[0] = 0;
@@ -267,7 +268,7 @@ std::string cNopacityDetailView::LoadRecordingInformation(void) {
             if (ENOENT != errno) {
                 nRecSize = -1;
             }
-    } while (i <= 999 && !rc);
+    } while (i <= maxFiles && !rc);
     nRecSize = nFileSize[i-1];
 
     cMarks marks;
