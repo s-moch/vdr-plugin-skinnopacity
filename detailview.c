@@ -1196,8 +1196,9 @@ cNopacitySeriesView::cNopacitySeriesView(cOsd *osd, int seriesId, int episodeId)
 
 void cNopacitySeriesView::LoadMedia(void) {
     static cPlugin *pScraper = GetScraperPlugin();
-    if (!pScraper || (config.GetValue("scraperInfo") == 0) || seriesId < 1)
+    if (!pScraper || (config.GetValue("scraperInfo") == 0))
         return;
+
     series.seriesId = seriesId;
     series.episodeId = episodeId;
     pScraper->Service("GetSeries", &series);
@@ -1432,8 +1433,9 @@ cNopacityMovieView::cNopacityMovieView(cOsd *osd, int movieId) : cNopacityView(o
 
 void cNopacityMovieView::LoadMedia(void) {
     static cPlugin *pScraper = GetScraperPlugin();
-    if (!pScraper || (config.GetValue("scraperInfo") == 0) || movieId < 1)
+    if (!pScraper || (config.GetValue("scraperInfo") == 0))
         return;
+
     movie.movieId = movieId;
     pScraper->Service("GetMovie", &movie);    
 }
@@ -1709,13 +1711,13 @@ void cNopacityMenuDetailEventViewLight::SetContent(void) {
                 episodeId = call.episodeId;
                 movieId = call.movieId;
             }
-            if (seriesId > 0) {
+            if (call.type == tSeries) {
                 series.seriesId = seriesId;
                 series.episodeId = episodeId;
                 if (pScraper->Service("GetSeries", &series)) {
                     isSeries = true;
                 }
-            } else if (movieId > 0) {
+            } else if (call.type == tMovie) {
                 movie.movieId = movieId;
                 if (pScraper->Service("GetMovie", &movie)) {
                     isMovie = true;
@@ -1954,13 +1956,13 @@ void cNopacityMenuDetailRecordingViewLight::SetContent(void) {
                     episodeId = call.episodeId;
                     movieId = call.movieId;
                 }
-                if (seriesId > 0) {
+                if (call.type == tSeries) {
                     series.seriesId = seriesId;
                     series.episodeId = episodeId;
                     if (pScraper->Service("GetSeries", &series)) {
                         isSeries = true;
                     }
-                } else if (movieId > 0) {
+                } else if (call.type == tMovie) {
                     movie.movieId = movieId;
                     if (pScraper->Service("GetMovie", &movie)) {
                         isMovie = true;
