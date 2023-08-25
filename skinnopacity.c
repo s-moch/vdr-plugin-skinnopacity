@@ -93,7 +93,11 @@ bool cPluginNopacity::ProcessArgs(int argc, char *argv[]) {
 }
 
 __attribute__((constructor)) static void init(void) {
+#ifndef IMAGEMAGICK
    MagickLib::InitializeMagickEx(NULL, MAGICK_OPT_NO_SIGNAL_HANDER, NULL);
+#else
+   Magick::InitializeMagick(NULL);
+#endif
 }
 
 bool cPluginNopacity::Initialize(void) {
