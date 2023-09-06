@@ -163,7 +163,7 @@ int cNopacityView::HeightScraperInfo(void) {
             info << tr("Network") << ": " << series.network << "\n";
         }
         if (series.rating > 0) {
-            info << tr("TheMovieDB Rating") << ": " << series.rating << "\n";
+            info << tr("TheTVDB Rating") << ": " << series.rating << "\n";
         }
         if (series.status.size() > 0) {
             info << tr("Status") << ": " << series.status << "\n";
@@ -181,7 +181,7 @@ int cNopacityView::HeightScraperInfo(void) {
             info << tr("Guest Stars") << ": " << series.episode.guestStars << "\n";
         }
         if (series.episode.rating > 0) {
-            info << tr("TheMovieDB Rating") << ": " << series.episode.rating << "\n";
+            info << tr("TheTVDB Rating") << ": " << series.episode.rating << "\n";
         }
         if (!(info.tellp() == 0)) {
             info1 << tr("TheTVDB Information") << ":\n" << info.str();
@@ -1234,7 +1234,7 @@ void cNopacitySeriesView::CreateTVDBInfo(void) {
         info << tr("Guest Stars") << ": " << series.episode.guestStars << "\n\n";
     }
     if (series.episode.rating > 0) {
-        info << tr("TheMovieDB Rating") << ": " << series.episode.rating << "\n\n";
+        info << tr("TheTVDB Rating") << ": " << series.episode.rating << "\n\n";
     }
     if (series.overview.size() > 0) {
         info << tr("Series Overview") << ": " << series.overview << "\n\n";
@@ -1249,7 +1249,7 @@ void cNopacitySeriesView::CreateTVDBInfo(void) {
         info << tr("Network") << ": " << series.network << "\n\n";
     }
     if (series.rating > 0) {
-        info << tr("TheMovieDB Rating") << ": " << series.rating << "\n\n";
+        info << tr("TheTVDB Rating") << ": " << series.rating << "\n\n";
     }
     if (series.status.size() > 0) {
         info << tr("Status") << ": " << series.status << "\n\n";
@@ -1447,7 +1447,7 @@ void cNopacityMovieView::SetTabs(void) {
     else
         tabs.push_back(tr("Recording Information"));
     tabs.push_back(tr("Cast"));
-    tabs.push_back(tr("TheTVDB Info"));
+    tabs.push_back(tr("TheMovieDB Info"));
     tabs.push_back(tr("Image Galery"));
 }
 

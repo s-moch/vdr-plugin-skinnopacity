@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: vdr-skinnopacity\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2023-01-06 15:57+0100\n"
+"POT-Creation-Date: 2023-09-06 15:45+0200\n"
 "PO-Revision-Date: 2013-11-11 20:52+0100\n"
 "Last-Translator: Milan Hrala <hrala.milan@gmail.com>\n"
 "Language-Team: \n"
@@ -29,7 +29,7 @@ msgstr ""
 msgid "Network"
 msgstr ""
 
-msgid "TheMovieDB Rating"
+msgid "TheTVDB Rating"
 msgstr ""
 
 msgid "Status"
@@ -120,6 +120,9 @@ msgid "Image Galery"
 msgstr ""
 
 msgid "TheTVDB Info"
+msgstr ""
+
+msgid "TheMovieDB Info"
 msgstr ""
 
 msgid "free"
