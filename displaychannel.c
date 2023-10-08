@@ -76,6 +76,7 @@ void cNopacityDisplayChannel::SetChannel(const cChannel *Channel, int Number) {
 }
 
 void cNopacityDisplayChannel::SetEvents(const cEvent *Present, const cEvent *Following) {
+    channelChange = true;
     present = Present;
     following = Following;
     channelView->ClearProgressBar();
@@ -132,7 +133,7 @@ void cNopacityDisplayChannel::Flush(void) {
 
     if (config.GetValue("displaySourceInfo") && !groupSep) {
         channelView->ClearSourceInfo();
-	channelView->DrawSourceInfo();
+        channelView->DrawSourceInfo();
     } else
         channelView->ClearSourceInfo();
 

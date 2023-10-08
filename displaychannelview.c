@@ -32,22 +32,6 @@ cNopacityDisplayChannelView::cNopacityDisplayChannelView(cOsd *osd) {
 }
 
 cNopacityDisplayChannelView::~cNopacityDisplayChannelView(void) {
-    osd->DestroyPixmap(pixmapBackground);
-    osd->DestroyPixmap(pixmapTop);
-    osd->DestroyPixmap(pixmapLogo);
-    osd->DestroyPixmap(pixmapLogoBackground);
-    osd->DestroyPixmap(pixmapChannelName);
-    osd->DestroyPixmap(pixmapDate);
-    osd->DestroyPixmap(pixmapProgressBar);
-    osd->DestroyPixmap(pixmapEPGInfo);
-    osd->DestroyPixmap(pixmapStatusIcons);
-    osd->DestroyPixmap(pixmapStatusIconsBackground);
-    osd->DestroyPixmap(pixmapSourceInfo);
-    osd->DestroyPixmap(pixmapSignalStrength);
-    osd->DestroyPixmap(pixmapSignalQuality);
-    osd->DestroyPixmap(pixmapSignalMeter);
-    osd->DestroyPixmap(pixmapSignalLabel);
-    osd->DestroyPixmap(pixmapPoster);
     delete messageBox;
     delete volumeBox;
 }
@@ -511,48 +495,47 @@ void cNopacityDisplayChannelView::DrawPoster(const cEvent *event, bool initial) 
     }
 
     static cPlugin *pScraper = GetScraperPlugin();
-    if (pScraper && (config.GetValue("scraperInfo") == 1)) {
-        ScraperGetPosterBannerV2 call;
-        call.event = event;
-	call.recording = NULL;
-        if (pScraper->Service("GetPosterBannerV2", &call)) {
-            int mediaWidth = 0;
-            int mediaHeight = 0;
-            std::string mediaPath = "";
-            if ((call.type == tSeries) && call.banner.path.size() > 0) {
-                mediaWidth = call.banner.width;
-                mediaHeight = call.banner.height;
-                mediaPath = call.banner.path;
-            } else if (call.type == tMovie && call.poster.path.size() > 0 && call.poster.height > 0) {
-                double ratio = (double)(cOsd::OsdHeight()/3) / (double)call.poster.height;
-                mediaWidth = ratio * call.poster.width;
-                mediaHeight = ratio * call.poster.height;
-                mediaPath = call.poster.path;
-            } else
-                return;
-            int border = config.GetValue("channelPosterBorder");
-            pixmapPoster = CreatePixmap(osd, "pixmapPoster", 1,
-                                        cRect(0,
-                                              0,
-                                              mediaWidth + 2 * border,
-                                              mediaHeight + 2 * border));
-            if (!pixmapPoster)
-                return;
-
-            if (initial && config.GetValue("animation") && config.GetValue("channelFadeTime")) {
-                PixmapSetAlpha(pixmapPoster, 0);
-            }
-            cImageLoader imgLoader;
-            if (imgLoader.LoadPoster(mediaPath.c_str(), mediaWidth, mediaHeight)) {
-                PixmapFill(pixmapPoster, Theme.Color(clrChannelBackground));
-                pixmapPoster->DrawImage(cPoint(border, border), imgLoader.GetImage());
-                DrawRoundedCorners(pixmapPoster, border, 0, 0, pixmapPoster->ViewPort().Width(), pixmapPoster->ViewPort().Height());
-            } else {
-                PixmapFill(pixmapPoster, clrTransparent);
-            }
-        }
+    if (!pScraper || (config.GetValue("scraperInfo") == 0))
         return;
-    }
+
+    ScraperGetPosterBannerV2 call;
+    call.event = event;
+    call.recording = NULL;
+    if (!pScraper->Service("GetPosterBannerV2", &call))
+        return;
+
+    int mediaWidth = 0;
+    int mediaHeight = 0;
+    std::string mediaPath = "";
+    if ((call.type == tSeries) && call.banner.path.size() > 0) {
+        mediaWidth = cOsd::OsdWidth() * 25 / 60;
+        mediaHeight = cOsd::OsdHeight() * 8 / 30;
+        mediaPath = call.banner.path;
+    } else if (call.type == tMovie && call.poster.path.size() > 0 && call.poster.height > 0) {
+        mediaWidth = cOsd::OsdWidth() / 7;
+        mediaHeight = cOsd::OsdHeight() / 3;
+        mediaPath = call.poster.path;
+    } else
+        return;
+
+    cImageLoader imgLoader;
+    if (!imgLoader.LoadPoster(mediaPath.c_str(), mediaWidth, mediaHeight))
+        return;
+
+    cImage logo = imgLoader.GetImage();
+
+    int border = config.GetValue("channelPosterBorder");
+    pixmapPoster = CreatePixmap(osd, "pixmapPoster", 1,
+                                cRect(0,
+                                      0,
+                                      logo.Width() + 2 * border,
+                                      logo.Height() + 2 * border));
+    if (!pixmapPoster)
+        return;
+
+    PixmapFill(pixmapPoster, Theme.Color(clrChannelBackground));
+    pixmapPoster->DrawImage(cPoint(border, border), logo);
+    DrawRoundedCorners(pixmapPoster, border, 0, 0, pixmapPoster->ViewPort().Width(), pixmapPoster->ViewPort().Height());
 }
 
 void cNopacityDisplayChannelView::DrawSignalMeter(void) {
