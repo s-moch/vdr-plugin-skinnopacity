@@ -471,7 +471,7 @@ void cNopacitySetupChannelDisplay::Set(void) {
     if (tmpConf->GetValue("displayChannelVolume") == vbFull) {
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Bottom Volume Border Height")), tmpConf->GetValueRef("channelBorderVolumeBottom"), 0, 1000));
     }
-    Add(new cMenuEditBoolItem(tr("Display Poster or Fanart from TVScraper"), tmpConf->GetValueRef("displayPoster")));
+    Add(new cMenuEditBoolItem(tr("Display Image from TVScraper"), tmpConf->GetValueRef("displayPoster")));
     if (tmpConf->GetValue("displayPoster")) {
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Border in Pixel")), tmpConf->GetValueRef("channelPosterBorder"), 0, 200));
     }
@@ -508,6 +508,10 @@ void cNopacitySetupReplayDisplay::Set(void) {
     Add(new cMenuEditStraItem(tr("Display Volume"), tmpConf->GetValueRef("displayReplayVolume"), 3, displayVolume));
     if (tmpConf->GetValue("displayReplayVolume") == vbFull) {
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Bottom Volume Border Height")), tmpConf->GetValueRef("replayBorderVolumeBottom"), 0, 1000));
+    }
+    Add(new cMenuEditBoolItem(tr("Display Image from TVScraper"), tmpConf->GetValueRef("replayDisplayPoster")));
+    if (tmpConf->GetValue("replayDisplayPoster")) {
+        Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Border in Pixel")), tmpConf->GetValueRef("replayPosterBorder"), 0, 200));
     }
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Header"), tmpConf->GetValueRef("fontReplayHeader"), -20, 20));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Text"), tmpConf->GetValueRef("fontReplay"), -20, 20));

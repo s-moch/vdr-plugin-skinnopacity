@@ -1,3 +1,4 @@
+#include "services/scraper2vdr.h"
 #include "displayreplay.h"
 #include "config.h"
 #include "helpers.h"
@@ -13,8 +14,6 @@ cNopacityDisplayReplay::cNopacityDisplayReplay(bool ModeOnly) : cThread("Display
     CreatePixmaps();
     DrawBackground();
     LoadControlIcons();
-    messageBox = NULL;
-    volumeBox = NULL;
     lastVolume = statusMonitor->GetVolume();
     lastVolumeTime = time(NULL);
 }
@@ -31,24 +30,6 @@ cNopacityDisplayReplay::~cNopacityDisplayReplay() {
         if (count > 150)
            Cancel(1);
     }
-    if (!modeOnly) {
-        osd->DestroyPixmap(pixmapBackground);
-        osd->DestroyPixmap(pixmapTop);
-        osd->DestroyPixmap(pixmapInfo);
-        osd->DestroyPixmap(pixmapDate);
-        osd->DestroyPixmap(pixmapInfo2);
-        osd->DestroyPixmap(pixmapProgressBar);
-        osd->DestroyPixmap(pixmapCurrent);
-        osd->DestroyPixmap(pixmapTotal);
-        osd->DestroyPixmap(pixmapScreenResBackground);
-        osd->DestroyPixmap(pixmapScreenRes);
-        osd->DestroyPixmap(pixmapJump);
-    }
-    osd->DestroyPixmap(pixmapControls);
-    osd->DestroyPixmap(pixmapRew);
-    osd->DestroyPixmap(pixmapPause);
-    osd->DestroyPixmap(pixmapPlay);
-    osd->DestroyPixmap(pixmapFwd);
     delete messageBox;
     delete volumeBox;
     delete osd;
@@ -72,37 +53,13 @@ void cNopacityDisplayReplay::CreatePixmaps(void) {
                                               geoManager->replayOsdWidth,
                                               geoManager->replayOsdHeight));
 
-        pixmapInfo = CreatePixmap(osd, "pixmapInfo", 2,
-                                        cRect(0,
-                                              0,
-                                              geoManager->replayInfoWidth,
-                                              geoManager->replayHeaderHeight));
-
         pixmapDate = CreatePixmap(osd, "pixmapDate", 2,
                                         cRect(geoManager->replayInfoWidth,
                                               0,
                                               geoManager->replayDateWidth,
                                               geoManager->replayHeaderHeight));
 
-        pixmapInfo2 = CreatePixmap(osd, "pixmapInfo2", 2,
-                                        cRect(0,
-                                              geoManager->replayHeaderHeight,
-                                              geoManager->replayInfoWidth,
-                                              geoManager->replayInfo2Height));
-
-        pixmapProgressBar = CreatePixmap(osd, "pixmapProgressBar", 2,
-                                        cRect(0,
-                                              geoManager->replayHeaderHeight + geoManager->replayInfo2Height,
-                                              geoManager->replayOsdWidth,
-                                              geoManager->replayProgressBarHeight));
-
         int y = geoManager->replayHeaderHeight + geoManager->replayInfo2Height + geoManager->replayProgressBarHeight;
-        pixmapCurrent = CreatePixmap(osd, "pixmapCurrent", 3,
-                                        cRect(0,
-                                              y,
-                                              geoManager->replayOsdWidth / 5,
-                                              geoManager->replayCurrentHeight));
-
         pixmapTotal = CreatePixmap(osd, "pixmapTotal", 3,
                                         cRect(4 * geoManager->replayOsdWidth / 5,
                                               y,
@@ -166,6 +123,39 @@ void cNopacityDisplayReplay::CreatePixmaps(void) {
         int alphaBack = (100 - config.GetValue("channelBackgroundTransparency"))*255/100;
         PixmapSetAlpha(pixmapBackground, alphaBack);
     }
+
+}
+
+void cNopacityDisplayReplay::CreatePixmaps2(int x) {
+    if (modeOnly)
+        return;
+
+    pixmapInfo = CreatePixmap(osd, "pixmapInfo", 2,
+                                    cRect(x,
+                                          0,
+                                          geoManager->replayInfoWidth - x,
+                                          geoManager->replayHeaderHeight));
+
+    pixmapInfo2 = CreatePixmap(osd, "pixmapInfo2", 2,
+                                    cRect(x,
+                                          geoManager->replayHeaderHeight,
+                                          geoManager->replayInfoWidth - x,
+                                          geoManager->replayInfo2Height));
+
+    pixmapProgressBar = CreatePixmap(osd, "pixmapProgressBar", 2,
+                                    cRect(x,
+                                          geoManager->replayHeaderHeight + geoManager->replayInfo2Height,
+                                          geoManager->replayOsdWidth - x,
+                                          geoManager->replayProgressBarHeight));
+
+    int y = geoManager->replayHeaderHeight + geoManager->replayInfo2Height + geoManager->replayProgressBarHeight;
+    pixmapCurrent = CreatePixmap(osd, "pixmapCurrent", 3,
+                                    cRect(x,
+                                          y,
+                                          geoManager->replayOsdWidth / 5,
+                                          geoManager->replayCurrentHeight));
+
+    PixmapFill(pixmapProgressBar, clrTransparent);
 }
 
 void cNopacityDisplayReplay::SetAlpha(int Alpha) {
@@ -182,6 +172,7 @@ void cNopacityDisplayReplay::SetAlpha(int Alpha) {
         PixmapSetAlpha(pixmapScreenResBackground, Alpha);
         PixmapSetAlpha(pixmapScreenRes, Alpha);
         PixmapSetAlpha(pixmapJump, Alpha);
+        PixmapSetAlpha(pixmapPoster, Alpha);
     }
     PixmapSetAlpha(pixmapControls, Alpha);
     PixmapSetAlpha(pixmapRew, Alpha);
@@ -201,7 +192,7 @@ void cNopacityDisplayReplay::DrawBackground(void) {
             if (pixmapTop && imgTop)
                 pixmapTop->DrawImage(cPoint(0,0), *imgTop);
             else
-	        PixmapFill(pixmapTop, clrTransparent);
+                PixmapFill(pixmapTop, clrTransparent);
         } else {
             PixmapFill(pixmapBackground, Theme.Color(clrReplayBackground));
             PixmapFill(pixmapTop, clrTransparent);
@@ -233,7 +224,6 @@ void cNopacityDisplayReplay::DrawBackground(void) {
             }
         }
         PixmapFill(pixmapControls, clrTransparent);
-        PixmapFill(pixmapProgressBar, clrTransparent);
         PixmapFill(pixmapScreenResBackground, clrTransparent);
         PixmapFill(pixmapScreenRes, clrTransparent);
         PixmapFill(pixmapJump, clrTransparent);
@@ -310,6 +300,8 @@ void cNopacityDisplayReplay::DrawScreenResolution(void) {
 }
 
 void cNopacityDisplayReplay::SetRecording(const cRecording *Recording) {
+    int x = DrawPoster(Recording);
+    CreatePixmaps2(x);
     const cRecordingInfo *RecordingInfo = Recording->Info();
     const char *recName = RecordingInfo->Title();
     if (!recName) {
@@ -412,7 +404,7 @@ void cNopacityDisplayReplay::SetProgress(int Current, int Total) {
     if (Running() || !pixmapProgressBar || geoManager->replayProgressBarHeight < 5)
         return;
 
-    int barWidth = geoManager->replayOsdWidth - 2*geoManager->replayProgressBarHeight;
+    int barWidth = pixmapProgressBar->ViewPort().Width() - 2 * geoManager->replayProgressBarHeight;
     cProgressBar pb(barWidth,
                     geoManager->replayProgressBarHeight-2,
                     Current,
@@ -485,6 +477,62 @@ void cNopacityDisplayReplay::SetJump(const char *Jump) {
                              clrTransparent,
                              fontManager->replayHeader);
     }
+}
+
+int cNopacityDisplayReplay::DrawPoster(const cRecording *Recording) {
+    int pixmapWidth = 0;
+
+    if (pixmapPoster) {
+        osd->DestroyPixmap(pixmapPoster);
+        pixmapPoster = NULL;
+    }
+
+    if (!config.GetValue("replayDisplayPoster"))
+        return pixmapWidth;
+
+    static cPlugin *pScraper = GetScraperPlugin();
+    if (!pScraper || (config.GetValue("scraperInfo") == 0))
+        return pixmapWidth;
+
+    ScraperGetPosterBannerV2 call;
+    call.event = NULL;
+    call.recording = Recording;
+    if (!pScraper->Service("GetPosterBannerV2", &call))
+        return pixmapWidth;
+
+    int border = config.GetValue("replayPosterBorder");
+    int mediaWidth = 0;
+    int mediaHeight = 0;
+    std::string mediaPath = "";
+
+    if (call.poster.path.size() > 0 && call.poster.height > 0) {
+        mediaWidth = osd->Width() / 7;
+        mediaHeight = osd->Height() - 2 * border - 20;
+        mediaPath = call.poster.path;
+    } else
+        return pixmapWidth;
+
+    cImageLoader imgLoader;
+    if (!imgLoader.LoadPoster(mediaPath.c_str(), mediaWidth, mediaHeight))
+        return pixmapWidth;
+
+    cImage logo = imgLoader.GetImage();
+
+    pixmapPoster = CreatePixmap(osd, "pixmapPoster", 1,
+                                cRect(10,
+                                      10,
+                                      logo.Width() + 2 * border,
+                                      logo.Height() + 2 * border));
+    if (!pixmapPoster)
+        return pixmapWidth;
+
+    PixmapFill(pixmapPoster, Theme.Color(clrReplayBackground));
+    pixmapPoster->DrawImage(cPoint(border, border), logo);
+
+    pixmapWidth = pixmapPoster->ViewPort().Width();
+    int pixmapHeight = pixmapPoster->ViewPort().Height();
+    DrawRoundedCorners(pixmapPoster, border, 0, 0, pixmapWidth, pixmapHeight);
+    return pixmapWidth + border + 10;
 }
 
 void cNopacityDisplayReplay::SetMessage(eMessageType Type, const char *Text) {
