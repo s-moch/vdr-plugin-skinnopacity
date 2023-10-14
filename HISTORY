@@ -1,5 +1,14 @@
 VDR Plugin 'nOpacity' Revision History
 ---------------------------------------
+Version 1.1.16
+
+- Update "Prevents *magick from occupying the segfaults" 
+- Fix some typo (thx to @MarkusE at vdr-portal.de)
+- Add theme "Keep it Light Blue" (thx to @Dr. Seltsam at vdr-portal.de)
+- Better scaling of Poster/Banner in display channel
+- Show poster in display replay (configureable in the setup)
+- Optimize progressbar in display replay
+
 Version 1.1.15
 
 - Added a fixed font to detailview (thx to @shofmann at vdr-portal.de)
