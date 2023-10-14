@@ -143,9 +143,9 @@ void cNopacityDisplayReplay::CreatePixmaps2(int x) {
                                           geoManager->replayInfo2Height));
 
     pixmapProgressBar = CreatePixmap(osd, "pixmapProgressBar", 2,
-                                    cRect(x,
+                                    cRect(x + geoManager->replayProgressBarHeight / 2,
                                           geoManager->replayHeaderHeight + geoManager->replayInfo2Height,
-                                          geoManager->replayOsdWidth - x,
+                                          geoManager->replayOsdWidth - geoManager->replayProgressBarHeight - x,
                                           geoManager->replayProgressBarHeight));
 
     int y = geoManager->replayHeaderHeight + geoManager->replayInfo2Height + geoManager->replayProgressBarHeight;
@@ -404,9 +404,9 @@ void cNopacityDisplayReplay::SetProgress(int Current, int Total) {
     if (Running() || !pixmapProgressBar || geoManager->replayProgressBarHeight < 5)
         return;
 
-    int barWidth = pixmapProgressBar->ViewPort().Width() - 2 * geoManager->replayProgressBarHeight;
-    cProgressBar pb(barWidth,
-                    geoManager->replayProgressBarHeight-2,
+    int barWidth = pixmapProgressBar->ViewPort().Width();
+    cProgressBar pb(barWidth - geoManager->replayProgressBarHeight,
+                    geoManager->replayProgressBarHeight - 2,
                     Current,
                     Total,
                     marks,
@@ -415,27 +415,40 @@ void cNopacityDisplayReplay::SetProgress(int Current, int Total) {
                     Theme.Color(clrReplayProgressSelected),
                     Theme.Color(clrReplayProgressMark),
                     Theme.Color(clrReplayProgressCurrent));
-    pixmapProgressBar->DrawEllipse(cRect(geoManager->replayProgressBarHeight/2,
+
+    // left ellipse
+    pixmapProgressBar->DrawEllipse(cRect(0,
                                          0,
-                                         geoManager->replayProgressBarHeight,
+                                         geoManager->replayProgressBarHeight / 2,
                                          geoManager->replayProgressBarHeight),
-                                   Theme.Color(clrProgressBarBack));
-    pixmapProgressBar->DrawEllipse(cRect(barWidth + geoManager->replayProgressBarHeight/2,
+                                   Theme.Color(clrProgressBarBack), 7);
+
+    pixmapProgressBar->DrawEllipse(cRect(1,
+                                         1,
+                                         geoManager->replayProgressBarHeight / 2 - 1,
+                                         geoManager->replayProgressBarHeight - 2),
+                                   Theme.Color(clrReplayProgressSeen), 7);
+
+    // right ellipse
+    pixmapProgressBar->DrawEllipse(cRect(barWidth - geoManager->replayProgressBarHeight / 2,
                                          0,
-                                         geoManager->replayProgressBarHeight,
+                                         geoManager->replayProgressBarHeight / 2,
                                          geoManager->replayProgressBarHeight),
-                                   Theme.Color(clrReplayProgressRest));
-    pixmapProgressBar->DrawRectangle(cRect(geoManager->replayProgressBarHeight,
+                                   Theme.Color(clrProgressBarBack), 5);
+
+    pixmapProgressBar->DrawEllipse(cRect(barWidth - geoManager->replayProgressBarHeight / 2,
+                                         1,
+                                         geoManager->replayProgressBarHeight / 2 - 1,
+                                         geoManager->replayProgressBarHeight - 2),
+                                   Theme.Color(clrReplayProgressRest), 5);
+
+    pixmapProgressBar->DrawRectangle(cRect(geoManager->replayProgressBarHeight / 2,
                                            0,
-                                           barWidth,
+                                           barWidth - geoManager->replayProgressBarHeight,
                                            geoManager->replayProgressBarHeight),
                                      Theme.Color(clrProgressBarBack));
-    pixmapProgressBar->DrawEllipse(cRect(geoManager->replayProgressBarHeight/2+1,
-                                         1,
-                                         geoManager->replayProgressBarHeight-1,
-                                         geoManager->replayProgressBarHeight-2),
-                                   Theme.Color(clrReplayProgressSeen));
-    pixmapProgressBar->DrawBitmap(cPoint(geoManager->replayProgressBarHeight, 1), pb);
+
+    pixmapProgressBar->DrawBitmap(cPoint(geoManager->replayProgressBarHeight / 2, 1), pb);
 }
 
 void cNopacityDisplayReplay::SetCurrent(const char *Current) {
