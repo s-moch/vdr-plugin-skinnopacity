@@ -203,6 +203,7 @@ void cImageMagickWrapper::CreateGradient(tColor back, tColor blend, int width, i
     for (int x = 0; x < width; x++) {
         for (int y = 0; y < height; y++) {
             unsigned int opacity = (maxw / width * x + maxh - maxh / height * y) / 2;
+	    unsigned int myopacity = (opacity <= RGB) ? opacity : RGB;
 #ifdef IMAGEMAGICK7
             offset = imgblend.channels() * (width * y + x);
 /*            pixels[offset + 0]  Red     0...QuantumRange
@@ -210,11 +211,10 @@ void cImageMagickWrapper::CreateGradient(tColor back, tColor blend, int width, i
  *            pixels[offset + 2]  Blue    0...QuantumRange
  *            pixels[offset + 3]  Alpha   0...QuantumRange
  *            */
-            unsigned int myopacity = (opacity <= RGB) ? opacity : RGB;
             pixels[offset + 3] = QuantumRange - myopacity;
 #else
             PixelPacket *pixel = pixels + y * width + x;
-            pixel->opacity = (opacity <= RGB) ? opacity : RGB;
+            pixel->opacity = myopacity;
 #endif
         }
     }
