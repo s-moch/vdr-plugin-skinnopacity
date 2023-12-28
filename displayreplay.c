@@ -401,8 +401,11 @@ void cNopacityDisplayReplay::SetMode(bool Play, bool Forward, int Speed) {
 }
 
 void cNopacityDisplayReplay::SetProgress(int Current, int Total) {
-    if (Running() || !pixmapProgressBar || geoManager->replayProgressBarHeight < 5)
+    if (Running() || geoManager->replayProgressBarHeight < 5)
         return;
+
+    else if (!pixmapProgressBar)
+        CreatePixmaps2();
 
     int barWidth = pixmapProgressBar->ViewPort().Width();
     cProgressBar pb(barWidth - geoManager->replayProgressBarHeight,
