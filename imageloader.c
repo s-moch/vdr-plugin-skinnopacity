@@ -153,6 +153,15 @@ bool cImageLoader::SearchRecordingPoster(cString recPath, cString &found) {
     return false;
 }
 
+bool cImageLoader::SearchRecordingImage(cString recPath, cString &found) {
+    cString manualPoster;
+    if (FirstImageInFolder(recPath, "jpg", &manualPoster)) {
+        found = cString::sprintf("%s/%s.jpg", *recPath, *manualPoster);
+        return true;
+    }
+    return false;
+}
+
 bool cImageLoader::FirstImageInFolder(cString Path, cString Extension, cString *recImage) {
     DIR *folder = NULL;
     struct dirent *file;

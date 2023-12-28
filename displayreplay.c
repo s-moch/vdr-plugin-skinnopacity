@@ -509,29 +509,33 @@ int cNopacityDisplayReplay::DrawPoster(const cRecording *Recording) {
     if (!config.GetValue("replayDisplayPoster"))
         return pixmapWidth;
 
-    static cPlugin *pScraper = GetScraperPlugin();
-    if (!pScraper || (config.GetValue("scraperInfo") == 0))
-        return pixmapWidth;
-
-    ScraperGetPosterBannerV2 call;
-    call.event = NULL;
-    call.recording = Recording;
-    if (!pScraper->Service("GetPosterBannerV2", &call))
-        return pixmapWidth;
-
     int border = config.GetValue("replayPosterBorder");
-    int mediaWidth = 0;
-    int mediaHeight = 0;
+    int mediaWidth = osd->Width() / 7;
+    int mediaHeight = osd->Height() - 2 * border - 20;
     std::string mediaPath = "";
-
-    if (call.poster.path.size() > 0 && call.poster.height > 0) {
-        mediaWidth = osd->Width() / 7;
-        mediaHeight = osd->Height() - 2 * border - 20;
-        mediaPath = call.poster.path;
-    } else
-        return pixmapWidth;
-
     cImageLoader imgLoader;
+    
+    static cPlugin *pScraper = GetScraperPlugin();
+    if (pScraper) {
+        if (config.GetValue("scraperInfo") == 0)
+            return pixmapWidth;
+        ScraperGetPosterBannerV2 call;
+        call.event = NULL;
+        call.recording = Recording;
+        if (!pScraper->Service("GetPosterBannerV2", &call))
+            return pixmapWidth;
+        if (call.poster.path.size() > 0 && call.poster.height > 0) {
+            mediaPath = call.poster.path;
+        } else
+            return pixmapWidth;
+    }
+    else {
+        cString posterFound;
+        if (!imgLoader.SearchRecordingImage(Recording->FileName(), posterFound))
+            return pixmapWidth;
+        mediaPath = posterFound;
+    }
+
     if (!imgLoader.LoadPoster(mediaPath.c_str(), mediaWidth, mediaHeight))
         return pixmapWidth;
 

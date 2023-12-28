@@ -681,7 +681,7 @@ msgid "Display Channel Source & Rec. Info"
 msgstr "Kanal- und Aufnahmeinfo anzeigen"
 
 msgid "Display Image from TVScraper"
-msgstr "Bild vom TVScraper anzeigen"
+msgstr "Zeige Poster falls verfügbar"
 
 msgid "Border in Pixel"
 msgstr "Rahmen in Pixel"

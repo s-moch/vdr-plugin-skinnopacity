@@ -22,6 +22,7 @@ public:
     bool LoadAdditionalRecordingImage(cString path, cString name);
     bool LoadPoster(const char *poster, int width, int height, bool scale = true);
     bool SearchRecordingPoster(cString recPath, cString &found);
+    bool SearchRecordingImage(cString recPath, cString &found);
 private:
     bool FirstImageInFolder(cString Path, cString Extension, cString *recImage);
 };
