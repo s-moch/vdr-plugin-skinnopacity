@@ -155,7 +155,10 @@ void cNopacityDisplayReplay::CreatePixmaps2(int x) {
                                           geoManager->replayOsdWidth / 5,
                                           geoManager->replayCurrentHeight));
 
+    PixmapFill(pixmapInfo, clrTransparent);
+    PixmapFill(pixmapInfo2, clrTransparent);
     PixmapFill(pixmapProgressBar, clrTransparent);
+    PixmapFill(pixmapCurrent, clrTransparent);
 }
 
 void cNopacityDisplayReplay::SetAlpha(int Alpha) {
@@ -314,7 +317,6 @@ void cNopacityDisplayReplay::SetRecording(const cRecording *Recording) {
     else
         info2 = cString::sprintf("%s %s", *ShortDateString(Recording->Start()), *TimeString(Recording->Start()));
 
-    PixmapFill(pixmapInfo2, clrTransparent);
     if (pixmapInfo2) {
         pixmapInfo2->DrawText(cPoint(geoManager->replayHeaderHeight / 2,
                                      std::max((geoManager->replayInfo2Height
@@ -329,8 +331,6 @@ void cNopacityDisplayReplay::SetRecording(const cRecording *Recording) {
 }
 
 void cNopacityDisplayReplay::SetTitle(const char *Title) {
-    PixmapFill(pixmapInfo, clrTransparent);
-    PixmapFill(pixmapInfo2, clrTransparent);
     if (!pixmapInfo || !Title)
         return;
 
