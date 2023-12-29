@@ -313,8 +313,17 @@ void cNopacityTextWindow::SetRecording(const cRecording *recording) {
     //Title
     y = DrawTextWrapper(*recTitle, widthTextHeader, y, 0, fontHeader, Theme.Color(clrMenuFontDetailViewHeaderTitle), height);
     //Short Text
-    if (!isempty(info->ShortText())) {
-        y = DrawTextWrapper(info->ShortText(), widthTextHeader, y, 0, font, Theme.Color(clrMenuFontDetailViewHeader), height);
+    std::string shortText(info->ShortText() ? info->ShortText() : "");
+    if (info->GetEvent()->ParentalRating()) {
+        if (shortText.empty()) {
+            shortText += trVDR("ParentalRating$from ");
+        } else {
+            shortText += " - ";
+        }
+        shortText += info->GetEvent()->GetParentalRatingString();
+    }
+    if (!shortText.empty()) {
+        y = DrawTextWrapper(shortText.c_str(), widthTextHeader, y, 0, font, Theme.Color(clrMenuFontDetailViewHeader), height);
     }
     y += fontHeader->Height();
     //Description
