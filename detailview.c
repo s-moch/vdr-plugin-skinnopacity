@@ -923,7 +923,11 @@ void cNopacityView::ClearScrollbar(void) {
 
 void cNopacityView::DrawScrollbar(void) {
     ClearScrollbar();
-    if (!scrollable || !pixmapContent || !pixmapScrollbar || !pixmapScrollbarBack)
+
+    if (!pixmapContent || !pixmapScrollbar || !pixmapScrollbarBack)
+        return;
+
+    if (!scrollable && config.GetValue("showEmptyScrollbars") == 0)
         return;
 
     int totalBarHeight = pixmapScrollbar->ViewPort().Height() - 6;
@@ -943,6 +947,9 @@ void cNopacityView::DrawScrollbar(void) {
         PixmapFill(pixmapScrollbarBack, Theme.Color(clrMenuScrollBar));
         pixmapScrollbarBack->DrawRectangle(cRect(2, 2, geoManager->menuWidthScrollbar - 4, pixmapScrollbarBack->ViewPort().Height() - 4), Theme.Color(clrMenuScrollBarBack));
     }
+
+    if (!scrollable)
+        return;
 
     pixmapScrollbar->DrawRectangle(cRect(3, 3 + barTop, geoManager->menuWidthScrollbar - 6, barHeight), Theme.Color(clrMenuScrollBar));
 }

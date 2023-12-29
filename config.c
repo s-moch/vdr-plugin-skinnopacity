@@ -64,6 +64,7 @@ void cNopacityConfig::LoadDefaults(void) {
     conf.insert(std::pair<std::string, int>("scraperInfo", 1));
     conf.insert(std::pair<std::string, int>("animation", 1));
     conf.insert(std::pair<std::string, int>("tabsInDetailView", 1));
+    conf.insert(std::pair<std::string, int>("showEmptyScrollbars", 0));
     conf.insert(std::pair<std::string, int>("durationInHours", 0));
     //DisplayMenu
     conf.insert(std::pair<std::string, int>("scrollMode", 0));

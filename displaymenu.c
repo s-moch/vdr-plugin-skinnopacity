@@ -512,7 +512,8 @@ void cNopacityDisplayMenu::SetItem(const char *Text, int Index, bool Current, bo
             item->Render();
         }
     }
-    SetEditableWidth(menuView->GetEditableWidth());
+//  SetEditableWidth(menuView->GetEditableWidth());
+    SetEditableWidth(menuView->GetTextAreaWidth());
 }
 
 void cNopacityDisplayMenu::SplitItem(const char *Text, cString *strItems, int *tabItems) {
@@ -561,13 +562,17 @@ const cFont *cNopacityDisplayMenu::GetTextAreaFont(bool FixedFont) const {
 }
 
 void cNopacityDisplayMenu::SetScrollbar(int Total, int Offset) {
+    double height = 0.0;
+    double offset = 0.0;
     if (MaxItems() >= Total) {
-        menuView->ClearScrollbar();
-        return;
+        if (config.GetValue("showEmptyScrollbars") == 0) {
+           menuView->ClearScrollbar();
+           return;
+        }
+    } else {
+        height = (double)MaxItems()/(double)Total;
+        offset = (double)Offset/(double)Total;
     }
-    double height = (double)MaxItems()/(double)Total;
-    double offset = (double)Offset/(double)Total;
-
     menuView->DrawScrollbar(height, offset);
 }
 

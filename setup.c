@@ -166,6 +166,7 @@ void cNopacitySetupMenuDisplay::Set(void) {
     int currentItem = Current();
     Clear();
     Add(new cMenuEditIntItem(tr("Number of Default Menu Entries per Page"), tmpConf->GetValueRef("numDefaultMenuItems"), 10, 40));
+    Add(new cMenuEditBoolItem(tr("Show empty scrollbars"), tmpConf->GetValueRef("showEmptyScrollbars")));
     Add(new cMenuEditBoolItem(tr("Display duration in hours"), tmpConf->GetValueRef("durationInHours")));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Default Menu Item"), tmpConf->GetValueRef("fontMenuitemDefault"), -20, 20));
     Add(new cMenuEditStraItem(tr("Adjustment of narrow menus"), tmpConf->GetValueRef("menuAdjustLeft"), 2, adjustLeft));
