@@ -106,9 +106,19 @@ void cNopacityDetailView::InitiateViewType(void) {
             cString dateTime;
             time_t vps = ev->Vps();
             if (vps) {
-                dateTime = cString::sprintf("%s  %s - %s (%d %s) VPS: %s", *ev->GetDateString(), *ev->GetTimeString(), *ev->GetEndTimeString(), ev->Duration()/60, tr("min"), *TimeString(vps));
+                if (config.GetValue("durationInHours")) {
+                    int duration = ev->Duration() / 60;
+                    dateTime = cString::sprintf("%s  %s - %s (%d:%02d %s) VPS: %s", *ev->GetDateString(), *ev->GetTimeString(), *ev->GetEndTimeString(), duration / 60, duration % 60, tr("h"), *TimeString(vps));
+                } else {
+                    dateTime = cString::sprintf("%s  %s - %s (%d %s) VPS: %s", *ev->GetDateString(), *ev->GetTimeString(), *ev->GetEndTimeString(), ev->Duration() / 60, tr("min"), *TimeString(vps));
+                }
             } else {
-                dateTime = cString::sprintf("%s  %s - %s (%d %s)", *ev->GetDateString(), *ev->GetTimeString(), *ev->GetEndTimeString(), ev->Duration()/60, tr("min"));
+                if (config.GetValue("durationInHours")) {
+                    int duration = ev->Duration() / 60;
+                    dateTime = cString::sprintf("%s  %s - %s (%d:%02d %s)", *ev->GetDateString(), *ev->GetTimeString(), *ev->GetEndTimeString(), duration / 60, duration % 60, tr("h"));
+                } else {
+                    dateTime = cString::sprintf("%s  %s - %s (%d %s)", *ev->GetDateString(), *ev->GetTimeString(), *ev->GetEndTimeString(), ev->Duration() / 60, tr("min"));
+                }
             }
             view->SetDateTime(*dateTime);
             LOCK_CHANNELS_READ;
@@ -157,7 +167,12 @@ void cNopacityDetailView::InitiateViewType(void) {
             }
             int recDuration = rec->LengthInSeconds();
             recDuration = (recDuration > 0) ? (recDuration / 60) : 0;
-            cString dateTime = cString::sprintf("%s  %s (%d %s)", *DateString(rec->Start()), *TimeString(rec->Start()), recDuration, tr("min"));
+            cString dateTime;
+            if (config.GetValue("durationInHours")) {
+                dateTime = cString::sprintf("%s  %s (%d:%02d %s)", *DateString(rec->Start()), *TimeString(rec->Start()), recDuration / 60, recDuration % 60, tr("h"));
+            } else {
+                dateTime = cString::sprintf("%s  %s (%d %s)", *DateString(rec->Start()), *TimeString(rec->Start()), recDuration, tr("min"));
+            }
             view->SetDateTime(*dateTime);
             view->SetRecFileName(rec->FileName());
             break; }

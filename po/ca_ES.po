@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2023-12-29 15:24+0100\n"
+"POT-Creation-Date: 2023-12-29 15:30+0100\n"
 "PO-Revision-Date: 2013-03-19 22:56+0100\n"
 "Last-Translator: Gabychan <gbonich@gmail.com>\n"
 "Language-Team: \n"
@@ -133,6 +133,9 @@ msgstr "lliure"
 
 msgid "images"
 msgstr "imatges"
+
+msgid "h"
+msgstr ""
 
 msgid "min"
 msgstr "min"
@@ -292,6 +295,9 @@ msgstr ""
 
 msgid "Number of Default Menu Entries per Page"
 msgstr "Nombre d'entrades de menú per pàgina"
+
+msgid "Display duration in hours"
+msgstr ""
 
 msgid "Adjust Font Size - Default Menu Item"
 msgstr "Ajust Mida de la Font - Opció de Menú"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2023-12-29 15:24+0100\n"
+"POT-Creation-Date: 2023-12-29 15:30+0100\n"
 "PO-Revision-Date: 2013-03-19 22:56+0100\n"
 "Last-Translator: Diego Pierotto <vdr-italian@tiscali.it>\n"
 "Language-Team: \n"
@@ -132,6 +132,9 @@ msgid "free"
 msgstr "disponibili"
 
 msgid "images"
+msgstr ""
+
+msgid "h"
 msgstr ""
 
 msgid "min"
@@ -292,6 +295,9 @@ msgstr ""
 
 msgid "Number of Default Menu Entries per Page"
 msgstr "Numero di voci per pagina menu predefinito"
+
+msgid "Display duration in hours"
+msgstr ""
 
 msgid "Adjust Font Size - Default Menu Item"
 msgstr "Adatta dim. caratteri - Voce menu predefinito"
