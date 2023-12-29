@@ -139,7 +139,16 @@ void cNopacityDetailView::InitiateViewType(void) {
             const cRecordingInfo *info = rec->Info();
             if (info) {
                 view->SetTitle(info->Title());
-                view->SetSubTitle(info->ShortText());
+                std::string shortText(info->ShortText() ? info->ShortText() : "");
+                if (info->GetEvent()->ParentalRating()) {
+                    if (shortText.empty()) {
+                        shortText += tr("Parental rating: ");
+                    } else {
+                        shortText += " - ";
+                    }
+                    shortText += info->GetEvent()->GetParentalRatingString();
+                }
+                view->SetSubTitle(shortText.c_str());
                 view->SetInfoText(info->Description());
                 LOCK_CHANNELS_READ;
                 view->SetChannel(Channels->GetByChannelID(info->ChannelID(), true));
@@ -161,6 +170,7 @@ void cNopacityDetailView::InitiateViewType(void) {
             break;
     }
 }
+
 void cNopacityDetailView::KeyInput(bool Up, bool Page) {
     if (view) {
         view->KeyInput(Up, Page);
@@ -361,6 +371,9 @@ std::string cNopacityDetailView::LoadRecordingInformation(void) {
             sstrInfo << (const char*)errors << std::endl;
         }
 #endif
+        if (Info->GetEvent()->ParentalRating()) {
+            sstrInfo << tr("Parental rating: ") << (const char*)Info->GetEvent()->GetParentalRatingString() << std::endl;
+        }
         const char *aux = NULL;
         aux = Info->Aux();
         if (aux) {

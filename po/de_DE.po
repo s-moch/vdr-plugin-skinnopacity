@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2023-10-14 17:37+0200\n"
+"POT-Creation-Date: 2023-12-29 15:24+0100\n"
 "PO-Revision-Date: 2012-11-11 17:49+0200\n"
 "Last-Translator: Stefan Hofmann\n"
 "Language-Team: \n"
@@ -133,6 +133,9 @@ msgstr "Bilder"
 
 msgid "min"
 msgstr "min"
+
+msgid "Parental rating: "
+msgstr "Altersfreigabe: "
 
 msgid "Reruns of this show"
 msgstr "Wiederholungen dieser Sendung"
