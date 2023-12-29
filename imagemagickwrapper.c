@@ -185,7 +185,7 @@ void cImageMagickWrapper::CreateGradient(tColor back, tColor blend, int width, i
     unsigned int offset;
     unsigned int RGB = QuantumRange;
 #else
-    int RGB = MaxRGB;
+    unsigned int RGB = MaxRGB;
 #endif
 
     int maxw = RGB * wfactor;
