@@ -92,7 +92,8 @@ all: $(SOFILE) i18n
 MAKEDEP = $(CXX) -MM -MG
 DEPFILE = .dependencies
 $(DEPFILE): Makefile
-	@$(MAKEDEP) $(CXXFLAGS) $(DEFINES) $(INCLUDES) $(OBJS:%.o=%.c) > $@
+	@echo CC $@
+	$(Q)@$(MAKEDEP) $(CXXFLAGS) $(DEFINES) $(INCLUDES) $(OBJS:%.o=%.c) > $@
 
 -include $(DEPFILE)
 
@@ -133,20 +134,23 @@ $(SOFILE): $(OBJS)
 	$(Q)$(CXX) $(CXXFLAGS) $(LDFLAGS) -shared $(OBJS) $(LIBS) -o $@
 
 install-lib: $(SOFILE)
-	@echo IN $@
+	@echo IN $(DESTDIR)$(LIBDIR)/$^.$(APIVERSION)
 	$(Q)install -D $^ $(DESTDIR)$(LIBDIR)/$^.$(APIVERSION)
 
 install-themes:
-	mkdir -p $(DESTDIR)$(VDRCONFDIR)/themes
-	cp themes/* $(DESTDIR)$(VDRCONFDIR)/themes
+	@echo IN $(DESTDIR)$(VDRCONFDIR)/themes
+	$(Q)mkdir -p $(DESTDIR)$(VDRCONFDIR)/themes
+	$(Q)cp themes/* $(DESTDIR)$(VDRCONFDIR)/themes
 
 install-icons:
-	mkdir -p $(DESTDIR)$(PLGRESDIR)/icons
-	cp -r icons/* $(DESTDIR)$(PLGRESDIR)/icons
+	@echo IN $(DESTDIR)$(VDRCONFDIR)/icons
+	$(Q)mkdir -p $(DESTDIR)$(PLGRESDIR)/icons
+	$(Q)cp -r icons/* $(DESTDIR)$(PLGRESDIR)/icons
 
 install-themeconfigs:
-	mkdir -p $(DESTDIR)$(VDRCONFDIR)/plugins/$(PLUGIN)/themeconfigs
-	cp conf/theme-* $(DESTDIR)$(VDRCONFDIR)/plugins/$(PLUGIN)/themeconfigs
+	@echo IN $(DESTDIR)$(VDRCONFDIR)/themeconfigs
+	$(Q)mkdir -p $(DESTDIR)$(VDRCONFDIR)/plugins/$(PLUGIN)/themeconfigs
+	$(Q)cp conf/theme-* $(DESTDIR)$(VDRCONFDIR)/plugins/$(PLUGIN)/themeconfigs
 
 install: install-lib install-i18n install-themes install-icons install-themeconfigs
 
