@@ -17,7 +17,7 @@ class cNopacityDisplayMenuView {
         cOsd *osd;
         cString lastDate;
         int diskUsageAlert;
-	bool menuAdjustLeft;
+        bool menuAdjustLeft;
         int lastVolume;
         time_t lastVolumeTime;
         cPixmap *pixmapHeader;
@@ -35,7 +35,7 @@ class cNopacityDisplayMenuView {
         cPixmap *pixmapDiskUsage;
         cPixmap *pixmapDiskUsageIcon;
         cPixmap *pixmapDiskUsageLabel;
-	cNopacityMessageBox *messageBox;
+        cNopacityMessageBox *messageBox;
         cNopacityVolumeBox *volumeBox;
         int feedNameLength;
         cRect textWindowSizeSchedules;
