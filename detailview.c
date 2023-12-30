@@ -92,7 +92,7 @@ void cNopacityView::SetAlpha(int Alpha) {
 }
 
 void cNopacityView::SetFonts(void) {
-    font = cFont::CreateFont(config.fontName, (textView) ? contentHeight / 30 + config.GetValue("fontTextView") : contentHeight / 25 + 3 + config.GetValue("fontDetailView"));
+    font = cFont::CreateFont(config.fontName, (textView) ? contentHeight / 25 + config.GetValue("fontTextView") : contentHeight / 25 + 3 + config.GetValue("fontDetailView"));
     fontSmall = cFont::CreateFont(config.fontName, contentHeight / 30 + config.GetValue("fontDetailViewSmall"));
     fontHeaderLarge = cFont::CreateFont(config.fontName, headerHeight / 4 + 5 + config.GetValue("fontDetailViewHeaderLarge"));
     fontHeader = cFont::CreateFont(config.fontName, headerHeight / 6 + config.GetValue("fontDetailViewHeader"));
