@@ -573,7 +573,8 @@ void cNopacityDisplayMenuView::DrawDiskUsage(void) {
     cString usage = cString::sprintf("%d%%", DiskUsage);
     cString rest;
     if (config.GetValue("discUsageStyle") == 0)
-        rest = cString::sprintf("%02d:%02dh %s", cVideoDiskUsage::FreeMinutes() / 60, cVideoDiskUsage::FreeMinutes() % 60, tr("free"));
+//        rest = cString::sprintf("%02d:%02dh %s", cVideoDiskUsage::FreeMinutes() / 60, cVideoDiskUsage::FreeMinutes() % 60, tr("free"));
+        rest = cString::sprintf("%dh %s", cVideoDiskUsage::FreeMinutes() / 60, tr("free"));
     else
         rest = cString::sprintf("%d GB %s", cVideoDiskUsage::FreeMB() / 1024, tr("free"));
     pixmapDiskUsageLabel->DrawRectangle(cRect((geoManager->menuDiskUsageWidth - 4)*DiskUsage/100,4*geoManager->menuDiskUsageHeight/5, (geoManager->menuDiskUsageWidth - 4) - (geoManager->menuDiskUsageWidth - 4)*DiskUsage/100, geoManager->menuDiskUsageHeight/5), 0xDD000000);
