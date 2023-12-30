@@ -562,14 +562,16 @@ void cNopacityScheduleMenuItem::DrawRemaining(int x, int y, int width) {
 
     tColor clrBack = (current) ? Theme.Color(clrProgressBarBackHigh) : Theme.Color(clrProgressBarBack);
     tColor clrBar = (current) ? Theme.Color(clrProgressBarHigh) : Theme.Color(clrProgressBar);
-    pixmapBackground->DrawEllipse(cRect(x, y, 7, 7), clrBack);
-    pixmapBackground->DrawEllipse(cRect(x + width, y, 7, 7), clrBack);
-    pixmapBackground->DrawRectangle(cRect(x + 4, y, width - 1, 7), clrBack);
-    pixmapBackground->DrawEllipse(cRect(x + 1, y + 1, 5, 5), clrBar);
+    int barHeight = 7;
+    pixmapBackground->DrawEllipse(cRect(x, y, barHeight, barHeight), clrBack);
+    pixmapBackground->DrawEllipse(cRect(x + width - barHeight, y, barHeight, barHeight), clrBack);
+    pixmapBackground->DrawRectangle(cRect(x + barHeight / 2 + 1, y, width - barHeight - 2, barHeight), clrBack);
+    pixmapBackground->DrawEllipse(cRect(x + 1, y + 1, barHeight - 2, barHeight - 2), clrBar);
 
-    if (percentSeen > 0.0)
-        pixmapBackground->DrawEllipse(cRect(x + (width * percentSeen), y + 1, 5, 5), clrBar);
-    pixmapBackground->DrawRectangle(cRect(x + 4, y + 1, (width - 1) * percentSeen, 5), clrBar);
+    if (percentSeen > 0.0) {
+        pixmapBackground->DrawEllipse(cRect(x + (width - barHeight - 1) * percentSeen, y + 1, barHeight - 2, barHeight - 2), clrBar);
+        pixmapBackground->DrawRectangle(cRect(x + barHeight / 2 + 1, y + 1, (width - barHeight - 2) * percentSeen, barHeight - 2), clrBar);
+    }
 }
 
 void cNopacityScheduleMenuItem::DrawStatic(int textLeft) {
@@ -648,7 +650,8 @@ void cNopacityScheduleMenuItem::Render(bool initial, bool fadeout) {
         int progressBarDelta = 0;
         if (config.GetValue("displayType") == dtGraphical && textLeft < 20)
             progressBarDelta = 10;
-        DrawRemaining(textLeft + progressBarDelta, progressBarY, width - textLeft - 20 - progressBarDelta);
+	int progressBarWidth = width - (textLeft + 2 * (spaceMenu + progressBarDelta));
+        DrawRemaining(textLeft + progressBarDelta, progressBarY, progressBarWidth);
         if (!Running())
             SetText();
         if (config.GetValue("animation") && config.GetValue("menuScrollSpeed")) {
