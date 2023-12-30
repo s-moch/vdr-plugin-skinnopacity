@@ -313,7 +313,7 @@ void cNopacityDisplayReplay::SetRecording(const cRecording *Recording) {
     SetTitle(recName);
     cString info2;
     if (RecordingInfo->ShortText())
-        info2 = cString::sprintf("%s - %s %s", RecordingInfo->ShortText(), *ShortDateString(Recording->Start()), *TimeString(Recording->Start()));
+        info2 = cString::sprintf("%s %s - %s", *ShortDateString(Recording->Start()), *TimeString(Recording->Start()), RecordingInfo->ShortText());
     else
         info2 = cString::sprintf("%s %s", *ShortDateString(Recording->Start()), *TimeString(Recording->Start()));
 
