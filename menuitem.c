@@ -1192,36 +1192,68 @@ void cNopacityRecordingMenuItem::DrawRecDateTime(void) {
     if (!pixmapStatic)
         return;
 
-    const cEvent *Event = NULL;
-    Event = Recording->Info()->GetEvent();
-    cString strDateTime("");
-    cString strDuration("");
-    cString strError("");
-#if (APIVERSNUM >= 20505)
-    //Errors
     const cRecordingInfo *info = Recording->Info();
-    if (info->Errors() >= (1 - config.GetValue("menuRecordingsDisplayError0"))) {
-        strError = cString::sprintf("%s: %d ", tr("errors"), info->Errors());
-    }
-#endif
+    const cEvent *Event = info->GetEvent();
+    cString line2("");
+    cString line3("");
+
     if (Event) {
+        int durationMode = config.GetValue("menuRecordingsDurationMode");
+        int errorMode = config.GetValue("menuRecordingsErrorMode");
+
+        cString strDuration("");
+        if (durationMode) {
+            // Calculate duration of the event
+            int duration = Event->Duration() / 60;
+            if (config.GetValue("durationInHours")) {
+                strDuration = cString::sprintf("%s %d:%02d %s", tr("Duration"), duration / 60, duration % 60, tr("h"));
+            } else {
+                strDuration = cString::sprintf("%s %d %s", tr("Duration"), duration, tr("min"));
+            }
+        }
+
+        // Calculate duration of the recording
+        int recDuration = Recording->LengthInSeconds();
+        recDuration = (recDuration > 0) ? (recDuration / 60) : 0;
+        // Display duration of the recording in line 3
+        if (config.GetValue("durationInHours")) {
+            line3 = cString::sprintf("%s %d:%02d %s", tr("runtime"), recDuration / 60, recDuration % 60, tr("h"));
+        } else {
+            line3 = cString::sprintf("%s %d %s", tr("runtime"), recDuration, tr("min"));
+        }
+
+        // Display date and time in line 2
         std::string strDate = *(Event->GetDateString());
         cString strTime = Event->GetTimeString();
         if (strDate.find("1970") != std::string::npos) {
             time_t start = Recording->Start();
-            strDateTime = cString::sprintf("%s %s", *DateString(start), *TimeString(start));
+            line2 = cString::sprintf("%s %s", *DateString(start), *TimeString(start));
         } else {
-            strDateTime = cString::sprintf("%s - %s", strDate.c_str(), *strTime);
+            line2 = cString::sprintf("%s - %s", strDate.c_str(), *strTime);
         }
-        if (config.GetValue("menuRecordingsErrorMode") == 1 && !isempty(strError))
-            strDateTime = cString::sprintf("%s, %s", *strDateTime, *strError);
-        int duration = Event->Duration() / 60;
-        int recDuration = Recording->LengthInSeconds();
-        recDuration = (recDuration > 0) ? (recDuration / 60) : 0;
-	strDuration = cString::sprintf("%s: %d %s, %s: %d %s", tr("Duration"), duration, tr("min"), tr("recording"), recDuration, tr("min"));
-	if (config.GetValue("menuRecordingsErrorMode") == 2 && !isempty(strError))
-            strDuration = cString::sprintf("%s, %s", *strDuration, *strError);
+
+        // Display duration of the event in line 2
+        if (durationMode == 1)
+            line2 = cString::sprintf("%s, %s", *line2, *strDuration);
+        // Display duration of the event in line 3
+        if (durationMode == 2)
+            line3 = cString::sprintf("%s, %s", *strDuration, *line3);
+
+#if (APIVERSNUM >= 20505)
+        // TS Errors
+        cString strError("");
+        if (info->Errors() >= (1 - config.GetValue("menuRecordingsDisplayError0"))) {
+            strError = cString::sprintf("%s: %d", tr("TS Errors"), info->Errors());
+        }
+        // Display errors in line 2
+        if (errorMode == 1 && !isempty(strError))
+            line2 = cString::sprintf("%s, %s", *line2, *strError);
+        // Display errors in line 3
+        if (errorMode == 2 && !isempty(strError))
+            line3 = cString::sprintf("%s, %s", *line3, *strError);
+#endif
     }
+    
     int textleft = textLeft + spaceMenu / 2;
     int textHeight = 0;
     tColor clrFont = (selectable) ? (current) ? Theme.Color(clrMenuFontMenuItemHigh) : Theme.Color(clrMenuFontMenuItem) : Theme.Color(clrMenuFontMenuItemSep);
@@ -1229,12 +1261,13 @@ void cNopacityRecordingMenuItem::DrawRecDateTime(void) {
         textHeight = height / 2 + (height / 4 - fontSmall->Height()) / 2;
     else if (config.GetValue("menuRecordingsShowLine2") || config.GetValue("menuRecordingsShowLine3"))
         textHeight = 2 * height / 3 + (height / 3 - fontSmall->Height()) / 2;
+
     if (config.GetValue("menuRecordingsShowLine2")) {
-        pixmapStatic->DrawText(cPoint(textleft, textHeight), *strDateTime, clrFont, clrTransparent, fontSmall);
+        pixmapStatic->DrawText(cPoint(textleft, textHeight), *line2, clrFont, clrTransparent, fontSmall);
         textHeight += height / 4;
     }
     if (config.GetValue("menuRecordingsShowLine3")) {
-        pixmapStatic->DrawText(cPoint(textleft, textHeight), *strDuration, clrFont, clrTransparent, fontSmall);
+        pixmapStatic->DrawText(cPoint(textleft, textHeight), *line3, clrFont, clrTransparent, fontSmall);
     }
 }
 

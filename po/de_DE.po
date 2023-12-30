@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2023-12-29 15:52+0100\n"
+"POT-Creation-Date: 2023-12-30 14:52+0100\n"
 "PO-Revision-Date: 2012-11-11 17:49+0200\n"
 "Last-Translator: Stefan Hofmann\n"
 "Language-Team: \n"
@@ -182,17 +182,17 @@ msgstr "Transp."
 msgid "No EPG Information found"
 msgstr "Keine EPG Informationen verfügbar"
 
-msgid "errors"
-msgstr "Fehler"
-
 msgid "Duration"
 msgstr "Dauer"
 
-msgid "recording"
-msgstr "Aufnahme"
+msgid "runtime"
+msgstr "Laufzeit"
 
 msgid "recordings"
 msgstr "Aufnahmen"
+
+msgid "recording"
+msgstr "Aufnahme"
 
 msgid "new"
 msgstr "neu"
@@ -530,8 +530,11 @@ msgstr "Zeile 2"
 msgid "row 3"
 msgstr "Zeile 3"
 
-msgid "Show number of errors in the recordings menu"
-msgstr "Anzahl Fehler im Aufzeichnungsnmenü anzeigen"
+msgid "Show event duration"
+msgstr "Dauer laut EPG-Programminformationen anzeigen"
+
+msgid "Show number of errors in the recording"
+msgstr "Anzahl der Fehler in der Aufnahme anzeigen"
 
 msgid "Display Error 0"
 msgstr "0 Fehler anzeigen"

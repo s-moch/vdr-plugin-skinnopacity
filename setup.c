@@ -44,6 +44,7 @@ void cNopacitySetup::Setup(void) {
     Add(new cMenuEditBoolItem(tr("Use scraper infos and pictures"), tmpConf.GetValueRef("scraperInfo")));
     Add(new cMenuEditBoolItem(tr("Use animation"), tmpConf.GetValueRef("animation")));
     Add(new cMenuEditBoolItem(tr("Use tabs in detail view"), tmpConf.GetValueRef("tabsInDetailView")));
+    Add(new cMenuEditBoolItem(tr("Display duration in hours"), tmpConf.GetValueRef("durationInHours")));
     Add(new cOsdItem("",  osUnknown, false));
     Add(new cOsdItem(tr("VDR Menu: Common Settings")));
     Add(new cOsdItem(tr("VDR Menu: Main and Setup Menu")));
@@ -167,7 +168,6 @@ void cNopacitySetupMenuDisplay::Set(void) {
     Clear();
     Add(new cMenuEditIntItem(tr("Number of Default Menu Entries per Page"), tmpConf->GetValueRef("numDefaultMenuItems"), 10, 40));
     Add(new cMenuEditBoolItem(tr("Show empty scrollbars"), tmpConf->GetValueRef("showEmptyScrollbars")));
-    Add(new cMenuEditBoolItem(tr("Display duration in hours"), tmpConf->GetValueRef("durationInHours")));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Default Menu Item"), tmpConf->GetValueRef("fontMenuitemDefault"), -20, 20));
     Add(new cMenuEditStraItem(tr("Adjustment of narrow menus"), tmpConf->GetValueRef("menuAdjustLeft"), 2, adjustLeft));
     Add(new cMenuEditStraItem(tr("Scale Video size to fit into menu window"), tmpConf->GetValueRef("scalePicture"), 3, scalePic));
@@ -345,9 +345,9 @@ void cNopacitySetupMenuDisplayTimers::Set(void) {
 cNopacitySetupMenuDisplayRecordings::cNopacitySetupMenuDisplayRecordings(cNopacityConfig* data)  : cMenuSetupSubMenu(tr("VDR Menu: Recordings Menu"), data) {
     windowMode[0] = tr("window");
     windowMode[1] = tr("full screen");
-    errorMode[0] = tr("no");
-    errorMode[1] = tr("row 2");
-    errorMode[2] = tr("row 3");
+    recItemMode[0] = tr("no");
+    recItemMode[1] = tr("row 2");
+    recItemMode[2] = tr("row 3");
     Set();
 }
 
@@ -358,7 +358,8 @@ void cNopacitySetupMenuDisplayRecordings::Set(void) {
     Add(new cMenuEditBoolItem(tr("Use narrow menu"), tmpConf->GetValueRef("narrowRecordingMenu")));
     if (tmpConf->GetValue("narrowRecordingMenu")) {
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Width (Percent of OSD Width)")), tmpConf->GetValueRef("menuWidthRecordings"), 10, 97));
-        Add(new cMenuEditStraItem(cString::sprintf("%s%s", *spacer, tr("Show number of errors in the recordings menu")), tmpConf->GetValueRef("menuRecordingsErrorMode"), 3, errorMode));
+        Add(new cMenuEditStraItem(cString::sprintf("%s%s", *spacer, tr("Show event duration")), tmpConf->GetValueRef("menuRecordingsDurationMode"), 3, recItemMode));
+        Add(new cMenuEditStraItem(cString::sprintf("%s%s", *spacer, tr("Show number of errors in the recording")), tmpConf->GetValueRef("menuRecordingsErrorMode"), 3, recItemMode));
         Add(new cMenuEditBoolItem(cString::sprintf("%s%s", *spacer, tr("Display Error 0")), tmpConf->GetValueRef("menuRecordingsDisplayError0")));
         Add(new cMenuEditBoolItem(cString::sprintf("%s%s", *spacer, tr("Recordings: Show Line 2")), tmpConf->GetValueRef("menuRecordingsShowLine2")));
         Add(new cMenuEditBoolItem(cString::sprintf("%s%s", *spacer, tr("Recordings: Show Line 3")), tmpConf->GetValueRef("menuRecordingsShowLine3")));

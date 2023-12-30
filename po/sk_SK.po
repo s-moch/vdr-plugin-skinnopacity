@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: vdr-skinnopacity\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2023-12-29 15:52+0100\n"
+"POT-Creation-Date: 2023-12-31 11:41+0100\n"
 "PO-Revision-Date: 2013-11-11 20:52+0100\n"
 "Last-Translator: Milan Hrala <hrala.milan@gmail.com>\n"
 "Language-Team: \n"
@@ -125,17 +125,17 @@ msgstr ""
 msgid "TheMovieDB Info"
 msgstr ""
 
-msgid "free"
-msgstr "voµné"
-
-msgid "images"
-msgstr "obrázkov"
-
 msgid "h"
 msgstr ""
 
 msgid "min"
 msgstr "min"
+
+msgid "free"
+msgstr "voµné"
+
+msgid "images"
+msgstr "obrázkov"
 
 msgid "Parental rating: "
 msgstr ""
@@ -182,17 +182,17 @@ msgstr "Transp."
 msgid "No EPG Information found"
 msgstr "Nena¹li sa EPG informácie"
 
-msgid "errors"
-msgstr ""
-
 msgid "Duration"
 msgstr "Då¾ka"
 
-msgid "recording"
-msgstr "nahraté"
+msgid "runtime"
+msgstr ""
 
 msgid "recordings"
 msgstr "nahrávky"
+
+msgid "recording"
+msgstr "nahraté"
 
 msgid "new"
 msgstr "nový"
@@ -216,6 +216,9 @@ msgid "Use animation"
 msgstr ""
 
 msgid "Use tabs in detail view"
+msgstr ""
+
+msgid "Display duration in hours"
 msgstr ""
 
 msgid "VDR Menu: Common Settings"
@@ -294,9 +297,6 @@ msgid "Number of Default Menu Entries per Page"
 msgstr "Poèet polo¾iek základného menu na stránke"
 
 msgid "Show empty scrollbars"
-msgstr ""
-
-msgid "Display duration in hours"
 msgstr ""
 
 msgid "Adjust Font Size - Default Menu Item"
@@ -530,7 +530,10 @@ msgstr ""
 msgid "row 3"
 msgstr ""
 
-msgid "Show number of errors in the recordings menu"
+msgid "Show event duration"
+msgstr ""
+
+msgid "Show number of errors in the recording"
 msgstr ""
 
 msgid "Display Error 0"

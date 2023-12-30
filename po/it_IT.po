@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2023-12-29 15:52+0100\n"
+"POT-Creation-Date: 2023-12-31 11:41+0100\n"
 "PO-Revision-Date: 2013-03-19 22:56+0100\n"
 "Last-Translator: Diego Pierotto <vdr-italian@tiscali.it>\n"
 "Language-Team: \n"
@@ -128,17 +128,17 @@ msgstr ""
 msgid "TheMovieDB Info"
 msgstr ""
 
-msgid "free"
-msgstr "disponibili"
-
-msgid "images"
-msgstr ""
-
 msgid "h"
 msgstr ""
 
 msgid "min"
 msgstr "min"
+
+msgid "free"
+msgstr "disponibili"
+
+msgid "images"
+msgstr ""
 
 msgid "Parental rating: "
 msgstr ""
@@ -185,17 +185,17 @@ msgstr "Transponder"
 msgid "No EPG Information found"
 msgstr ""
 
-msgid "errors"
-msgstr ""
-
 msgid "Duration"
 msgstr "Durata"
 
-msgid "recording"
-msgstr "registrazione"
+msgid "runtime"
+msgstr ""
 
 msgid "recordings"
 msgstr "registrazioni"
+
+msgid "recording"
+msgstr "registrazione"
 
 msgid "new"
 msgstr "nuovo"
@@ -219,6 +219,9 @@ msgid "Use animation"
 msgstr ""
 
 msgid "Use tabs in detail view"
+msgstr ""
+
+msgid "Display duration in hours"
 msgstr ""
 
 msgid "VDR Menu: Common Settings"
@@ -297,9 +300,6 @@ msgid "Number of Default Menu Entries per Page"
 msgstr "Numero di voci per pagina menu predefinito"
 
 msgid "Show empty scrollbars"
-msgstr ""
-
-msgid "Display duration in hours"
 msgstr ""
 
 msgid "Adjust Font Size - Default Menu Item"
@@ -533,7 +533,10 @@ msgstr ""
 msgid "row 3"
 msgstr ""
 
-msgid "Show number of errors in the recordings menu"
+msgid "Show event duration"
+msgstr ""
+
+msgid "Show number of errors in the recording"
 msgstr ""
 
 msgid "Display Error 0"
