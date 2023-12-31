@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2023-12-30 16:01+0100\n"
+"POT-Creation-Date: 2023-12-31 13:00+0100\n"
 "PO-Revision-Date: 2012-11-11 17:49+0200\n"
 "Last-Translator: Stefan Hofmann\n"
 "Language-Team: \n"
@@ -125,17 +125,17 @@ msgstr "TheTVDB-Info"
 msgid "TheMovieDB Info"
 msgstr "TheMovieDB-Info"
 
-msgid "free"
-msgstr "frei"
-
-msgid "images"
-msgstr "Bilder"
-
 msgid "h"
 msgstr "h"
 
 msgid "min"
 msgstr "min"
+
+msgid "free"
+msgstr "frei"
+
+msgid "images"
+msgstr "Bilder"
 
 msgid "Parental rating: "
 msgstr "Altersfreigabe: "
@@ -160,6 +160,9 @@ msgstr "Format"
 
 msgid "Est. bitrate"
 msgstr "Geschätzte Bitrate"
+
+msgid "Frame Parameters"
+msgstr "Bildeigenschaften"
 
 msgid "TS Errors"
 msgstr "TS-Fehler"
@@ -217,6 +220,9 @@ msgstr "Animationen benutzen"
 
 msgid "Use tabs in detail view"
 msgstr "Reiter in der Detailansicht benutzen"
+
+msgid "Display duration in hours"
+msgstr "Anzeige der Laufzeit in Stunden"
 
 msgid "VDR Menu: Common Settings"
 msgstr "VDR Menü: Allgemeine Einstellungen"
@@ -295,9 +301,6 @@ msgstr "Anzahl der Default-Menüelemente pro Seite"
 
 msgid "Show empty scrollbars"
 msgstr "Scrollbars immer anzeigen"
-
-msgid "Display duration in hours"
-msgstr "Anzeige der Laufzeit in Stunden"
 
 msgid "Adjust Font Size - Default Menu Item"
 msgstr "Schriftgröße anpassen - Default-Menübuttons"

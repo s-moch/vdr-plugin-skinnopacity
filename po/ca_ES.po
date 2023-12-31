@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2023-12-31 11:41+0100\n"
+"POT-Creation-Date: 2023-12-31 13:00+0100\n"
 "PO-Revision-Date: 2013-03-19 22:56+0100\n"
 "Last-Translator: Gabychan <gbonich@gmail.com>\n"
 "Language-Team: \n"
@@ -163,6 +163,9 @@ msgstr "Format"
 
 msgid "Est. bitrate"
 msgstr "Bitrate estimat"
+
+msgid "Frame Parameters"
+msgstr ""
 
 msgid "TS Errors"
 msgstr ""

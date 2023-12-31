@@ -380,6 +380,11 @@ std::string cNopacityDetailView::LoadRecordingInformation(void) {
     delete index;
 
     if (Info) {
+#if (APIVERSNUM >= 20605)
+        if (*Info->FrameParams()) {
+            sstrInfo << tr("Frame Parameters") << ": " << *Info->FrameParams() << std::endl;
+        }
+#endif
 #if (APIVERSNUM >= 20505)
         if (Info->Errors() >= 0) {
             cString errors = cString::sprintf("%s: %i ", tr("TS Errors"), Info->Errors());
