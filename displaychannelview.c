@@ -317,13 +317,28 @@ void cNopacityDisplayChannelView::DrawEPGInfo(const cEvent *e, bool present, boo
     if (present) {
         if (config.GetValue("progressCurrentSchedule") == 0) {
             int seen = (int)(time(NULL) - e->StartTime()) / 60;
-            strSeen = cString::sprintf("%d/%dmin", seen, e->Duration() / 60);
+            if (config.GetValue("durationInHours")) {
+                int duration = e->Duration() / 60;
+                strSeen = cString::sprintf("%d:%02d / %d:%02d %s", seen / 60, seen % 60, duration / 60, duration % 60, tr("h"));
+            } else {
+                strSeen = cString::sprintf("%d / %d %s", seen, e->Duration() / 60, tr("min"));
+            }
         } else if (config.GetValue("progressCurrentSchedule") == 1) {
             int remaining = (int)(e->EndTime() - time(NULL)) / 60;
-            strSeen = cString::sprintf("-%d/%dmin", remaining, e->Duration() / 60);
+            if (config.GetValue("durationInHours")) {
+                int duration = e->Duration() / 60;
+                strSeen = cString::sprintf("-%d:%02d / %d:%02d %s", remaining / 60, remaining % 60, duration / 60, duration % 60, tr("h"));
+            } else {
+                strSeen = cString::sprintf("-%d / %d %s", remaining, e->Duration() / 60, tr("min"));
+            }
         }
     } else {
-        strSeen = cString::sprintf("%dmin", e->Duration() / 60);
+        if (config.GetValue("durationInHours")) {
+            int duration = e->Duration() / 60;
+            strSeen = cString::sprintf("%d:%02d %s", duration / 60, duration % 60, tr("h"));
+        } else {
+            strSeen = cString::sprintf("%d %s", e->Duration() / 60, tr("min"));
+        }
     }
 
     int startTimeWidth = fontManager->channelEPG->Width(*startTime);
