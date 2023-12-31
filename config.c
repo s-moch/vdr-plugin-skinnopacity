@@ -192,8 +192,6 @@ void cNopacityConfig::LoadDefaults(void) {
     conf.insert(std::pair<std::string, int>("channelUseLogoBackground", 1));
     conf.insert(std::pair<std::string, int>("logoPosition", 1));
     conf.insert(std::pair<std::string, int>("logoVerticalAlignment", 1));
-    conf.insert(std::pair<std::string, int>("logoWidth", 260));
-    conf.insert(std::pair<std::string, int>("logoHeight", 200));
     conf.insert(std::pair<std::string, int>("logoWidthOriginal", 260));
     conf.insert(std::pair<std::string, int>("logoHeightOriginal", 200));
     conf.insert(std::pair<std::string, int>("backgroundStyle", 0));

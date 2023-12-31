@@ -489,8 +489,8 @@ int cNopacityDisplayMenuView::ShowHeaderIconChannelLogo(const char *Title, bool 
     int logoHeight = geoManager->menuHeaderHeight - 4;
     cSize logoSize = ScaleToFit(1000,
                                 logoHeight,
-                                config.GetValue("logoWidth"),
-                                config.GetValue("logoHeight"));
+                                config.GetValue("logoWidthOriginal"),
+                                config.GetValue("logoHeightOriginal"));
     int logoWidth = logoSize.Width();
     int iconX = (menuAdjustLeft) ? 0 : (geoManager->osdWidth - logoWidth);
     if (!(pixmapHeaderIcon = CreatePixmap(osd, "pixmapHeaderIcon", 2, cRect(iconX, 2, logoWidth, logoHeight)))) {
