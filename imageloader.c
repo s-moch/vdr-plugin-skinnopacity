@@ -23,19 +23,30 @@ bool cImageLoader::LoadLogo(const char *logo, int width, int height ) {
         return false;
     std::string logoLower = StrToLowerCase(logo);
     bool success = false;
-    if (config.logoPathSet) {
-        //theme dependend logo
-        cString logoPath = cString::sprintf("%s%s/", *config.logoPath, Setup.OSDTheme);
-        success = LoadImage(logoLower.c_str(), *logoPath, *config.logoExtension);
-        if (!success)
-            success = LoadImage(logoLower.c_str(), *config.logoPath, *config.logoExtension);
-    }
-    if (!success) {
-        //theme dependend logo
-        cString logoPath = cString::sprintf("%s%s/", *config.logoPathDefault, Setup.OSDTheme);
-        success = LoadImage(logoLower.c_str(), *logoPath, *config.logoExtension);
-        if (!success)
-            success = LoadImage(logoLower.c_str(), *config.logoPathDefault, *config.logoExtension);
+    for (int i = 0; i <= 1; i++) {
+        if (config.logoPathSet) {
+            //theme dependend logo
+            cString logoPath = cString::sprintf("%s%s/", *config.logoPath, Setup.OSDTheme);
+            success = LoadImage(logoLower.c_str(), *logoPath, *config.logoExtension);
+            if (!success)
+                success = LoadImage(logoLower.c_str(), *config.logoPath, *config.logoExtension);
+        }
+        if (!success) {
+            //theme dependend logo
+            cString logoPath = cString::sprintf("%s%s/", *config.logoPathDefault, Setup.OSDTheme);
+            success = LoadImage(logoLower.c_str(), *logoPath, *config.logoExtension);
+            if (!success)
+                success = LoadImage(logoLower.c_str(), *config.logoPathDefault, *config.logoExtension);
+        }
+        if (success)
+            break;
+        if (i == 0) {
+            for (size_t i = 0; i < logoLower.length(); i++) {
+                if (logoLower[i] == '/') {
+                    logoLower[i] = '~';
+                }
+            }
+        }
     }
     if (!success)
         return false;

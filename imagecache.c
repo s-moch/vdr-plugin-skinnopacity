@@ -332,35 +332,43 @@ bool cImageCache::LoadLogo(const cChannel *channel) {
     std::string channelID = StrToLowerCase(*(channel->GetChannelID().ToString()));
     std::string logoLower = StrToLowerCase(channel->Name());
     bool success = false;
-    if (config.logoPathSet) {
-        cString logoThemePath = cString::sprintf("%s%s/", *config.logoPath, Setup.OSDTheme);
+    for (int i = 0; i <= 1; i++) {
+        if (config.logoPathSet) {
+            cString logoThemePath = cString::sprintf("%s%s/", *config.logoPath, Setup.OSDTheme);
+            success = LoadImage(channelID.c_str(), *logoThemePath, *config.logoExtension);
+            if (success)
+                return true;
+            success = LoadImage(logoLower.c_str(), *logoThemePath, *config.logoExtension);
+            if (success)
+                return true;
+            success = LoadImage(channelID.c_str(), *config.logoPath, *config.logoExtension);
+            if (success)
+                return true;
+            success = LoadImage(logoLower.c_str(), *config.logoPath, *config.logoExtension);
+            if (success)
+                return true;
+        }
+        cString logoThemePath = cString::sprintf("%s%s/", *config.logoPathDefault, Setup.OSDTheme);
         success = LoadImage(channelID.c_str(), *logoThemePath, *config.logoExtension);
         if (success)
             return true;
         success = LoadImage(logoLower.c_str(), *logoThemePath, *config.logoExtension);
         if (success)
             return true;
-        success = LoadImage(channelID.c_str(), *config.logoPath, *config.logoExtension);
+        success = LoadImage(channelID.c_str(), *config.logoPathDefault, *config.logoExtension);
         if (success)
             return true;
-        success = LoadImage(logoLower.c_str(), *config.logoPath, *config.logoExtension);
+        success = LoadImage(logoLower.c_str(), *config.logoPathDefault, *config.logoExtension);
         if (success)
             return true;
+        if (i == 0) {
+            for (size_t i = 0; i < logoLower.length(); i++) {
+                if (logoLower[i] == '/') {
+                    logoLower[i] = '~';
+                }
+            }
+        }
     }
-    cString logoThemePath = cString::sprintf("%s%s/", *config.logoPathDefault, Setup.OSDTheme);
-    success = LoadImage(channelID.c_str(), *logoThemePath, *config.logoExtension);
-    if (success)
-        return true;
-    success = LoadImage(logoLower.c_str(), *logoThemePath, *config.logoExtension);
-    if (success)
-        return true;
-    success = LoadImage(channelID.c_str(), *config.logoPathDefault, *config.logoExtension);
-    if (success)
-        return true;
-    success = LoadImage(logoLower.c_str(), *config.logoPathDefault, *config.logoExtension);
-    if (success)
-        return true;
-
     return false;
 }
 
