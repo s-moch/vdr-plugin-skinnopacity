@@ -1,5 +1,34 @@
 VDR Plugin 'nOpacity' Revision History
 ---------------------------------------
+Version 1.1.17
+
+- Fixed missing progress bar for DVD replay
+- Some optimization
+- Added support for recording image to replay progress bar
+- Display recording image even if no scraper poster is available
+- Update Makefile
+- Add various icons
+- Add parental rating to the text window
+- Add parental rating to the detail view
+- Display duration also in hours
+- Display scroll bar also if content is not scrollable
+- Correct a font size in the detailview
+- Swap time/date and shorttext in the display replay
+- Correct progressbar in the cNopacityScheduleMenuItem
+- Make the duration of a recording configurable
+- Display free disk space in the main menu in hours
+- Update file de_DE.po
+- Display event duration/seen/remaining time in the display channel also in hours
+- Delete logoWidth and logoHeight in config.c as the are like logoWidthOriginal and logoHeightOriginal
+- Add frame parameters (VDR >= 2.6.5) to menudetailview
+- Also support of channel logos with "~" in the name
+- Optimize progress bar in display channel
+- Fix menu item cannot be edited when animation is active
+- Fix menu item editable width
+- Better shortening of "Title" and "Subtitle" in the detail view
+- Rework setup.c
+- Added setup option for detail view to show title and subtitle truncated or line-wrapped
+
 Version 1.1.16
 
 - Update "Prevents *magick from occupying the segfaults" 
