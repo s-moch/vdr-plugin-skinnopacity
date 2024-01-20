@@ -181,6 +181,8 @@ void cGeometryManager::SetGeometry(void) {
     channelChannelNameWidth = channelContentWidth * 70 / 100;
     channelDateWidth = channelContentWidth - channelChannelNameWidth;
     channelProgressBarHeight = channelHeight * 0.1;
+    if (channelProgressBarHeight % 2 != 0)
+        channelProgressBarHeight++;
     channelEpgInfoHeight = channelContentHeight - channelProgressBarHeight;
     channelEpgInfoLineHeight = channelEpgInfoHeight / 4;
     channelFooterY = channelTop + channelHeaderHeight + channelContentHeight;
