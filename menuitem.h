@@ -194,6 +194,7 @@ public:
 
 class cNopacityDefaultMenuItem : public cNopacityMenuItem {
 private:
+    bool canScroll = true;
     bool CheckProgressBar(const char *text);
     void DrawProgressBar(int x, int width, const char *bar, tColor color);
     bool DrawHeaderElement(void);
@@ -203,7 +204,7 @@ private:
     void SetText(bool full = false);
     void SetTextFull(void) { SetText(true); };
 public:
-    cNopacityDefaultMenuItem(cOsd *osd, const char *text, bool sel);
+    cNopacityDefaultMenuItem(cOsd *osd, const char *text, bool sel, eMenuCategory MenuCategory = mcUnknown);
     ~cNopacityDefaultMenuItem(void) {};
     int CheckScrollable(int maxwidth = 0);
     void Render(bool initial = false, bool fadeout = false);

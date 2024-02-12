@@ -1378,8 +1378,10 @@ void cNopacityRecordingMenuItem::Render(bool initial, bool fadeout) {
 
 // cNopacityDefaultMenuItem  -------------
 
-cNopacityDefaultMenuItem::cNopacityDefaultMenuItem(cOsd *osd, const char *text, bool sel) : cNopacityMenuItem (osd, text, sel) {
+cNopacityDefaultMenuItem::cNopacityDefaultMenuItem(cOsd *osd, const char *text, bool sel, eMenuCategory MenuCategory) : cNopacityMenuItem (osd, text, sel) {
     font = fontManager->menuItemDefault;
+    if (MenuCategory == mcChannelEdit || MenuCategory == mcRecordingEdit || MenuCategory == mcTimerEdit || MenuCategory == mcPluginSetup)
+        canScroll = false;
 }
 
 bool cNopacityDefaultMenuItem::CheckProgressBar(const char *text) {
@@ -1438,6 +1440,8 @@ int cNopacityDefaultMenuItem::CheckScrollable(int maxwidth) {
                 continue;
             colWidth = tabWidth[i + cSkinDisplayMenu::MaxTabs] - spaceMenu;
             colTextWidth = font->Width(*itemTabs[i]);
+            if (!canScroll)
+                break;
             if (colTextWidth > colWidth) {
                 cTextWrapper itemTextWrapped;
                 scrollable = true;
@@ -1537,8 +1541,12 @@ void cNopacityDefaultMenuItem::Render(bool initial, bool fadeout) {
                 if (colTextWidth > colWidth) {
                     cTextWrapper itemTextWrapped;
                     if (selectable) {
-                        itemTextWrapped.Set(*itemTabs[i], font, colWidth - font->Width("... "));
-                        itemText = cString::sprintf("%s... ", itemTextWrapped.GetLine(0));
+                        if (!canScroll && i == 1)
+                            itemText = cString::sprintf("%s", *itemTabs[i]);
+                        else {
+                            itemTextWrapped.Set(*itemTabs[i], font, colWidth - font->Width("... "));
+                            itemText = cString::sprintf("%s... ", itemTextWrapped.GetLine(0));
+                        }
                     } else {
                         itemTextWrapped.Set(*itemTabs[i], font, colWidth);
                         itemText = cString::sprintf("%s", itemTextWrapped.GetLine(0));
@@ -1547,7 +1555,7 @@ void cNopacityDefaultMenuItem::Render(bool initial, bool fadeout) {
                     itemText = itemTabs[i];
                 }
                 if (i == 0) posX += 2 * spaceMenu;
-                pixmapStatic->DrawText(cPoint(posX, (height - font->Height()) / 2), *itemText, clrFont, clrTransparent, font);
+                pixmapStatic->DrawText(cPoint(posX, (height - font->Height()) / 2), *itemText, clrFont, clrTransparent, font, colWidth);
             } else {
                 if (!Running())
                     SetText();

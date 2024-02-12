@@ -494,7 +494,7 @@ void cNopacityDisplayMenu::SetItem(const char *Text, int Index, bool Current, bo
                 menuItems[Index].reset(item);
                 menuView->GetMenuItemSize(MenuCategory(), &itemSize);
             } else {
-                item = new cNopacityDefaultMenuItem(osd, Text, Selectable);
+                item = new cNopacityDefaultMenuItem(osd, Text, Selectable, MenuCategory());
                 menuItems[Index].reset(item);
                 menuView->GetMenuItemSize(mcUnknown, &itemSize);
             }
@@ -512,8 +512,8 @@ void cNopacityDisplayMenu::SetItem(const char *Text, int Index, bool Current, bo
             item->Render();
         }
     }
-//  SetEditableWidth(menuView->GetEditableWidth());
-    SetEditableWidth(menuView->GetTextAreaWidth());
+    SetEditableWidth(menuView->GetEditableWidth());
+//    SetEditableWidth(menuView->GetTextAreaWidth());
 }
 
 void cNopacityDisplayMenu::SplitItem(const char *Text, cString *strItems, int *tabItems) {

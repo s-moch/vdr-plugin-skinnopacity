@@ -282,11 +282,11 @@ void cNopacityDisplayMenuView::SetTabs(int Tab1, int Tab2, int Tab3, int Tab4, i
 }
 
 int cNopacityDisplayMenuView::GetEditableWidth(void) {
-    return geoManager->menuContentWidthFull*0.5;
+    return GetTextAreaWidth() * 0.5 - 6 * geoManager->menuSpace;
 }
 
 int cNopacityDisplayMenuView::GetTextAreaWidth(void) {
-    return geoManager->menuContentWidthFull - 2*geoManager->menuSpace;
+    return geoManager->menuContentWidthFull - geoManager->menuWidthScrollbar - 2 * geoManager->menuSpace;
 }
 
 const cFont *cNopacityDisplayMenuView::GetTextAreaFont(bool FixedFont) {
