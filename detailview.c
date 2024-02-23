@@ -321,19 +321,41 @@ void cNopacityView::DrawHeader(int wP) {
     PixmapFill(pixmapHeader, clrTransparent);
 
     //Date and Time, Title, Subtitle
+    cTextWrapper wtitle;
+    cTextWrapper wshortText;
+
     if (config.GetValue("tabsInDetailView")) {
         int yDateTime = border;
         int yTitle = (headerHeight - fontHeaderLarge->Height()) / 2;
         int ySubtitle = headerHeight - fontHeader->Height() - border;
         pixmapHeader->DrawText(cPoint(0, yDateTime), dateTime.c_str(), Theme.Color(clrMenuFontDetailViewHeader), clrTransparent, fontHeader);
-        pixmapHeader->DrawText(cPoint(0, yTitle), title.c_str(), Theme.Color(clrMenuFontDetailViewHeaderTitle), clrTransparent, fontHeaderLarge);
-        pixmapHeader->DrawText(cPoint(0, ySubtitle), subTitle.c_str(), Theme.Color(clrMenuFontDetailViewHeader), clrTransparent, fontHeader);
+
+        // Title
+        int titleTextWidth = fontHeaderLarge->Width(title.c_str());
+        std::string titleText;
+        if (titleTextWidth > textLength) {
+            wtitle.Set(title.c_str(), fontHeaderLarge, textLength - fontHeaderLarge->Width(" ... "));
+            titleText = cString::sprintf("%s ... ", wtitle.GetLine(0));
+        } else {
+            titleText = cString::sprintf("%s", title.c_str());
+        }
+        pixmapHeader->DrawText(cPoint(0, yTitle), titleText.c_str(), Theme.Color(clrMenuFontDetailViewHeaderTitle), clrTransparent, fontHeaderLarge);
+
+        // Subtitle
+        int shortTextWidth = fontHeader->Width(subTitle.c_str());
+        std::string shortText;
+        if (shortTextWidth > textLength) {
+            wshortText.Set(subTitle.c_str(), fontHeader, textLength - fontHeader->Width(" ... "));
+            shortText = cString::sprintf("%s ... ", wshortText.GetLine(0));
+        } else {
+            shortText = cString::sprintf("%s", subTitle.c_str());
+        }
+        pixmapHeader->DrawText(cPoint(0, ySubtitle), shortText.c_str(), Theme.Color(clrMenuFontDetailViewHeader), clrTransparent, fontHeader);
     } else {
         int lineHeight = fontHeaderLarge->Height();
 
         pixmapHeader->DrawText(cPoint(0, (lineHeight - fontHeader->Height()) / 2), dateTime.c_str(), Theme.Color(clrMenuFontDetailViewHeader), clrTransparent, fontHeader);
 
-        cTextWrapper wtitle;
         wtitle.Set(title.c_str(), fontHeaderLarge, textLength);
         int currentLineHeight = lineHeight;
         for (int i = 0; i < wtitle.Lines(); i++) {
@@ -341,12 +363,11 @@ void cNopacityView::DrawHeader(int wP) {
             currentLineHeight += lineHeight;
         }
 
-        cTextWrapper shortText;
-        shortText.Set(subTitle.c_str(), fontHeader, textLength);
+        wshortText.Set(subTitle.c_str(), fontHeader, textLength);
         currentLineHeight += (lineHeight - fontHeader->Height()) / 2;
-        for (int i = 0; i < shortText.Lines(); i++) {
+        for (int i = 0; i < wshortText.Lines(); i++) {
             if ((currentLineHeight + fontHeader->Height()) < headerHeight) {
-                pixmapHeader->DrawText(cPoint(0, currentLineHeight), shortText.GetLine(i), Theme.Color(clrMenuFontDetailViewHeader), clrTransparent, fontHeader);
+                pixmapHeader->DrawText(cPoint(0, currentLineHeight), wshortText.GetLine(i), Theme.Color(clrMenuFontDetailViewHeader), clrTransparent, fontHeader);
                 currentLineHeight += fontHeader->Height();
             } else
                 break;
