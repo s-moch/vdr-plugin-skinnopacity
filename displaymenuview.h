@@ -20,6 +20,7 @@ class cNopacityDisplayMenuView {
         bool menuAdjustLeft;
         int lastVolume;
         time_t lastVolumeTime;
+        int itemWidth = 0;
         cPixmap *pixmapHeader;
         cPixmap *pixmapHeaderForeground;
         cPixmap *pixmapHeaderLogo;

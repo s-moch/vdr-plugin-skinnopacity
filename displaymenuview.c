@@ -214,7 +214,7 @@ void cNopacityDisplayMenuView::SetAlpha(int Alpha) {
 }
 
 void cNopacityDisplayMenuView::GetMenuItemSize(eMenuCategory menuCat, cPoint *itemSize) {
-    int itemWidth = 0;
+    itemWidth = 0;
     int itemHeight = 0;
     switch (menuCat) {
         case mcUnknown:
@@ -267,22 +267,17 @@ int cNopacityDisplayMenuView::GetMenuItemLeft(int itemWidth) {
 }
 
 void cNopacityDisplayMenuView::SetTabs(int Tab1, int Tab2, int Tab3, int Tab4, int Tab5) {
+    int factor = fontManager->menuItemDefault->Width("x") + 2;
     mytabs[0] = 1;
-    mytabs[1] = Tab1 ? mytabs[0] + Tab1 : 0;
-    mytabs[2] = Tab2 ? mytabs[1] + Tab2 : 0;
-    mytabs[3] = Tab3 ? mytabs[2] + Tab3 : 0;
-    mytabs[4] = Tab4 ? mytabs[3] + Tab4 : 0;
-    mytabs[5] = Tab5 ? mytabs[4] + Tab5 : 0;
-    if (Tab2) {
-        for (int i = 1; i < cSkinDisplayMenu::MaxTabs; i++)
-        mytabs[i] *= fontManager->menuItemDefault->Width("x") + 3;
-    } else if (Tab1) {
-        mytabs[1] = GetEditableWidth();
-    }
+    mytabs[1] = Tab1 ? mytabs[0] + Tab1 * factor : 0;
+    mytabs[2] = Tab2 ? mytabs[1] + Tab2 * factor : 0;
+    mytabs[3] = Tab3 ? mytabs[2] + Tab3 * factor : 0;
+    mytabs[4] = Tab4 ? mytabs[3] + Tab4 * factor : 0;
+    mytabs[5] = Tab5 ? mytabs[4] + Tab5 * factor : 0;
 }
 
 int cNopacityDisplayMenuView::GetEditableWidth(void) {
-    return GetTextAreaWidth() * 0.5 - 6 * geoManager->menuSpace;
+    return itemWidth - mytabs[1] - 150;
 }
 
 int cNopacityDisplayMenuView::GetTextAreaWidth(void) {
