@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2023-12-31 13:00+0100\n"
+"POT-Creation-Date: 2024-02-24 11:35+0100\n"
 "PO-Revision-Date: 2012-11-11 17:49+0200\n"
 "Last-Translator: Stefan Hofmann\n"
 "Language-Team: \n"
@@ -581,17 +581,20 @@ msgstr "falls vorhanden"
 msgid "Border around view"
 msgstr "Rahmen um Ansicht"
 
-msgid "Scroll Speed with up / down (number of lines)"
-msgstr "Scroll-Geschwindigkeit mit hoch / runter (Anzahl Zeilen)"
+msgid "Scroll Speed up / down (number of lines)"
+msgstr "Scroll-Geschwindigkeit hoch/runter (Anzahl Zeilen)"
 
-msgid "Header Height detailed EPG view (Perc. of OSD Height)"
-msgstr "Header-Höhe in detaillierter EPG-Ansicht (% der OSD-Höhe)"
+msgid "Number of actor pictures to display per row"
+msgstr "Anzahl der Darstellerportraits pro Zeile"
 
-msgid "Header Height detailed recording view (Perc. of OSD Height)"
-msgstr "Header-Höhe in detaillierter Aufzeichnungsansicht (% der OSD-Höhe)"
+msgid "detailed EPG view:"
+msgstr "EPG Ansicht:"
 
-msgid "Display Reruns in detailed EPG View"
-msgstr "Wiederholungen in der detailierten EPG-Ansicht anzeigen"
+msgid "Header Height (Perc. of OSD Height)"
+msgstr "Header-Höhe (% der OSD-Höhe)"
+
+msgid "Display Reruns"
+msgstr "Wiederholungen anzeigen"
 
 msgid "Number of reruns to display"
 msgstr "Anzahl der dargestellten Wiederholungen"
@@ -599,17 +602,17 @@ msgstr "Anzahl der dargestellten Wiederholungen"
 msgid "Use Subtitle for reruns"
 msgstr "Untertitel für Wiederholungssuche nutzen"
 
-msgid "Number of actor pictures to display per row"
-msgstr "Anzahl der Darstellerportraits pro Zeile"
-
-msgid "Display additional EPG Pictures in detailed EPG View"
-msgstr "Weitere EPG-Bilder in der detaillierten EPG-Ansicht anzeigen"
+msgid "Display additional EPG Pictures"
+msgstr "Weitere EPG-Bilder anzeigen"
 
 msgid "Number of EPG pictures to display"
 msgstr "Anzahl der zusätzlichen EPG-Bilder"
 
-msgid "Display additional EPG Pictures in detailed recording View"
-msgstr "Weitere EPG-Bilder in der detaillierten Aufzeichnungsansicht anzeigen"
+msgid "detailed recording view:"
+msgstr "Aufzeichnungsansicht:"
+
+msgid "EPG Image:"
+msgstr "EPG Bilder:"
 
 msgid "EPG Image Width"
 msgstr "EPG-Bildbreite"

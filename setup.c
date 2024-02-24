@@ -122,7 +122,7 @@ void cNopacitySetup::Store(void) {
 
 //------------------------------------------------------------------------------------------------------------------
 
-cMenuSetupSubMenu::cMenuSetupSubMenu(const char* Title, cNopacityConfig* data) : cOsdMenu(Title, 30) {
+cMenuSetupSubMenu::cMenuSetupSubMenu(const char* Title, cNopacityConfig* data) : cOsdMenu(Title, 40) {
     SetMenuCategory(mcPluginSetup);
     tmpConf = data;
     spacer = "   ";
@@ -395,24 +395,27 @@ void cNopacitySetupDetailedView::Set(void) {
     Clear();
 
     Add(new cMenuEditIntItem(tr("Border around view"), tmpConf->GetValueRef("borderDetailedEPG"), 1, 300));
-    Add(new cMenuEditIntItem(tr("Scroll Speed with up / down (number of lines)"), tmpConf->GetValueRef("detailedViewScrollStep"), 1, 30));
-    Add(new cMenuEditIntItem(tr("Header Height detailed EPG view (Perc. of OSD Height)"), tmpConf->GetValueRef("headerDetailedEPG"), 10, 50));
-    Add(new cMenuEditIntItem(tr("Header Height detailed recording view (Perc. of OSD Height)"), tmpConf->GetValueRef("headerDetailedRecordings"), 10, 50));
-    Add(new cMenuEditBoolItem(tr("Display Reruns in detailed EPG View"), tmpConf->GetValueRef("displayRerunsDetailEPGView")));
-    if (tmpConf->GetValue("displayRerunsDetailEPGView") || tmpConf->GetValue("tabsInDetailView")) {
-        Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Number of reruns to display")), tmpConf->GetValueRef("numReruns"), 1, 10));
-        Add(new cMenuEditStraItem(cString::sprintf("%s%s", *spacer, tr("Use Subtitle for reruns")), tmpConf->GetValueRef("useSubtitleRerun"), 3, useSubtitleRerunTexts));
-    }
+    Add(new cMenuEditIntItem(tr("Scroll Speed up / down (number of lines)"), tmpConf->GetValueRef("detailedViewScrollStep"), 1, 30));
     if (tmpConf->GetValue("tabsInDetailView"))
         Add(new cMenuEditIntItem(tr("Number of actor pictures to display per row"), tmpConf->GetValueRef("numPicturesPerLine"), 1, 9));
     else
         Add(new cMenuEditIntItem(tr("Number of actor pictures to display per row"), tmpConf->GetValueRef("numPicturesPerLineLight"), 1, 9));
-    Add(new cMenuEditStraItem(tr("Display additional EPG Pictures in detailed EPG View"), tmpConf->GetValueRef("displayAdditionalEPGPictures"), 3, displayEPGPictures));
+    Add(new cOsdItem(tr("detailed EPG view:"), osUnknown, false));
+    Add(new cMenuEditIntItem(tr("Header Height (Perc. of OSD Height)"), tmpConf->GetValueRef("headerDetailedEPG"), 10, 50));
+    Add(new cMenuEditBoolItem(tr("Display Reruns"), tmpConf->GetValueRef("displayRerunsDetailEPGView")));
+    if (tmpConf->GetValue("displayRerunsDetailEPGView") || tmpConf->GetValue("tabsInDetailView")) {
+        Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Number of reruns to display")), tmpConf->GetValueRef("numReruns"), 1, 10));
+        Add(new cMenuEditStraItem(cString::sprintf("%s%s", *spacer, tr("Use Subtitle for reruns")), tmpConf->GetValueRef("useSubtitleRerun"), 3, useSubtitleRerunTexts));
+    }
+    Add(new cMenuEditStraItem(tr("Display additional EPG Pictures"), tmpConf->GetValueRef("displayAdditionalEPGPictures"), 3, displayEPGPictures));
     if (tmpConf->GetValue("displayAdditionalEPGPictures"))
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Number of EPG pictures to display")), tmpConf->GetValueRef("numAdditionalEPGPictures"), 1, 9));
-    Add(new cMenuEditStraItem(tr("Display additional EPG Pictures in detailed recording View"), tmpConf->GetValueRef("displayAdditionalRecEPGPictures"), 3, displayEPGPictures));
+    Add(new cOsdItem(tr("detailed recording view:"), osUnknown, false));
+    Add(new cMenuEditIntItem(tr("Header Height (Perc. of OSD Height)"), tmpConf->GetValueRef("headerDetailedRecordings"), 10, 50));
+    Add(new cMenuEditStraItem(tr("Display additional EPG Pictures"), tmpConf->GetValueRef("displayAdditionalRecEPGPictures"), 3, displayEPGPictures));
     if (tmpConf->GetValue("displayAdditionalRecEPGPictures"))
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Number of EPG pictures to display")), tmpConf->GetValueRef("numAdditionalRecEPGPictures"), 1, 9));
+    Add(new cOsdItem(tr("EPG Image:"), osUnknown, false));
     Add(new cMenuEditIntItem(tr("EPG Image Width"), tmpConf->GetValueRef("epgImageWidth"), 30, 500));
     Add(new cMenuEditIntItem(tr("EPG Image Height"), tmpConf->GetValueRef("epgImageHeight"), 30, 500));
     Add(new cMenuEditIntItem(tr("Large EPG Image Width"), tmpConf->GetValueRef("epgImageWidthLarge"), 100, 800));

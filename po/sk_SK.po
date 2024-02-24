@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: vdr-skinnopacity\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2023-12-31 13:00+0100\n"
+"POT-Creation-Date: 2024-02-24 11:35+0100\n"
 "PO-Revision-Date: 2013-11-11 20:52+0100\n"
 "Last-Translator: Milan Hrala <hrala.milan@gmail.com>\n"
 "Language-Team: \n"
@@ -581,17 +581,20 @@ msgstr "ak je k dispozícii"
 msgid "Border around view"
 msgstr ""
 
-msgid "Scroll Speed with up / down (number of lines)"
+msgid "Scroll Speed up / down (number of lines)"
 msgstr ""
 
-msgid "Header Height detailed EPG view (Perc. of OSD Height)"
+msgid "Number of actor pictures to display per row"
 msgstr ""
 
-msgid "Header Height detailed recording view (Perc. of OSD Height)"
+msgid "detailed EPG view:"
 msgstr ""
 
-msgid "Display Reruns in detailed EPG View"
-msgstr "Zobrazi» reprízy v podrobnostiach EPG"
+msgid "Header Height (Perc. of OSD Height)"
+msgstr ""
+
+msgid "Display Reruns"
+msgstr "Zobrazi» reprízy"
 
 msgid "Number of reruns to display"
 msgstr "Poèet repríz na zobrazenie"
@@ -599,17 +602,17 @@ msgstr "Poèet repríz na zobrazenie"
 msgid "Use Subtitle for reruns"
 msgstr "Pou¾i» titulky pre reprízu"
 
-msgid "Number of actor pictures to display per row"
-msgstr ""
-
-msgid "Display additional EPG Pictures in detailed EPG View"
-msgstr "Zobrazi» viac obrázkov v podrobnostiach EPG"
+msgid "Display additional EPG Pictures"
+msgstr "Zobrazi» viac obrázkov"
 
 msgid "Number of EPG pictures to display"
 msgstr "Poèet EPG obrázkov na obrazovke"
 
-msgid "Display additional EPG Pictures in detailed recording View"
-msgstr "Zobrazi» ïal¹ie EPG obrázky v podrobnom zobrazení nahrávky"
+msgid "detailed recording view:"
+msgstr ""
+
+msgid "EPG Image:"
+msgstr ""
 
 msgid "EPG Image Width"
 msgstr ""

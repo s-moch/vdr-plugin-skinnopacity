@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2023-12-31 13:00+0100\n"
+"POT-Creation-Date: 2024-02-24 11:35+0100\n"
 "PO-Revision-Date: 2013-03-19 22:56+0100\n"
 "Last-Translator: Gabychan <gbonich@gmail.com>\n"
 "Language-Team: \n"
@@ -584,17 +584,20 @@ msgstr "si existeix"
 msgid "Border around view"
 msgstr ""
 
-msgid "Scroll Speed with up / down (number of lines)"
+msgid "Scroll Speed up / down (number of lines)"
 msgstr ""
 
-msgid "Header Height detailed EPG view (Perc. of OSD Height)"
+msgid "Number of actor pictures to display per row"
 msgstr ""
 
-msgid "Header Height detailed recording view (Perc. of OSD Height)"
+msgid "detailed EPG view:"
 msgstr ""
 
-msgid "Display Reruns in detailed EPG View"
-msgstr "Mostra Reemissions a vista detallada EPG"
+msgid "Header Height (Perc. of OSD Height)"
+msgstr ""
+
+msgid "Display Reruns"
+msgstr "Mostra Reemissions"
 
 msgid "Number of reruns to display"
 msgstr "Nombre de reemissions a mostrar"
@@ -602,17 +605,17 @@ msgstr "Nombre de reemissions a mostrar"
 msgid "Use Subtitle for reruns"
 msgstr "Utilitza subtítols a les reemissions"
 
-msgid "Number of actor pictures to display per row"
-msgstr ""
-
-msgid "Display additional EPG Pictures in detailed EPG View"
-msgstr "Mostra imatges addicionals a vista detallada EPG"
+msgid "Display additional EPG Pictures"
+msgstr "Mostra imatges EPG addicionals"
 
 msgid "Number of EPG pictures to display"
 msgstr "Nombre d'imatges EPG a mostrar"
 
-msgid "Display additional EPG Pictures in detailed recording View"
-msgstr "Mostra imatges EPG addicionals a vista detallada gravacions"
+msgid "detailed recording view:"
+msgstr ""
+
+msgid "EPG Image:"
+msgstr ""
 
 msgid "EPG Image Width"
 msgstr ""
