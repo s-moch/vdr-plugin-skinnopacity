@@ -324,12 +324,13 @@ void cNopacityView::DrawHeader(int wP) {
     cTextWrapper wtitle;
     cTextWrapper wshortText;
 
-    if (config.GetValue("tabsInDetailView")) {
-        int yDateTime = border;
-        int yTitle = (headerHeight - fontHeaderLarge->Height()) / 2;
-        int ySubtitle = headerHeight - fontHeader->Height() - border;
-        pixmapHeader->DrawText(cPoint(0, yDateTime), dateTime.c_str(), Theme.Color(clrMenuFontDetailViewHeader), clrTransparent, fontHeader);
+    // Date
+    pixmapHeader->DrawText(cPoint(0, border), dateTime.c_str(), Theme.Color(clrMenuFontDetailViewHeader), clrTransparent, fontHeader);
 
+    int lineHeightLarge = fontHeaderLarge->Height();
+    int yTitle = (headerHeight - lineHeightLarge) / 2;
+
+    if (config.GetValue("displayTitleSubtitle") == 0) {
         // Title
         int titleTextWidth = fontHeaderLarge->Width(title.c_str());
         std::string titleText;
@@ -342,6 +343,7 @@ void cNopacityView::DrawHeader(int wP) {
         pixmapHeader->DrawText(cPoint(0, yTitle), titleText.c_str(), Theme.Color(clrMenuFontDetailViewHeaderTitle), clrTransparent, fontHeaderLarge);
 
         // Subtitle
+        int ySubtitle = headerHeight - fontHeader->Height() - border;
         int shortTextWidth = fontHeader->Width(subTitle.c_str());
         std::string shortText;
         if (shortTextWidth > textLength) {
@@ -352,19 +354,17 @@ void cNopacityView::DrawHeader(int wP) {
         }
         pixmapHeader->DrawText(cPoint(0, ySubtitle), shortText.c_str(), Theme.Color(clrMenuFontDetailViewHeader), clrTransparent, fontHeader);
     } else {
-        int lineHeight = fontHeaderLarge->Height();
-
-        pixmapHeader->DrawText(cPoint(0, (lineHeight - fontHeader->Height()) / 2), dateTime.c_str(), Theme.Color(clrMenuFontDetailViewHeader), clrTransparent, fontHeader);
-
+        // Title
         wtitle.Set(title.c_str(), fontHeaderLarge, textLength);
-        int currentLineHeight = lineHeight;
+        int currentLineHeight = yTitle;
         for (int i = 0; i < wtitle.Lines(); i++) {
             pixmapHeader->DrawText(cPoint(0, currentLineHeight), wtitle.GetLine(i), Theme.Color(clrMenuFontDetailViewHeaderTitle), clrTransparent, fontHeaderLarge);
-            currentLineHeight += lineHeight;
+            currentLineHeight += lineHeightLarge;
         }
 
+        // Subtitle
         wshortText.Set(subTitle.c_str(), fontHeader, textLength);
-        currentLineHeight += (lineHeight - fontHeader->Height()) / 2;
+        currentLineHeight += (lineHeightLarge - fontHeader->Height()) / 2;
         for (int i = 0; i < wshortText.Lines(); i++) {
             if ((currentLineHeight + fontHeader->Height()) < headerHeight) {
                 pixmapHeader->DrawText(cPoint(0, currentLineHeight), wshortText.GetLine(i), Theme.Color(clrMenuFontDetailViewHeader), clrTransparent, fontHeader);

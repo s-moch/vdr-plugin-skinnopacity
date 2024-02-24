@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2024-02-24 11:35+0100\n"
+"POT-Creation-Date: 2024-02-24 12:31+0100\n"
 "PO-Revision-Date: 2013-03-19 22:56+0100\n"
 "Last-Translator: Diego Pierotto <vdr-italian@tiscali.it>\n"
 "Language-Team: \n"
@@ -581,7 +581,16 @@ msgstr ""
 msgid "if exists"
 msgstr "se esiste"
 
+msgid "shortened"
+msgstr ""
+
+msgid "with line break"
+msgstr ""
+
 msgid "Border around view"
+msgstr ""
+
+msgid "Display of Title and Subtitle"
 msgstr ""
 
 msgid "Scroll Speed up / down (number of lines)"

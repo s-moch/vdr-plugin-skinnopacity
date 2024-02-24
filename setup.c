@@ -387,6 +387,8 @@ cNopacitySetupDetailedView::cNopacitySetupDetailedView(cNopacityConfig* data)  :
     useSubtitleRerunTexts[0] = tr("never");
     useSubtitleRerunTexts[1] = tr("if exists");
     useSubtitleRerunTexts[2] = tr("always");
+    displayTitleSubtitle[0] = tr("shortened");
+    displayTitleSubtitle[1] = tr("with line break");
     Set();
 }
 
@@ -395,6 +397,7 @@ void cNopacitySetupDetailedView::Set(void) {
     Clear();
 
     Add(new cMenuEditIntItem(tr("Border around view"), tmpConf->GetValueRef("borderDetailedEPG"), 1, 300));
+    Add(new cMenuEditStraItem(tr("Display of Title and Subtitle"), tmpConf->GetValueRef("displayTitleSubtitle"), 2, displayTitleSubtitle));
     Add(new cMenuEditIntItem(tr("Scroll Speed up / down (number of lines)"), tmpConf->GetValueRef("detailedViewScrollStep"), 1, 30));
     if (tmpConf->GetValue("tabsInDetailView"))
         Add(new cMenuEditIntItem(tr("Number of actor pictures to display per row"), tmpConf->GetValueRef("numPicturesPerLine"), 1, 9));

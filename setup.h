@@ -90,6 +90,7 @@ class cNopacitySetupDetailedView : public cMenuSetupSubMenu {
     protected:
         const char *displayEPGPictures[3];
         const char *useSubtitleRerunTexts[3];
+        const char *displayTitleSubtitle[2];
         void Set(void);
     public:
         cNopacitySetupDetailedView(cNopacityConfig *data);

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2024-02-24 11:35+0100\n"
+"POT-Creation-Date: 2024-02-24 12:29+0100\n"
 "PO-Revision-Date: 2012-11-11 17:49+0200\n"
 "Last-Translator: Stefan Hofmann\n"
 "Language-Team: \n"
@@ -578,8 +578,17 @@ msgstr "falls keine TVScraper-Medien verfügbar"
 msgid "if exists"
 msgstr "falls vorhanden"
 
+msgid "shortened"
+msgstr "gekürzt"
+
+msgid "with line break"
+msgstr "mit Zeilenumbruch"
+
 msgid "Border around view"
 msgstr "Rahmen um Ansicht"
+
+msgid "Display of Title and Subtitle"
+msgstr "Anzeige von Titel und Untertitel"
 
 msgid "Scroll Speed up / down (number of lines)"
 msgstr "Scroll-Geschwindigkeit hoch/runter (Anzahl Zeilen)"

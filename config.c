@@ -141,6 +141,7 @@ void cNopacityConfig::LoadDefaults(void) {
     conf.insert(std::pair<std::string, int>("menuBorderVolumeBottomSimple", 50));
     conf.insert(std::pair<std::string, int>("borderDetailedEPG", 20));
     conf.insert(std::pair<std::string, int>("borderDetailedRecordings", 20));
+    conf.insert(std::pair<std::string, int>("displayTitleSubtitle", 0));
     conf.insert(std::pair<std::string, int>("headerDetailedEPG", 20));
     conf.insert(std::pair<std::string, int>("headerDetailedRecordings", 20));
     conf.insert(std::pair<std::string, int>("detailedViewScrollStep", 1));
