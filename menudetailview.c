@@ -368,7 +368,7 @@ std::string cNopacityDetailView::LoadRecordingInformation(void) {
         if (nLastIndex) {
             cString strLength;
             if (fHasMarks) {
-                strLength = cString::sprintf("%s: %s (%s %s)", tr("Length"), *IndexToHMSF(nLastIndex, false, rec->FramesPerSecond()), tr("cut"), *IndexToHMSF(nCutLength, false, rec->FramesPerSecond()));
+                strLength = cString::sprintf("%s: %s (%s: %s)", tr("Length"), *IndexToHMSF(nLastIndex, false, rec->FramesPerSecond()), tr("cut"), *IndexToHMSF(nCutLength, false, rec->FramesPerSecond()));
             } else {
                 strLength = cString::sprintf("%s: %s", tr("Length"), *IndexToHMSF(nLastIndex, false, rec->FramesPerSecond()));
             }
