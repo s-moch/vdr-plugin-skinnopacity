@@ -1,5 +1,15 @@
 VDR Plugin 'nOpacity' Revision History
 ---------------------------------------
+Version 1.1.18
+
+- Update "Display scroll bar also if content is not scrollable"
+  Can be switched on and off now separately for wide and narrow menus
+- Fix menu item editable width
+- Extended search of manual posters
+- Display of error marks in progress bar
+- Fix some typos (thx to @shofmann at vdr-portal.de)
+- Update themes
+
 Version 1.1.17
 
 - Fixed missing progress bar for DVD replay
