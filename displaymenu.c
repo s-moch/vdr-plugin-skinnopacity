@@ -158,43 +158,50 @@ void cNopacityDisplayMenu::Scroll(bool Up, bool Page) {
 
 int cNopacityDisplayMenu::MaxItems(void) {
     int maxItems = 0;
+    useNarrowMenu = false;
     switch (MenuCategory()) {
         case mcMain:
-            if (config.GetValue("narrowMainMenu"))
+            if (config.GetValue("narrowMainMenu")) {
                 maxItems = config.GetValue("numMainMenuItems");
-            else
+                useNarrowMenu = true;
+	    } else
                 maxItems = config.GetValue("numDefaultMenuItems");
             break;
         case mcSetup:
-            if (config.GetValue("narrowSetupMenu"))
+            if (config.GetValue("narrowSetupMenu")) {
                 maxItems = config.GetValue("numMainMenuItems");
-            else
+                useNarrowMenu = true;
+	    } else
                 maxItems = config.GetValue("numDefaultMenuItems");
             break;
         case mcSchedule:
         case mcScheduleNow:
         case mcScheduleNext:
-            if (config.GetValue("narrowScheduleMenu"))
+            if (config.GetValue("narrowScheduleMenu")) {
                 maxItems = config.GetValue("numSchedulesMenuItems");
-            else
+                useNarrowMenu = true;
+	    } else
                 maxItems = config.GetValue("numDefaultMenuItems");
             break;
         case mcChannel:
-            if (config.GetValue("narrowChannelMenu"))
+            if (config.GetValue("narrowChannelMenu")) {
                 maxItems = config.GetValue("numSchedulesMenuItems");
-            else
+                useNarrowMenu = true;
+	    } else
                 maxItems = config.GetValue("numDefaultMenuItems");
             break;
         case mcTimer:
-            if (config.GetValue("narrowTimerMenu"))
+            if (config.GetValue("narrowTimerMenu")) {
                 maxItems = config.GetValue("numSchedulesMenuItems");
-            else
+                useNarrowMenu = true;
+	    } else
                 maxItems = config.GetValue("numDefaultMenuItems");
             break;
         case mcRecording:
-            if (config.GetValue("narrowRecordingMenu"))
+            if (config.GetValue("narrowRecordingMenu")) {
                 maxItems = config.GetValue("numRecordingsMenuItems");
-            else
+                useNarrowMenu = true;
+	    } else
                 maxItems = config.GetValue("numDefaultMenuItems");
             break;
         default:
@@ -565,7 +572,8 @@ void cNopacityDisplayMenu::SetScrollbar(int Total, int Offset) {
     double height = 0.0;
     double offset = 0.0;
     if (MaxItems() >= Total) {
-        if (config.GetValue("showEmptyScrollbars") == 0) {
+        if (!(!useNarrowMenu && (config.GetValue("showEmptyScrollbars") & uesWide)
+            || (useNarrowMenu && (config.GetValue("showEmptyScrollbars") & uesNarrow)))) {
            menuView->ClearScrollbar();
            return;
         }

@@ -160,6 +160,10 @@ cNopacitySetupMenuDisplay::cNopacitySetupMenuDisplay(cNopacityConfig* data)  : c
     displayVolume[0] = tr("no");
     displayVolume[1] = tr("simple");
     displayVolume[2] = tr("full");
+    showemptyscrollbars[0] = tr("no");
+    showemptyscrollbars[1] = tr("in wide menus");
+    showemptyscrollbars[2] = tr("in narrow mwnus");
+    showemptyscrollbars[3] = tr("in all menus");
     Set();
 }
 
@@ -167,7 +171,7 @@ void cNopacitySetupMenuDisplay::Set(void) {
     int currentItem = Current();
     Clear();
     Add(new cMenuEditIntItem(tr("Number of Default Menu Entries per Page"), tmpConf->GetValueRef("numDefaultMenuItems"), 10, 40));
-    Add(new cMenuEditBoolItem(tr("Show empty scrollbars"), tmpConf->GetValueRef("showEmptyScrollbars")));
+    Add(new cMenuEditStraItem(tr("Show empty scrollbars"), tmpConf->GetValueRef("showEmptyScrollbars"), 4, showemptyscrollbars));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Default Menu Item"), tmpConf->GetValueRef("fontMenuitemDefault"), -20, 20));
     Add(new cMenuEditStraItem(tr("Adjustment of narrow menus"), tmpConf->GetValueRef("menuAdjustLeft"), 2, adjustLeft));
     Add(new cMenuEditStraItem(tr("Scale Video size to fit into menu window"), tmpConf->GetValueRef("scalePicture"), 3, scalePic));

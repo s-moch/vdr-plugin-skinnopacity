@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: vdr-skinnopacity\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2024-02-24 12:31+0100\n"
+"POT-Creation-Date: 2024-07-10 12:15+0200\n"
 "PO-Revision-Date: 2013-11-11 20:52+0100\n"
 "Last-Translator: Milan Hrala <hrala.milan@gmail.com>\n"
 "Language-Team: \n"
@@ -294,6 +294,15 @@ msgid "simple"
 msgstr ""
 
 msgid "full"
+msgstr ""
+
+msgid "in wide menus"
+msgstr ""
+
+msgid "in narrow mwnus"
+msgstr ""
+
+msgid "in all menus"
 msgstr ""
 
 msgid "Number of Default Menu Entries per Page"

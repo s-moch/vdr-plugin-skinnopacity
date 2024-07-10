@@ -16,6 +16,7 @@ private:
     eMenuCategory menuCategoryLast;
     int menuFadeTime = 0;
     int menuFadeOutTime = 0;
+    bool useNarrowMenu = false;
     bool fadeout;
     bool initial;
     bool deatilViewRenderDone = false;

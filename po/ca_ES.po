@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2024-02-24 12:31+0100\n"
+"POT-Creation-Date: 2024-07-10 12:15+0200\n"
 "PO-Revision-Date: 2013-03-19 22:56+0100\n"
 "Last-Translator: Gabychan <gbonich@gmail.com>\n"
 "Language-Team: \n"
@@ -297,6 +297,15 @@ msgid "simple"
 msgstr ""
 
 msgid "full"
+msgstr ""
+
+msgid "in wide menus"
+msgstr ""
+
+msgid "in narrow mwnus"
+msgstr ""
+
+msgid "in all menus"
 msgstr ""
 
 msgid "Number of Default Menu Entries per Page"

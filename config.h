@@ -16,6 +16,12 @@ enum eDisplayType {
     dtGraphical
 };
 
+enum eUseEmptyScrollbar {
+    uesNo = 0,
+    uesWide,
+    uesNarrow
+};
+
 enum eVolumeBoxStyle {vbNone = 0, vbSimple, vbFull};
 
 class cNopacityConfig {
