@@ -36,7 +36,7 @@ class cNopacityConfig {
         void LoadThemeSpecificConfigs(void);
         void SetThemeSpecificDefaults(void);
         void SetThemeSetup(void);
-        void SetPathes(void);
+        void SetPaths(void);
     public:
         cNopacityConfig();
         ~cNopacityConfig();
@@ -64,6 +64,9 @@ class cNopacityConfig {
         const char *fontFixedDefaultName = NULL;
         char *fontName = NULL;
         char *fontFixedName = NULL;
+        void SetPosterFileName();
+        const char *listPosterFileNames[3];
+        char *posterFileName = NULL;
         cString logoPath;
         cString logoExtension;
         cString iconPath;

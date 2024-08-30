@@ -174,6 +174,7 @@ private:
     cRect *vidWin;
     std::string strRecName;
     std::string strRecNameFull;
+    cString itemFileName;
     void SetText(bool full = false);
     void SetTextFull(void) { SetText(true); };
     void SetTextFolder(bool full = false);

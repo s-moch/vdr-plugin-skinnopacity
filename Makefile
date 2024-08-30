@@ -36,7 +36,7 @@ TMPDIR ?= /tmp
 export CFLAGS   = $(call PKGCFG,cflags)
 export CXXFLAGS = $(call PKGCFG,cxxflags)
 
-CXXFLAGS += -std=c++11
+CXXFLAGS += -std=c++17
 
 ### Allow user defined options to overwrite defaults:
 

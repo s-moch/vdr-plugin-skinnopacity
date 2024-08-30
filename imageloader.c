@@ -5,6 +5,7 @@
 #include <string>
 #include <dirent.h>
 #include <iostream>
+#include <filesystem>
 
 using namespace Magick;
 
@@ -111,7 +112,7 @@ bool cImageLoader::LoadRecordingImage(cString Path, int w, int h) {
         return false;
 
     cString recImage("");
-    if (FirstImageInFolder(Path, "jpg", &recImage)) {
+    if (FirstImageInFolder(Path, ".jpg", &recImage)) {
         recImage = cString::sprintf("/%s", *recImage);
         if (!LoadImage(*recImage, *Path, "jpg"))
             return false;
@@ -145,18 +146,26 @@ bool cImageLoader::LoadPoster(const char *poster, int width, int height, bool sc
     return false;
 }
 
-bool cImageLoader::SearchRecordingPoster(cString recPath, cString &found) {
-    cString manualPoster = cString::sprintf("%s/cover_vdr.jpg", *recPath);
+bool cImageLoader::SearchRecordingPoster(cString recPath, cString &found, bool asFolder) {
+    cString manualPoster = cString::sprintf("%s/%s", *recPath, config.posterFileName);
+    // first, search the recording for a manual poster
     if (FileSize(*manualPoster) != -1) {
         found = manualPoster;
         return true;
     }
-    manualPoster = cString::sprintf("%s/../../../cover_vdr.jpg", *recPath);
+    if (asFolder) return false;
+    // next, search the folder in which the recording resides with its mate recordings;
+    // this could be episodes of a series or a category like "movies"
+    std::filesystem::path path = *cString::sprintf("%s/../../%s", *recPath, config.posterFileName);
+    manualPoster = path.lexically_normal().c_str();
     if (FileSize(*manualPoster) != -1) {
         found = manualPoster;
         return true;
     }
-    manualPoster = cString::sprintf("%s/../../cover_vdr.jpg", *recPath);
+    // finally, search the next higher folder for a potential category poster, like for
+    // all the series
+    path = *cString::sprintf("%s/../../../%s", *recPath, config.posterFileName);
+    manualPoster = path.lexically_normal().c_str();
     if (FileSize(*manualPoster) != -1) {
         found = manualPoster;
         return true;
@@ -166,7 +175,7 @@ bool cImageLoader::SearchRecordingPoster(cString recPath, cString &found) {
 
 bool cImageLoader::SearchRecordingImage(cString recPath, cString &found) {
     cString manualPoster;
-    if (FirstImageInFolder(recPath, "jpg", &manualPoster)) {
+    if (FirstImageInFolder(recPath, ".jpg", &manualPoster)) {
         found = cString::sprintf("%s/%s.jpg", *recPath, *manualPoster);
         return true;
     }
@@ -182,12 +191,8 @@ bool cImageLoader::FirstImageInFolder(cString Path, cString Extension, cString *
     while (file = readdir(folder)) {
         if (endswith(file->d_name, *Extension)) {
             std::string fileName = file->d_name;
-            int strlen = fileName.length();
-            if (strlen < 8)
-                continue;
-            if (!fileName.compare(strlen-8, 8, "_vdr.jpg"))
-                continue;
-            fileName = fileName.substr(0, strlen - 4);
+            int length = fileName.length();
+            fileName = fileName.substr(0, length - strlen(*Extension));
             *recImage = fileName.c_str();
             return true;
         }

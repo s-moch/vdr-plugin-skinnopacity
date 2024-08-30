@@ -20,6 +20,7 @@ cNopacitySetup::cNopacitySetup(void) {
 cNopacitySetup::~cNopacitySetup(void) {
     config.SetFontName();
     config.SetFontFixedName();
+    config.SetPosterFileName();
     delete fontManager;
     delete imgCache;
     if (isNopacity) {
@@ -233,7 +234,7 @@ void cNopacitySetupMenuDisplayMain::Set(void) {
     Add(new cMenuEditBoolItem(tr("Use narrow setup menu"), tmpConf->GetValueRef("narrowSetupMenu")));
     if (tmpConf->GetValue("narrowSetupMenu"))
         Add(new cMenuEditIntItem(cString::sprintf("%s%s", *spacer, tr("Width (Percent of OSD Width)")), tmpConf->GetValueRef("menuWidthSetup"), 10, 97));
-    Add(new cMenuEditIntItem(tr("Number of entires per page"), tmpConf->GetValueRef("numMainMenuItems"), 3, 20));
+    Add(new cMenuEditIntItem(tr("Number of entries per page"), tmpConf->GetValueRef("numMainMenuItems"), 3, 20));
     Add(new cMenuEditBoolItem(tr("Use menu icons"), tmpConf->GetValueRef("useMenuIcons")));
     Add(new cMenuEditStraItem(tr("Main menu title style"), tmpConf->GetValueRef("mainMenuTitleStyle"), 3, titleStyle));
     Add(new cMenuEditBoolItem(tr("Display Disk Usage"), tmpConf->GetValueRef("showDiscUsage")));
@@ -281,7 +282,7 @@ void cNopacitySetupMenuDisplaySchedules::Set(void) {
         Add(new cMenuEditBoolItem(cString::sprintf("%s%s", *spacer, tr("Show short text")), tmpConf->GetValueRef("menuSchedulesShowShortText")));
         Add(new cMenuEditBoolItem(cString::sprintf("%s%s", *spacer, tr("Show progress bar")), tmpConf->GetValueRef("menuSchedulesShowProgressBar")));
     }
-    Add(new cMenuEditIntItem(tr("Number of entires per page"), tmpConf->GetValueRef("numSchedulesMenuItems"), 3, 20));
+    Add(new cMenuEditIntItem(tr("Number of entries per page"), tmpConf->GetValueRef("numSchedulesMenuItems"), 3, 20));
     Add(new cMenuEditStraItem(tr("Mode of EPG Window"), tmpConf->GetValueRef("menuSchedulesWindowMode"), 2, windowMode));
     Add(new cMenuEditIntItem(tr("Height of EPG Info Window (Percent of OSD Height)"), tmpConf->GetValueRef("menuHeightInfoWindow"), 10, 100));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Menu Item"), tmpConf->GetValueRef("fontMenuitemSchedule"), -20, 20));
@@ -369,10 +370,11 @@ void cNopacitySetupMenuDisplayRecordings::Set(void) {
         Add(new cMenuEditBoolItem(cString::sprintf("%s%s", *spacer, tr("Recordings: Show Line 3")), tmpConf->GetValueRef("menuRecordingsShowLine3")));
     }
     Add(new cMenuEditBoolItem(tr("Display number of recordings"), tmpConf->GetValueRef("displayNumberOfRecordings")));
-    Add(new cMenuEditIntItem(tr("Number of entires per page"), tmpConf->GetValueRef("numRecordingsMenuItems"), 3, 20));
+    Add(new cMenuEditIntItem(tr("Number of entries per page"), tmpConf->GetValueRef("numRecordingsMenuItems"), 3, 20));
     Add(new cMenuEditStraItem(tr("Mode of recording Window"), tmpConf->GetValueRef("menuRecordingsWindowMode"), 2, windowMode));
     Add(new cMenuEditIntItem(tr("Border around detailed recording view"), tmpConf->GetValueRef("borderDetailedRecordings"), 1, 300));
     Add(new cMenuEditBoolItem(tr("Use folder poster if available"), tmpConf->GetValueRef("useFolderPoster")));
+    Add(new cMenuEditStraItem(tr("File name of manually set recording poster"), tmpConf->GetValueRef("posterFileIndex"), 3, config.listPosterFileNames));
     Add(new cMenuEditIntItem(tr("Width of manually set recording poster"), tmpConf->GetValueRef("posterWidth"), 100, 1000));
     Add(new cMenuEditIntItem(tr("Height of manually set recording poster"), tmpConf->GetValueRef("posterHeight"), 100, 1000));
     Add(new cMenuEditIntItem(tr("Adjust Font Size - Menu Item"), tmpConf->GetValueRef("fontMenuitemRecordings"), -20, 20));

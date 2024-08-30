@@ -21,9 +21,11 @@ public:
     bool LoadRecordingImage(cString Path, int w = 0, int h = 0);
     bool LoadAdditionalRecordingImage(cString path, cString name);
     bool LoadPoster(const char *poster, int width, int height, bool scale = true);
-    bool SearchRecordingPoster(cString recPath, cString &found);
+    bool SearchRecordingPoster(cString recPath, cString &found, bool asFolder = false);
     bool SearchRecordingImage(cString recPath, cString &found);
 private:
+    // parameter 'Extension' to include the separating period for getting
+    // properly stripped off the pathname
     bool FirstImageInFolder(cString Path, cString Extension, cString *recImage);
 };
 

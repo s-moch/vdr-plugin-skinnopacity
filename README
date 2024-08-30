@@ -262,7 +262,7 @@ Customizing, Skin Setup Options
   - Width (Percent of OSD Width): if displayed narrow, width of this menu
 - Use narrow setup menu: display setup menu in narrow or standard style
   - Width (Percent of OSD Width): if displayed narrow, width of this menu
-- Number of entires per page: number of menu items shown per screen
+- Number of entries per page: number of menu items shown per screen
 - Use menu icons: yes/no
 - Main menu title style: way how VDR version in menu header is displayed:
   "VDR" plus VDR version, only VDR version, no title
@@ -287,7 +287,7 @@ Customizing, Skin Setup Options
 
 - Use narrow menu: display menu in narrow or standard style
   - Width (Percent of OSD Width): if displayed narrow, width of this menu
-- Number of entires per page
+- Number of entries per page
 - Mode of EPG Window: "small window" with settings for fade in and scroll speed / delay
   or "full screen" 
 - EPG Window Fade-In Time in ms (Zero for switching off fading)
@@ -335,7 +335,7 @@ Customizing, Skin Setup Options
 
 - Use narrow menu: display menu in narrow or standard style
   - Width (Percent of OSD Width): if displayed narrow, width of this menu
-- Number of entires per page
+- Number of entries per page
 - Mode of recording Window: window / full screen
 - Border around detailed recording view: analogue to "detailed EPG Info"
 - Display additional EPG Pictures in detailed recording View: if set to yes, additional

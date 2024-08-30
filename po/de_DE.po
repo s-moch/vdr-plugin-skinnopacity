@@ -425,7 +425,7 @@ msgstr "Breite (% der OSD-Breite)"
 msgid "Use narrow setup menu"
 msgstr "Schmales Setup-Menü verwenden"
 
-msgid "Number of entires per page"
+msgid "Number of entries per page"
 msgstr "Menüelemente pro Seite"
 
 msgid "Use menu icons"
@@ -568,6 +568,9 @@ msgstr "Rahmen um detaillierte Aufzeichnungsansicht"
 
 msgid "Use folder poster if available"
 msgstr "Zeige Poster für Ordner, falls verfügbar"
+
+msgid "File name of manually set recording poster"
+msgstr "Dateiname der manuell gesetzten Poster"
 
 msgid "Width of manually set recording poster"
 msgstr "Breite der manuell gesetzten Poster"

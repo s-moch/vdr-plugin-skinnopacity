@@ -1072,6 +1072,14 @@ void cNopacityRecordingMenuItem::CreateText() {
         if (!isFolder && Recording->IsEdited()) {
             strRecName = strRecName.substr(1);
         }
+        // determine the file-system location of the recording item
+        std::string fileName = Recording->FileName();
+        size_t tail = isFolder ? tokens.size() - Level : 0;
+        for( size_t i = 0; i < tail; i++ ) {
+            size_t pos = fileName.find_last_of("/");
+            fileName = pos != std::string::npos ? fileName.substr(0, pos) : "";
+        }
+        itemFileName = fileName.c_str();
     } catch (...) {
         strRecName = recName.c_str();
     }
@@ -1083,7 +1091,7 @@ void cNopacityRecordingMenuItem::SetPoster(void) {
     //check first if manually set poster exists
     cString posterFound;
     cImageLoader imgLoader;
-    hasManualPoster = imgLoader.SearchRecordingPoster(Recording->FileName(), posterFound);
+    hasManualPoster = imgLoader.SearchRecordingPoster(itemFileName, posterFound, isFolder);
     if (hasManualPoster)
         manualPosterPath = posterFound;
     //no manually set poster found, check scraper

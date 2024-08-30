@@ -16,6 +16,9 @@ cNopacityConfig::cNopacityConfig() {
     mainMenuEntry = false;
     fontDefaultName = "VDRSymbols Sans:Book";
     fontFixedDefaultName = Setup.FontFix;
+    listPosterFileNames[0] = "poster.jpg";
+    listPosterFileNames[1] = "cover_vdr.jpg";
+    listPosterFileNames[2] = "background.jpg";
     logoExtension = "png";
     LoadDefaults();
 }
@@ -28,9 +31,10 @@ void cNopacityConfig::Init(void) {
     LoadThemeSpecificConfigs();
     SetThemeSpecificDefaults();
     SetThemeSetup();
-    SetPathes();
+    SetPaths();
     SetFontName();
     SetFontFixedName();
+    SetPosterFileName();
 }
 
 int cNopacityConfig::GetValue(std::string name) {
@@ -132,6 +136,7 @@ void cNopacityConfig::LoadDefaults(void) {
     conf.insert(std::pair<std::string, int>("epgImageHeight", 160));
     conf.insert(std::pair<std::string, int>("epgImageWidthLarge", 525));
     conf.insert(std::pair<std::string, int>("epgImageHeightLarge", 400));
+    conf.insert(std::pair<std::string, int>("posterFileIndex", 1));
     conf.insert(std::pair<std::string, int>("posterWidth", 500));
     conf.insert(std::pair<std::string, int>("posterHeight", 750));
     conf.insert(std::pair<std::string, int>("useFolderPoster", 1));
@@ -285,7 +290,19 @@ void cNopacityConfig::SetFontFixedName() {
     }
 }
 
-void cNopacityConfig::SetPathes(void) {
+void cNopacityConfig::SetPosterFileName() {
+    if (posterFileName)
+        free(posterFileName);
+    int fileNames = sizeof( listPosterFileNames ) / sizeof( *listPosterFileNames );
+    int fileIndex = GetValue("posterFileIndex");
+    if (0 < fileIndex && fileIndex < fileNames) {
+        posterFileName = strdup(listPosterFileNames[fileIndex]);
+    } else {
+        posterFileName = strdup(listPosterFileNames[0]);
+    }
+}
+
+void cNopacityConfig::SetPaths(void) {
     logoPathDefault = cString::sprintf("%s/logos/", cPlugin::ResourceDirectory(PLUGIN_NAME_I18N));
     iconPathDefault = cString::sprintf("%s/icons/", cPlugin::ResourceDirectory(PLUGIN_NAME_I18N));
     epgImagePathDefault = cString::sprintf("%s/epgimages/", cPlugin::CacheDirectory(PLUGIN_NAME_I18N));
