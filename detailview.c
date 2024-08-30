@@ -1,4 +1,5 @@
 #include "detailview.h"
+#include <filesystem>
 
 /********************************************************************************************
 * cNopacityView
@@ -1115,30 +1116,50 @@ void cNopacityEPGView::CheckEPGImages(void) {
             }
         }
     } else if (recFileName.size() > 0) {
-        DIR *dirHandle;
-        struct dirent *dirEntry;
-        dirHandle = opendir(recFileName.c_str());
-        int picsFound = 0;
-        if (dirHandle != NULL) {
-            while ( 0 != (dirEntry = readdir(dirHandle))) {
-                if (endswith(dirEntry->d_name, "jpg")) {
-                    std::string fileName = dirEntry->d_name;
-                    if (fileName.length() > 4) {
-                        fileName = fileName.substr(0, fileName.length() - 4);
-                        epgPics.push_back(fileName);
-                        picsFound++;
-                    }
-                }
-                if (picsFound >= config.GetValue("numAdditionalRecEPGPictures")) {
-                    break;
-                }
-            }
-            closedir(dirHandle);
+        CheckImagesInPath(recFileName.c_str());
+        if (epgPics.size() == 0) {
+            // next, search the folder in which the recording resides with its mate recordings;
+            // this could be episodes of a series or a category like "movies"
+            std::filesystem::path path = recFileName + "/../..";
+            CheckImagesInPath(path.lexically_normal().string());
+        }
+        if (epgPics.size() == 0) {
+            // finally, search the next higher folder for a potential category poster, like for
+            // all the series
+            std::filesystem::path path = recFileName + "/../../..";
+            CheckImagesInPath(path.lexically_normal().string());
         }
     } else {
         return;
     }
     numEPGPics = epgPics.size();
+}
+
+int cNopacityEPGView::CheckImagesInPath(std::string path) {
+    DIR *dirHandle;
+    struct dirent *dirEntry;
+    dirHandle = opendir(path.c_str());
+    int picsFound = 0;
+    if (dirHandle != NULL) {
+        while ( 0 != (dirEntry = readdir(dirHandle))) {
+            if (endswith(dirEntry->d_name, "jpg")) {
+                std::string fileName = dirEntry->d_name;
+                if (fileName.length() > 4) {
+                    fileName = fileName.substr(0, fileName.length() - 4);
+                    if (path.empty())
+                        epgPics.push_back(fileName);
+                    else
+                        epgPics.push_back(path + (path[path.length() - 1] != '/' ? "/" : "") + fileName);
+                    picsFound++;
+                }
+            }
+            if (picsFound >= config.GetValue("numAdditionalRecEPGPictures")) {
+                break;
+            }
+        }
+        closedir(dirHandle);
+    }
+    return picsFound;
 }
 
 void cNopacityEPGView::DrawImages(void) {
@@ -1163,8 +1184,9 @@ void cNopacityEPGView::DrawImages(void) {
             }
 
         } else if (recFileName.size() > 0) {
-            std::string path = recFileName + "/";
-            if (imgLoader.LoadAdditionalRecordingImage(path.c_str(), epgPics[pic].c_str())) {
+            // note that a recording's poster image in 'epgPics' already includes the
+            // full pathname, as the poster's path may differ from the recording's path
+            if (imgLoader.LoadAdditionalRecordingImage("", epgPics[pic].c_str())) {
                 drawPic = true;
             }
         }

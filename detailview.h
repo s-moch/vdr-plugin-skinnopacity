@@ -146,6 +146,7 @@ protected:
     void SetTabs(void);
     int DrawHeaderEPGImage(void);
     void CheckEPGImages(void);
+    int CheckImagesInPath(std::string path);
     void DrawImages(void);
 public:    
     cNopacityEPGView(cOsd *osd);

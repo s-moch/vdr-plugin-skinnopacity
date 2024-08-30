@@ -119,6 +119,26 @@ bool cImageLoader::LoadRecordingImage(cString Path, int w, int h) {
         buffer.sample( Geometry(width, height));
         return true;
     }
+    // next, search the folder in which the recording resides with its mate recordings;
+    // this could be episodes of a series or a category like "movies"
+    std::filesystem::path path = *cString::sprintf("%s/../..", *Path);
+    cString altPath = path.lexically_normal().c_str();
+    if (FirstImageInFolder(altPath, ".jpg", &recImage)) {
+        if (!LoadImage(*recImage, *altPath, "jpg"))
+            return false;
+        buffer.sample( Geometry(width, height));
+        return true;
+    }
+    // finally, search the next higher folder for a potential category poster, like for
+    // all the series
+    path = *cString::sprintf("%s/../../..", *Path);
+    altPath = path.lexically_normal().c_str();
+    if (FirstImageInFolder(altPath, ".jpg", &recImage)) {
+        if (!LoadImage(*recImage, *altPath, "jpg"))
+            return false;
+        buffer.sample( Geometry(width, height));
+        return true;
+    }
     return false;
 }
 
@@ -177,6 +197,22 @@ bool cImageLoader::SearchRecordingImage(cString recPath, cString &found) {
     cString manualPoster;
     if (FirstImageInFolder(recPath, ".jpg", &manualPoster)) {
         found = cString::sprintf("%s/%s.jpg", *recPath, *manualPoster);
+        return true;
+    }
+    // next, search the folder in which the recording resides with its mate recordings;
+    // this could be episodes of a series or a category like "movies"
+    std::filesystem::path path = *cString::sprintf("%s/../..", *recPath);
+    cString altPath = path.lexically_normal().c_str();
+    if (FirstImageInFolder(altPath, ".jpg", &manualPoster)) {
+        found = cString::sprintf("%s/%s.jpg", *altPath, *manualPoster);
+        return true;
+    }
+    // finally, search the next higher folder for a potential category poster, like for
+    // all the series
+    path = *cString::sprintf("%s/../../..", *recPath);
+    altPath = path.lexically_normal().c_str();
+    if (FirstImageInFolder(altPath, ".jpg", &manualPoster)) {
+        found = cString::sprintf("%s/%s.jpg", *altPath, *manualPoster);
         return true;
     }
     return false;
