@@ -316,7 +316,7 @@ void cNopacityTextWindow::SetRecording(const cRecording *recording) {
     std::string shortText(info->ShortText() ? info->ShortText() : "");
     if (info->GetEvent()->ParentalRating()) {
         if (shortText.empty()) {
-            shortText += trVDR("ParentalRating$from ");
+            shortText += tr("Parental rating: ");
         } else {
             shortText += " - ";
         }
