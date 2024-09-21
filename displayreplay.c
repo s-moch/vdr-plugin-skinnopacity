@@ -411,6 +411,20 @@ void cNopacityDisplayReplay::SetProgress(int Current, int Total) {
         return;
 
     int barWidth = pixmapProgressBar->ViewPort().Width();
+#if APIVERSNUM >= 30005
+    cProgressBar pb(barWidth - geoManager->replayProgressBarHeight,
+                    geoManager->replayProgressBarHeight - 2,
+                    Current,
+                    Total,
+                    marks,
+                    errors,
+                    Theme.Color(clrReplayProgressSeen),
+                    Theme.Color(clrReplayProgressRest),
+                    Theme.Color(clrReplayProgressSelected),
+                    Theme.Color(clrReplayProgressMark),
+                    Theme.Color(clrReplayProgressCurrent),
+                    Theme.Color(clrReplayProgressError));
+#else
     cProgressBar pb(barWidth - geoManager->replayProgressBarHeight,
                     geoManager->replayProgressBarHeight - 2,
                     Current,
@@ -421,7 +435,7 @@ void cNopacityDisplayReplay::SetProgress(int Current, int Total) {
                     Theme.Color(clrReplayProgressSelected),
                     Theme.Color(clrReplayProgressMark),
                     Theme.Color(clrReplayProgressCurrent));
-
+#endif
     // left ellipse
     pixmapProgressBar->DrawEllipse(cRect(0,
                                          0,

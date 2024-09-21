@@ -23,6 +23,7 @@ clrReplayProgressSeen = DD3F5468
 clrReplayProgressRest = DDBDCED0
 clrReplayProgressSelected = FF000000
 clrReplayProgressMark = FF000000
+clrReplayProgressError = FFFF0000
 clrReplayProgressCurrent = 90FFFFFF
 clrReplayHighlightIcon = FF3F5468
 clrTracksFontHead = FFFFFFFF

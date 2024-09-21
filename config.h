@@ -83,6 +83,7 @@ extern cTheme Theme;
 #define CLR_FONT                0xFFFFFFFF
 #define CLR_FONTINACTIVE        0xFF858585
 #define CLR_FONTDARK            0xFF000000
+#define CLR_FONTERROR           0xFFFF0000
 
 //CHANNELS
 #define CLR_CHANNELPROGRESSBAR  0xFFC6D590
@@ -145,6 +146,7 @@ THEME_CLR(Theme, clrReplayProgressSeen,     CLR_SEEN);
 THEME_CLR(Theme, clrReplayProgressRest,     CLR_REST);
 THEME_CLR(Theme, clrReplayProgressSelected, CLR_FONTDARK);
 THEME_CLR(Theme, clrReplayProgressMark,     CLR_FONTDARK);
+THEME_CLR(Theme, clrReplayProgressError,    CLR_FONTERROR);
 THEME_CLR(Theme, clrReplayProgressCurrent,  CLR_CURRENT);
 THEME_CLR(Theme, clrReplayHighlightIcon,    CLR_TRANSPARENT);
 
