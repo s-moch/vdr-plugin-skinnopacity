@@ -116,7 +116,7 @@ msgstr "Wiederholungen"
 msgid "Recording Information"
 msgstr "Aufzeichnungsinformationen"
 
-msgid "Image Galery"
+msgid "Image Gallery"
 msgstr "Bildergalerie"
 
 msgid "TheTVDB Info"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2024-07-10 12:15+0200\n"
+"POT-Creation-Date: 2024-10-02 15:02+0200\n"
 "PO-Revision-Date: 2013-03-19 22:56+0100\n"
 "Last-Translator: Gabychan <gbonich@gmail.com>\n"
 "Language-Team: \n"
@@ -119,7 +119,7 @@ msgstr ""
 msgid "Recording Information"
 msgstr ""
 
-msgid "Image Galery"
+msgid "Image Gallery"
 msgstr ""
 
 msgid "TheTVDB Info"
@@ -428,7 +428,7 @@ msgstr "Amplada (% amplada OSD)"
 msgid "Use narrow setup menu"
 msgstr "Utilitza configuració limitada"
 
-msgid "Number of entires per page"
+msgid "Number of entries per page"
 msgstr "Nombre d'entrades per pàgina"
 
 msgid "Use menu icons"
@@ -571,6 +571,9 @@ msgstr "Vora al voltant de vista registre detallat"
 
 msgid "Use folder poster if available"
 msgstr "Utilitzeu carpeta cartell si està disponible"
+
+msgid "File name of manually set recording poster"
+msgstr ""
 
 msgid "Width of manually set recording poster"
 msgstr "Ample del cartell de gravació ajustat manualment"

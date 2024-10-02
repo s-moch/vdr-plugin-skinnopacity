@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: vdr-skinnopacity\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2024-07-10 12:15+0200\n"
+"POT-Creation-Date: 2024-10-02 15:02+0200\n"
 "PO-Revision-Date: 2013-11-11 20:52+0100\n"
 "Last-Translator: Milan Hrala <hrala.milan@gmail.com>\n"
 "Language-Team: \n"
@@ -116,7 +116,7 @@ msgstr ""
 msgid "Recording Information"
 msgstr ""
 
-msgid "Image Galery"
+msgid "Image Gallery"
 msgstr ""
 
 msgid "TheTVDB Info"
@@ -425,7 +425,7 @@ msgstr "©írka (Percent z OSD ¹írky)"
 msgid "Use narrow setup menu"
 msgstr "Úzke menu nastavenia"
 
-msgid "Number of entires per page"
+msgid "Number of entries per page"
 msgstr "Poèet polo¾iek na stranu"
 
 msgid "Use menu icons"
@@ -568,6 +568,9 @@ msgstr "Okraj okolo podrobného zobrazenia nahrávky"
 
 msgid "Use folder poster if available"
 msgstr "Pou¾i» zlo¾ku plagát ak je k dispozícii"
+
+msgid "File name of manually set recording poster"
+msgstr ""
 
 msgid "Width of manually set recording poster"
 msgstr "Ruène nastavi» ¹írku plagátov nahrávok"

@@ -1059,7 +1059,7 @@ void cNopacityEPGView::SetTabs(void) {
     else
         tabs.push_back(tr("Recording Information"));
     if (numEPGPics > 0)
-        tabs.push_back(tr("Image Galery"));
+        tabs.push_back(tr("Image Gallery"));
     numTabs = tabs.size();
 }
 
@@ -1240,7 +1240,7 @@ void cNopacitySeriesView::SetTabs(void) {
         tabs.push_back(tr("Recording Information"));
     tabs.push_back(tr("Cast"));
     tabs.push_back(tr("TheTVDB Info"));
-    tabs.push_back(tr("Image Galery"));
+    tabs.push_back(tr("Image Gallery"));
 }
 
 void cNopacitySeriesView::CreateTVDBInfo(void) {
@@ -1476,7 +1476,7 @@ void cNopacityMovieView::SetTabs(void) {
         tabs.push_back(tr("Recording Information"));
     tabs.push_back(tr("Cast"));
     tabs.push_back(tr("TheMovieDB Info"));
-    tabs.push_back(tr("Image Galery"));
+    tabs.push_back(tr("Image Gallery"));
 }
 
 void cNopacityMovieView::CreateMovieDBInfo(void) {
@@ -1584,7 +1584,7 @@ void cNopacityMovieView::DrawImages(void) {
     if (movie.poster.width > 0 && movie.poster.height > 0 && movie.poster.path.size() > 0) {
         totalHeight += movie.poster.height + border;
     }
-    //Collection Popster Height
+    //Collection Poster Height
     if (movie.collectionPoster.width > 0 && movie.collectionPoster.height > 0 && movie.collectionPoster.path.size() > 0) {
         totalHeight += movie.collectionPoster.height + border;
     }
