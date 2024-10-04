@@ -35,7 +35,7 @@ Installation
 ------------
 
 After "normal" Plugin installation you have to care about the paths for the
-used Icons, the channel logos and epg images. The following paths can be set
+used Icons, the channel logos and EPG images. The following paths can be set
 at startup:
 
 -i path, --iconpath=path
@@ -66,7 +66,7 @@ git clone https://github.com/3PO/Senderlogos.git logos
 An update of the logos can then be done with a "git pull" just inside this
 directory.
 
-If directories for channel logos, icons or epg images are set via startup 
+If directories for channel logos, icons or EPG images are set via startup 
 parameters, images are searched first in these directories. If the image
 is not available, an additional search in the according default directory
 will be performed.
@@ -88,7 +88,7 @@ After installation first activate then skin in the VDR OSD menu. nOpacity scales
 every screen resolution, but in lower resolutions than 1920 * 1080 it may be necessary
 to change some default settings for dimensions and font sizes to achieve the best result
 (see "setup options" below). In the folder "screenResSetup" in the plugin source directory
-exemplarily setup options for SD and HDReady resolutions are provided.
+exemplary setup options for SD and HDReady resolutions are provided.
 
 nOpacity respects the OSD settings for OSD top, left, width and height. If these values
 are not set to top&left: 0, width&height: 100, you'll get a border around every displayed
@@ -116,7 +116,7 @@ If no logo is found for the channel name, additionally a search for a logo named
 ChannelID is performed. Analog to the channel name the ChannelID is also converted to lower 
 case letters. This allows channel logos for channels with changing names (for instance
 Sky Feed Channels).
-Additional hint: some channels have slashes in their name (in germany nick/comedy for instance).
+Additional hint: some channels have slashes in their name (in German Nick/Comedy for instance).
 In this example, as a dirty hack just create a folder in your channel logo directory named 
 "nick" and place an image named "comedy.png" inside this folder.
 
@@ -134,7 +134,7 @@ possible color settings are included in <SkinSourceDirectory>/themes/. As alread
 these themes are automatically copied during a "make install" into the VDR themes directory 
 and can be choosed in VDRs OSD setup menu.
 
-The following skin characteristics are theme dependend:
+The following skin characteristics are theme-dependent:
 - theme default configuration
 - theme configuration
 - theme colors
@@ -151,7 +151,7 @@ configuration file (see below). If this value is not provided by the theme desig
 value "blending" is used.
 
 flat style: "basic" skin type with almost no effects, areas are just filled with plain colors
-blended style: skin elemements like menu items are drawn with a main and a blended color which
+blended style: skin elements like menu items are drawn with a main and a blended color which
 are provided via the color theme file, skin elements are drawn with a blended effect.
 graphical style: almost all skin elements are drawn by using dedicated PNG images. These PNGs
 have to be placed in the <themename>/skinElements/ icon directory. See the default theme for 
@@ -160,7 +160,7 @@ examples for this style and the used images.
 Theme specific configuration:
 .............................
 
-Because the "look&feel" of nOpacity is strongly dependend of the choosen setup configuration
+Because the "look&feel" of nOpacity is strongly dependent of the chosen setup configuration
 options.
 
 On the one hand it is possible for the theme designer to provide a dedicated default 
@@ -173,7 +173,7 @@ configuration options and the default values can be checked in the file config.c
 cNopacityConfig::LoadDefaults(void).
 
 On the other hand, all configuration changes done by the user are only valid for the currently 
-choosen theme. That means that every theme has it's individual configuration. If the theme is 
+chosen theme. That means that every theme has it's individual configuration. If the theme is 
 changed via the VDR Setup/OSD Menu, the configuration for this theme is loaded in the following way:
 
 - first the general default settings from cNopacityConfig::LoadDefaults() are used
@@ -225,7 +225,7 @@ Customizing, Skin Setup Options
 
 * VDR menu: Common Settings:
 
-- Create Log Messages for image loading: show log message for each image loading process. Usefull
+- Create Log Messages for image loading: show log message for each image loading process. Useful
   for debugging, but causes many log entries
 - Number of Default Menu Entries: Number of menu items for the default menu view.
 - Adjust Font Size - Default Menu Item
@@ -292,8 +292,8 @@ Customizing, Skin Setup Options
   or "full screen" 
 - EPG Window Fade-In Time in ms (Zero for switching off fading)
 - EPG Window Display Delay in s: period which schedules menu element has to be
-  selected till fade in of epg window starts
-- EPG Window Scroll Delay in s: period which epg window has to be opened till 
+  selected till fade in of EPG window starts
+- EPG Window Scroll Delay in s: period which EPG window has to be opened till 
   window text starts to scroll
 - Height of EPG Info Window (Percent of OSD Height): Height of text window which
   is shown for schedules menu elements
@@ -364,9 +364,9 @@ Customizing, Skin Setup Options
 - Kind of time display for current schedule: elapsed or remaining time
 - Display Source Information: display Channel Source Information (used Satelite)
 - Display Signal Strength & Quality: Set this to Zero if you want to disable the
-  display of signal strength & quality (for instance if your dvb drivers does not
+  display of signal strength & quality (for instance if your DVB drivers does not
   deliver this values)
-- Display Poster or Fanart from TVScraper
+- Display poster or fanart from tvscraper
   - Border in px around poster / fanart
 - Display previous and next Channel Group
 - Adjust Font Size - Header: Font for Channel / Channelgroup Name

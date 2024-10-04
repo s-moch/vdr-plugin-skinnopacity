@@ -52,7 +52,7 @@ Version 1.1.15
 
 - Added a fixed font to detailview (thx to @shofmann at vdr-portal.de)
 - Add support for ImageMagick 7
-- Use ScraperGetPosterBannerV2 insteed of ScraperGetPosterBanner
+- Use ScraperGetPosterBannerV2 instead of ScraperGetPosterBanner
 - Fix error: Array 'nFileSize[1000]' accessed at index -1, which is out of bounds. [negativeIndex]
 - Change maxFiles limit
 - Prevents *magick from occupying the segfaults
@@ -82,9 +82,9 @@ Version 1.1.12
 
 - Add display volume to DisplayMenu, DisplayChannel and DisplayReplay
 - Display number of recordings in recordings main menu
-- Some optical optimitation
+- Some optical optimization
 - Fix segfault when tvscraper returns "call->type = tNone"
-- Fix segfault when selecting invisibile menu items
+- Fix segfault when selecting invisible menu items
 
 Version 1.1.11
 
@@ -113,7 +113,7 @@ Version 1.1.9
 - Add fade-out to Skin
 - Add TS errors to recording info (vdr >= 2.5.5)
 - Add "Use scraper infos, pictures and animation" to setup
-- Add icon fpr UHD/4K
+- Add icon for UHD/4K
 - Rework Setup (The setup menu for this skin now only works if this skin is active)
 - Merge Light version
 - Centers ChannelLogos vertically in the channel menu, timer menu, schedule menu and displaychannel
@@ -130,8 +130,8 @@ Version 1.1.8
 - Cleanup cNopacity::cNopacity(void)
 - Update debug log
 - Cleanup optimized Start()
-- Fix the clock wasn't updated in Displaychannel
-- Elimintae cNopacityMenuItem::SetFont*
+- Fix the clock wasn't updated in displaychannel
+- Eliminate cNopacityMenuItem::SetFont*
 - Fix segfault in cNopacitySetup::~cNopacitySetup()
 
 Version 1.1.7
@@ -186,7 +186,7 @@ Version 1.1.1
 - Fixed a crash if no images exists for a movie
 - Only display poster in detailed EPG View if really available
 - Only display poster in detailed recordings view
-- fixed crash in detailed epg view
+- fixed crash in detailed EPG view
 
 Version 1.1.0
 
@@ -247,8 +247,8 @@ Version 1.0.0
 
 Version 0.1.4
 - changed service interface for tvscraper
-- fixed an possible uninitialised variable in recordings menu
-- fixed a bug that epg info is not displayed in schedules menu if fade
+- fixed an possible uninitialized variable in recordings menu
+- fixed a bug that EPG info is not displayed in schedules menu if fade
   in is set to zero
 - fixed a bug that poster or banner is not displayed in displayChannel
   if fade in is set to zero
@@ -271,28 +271,28 @@ Version 0.1.4
 - Display stereo symbol in displayChannel if at least one mpeg track
   is available (and not two, closes Feature 1404)
 - Added script and background images to create fancy channel logos with
-  theme dependend background
+  theme dependent background
 - searching channel logos first in <logopath>/theme, then in
   <defaltlogopath>/theme, then in <logopath> and finally in <defaultlogopath>
-  to allow theme dependend channel logos
+  to allow theme-dependent channel logos
 - if no channel logo is found for channel name, the ChannelID is used to allow
   logos for (feed) channels with changing names. Analog to the channel name
   the ChannelID is also converted to lower case letters.
-- added exemplarily setup options for SD and HDReady
+- added exemplary setup options for SD and HDReady
 - introduced dedicated theme font colors for different message types and
   different buttons (closes Feature 1462)
 - dedicated theme colors in display channel for current event, current event
-  info, next evet and next event info (closes Feature 1466)
+  info, next event and next event info (closes Feature 1466)
 - dedicated theme colors for timer backgrounds in main menu (closes Feature
   1463)
 - dedicated theme colors for RSS Feed (closes Feature 1485)
 - added event length in header in detailed EPG and recording view (closes
   Feature 1469)
-- added separate configurable border around detailed epg view and detailed
+- added separate configurable border around detailed EPG view and detailed
   recording view
 - new "fullscreen" display mode in narrow schedules and recordings view. If
   fullscreen mode is configured in plugin setup, the right area next to the
-  list of events /recordings is completely used to display immeditately the
+  list of events /recordings is completely used to display immediately the
   detailed information of the selected event / recording.
 - added some rounded corners (if activated in setup) for posters and banners
 - added rounded corners for message display
@@ -325,7 +325,7 @@ Version 0.1.4
   anymore)
 - Removed RSS Feed support completely, maybe this will get a standalone
   plugin in the future
-- Implemented theme dependend configuration. Each theme has now it's own
+- Implemented theme dependent configuration. Each theme has now it's own
   configuration. Default configurations for each theme can be set in the
   appropriate conf/theme-themename.conf file. This file has to be placed
   in <PLGCONFDIR>/themeconfigs. With that each theme can be shipped with
@@ -348,8 +348,8 @@ Version 0.1.4
 - Cleaned up pixmaps in menuitems
 - Avoided font pixelation on default menu items
 - Searching for epgimages named eventID.jpg and eventID_0.jpg in detailed
-  epg view
-- Fixed clearing pixmap in displaychannel if no epg is available
+  EPG view
+- Fixed clearing pixmap in displaychannel if no EPG is available
 - Changed display of channel groups in displaychannel
 - Added configurable transparency for channeldisplay background
 - Added background with dedicated theme color for status icons in
@@ -381,7 +381,7 @@ Version 0.1.4
   uses correct height
 - size of channel logos in main menu timers display configurable as
   percent of timer width
-- Added theme dependend background for status icon in displayreplay
+- Added theme dependent background for status icon in displayreplay
 - Fixed editing of text if text is scrolling (closes Bug 1572)
 - Cutting too long recording name in displayreplay
 - implemented GraphicsMagick compatibility (thanks @Manuel Reimer
@@ -394,7 +394,7 @@ Version 0.1.4
 - Changed Disc Usage Icon for default theme
 - Added logo backgrounds in displaychannel also for blended themes
 - Usage of channel logo background in displaychannel and on
-  menuelements configurable via plugin setup
+  menu elements configurable via plugin setup
 - Fixed a bug that setup values are not stored if theme is changed
 
 Version 0.1.3
@@ -432,12 +432,12 @@ Version 0.1.1
 - Main menu title style configurable
 - Maximum number of timers in main menu configurable
 - Added alternative main menu header icons (thanks @BooStar)
-- Display grapical progress bar in every default style VDR menu, fixed
+- Display graphical progress bar in every default style VDR menu, fixed
   progress bar detection
 - Added Channel Number in Channel Menu
 - Improved display of non selectable header lines in default menus
-- Added italian translation
-- Restructured icons directory. Now different directories in main icon
+- Added Italian translation
+- Restructured icons directory; now different directories in main icon
   directory and theme specific icon directories are used:
   - skinIcons: all directly skin related icons
   - menuIcons: all standard icons for main and setup menu
@@ -449,7 +449,7 @@ Version 0.1.1
 - time display for current schedule in channel display configurable
   (elapsed / remaining)
 - fixed a bug that extraIcons directory was not used
-- added background pixmaps for main menu timers and epg info window
+- added background pixmaps for main menu timers and EPG info window
   to avoid nasty font pixelation effect
 - changed tracks display to fixed track item height
 - changed stereo and ac3 icons in tracks display
@@ -489,14 +489,14 @@ Version 0.1.0:
   plugin setup
 - trying to load channel separator icon. It has to be named as the channel
   separator in low letters. If no icon is found, a generic icon is used.
-- if rounded corners for menuitems are used, also epg images are drawn with
+- if rounded corners for menuitems are used, also EPG images are drawn with
   rounded corners with the same corner radius
 - Changed plugin icons filename for loading icons in main menu, plugin name
   is now used
 - Restructured Setup Menü
 - Position of channel logos in channel display now configurable. Possible
   values are left (default), right and none. If value is set to none, the
-  comlete screen width is used for channel display.
+  complete screen width is used for channel display.
 - Updated README
 - Added more plugin icons (thanks @BooStar)
 - Added Slovak translation
@@ -505,25 +505,25 @@ Version 0.1.0:
 
 - Introduced new narrow displayed Recordings menu
 - Fixed displaying configurable color buttons
-- Fixed some nullpointer accesses in Schedules Menus
+- Fixed some null-pointer accesses in Schedules Menus
 - Improved cutting of scrolled text
 - Added Separator Items for Schedule Menus
 - Adapted video scaling to new implementation (thanks @Zoolook for the patch)
-- Fixed showing current show as rerun in epg detail view
+- Fixed showing current show as rerun in EPG detail view
 - Added some recording information (channel, size, cutted size, format,
-  est. bitrate) in detailed recording view
+  est. bit rate) in detailed recording view
 - Added channel logos in main menu timers list
 - Changed channel info icons in DisplayChannel
 - Fixed a possible division by zero in DisplayChannel
 - Fixed a segfault with newer ImageMagick Versions
 - Added display of Timer Conflicts with epgsearch in Main Menu
-- Changed makefile to work also with newer ImageMagick versions
+- Changed Makefile to work also with newer ImageMagick versions
 - Introduced Theme specific icons. These icons have to be placed
   in a subdirectory in icons directory, this subdirectory has to
   be named exactly as the theme (without "nOpacity-").
 - Added Theme "green" and appropriate icons
-- Added displaying of additional EPG images in detailed EPG view. The epg
-  images have to be stored as EventID_number.jpg (as some external epg
+- Added displaying of additional EPG images in detailed EPG view. The EPG
+  images have to be stored as EventID_number.jpg (as some external EPG
   plugins do). Whether additional images should be displayed in general is
   configurable, just as the number of images to display.
 - Changed Disc Usage Info display, size individually configurable
@@ -538,19 +538,19 @@ Version 0.1.0:
 - VDR version 1.7.34 mandatory
 - Introducing of scrolling in menu elements if text is longer than
   available space
-- displaying first found jpeg in recordings folder as epg image for this
+- displaying first found .jpg in recordings folder as EPG image for this
   recording in recording detail view
 - Configurable display of disc usage and timers in main menu
 - yaepg patch no longer needed to scale video window, using native VDR
   functionality now (thanks @Zoolook for providing the new code)
 - Complete rewrite of menu category detection by using the eMenuCategory
   enumeration integrated in VDR 1.7.31 - 34
-- Usage of new VDR interfaces SetItemsEvent(), SetItemsChannels for dispalying
+- Usage of new VDR interfaces SetItemsEvent(), SetItemsChannels for displaying
   Schedules menus and Channel menus
   See README explaining consequences of this changes
 - Displaying of detailed EPG information directly in schedules views in a
   separate window if according menu item is selected a specific configurable time
-- Some Improvements in menu element scrolling behaviour (suggeted by Taipan)
+- Some Improvements in menu element scrolling behavior (suggested by Taipan)
 - Using narrow menu items in "Settings" category (thanks @BooStar for providing
   the new icons)
 - Split of skins VDR menu configuration section in "Common", "Geometry" and "Fonts"
@@ -566,11 +566,11 @@ Version 0.1.0:
 - Display of reruns of shows in detailed EPG view using epgseach.
 - completely rewrote epgsearch handling in schedules views (see README for
   more information about epgsearch integration)
-- Fixed "fade in" bug, cancelling threads correctly (Thanks to everybody who
+- Fixed "fade in" bug, canceling threads correctly (Thanks to everybody who
   was involved)
-- Fixed a crash when trying to access channel name in epg detail view
+- Fixed a crash when trying to access channel name in EPG detail view
 - Fixed a crash when changing values in setup menu
-- Fixed a crash when opening and closing epg menus
+- Fixed a crash when opening and closing EPG menus
 - Fixed a bug to only use epgsearchmenu.conf if lines for all possible
   menus are set
 
@@ -584,12 +584,12 @@ Version 0.1.0:
 - Fixed a bug that VDR crashes if channels named "." where shown in
   Channels menu
 - Fixed a bug that display for jumping in recordings was not shown
-- Changed default path for channel logos, icons and epg images. FHS standard
+- Changed default path for channel logos, icons and EPG images. FHS standard
   introduced in VDR 1.7.30 is used.
   channel logos: {ResourceDirectory}/logos/
   icons:                 {ResourceDirectory}/icons/
-  epg images:    {CacheDirectory}/epgimages/
-- If directories for channel logos, icons or epg images are set via startup
+  EPG images:    {CacheDirectory}/epgimages/
+- If directories for channel logos, icons or EPG images are set via startup
   parameters, images are searched first in these directories. If the image
   is not available, an additional search in the according default directory
   will be performed.
@@ -598,7 +598,7 @@ Version 0.1.0:
 - rewrote column width handling so that for calculating the width of a column
   the actually used font size is used.
 - if the width of the text in a column in a default menu is lager than the
-  width of the column itself, the text is cutted to an appropriate width.
+  width of the column itself, the text is cut to an appropriate width.
 - implemented cSkin::GetTextAreaWidth() and cSkin::GetTextAreaFont()
 - added patch that scales video display into the visible frame
   if a narrow menu is displayed. Thanks @Zoolook for providing this patch.
