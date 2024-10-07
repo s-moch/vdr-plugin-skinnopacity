@@ -1,5 +1,11 @@
 VDR Plugin 'nOpacity' Revision History
 ---------------------------------------
+Version 1.1.19
+
+- Extended search of manual posters (recording details)
+- Fixed wrong display of parental rating without subtitle
+- Fix some typos (thx to @shofmann at vdr-portal.de)
+
 Version 1.1.18
 
 - Update "Display scroll bar also if content is not scrollable"

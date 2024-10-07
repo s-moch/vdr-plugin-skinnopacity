@@ -16,7 +16,7 @@
 #error "VDR-1.7.34 API version or greater is required!"
 #endif
 
-static const char *VERSION        = "1.1.18";
+static const char *VERSION        = "1.1.19-Beta";
 static const char *DESCRIPTION    = "'nOpacity' Skin";
 static const char *MAINMENUENTRY  = "nOpacity";
 
