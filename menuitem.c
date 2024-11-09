@@ -1237,7 +1237,7 @@ void cNopacityRecordingMenuItem::DrawRecDateTime(void) {
             time_t start = Recording->Start();
             line2 = cString::sprintf("%s %s", *DateString(start), *TimeString(start));
         } else {
-            line2 = cString::sprintf("%s - %s", strDate.c_str(), *strTime);
+            line2 = cString::sprintf("%s %s", strDate.c_str(), *strTime);
         }
 
         // Display duration of the event in line 2
