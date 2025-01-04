@@ -384,11 +384,11 @@ void cNopacityTextWindow::DrawTextWrapperFloat(const char *text, int widthSmall,
                 wrapper.Set((flds[i].c_str()), font, widthSmall);
                 int newLines = wrapper.Lines();
                 //check if wrapper fits completely into narrow area
-                if (linesDrawn + newLines < numLinesNarrow) {
+                if (linesDrawn + newLines <= numLinesNarrow) {
                     y = DrawTextWrapper(flds[i].c_str(), widthSmall, y, x, font, color, maxHeight);
-                    linesDrawn += newLines;
+                    drawNarrow = (linesDrawn += newLines) < numLinesNarrow;
                 } else {
-                    //this wrapper has to be splitted
+                    //this wrapper has to be split
                     std::stringstream sstrTextTall;
                     std::stringstream sstrTextFull;
                     for (int line = 0; line < wrapper.Lines(); line++) {
