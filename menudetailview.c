@@ -338,10 +338,12 @@ std::string cNopacityDetailView::LoadRecordingInformation(void) {
 
     std::stringstream sstrInfo;
 
+    {
     LOCK_CHANNELS_READ;
     const cChannel *channel = Channels->GetByChannelID(Info->ChannelID());
     if (channel)
         sstrInfo << trVDR("Channel") << ": " << channel->Number() << " - " << channel->Name() << std::endl;
+    } // LOCK_CHANNELS_READ
     if (nRecSize < 0) {
         if ((nRecSize = ReadSizeVdr(rec->FileName())) < 0) {
             nRecSize = DirSizeMB(rec->FileName());
