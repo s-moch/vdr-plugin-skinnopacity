@@ -7,6 +7,9 @@
 
 class cNopacityMenuItem : public cThread {
 protected:
+#if APIVERSNUM < 30012
+    tColor clrTranslucent = 0x00000001;
+#endif
     cOsd *osd;
     cPixmap *pixmapBackground = NULL;
     cPixmap *pixmapStatic = NULL;
@@ -181,7 +184,7 @@ private:
     void SetTextRecording(bool full = false);
     void DrawRecordingIcons(void);
     void DrawFolderIcon(void);
-    void DrawRecDateTime(void);
+    void DrawRecDateTime(int textWidth = 0);
     void DrawFolderNewSeen(void);
     void DrawPoster(void);
     int CheckScrollable(int maxwidth = 0);

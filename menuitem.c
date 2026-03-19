@@ -1196,7 +1196,7 @@ void cNopacityRecordingMenuItem::DrawFolderIcon(void) {
     }
 }
 
-void cNopacityRecordingMenuItem::DrawRecDateTime(void) {
+void cNopacityRecordingMenuItem::DrawRecDateTime(int textWidth) {
     if (!pixmapStatic)
         return;
 
@@ -1271,11 +1271,11 @@ void cNopacityRecordingMenuItem::DrawRecDateTime(void) {
         textHeight = 2 * height / 3 + (height / 3 - fontSmall->Height()) / 2;
 
     if (config.GetValue("menuRecordingsShowLine2")) {
-        pixmapStatic->DrawText(cPoint(textleft, textHeight), *line2, clrFont, clrTransparent, fontSmall);
+        pixmapStatic->DrawText(cPoint(textleft, textHeight), *line2, clrFont, clrTranslucent, fontSmall, textWidth);
         textHeight += height / 4;
     }
     if (config.GetValue("menuRecordingsShowLine3")) {
-        pixmapStatic->DrawText(cPoint(textleft, textHeight), *line3, clrFont, clrTransparent, fontSmall);
+        pixmapStatic->DrawText(cPoint(textleft, textHeight), *line3, clrFont, clrTranslucent, fontSmall, textWidth);
     }
 }
 
@@ -1324,8 +1324,8 @@ void cNopacityRecordingMenuItem::Render(bool initial, bool fadeout) {
         DrawFolderNewSeen();
     } else {
         DrawPoster();
-        DrawRecDateTime();
         DrawRecordingIcons();
+        DrawRecDateTime(width - textLeft - iconwidth - 2 * spaceMenu);
     }
     if (!drawn) {
         int pixmapWidth = width - textLeft - iconwidth - 2 * spaceMenu;
