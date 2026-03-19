@@ -1335,11 +1335,12 @@ void cNopacityRecordingMenuItem::Render(bool initial, bool fadeout) {
         drawn = true;
     }
     if (selectable) {
-        if (!Running())
+        if (!Running()) {
             SetText();
-        if (config.GetValue("animation") && config.GetValue("menuScrollSpeed")) {
-            if (current && scrollable && !Running())
-                Start();
+            if (config.GetValue("animation") && config.GetValue("menuScrollSpeed")) {
+                if (current && scrollable)
+                    Start();
+            }
         }
         if (pixmapTextScroller && wasCurrent && !current && scrollable && Running()) {
             pixmapTextScroller->SetDrawPortPoint(cPoint(0, 0));
@@ -1347,12 +1348,12 @@ void cNopacityRecordingMenuItem::Render(bool initial, bool fadeout) {
             Cancel(-1);
         }
         if (!isFolder) {
-            if (wasCurrent)
+            if (current != wasCurrent)
                 if (infoTextWindow) {
                     delete infoTextWindow;
                     infoTextWindow = NULL;
                 }
-            if (current) {
+            if (current && !infoTextWindow) {
                 if (config.GetValue("menuRecordingsWindowMode") == 0) {
                   if (config.GetValue("animation") && !fadeout) {
                     //window mode
