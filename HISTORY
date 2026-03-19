@@ -1,5 +1,14 @@
 VDR Plugin 'nOpacity' Revision History
 ---------------------------------------
+Version 1.1.20
+- Fix displaying unnecessary empty line (thx to @shofmann at vdr-portal.de)
+- Update Locking
+- Add some missing icons
+- Fix typo
+- Clear recmenuitem text background before update
+- Create a new infoTextWindow only if it does not already exist
+- Add MenuCategory "mcRecordingDel"
+
 Version 1.1.19
 
 - Extended search of manual posters (recording details)
