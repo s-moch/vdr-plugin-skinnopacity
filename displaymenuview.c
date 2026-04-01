@@ -102,6 +102,9 @@ cRect *cNopacityDisplayMenuView::GetDescriptionTextWindowSize(eMenuCategory menu
         case mcSchedule:
             return &textWindowSizeSchedules;
         case mcRecording:
+#if APIVERSNUM >= 30012
+        case mcRecordingDel:
+#endif
             return &textWindowSizeRecordings;
         case mcChannel:
             return &textWindowSizeChannels;
@@ -143,6 +146,9 @@ int cNopacityDisplayMenuView::GetContentWidth(eMenuCategory menuCat) {
             else
                 return geoManager->menuContentWidthFull;
         case mcRecording:
+#if APIVERSNUM >= 30012
+        case mcRecordingDel:
+#endif
             if (config.GetValue("narrowRecordingMenu"))
                 return geoManager->menuContentWidthRecordings;
             else
@@ -244,6 +250,9 @@ void cNopacityDisplayMenuView::GetMenuItemSize(eMenuCategory menuCat, cPoint *it
             itemHeight = geoManager->menuItemHeightSchedule;
             break;
         case mcRecording:
+#if APIVERSNUM >= 30012
+        case mcRecordingDel:
+#endif
             itemWidth = geoManager->menuItemWidthRecording;
             itemHeight = geoManager->menuItemHeightRecordings;
             break;
@@ -453,6 +462,9 @@ int cNopacityDisplayMenuView::DrawHeaderIcon(eMenuCategory menuCat, bool initial
             icon = "menuIcons/Timers";
             break;
         case mcRecording:
+#if APIVERSNUM >= 30012
+        case mcRecordingDel:
+#endif
             icon = "menuIcons/Recordings";
             break;
         case mcSetup:

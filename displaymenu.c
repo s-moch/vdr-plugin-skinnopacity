@@ -198,6 +198,9 @@ int cNopacityDisplayMenu::MaxItems(void) {
                 maxItems = config.GetValue("numDefaultMenuItems");
             break;
         case mcRecording:
+#if APIVERSNUM >= 30012
+	case mcRecordingDel:
+#endif
             if (config.GetValue("narrowRecordingMenu")) {
                 maxItems = config.GetValue("numRecordingsMenuItems");
                 useNarrowMenu = true;
@@ -231,25 +234,28 @@ void cNopacityDisplayMenu::SetMenuCategory(eMenuCategory MenuCategory) {
       7  mcTimer,
       8  mcTimerEdit,
       9  mcRecording,
-      10 mcRecordingInfo,
-      11 mcRecordingEdit,
-      12 mcPlugin,
-      13 mcPluginSetup,
-      14 mcSetup,
-      15 mcSetupOsd,
-      16 mcSetupEpg,
-      17 mcSetupDvb,
-      18 mcSetupLnb,
-      19 mcSetupCam,
-      20 mcSetupRecord,
-      21 mcSetupReplay,
-      22 mcSetupMisc,
-      23 mcSetupPlugins,
-      24 mcCommand,
-      25 mcEvent,
-      26 mcText,
-      27 mcFolder,
-      28 mcCam
+#if APIVERSNUM >= 30012
+      10 mcRecordingDel,
+#endif
+      11 mcRecordingInfo,
+      12 mcRecordingEdit,
+      13 mcPlugin,
+      14 mcPluginSetup,
+      15 mcSetup,
+      16 mcSetupOsd,
+      17 mcSetupEpg,
+      18 mcSetupDvb,
+      19 mcSetupLnb,
+      20 mcSetupCam,
+      21 mcSetupRecord,
+      22 mcSetupReplay,
+      23 mcSetupMisc,
+      24 mcSetupPlugins,
+      25 mcCommand,
+      26 mcEvent,
+      27 mcText,
+      28 mcFolder,
+      29 mcCam
       */
     menuCategoryLast = this->MenuCategory();
     cSkinDisplayMenu::SetMenuCategory(MenuCategory);
@@ -458,7 +464,12 @@ bool cNopacityDisplayMenu::SetItemRecording(const cRecording *Recording, int Ind
         menuView->GetMenuItemSize(MenuCategory(), &itemSize);
         int spaceTop = menuView->GetMenuTop(currentNumItems, itemSize.Y());
         item->SetGeometry(Index, spaceTop, menuView->GetMenuItemLeft(itemSize.X()), itemSize.X(), itemSize.Y(), geoManager->menuSpace);
-        item->SetTextWindow(menuView->GetDescriptionTextWindowSize(mcRecording));
+#if APIVERSNUM >= 30012
+	if (MenuCategory() == mcRecordingDel)
+            item->SetTextWindow(menuView->GetDescriptionTextWindowSize(mcRecordingDel));
+        else
+#endif
+            item->SetTextWindow(menuView->GetDescriptionTextWindowSize(mcRecording));
         item->SetCurrent(Current);
         item->CreateText();
         item->SetPoster();
