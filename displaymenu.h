@@ -19,7 +19,7 @@ private:
     bool useNarrowMenu = false;
     bool fadeout;
     bool initial;
-    bool deatailViewRenderDone = false;
+    bool detailViewRenderDone = false;
     bool diskUsageDrawn;
     int countRecordings = 0;
     int lastDiskUsageState;

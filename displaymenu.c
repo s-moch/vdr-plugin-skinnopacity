@@ -600,7 +600,7 @@ void cNopacityDisplayMenu::SetEvent(const cEvent *Event) {
         return;
     menuView->AdjustContentBackground(this->MenuCategory(), menuCategoryLast, videoWindowRect);
     detailView = new cNopacityDetailView(osd, Event, menuView->GetPixmapScrollbar(), menuView->GetPixmapScrollbarBack());
-    deatailViewRenderDone = false;
+    detailViewRenderDone = false;
 }
 
 void cNopacityDisplayMenu::SetRecording(const cRecording *Recording) {
@@ -612,7 +612,7 @@ void cNopacityDisplayMenu::SetRecording(const cRecording *Recording) {
     }
     menuView->AdjustContentBackground(this->MenuCategory(), menuCategoryLast, videoWindowRect);
     detailView = new cNopacityDetailView(osd, Recording, menuView->GetPixmapScrollbar(), menuView->GetPixmapScrollbarBack());
-    deatailViewRenderDone = false;
+    detailViewRenderDone = false;
 }
 
 void cNopacityDisplayMenu::SetText(const char *Text, bool FixedFont) {
@@ -620,7 +620,7 @@ void cNopacityDisplayMenu::SetText(const char *Text, bool FixedFont) {
         return;
     menuView->AdjustContentBackground(this->MenuCategory(), menuCategoryLast, videoWindowRect);
     detailView = new cNopacityDetailView(osd, Text, menuView->GetPixmapScrollbar(), menuView->GetPixmapScrollbarBack(), FixedFont);
-    deatailViewRenderDone = false;
+    detailViewRenderDone = false;
 }
 
 void cNopacityDisplayMenu::SetAlpha(int Alpha, bool Force) {
@@ -642,9 +642,9 @@ void cNopacityDisplayMenu::Flush(void) {
     if (Running())
         return;
 
-    if (detailView && !deatailViewRenderDone) {
+    if (detailView && !detailViewRenderDone) {
         detailView->Render();
-        deatailViewRenderDone = true;
+        detailViewRenderDone = true;
     }
     menuView->DrawDate(initial);
     if (MenuCategory() == mcMain) {
