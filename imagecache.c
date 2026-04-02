@@ -131,6 +131,8 @@ cImage *cImageCache::GetLogo(eCacheType type, const cChannel *channel) {
         cache = &logoMenuItemCache;
     else if (type == ctLogoTimer)
         cache = &logoTimerCache;
+    else
+        return NULL;
 
     if (cache->empty())
         return NULL;
