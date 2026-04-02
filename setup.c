@@ -107,6 +107,8 @@ void cNopacitySetup::Store(void) {
     if (!isNopacity)
         return;
     const char *themeName = Skins.Current()->Theme()->Name();
+    if (!themeName)
+        return;
     for(std::map<std::string, int>::const_iterator it = tmpConf.GetStart(); it != tmpConf.GetEnd(); it++) {
         std::string name = (std::string)it->first;
         int value = (int)it->second;
