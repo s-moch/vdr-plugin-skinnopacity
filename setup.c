@@ -39,6 +39,7 @@ cNopacitySetup::~cNopacitySetup(void) {
 void cNopacitySetup::Setup(void) {
     int currentItem = Current();
     Clear();
+
     Add(new cMenuEditStraItem(tr("Font"), tmpConf.GetValueRef("fontIndex"), fontNames.Size(), &fontNames[0]));
     Add(new cMenuEditStraItem(tr("Fixed font"), tmpConf.GetValueRef("fontFixedIndex"), fontFixedNames.Size(), &fontFixedNames[0]));
     Add(new cMenuEditBoolItem(tr("Create Log Messages for image loading"), tmpConf.GetValueRef("debugImageLoading")));
@@ -47,58 +48,62 @@ void cNopacitySetup::Setup(void) {
     Add(new cMenuEditBoolItem(tr("Use tabs in detail view"), tmpConf.GetValueRef("tabsInDetailView")));
     Add(new cMenuEditBoolItem(tr("Display duration in hours"), tmpConf.GetValueRef("durationInHours")));
     Add(new cOsdItem("",  osUnknown, false));
-    Add(new cOsdItem(tr("VDR Menu: Common Settings")));
-    Add(new cOsdItem(tr("VDR Menu: Main and Setup Menu")));
-    Add(new cOsdItem(tr("VDR Menu: Schedules Menu")));
-    Add(new cOsdItem(tr("VDR Menu: Channels Menu")));
-    Add(new cOsdItem(tr("VDR Menu: Timers Menu")));
-    Add(new cOsdItem(tr("VDR Menu: Recordings Menu")));
-    Add(new cOsdItem(tr("VDR Menu: Detailed EPG & Recordings View")));
-    Add(new cOsdItem(tr("Channel Switching")));
-    Add(new cOsdItem(tr("Replay")));
-    Add(new cOsdItem(tr("Audio Tracks")));
-    Add(new cOsdItem(tr("Messages")));
+    Add(new cOsdItem(hk(tr("VDR Menu: Common Settings")), osUser1));
+    Add(new cOsdItem(hk(tr("VDR Menu: Main and Setup Menu")), osUser2));
+    Add(new cOsdItem(hk(tr("VDR Menu: Schedules Menu")), osUser3));
+    Add(new cOsdItem(hk(tr("VDR Menu: Channels Menu")), osUser4));
+    Add(new cOsdItem(hk(tr("VDR Menu: Timers Menu")), osUser5));
+    Add(new cOsdItem(hk(tr("VDR Menu: Recordings Menu")), osUser6));
+    Add(new cOsdItem(hk(tr("VDR Menu: Detailed EPG & Recordings View")), osUser7));
+    Add(new cOsdItem(hk(tr("Channel Switching")), osUser8));
+    Add(new cOsdItem(hk(tr("Replay")), osUser9));
+    Add(new cOsdItem(hk(tr("Audio Tracks")), osUser10));
+    Add(new cOsdItem(hk(tr("Messages")), osUser11));
+#if (APIVERSNUM > 30012)
+    Add(new cOsdItem(hk(tr("Volume")), osUser12));
+    Add(new cOsdItem(hk(tr("Image Caching")), osUser13));
+#else
     Add(new cOsdItem(tr("Volume")));
     Add(new cOsdItem(tr("Image Caching")));
+#endif
+
     SetCurrent(Get(currentItem));
     Display();
 }
 
 eOSState cNopacitySetup::ProcessKey(eKeys Key) {
-    bool hadSubMenu = HasSubMenu();
-    eOSState state = cMenuSetupPage::ProcessKey(Key);
-    if (hadSubMenu && Key == kOk)
+    eOSState state = cOsdMenu::ProcessKey(Key);
+    if (HasSubMenu() && Key == kOk)
         Store();
-    if (!hadSubMenu && (state == osUnknown || Key == kOk)) {
-        if ((Key == kOk && !hadSubMenu)) {
-            const char* ItemText = Get(Current())->Text();
-            if (strcmp(ItemText, tr("VDR Menu: Common Settings")) == 0)
-                state = AddSubMenu(new cNopacitySetupMenuDisplay(&tmpConf));
-            if (strcmp(ItemText, tr("VDR Menu: Main and Setup Menu")) == 0)
-                state = AddSubMenu(new cNopacitySetupMenuDisplayMain(&tmpConf));
-            if (strcmp(ItemText, tr("VDR Menu: Schedules Menu")) == 0)
-                state = AddSubMenu(new cNopacitySetupMenuDisplaySchedules(&tmpConf));
-            if (strcmp(ItemText, tr("VDR Menu: Channels Menu")) == 0)
-                state = AddSubMenu(new cNopacitySetupMenuDisplayChannels(&tmpConf));
-            if (strcmp(ItemText, tr("VDR Menu: Timers Menu")) == 0)
-                state = AddSubMenu(new cNopacitySetupMenuDisplayTimers(&tmpConf));
-            if (strcmp(ItemText, tr("VDR Menu: Recordings Menu")) == 0)
-                state = AddSubMenu(new cNopacitySetupMenuDisplayRecordings(&tmpConf));
-            if (strcmp(ItemText, tr("VDR Menu: Detailed EPG & Recordings View")) == 0)
-                state = AddSubMenu(new cNopacitySetupDetailedView(&tmpConf));
-            if (strcmp(ItemText, tr("Channel Switching")) == 0)
-                state = AddSubMenu(new cNopacitySetupChannelDisplay(&tmpConf));
-            if (strcmp(ItemText, tr("Replay")) == 0)
-                state = AddSubMenu(new cNopacitySetupReplayDisplay(&tmpConf));
-            if (strcmp(ItemText, tr("Audio Tracks")) == 0)
-                state = AddSubMenu(new cNopacitySetupTrackDisplay(&tmpConf));
-            if (strcmp(ItemText, tr("Messages")) == 0)
-                state = AddSubMenu(new cNopacitySetupMessageDisplay(&tmpConf));
-            if (strcmp(ItemText, tr("Volume")) == 0)
-                state = AddSubMenu(new cNopacitySetupVolumeDisplay(&tmpConf));
-            if (strcmp(ItemText, tr("Image Caching")) == 0)
-                state = AddSubMenu(new cNopacitySetupCaching(&tmpConf));
-        }
+
+    switch (state) {
+        case osUser1:  return AddSubMenu(new cNopacitySetupMenuDisplay(&tmpConf));
+        case osUser2:  return AddSubMenu(new cNopacitySetupMenuDisplayMain(&tmpConf));
+        case osUser3:  return AddSubMenu(new cNopacitySetupMenuDisplaySchedules(&tmpConf));
+        case osUser4:  return AddSubMenu(new cNopacitySetupMenuDisplayChannels(&tmpConf));
+        case osUser5:  return AddSubMenu(new cNopacitySetupMenuDisplayTimers(&tmpConf));
+        case osUser6:  return AddSubMenu(new cNopacitySetupMenuDisplayRecordings(&tmpConf));
+        case osUser7:  return AddSubMenu(new cNopacitySetupDetailedView(&tmpConf));
+        case osUser8:  return AddSubMenu(new cNopacitySetupChannelDisplay(&tmpConf));
+        case osUser9:  return AddSubMenu(new cNopacitySetupReplayDisplay(&tmpConf));
+        case osUser10: return AddSubMenu(new cNopacitySetupTrackDisplay(&tmpConf));
+        case osUser11: return AddSubMenu(new cNopacitySetupMessageDisplay(&tmpConf));
+#if (APIVERSNUM > 30012)
+        case osUser12: return AddSubMenu(new cNopacitySetupVolumeDisplay(&tmpConf));
+        case osUser13: return AddSubMenu(new cNopacitySetupCaching(&tmpConf));
+        default: ;
+#else
+        default:
+            if (!HasSubMenu() && (state == osUnknown || Key == kOk)) {
+                if ((Key == kOk && !HasSubMenu())) {
+                    const char* ItemText = Get(Current())->Text();
+                    if (strcmp(ItemText, tr("Volume")) == 0)
+                        state = AddSubMenu(new cNopacitySetupVolumeDisplay(&tmpConf));
+                    if (strcmp(ItemText, tr("Image Caching")) == 0)
+                        state = AddSubMenu(new cNopacitySetupCaching(&tmpConf));
+                }
+            };
+#endif
     }
     return state;
 }
