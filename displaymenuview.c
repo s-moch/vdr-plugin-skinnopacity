@@ -278,13 +278,17 @@ int cNopacityDisplayMenuView::GetMenuItemLeft(int itemWidth) {
 void cNopacityDisplayMenuView::SetTabs(int Tab1, int Tab2, int Tab3, int Tab4, int Tab5) {
     int factor = fontManager->menuItemDefault->Width("x") + 3;
     mytabs[0] = 1;
-    mytabs[1] = Tab1 ? mytabs[0] + Tab1 : 0;
-    mytabs[2] = Tab2 ? mytabs[1] + Tab2 : 0;
-    mytabs[3] = Tab3 ? mytabs[2] + Tab3 : 0;
-    mytabs[4] = Tab4 ? mytabs[3] + Tab4 : 0;
-    mytabs[5] = Tab5 ? mytabs[4] + Tab5 : 0;
-    for (int i = 1; i < cSkinDisplayMenu::MaxTabs; i++)
-        mytabs[i] *= factor;
+    mytabs[1] = Tab1;
+    mytabs[2] = Tab2;
+    mytabs[3] = Tab3;
+    mytabs[4] = Tab4;
+    mytabs[5] = Tab5;
+    for (int i = 1; i < cSkinDisplayMenu::MaxTabs; i++) {
+        if (mytabs[i]) {
+           mytabs[i] *= (mytabs[i] < 0) ? -1 : factor;
+           mytabs[i] += mytabs[i - 1];
+        }
+    }
 }
 
 int cNopacityDisplayMenuView::GetEditableWidth(void) {

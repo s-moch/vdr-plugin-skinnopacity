@@ -568,6 +568,7 @@ int cNopacityDisplayMenu::Tab(int n) {
 }
 
 void cNopacityDisplayMenu::SetTabs(int Tab1, int Tab2, int Tab3, int Tab4, int Tab5) {
+    cSkinDisplayMenu::SetTabs(Tab1, Tab2, Tab3, Tab4, Tab5);
     menuView->SetTabs(Tab1, Tab2, Tab3, Tab4, Tab5);
 }
 
