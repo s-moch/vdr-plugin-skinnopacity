@@ -58,11 +58,12 @@ void cNopacitySetup::Setup(void) {
     Add(new cOsdItem(hk(tr("Channel Switching")), osUser8));
     Add(new cOsdItem(hk(tr("Replay")), osUser9));
     Add(new cOsdItem(hk(tr("Audio Tracks")), osUser10));
-    Add(new cOsdItem(hk(tr("Messages")), osUser11));
 #if (APIVERSNUM > 30012)
+    Add(new cOsdItem(hk(tr("Messages")), osUser11));
     Add(new cOsdItem(hk(tr("Volume")), osUser12));
     Add(new cOsdItem(hk(tr("Image Caching")), osUser13));
 #else
+    Add(new cOsdItem(tr("Messages")));
     Add(new cOsdItem(tr("Volume")));
     Add(new cOsdItem(tr("Image Caching")));
 #endif
@@ -87,8 +88,8 @@ eOSState cNopacitySetup::ProcessKey(eKeys Key) {
         case osUser8:  return AddSubMenu(new cNopacitySetupChannelDisplay(&tmpConf));
         case osUser9:  return AddSubMenu(new cNopacitySetupReplayDisplay(&tmpConf));
         case osUser10: return AddSubMenu(new cNopacitySetupTrackDisplay(&tmpConf));
-        case osUser11: return AddSubMenu(new cNopacitySetupMessageDisplay(&tmpConf));
 #if (APIVERSNUM > 30012)
+        case osUser11: return AddSubMenu(new cNopacitySetupMessageDisplay(&tmpConf));
         case osUser12: return AddSubMenu(new cNopacitySetupVolumeDisplay(&tmpConf));
         case osUser13: return AddSubMenu(new cNopacitySetupCaching(&tmpConf));
         default: ;
@@ -97,6 +98,8 @@ eOSState cNopacitySetup::ProcessKey(eKeys Key) {
             if (!HasSubMenu() && (state == osUnknown || Key == kOk)) {
                 if ((Key == kOk && !HasSubMenu())) {
                     const char* ItemText = Get(Current())->Text();
+                    if (strcmp(ItemText, tr("Messages")) == 0)
+                        state = AddSubMenu(new cNopacitySetupMessageDisplay(&tmpConf));
                     if (strcmp(ItemText, tr("Volume")) == 0)
                         state = AddSubMenu(new cNopacitySetupVolumeDisplay(&tmpConf));
                     if (strcmp(ItemText, tr("Image Caching")) == 0)
