@@ -1,5 +1,11 @@
 VDR Plugin 'nOpacity' Revision History
 ---------------------------------------
+Version 1.2.0
+- Fix some warnings (thx to @S:oren at vdr-portal.de)
+- Fix typo
+- Simplify cNopacitySetup::*
+- Update for VDR>=2.8.2 (thx to @kls at vdr-portal.de)
+
 Version 1.1.20
 - Fix displaying unnecessary empty line (thx to @shofmann at vdr-portal.de)
 - Update Locking
