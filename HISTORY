@@ -1,5 +1,8 @@
 VDR Plugin 'nOpacity' Revision History
 ---------------------------------------
+Version 1.2.1
+- Bugfix for VDR<2.8.2
+
 Version 1.2.0
 - Fix some warnings (thx to @S:oren at vdr-portal.de)
 - Fix typo
