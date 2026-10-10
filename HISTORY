@@ -1,5 +1,25 @@
 VDR Plugin 'nOpacity' Revision History
 ---------------------------------------
+Version 1.2.2
+- Fix "Changes in the setup menu are not saved." (thx to @Dr. Seltsam at vdr-portal.de)
+- Fix "warning: Variable gesetzt, aber nicht verwendet"
+- Adds an "&" to the recording name if it is a PES recording
+- Show menu sort order (thx to @shofmann at vdr-portal.de)
+- Fix "HeaderLabel" does not fadein
+- Create "pixmapHeaderSortModeIcon" only if it does not already exist
+- Rework "cNopacityDisplayMenuView::DrawHeaderLabel"
+- Fix: The number of recordings was not displayed in the recordings top menu
+- New function for displaying the VideoDiskUsage in the recording menu
+- Rework diskinfo in the menu header
+- Add more HeaderIcons in the setup menu
+- Fix MenuSortModeIcon
+- If "label" is a directory path, shorten it until everything fits or only the final subdirectory remains visible
+- Add "..." for cutted label
+- Rework CutText()
+- The clipping (begin / end) of the recordings folder is now configureable
+- Optimize the position of the date in the header
+- Separator between percent and hour in the diskinfo in the menu header is now configureable
+
 Version 1.2.1
 - Bugfix for VDR<2.8.2
 
