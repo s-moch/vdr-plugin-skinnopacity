@@ -73,8 +73,9 @@ void cNopacitySetup::Setup(void) {
 }
 
 eOSState cNopacitySetup::ProcessKey(eKeys Key) {
+    bool hadSubMenu = HasSubMenu();
     eOSState state = cOsdMenu::ProcessKey(Key);
-    if (HasSubMenu() && Key == kOk)
+    if (hadSubMenu && Key == kOk)
         Store();
 
     switch (state) {
@@ -95,8 +96,8 @@ eOSState cNopacitySetup::ProcessKey(eKeys Key) {
         default: ;
 #else
         default:
-            if (!HasSubMenu() && (state == osUnknown || Key == kOk)) {
-                if ((Key == kOk && !HasSubMenu())) {
+            if (!hadSubMenu && (state == osUnknown || Key == kOk)) {
+                if ((Key == kOk && !hadSubMenu)) {
                     const char* ItemText = Get(Current())->Text();
                     if (strcmp(ItemText, tr("Messages")) == 0)
                         state = AddSubMenu(new cNopacitySetupMessageDisplay(&tmpConf));
