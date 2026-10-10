@@ -503,7 +503,7 @@ void cNopacityView::CreateFloatingTextWrapper(cTextWrapper *twNarrow, cTextWrapp
     int lineHeight = font->Height();
     int linesNarrow = (heightImg + 2*border)/ lineHeight;
     int linesDrawn = 0;
-    int y = 0;
+//    int y = 0;
     int widthNarrow = width - 3 * border - widthImg;
     bool drawNarrow = true;
     

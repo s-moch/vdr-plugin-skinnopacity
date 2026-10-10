@@ -109,10 +109,10 @@ void cNopacityDisplayMenu::DrawTimers(bool timersChanged, int numConflicts) {
             //if remotetimers plugin is available, take timers also from him
             if (drawRemoteTimers) {
                 cTimer* remoteTimer = NULL;
-                int numRemoteTimers = 0;
+//                int numRemoteTimers = 0;
                 while (pRemoteTimers->Service("RemoteTimers::ForEach-v1.0", &remoteTimer) && remoteTimer != NULL) {
                     SortedTimers.Append(remoteTimer);
-                    numRemoteTimers++;
+//                    numRemoteTimers++;
                 }
                 SortedTimers.Sort(PluginRemoteTimers::CompareTimers);
             }
