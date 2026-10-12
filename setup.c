@@ -73,9 +73,11 @@ void cNopacitySetup::Setup(void) {
 }
 
 eOSState cNopacitySetup::ProcessKey(eKeys Key) {
+#if (APIVERSNUM <= 30012)
     bool hadSubMenu = HasSubMenu();
+#endif
     eOSState state = cOsdMenu::ProcessKey(Key);
-    if (hadSubMenu && Key == kOk)
+    if (Key == kOk)
         Store();
 
     switch (state) {
