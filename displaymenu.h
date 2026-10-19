@@ -31,6 +31,8 @@ private:
     int positionButtons[4];
     cRect videoWindowRect;
     int currentFeed;
+    eMenuSortMode sortMode;
+    bool sortDescending;
     void SetNextFeed(void);
     void DrawDisk(void);
     int CheckTimerConflict(bool timersChanged);
@@ -52,6 +54,7 @@ public:
     virtual void Clear(void);
     virtual void SetMenuCategory(eMenuCategory MenuCategory);
     virtual void SetTitle(const char *Title);
+    virtual void SetMenuSortMode(eMenuSortMode MenuSortMode);
     virtual void SetButtons(const char *Red, const char *Green = NULL, const char *Yellow = NULL, const char *Blue = NULL);
     virtual void SetMessage(eMessageType Type, const char *Text);
     virtual void SetItem(const char *Text, int Index, bool Current, bool Selectable);

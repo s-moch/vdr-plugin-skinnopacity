@@ -5,6 +5,7 @@ cNopacityDisplayMenuView::cNopacityDisplayMenuView(cOsd *osd) {
     this->osd = osd;
     diskUsageAlert = 95;
     pixmapHeaderIcon = NULL;
+    pixmapHeaderSortModeIcon = NULL;
     messageBox = NULL;
     volumeBox = NULL;
     lastVolume = statusMonitor->GetVolume();
@@ -31,6 +32,7 @@ cNopacityDisplayMenuView::~cNopacityDisplayMenuView(void) {
     osd->DestroyPixmap(pixmapDiskUsageIcon);
     osd->DestroyPixmap(pixmapDiskUsageLabel);
     osd->DestroyPixmap(pixmapHeaderIcon);
+    osd->DestroyPixmap(pixmapHeaderSortModeIcon);
     delete messageBox;
     delete volumeBox;
 }
@@ -216,6 +218,7 @@ void cNopacityDisplayMenuView::SetAlpha(int Alpha) {
     PixmapSetAlpha(pixmapDiskUsageIcon, Alpha);
     PixmapSetAlpha(pixmapDiskUsageLabel, Alpha);
     PixmapSetAlpha(pixmapHeaderIcon, Alpha);
+    PixmapSetAlpha(pixmapHeaderSortModeIcon, Alpha);
     if (volumeBox) volumeBox->SetAlpha(Alpha);
 }
 
@@ -541,6 +544,57 @@ void cNopacityDisplayMenuView::DestroyHeaderIcon(void) {
     pixmapHeaderIcon = NULL;
 }
 
+int cNopacityDisplayMenuView::DrawHeaderSortModeIcon(eMenuSortMode sortMode, bool descending, int posX, bool initial) {
+    bool drawIcon = true;
+    const char *mode = "";
+    const char *order =  descending ? "-desc" : "-asc";
+    const char *adjust = menuAdjustLeft ? "-left" : "-right";
+    switch (sortMode) {
+        case eMenuSortMode::msmNumber:
+            mode = "number";
+            break;
+        case eMenuSortMode::msmName:
+            mode = "name";
+            break;
+        case eMenuSortMode::msmTime:
+            mode = "time";
+            break;
+        case eMenuSortMode::msmProvider:
+            mode = "provider";
+            order = adjust = "";
+            break;
+        default:
+            drawIcon = false;
+            break;
+    }
+
+    int left = 0;
+    if (drawIcon) {
+        int iconSize = geoManager->menuHeaderHeight - 4;
+        int iconX = (menuAdjustLeft) ? posX : (geoManager->osdWidth - posX - geoManager->menuHeaderHeight);
+        if (!(pixmapHeaderSortModeIcon = CreatePixmap(osd, "pixmapHeaderSortModeIcon", 2, cRect(iconX, 2, iconSize, iconSize)))) {
+            return left;
+        }
+        PixmapFill(pixmapHeaderSortModeIcon, clrTransparent);
+
+        if (initial && config.GetValue("animation") && config.GetValue("menuFadeTime")) {
+            pixmapHeaderSortModeIcon->SetAlpha(0);
+        }
+        cString icon = cString::sprintf("skinIcons/sort-%s%s%s", mode, order, adjust);
+        cImage *imgIcon = imgCache->GetSkinIcon(*icon);
+        if (imgIcon) {
+            pixmapHeaderSortModeIcon->DrawImage(cPoint(0,0), *imgIcon);
+            left = geoManager->menuHeaderHeight + geoManager->menuSpace;
+        }
+    }
+    return left;
+}
+
+void cNopacityDisplayMenuView::DestroyHeaderSortModeIcon(void) {
+    osd->DestroyPixmap(pixmapHeaderSortModeIcon);
+    pixmapHeaderSortModeIcon = NULL;
+}
+
 void cNopacityDisplayMenuView::DrawHeaderLabel(int left, cString label) {
     if (!pixmapHeaderLabel)
         return;
@@ -548,7 +602,7 @@ void cNopacityDisplayMenuView::DrawHeaderLabel(int left, cString label) {
     PixmapFill(pixmapHeaderLabel, clrTransparent);
     int labelW = fontManager->menuHeader->Width(label);
     int labelX = (menuAdjustLeft) ? (left)
-                : (geoManager->osdWidth - geoManager->menuDateWidth - labelW - left - 2*geoManager->menuSpace);
+                : std::max(geoManager->osdWidth - geoManager->menuDateWidth - labelW - left - 2*geoManager->menuSpace, 0);
     int labelY = (geoManager->menuHeaderHeight - fontManager->menuHeader->Height())/2;
     pixmapHeaderLabel->DrawText(cPoint(labelX, labelY),
                                 *label,

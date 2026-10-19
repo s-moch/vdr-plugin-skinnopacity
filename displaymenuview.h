@@ -24,6 +24,7 @@ class cNopacityDisplayMenuView {
         cPixmap *pixmapHeaderForeground;
         cPixmap *pixmapHeaderLogo;
         cPixmap *pixmapHeaderIcon;
+        cPixmap *pixmapHeaderSortModeIcon;
         cPixmap *pixmapHeaderLabel;
         cPixmap *pixmapDate;
         cPixmap *pixmapFooter;
@@ -66,6 +67,8 @@ class cNopacityDisplayMenuView {
         int DrawHeaderIcon(eMenuCategory menuCat, bool initial = false);
         int ShowHeaderIconChannelLogo(const char *Title, bool initial = false);
         void DestroyHeaderIcon(void);
+        int DrawHeaderSortModeIcon(eMenuSortMode sortMode, bool descending, int left, bool initial = false);
+        void DestroyHeaderSortModeIcon(void);
         void DrawHeaderLabel(int left, cString label);
         void DrawDate(bool initial);
         void DrawDiskUsage(void);

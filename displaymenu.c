@@ -27,6 +27,8 @@ cNopacityDisplayMenu::cNopacityDisplayMenu(void) : cThread("DisplayMenu") {
     osd = CreateOsd(geoManager->osdLeft, geoManager->osdTop, geoManager->osdWidth, geoManager->osdHeight);
     menuView = new cNopacityDisplayMenuView(osd);
     currentFeed = 0;
+    sortMode = eMenuSortMode::msmUnknown;
+    sortDescending = false;
     SetTabs(0);
 }
 
@@ -282,6 +284,7 @@ void cNopacityDisplayMenu::SetTitle(const char *Title) {
     menuItems.clear();
     int left = 5;
     menuView->DestroyHeaderIcon();
+    menuView->DestroyHeaderSortModeIcon();
     if (Title) {
         cString title = Title;
         switch (MenuCategory()) {
@@ -317,16 +320,24 @@ void cNopacityDisplayMenu::SetTitle(const char *Title) {
                 } else
                     title = cString::sprintf("%s (%s)", Title, *cVideoDiskUsage::String());
                 left += menuView->DrawHeaderIcon(MenuCategory(), initial);
+                left += menuView->DrawHeaderSortModeIcon(sortMode, sortDescending, left, initial);
                 }
                 break;
             default:
                 menuView->ShowHeaderLogo(false);
                 left += menuView->DrawHeaderIcon(MenuCategory(), initial);
+                left += menuView->DrawHeaderSortModeIcon(sortMode, false, left, initial);
         }
         menuView->AdjustContentBackground(this->MenuCategory(), menuCategoryLast, videoWindowRect);
         menuView->DrawHeaderLabel(left, title);
     }
 }
+
+void cNopacityDisplayMenu::SetMenuSortMode(eMenuSortMode MenuSortMode) {
+    sortMode = MenuSortMode;
+    sortDescending = bool(Setup.RecSortingDirection);
+}
+
 
 void cNopacityDisplayMenu::SetButtonPositions(void) {
     for (int i=0; i < 4; i++) {
