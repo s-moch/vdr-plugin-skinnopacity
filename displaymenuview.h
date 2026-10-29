@@ -70,6 +70,7 @@ class cNopacityDisplayMenuView {
         int DrawHeaderSortModeIcon(eMenuSortMode sortMode, bool descending, int left, bool initial = false);
         void DestroyHeaderSortModeIcon(void);
         void DrawHeaderLabel(int left, cString label, bool initial = false);
+        void DestroyHeaderLabel(void);
         void DrawDate(bool initial);
         void DrawDiskUsage(void);
         void ShowDiskUsage(bool show);
