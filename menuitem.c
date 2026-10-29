@@ -1083,6 +1083,8 @@ void cNopacityRecordingMenuItem::CreateText() {
     } catch (...) {
         strRecName = recName.c_str();
     }
+    if (Recording->IsPesRecording())
+        strRecName = *cString::sprintf("&%s", strRecName.c_str());
 }
 
 void cNopacityRecordingMenuItem::SetPoster(void) {
