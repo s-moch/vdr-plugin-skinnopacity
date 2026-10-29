@@ -309,7 +309,7 @@ void cNopacityDisplayMenu::SetTitle(const char *Title) {
                 break;
             case mcRecording: {
                 menuView->ShowHeaderLogo(false);
-                cString Text = cString::sprintf(" %s", trVDR("Recordings"));
+                cString Text = cString::sprintf("%s", trVDR("Recordings"));
                 if (config.GetValue("displayNumberOfRecordings") && (strcmp(Text, title) == 0)) {
                     {
 #if APIVERSNUM > 20300
