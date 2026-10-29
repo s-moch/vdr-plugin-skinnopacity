@@ -17,6 +17,8 @@ class cNopacityDisplayMenuView {
         cOsd *osd;
         cString lastDate;
         int diskUsageAlert;
+        int dateWidth;
+        int diskUsageW = 0;
         bool menuAdjustLeft;
         int lastVolume;
         time_t lastVolumeTime;
@@ -25,6 +27,7 @@ class cNopacityDisplayMenuView {
         cPixmap *pixmapHeaderLogo;
         cPixmap *pixmapHeaderIcon;
         cPixmap *pixmapHeaderSortModeIcon = nullptr;
+        cPixmap *pixmapHeaderVideoDiskUsage = nullptr;
         cPixmap *pixmapHeaderLabel = nullptr;
         cPixmap *pixmapDate;
         cPixmap *pixmapFooter;
@@ -69,6 +72,8 @@ class cNopacityDisplayMenuView {
         void DestroyHeaderIcon(void);
         int DrawHeaderSortModeIcon(eMenuSortMode sortMode, bool descending, int left, bool initial = false);
         void DestroyHeaderSortModeIcon(void);
+        int DrawHeaderVideoDiskUsage(int left, cString label, bool initial = false);
+        void DestroyHeaderVideoDiskUsage(void);
         void DrawHeaderLabel(int left, cString label, bool initial = false);
         void DestroyHeaderLabel(void);
         void DrawDate(bool initial);

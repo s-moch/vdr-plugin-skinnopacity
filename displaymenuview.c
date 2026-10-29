@@ -14,6 +14,7 @@ cNopacityDisplayMenuView::cNopacityDisplayMenuView(cOsd *osd) {
     CreatePixmaps();
     DrawHeaderLogo();
     DrawBorderDecoration();
+    dateWidth = std::min(geoManager->menuDateWidth, fontManager->menuDate->Width("Mo. 99.99. 99.99"));
 }
 
 cNopacityDisplayMenuView::~cNopacityDisplayMenuView(void) {
@@ -592,11 +593,43 @@ void cNopacityDisplayMenuView::DestroyHeaderSortModeIcon(void) {
     pixmapHeaderSortModeIcon = NULL;
 }
 
+int cNopacityDisplayMenuView::DrawHeaderVideoDiskUsage(int left, cString label, bool initial) {
+    cString diskUsage = cString::sprintf(" (%s) ", *cVideoDiskUsage::String());
+    diskUsageW = fontManager->menuHeader->Width(diskUsage);
+    int labelX = (menuAdjustLeft) ? std::min(left + fontManager->menuHeader->Width(label),
+                                              geoManager->osdWidth - dateWidth - diskUsageW - 2 * geoManager->menuSpace)
+                                  : (geoManager->osdWidth - left - diskUsageW);
+
+    if (!pixmapHeaderVideoDiskUsage) {
+        if (!(pixmapHeaderVideoDiskUsage = CreatePixmap(osd, "pixmapHeaderVideoDiskUsage", 2, cRect(labelX, 0, diskUsageW, geoManager->menuHeaderHeight))))
+            return 0;
+    }
+
+    PixmapFill(pixmapHeaderVideoDiskUsage, clrTransparent);
+
+    if (initial && config.GetValue("animation") && config.GetValue("menuFadeTime")) {
+        pixmapHeaderVideoDiskUsage->SetAlpha(0);
+    }
+
+    int labelY = (geoManager->menuHeaderHeight - fontManager->menuHeader->Height()) / 2;
+    pixmapHeaderVideoDiskUsage->DrawText(cPoint(0, labelY),
+                                *diskUsage,
+                                Theme.Color(clrMenuFontHeader),
+                                clrTransparent,
+                                fontManager->menuHeader);
+
+    return (menuAdjustLeft) ? 0 : diskUsageW;
+}
+
+void cNopacityDisplayMenuView::DestroyHeaderVideoDiskUsage(void) {
+    osd->DestroyPixmap(pixmapHeaderVideoDiskUsage);
+    pixmapHeaderVideoDiskUsage = nullptr;
+}
+
 void cNopacityDisplayMenuView::DrawHeaderLabel(int left, cString label, bool initial) {
-    int dateWidth = std::min(geoManager->menuDateWidth, fontManager->menuDate->Width("Mo. 99.99. 99.99"));
     int labelX = (menuAdjustLeft) ? (left)
                                   : dateWidth + 2 * geoManager->menuSpace;
-    int labelL = geoManager->osdWidth - dateWidth - left - 2 * geoManager->menuSpace;
+    int labelL = geoManager->osdWidth - dateWidth - left - ((menuAdjustLeft) ? diskUsageW : 0) - 2 * geoManager->menuSpace;
 
     if (!pixmapHeaderLabel) {
         if (!(pixmapHeaderLabel = CreatePixmap(osd, "pixmapHeaderLabel", 2, cRect(labelX, 0, labelL, geoManager->menuHeaderHeight))))

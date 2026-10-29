@@ -285,6 +285,7 @@ void cNopacityDisplayMenu::SetTitle(const char *Title) {
     int left = 5;
     menuView->DestroyHeaderIcon();
     menuView->DestroyHeaderSortModeIcon();
+    menuView->DestroyHeaderVideoDiskUsage();
     menuView->DestroyHeaderLabel();
     if (Title) {
         cString title = Title;
@@ -317,11 +318,12 @@ void cNopacityDisplayMenu::SetTitle(const char *Title) {
 #endif
                     countRecordings = Recordings->Count();
                     }
-                    title = cString::sprintf("%i %s (%s)", countRecordings, Title, *cVideoDiskUsage::String());
+                    title = cString::sprintf("%i %s", countRecordings, Title);
                 } else
-                    title = cString::sprintf("%s (%s)", Title, *cVideoDiskUsage::String());
+                    title = cString::sprintf("%s", Title);
                 left += menuView->DrawHeaderIcon(MenuCategory(), initial);
                 left += menuView->DrawHeaderSortModeIcon(sortMode, sortDescending, left, initial);
+                left += menuView->DrawHeaderVideoDiskUsage(left, title, initial);
                 }
                 break;
             default:
