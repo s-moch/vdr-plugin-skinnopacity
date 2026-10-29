@@ -5,7 +5,6 @@ cNopacityDisplayMenuView::cNopacityDisplayMenuView(cOsd *osd) {
     this->osd = osd;
     diskUsageAlert = 95;
     pixmapHeaderIcon = NULL;
-    pixmapHeaderSortModeIcon = NULL;
     messageBox = NULL;
     volumeBox = NULL;
     lastVolume = statusMonitor->GetVolume();
@@ -572,8 +571,10 @@ int cNopacityDisplayMenuView::DrawHeaderSortModeIcon(eMenuSortMode sortMode, boo
     if (drawIcon) {
         int iconSize = geoManager->menuHeaderHeight - 4;
         int iconX = (menuAdjustLeft) ? posX : (geoManager->osdWidth - posX - geoManager->menuHeaderHeight);
-        if (!(pixmapHeaderSortModeIcon = CreatePixmap(osd, "pixmapHeaderSortModeIcon", 2, cRect(iconX, 2, iconSize, iconSize)))) {
-            return left;
+
+        if (!pixmapHeaderSortModeIcon) {
+            if (!(pixmapHeaderSortModeIcon = CreatePixmap(osd, "pixmapHeaderSortModeIcon", 2, cRect(iconX, 2, iconSize, iconSize))))
+                return left;
         }
         PixmapFill(pixmapHeaderSortModeIcon, clrTransparent);
 

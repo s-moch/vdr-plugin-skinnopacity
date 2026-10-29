@@ -24,7 +24,7 @@ class cNopacityDisplayMenuView {
         cPixmap *pixmapHeaderForeground;
         cPixmap *pixmapHeaderLogo;
         cPixmap *pixmapHeaderIcon;
-        cPixmap *pixmapHeaderSortModeIcon;
+        cPixmap *pixmapHeaderSortModeIcon = nullptr;
         cPixmap *pixmapHeaderLabel = nullptr;
         cPixmap *pixmapDate;
         cPixmap *pixmapFooter;
