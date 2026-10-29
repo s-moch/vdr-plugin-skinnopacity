@@ -285,6 +285,7 @@ void cNopacityDisplayMenu::SetTitle(const char *Title) {
     int left = 5;
     menuView->DestroyHeaderIcon();
     menuView->DestroyHeaderSortModeIcon();
+    menuView->DestroyHeaderLabel();
     if (Title) {
         cString title = Title;
         switch (MenuCategory()) {
@@ -329,7 +330,7 @@ void cNopacityDisplayMenu::SetTitle(const char *Title) {
                 left += menuView->DrawHeaderSortModeIcon(sortMode, false, left, initial);
         }
         menuView->AdjustContentBackground(this->MenuCategory(), menuCategoryLast, videoWindowRect);
-        menuView->DrawHeaderLabel(left, title);
+        menuView->DrawHeaderLabel(left, title, initial);
     }
 }
 

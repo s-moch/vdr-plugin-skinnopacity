@@ -595,11 +595,16 @@ void cNopacityDisplayMenuView::DestroyHeaderSortModeIcon(void) {
     pixmapHeaderSortModeIcon = NULL;
 }
 
-void cNopacityDisplayMenuView::DrawHeaderLabel(int left, cString label) {
+void cNopacityDisplayMenuView::DrawHeaderLabel(int left, cString label, bool initial) {
     if (!pixmapHeaderLabel)
         return;
 
     PixmapFill(pixmapHeaderLabel, clrTransparent);
+
+    if (initial && config.GetValue("animation") && config.GetValue("menuFadeTime")) {
+        pixmapHeaderLabel->SetAlpha(0);
+    }
+
     int labelW = fontManager->menuHeader->Width(label);
     int labelX = (menuAdjustLeft) ? (left)
                 : std::max(geoManager->osdWidth - geoManager->menuDateWidth - labelW - left - 2*geoManager->menuSpace, 0);
