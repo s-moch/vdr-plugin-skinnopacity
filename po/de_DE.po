@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2024-07-10 12:09+0200\n"
+"POT-Creation-Date: 2026-10-30 14:48+0100\n"
 "PO-Revision-Date: 2012-11-11 17:49+0200\n"
 "Last-Translator: Stefan Hofmann\n"
 "Language-Team: \n"
@@ -559,6 +559,15 @@ msgstr "Zeile 3 einer Aufzeichnung anzeigen"
 
 msgid "Display number of recordings"
 msgstr "Anzahl der Aufzeichnungen anzeigen"
+
+msgid "Display diskinfo"
+msgstr "Diskinfo anzeigen"
+
+msgid "Separator of diskinfo"
+msgstr "Abgrenzung der Diskinfo"
+
+msgid "Position of diskinfo"
+msgstr "Position der Diskinfo"
 
 msgid "Mode of recording Window"
 msgstr "Fenster-Modus für Aufzeichnungen"

@@ -15,6 +15,8 @@ cNopacityDisplayMenuView::cNopacityDisplayMenuView(cOsd *osd) {
     DrawHeaderLogo();
     DrawBorderDecoration();
     dateWidth = std::min(geoManager->menuDateWidth, fontManager->menuDate->Width("Mo. 99.99. 99.99"));
+    hk.left = 5;
+    hk.right = geoManager->osdWidth - 5;
 }
 
 cNopacityDisplayMenuView::~cNopacityDisplayMenuView(void) {
@@ -442,15 +444,31 @@ void cNopacityDisplayMenuView::DrawHeaderLogo(void) {
         pixmapHeaderLogo->DrawImage(cPoint(0,0), *imgIcon);
 }
 
-int cNopacityDisplayMenuView::ShowHeaderLogo(bool show) {
+void cNopacityDisplayMenuView::ShowHeaderLogo(bool show) {
     if (!pixmapHeaderLogo)
-        return 0;
+        return;
 
     pixmapHeaderLogo->SetLayer(show ? 2 : -1);
-    return geoManager->menuHeaderVDRLogoWidth + geoManager->menuSpace;
+    if (show) {
+        if (menuAdjustLeft) {
+            hk.left  = geoManager->menuHeaderVDRLogoWidth + geoManager->menuSpace + 5;
+            hk.right = geoManager->osdWidth - dateWidth - 5;
+	} else {
+            hk.left  = dateWidth + 5;
+            hk.right = geoManager->menuHeaderVDRLogoWidth + geoManager->menuSpace;
+        }
+    } else {
+        if (menuAdjustLeft) {
+            hk.left  = 5;
+            hk.right = geoManager->osdWidth - dateWidth - 5;
+        } else {
+            hk.left  = dateWidth + 5;
+            hk.right = geoManager->osdWidth - 5;
+        }
+    }
 }
 
-int cNopacityDisplayMenuView::DrawHeaderIcon(eMenuCategory menuCat, bool initial) {
+void cNopacityDisplayMenuView::DrawHeaderIcon(eMenuCategory menuCat, bool initial) {
     cString icon;
     bool drawIcon = true;
     switch (menuCat) {
@@ -480,12 +498,11 @@ int cNopacityDisplayMenuView::DrawHeaderIcon(eMenuCategory menuCat, bool initial
             drawIcon = false;
     }
 
-    int left = 0;
     if (drawIcon) {
         int iconSize = geoManager->menuHeaderHeight - 4;
-        int iconX = (menuAdjustLeft) ? 0 : (geoManager->osdWidth - geoManager->menuHeaderHeight);
+        int iconX = (menuAdjustLeft) ? hk.left : (hk.right - geoManager->menuHeaderHeight);
         if (!(pixmapHeaderIcon = CreatePixmap(osd, "pixmapHeaderIcon", 2, cRect(iconX, 2, iconSize, iconSize)))) {
-            return left;
+            return;
         }
         PixmapFill(pixmapHeaderIcon, clrTransparent);
 
@@ -495,23 +512,24 @@ int cNopacityDisplayMenuView::DrawHeaderIcon(eMenuCategory menuCat, bool initial
         cImage *imgIcon = imgCache->GetSkinIcon(*icon);
         if (imgIcon) {
             pixmapHeaderIcon->DrawImage(cPoint(0,0), *imgIcon);
-            left = geoManager->menuHeaderHeight + geoManager->menuSpace;
+            if (menuAdjustLeft)
+                hk.left += geoManager->menuHeaderHeight + geoManager->menuSpace;
+            else
+                hk.right -= geoManager->menuHeaderHeight + geoManager->menuSpace;
         }
     }
-    return left;
 }
 
-int cNopacityDisplayMenuView::ShowHeaderIconChannelLogo(const char *Title, bool initial) {
-    int left = 0;
+void cNopacityDisplayMenuView::ShowHeaderIconChannelLogo(const char *Title, bool initial) {
     int logoHeight = geoManager->menuHeaderHeight - 4;
     cSize logoSize = ScaleToFit(1000,
                                 logoHeight,
                                 config.GetValue("logoWidthOriginal"),
                                 config.GetValue("logoHeightOriginal"));
     int logoWidth = logoSize.Width();
-    int iconX = (menuAdjustLeft) ? 0 : (geoManager->osdWidth - logoWidth);
+    int iconX = (menuAdjustLeft) ? hk.left : (hk.right - logoWidth);
     if (!(pixmapHeaderIcon = CreatePixmap(osd, "pixmapHeaderIcon", 2, cRect(iconX, 2, logoWidth, logoHeight)))) {
-         return left;
+         return;
     }
     PixmapFill(pixmapHeaderIcon, clrTransparent);
 
@@ -520,7 +538,7 @@ int cNopacityDisplayMenuView::ShowHeaderIconChannelLogo(const char *Title, bool 
     }
     std::string channel = Title;
     if (channel.length() == 0)
-        return left;
+        return;
     std::string remove = trVDR("Schedule");
     try {
         remove.append(" - ");
@@ -530,9 +548,11 @@ int cNopacityDisplayMenuView::ShowHeaderIconChannelLogo(const char *Title, bool 
     if (imgLoader.LoadLogo(channel.c_str(), logoWidth, logoHeight)) {
         cImage logo = imgLoader.GetImage();
         pixmapHeaderIcon->DrawImage(cPoint((logoWidth - logo.Width()) / 2, (logoHeight - logo.Height()) / 2), logo);
-        left =  logoWidth + geoManager->menuSpace;
+        if (menuAdjustLeft)
+            hk.left += logoWidth + geoManager->menuSpace;
+        else
+            hk.right -= logoWidth + geoManager->menuSpace;
     }
-    return left;
 }
 
 void cNopacityDisplayMenuView::DestroyHeaderIcon(void) {
@@ -540,7 +560,7 @@ void cNopacityDisplayMenuView::DestroyHeaderIcon(void) {
     pixmapHeaderIcon = NULL;
 }
 
-int cNopacityDisplayMenuView::DrawHeaderSortModeIcon(eMenuSortMode sortMode, bool descending, int posX, bool initial) {
+void cNopacityDisplayMenuView::DrawHeaderSortModeIcon(eMenuSortMode sortMode, bool descending, bool initial) {
     bool drawIcon = true;
     const char *mode = "";
     const char *order =  descending ? "-desc" : "-asc";
@@ -564,14 +584,13 @@ int cNopacityDisplayMenuView::DrawHeaderSortModeIcon(eMenuSortMode sortMode, boo
             break;
     }
 
-    int left = 0;
     if (drawIcon) {
         int iconSize = geoManager->menuHeaderHeight - 4;
-        int iconX = (menuAdjustLeft) ? posX : (geoManager->osdWidth - posX - geoManager->menuHeaderHeight);
+        int iconX = (menuAdjustLeft) ? hk.left : (hk.right - geoManager->menuHeaderHeight);
 
         if (!pixmapHeaderSortModeIcon) {
             if (!(pixmapHeaderSortModeIcon = CreatePixmap(osd, "pixmapHeaderSortModeIcon", 2, cRect(iconX, 2, iconSize, iconSize))))
-                return left;
+                return;
         }
         PixmapFill(pixmapHeaderSortModeIcon, clrTransparent);
 
@@ -582,10 +601,12 @@ int cNopacityDisplayMenuView::DrawHeaderSortModeIcon(eMenuSortMode sortMode, boo
         cImage *imgIcon = imgCache->GetSkinIcon(*icon);
         if (imgIcon) {
             pixmapHeaderSortModeIcon->DrawImage(cPoint(0,0), *imgIcon);
-            left = geoManager->menuHeaderHeight + geoManager->menuSpace;
+            if (menuAdjustLeft)
+                hk.left += geoManager->menuHeaderHeight + geoManager->menuSpace;
+            else
+                hk.right -= geoManager->menuHeaderHeight + geoManager->menuSpace;
         }
     }
-    return left;
 }
 
 void cNopacityDisplayMenuView::DestroyHeaderSortModeIcon(void) {
@@ -593,16 +614,35 @@ void cNopacityDisplayMenuView::DestroyHeaderSortModeIcon(void) {
     pixmapHeaderSortModeIcon = NULL;
 }
 
-int cNopacityDisplayMenuView::DrawHeaderVideoDiskUsage(int left, cString label, bool initial) {
-    cString diskUsage = cString::sprintf(" (%s) ", *cVideoDiskUsage::String());
+void cNopacityDisplayMenuView::DrawHeaderVideoDiskUsage(cString label, bool initial) {
+    cString diskUsage;
+    if (!config.GetValue("menuRecordingsDiskinfoSeparator"))
+        diskUsage = cString::sprintf(" (%s) ", *cVideoDiskUsage::String());
+    else if (menuAdjustLeft)
+        diskUsage = cString::sprintf(" %s |", *cVideoDiskUsage::String());
+    else
+        diskUsage = cString::sprintf("| %s ", *cVideoDiskUsage::String());
+
     diskUsageW = fontManager->menuHeader->Width(diskUsage);
-    int labelX = (menuAdjustLeft) ? std::min(left + fontManager->menuHeader->Width(label),
-                                              geoManager->osdWidth - dateWidth - diskUsageW - 2 * geoManager->menuSpace)
-                                  : (geoManager->osdWidth - left - diskUsageW);
+    int labelX = 0;
+
+    if (!config.GetValue("menuRecordingsDiskinfoSeparator")) {
+        labelX = (menuAdjustLeft && (!config.GetValue("menuRecordingsDiskinfoPosition")))
+                 ? std::min(hk.left + fontManager->menuHeader->Width(label),
+                            hk.right - diskUsageW - 2 * geoManager->menuSpace)
+                 : (hk.right - diskUsageW - 2 * geoManager->menuSpace);
+        hk.right -= diskUsageW + 2 * geoManager->menuSpace;
+    } else if (menuAdjustLeft) {
+        labelX = geoManager->osdWidth - dateWidth - diskUsageW - 2 * geoManager->menuSpace;
+        hk.right -= diskUsageW + 2 * geoManager->menuSpace;;
+    } else {
+        labelX = hk.left + 2 * geoManager->menuSpace;
+        hk.left += diskUsageW + 2 * geoManager->menuSpace;
+    }
 
     if (!pixmapHeaderVideoDiskUsage) {
         if (!(pixmapHeaderVideoDiskUsage = CreatePixmap(osd, "pixmapHeaderVideoDiskUsage", 2, cRect(labelX, 0, diskUsageW, geoManager->menuHeaderHeight))))
-            return 0;
+            return;
     }
 
     PixmapFill(pixmapHeaderVideoDiskUsage, clrTransparent);
@@ -617,8 +657,6 @@ int cNopacityDisplayMenuView::DrawHeaderVideoDiskUsage(int left, cString label, 
                                 Theme.Color(clrMenuFontHeader),
                                 clrTransparent,
                                 fontManager->menuHeader);
-
-    return (menuAdjustLeft) ? 0 : diskUsageW;
 }
 
 void cNopacityDisplayMenuView::DestroyHeaderVideoDiskUsage(void) {
@@ -626,10 +664,9 @@ void cNopacityDisplayMenuView::DestroyHeaderVideoDiskUsage(void) {
     pixmapHeaderVideoDiskUsage = nullptr;
 }
 
-void cNopacityDisplayMenuView::DrawHeaderLabel(int left, cString label, bool initial) {
-    int labelX = (menuAdjustLeft) ? (left)
-                                  : dateWidth + 2 * geoManager->menuSpace;
-    int labelL = geoManager->osdWidth - dateWidth - left - ((menuAdjustLeft) ? diskUsageW : 0) - 2 * geoManager->menuSpace;
+void cNopacityDisplayMenuView::DrawHeaderLabel(cString label, bool initial) {
+    int labelX = hk.left;
+    int labelL = hk.right - hk.left;
 
     if (!pixmapHeaderLabel) {
         if (!(pixmapHeaderLabel = CreatePixmap(osd, "pixmapHeaderLabel", 2, cRect(labelX, 0, labelL, geoManager->menuHeaderHeight))))

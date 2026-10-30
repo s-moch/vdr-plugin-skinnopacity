@@ -12,6 +12,11 @@
 #include "messagebox.h"
 #include "volumebox.h"
 
+typedef struct HeaderCoord {
+    int left = 0;
+    int right = 0;
+} HeaderCoord_t;
+
 class cNopacityDisplayMenuView {
     private:
         cOsd *osd;
@@ -19,6 +24,7 @@ class cNopacityDisplayMenuView {
         int diskUsageAlert;
         int dateWidth;
         int diskUsageW = 0;
+	HeaderCoord_t hk;
         bool menuAdjustLeft;
         int lastVolume;
         time_t lastVolumeTime;
@@ -66,15 +72,15 @@ class cNopacityDisplayMenuView {
         const cFont *GetTextAreaFont(bool FixedFont);
         cRect *GetDescriptionTextWindowSize(eMenuCategory menuCat);
         void AdjustContentBackground(eMenuCategory menuCat, eMenuCategory menuCatLast, cRect & vidWin);
-        int ShowHeaderLogo(bool show);
-        int DrawHeaderIcon(eMenuCategory menuCat, bool initial = false);
-        int ShowHeaderIconChannelLogo(const char *Title, bool initial = false);
+        void ShowHeaderLogo( bool show);
+        void DrawHeaderIcon(eMenuCategory menuCat, bool initial = false);
+        void ShowHeaderIconChannelLogo(const char *Title, bool initial = false);
         void DestroyHeaderIcon(void);
-        int DrawHeaderSortModeIcon(eMenuSortMode sortMode, bool descending, int left, bool initial = false);
+        void DrawHeaderSortModeIcon(eMenuSortMode sortMode, bool descending, bool initial = false);
         void DestroyHeaderSortModeIcon(void);
-        int DrawHeaderVideoDiskUsage(int left, cString label, bool initial = false);
+        void DrawHeaderVideoDiskUsage(cString label, bool initial = false);
         void DestroyHeaderVideoDiskUsage(void);
-        void DrawHeaderLabel(int left, cString label, bool initial = false);
+        void DrawHeaderLabel(cString label, bool initial = false);
         void DestroyHeaderLabel(void);
         void DrawDate(bool initial);
         void DrawDiskUsage(void);

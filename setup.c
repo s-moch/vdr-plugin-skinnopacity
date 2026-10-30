@@ -366,6 +366,10 @@ cNopacitySetupMenuDisplayRecordings::cNopacitySetupMenuDisplayRecordings(cNopaci
     recItemMode[0] = tr("no");
     recItemMode[1] = tr("row 2");
     recItemMode[2] = tr("row 3");
+    menuRecordingsDiskinfoSeparator[0] = "()";
+    menuRecordingsDiskinfoSeparator[1] = "|";
+    diskInfoPositionMode[0] = tr("left");
+    diskInfoPositionMode[1] = tr("right");
     Set();
 }
 
@@ -383,6 +387,13 @@ void cNopacitySetupMenuDisplayRecordings::Set(void) {
         Add(new cMenuEditBoolItem(cString::sprintf("%s%s", *spacer, tr("Recordings: Show Line 3")), tmpConf->GetValueRef("menuRecordingsShowLine3")));
     }
     Add(new cMenuEditBoolItem(tr("Display number of recordings"), tmpConf->GetValueRef("displayNumberOfRecordings")));
+    Add(new cMenuEditBoolItem(tr("Display diskinfo"), tmpConf->GetValueRef("displayDiskInfo")));
+    if (tmpConf->GetValue("displayDiskInfo")) {
+        Add(new cMenuEditStraItem(cString::sprintf("%s%s", *spacer, tr("Separator of diskinfo")), tmpConf->GetValueRef("menuRecordingsDiskinfoSeparator"), 2, menuRecordingsDiskinfoSeparator));
+        if (tmpConf->GetValue("menuAdjustLeft") && !tmpConf->GetValue("menuRecordingsDiskinfoSeparator")) {
+            Add(new cMenuEditStraItem(cString::sprintf("%s%s", *spacer, tr("Position of diskinfo")), tmpConf->GetValueRef("menuRecordingsDiskinfoPosition"), 2, diskInfoPositionMode));
+        }
+    }
     Add(new cMenuEditIntItem(tr("Number of entries per page"), tmpConf->GetValueRef("numRecordingsMenuItems"), 3, 20));
     Add(new cMenuEditStraItem(tr("Mode of recording Window"), tmpConf->GetValueRef("menuRecordingsWindowMode"), 2, windowMode));
     Add(new cMenuEditIntItem(tr("Border around detailed recording view"), tmpConf->GetValueRef("borderDetailedRecordings"), 1, 300));

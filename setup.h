@@ -82,6 +82,8 @@ class cNopacitySetupMenuDisplayRecordings : public cMenuSetupSubMenu {
     protected:
         const char *windowMode[2];
         const char *recItemMode[3];
+        const char *diskInfoPositionMode[2];
+        const char *menuRecordingsDiskinfoSeparator[2];
         void Set(void);
     public:
         cNopacitySetupMenuDisplayRecordings(cNopacityConfig *data);

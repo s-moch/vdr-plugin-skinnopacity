@@ -282,7 +282,6 @@ void cNopacityDisplayMenu::SetTitle(const char *Title) {
     //resetting menuitems if no call to clear
     DELETENULL(detailView);
     menuItems.clear();
-    int left = 5;
     menuView->DestroyHeaderIcon();
     menuView->DestroyHeaderSortModeIcon();
     menuView->DestroyHeaderVideoDiskUsage();
@@ -302,11 +301,11 @@ void cNopacityDisplayMenu::SetTitle(const char *Title) {
                         title = " ";
                         break;
                 }
-                left += menuView->ShowHeaderLogo(true);
+                menuView->ShowHeaderLogo(true);
                 break;
             case mcSchedule:
                 menuView->ShowHeaderLogo(false);
-                left += menuView->ShowHeaderIconChannelLogo(Title, initial);
+                menuView->ShowHeaderIconChannelLogo(Title, initial);
                 break;
             case mcRecording: {
                 menuView->ShowHeaderLogo(false);
@@ -321,18 +320,19 @@ void cNopacityDisplayMenu::SetTitle(const char *Title) {
                     title = cString::sprintf("%i %s", countRecordings, Title);
                 } else
                     title = cString::sprintf("%s", Title);
-                left += menuView->DrawHeaderIcon(MenuCategory(), initial);
-                left += menuView->DrawHeaderSortModeIcon(sortMode, sortDescending, left, initial);
-                left += menuView->DrawHeaderVideoDiskUsage(left, title, initial);
+                menuView->DrawHeaderIcon(MenuCategory(), initial);
+                menuView->DrawHeaderSortModeIcon(sortMode, sortDescending, initial);
+                if (config.GetValue("displayDiskInfo"))
+                    menuView->DrawHeaderVideoDiskUsage(title, initial);
                 }
                 break;
             default:
                 menuView->ShowHeaderLogo(false);
-                left += menuView->DrawHeaderIcon(MenuCategory(), initial);
-                left += menuView->DrawHeaderSortModeIcon(sortMode, false, left, initial);
+                menuView->DrawHeaderIcon(MenuCategory(), initial);
+                menuView->DrawHeaderSortModeIcon(sortMode, false, initial);
         }
         menuView->AdjustContentBackground(this->MenuCategory(), menuCategoryLast, videoWindowRect);
-        menuView->DrawHeaderLabel(left, title, initial);
+        menuView->DrawHeaderLabel(title, initial);
     }
 }
 
