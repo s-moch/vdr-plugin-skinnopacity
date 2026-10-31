@@ -489,6 +489,15 @@ void cNopacityDisplayMenuView::DrawHeaderIcon(eMenuCategory menuCat, bool initia
             icon = "menuIcons/Recordings";
             break;
         case mcSetup:
+	case mcSetupOsd:
+	case mcSetupEpg:
+	case mcSetupDvb:
+	case mcSetupLnb:
+	case mcSetupCam:
+	case mcSetupRecord:
+	case mcSetupReplay:
+	case mcSetupMisc:
+        case mcSetupPlugins:
             icon = "menuIcons/Setup";
             break;
         case mcCommand:
