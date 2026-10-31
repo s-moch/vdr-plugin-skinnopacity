@@ -339,6 +339,12 @@ void cNopacityDisplayMenu::SetTitle(const char *Title) {
 void cNopacityDisplayMenu::SetMenuSortMode(eMenuSortMode MenuSortMode) {
     sortMode = MenuSortMode;
     sortDescending = bool(Setup.RecSortingDirection);
+#ifndef OLDSORTMODE
+#if (VDRVERSNUM >= 20804)
+    if (MenuSortMode != eMenuSortMode::msmTime)
+        sortDescending = false;
+#endif
+#endif
 }
 
 
