@@ -80,7 +80,7 @@ class cNopacityDisplayMenuView {
         void DestroyHeaderSortModeIcon(void);
         void DrawHeaderVideoDiskUsage(cString label, bool initial = false);
         void DestroyHeaderVideoDiskUsage(void);
-        void DrawHeaderLabel(cString label, bool initial = false);
+        void DrawHeaderLabel(cString label, bool recCat, bool initial = false);
         void DestroyHeaderLabel(void);
         void DrawDate(bool initial);
         void DrawDiskUsage(void);

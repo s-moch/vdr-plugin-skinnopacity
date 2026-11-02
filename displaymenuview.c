@@ -673,7 +673,7 @@ void cNopacityDisplayMenuView::DestroyHeaderVideoDiskUsage(void) {
     pixmapHeaderVideoDiskUsage = nullptr;
 }
 
-void cNopacityDisplayMenuView::DrawHeaderLabel(cString label, bool initial) {
+void cNopacityDisplayMenuView::DrawHeaderLabel(cString label, bool recCat, bool initial) {
     int labelX = hk.left;
     int labelL = hk.right - hk.left;
 
@@ -689,6 +689,23 @@ void cNopacityDisplayMenuView::DrawHeaderLabel(cString label, bool initial) {
     }
 
     int labelW = fontManager->menuHeader->Width(label);
+    if (recCat) {
+        // If "label" is a directory path, shorten it until everything fits or only
+        // the final subdirectory remains visible.
+        int n = 1;
+        int count = strcountchr(*label, '~'); // length of label
+        // saveguard z
+        int z = count;
+        while (labelW > labelL && count > 1 && z > 0) {
+            cString label1 = strchrn(label, '~', n); // >= 2. round n = 2, a leading "~" also counts
+            label = label1;
+            labelW = fontManager->menuHeader->Width(label);
+            if (n == 1) n = 2; // for >= 2. round
+            count = strcountchr(*label, '~'); // new length of label
+            z--;
+        }
+    }
+
     int labelY = (geoManager->menuHeaderHeight - fontManager->menuHeader->Height()) / 2;
     int labelT = (menuAdjustLeft) ? 0 : std::max(0, labelL - labelW - geoManager->menuSpace);
     pixmapHeaderLabel->DrawText(cPoint(labelT, labelY),

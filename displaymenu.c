@@ -332,7 +332,7 @@ void cNopacityDisplayMenu::SetTitle(const char *Title) {
                 menuView->DrawHeaderSortModeIcon(sortMode, false, initial);
         }
         menuView->AdjustContentBackground(this->MenuCategory(), menuCategoryLast, videoWindowRect);
-        menuView->DrawHeaderLabel(title, initial);
+        menuView->DrawHeaderLabel(title, (this->MenuCategory() == mcRecording), initial);
     }
 }
 
