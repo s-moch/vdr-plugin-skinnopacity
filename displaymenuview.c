@@ -705,6 +705,9 @@ void cNopacityDisplayMenuView::DrawHeaderLabel(cString label, bool recCat, bool 
             z--;
         }
     }
+    // If the final "label" is longer than the visible area allows,
+    // it is shortened character by character until it fits, with "..." added.
+    label = cString::sprintf("%s", CutText(*label, labelL, fontManager->menuHeader).c_str());
 
     int labelY = (geoManager->menuHeaderHeight - fontManager->menuHeader->Height()) / 2;
     int labelT = (menuAdjustLeft) ? 0 : std::max(0, labelL - labelW - geoManager->menuSpace);
