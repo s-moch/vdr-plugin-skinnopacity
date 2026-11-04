@@ -186,6 +186,31 @@ int Minimum(int a, int b, int c, int d, int e, int f) {
     return min;
 }
 
+/****************************************************************************************
+*            CUTTEXT
+****************************************************************************************/
+std::string utf8_substr(const std::string& str, unsigned int start, long unsigned int leng) {
+    if (leng==0) { return ""; }
+    unsigned int c, i, ix, q;
+    long unsigned int min=std::string::npos, max=std::string::npos;
+    for (q=0, i=0, ix=str.length(); i < ix; i++, q++) {
+        if (q==start){ min=i; }
+        if (q<=start+leng || leng==std::string::npos){ max=i; }
+
+        c = (unsigned char) str[i];
+        if      (c>=0   && c<=127) i+=0;
+        else if ((c & 0xE0) == 0xC0) i+=1;
+        else if ((c & 0xF0) == 0xE0) i+=2;
+        else if ((c & 0xF8) == 0xF0) i+=3;
+        //else if (($c & 0xFC) == 0xF8) i+=4; // 111110bb //byte 5, unnecessary in 4 byte UTF-8
+        //else if (($c & 0xFE) == 0xFC) i+=5; // 1111110b //byte 6, unnecessary in 4 byte UTF-8
+        else return "";//invalid utf8
+    }
+    if (q<=start+leng || leng==std::string::npos){ max=i; }
+    if (min==std::string::npos || max==std::string::npos) { return ""; }
+    return str.substr(min,max-min);
+}
+
 std::string CutText(std::string text, int width, const cFont *font) {
     if (width <= font->Size())
         return text.c_str();
@@ -194,27 +219,20 @@ std::string CutText(std::string text, int width, const cFont *font) {
     if (actWidth <= width)
         return text.c_str();
 
-    cTextWrapper twText;
-    twText.Set(text.c_str(), font, width);
-    std::string cuttedTextNative = twText.GetLine(0);
-    std::stringstream sstrText;
-    sstrText << cuttedTextNative << "...";
-    std::string cuttedText = sstrText.str();
-    actWidth = font->Width(cuttedText.c_str());
-    if (actWidth > width) {
-        int overlap = actWidth - width;
-        int charWidth = font->Width(".");
-        if (charWidth == 0)
-            charWidth = 1;
-        int cutChars = overlap / charWidth;
-        if (cutChars > 0) {
-            cuttedTextNative = cuttedTextNative.substr(0, cuttedTextNative.length() - cutChars);
-            std::stringstream sstrText2;
-            sstrText2 << cuttedTextNative << "...";
-            cuttedText = sstrText2.str();
-        }
+    // text will be shorten by letter
+    int i = std::max(width / font->Size(), 1) - 1;
+    std::string cuttext, oldtext;
+    cuttext = utf8_substr(text, 0, i);
+    do {
+        oldtext = cuttext;
+        i++;
+        cuttext = utf8_substr(text, 0, i);
+        actWidth = font->Width(cuttext.c_str()) + font->Width("...");
     }
-    return cuttedText;
+    while (actWidth < width);
+    std::stringstream sstrText;
+    sstrText << oldtext << "...";
+    return sstrText.str();
 }
 
 std::string StrToLowerCase(std::string str) {

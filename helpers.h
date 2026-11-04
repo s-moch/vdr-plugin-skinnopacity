@@ -14,6 +14,7 @@ void DrawRoundedCornersWithBorder(cPixmap *p, tColor borderColor, int radius, in
 void DrawProgressbar(cPixmap *p, int left, int top, int width, int height, int Current, int Total, tColor color, tColor colorBlending, bool blend = false);
 cSize ScaleToFit(int widthMax, int heightMax, int widthOriginal, int heightOriginal);
 int Minimum(int a, int b, int c, int d, int e, int f);
+std::string utf8_substr(const std::string& str, unsigned int start=0, long unsigned int leng=std::string::npos);
 std::string CutText(std::string text, int width, const cFont *font);
 std::string StrToLowerCase(std::string str);
 cString GetScreenResolutionIcon(void);
