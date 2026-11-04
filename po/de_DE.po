@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2026-10-30 14:48+0100\n"
+"POT-Creation-Date: 2026-11-04 13:40+0100\n"
 "PO-Revision-Date: 2012-11-11 17:49+0200\n"
 "Last-Translator: Stefan Hofmann\n"
 "Language-Team: \n"
@@ -542,6 +542,12 @@ msgstr "Zeile 2"
 msgid "row 3"
 msgstr "Zeile 3"
 
+msgid "beginning"
+msgstr "Anfang"
+
+msgid "end"
+msgstr "Ende"
+
 msgid "Show event duration"
 msgstr "Dauer laut EPG-Programminformationen anzeigen"
 
@@ -568,6 +574,9 @@ msgstr "Abgrenzung der Diskinfo"
 
 msgid "Position of diskinfo"
 msgstr "Position der Diskinfo"
+
+msgid "Clipping of long folder names"
+msgstr "Beschnitt zu langer Ordnernamen"
 
 msgid "Mode of recording Window"
 msgstr "Fenster-Modus für Aufzeichnungen"

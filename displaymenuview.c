@@ -689,7 +689,7 @@ void cNopacityDisplayMenuView::DrawHeaderLabel(cString label, bool recCat, bool 
     }
 
     int labelW = fontManager->menuHeader->Width(label);
-    if (recCat) {
+    if (recCat && !config.GetValue("clippingOfLongFolderNames")) {
         // If "label" is a directory path, shorten it until everything fits or only
         // the final subdirectory remains visible.
         int n = 1;

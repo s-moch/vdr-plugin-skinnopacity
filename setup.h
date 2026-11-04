@@ -84,6 +84,7 @@ class cNopacitySetupMenuDisplayRecordings : public cMenuSetupSubMenu {
         const char *recItemMode[3];
         const char *diskInfoPositionMode[2];
         const char *menuRecordingsDiskinfoSeparator[2];
+        const char *clippingLongFolderNames[2];
         void Set(void);
     public:
         cNopacitySetupMenuDisplayRecordings(cNopacityConfig *data);
