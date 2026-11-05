@@ -10,13 +10,14 @@ cNopacityDisplayMenuView::cNopacityDisplayMenuView(cOsd *osd) {
     lastVolume = statusMonitor->GetVolume();
     lastVolumeTime = time(NULL);
     menuAdjustLeft = config.GetValue("menuAdjustLeft");
+    dateWidth = std::min(geoManager->menuDateWidth,
+                         fontManager->menuDate->Width("Mo. 99.99. 99.99") + geoManager->menuSpace);
+    hk.left = 5;
+    hk.right = geoManager->osdWidth - 5;
     SetDescriptionTextWindowSize();
     CreatePixmaps();
     DrawHeaderLogo();
     DrawBorderDecoration();
-    dateWidth = std::min(geoManager->menuDateWidth, fontManager->menuDate->Width("Mo. 99.99. 99.99"));
-    hk.left = 5;
-    hk.right = geoManager->osdWidth - 5;
 }
 
 cNopacityDisplayMenuView::~cNopacityDisplayMenuView(void) {
@@ -169,8 +170,8 @@ void cNopacityDisplayMenuView::CreatePixmaps(void) {
 
     pixmapHeaderForeground = CreatePixmap(osd, "pixmapHeaderForeground", 3, cRect(0, 0, geoManager->osdWidth, geoManager->menuHeaderHeight));
 
-    int dateX = (menuAdjustLeft) ? (geoManager->osdWidth - geoManager->menuDateWidth) : 0;
-    pixmapDate = CreatePixmap(osd, "pixmapDate", 2, cRect(dateX, 0, geoManager->menuDateWidth, geoManager->menuHeaderHeight));
+    int dateX = (menuAdjustLeft) ? (geoManager->osdWidth - dateWidth) : 0;
+    pixmapDate = CreatePixmap(osd, "pixmapDate", 3, cRect(dateX, 0, dateWidth, geoManager->menuHeaderHeight));
 
     int logoX = (menuAdjustLeft) ? 0 : (geoManager->osdWidth - geoManager->menuHeaderVDRLogoWidth);
     pixmapHeaderLogo = CreatePixmap(osd, "pixmapHeaderLogo", -1, cRect(logoX, 2, geoManager->menuHeaderVDRLogoWidth, geoManager->menuHeaderHeight - 4));
@@ -628,9 +629,9 @@ void cNopacityDisplayMenuView::DrawHeaderVideoDiskUsage(cString label, bool init
     if (!config.GetValue("menuRecordingsDiskinfoSeparator"))
         diskUsage = cString::sprintf(" (%s) ", *cVideoDiskUsage::String());
     else if (menuAdjustLeft)
-        diskUsage = cString::sprintf(" %s |", *cVideoDiskUsage::String());
+        diskUsage = cString::sprintf(" %s | ", *cVideoDiskUsage::String());
     else
-        diskUsage = cString::sprintf("| %s ", *cVideoDiskUsage::String());
+        diskUsage = cString::sprintf(" | %s ", *cVideoDiskUsage::String());
 
     diskUsageW = fontManager->menuHeader->Width(diskUsage);
     int labelX = 0;
@@ -642,11 +643,11 @@ void cNopacityDisplayMenuView::DrawHeaderVideoDiskUsage(cString label, bool init
                  : (hk.right - diskUsageW - 2 * geoManager->menuSpace);
         hk.right -= diskUsageW + 2 * geoManager->menuSpace;
     } else if (menuAdjustLeft) {
-        labelX = geoManager->osdWidth - dateWidth - diskUsageW - 2 * geoManager->menuSpace;
-        hk.right -= diskUsageW + 2 * geoManager->menuSpace;;
+        labelX = geoManager->osdWidth - dateWidth - diskUsageW;
+        hk.right -= diskUsageW + geoManager->menuSpace;;
     } else {
-        labelX = hk.left + 2 * geoManager->menuSpace;
-        hk.left += diskUsageW + 2 * geoManager->menuSpace;
+        labelX = hk.left - 4; // "-4" Correction value for the distance to the date
+        hk.left += diskUsageW + geoManager->menuSpace;
     }
 
     if (!pixmapHeaderVideoDiskUsage) {
@@ -731,8 +732,13 @@ void cNopacityDisplayMenuView::DrawDate(bool initial) {
     if (initial || strcmp(date, lastDate)) {
         PixmapFill(pixmapDate, clrTransparent);
         int dateW = fontManager->menuDate->Width(date);
-        int dateX = (menuAdjustLeft) ? (geoManager->menuDateWidth - dateW - 2*geoManager->menuSpace) : (geoManager->menuSpace);
-        pixmapDate->DrawText(cPoint(dateX, (geoManager->menuHeaderHeight - fontManager->menuDate->Height()) / 2), date, Theme.Color(clrMenuFontDate), clrTransparent, fontManager->menuDate);
+        int dateX = (menuAdjustLeft) ? 0 : std::max((dateWidth - dateW), 0);
+        pixmapDate->DrawText(cPoint(dateX,
+                                    (geoManager->menuHeaderHeight - fontManager->menuDate->Height()) / 2),
+                             date,
+                             Theme.Color(clrMenuFontDate),
+                             clrTransparent,
+                             fontManager->menuDate);
         lastDate = date;
     }
 }
