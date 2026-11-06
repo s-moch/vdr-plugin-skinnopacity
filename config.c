@@ -129,6 +129,7 @@ void cNopacityConfig::LoadDefaults(void) {
     conf.insert(std::pair<std::string, int>("numSchedulesMenuItems", 10));
     conf.insert(std::pair<std::string, int>("numRecordingsMenuItems", 10));
     conf.insert(std::pair<std::string, int>("displayNumberOfRecordings", 1));
+    conf.insert(std::pair<std::string, int>("diskinfoSeparatorProcHour", 0));
     conf.insert(std::pair<std::string, int>("menuRecordingsDiskinfoPosition", 0));
     conf.insert(std::pair<std::string, int>("menuRecordingsDiskinfoSeparator", 0));
     conf.insert(std::pair<std::string, int>("clippingOfLongFolderNames", 1));

@@ -23,6 +23,7 @@ class cNopacityDisplayMenuView {
         cString lastDate;
         int diskUsageAlert;
         int dateWidth;
+        int state = -1;
         int diskUsageW = 0;
 	HeaderCoord_t hk;
         bool menuAdjustLeft;

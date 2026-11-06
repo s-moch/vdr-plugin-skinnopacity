@@ -366,8 +366,10 @@ cNopacitySetupMenuDisplayRecordings::cNopacitySetupMenuDisplayRecordings(cNopaci
     recItemMode[0] = tr("no");
     recItemMode[1] = tr("row 2");
     recItemMode[2] = tr("row 3");
-    menuRecordingsDiskinfoSeparator[0] = "()";
-    menuRecordingsDiskinfoSeparator[1] = "|";
+    diskinfoSepProcHour[0] = "-";
+    diskinfoSepProcHour[1] = ",";
+    diskinfoSeparator[0] = "()";
+    diskinfoSeparator[1] = "|";
     diskInfoPositionMode[0] = tr("left");
     diskInfoPositionMode[1] = tr("right");
     clippingLongFolderNames[0] = tr("beginning");
@@ -391,7 +393,8 @@ void cNopacitySetupMenuDisplayRecordings::Set(void) {
     Add(new cMenuEditBoolItem(tr("Display number of recordings"), tmpConf->GetValueRef("displayNumberOfRecordings")));
     Add(new cMenuEditBoolItem(tr("Display diskinfo"), tmpConf->GetValueRef("displayDiskInfo")));
     if (tmpConf->GetValue("displayDiskInfo")) {
-        Add(new cMenuEditStraItem(cString::sprintf("%s%s", *spacer, tr("Separator of diskinfo")), tmpConf->GetValueRef("menuRecordingsDiskinfoSeparator"), 2, menuRecordingsDiskinfoSeparator));
+        Add(new cMenuEditStraItem(cString::sprintf("%s%s", *spacer, tr("Separator between percentage and hour")), tmpConf->GetValueRef("diskinfoSeparatorProcHour"), 2, diskinfoSepProcHour));
+        Add(new cMenuEditStraItem(cString::sprintf("%s%s", *spacer, tr("Separator of diskinfo")), tmpConf->GetValueRef("menuRecordingsDiskinfoSeparator"), 2, diskinfoSeparator));
         if (tmpConf->GetValue("menuAdjustLeft") && !tmpConf->GetValue("menuRecordingsDiskinfoSeparator")) {
             Add(new cMenuEditStraItem(cString::sprintf("%s%s", *spacer, tr("Position of diskinfo")), tmpConf->GetValueRef("menuRecordingsDiskinfoPosition"), 2, diskInfoPositionMode));
         }

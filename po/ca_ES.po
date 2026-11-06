@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: skinnopacity 0.0.1\n"
 "Report-Msgid-Bugs-To: <see README>\n"
-"POT-Creation-Date: 2026-11-05 11:41+0100\n"
+"POT-Creation-Date: 2026-11-06 15:02+0100\n"
 "PO-Revision-Date: 2013-03-19 22:56+0100\n"
 "Last-Translator: Gabychan <gbonich@gmail.com>\n"
 "Language-Team: \n"
@@ -570,6 +570,9 @@ msgid "Display number of recordings"
 msgstr ""
 
 msgid "Display diskinfo"
+msgstr ""
+
+msgid "Separator between percentage and hour"
 msgstr ""
 
 msgid "Separator of diskinfo"

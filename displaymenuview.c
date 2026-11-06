@@ -625,13 +625,22 @@ void cNopacityDisplayMenuView::DestroyHeaderSortModeIcon(void) {
 }
 
 void cNopacityDisplayMenuView::DrawHeaderVideoDiskUsage(cString label, bool initial) {
+    cString diskusage;
+    if (config.GetValue("diskinfoSeparatorProcHour")) {
+        cVideoDiskUsage::HasChanged(state);
+        int usedPercent = cVideoDiskUsage::UsedPercent();
+        int freeMinutes = cVideoDiskUsage::FreeMinutes();
+        diskusage = cString::sprintf("%s %d%s %2d:%02d %s", trVDR("Disk"), usedPercent, "%,", freeMinutes / 60, freeMinutes % 60, trVDR("free"));
+    } else
+        diskusage = cVideoDiskUsage::String();
+
     cString diskUsage;
     if (!config.GetValue("menuRecordingsDiskinfoSeparator"))
-        diskUsage = cString::sprintf(" (%s) ", *cVideoDiskUsage::String());
+        diskUsage = cString::sprintf(" (%s) ", *diskusage);
     else if (menuAdjustLeft)
-        diskUsage = cString::sprintf(" %s | ", *cVideoDiskUsage::String());
+        diskUsage = cString::sprintf(" %s | ", *diskusage);
     else
-        diskUsage = cString::sprintf(" | %s ", *cVideoDiskUsage::String());
+        diskUsage = cString::sprintf(" | %s ", *diskusage);
 
     diskUsageW = fontManager->menuHeader->Width(diskUsage);
     int labelX = 0;
