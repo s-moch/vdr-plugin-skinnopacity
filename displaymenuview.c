@@ -608,7 +608,7 @@ void cNopacityDisplayMenuView::DrawHeaderSortModeIcon(eMenuSortMode sortMode, bo
             pixmapHeaderSortModeIcon->SetAlpha(0);
         }
         cString icon = cString::sprintf("skinIcons/sort-%s%s%s", mode, order, adjust);
-        cImage *imgIcon = imgCache->GetSkinIcon(*icon);
+        cImage *imgIcon = imgCache->GetSkinIcon(*icon, iconSize, iconSize);
         if (imgIcon) {
             pixmapHeaderSortModeIcon->DrawImage(cPoint(0,0), *imgIcon);
             if (menuAdjustLeft)
